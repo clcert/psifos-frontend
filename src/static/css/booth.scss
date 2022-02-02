@@ -1,0 +1,790 @@
+@charset "utf-8";
+
+@font-face {
+  font-family: Arial;
+  src: url('../fonts/Arial.ttf');
+}
+
+@font-face {
+  font-family: Arial Black;
+  src: url('../fonts/Arial Black.ttf');
+}
+
+@font-face {
+  font-family: Arial Bold;
+  src: url('../fonts/Arial Bold.ttf');
+}
+
+@font-face {
+  font-family: Arial Italic;
+  src: url('../fonts/Arial Italic.ttf');
+}
+
+/*$family-primary: "Arial-UCH", sans-serif;*/
+$family-primary: Arial, sans-serif;
+$red-uch: #e43427;
+$blue-uch: #004c94;
+$green-uch: #027d47;
+$yellow-uch: #fdd245;
+$fullhd: 1200px;
+$widescreen: 992px;
+$desktop: 992px;
+
+#content {
+	background-image: url('../img/parallax05.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	min-height: 100vh;
+}
+
+#content-trustees {
+	background-image: url('../img/background-trustees.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	min-height: 100vh;
+}
+
+#content-voters {
+	background-image: url('../img/background-voters.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	min-height: 100vh;
+}
+
+#content-not-allowed {
+	background-image: url('../img/background-not-allowed.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	min-height: 100vh;
+}
+
+#content-results {
+	background-image: url('../img/background-results.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	min-height: 100vh;
+}
+
+#content-tallied {
+	background-image: url('../img/background-closed.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	min-height: 100vh;
+}
+
+.voters-section {
+	background-color: rgba(255, 255, 255, 0.85);
+}
+
+.voters-info-box {
+	background-color: white;
+	border: 2px solid $blue-uch;
+	border-radius: 5px;
+	padding: 1rem;
+}
+
+.search-box {
+	background-color: white;
+	border: 2px solid $blue-uch;
+	border-radius: 5px;
+	padding: 1rem;
+	margin-top: 1rem;
+	display: flex;
+	flex-direction: row;
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.search_box {
+	justify-content: space-between;
+	padding: 0;
+}
+
+.input_search {
+	font-size: 14px;
+	font-family: monospace, serif;
+	width: 100%;
+	color: black;
+	border: 0;
+	outline: none;
+}
+
+.search-button {
+	cursor: pointer;
+	color: $blue-uch;
+}
+
+.voters-table {
+	margin-top: 2rem;
+	border-radius: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.voters-table td {
+	border: 1px solid $blue-uch !important;
+}
+
+.voters-table th {
+	background-color: $blue-uch;
+	color: white !important;
+	border: 1px solid $blue-uch !important;
+}
+
+#results-section {
+	background-color: rgba(255, 255, 255, 0.85);
+}
+
+#question-box-results {
+	background-color: white;
+	border: 1px solid $blue-uch;
+}
+
+#results-table td {
+	border: 1px solid $blue-uch !important;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem
+}
+
+#trustee-box {
+	background-color: transparent;
+	border: 1px solid white !important;
+	color: white;
+}
+
+#trustees-link {
+	color: #00b6fe;
+}
+
+#not-results-box {
+	border: 1px solid $blue-uch !important;
+	color: $blue-uch;
+}
+
+#election-section {
+	background-color: rgba(0, 76, 148, 0.8);
+}
+
+/* Loading */
+#loading-section {
+	background-color: rgba(0, 76, 148, 0.15);
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#loading-top-wrapper {
+	align-self: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.loading-img-wrapper {
+	align-self: auto;
+	margin-top: auto;
+}
+
+#loading-final-img {
+	width: 20rem;
+}
+
+/* Header & Navbar */
+.parallax {
+	background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.parallax-01 {
+	background-image: url('../img/parallax01.jpg');
+}
+
+.parallax-02 {
+	background-image: url('../img/parallax02.jpg');
+}
+
+.parallax-03 {
+	background-image: url('../img/parallax03.jpg');
+}
+
+.parallax-04 {
+	background-image: url('../img/parallax04.jpg');
+}
+
+.parallax-05 {
+	background-image: url('../img/parallax05.jpg');
+}
+
+.header-hero {
+	padding-bottom: 3.5rem !important;
+}
+
+#logo-header {
+	background-color: white;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+	max-height: 6rem;
+}
+
+#navbar {
+	background-color: transparent;
+}
+
+#navbar-buttons {
+	background-color: white;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+	padding-bottom: 0.5rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	height: 4.9rem;
+	display: flex;
+	align-items: flex-end;
+}
+
+.navbar-button {
+	background-color: white;
+	border: none;
+	margin-right: 0.8rem;
+	padding-left: 0;
+	width: 4rem;
+	text-align: left;
+	cursor: pointer;
+	padding-bottom: 0.2rem;
+}
+
+.menu-text {
+	color: black;
+	font-size: 0.8rem;
+}
+
+#navbar-button-1 {
+	border-bottom: 2px solid $blue-uch;
+}
+
+#inicio:hover {
+	color: $blue-uch !important;
+	font-weight: bold;
+}
+
+#navbar-button-2 {
+	border-bottom: 2px solid $red-uch;
+}
+
+#info:hover {
+	color: $red-uch !important;
+	font-weight: bold;
+}
+
+#navbar-button-3 {
+	border-bottom: 2px solid $green-uch;
+}
+
+#ayuda:hover {
+	color: $green-uch !important;
+	font-weight: bold;
+}
+
+#navbar-button-4 {
+	border-bottom: 2px solid $yellow-uch;
+}
+
+#salir:hover {
+	color: $yellow-uch !important;
+	font-weight: bold;
+}
+
+$navbar-item-img-max-height: 3.5rem;
+
+/* Progress Bar */
+.line {
+	top: 19.97rem;
+    background: $blue-uch;
+    position: absolute;
+    height: 2px;
+	width: 100%;
+}
+
+.progress-box {
+	box-shadow: none !important;
+	border-radius: 5px !important;
+	padding-top: 0.5rem !important;
+	padding-bottom: 0.5rem !important;
+	font-size: 1.4em;
+}
+
+#progress-bar {
+	background-color: white;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.progress-container {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+.progress-icon {
+	vertical-align: middle;
+	height: 2rem !important;
+	width: 2rem !important;
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+.progress-current {
+	background-color: $red-uch !important;
+	box-shadow: 0 0 0 10px white, 0 0 0 12px $red-uch !important;
+}
+
+.progress-next {
+	background-color: #b3c9de !important;
+}
+
+.progress-previous {
+	background-color: $red-uch !important;
+}
+
+.previous-button {
+	background-color: $blue-uch !important;
+}
+
+#election-title-background {
+	background-color: rgba(255, 255, 255, 0.85);
+}
+
+.progress-bar-items {
+	margin-bottom: 0 !important;
+}
+
+/* 01: Instructions Middle */
+
+#election-title {
+	font-family: "Arial Black", sans-serif;
+	color: $blue-uch !important;
+	font-weight: normal;
+}
+
+.buttons-container {
+	align-self: start;
+}
+
+#instruction-main-box {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+#instructions-main-image {
+	max-width: 7rem;
+	margin-left: -1.7rem;
+	margin-top:  -1rem;
+}
+
+#instructions-main-paragraph {
+	text-align: justify;
+}
+
+.img-wrapper {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: -3rem;
+}
+
+#instructions-text-img {
+	width: 15rem;
+	display: inline-block;
+}
+
+#info-media {
+	background-color: rgba(0, 76, 148, 0.15);
+}
+
+/* 01: Instructions Steps */
+
+.steps-container {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+#instructions {
+	background-color: rgba(228, 52, 39, 0.15)
+}
+
+.instruction-image {
+	border-radius: 15px;
+	object-fit: cover;
+}
+
+#select-image {
+	border: 1px solid $blue-uch;
+}
+
+#review-image {
+	border: 1px solid $yellow-uch;
+}
+
+#send-image {
+	border: 1px solid $red-uch;
+}
+
+.image.step-figure {
+	padding-top: 39%;
+}
+
+.image.step-figure img {
+	bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+$card-background-color: transparent;
+$card-shadow: 0;
+$card-header-shadow: 0;
+
+.step-text {
+	text-align: justify;
+}
+
+#start-button {
+	background-color: $red-uch;
+	border-radius: 10px;
+	color: white;
+}
+
+/* 02: Select Question */
+
+#question-section {
+	background-color: rgba(0, 76, 148, 0.15);
+	min-height: 50rem;
+}
+
+.question-box {
+	background-color: $blue-uch !important;
+	line-height: 3.5rem;
+	padding-left: 8rem !important;
+}
+
+input[type="radio"] {
+	width: 17px;
+	height:	17px;
+}
+
+.question-button {
+	width: 12rem;
+	background-color: $green-uch !important;
+	color: white !important;
+	border-radius: 10px !important;
+}
+
+#select-final-img {
+	width: 10rem;
+	display: inline-block;
+}
+
+/* 03: Review */
+#review-section {
+	background-color: rgba(2, 125, 71, 0.1);
+	min-height: 50rem;
+}
+
+.review-answer {
+	background-color: $blue-uch !important;
+}
+
+.review-buttons {
+	border-radius: 10px !important;
+}
+
+.review-buttons:hover {
+	background-color: #00b7ff !important;
+}
+
+#audit-button {
+	background-color: rgba(0, 76, 148, 0.15);
+	color: $blue-uch !important;
+}
+
+.question-audit {
+}
+
+#proceed_button {
+	background-color: $red-uch !important;
+	color: white !important;
+}
+
+#review-final-img {
+	width: 15rem;
+	display: inline-block;
+	margin-bottom: -4rem;
+}
+
+/* Encrypting */
+#encrypting-section {
+	background-color: rgba(255, 204, 51, 0.15);
+	height: 50rem;
+}
+
+#encrypting-final-img {
+	width: 15rem;
+	display: inline-block;
+	margin-bottom: -4rem;
+}
+
+#search-message {
+	margin-left: 30px;
+	color: $red-uch;
+	font-size: 18px;
+	font-weight: bold;
+	padding-top: 0.3rem;
+	text-align: center;
+}
+
+.pagination-next {
+	background-color: $blue-uch;
+	font-weight: bold;
+}
+
+.pagination-previous {
+	background-color: $blue-uch;
+	font-weight: bold;
+}
+
+$pagination-color: white;
+$pagination-border-color: $blue-uch;
+$pagination-hover-color: white;
+$pagination-hover-border-color: $blue-uch;
+
+/* 04: Audit */
+#audit-section {
+	background-color: rgba(2, 125, 71, 0.1);
+	min-height: 50rem;
+}
+
+#audit-vote-tab {
+	background-color: $blue-uch;
+	color: white;
+}
+
+#audit-vote-wrapper {
+	margin-right: 1rem;
+}
+
+#important-tab {
+	background-color: $green-uch;
+	color: white;
+}
+
+#pane-1 {
+	border: 15px solid $blue-uch;
+	border-top-left-radius: 0;
+}
+
+.audit-trail-box {
+	text-align: left;
+	word-break: break-all;
+	max-height: 30rem;
+	overflow-y: scroll;
+}
+
+#pane-2 {
+	border: 15px solid $green-uch;
+	border-top-left-radius: 0;
+}
+
+.important-box {
+	text-align: left;
+	min-height: 30rem;
+}
+
+#back-to-vote {
+	border-radius: 10px !important;
+	color: white;
+	background-color: $blue-uch !important;
+}
+
+#send-audited-vote {
+	border-radius: 10px !important;
+	color: white;
+	background-color: $green-uch !important;
+}
+
+#audit-final-img {
+	width: 10rem;
+	display: inline-block;
+	margin-bottom: -4rem;
+}
+
+#not-allowed-section {
+	background-color: rgba(255, 255, 255, 0.85);
+}
+
+#vote-fingerprint-anchor::before {
+	word-break: normal;
+}
+
+/* 05: Send */
+#send-section {
+	background-color: rgba(255, 255, 255, 0.85);
+}
+
+.send-text {
+	line-height: 1.8 !important;
+}
+
+#vote-code {
+	background-color: #00b7ff;
+	margin-left: 6rem;
+	margin-right: 6rem;
+	@media screen and (max-width: 768px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+#back-button {
+	background-color: $blue-uch !important;
+	border-color: $blue-uch;
+	color: white !important;
+	border-radius: 10px !important;
+}
+
+#back-button:hover {
+	background-color: #00b7ff !important;
+	border-color: #00b7ff !important;
+}
+
+.send-img-wrapper {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+}
+
+#send-final-img {
+	width: 20rem;
+}
+
+#tallied-img {
+	width: 14rem;
+}
+
+#closed-election-text {
+	color: $red-uch;
+}
+
+/* Trustees Site */
+.steps-title {
+	font-family: "Arial Black", sans-serif;
+}
+
+#medium-section {
+	background-color: rgba(0, 76, 148, 0.8) !important;
+}
+
+#keygen-section {
+	background-color: rgba(0, 76, 148, 0.8) !important;
+}
+
+.step-button {
+	color: white !important;
+	background-color: transparent !important;
+	border: 2px solid white !important;
+	border-radius: 10px !important;
+	width: 100%;
+	justify-content: left !important;
+}
+
+.inactive-button {
+	background-color: rgba(83, 83, 83, 0.8) !important;
+	color: rgba(201, 190, 190, 1) !important;
+	border: 2px solid rgba(201, 190, 190, 1) !important;
+	cursor: not-allowed !important;
+}
+
+.keygen-button {
+	color: white !important;
+	background-color: $blue-uch !important;
+	font-weight: bold;
+}
+
+.verify-pk {
+	border: 2px solid white !important;
+	color: white !important;
+	background-color: $blue-uch !important;
+}
+
+.status-decryption {
+	margin-top: 2rem;
+	background-color: white;
+	border-radius: 10px;
+	width: fit-content;
+	color: $blue-uch;
+	padding: 1rem;
+	border: 5px solid $yellow-uch;
+}
+
+.loading-trustee {
+	height: 3rem;
+	width: 3rem;
+}
+
+#icon-right {
+	cursor: default;
+	border-color: white;
+}
+
+#icon-right:hover {
+	z-index: auto;
+}
+
+#drawing-section {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.do-tally {
+	margin-left: auto;
+	margin-right: auto;
+	color: white !important;
+	border: 2px solid white !important;
+	background-color: $blue-uch !important;
+}
+
+#help-desk-list {
+	width: max-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Footer */
+$footer-background-color: $blue-uch;
+$footer-padding: 0.5rem;
+$footer-color: white;
+
+.footer-container {
+	word-wrap: break-word;
+}
+
+.bottom-hero {
+	padding-bottom: 2.5rem !important;
+}
+
+@import "bulma/bulma.sass";
