@@ -32,9 +32,9 @@ function ModalInfo(props) {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <div class="container">
+          <div className="container">
             <button
-              class="button review-buttons previous-button has-text-white has-text-weight-bold"
+              className="button review-buttons previous-button has-text-white has-text-weight-bold"
               onClick={props.onHide}
             >
               <span>VOLVER ATRÁS</span>

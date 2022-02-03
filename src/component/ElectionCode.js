@@ -1,11 +1,13 @@
 import "../static/css/booth.css";
 
 
-function ElectionCode() {
+function ElectionCode(props) {
   return (
-    <div class="container has-text-centered">
+    <div className="container has-text-centered">
       <p>CÓDIGO DE LA ELECCIÓN</p>
-      <p class="is-family-monospace">Codigo Eleccion</p>
+      <div className="columns is-centered">
+      <p className="is-family-monospace">{props.uuid}</p>
+      </div>
     </div>
   );
 }

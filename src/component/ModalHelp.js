@@ -3,10 +3,10 @@ import "../static/css/booth.css";
 
 function ModalHelp(props) {
   return (
-    <>
+    <div className="row justify-content-md-center">
       <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -16,17 +16,17 @@ function ModalHelp(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p class="has-text-weight-bold">
+          <p className="has-text-weight-bold">
             ¿Tienes dudas o problemas con tu elección?
           </p>
           <p>
             Puedes utilizar cualquiera de los siguientes canales para que
             podamos ayudarte:
           </p>
-          <ul class="pt-4">
-            <li class="py-1">
-              <span class="icon">
-                <i class="fab fa-whatsapp"></i>
+          <ul className="pt-4">
+            <li className="py-1">
+              <span className="icon">
+                <i className="fab fa-whatsapp"></i>
               </span>
               <span>
                 <a
@@ -37,17 +37,17 @@ function ModalHelp(props) {
                 </a>
               </span>
             </li>
-            <li class="py-1">
-              <span class="icon">
-                <i class="fab fa-telegram"></i>
+            <li className="py-1">
+              <span className="icon">
+                <i className="fab fa-telegram"></i>
               </span>
               <a href="https://t.me/participaUChile" target="_blank">
                 telegram: @participaUChile
               </a>
             </li>
-            <li class="py-1">
-              <span class="icon">
-                <i class="fab fa-twitter"></i>
+            <li className="py-1">
+              <span className="icon">
+                <i className="fab fa-twitter"></i>
               </span>
               <span>
                 <a
@@ -58,9 +58,9 @@ function ModalHelp(props) {
                 </a>
               </span>
             </li>
-            <li class="py-1">
-              <span class="icon">
-                <i class="fas fa-envelope"></i>
+            <li className="py-1">
+              <span className="icon">
+                <i className="fas fa-envelope"></i>
               </span>
               <span>
                 <a href="mailto:ayuda.participa@uchile.cl" target="_blank">
@@ -71,9 +71,9 @@ function ModalHelp(props) {
           </ul>
         </Modal.Body>
         <Modal.Footer>
-          <div class="container">
+          <div className="container">
             <button
-              class="button review-buttons previous-button has-text-white has-text-weight-bold"
+              className="button review-buttons previous-button has-text-white has-text-weight-bold"
               onClick={props.onHide}
             >
               <span>VOLVER ATRÁS</span>
@@ -81,7 +81,7 @@ function ModalHelp(props) {
           </div>
         </Modal.Footer>
       </Modal>
-    </>
+    </div >
   );
 }
 
