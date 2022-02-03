@@ -1,12 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
-import ElectionResume from './views/ElectionResume.js';
+import "./App.css";
+import { Router, Routes, Route } from "react-router-dom";
+import ElectionResume from "./views/ElectionResume";
+import Urna from "./views/Urna";
 
 function App() {
   return (
-    <div className="App">
-      <ElectionResume></ElectionResume>
-    </div>
+    <Routes>
+      <Route path=":uuid/resumen" element={<ElectionResume/>} />
+      <Route path=":uuid/urna" element={<Urna/>} />
+    </Routes>
   );
 }
 
