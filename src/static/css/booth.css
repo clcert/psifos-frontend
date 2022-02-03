@@ -118,7 +118,7 @@
   border: 1px solid #004c94 !important;
 }
 
-.voters-table th {
+.voters-table thead th {
   background-color: #004c94;
   color: white !important;
   border: 1px solid #004c94 !important;
@@ -10952,6 +10952,12 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   background-color: #004c94;
   padding: 0.5rem;
   color: white;
+}
+
+.uwu{
+
+  padding: 0;
+
 }
 
 /*# sourceMappingURL=booth.css.map */
