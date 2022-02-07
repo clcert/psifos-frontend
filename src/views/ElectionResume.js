@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Container, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import ElectionCode from "../component/ElectionCode";
 import MyNavbar from "../component/MyNavbar";
 import trustees from "../static/svg/trustees-list.svg";
 import "../static/css/booth.css";
 import { useParams } from "react-router";
 import backendIP from "../server";
+import Title from "../component/Title";
 
 function ElectionResume() {
   const [nameElection, setNameElection] = useState("");
@@ -18,15 +19,12 @@ function ElectionResume() {
   const { uuid } = useParams();
 
   async function getElectionResume() {
-    const resp = await fetch(
-      backendIP + "/elections/" + uuid + "/resume",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const resp = await fetch(backendIP + "/elections/" + uuid + "/resume", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const jsonResponse = await resp.json();
     return jsonResponse;
@@ -47,20 +45,8 @@ function ElectionResume() {
       <div id="content-voters">
         <section className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar></MyNavbar>
-            <div
-              className="has-text-centered mt-6 py-3"
-              id="election-title-background"
-            >
-              <h1
-                className="title has-text-black is-size-4-mobile"
-                id="election-title"
-              >
-                RESUMEN DE ELECCIÓN
-                <br />
-                {nameElection}
-              </h1>
-            </div>
+            <MyNavbar/>
+            <Title namePage="Resumen de Elección" nameElection={nameElection} />
           </div>
         </section>
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
