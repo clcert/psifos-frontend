@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Image } from "react-bootstrap";
 import ElectionCode from "../component/ElectionCode";
 import MyNavbar from "../component/MyNavbar";
-import trustees from "../static/svg/trustees-list.svg";
+import imageTrustees from "../static/svg/trustees-list.svg";
 import "../static/css/booth.css";
 import { useParams } from "react-router";
 import backendIP from "../server";
 import Title from "../component/Title";
+import ImageFooter from "../component/ImageFooter";
 
 function ElectionResume() {
   const [nameElection, setNameElection] = useState("");
@@ -45,7 +45,7 @@ function ElectionResume() {
       <div id="content-voters">
         <section className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar/>
+            <MyNavbar />
             <Title namePage="Resumen de Elección" nameElection={nameElection} />
           </div>
         </section>
@@ -111,20 +111,8 @@ function ElectionResume() {
           </div>
         </section>
 
-        <section
-          className="section pb-0 is-flex is-justify-content-center is-align-content-flex-end"
-          id="drawing-section"
-        >
-          <figure className="image">
-            <Image id="send-final-img" src={trustees} />
-          </figure>
-        </section>
-        <footer className="footer">
-          <ElectionCode uuid={uuid} />
-        </footer>
-        <section className="hero">
-          <div className="hero-body bottom-hero"></div>
-        </section>
+        <ImageFooter imagePath={imageTrustees} />
+        <ElectionCode uuid={uuid} />
       </div>
     );
   } else {

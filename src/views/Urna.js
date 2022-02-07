@@ -1,6 +1,8 @@
 import MyNavbar from "../component/MyNavbar";
 import { useState } from "react";
 import Title from "../component/Title";
+import { useParams } from "react-router-dom";
+import ElectionCode from "../component/ElectionCode";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
@@ -17,6 +19,8 @@ function Urna() {
   const [votersPage, setVotersPage] = useState(1);
   const [totalVoters, setTotalVoters] = useState(0);
 
+  const { uuid } = useParams();
+
   return (
     <div id="content-voters">
       <section className="parallax hero is-medium">
@@ -26,7 +30,7 @@ function Urna() {
         </div>
       </section>
 
-      <section class="section voters-section is-flex is-flex-direction-column is-align-items-center">
+      <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
         <div>
           {admin && electionFrozen && (
             <div className="d-flex justify-content-center">
@@ -132,16 +136,16 @@ function Urna() {
           )}
 
           <p>
-            <div class="search-box search_box p-2">
+            <div className="search-box search_box p-2">
               <input
                 type="text"
                 id="ballot_searched"
                 name="q"
-                class="input_search"
+                className="input_search"
                 placeholder="Buscar Papeleta..."
               />
-              <div class="search-button" onclick="find_ballot()">
-                <i class="fas fa-lg fa-search"></i>
+              <div className="search-button" onclick="find_ballot()">
+                <i className="fas fa-lg fa-search"></i>
               </div>
             </div>
             <p id="search-message"></p>
@@ -149,69 +153,69 @@ function Urna() {
 
           {voters ? (
             <>
-              <p class="search-box">
+              <p className="search-box">
                 {election.num_cast_votes ? (
                   <>
-                    <span class="has-text-weight-bold">
+                    <span className="has-text-weight-bold">
                       Total de votantes: {0}
                     </span>
                     <span> &nbsp; </span>
-                    <span class="has-text-weight-bold">
+                    <span className="has-text-weight-bold">
                       &nbsp;Votos emitidos: {1}
                     </span>
                   </>
                 ) : (
                   <>
-                    <span class="has-text-weight-bold">
+                    <span className="has-text-weight-bold">
                       Total de votantes: {0}
                     </span>
                     <span> &nbsp;/ </span>
-                    <span class="has-text-weight-bold">
+                    <span className="has-text-weight-bold">
                       &nbsp;Votos emitidos: {0}
                     </span>
                   </>
                 )}
               </p>
               <nav
-                class="pagination is-centered pt-6"
+                className="pagination is-centered pt-6"
                 role="navigation"
                 aria-label="pagination"
               >
                 {votersPage.has_previous ? (
-                  <a class="pagination-previous" href="">
+                  <a className="pagination-previous" href="">
                     Previo
                   </a>
                 ) : (
-                  <a class="pagination-previous" disabled>
+                  <a className="pagination-previous" disabled>
                     Previo
                   </a>
                 )}
                 {votersPage.has_next ? (
-                  <a class="pagination-next" href="">
+                  <a className="pagination-next" href="">
                     Siguiente
                   </a>
                 ) : (
-                  <a class="pagination-next" disabled>
+                  <a className="pagination-next" disabled>
                     Siguiente
                   </a>
                 )}
-                <ul class="pagination-list">
+                <ul className="pagination-list">
                   Papeletas {votersPage.start_index} - {votersPage.end_index}{" "}
                   (de {totalVoters})&nbsp;&nbsp;
                   {/* {% comment %}
-                        <li><a class="pagination-link" href="{% url "election@voters@list-pretty" election.uuid %}?page=1&limit={{limit}}" aria-label="Goto page 1">1</a></li>
-                        <li><span class="pagination-ellipsis">&hellip;</span></li>
-                        <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-                        <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                        <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-                        <li><span class="pagination-ellipsis">&hellip;</span></li>
-                        <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+                        <li><a className="pagination-link" href="{% url "election@voters@list-pretty" election.uuid %}?page=1&limit={{limit}}" aria-label="Goto page 1">1</a></li>
+                        <li><span className="pagination-ellipsis">&hellip;</span></li>
+                        <li><a className="pagination-link" aria-label="Goto page 45">45</a></li>
+                        <li><a className="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
+                        <li><a className="pagination-link" aria-label="Goto page 47">47</a></li>
+                        <li><span className="pagination-ellipsis">&hellip;</span></li>
+                        <li><a className="pagination-link" aria-label="Goto page 86">86</a></li>
                         {% endcomment %} */}
                 </ul>
               </nav>
               <table
                 id="voters-table"
-                class="pretty table is-bordered is-hoverable voters-table"
+                className="pretty table is-bordered is-hoverable voters-table"
               >
                 <tr>
                   {(admin || !election.use_voter_aliases) && (
@@ -282,7 +286,7 @@ function Urna() {
                           }
                         </tt>
                       </td>
-                      <td class="has-text-centered">
+                      <td className="has-text-centered">
                         {election.normalization ? (
                           <>
                             {/* {% load tag %}
@@ -309,6 +313,7 @@ function Urna() {
           )}
         </div>
       </section>
+      <ElectionCode uuid={uuid} />
     </div>
   );
 }

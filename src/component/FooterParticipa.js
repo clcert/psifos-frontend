@@ -1,8 +1,8 @@
 function FooterParticipa() {
   return (
     <div>
-      <footer class="footer">
-        <div class="container has-text-centered">
+      <footer className="footer">
+        <div className="container has-text-centered">
           <p>
             PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021
           </p>
