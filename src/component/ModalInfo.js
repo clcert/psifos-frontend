@@ -1,19 +1,16 @@
 import { Modal, Button } from "react-bootstrap";
+import $ from "jquery";
+
 function ModalInfo(props) {
   return (
-    <>
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            <h1>INFORMACIÓN</h1>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+    <div className="modal" id="info-modal">
+      <div
+        className="modal-background"
+        onClick={() => {$('#info-modal').removeClass('is-active')}}
+      ></div>
+      <div className="modal-card">
+        <section className="modal-card-body">
+          <h1 className="title">INFORMACIÓN</h1>
           <p>
             Participa UChile es un proyecto impulsado por la Prorrectoría de la
             Universidad de Chile y desarrollado por un equipo multidisciplinario
@@ -30,19 +27,19 @@ function ModalInfo(props) {
             Cualquier duda o comentario sobre el sistema, le rogamos
             contactarnos al correo electrónico participa@uchile.cl.
           </p>
-        </Modal.Body>
-        <Modal.Footer>
+        </section>
+        <footer className="modal-card-foot">
           <div className="container">
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold"
-              onClick={props.onHide}
+              onClick={() => {$('#info-modal').removeClass('is-active')}}
             >
               <span>VOLVER ATRÁS</span>
             </button>
           </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+        </footer>
+      </div>
+    </div>
   );
 }
 

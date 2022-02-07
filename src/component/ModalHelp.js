@@ -1,21 +1,19 @@
 import { Modal, Button } from "react-bootstrap";
 import "../static/css/booth.css";
+import $ from "jquery";
 
 function ModalHelp(props) {
   return (
-    <div className="row justify-content-md-center">
-      <Modal
-        {...props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            MESA DE AYUDA
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+    <div className="modal" id="help-modal">
+      <div
+        className="modal-background"
+        onClick={() => {
+          $("#help-modal").removeClass("is-active");
+        }}
+      ></div>
+      <div className="modal-card">
+        <section className="modal-card-body">
+          <h1 className="title">MESA DE AYUDA</h1>
           <p className="has-text-weight-bold">
             ¿Tienes dudas o problemas con tu elección?
           </p>
@@ -69,19 +67,21 @@ function ModalHelp(props) {
               </span>
             </li>
           </ul>
-        </Modal.Body>
-        <Modal.Footer>
+        </section>
+        <footer className="modal-card-foot">
           <div className="container">
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold"
-              onClick={props.onHide}
+              onClick={() => {
+                $("#help-modal").removeClass("is-active");
+              }}
             >
               <span>VOLVER ATRÁS</span>
             </button>
           </div>
-        </Modal.Footer>
-      </Modal>
-    </div >
+        </footer>
+      </div>
+    </div>
   );
 }
 

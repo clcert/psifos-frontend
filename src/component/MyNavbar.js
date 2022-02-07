@@ -69,7 +69,7 @@ function MyNavbar() {
                   <button
                     className="navbar-button"
                     id="navbar-button-2"
-                    onClick={() => setShowInfo(true)}
+                    onClick={() => {$('#info-modal').addClass('is-active')}}
                   >
                     <span className="menu-text" id="info">
                       INFO
@@ -78,7 +78,7 @@ function MyNavbar() {
                   <button
                     className="navbar-button"
                     id="navbar-button-3"
-                    onClick={() => setShowHelp(true)}
+                    onClick={() => {$('#help-modal').addClass('is-active');}}
                   >
                     <span className="menu-text" id="ayuda">
                       AYUDA
