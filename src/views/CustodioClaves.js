@@ -5,6 +5,10 @@ import { useState } from "react";
 import "../static/css/booth.css";
 import imageTrustees from "../static/svg/trustees-list.svg";
 import ImageFooter from "../component/ImageFooter";
+import { backendHeliosIP } from "../server";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { backendIP } from "../server";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
@@ -12,6 +16,23 @@ function CustodioClaves() {
   const [trustees, setTrustees] = useState([]);
   const [admin, setAdmin] = useState(true);
   const [forloop, setForLoop] = useState(true);
+  const { uuid } = useParams();
+  const ipHeliosElection = backendHeliosIP + "/app/elections/" + uuid;
+
+  useEffect(function effectFunction() {
+    async function getTrustees() {
+      const resp = await fetch(backendIP + "/elections/" + uuid + "/trustees", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const jsonResponse = await resp.json();
+      setTrustees(jsonResponse);
+    }
+    getTrustees();
+  }, []);
 
   return (
     <div id="content-trustees">
@@ -44,7 +65,14 @@ function CustodioClaves() {
             <>
               {admin && (
                 <>
-                  <a onclick="" href="">
+                  <a
+                    onClick={() => {
+                      return window.confirm(
+                        "Adding your own trustee requires a good bit more work to tally the election.\nYou will need to have trustees generate keypairs and safeguard their secret key.\n\nIf you are not sure what that means, we strongly recommend\nclicking Cancel and letting Helios tally the election for you."
+                      );
+                    }}
+                    href={ipHeliosElection + "/trustees/new"}
+                  >
                     <button className="button mb-4">
                       <span>AGREGAR CUSTODIO DE CLAVE</span>
                     </button>
@@ -52,7 +80,10 @@ function CustodioClaves() {
                   {!election.has_helios_trustee && (
                     <p className="has-text-white mb-4">
                       [
-                      <a id="trustees-link" href="">
+                      <a
+                        id="trustees-link"
+                        href={ipHeliosElection + "/trustees/add-helios"}
+                      >
                         agregar al servidor como custodio de clave
                       </a>
                       ]
@@ -66,54 +97,73 @@ function CustodioClaves() {
             <></> // TODO: Revisar condición
           ) : (
             <>
-              {trustees.map((t) => {
+              {trustees.map((t, index) => {
                 return (
                   <div className="box" id="trustee-box">
                     <span className="has-text-weight-bold is-size-4">
-                      Custodio de Clave #{forloop.counter}: {t.name}
+                      Custodio de Clave #{index + 1}: {t.name}
                       {admin && (
                         <>
                           {t.secret_key ? (
                             <>
-                              {!election.frozen_at && (
+                              {!election.frozen_at && [
                                 <a
                                   id="trustees-link"
-                                  onclick="return confirm('Are you sure you want to remove Helios as a trustee?');"
+                                  onClick={() => {
+                                    return window.confirm(
+                                      "Are you sure you want to remove Helios as a trustee?"
+                                    );
+                                  }}
                                   href=""
                                 >
                                   eliminar
-                                </a>
-                              )}
+                                </a>,
+                              ]}
                             </>
                           ) : (
                             <>
-                              <br />
-                              {t.email}
+                              <br />({t.email})<span> &nbsp; </span>[
                               {!election.frozen_at && (
                                 <a
                                   id="trustees-link"
-                                  onclick="return confirm('Are you sure you want to remove this Trustee?');"
-                                  href=""
+                                  onClick={() => {
+                                    return window.confirm(
+                                      "Are you sure you want to remove this Trustee?"
+                                    );
+                                  }}
+                                  href="google.com"
                                 >
                                   eliminar
                                 </a>
                               )}
+                              ]<span> &nbsp; </span>[
                               <a
                                 id="trustees-link"
-                                onclick="return confirm('Are you sure you want to send this trustee his/her admin URL?');"
+                                onClick={() => {
+                                  return window.confirm(
+                                    "Are you sure you want to send this trustee his/her admin URL?"
+                                  );
+                                }}
                                 href=""
                               >
                                 enviar link
                               </a>
+                              ]
                             </>
                           )}
                         </>
                       )}
                     </span>
 
-                    <p className="mt-4" id="pk-{{ forloop.counter0 }}">
-                      Custodio aún no sube su clave pública.
-                    </p>
+                    {t.public_key_hash ? (
+                      <p className="mt-4">
+                        Código de Clave Pública: <tt>{t.public_key_hash}</tt>
+                      </p>
+                    ) : (
+                      <p className="mt-4">
+                        Custodio aún no sube su clave pública.
+                      </p>
+                    )}
 
                     {election.encrypted_tally && (
                       <p
