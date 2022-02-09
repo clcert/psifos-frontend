@@ -1,2 +1,3 @@
 const backendIP = "http://localhost:5000";
-export default backendIP;
+const backendHeliosIP = "http://localhost:8000";
+export { backendIP, backendHeliosIP };
