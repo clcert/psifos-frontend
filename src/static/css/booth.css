@@ -10954,10 +10954,13 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   color: white;
 }
 
-.uwu{
+.confirm-alert{
 
-  padding: 0;
-
-}
+  min-height: 100%;
+  min-width: 100%;
+  background-color: white;
+  padding: 50px;
+  border-radius: 30px;
+box-shadow: 0 0 10px 5px;}
 
 /*# sourceMappingURL=booth.css.map */

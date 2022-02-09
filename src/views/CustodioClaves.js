@@ -9,6 +9,7 @@ import { backendHeliosIP } from "../server";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { backendIP } from "../server";
+import ConfirmAlert from "../component/ConfirmAlert";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
@@ -35,6 +36,7 @@ function CustodioClaves() {
   }, []);
 
   return (
+    
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
@@ -65,18 +67,16 @@ function CustodioClaves() {
             <>
               {admin && (
                 <>
-                  <a
-                    onClick={() => {
-                      return window.confirm(
-                        "Adding your own trustee requires a good bit more work to tally the election.\nYou will need to have trustees generate keypairs and safeguard their secret key.\n\nIf you are not sure what that means, we strongly recommend\nclicking Cancel and letting Helios tally the election for you."
-                      );
+                  <ConfirmAlert
+                    button={true}
+                    title={"AGREGAR CUSTODIO DE CLAVE"}
+                    message={
+                      "Adding your own trustee requires a good bit more work to tally the election.\nYou will need to have trustees generate keypairs and safeguard their secret key.\n\nIf you are not sure what that means, we strongly recommend\nclicking Cancel and letting Helios tally the election for you."
+                    }
+                    action={() => {
+                      window.location.href = ipHeliosElection + "/trustees/new";
                     }}
-                    href={ipHeliosElection + "/trustees/new"}
-                  >
-                    <button className="button mb-4">
-                      <span>AGREGAR CUSTODIO DE CLAVE</span>
-                    </button>
-                  </a>
+                  ></ConfirmAlert>
                   {!election.has_helios_trustee && (
                     <p className="has-text-white mb-4">
                       [
@@ -99,7 +99,7 @@ function CustodioClaves() {
             <>
               {trustees.map((t, index) => {
                 return (
-                  <div className="box" id="trustee-box">
+                  <div className="box" id="trustee-box" key={t.name}>
                     <span className="has-text-weight-bold is-size-4">
                       Custodio de Clave #{index + 1}: {t.name}
                       {admin && (
@@ -124,30 +124,24 @@ function CustodioClaves() {
                             <>
                               <br />({t.email})<span> &nbsp; </span>[
                               {!election.frozen_at && (
-                                <a
+                                <ConfirmAlert
                                   id="trustees-link"
-                                  onClick={() => {
-                                    return window.confirm(
-                                      "Are you sure you want to remove this Trustee?"
-                                    );
-                                  }}
+                                  title={"eliminar"}
+                                  message={
+                                    "Are you sure you want to remove this Trustee?"
+                                  }
                                   href="google.com"
-                                >
-                                  eliminar
-                                </a>
+                                />
                               )}
                               ]<span> &nbsp; </span>[
-                              <a
+                              <ConfirmAlert
                                 id="trustees-link"
-                                onClick={() => {
-                                  return window.confirm(
-                                    "Are you sure you want to send this trustee his/her admin URL?"
-                                  );
-                                }}
+                                title={"enviar link"}
+                                message={
+                                  "Are you sure you want to send this trustee his/her admin URL?"
+                                }
                                 href=""
-                              >
-                                enviar link
-                              </a>
+                              />
                               ]
                             </>
                           )}
