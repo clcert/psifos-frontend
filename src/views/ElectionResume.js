@@ -4,7 +4,7 @@ import MyNavbar from "../component/MyNavbar";
 import imageTrustees from "../static/svg/trustees-list.svg";
 import "../static/css/booth.css";
 import { useParams } from "react-router";
-import backendIP from "../server";
+import { backendIP } from "../server";
 import Title from "../component/Title";
 import ImageFooter from "../component/ImageFooter";
 
