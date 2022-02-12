@@ -7,10 +7,10 @@ import { backendIP, backendHeliosIP } from "../server";
 import { useEffect } from "react";
 import VotersTable from "../component/VotersTable";
 import ConfirmAlert from "../component/ConfirmAlert";
+import getElection from "../utils/getElection";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
-  const [electionFrozen, setElectionFrozen] = useState(true);
   const [electionPrivate, setElectionPrivate] = useState(false);
   const [electionOpenReg, setElectionOpenReg] = useState(false);
   const [categories, setCategories] = useState(false);
@@ -26,6 +26,12 @@ function Urna() {
 
   const { uuid } = useParams();
 
+  useEffect(function effectFunction() {
+    getElection(uuid).then((election) => {
+      setElection(election);
+    });
+  }, []);
+
   if (!loading) {
     return (
       <div id="content-voters">
@@ -37,8 +43,8 @@ function Urna() {
         </section>
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
-          <div>
-            {admin && electionFrozen && (
+          <div style={{"width": "70%"}}>
+            {admin && !election.frozen_at && (
               <div className="d-flex justify-content-center">
                 {electionPrivate ? (
                   <em>
@@ -89,7 +95,7 @@ function Urna() {
             )}
             <br />
             <div className="d-flex justify-content-center">
-              {emailVoters && electionFrozen && admin && (
+              {emailVoters && election.frozen_at && admin && (
                 <button
                   className="button review-buttons previous-button has-text-white has-text-weight-bold"
                   onClick={() => {
@@ -121,7 +127,7 @@ function Urna() {
 
             {admin && (
               //</div>Add a Voter: WORK HERE
-              <>
+              <div style={{ textAlign: "center" }}>
                 {upload && !electionOpenReg && (
                   <>
                     <br />
@@ -157,32 +163,9 @@ function Urna() {
                     )}
                   </>
                 )}
-              </>
-            )}
-
-              <div className="search-box search_box p-2">
-                <input
-                  type="text"
-                  id="ballot_searched"
-                  name="q"
-                  className="input_search"
-                  placeholder="Buscar Papeleta..."
-                />
-                <div className="search-button">
-                  <i className="fas fa-lg fa-search"></i>
-                </div>
               </div>
-              <p id="search-message"></p>
-
-            {voters ? (
-              <VotersTable uuid={uuid} />
-            ) : (
-              <>
-                <br />
-                <br />
-                <em>no voters.</em>
-              </>
             )}
+            <VotersTable uuid={uuid} />
           </div>
         </section>
         <ElectionCode uuid={uuid} />
