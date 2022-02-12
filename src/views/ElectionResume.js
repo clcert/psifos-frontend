@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ElectionCode from "../component/ElectionCode";
 import MyNavbar from "../component/MyNavbar";
 import imageTrustees from "../static/svg/trustees-list.svg";
@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import { backendIP } from "../server";
 import Title from "../component/Title";
 import ImageFooter from "../component/ImageFooter";
+import InfoElection from "../component/InfoElection";
 
 function ElectionResume() {
   const [nameElection, setNameElection] = useState("");
@@ -18,29 +19,31 @@ function ElectionResume() {
 
   const { uuid } = useParams();
 
-  async function getElectionResume() {
-    const resp = await fetch(backendIP + "/elections/" + uuid + "/resume", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  useEffect(function effectFunction() {
+    async function getElectionResume() {
+      const resp = await fetch(backendIP + "/elections/" + uuid + "/resume", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    const jsonResponse = await resp.json();
-    return jsonResponse;
-  }
-  if (!loading) {
-    getElectionResume().then((data) => {
-      setNameElection(data.name);
-      setNumVoters(data.num_voters);
-      setTotalVoters(data.total_voters);
-      setMaxWeight(data.max_weight);
-      setInfoElection(data.info);
-      setLoading(true);
-    });
-  }
+      if (resp.status == 200) {
+        const jsonResponse = await resp.json();
+        setNameElection(jsonResponse.name);
+        setNumVoters(jsonResponse.num_voters);
+        setTotalVoters(jsonResponse.total_voters);
+        setMaxWeight(jsonResponse.max_weight);
+        setInfoElection(jsonResponse.info);
+        setLoading(true);
 
-  if (infoElection !== null) {
+        return jsonResponse;
+      }
+    }
+    getElectionResume();
+  }, []);
+
+  if (loading !== false) {
     return (
       <div id="content-voters">
         <section className="parallax hero is-medium">
@@ -49,67 +52,13 @@ function ElectionResume() {
             <Title namePage="Resumen de Elección" nameElection={nameElection} />
           </div>
         </section>
-        <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
-          <div>
-            <h1 className="title is-size-4">Apertura de Urna</h1>
-          </div>
 
-          <div className="disable-text-selection row justify-content-md-center">
-            <table
-              id="resume-table"
-              className="mt-2 table is-bordered is-hoverable voters-table"
-            >
-              <tbody>
-                <tr>
-                  <td>Votos Recibidos</td>
-                  <td className="has-text-centered">{numVoters}</td>
-                </tr>
-                <tr>
-                  <td>Total Padrón</td>
-                  <td className="has-text-centered">{totalVoters}</td>
-                </tr>
-                <tr>
-                  <td>Participación</td>
-                  <td className="has-text-centered">
-                    {((numVoters / totalVoters) * 100).toFixed(2)}%
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <h1 className="title is-size-4 pt-4">
-              Número de votantes por ponderación
-            </h1>
-          </div>
-          <div className="disable-text-selection row justify-content-md-center">
-            <table
-              id="weights-table"
-              className="mt-2 table is-bordered is-hoverable voters-table"
-            >
-              <thead>
-                <tr>
-                  <th>Ponderador</th>
-                  <th>Preliminar</th>
-                  <th>Inicial</th>
-                  <th>Votos Recibidos</th>
-                  <th>Efectivo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(infoElection).map((key) => (
-                  <tr key={key}>
-                    <td className="has-text-centered">{key / maxWeight}</td>
-                    <td className="has-text-centered"></td>
-                    <td className="has-text-centered"></td>
-                    <td className="has-text-centered"></td>
-                    <td className="has-text-centered">{infoElection[key]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        <InfoElection
+          infoElection={infoElection}
+          numVoters={numVoters}
+          totalVoters={totalVoters}
+          maxWeight={maxWeight}
+        />
 
         <ImageFooter imagePath={imageTrustees} />
         <ElectionCode uuid={uuid} />
