@@ -344,6 +344,10 @@
   background-color: #e43427 !important;
 }
 
+.progress-previous:hover {
+  background-color: #e75a50 !important;
+}
+
 .previous-button {
   background-color: #004c94 !important;
 }
@@ -2951,6 +2955,7 @@ div.icon-text {
   background-color: white;
   border-color: white;
   color: #0a0a0a;
+  text-align: center;
 }
 .table td.is-black,
 .table th.is-black {
@@ -10962,5 +10967,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 50px;
   border-radius: 30px;
 box-shadow: 0 0 10px 5px;}
+
+
+.alert-buttons:hover{
+
+  cursor: pointer;
+}
 
 /*# sourceMappingURL=booth.css.map */

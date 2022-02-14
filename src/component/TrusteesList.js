@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { backendIP } from "../server";
-import ConfirmAlert from "./ConfirmAlert";
-
+import TextAlert from "./AlertComponents/TextAlert";
 function TrusteesList(props) {
   const [trustees, setTrustees] = useState([]);
 
@@ -25,7 +24,7 @@ function TrusteesList(props) {
   }, []);
 
   return (
-    <div>
+    <div className="mx-auto">
       {!trustees ? (
         <></> // TODO: Revisar condición
       ) : (
@@ -37,21 +36,22 @@ function TrusteesList(props) {
                   Custodio de Clave #{index + 1}: {t.name}
                   {props.admin && (
                     <>
-                      {t.secret_key ? (
+                      {t.public_key_hash ? (
                         <>
-                          {!props.election.frozen_at && [
-                            <a
-                              id="trustees-link"
-                              onClick={() => {
-                                return window.confirm(
+                          {!props.election.frozen_at && (
+                            <>
+                              <span> &nbsp; </span>[
+                              <TextAlert
+                                id="trustees-link"
+                                title={"eliminar"}
+                                message={
                                   "Are you sure you want to remove Helios as a trustee?"
-                                );
-                              }}
-                              href=""
-                            >
-                              eliminar
-                            </a>,
-                          ]}
+                                }
+                                href=""
+                              />
+                              ]
+                            </>
+                          )}
                         </>
                       ) : (
                         <>
@@ -59,19 +59,19 @@ function TrusteesList(props) {
                           {!props.election.frozen_at && (
                             <>
                               [
-                              <ConfirmAlert
+                              <TextAlert
                                 id="trustees-link"
                                 title={"eliminar"}
                                 message={
                                   "Are you sure you want to remove this Trustee?"
                                 }
-                                href="google.com"
+                                href=""
                               />
                               ]
                             </>
                           )}
                           <span> &nbsp; </span>[
-                          <ConfirmAlert
+                          <TextAlert
                             id="trustees-link"
                             title={"enviar link"}
                             message={

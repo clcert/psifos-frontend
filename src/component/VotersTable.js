@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { backendIP, backendHeliosIP, frontIP } from "../server";
-import ConfirmAlert from "./ConfirmAlert";
+import ConfirmAlert from "./AlertComponents/ConfirmAlert";
 import $ from "jquery";
+import ButtonAlert from "./AlertComponents/ButtonAlert";
+import IconAlert from "./AlertComponents/IconAlert";
 
 function VotersTable(props) {
   const [voters, setVoters] = useState([]);
@@ -163,7 +165,7 @@ function VotersTable(props) {
                 {% endcomment %} */}
           </ul>
         </nav>
-        <div style={{ overflowX: "auto" }}>
+        <div>
           <table
             id="voters-table"
             className="pretty table is-bordered is-hoverable voters-table"
@@ -174,12 +176,11 @@ function VotersTable(props) {
                   <>
                     {admin && (
                       <>
-                        <th>Actions</th>
-                        <th>Login</th>
+                        <th className="has-text-centered">Login</th>
                         {!election.openreg && (
                           <>
-                            <th>Email Address</th>
-                            <th>VOTANTE</th>
+                            <th className="has-text-centered">Email Address</th>
+                            <th className="has-text-centered">VOTANTE</th>
                           </>
                         )}
                       </>
@@ -188,8 +189,9 @@ function VotersTable(props) {
                 )}
 
                 {election.use_voter_aliases && <th>Alias</th>}
-                <th>CÓDIGO DE PAPELETA</th>
-                <th>Ponderador</th>
+                <th className="has-text-centered">CÓDIGO DE PAPELETA</th>
+                <th className="has-text-centered">Ponderador</th>
+                <th className="has-text-centered">Actions</th>
               </tr>
             </thead>
             {voterForPage.map((voter, index) => {
@@ -200,47 +202,17 @@ function VotersTable(props) {
                       <>
                         {admin && (
                           <>
-                            <td style={{ whiteSpace: "nowrap" }}>
-                              [
-                              {!election.frozen_at && (
-                                <a
-                                  href={
-                                    backendHeliosIP +
-                                    "/app/elections/" +
-                                    props.uuid +
-                                    "/voters/email?voter_id=" +
-                                    voter.voter_login_id
-                                  }
-                                >
-                                  email
-                                </a>
-                              )}
-                              ] [
-                              <ConfirmAlert
-                                title={"Eliminar " + voter.name}
-                                alert={"X"}
-                                message={
-                                  "Are you sure you want to remove " +
-                                  voter.name +
-                                  "?"
-                                }
-                                action={() => {
-                                  window.location.href =
-                                    backendHeliosIP +
-                                    "/app/elections/" +
-                                    props.uuid +
-                                    "/voters/" +
-                                    voter.uuid +
-                                    "/delete";
-                                }}
-                              />
-                              ]
+                            <td className="align-middle has-text-centered">
+                              {voter.voter_login_id}
                             </td>
-                            <td>{voter.voter_login_id}</td>
                             {!election.openreg && (
                               <>
-                                <td>{voter.voter_email}</td>
-                                <td>{voter.name}</td>
+                                <td className="align-middle has-text-centered">
+                                  {voter.voter_email}
+                                </td>
+                                <td className="align-middle has-text-centered">
+                                  {voter.name}
+                                </td>
                               </>
                             )}
                           </>
@@ -249,15 +221,18 @@ function VotersTable(props) {
                     )}
                     {election.use_voter_aliases && <td>{voter.alias}</td>}
                     <td>
-                      <tt>
+                      <tt className="align-middle has-text-centered">
                         {
                           voter.vote_hash ? (
                             <>
                               {voter.vote_hash}
                               {admin && (
-                                <span style={{ fontSize: "0.8em" }}>
-                                  [<a href="">view</a>]
-                                </span>
+                                <>
+                                  <IconAlert
+                                    icon="fa-solid fa-eye"
+                                    href=""
+                                  ></IconAlert>
+                                </>
                               )}
                             </>
                           ) : (
@@ -266,7 +241,7 @@ function VotersTable(props) {
                         }
                       </tt>
                     </td>
-                    <td className="has-text-centered">
+                    <td className="align-middle has-text-centered">
                       {election.normalization ? (
                         <>
                           {/* {% load tag %}
@@ -276,21 +251,41 @@ function VotersTable(props) {
                       ) : (
                         <>{voter.voter_weight} </>
                       )}
-                      [
+
                       {!election.voting_stopped && admin && (
-                        <a
-                          href={
+                        <IconAlert
+                          icon="fa-solid fa-pen-to-square"
+                          action={() => {
+                            window.location.href =
+                              backendHeliosIP +
+                              "/app/elections/" +
+                              props.uuid +
+                              "/voters/weight?voter_id=" +
+                              voter.voter_login_id;
+                          }}
+                        />
+                      )}
+                    </td>
+                    <td
+                      style={{ whiteSpace: "nowrap" }}
+                      className="has-text-centered"
+                    >
+                      <ButtonAlert
+                        classStyle="button progress-previous has-text-white has-text-weight-bold"
+                        title="Eliminar"
+                        message={
+                          "Are you sure you want to remove " + voter.name + "?"
+                        }
+                        action={() => {
+                          window.location.href =
                             backendHeliosIP +
                             "/app/elections/" +
                             props.uuid +
-                            "/voters/weight?voter_id=" +
-                            voter.voter_login_id
-                          }
-                        >
-                          editar
-                        </a>
-                      )}
-                      ]
+                            "/voters/" +
+                            voter.uuid +
+                            "/delete";
+                        }}
+                      ></ButtonAlert>
                     </td>
                   </tr>
                 </tbody>

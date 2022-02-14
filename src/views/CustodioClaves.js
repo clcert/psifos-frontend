@@ -7,9 +7,10 @@ import imageTrustees from "../static/svg/trustees-list.svg";
 import ImageFooter from "../component/ImageFooter";
 import { backendHeliosIP } from "../server";
 import { useParams } from "react-router-dom";
-import ConfirmAlert from "../component/ConfirmAlert";
 import TrusteesList from "../component/TrusteesList";
 import getElection from "../utils/getElection";
+import TextAlert from "../component/AlertComponents/TextAlert";
+import ButtonAlert from "../component/AlertComponents/ButtonAlert";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
@@ -55,8 +56,8 @@ function CustodioClaves() {
             <>
               {admin && (
                 <>
-                  <ConfirmAlert
-                    button={true}
+                  <ButtonAlert
+                    classStyle="button mb-4"
                     title={"AGREGAR CUSTODIO DE CLAVE"}
                     message={
                       "Adding your own trustee requires a good bit more work to tally the election.\nYou will need to have trustees generate keypairs and safeguard their secret key.\n\nIf you are not sure what that means, we strongly recommend\nclicking Cancel and letting Helios tally the election for you."
@@ -64,7 +65,7 @@ function CustodioClaves() {
                     action={() => {
                       window.location.href = ipHeliosElection + "/trustees/new";
                     }}
-                  ></ConfirmAlert>
+                  />
                   {!election.has_helios_trustee && (
                     <p className="has-text-white mb-4">
                       [
