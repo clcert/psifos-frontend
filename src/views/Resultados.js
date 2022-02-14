@@ -2,13 +2,35 @@ import MyNavbar from "../component/MyNavbar";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import FooterParticipa from "../component/FooterParticipa";
+import { useEffect } from "react";
+import { backendIP } from "../server";
+import { Container } from "react-bootstrap";
 
 function Resultados() {
-  const [showResult, setShowResult] = useState(false);
+  const [showResult, setShowResult] = useState(true);
   const [prettyResult, setPrettyResult] = useState([]);
   const [electionName, setElectionName] = useState("");
+  const [results, setResults] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [forLoop, setForLoop] = useState(false);
   const { uuid } = useParams();
+
+  useEffect(function effectFunction() {
+    async function getResults() {
+      const resp = await fetch(backendIP + "/elections/" + uuid + "/result", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const jsonResponse = await resp.json();
+
+      setResults(JSON.parse(jsonResponse.result));
+      setQuestions(JSON.parse(jsonResponse.questions));
+    }
+    getResults();
+  }, []);
   return (
     <div id="content-results">
       <section id="header-section" className="parallax hero is-medium">
@@ -35,12 +57,12 @@ function Resultados() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        {showResult ? (
+        {results ? (
           <>
-            {prettyResult.map((question, index) => {
+            {questions.map((question, index) => {
               return (
                 <>
-                  <div className="box" id="question-box-results">
+                  <div className="box" id="question-box-results" key={index}>
                     <b>
                       <span className="has-text-info">
                         Pregunta #{forLoop.counter}:{" "}
@@ -49,20 +71,34 @@ function Resultados() {
                     </b>
                     <br />
                   </div>
-                  <table className="table is-bordered mb-6" id="results-table">
-                    <tbody>
-                      {question.answer.map((answer) => {
+                  <div className="disable-text-selection row justify-content-md-center">
+                    <table
+                      className="mt-2 table is-bordered is-hoverable table-booth is-bordered"
+                      id="results-table"
+                    >
+                      <thead>
                         <tr>
-                          <td>
-                            <b>{answer.answer}</b>
-                          </td>
-                          <td align="right">
-                            <b>{answer.count}</b>
-                          </td>
-                        </tr>;
-                      })}
-                    </tbody>
-                  </table>
+                          <th className="has-text-centered">Pregunta</th>
+                          <th className="has-text-centered">Resultado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {results[index].map((result) => {
+                          return (
+                            <tr className="p-8">
+                              <td>
+                                <b className="p-4">1</b>
+                                {console.log(index)}
+                              </td>
+                              <td align="right">
+                                <b className="p-4">1</b>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 </>
               );
             })}
