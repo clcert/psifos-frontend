@@ -11,17 +11,11 @@ import SettingsUrna from "../component/SettingsUrna";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
-  const [electionPrivate, setElectionPrivate] = useState(false);
   const [electionOpenReg, setElectionOpenReg] = useState(false);
-  const [categories, setCategories] = useState(false);
   const [emailVoters, setEmailVoter] = useState(true);
   const [upload, setUpload] = useState(true);
   const [votersFiles, setVotersFiles] = useState([]);
-  const [voters, setVoters] = useState([]);
-  const [q, setQ] = useState(false);
   const [election, setElection] = useState([]);
-  const [votersPage, setVotersPage] = useState(1);
-  const [totalVoters, setTotalVoters] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const { uuid } = useParams();
@@ -44,7 +38,9 @@ function Urna() {
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
           <div style={{ width: "70%" }}>
-            {admin && !election.frozen_at && <SettingsUrna />}
+            {admin && !election.frozen_at && (
+              <SettingsUrna reg={election.openreg} uuid={uuid} />
+            )}
             <br />
             <div className="d-flex justify-content-center">
               {emailVoters && election.frozen_at && admin && (

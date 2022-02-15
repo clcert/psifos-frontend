@@ -1,6 +1,34 @@
+import { backendIP } from "../server";
+
 function SettingsUrna(props) {
+  let openReg = props.reg;
   const electionPrivate = false;
   const categories = false;
+
+  function openregUpdate(event) {
+    if (event.target.value === "openreg") {
+      openReg = true;
+    } else if (event.target.value === "closedreg") {
+      openReg = false;
+    }
+  }
+
+  async function updateRegElection() {
+    const resp = await fetch(
+      backendIP + "/elections/" + props.uuid + "/openreg",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          openreg: openReg,
+        }),
+      }
+    );
+    const data = await resp.json();
+  }
+
   return (
     <>
       <div className="d-flex justify-content-center">
@@ -11,14 +39,23 @@ function SettingsUrna(props) {
           </em>
         ) : (
           <div>
-            You can change this setting
-            <form method="post">
-              <input type="hidden" name="csrf_token" value="{{csrf_token}}" />
-              <input type="radio" name="eligibility" value="openreg" /> Anyone
-              can vote
+            Puedes cambiar esta configuración
+            <div onChange={openregUpdate}>
+              <input
+                type="radio"
+                name="eligibility"
+                value="openreg"
+                defaultChecked={openReg}
+              />{" "}
+              Cualquiera puede votar
               <br />
-              <input type="radio" name="eligibility" value="closedreg" /> Only
-              voters listed explicitly below can vote
+              <input
+                type="radio"
+                name="eligibility"
+                value="closedreg"
+                defaultChecked={!openReg}
+              />{" "}
+              Las votantes enumeradas explícitamente a continuación pueden votar
               <br />
               {categories && (
                 <>
@@ -33,12 +70,17 @@ function SettingsUrna(props) {
                 </>
               )}
               <br />
-              <input type="submit" value="Update" />
-            </form>
+              <button
+                onClick={() => {
+                  updateRegElection();
+                }}
+              >
+                Actualizar
+              </button>
+            </div>
           </div>
         )}
       </div>
-      
     </>
   );
 }
