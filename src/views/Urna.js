@@ -6,8 +6,8 @@ import ElectionCode from "../component/ElectionCode";
 import { backendIP, backendHeliosIP } from "../server";
 import { useEffect } from "react";
 import VotersTable from "../component/VotersTable";
-import ConfirmAlert from "../component/ConfirmAlert";
 import getElection from "../utils/getElection";
+import SettingsUrna from "../component/SettingsUrna";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
@@ -43,56 +43,8 @@ function Urna() {
         </section>
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
-          <div style={{"width": "70%"}}>
-            {admin && !election.frozen_at && (
-              <div className="d-flex justify-content-center">
-                {electionPrivate ? (
-                  <em>
-                    Your election is marked private, which means you cannot open
-                    registration up more widely
-                  </em>
-                ) : (
-                  <div>
-                    You can change this setting
-                    <form method="post">
-                      <input
-                        type="hidden"
-                        name="csrf_token"
-                        value="{{csrf_token}}"
-                      />
-                      <input type="radio" name="eligibility" value="openreg" />{" "}
-                      Anyone can vote
-                      <br />
-                      <input
-                        type="radio"
-                        name="eligibility"
-                        value="closedreg"
-                      />{" "}
-                      Only voters listed explicitly below can vote
-                      <br />
-                      {categories && (
-                        <>
-                          <input
-                            type="radio"
-                            name="eligibility"
-                            value="limitedreg"
-                          />{" "}
-                          only voters who are members of
-                          <select name="category_id">
-                            {categories.map((category) => {
-                              return <option value={category.id}></option>;
-                            })}
-                          </select>
-                          <br />
-                        </>
-                      )}
-                      <br />
-                      <input type="submit" value="Update" />
-                    </form>
-                  </div>
-                )}
-              </div>
-            )}
+          <div style={{ width: "70%" }}>
+            {admin && !election.frozen_at && <SettingsUrna />}
             <br />
             <div className="d-flex justify-content-center">
               {emailVoters && election.frozen_at && admin && (
@@ -165,7 +117,7 @@ function Urna() {
                 )}
               </div>
             )}
-            <VotersTable uuid={uuid} />
+            <VotersTable uuid={uuid} election={election} />
           </div>
         </section>
         <ElectionCode uuid={uuid} />
