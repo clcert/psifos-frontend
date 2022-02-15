@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { backendIP, backendHeliosIP } from "../server";
-import TextAlert from "./AlertComponents/TextAlert";
+import { backendIP, backendHeliosIP } from "../../server";
+import TextAlert from "../AlertComponents/TextAlert";
 function TrusteesList(props) {
   const [trustees, setTrustees] = useState([]);
 

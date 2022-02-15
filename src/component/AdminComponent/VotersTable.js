@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { backendIP, backendHeliosIP, frontIP } from "../server";
-import ConfirmAlert from "./AlertComponents/ConfirmAlert";
-import $ from "jquery";
-import ButtonAlert from "./AlertComponents/ButtonAlert";
-import IconAlert from "./AlertComponents/IconAlert";
+import { backendIP, backendHeliosIP, frontIP } from "../../server";
+import ButtonAlert from "../AlertComponents/ButtonAlert";
+import IconAlert from "../AlertComponents/IconAlert";
 
 function VotersTable(props) {
   const [voters, setVoters] = useState([]);
@@ -225,17 +223,16 @@ function VotersTable(props) {
                         {
                           voter.vote_hash ? (
                             <>
-                            
-
                               {console.log(election)}
-                              {admin && election.voting_stopped (
-                                <>
-                                  <IconAlert
-                                    icon="fa-solid fa-eye"
-                                    href=""
-                                  ></IconAlert>
-                                </>
-                              )}
+                              {admin &&
+                                election.voting_stopped(
+                                  <>
+                                    <IconAlert
+                                      icon="fa-solid fa-eye"
+                                      href=""
+                                    ></IconAlert>
+                                  </>
+                                )}
                             </>
                           ) : (
                             <></>

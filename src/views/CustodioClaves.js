@@ -1,15 +1,14 @@
-import FooterParticipa from "../component/FooterParticipa";
-import MyNavbar from "../component/MyNavbar";
-import Title from "../component/Title";
+import FooterParticipa from "../component/AdminComponent/FooterParticipa";
+import MyNavbar from "../component/AdminComponent/MyNavbar";
+import Title from "../component/AdminComponent/Title";
 import { useState, useEffect } from "react";
 import "../static/css/booth.css";
 import imageTrustees from "../static/svg/trustees-list.svg";
-import ImageFooter from "../component/ImageFooter";
+import ImageFooter from "../component/AdminComponent/ImageFooter";
 import { backendHeliosIP } from "../server";
 import { useParams } from "react-router-dom";
-import TrusteesList from "../component/TrusteesList";
+import TrusteesList from "../component/AdminComponent/TrusteesList";
 import getElection from "../utils/getElection";
-import TextAlert from "../component/AlertComponents/TextAlert";
 import ButtonAlert from "../component/AlertComponents/ButtonAlert";
 
 function CustodioClaves() {

@@ -1,18 +1,14 @@
-import MyNavbar from "../component/MyNavbar";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import FooterParticipa from "../component/FooterParticipa";
 import { useEffect } from "react";
 import { backendIP } from "../server";
-import { Container } from "react-bootstrap";
+import FooterParticipa from "../component/AdminComponent/FooterParticipa";
+import MyNavbar from "../component/AdminComponent/MyNavbar";
 
 function Resultados() {
-  const [showResult, setShowResult] = useState(true);
-  const [prettyResult, setPrettyResult] = useState([]);
   const [electionName, setElectionName] = useState("");
   const [results, setResults] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [forLoop, setForLoop] = useState(false);
   const { uuid } = useParams();
 
   useEffect(function effectFunction() {
@@ -65,7 +61,7 @@ function Resultados() {
                   <div className="box" id="question-box-results" key={index}>
                     <b>
                       <span className="has-text-info">
-                        Pregunta #{forLoop.counter}:{" "}
+                        Opción n° {index + 1}:{" "}
                       </span>
                       {question.question}
                     </b>
@@ -78,7 +74,7 @@ function Resultados() {
                     >
                       <thead>
                         <tr>
-                          <th className="has-text-centered">Pregunta</th>
+                          <th className="has-text-centered">Respuesta</th>
                           <th className="has-text-centered">Resultado</th>
                         </tr>
                       </thead>

@@ -69,7 +69,9 @@ function InfoElection(props) {
     return (
       <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
         <div>
-          <h1 className="title is-size-4">Aun no existen votantes para esta elección</h1>
+          <h1 className="title is-size-4">
+            Aun no existen votantes para esta elección
+          </h1>
         </div>
       </section>
     );

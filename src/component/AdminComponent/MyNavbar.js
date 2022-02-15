@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Container, Modal, Navbar, Image, NavLink } from "react-bootstrap";
-import "../static/css/booth.css";
-import logo from "../logo.svg";
+import logo from "../../logo.svg";
 import ModalInfo from "./ModalInfo";
 import ModalHelp from "./ModalHelp";
 import $ from "jquery";

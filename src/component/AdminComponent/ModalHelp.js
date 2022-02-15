@@ -1,5 +1,3 @@
-import { Modal, Button } from "react-bootstrap";
-import "../static/css/booth.css";
 import $ from "jquery";
 
 function ModalHelp(props) {

@@ -1,14 +1,13 @@
-import MyNavbar from "../component/MyNavbar";
+import MyNavbar from "../component/AdminComponent/MyNavbar";
 import { useState } from "react";
-import Title from "../component/Title";
 import { useParams } from "react-router-dom";
-import ElectionCode from "../component/ElectionCode";
+import ElectionCode from "../component/AdminComponent/ElectionCode";
 import { backendIP, backendHeliosIP } from "../server";
 import { useEffect } from "react";
-import VotersTable from "../component/VotersTable";
+import VotersTable from "../component/AdminComponent/VotersTable";
 import getElection from "../utils/getElection";
-import SettingsUrna from "../component/SettingsUrna";
-
+import SettingsUrna from "../component/AdminComponent/SettingsUrna";
+import Title from "../component/AdminComponent/Title";
 function Urna() {
   const [admin, setAdmin] = useState(true);
   const [electionOpenReg, setElectionOpenReg] = useState(false);

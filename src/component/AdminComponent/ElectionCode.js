@@ -1,5 +1,3 @@
-import "../static/css/booth.css";
-
 function ElectionCode(props) {
   return (
     <div>

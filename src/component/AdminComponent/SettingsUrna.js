@@ -1,4 +1,4 @@
-import { backendIP } from "../server";
+import { backendIP } from "../../server";
 
 function SettingsUrna(props) {
   let openReg = props.reg;
