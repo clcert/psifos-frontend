@@ -225,8 +225,10 @@ function VotersTable(props) {
                         {
                           voter.vote_hash ? (
                             <>
-                              {voter.vote_hash}
-                              {admin && (
+                            
+
+                              {console.log(election)}
+                              {admin && election.voting_stopped (
                                 <>
                                   <IconAlert
                                     icon="fa-solid fa-eye"
@@ -252,7 +254,7 @@ function VotersTable(props) {
                         <>{voter.voter_weight} </>
                       )}
 
-                      {!election.voting_stopped && admin && (
+                      {election.voting_stopped && admin && (
                         <IconAlert
                           icon="fa-solid fa-pen-to-square"
                           action={() => {
