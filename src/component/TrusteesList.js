@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { backendIP } from "../server";
+import { backendIP, backendHeliosIP } from "../server";
 import TextAlert from "./AlertComponents/TextAlert";
 function TrusteesList(props) {
   const [trustees, setTrustees] = useState([]);
@@ -47,7 +47,14 @@ function TrusteesList(props) {
                                 message={
                                   "Are you sure you want to remove Helios as a trustee?"
                                 }
-                                href=""
+                                action={() => {
+                                  window.location.href =
+                                    backendHeliosIP +
+                                    "/app/elections/" +
+                                    props.uuid +
+                                    "/trustees/delete?uuid=" +
+                                    t.uuid;
+                                }}
                               />
                               ]
                             </>
@@ -65,7 +72,14 @@ function TrusteesList(props) {
                                 message={
                                   "Are you sure you want to remove this Trustee?"
                                 }
-                                href=""
+                                action={() => {
+                                  window.location.href =
+                                    backendHeliosIP +
+                                    "/app/elections/" +
+                                    props.uuid +
+                                    "/trustees/delete?uuid=" +
+                                    t.uuid;
+                                }}
                               />
                               ]
                             </>
@@ -77,7 +91,15 @@ function TrusteesList(props) {
                             message={
                               "Are you sure you want to send this trustee his/her admin URL?"
                             }
-                            href=""
+                            action={() => {
+                              window.location.href =
+                                backendHeliosIP +
+                                "/app/elections/" +
+                                props.uuid +
+                                "/trustees/" +
+                                t.uuid +
+                                "/sendurl";
+                            }}
                           />
                           ]
                         </>
