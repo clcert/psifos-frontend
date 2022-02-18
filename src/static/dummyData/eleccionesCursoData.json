@@ -1,0 +1,12 @@
+{
+  "type": "ELECCIÓN",
+  "now": {
+    "type": "FACULTAD",
+    "name": "Facultad de Ciencias Sociales",
+    "time": "Lunes 26 de julio, de 10:00 a 18:00"
+  },
+  "close": {
+    "type": "FACULTAD",
+    "name": "Departamento Trabajo Social"
+  }
+}

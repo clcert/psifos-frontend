@@ -1,0 +1,45 @@
+<section id="header-section" class="parallax hero is-medium">
+
+    <div class="hero-body pt-0 px-0 header-hero">
+
+      <div class="container">
+        <nav class="navbar is-spaced pt-0" id="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a class="navbar-item pt-0" href="https://participa.uchile.cl">
+              <img class="p-2" id="logo-header" src="svg/logo.svg" width="300">
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample"
+               onclick="
+                    $('.navbar-burger').toggleClass('is-active');
+                    $('.navbar-menu').toggleClass('is-active'); ">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-end">
+              <div class="navbar-item buttons-container pt-0">
+                <div id="navbar-buttons">
+                  <button class="navbar-button" id="navbar-button-1"><a href="javascript:BOOTH.vote_url();" class="menu-text" id="inicio">INICIO</a></button>
+                  <button class="navbar-button" id="navbar-button-2" onclick="$('#info-modal').addClass('is-active');"><span class="menu-text" id="info">INFO</span></button>
+                  <button class="navbar-button" id="navbar-button-3" onclick="$('#help-modal').addClass('is-active');"><span class="menu-text" id="ayuda">AYUDA</span></button>
+                  <button class="navbar-button" id="navbar-button-4"><a href="javascript:BOOTH.exit();" class="menu-text" id="salir">SALIR</a></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Title -->
+      <div class="has-text-centered mt-6 py-3" id="election-title-background">
+        <h1 class="title has-text-black is-size-4-mobile" id="election-title">
+          {$T.election.name}
+        </h1>
+      </div>
+
+    </div>
+  </section>

@@ -56,7 +56,18 @@ div#preload {
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100vh;
+}
+
+.election-section {
+  background-color: rgba(0, 76, 148, 0.15);
+}
+
+.election-sect {
   background-image: url("../img/background.jpg") !important;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
 }
 
 /* Header & Navbar */
@@ -67,6 +78,13 @@ div#preload {
 #logo-header {
   background-color: white;
   max-height: 6rem;
+}
+
+.barra-menu {
+  border-left: solid 3px;
+  color: #004c94;
+  margin-top: 20px;
+  margin-bottom: 11px;
 }
 
 .navbar-div {
@@ -121,14 +139,20 @@ div#preload {
   font-size: 0.8rem;
 }
 
-#navbar-button-1 {
-  border-bottom: 2px solid #004c94;
-  height: 50px;
-  width: 105px;
+#navbar-button-home {
+  border-bottom: 2px solid #1493e7;
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  margin: 0 5px;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
-#navbar-button-1:hover {
+#navbar-button-home:hover {
   color: #004c94 !important;
+  border-bottom: 2px solid #004c94;
   font-weight: bold;
 }
 
@@ -163,7 +187,6 @@ div#preload {
 #navbar-button-4:hover {
   color: #fdd245 !important;
   font-weight: bold;
-  
 }
 
 #election-title-background {
@@ -218,7 +241,7 @@ div#preload {
   color: black;
   margin-left: auto;
   margin-right: auto;
-  max-width: fit-content;
+
   padding-left: 3rem !important;
   padding-right: 3rem !important;
 }
@@ -238,10 +261,25 @@ div#preload {
   margin-left: auto;
   margin-right: auto;
   max-width: 700px;
-  overflow: auto;
   max-height: 500px;
-  padding-left: 3rem !important;
+  padding-left: 2rem !important;
   padding-right: 3rem !important;
+}
+
+.content-past-elections {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.imagen-realizado {
+  float: right;
+  width: 150px;
+  position: relative;
+  top: -250px;
+  left: 120px;
 }
 
 @media screen and (max-width: 768px) {
@@ -280,6 +318,10 @@ div#preload {
   font-size: 1.3rem;
 }
 
+.current-election-close {
+  color: gray;
+}
+
 .election-button {
   display: flex !important;
   margin-left: auto;
@@ -311,7 +353,7 @@ div#preload {
 }
 
 .bullet-2 {
-  color: #e43427 !important;
+  color: #1493e7 !important;
   font-weight: bold;
 }
 
@@ -352,11 +394,65 @@ div#preload {
 }
 
 .faq-section {
-  background-color: rgba(255, 255, 255, 0.75);
+  background: url("../../img/background-not-allowed.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.notice-section {
+  background: url("../../../../public/Fotos/individuality.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  padding: 0 !important;
+}
+
+.color-notice {
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.icon-twitter {
+  content: url("../../new_home_assets/SVG/twitter 1.svg");
+  user-select: none;
+  cursor: pointer;
+}
+
+.icon-twitter:hover {
+  content: url("../../new_home_assets/SVG/twitter 2.svg");
+}
+
+.icon-mail {
+  content: url("../../new_home_assets/SVG/mail 1.svg");
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon-mail:hover {
+  content: url("../../new_home_assets/SVG/mail 2.svg");
+}
+
+.icon-flotant {
+  position: fixed;
+  width: 30px;
+  left: 95%;
+  bottom: 40px;
+  height: 30px;
+  font-size: 1.3rem;
+  color: white;
+  text-align: center;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #004990;
+  border-radius: 50%;
+  user-select: none;
 }
 
 .team-section {
-  background-color: white;
+  background-color: #bfe5f4;
 }
 
 .team-box {
@@ -11897,6 +11993,21 @@ a.has-text-danger-dark:focus {
 .section {
   padding: 3rem 1.5rem;
 }
+
+body::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: orange; /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: blue; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid orange; /* creates padding around scroll thumb */
+}
+
 @media screen and (min-width: 992px) {
   .section.is-medium {
     padding: 9rem 1.5rem;
@@ -11910,4 +12021,64 @@ a.has-text-danger-dark:focus {
   background-color: #004c94;
   padding: 0.5rem;
   color: white;
+}
+
+.card-content {
+  position: relative;
+  background-color: #004c94;
+  padding: 0;
+  color: white;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.title-notice-box {
+  font-weight: 610;
+  margin: auto;
+  text-align: center;
+  font-size: 1.3rem;
+  height: 150px;
+}
+
+.text-notice-box {
+  font-size: 20px;
+}
+
+.image-notice-box {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.more-notice-box {
+  color: #3298dc;
+  user-select: none;
+  font-weight: bold;
+}
+
+.card {
+  height: 95%;
+  background-color: #004c94 !important;
+  border-radius: 15px !important;
+  padding: 0;
+}
+
+.modal-notice-body {
+  -webkit-overflow-scrolling: touch;
+  background-color: white;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+.modal-notice-sup {
+  background-color: #004c94;
+  text-align: right;
+}
+
+.modal-notice-title {
+  color: #004c94;
+  font-weight: bold;
+  font-size: 25px;
 }

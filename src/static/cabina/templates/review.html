@@ -1,0 +1,111 @@
+<section class="section pb-0" id="review-section">
+    <div class="container has-text-centered is-max-desktop">
+        <h1 class="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
+        <p class="subtitle">A continuación podrás revisar tu papeleta de votación.</p>
+
+        {#foreach $T.questions as question}
+        <p class="subtitle is-4 mt-6 mb-2 has-text-black">
+            {$T.question.short_name}
+        </p>
+        <div class="box has-text-left pl-6 review-answer">
+            <p class="subtitle is-5 has-text-white answer-text">
+                {#if $T.choices[$T.question$index].length == 0}
+                [  ] Ninguna opción seleccionada <br>
+                {#/if}
+                {#foreach $T.choices[$T.question$index] as choice}
+                [ ✓ ] {$T.choice} <br>
+                {#/for}
+                <br>
+                <a onclick="BOOTH.show_question({$T.question$index}, true);$(window).scrollTop($('#progress_div').position().top); return false;" href="#">
+                    <span class="icon has-text-white">
+                        <i class="far fa-edit"></i>
+                    </span>
+                    <span class="has-text-white is-size-6">
+                        Editar Respuesta (opcional)
+                    </span>
+                </a>
+        </div>
+        {#/for}
+
+        <div class="container has-text-centered mt-6">
+
+            <div class="columns pb-0 is-align-items-center review-buttons-container">
+                <div class="column is-hidden-mobile is-invisible">
+                    {#if $T.election_metadata.use_advanced_audit_features}
+                    <div class="container">
+                    <span class="icon question-audit has-tooltip-arrow has-tooltip-left has-tooltip-top-mobile has-tooltip-multiline has-tooltip-info" data-tooltip="Verificación avanzada de correcta encriptación de las preferencias.">
+                      <i class="far fa-question-circle"></i>
+                    </span>
+                        <button class="button is-small review-buttons" id="audit-button" onclick="$('#audit-modal').addClass('is-active');">
+                        <span class="icon">
+                          <i class="far fa-envelope-open"></i>
+                        </span>
+                            <span>AUDITAR VOTO</span>
+                        </button>
+                        <br>
+                        <span class="is-size-6 is-italic">(Opcional)</span>
+                    </div>
+                    {#/if}
+                </div>
+                <div class="column pb-0 is-hidden-mobile">
+                    <figure class="image select-img-wrapper">
+                        <img id="review-final-img" src="svg/review-img.svg">
+                    </figure>
+                </div>
+                <div class="column right-button-column has-text-centered-mobile is-flex">
+
+                        <button class="button is-medium review-buttons" id="proceed_button" onclick="BOOTH.cast_ballot();">
+                        <span class="icon">
+                          <i class="fas fa-paper-plane"></i>
+                        </span>
+                            <span>ENVIAR VOTO</span>
+                        </button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="audit-modal">
+        <div class="modal-background" onclick="$('#audit-modal').removeClass('is-active');"></div>
+        <div class="modal-card">
+            <section class="modal-card-body">
+                <h1 class="title">IMPORTANTE</h1>
+                <p>
+                    <span class="has-text-weight-bold">Este proceso es OPCIONAL y AVANZADO.</span><br><br>
+                    Al auditar tu voto <span class="has-text-weight-bold">revelarás las opciones que seleccionaste</span> para poder verificar que éstas no fueron modificadas de manera fraudulenta.<br>
+                    Al terminar el proceso de auditoría, tendrás que <span class="has-text-weight-bold">volver para poder completar el proceso de votación.</span>
+                </p>
+                <p class="has-text-weight-bold pt-4">¿Quieres continuar auditando tu voto?</p>
+            </section>
+            <footer class="modal-card-foot">
+                <div class="container">
+                    <button class="button review-buttons previous-button has-text-white has-text-weight-bold" onclick="$('#audit-modal').removeClass('is-active');">
+                    <span class="icon">
+                        <i class="fas fa-2x fa-caret-left"></i>
+                    </span>
+                        <span>VOLVER ATRÁS</span>
+                    </button>
+                </div>
+                <div class="container">
+                    <button id="proceed-to-audit" class="button review-buttons next-button has-text-white has-text-weight-bold" onclick="BOOTH.audit_ballot();$(window).scrollTop(0);BOOTH.switch_background_image('04');">
+                        <span>CONTINUAR</span>
+                        <span class="icon">
+                            <i class="fas fa-2x fa-caret-right"></i>
+                        </span>
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+</section>
+
+<form method="POST" action="{$T.cast_url}" id="send_ballot_form" class="prettyform">
+    <input type="hidden" name="election_uuid" value="{$T.election_uuid}" />
+    <input type="hidden" name="election_hash" value="{$T.election_hash}" />
+    <textarea name="encrypted_vote" style="display: none;">
+{$T.encrypted_vote_json}
+</textarea>
+</form>

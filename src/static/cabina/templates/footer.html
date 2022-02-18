@@ -1,0 +1,10 @@
+<footer class="footer">
+    <div class="container has-text-centered footer-container">
+        {#if $T.election.BOGUS_P}
+        <p>Elección disponible en modo previsualización</p>
+        {#else}
+        <p>CÓDIGO DE LA ELECCIÓN</p>
+        <p class="is-family-monospace">{$T.election.hash}</p>
+        {#/if}
+    </div>
+</footer>

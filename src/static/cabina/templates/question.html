@@ -1,0 +1,130 @@
+<form onsubmit="return false;" class="prettyform" id="answer_form">
+    <input type="hidden" name="question_num" value="{$T.question_num}" />
+
+    <section class="section pb-0" id="question-section">
+        <div class="container has-text-centered is-max-desktop">
+            <p class="subtitle is-italic mb-0">Pregunta {$T.question_num + 1} de {$T.last_question_num + 1}</p>
+            <p class="title is-4 has-text-black pt-6">{$T.question.question}</p>
+            <p class="subtitle is-italic">
+                (seleccionar
+                {#if $T.question.min >= 0}
+                {#if $T.question.max}
+                {#if $T.question.min == $T.question.max}
+                {#if $T.question.min == 1}
+                solo {$T.question.min} opción)
+                {#else}
+                solo {$T.question.min} opciones)
+                {#/if}
+                {#else}
+                {$T.question.min} a {$T.question.max} opciones)
+                {#/if}
+                {#else}
+                {#if $T.question.min > 0}
+                al menos {$T.question.min})
+                {#else}
+                cuantos quieras)
+                {#/if}
+                {#/if}
+                {#/if}
+            </p>
+
+            <div class="box has-text-left question-box has-text-white is-flex is-justify-content-center">
+                <div class="control control-box">
+                    {#foreach $T.question.answers as answer}
+                    <div id="answer_label_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}">
+
+                        {#if $T.question.max == 1 && $T.question.min == 1}
+                        <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="radio question-answer p-2">
+                            <input type="radio" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}" value="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" onclick="BOOTH.click_radiobox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);"/>
+                        {#else}
+                            <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="checkbox question-answer p-2">
+                            <input type="checkbox" class="ballot_answer" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" value="yes" onclick="BOOTH.click_checkbox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);" />
+                         {#/if}
+                                <span class="is-size-4">{$T.question.answers[$T.answer_ordering[$T.answer$index]]}</span>
+                        </label>
+                        <!--
+                        <label class="checkbox">
+                            <input type="checkbox" class="ballot_answer" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" value="yes" onclick="BOOTH.click_checkbox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);" />
+                            {$T.question.answers[$T.answer_ordering[$T.answer$index]]}
+                        </label>
+                        -->
+                        <!--
+                <div id="answer_label_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}">
+                    {#if $T.question.max > 1}
+                    <input type="checkbox" class="ballot_answer" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" value="yes" onclick="BOOTH.click_checkbox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);" />
+                    {#else}
+                    <input type="radio" class="ballot_answer" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" value="yes" onclick="BOOTH.click_checkbox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);" />
+                    {#/if}
+
+                    <label class="answer is-size-5" for="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}">
+                        {$T.question.answers[$T.answer_ordering[$T.answer$index]]}
+                -->
+                        {#if $T.question.answer_urls && $T.question.answer_urls[$T.answer_ordering[$T.answer$index]] && $T.question.answer_urls[$T.answer_ordering[$T.answer$index]] != ""}
+                        &nbsp;&nbsp;
+                        <span style="font-size: 12pt;">
+                        [<a target="_blank" href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}" rel="noopener noreferrer">more info</a>]
+                    </span>
+                        {#/if}
+                        </label>
+                    </div>
+                    {#/for}
+                </div>
+            </div>
+
+            <div class="columns pt-1 pb-4 buttons-question">
+                {#if $T.question_num != 0 && $T.editing == false}
+                <div class="column is-flex left-button-column">
+
+                    <button onclick="BOOTH.previous({$T.question_num})" class="button is-medium question-button previous-button">
+              <span class="icon is-small">
+                <i class="fas fa-2x fa-caret-left"></i>
+              </span>
+                        <span>ANTERIOR</span>
+                    </button>
+                </div>
+                {#else}
+                <div class="column is-invisible is-flex left-button-column">
+                    <button onclick="BOOTH.previous({$T.question_num})" class="button is-medium question-button previous-button">
+              <span class="icon is-small">
+                <i class="fas fa-2x fa-caret-left"></i>
+              </span>
+                        <span>ANTERIOR</span>
+                    </button>
+                </div>
+                {#/if}
+
+                <div class="column is-hidden-mobile pb-0">
+                    <figure class="image select-img-wrapper">
+                        <img id="select-final-img" src="svg/select-img.svg">
+                    </figure>
+                </div>
+
+                {#if $T.question_num < $T.last_question_num && $T.editing == false}
+                <div class="column is-flex right-button-column">
+
+                    <button onclick="BOOTH.next({$T.question_num});" class="button is-medium question-button next-button">
+                        <span>SIGUIENTE</span>
+                        <span class="icon is-small">
+                <i class="fas fa-2x fa-caret-right"></i>
+              </span>
+                    </button>
+                </div>
+                {#else}
+                {#if $T.show_reviewall || $T.editing == true}
+                <div class="column is-flex right-button-column">
+                    <button onclick="BOOTH.validate_and_confirm({$T.question_num});" class="button is-medium question-button proceed-button">
+                        <span>FINALIZAR</span>
+                        <span class="icon is-small">
+                <i class="fas fa-2x fa-caret-right"></i>
+              </span>
+                    </button>
+                </div>
+                {#/if}
+                {#/if}
+
+
+            </div>
+
+        </div>
+    </section>
+</form>
