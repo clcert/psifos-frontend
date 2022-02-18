@@ -591,8 +591,8 @@ div#preload {
 
 #instructions-main-paragraph {
   text-align: left;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 400;
 }
 
 #instructions-text-img {
@@ -625,7 +625,7 @@ div#preload {
 }
 
 #instructions {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.85);
   min-height: 33rem;
 }
 
@@ -2799,22 +2799,22 @@ fieldset[disabled] .button {
 }
 @media screen and (max-width: 991px) {
   .container.is-widescreen:not(.is-max-desktop) {
-    max-width: 928px;
+    max-width: 928px !important;
   }
 }
 @media screen and (max-width: 1199px) {
   .container.is-fullhd:not(.is-max-desktop):not(.is-max-widescreen) {
-    max-width: 1136px;
+    max-width: 1136px !important;
   }
 }
 @media screen and (min-width: 992px) {
   .container:not(.is-max-desktop) {
-    max-width: 928px;
+    max-width: 928px !important;
   }
 }
 @media screen and (min-width: 1200px) {
   .container:not(.is-max-desktop):not(.is-max-widescreen) {
-    max-width: 1136px;
+    max-width: 1136px !important;
   }
 }
 
@@ -12081,4 +12081,62 @@ body::-webkit-scrollbar-thumb {
   color: #004c94;
   font-weight: bold;
   font-size: 25px;
+}
+
+.card-cabina {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.card-cabina-content {
+  color: black !important;
+  font-size: 500px !important;
+}
+
+#instructions-main-image-cabina {
+  max-width: 7rem;
+  margin-left: -1.7rem;
+  margin-top: -1rem;
+}
+
+#instruction-main-box-cabina {
+  background-color: transparent;
+  box-shadow: none;
+}
+@media screen and (max-width: 768px) {
+  #instruction-main-box-cabina {
+    padding: 0;
+  }
+}
+
+#instructions-main-paragraph-cabina {
+  text-align: justify;
+  font-size: 17px;
+}
+@media screen and (max-width: 768px) {
+  #instructions-main-paragraph-cabina {
+    font-size: 15px;
+    text-align: justify;
+  }
+}
+
+#instructions-text-img-cabina {
+  width: 15rem;
+  top: -50px !important;
+  position: relative;
+}
+
+
+.card-cabina-text{
+
+  font-size: 1.1rem;
+  font-weight: 500;
+
+}
+
+#start-button-cabina {
+  background-color: #004c94;
+  border-radius: 10px;
+  color: white;
 }

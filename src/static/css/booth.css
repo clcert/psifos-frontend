@@ -255,15 +255,19 @@
   text-align: left;
   cursor: pointer;
   padding-bottom: 0.2rem;
+  text-decoration: none !important;
 }
 
 .menu-text {
   color: black;
-  font-size: 0.8rem;
+  font-size: 0.9em !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
 }
 
 #navbar-button-1-admin {
   border-bottom: 2px solid #004c94;
+  text-decoration: none;
 }
 
 #inicio:hover {

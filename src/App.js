@@ -5,8 +5,8 @@ import Urna from "./views/Urna";
 import CustodioClaves from "./views/CustodioClaves";
 import Resultados from "./views/Resultados";
 import Home from "./views/Home";
-import HomeCabin from "./component/CabinaComponent/HomeCabin";
 import "bulma/css/bulma.min.css";
+import Cabina from "./views/Cabina";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
       </Route>
 
       <Route path="/cabina">
-        <Route path=":uuid" element={<HomeCabin />} />
+        <Route path=":uuid" element={<Cabina />} />
       </Route>
     </Routes>
   );
