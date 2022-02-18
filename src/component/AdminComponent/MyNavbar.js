@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Container, Modal, Navbar, Image, NavLink } from "react-bootstrap";
 import logo from "../../logo.svg";
 import ModalInfo from "./ModalInfo";
 import ModalHelp from "./ModalHelp";
@@ -11,7 +10,7 @@ function MyNavbar() {
   const [showHelp, setShowHelp] = useState(false);
 
   return (
-    <Container>
+    <div className="container">
       <div className="container disable-text-selection">
         <nav
           className="navbar is-spaced pt-0"
@@ -20,12 +19,12 @@ function MyNavbar() {
           aria-label="main navigation"
         >
           <div className="navbar-brand">
-            <NavLink
+            <a
               className="navbar-item pt-0"
               href="https://participa.uchile.cl/"
             >
-              <Image className="p-2" id="logo-header" src={logo} width="300" />
-            </NavLink>
+              <img className="p-2" id="logo-header" src={logo} width="300" />
+            </a>
 
  
               <a
@@ -52,7 +51,7 @@ function MyNavbar() {
             <div className="navbar-end">
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
-                  <button className="navbar-button" id="navbar-button-1">
+                  <button className="navbar-button" id="navbar-button-1-admin">
                     <a
                       href={
                         isAdmin
@@ -67,7 +66,7 @@ function MyNavbar() {
                   </button>
                   <button
                     className="navbar-button"
-                    id="navbar-button-2"
+                    id="navbar-button-2-admin"
                     onClick={() => {$('#info-modal').addClass('is-active')}}
                   >
                     <span className="menu-text" id="info">
@@ -76,14 +75,14 @@ function MyNavbar() {
                   </button>
                   <button
                     className="navbar-button"
-                    id="navbar-button-3"
+                    id="navbar-button-3-admin"
                     onClick={() => {$('#help-modal').addClass('is-active');}}
                   >
                     <span className="menu-text" id="ayuda">
                       AYUDA
                     </span>
                   </button>
-                  <button className="navbar-button" id="navbar-button-4">
+                  <button className="navbar-button" id="navbar-button-4-admin">
                     <a
                       href="https://participa.uchile.cl/"
                       className="menu-text"
@@ -100,7 +99,7 @@ function MyNavbar() {
       </div>
       <ModalInfo show={showInfo} onHide={() => setShowInfo(false)} />
       <ModalHelp show={showHelp} onHide={() => setShowHelp(false)} />
-    </Container>
+    </div>
   );
 }
 

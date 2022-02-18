@@ -69,8 +69,8 @@ function Resultados() {
                   </div>
                   <div className="disable-text-selection row justify-content-md-center">
                     <table
-                      className="mt-2 table is-bordered is-hoverable table-booth is-bordered"
-                      id="results-table"
+                      className="pretty table is-hoverable voters-table"
+                    
                     >
                       <thead>
                         <tr>
@@ -79,12 +79,11 @@ function Resultados() {
                         </tr>
                       </thead>
                       <tbody>
-                        {results[index].map((result) => {
+                        {results[index].map((result, index) => {
                           return (
-                            <tr className="p-8">
+                            <tr className="p-8" key={index}>
                               <td>
                                 <b className="p-4">1</b>
-                                {console.log(index)}
                               </td>
                               <td align="right">
                                 <b className="p-4">1</b>

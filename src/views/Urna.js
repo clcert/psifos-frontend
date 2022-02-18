@@ -8,6 +8,8 @@ import VotersTable from "../component/AdminComponent/VotersTable";
 import getElection from "../utils/getElection";
 import SettingsUrna from "../component/AdminComponent/SettingsUrna";
 import Title from "../component/AdminComponent/Title";
+import { Button } from "react-bulma-components";
+
 function Urna() {
   const [admin, setAdmin] = useState(true);
   const [electionOpenReg, setElectionOpenReg] = useState(false);
@@ -43,8 +45,8 @@ function Urna() {
             <br />
             <div className="d-flex justify-content-center">
               {emailVoters && election.frozen_at && admin && (
-                <button
-                  className="button review-buttons previous-button has-text-white has-text-weight-bold"
+                <Button
+                  className="button-custom"
                   onClick={() => {
                     window.location.href =
                       backendHeliosIP +
@@ -54,11 +56,11 @@ function Urna() {
                   }}
                 >
                   <span>Email voters</span>{" "}
-                </button>
+                </Button>
               )}
               {admin && upload && !electionOpenReg && (
-                <button
-                  className="ml-3 button review-buttons previous-button has-text-white has-text-weight-bold"
+                <Button
+                  className="button-custom ml-3"
                   onClick={() => {
                     window.location.href =
                       backendHeliosIP +
@@ -68,7 +70,7 @@ function Urna() {
                   }}
                 >
                   <span>Bulk upload voters</span>
-                </button>
+                </Button>
               )}
             </div>
 

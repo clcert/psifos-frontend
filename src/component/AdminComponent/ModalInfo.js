@@ -1,4 +1,3 @@
-import { Modal, Button } from "react-bootstrap";
 import $ from "jquery";
 
 function ModalInfo(props) {
@@ -6,7 +5,9 @@ function ModalInfo(props) {
     <div className="modal" id="info-modal">
       <div
         className="modal-background"
-        onClick={() => {$('#info-modal').removeClass('is-active')}}
+        onClick={() => {
+          $("#info-modal").removeClass("is-active");
+        }}
       ></div>
       <div className="modal-card">
         <section className="modal-card-body">
@@ -32,7 +33,9 @@ function ModalInfo(props) {
           <div className="container">
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold"
-              onClick={() => {$('#info-modal').removeClass('is-active')}}
+              onClick={() => {
+                $("#info-modal").removeClass("is-active");
+              }}
             >
               <span>VOLVER ATRÁS</span>
             </button>

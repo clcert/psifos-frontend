@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { backendIP, backendHeliosIP, frontIP } from "../../server";
 import ButtonAlert from "../AlertComponents/ButtonAlert";
 import IconAlert from "../AlertComponents/IconAlert";
+import { Button } from "react-bulma-components";
 
 function VotersTable(props) {
   const [voters, setVoters] = useState([]);
@@ -78,7 +79,6 @@ function VotersTable(props) {
   }
 
   if (voters.length !== 0) {
-    console.log(voterForPage);
     return (
       <>
         <div className="search-box search_box p-2">
@@ -124,8 +124,8 @@ function VotersTable(props) {
           role="navigation"
           aria-label="pagination"
         >
-          <a
-            className="pagination-previous"
+          <Button
+            className="button-custom"
             disabled={previousDisabled}
             onClick={() => {
               if (!previousDisabled) {
@@ -134,10 +134,10 @@ function VotersTable(props) {
             }}
           >
             Previo
-          </a>
+          </Button>
 
-          <a
-            className="pagination-next"
+          <Button
+            className="button-custom pagination-next"
             disabled={nextDisabled}
             onClick={() => {
               if (!nextDisabled) {
@@ -146,7 +146,7 @@ function VotersTable(props) {
             }}
           >
             Siguiente
-          </a>
+          </Button>
 
           <ul className="pagination-list">
             Papeletas {page * maxForPage + 1} -{" "}
@@ -223,16 +223,14 @@ function VotersTable(props) {
                         {
                           voter.vote_hash ? (
                             <>
-                              {console.log(election)}
-                              {admin &&
-                                election.voting_stopped(
-                                  <>
-                                    <IconAlert
-                                      icon="fa-solid fa-eye"
-                                      href=""
-                                    ></IconAlert>
-                                  </>
-                                )}
+                              {admin && election.voting_stopped && (
+                                <>
+                                  <IconAlert
+                                    icon="fa-solid fa-eye"
+                                    href=""
+                                  ></IconAlert>
+                                </>
+                              )}
                             </>
                           ) : (
                             <></>

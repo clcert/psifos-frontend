@@ -62,8 +62,8 @@ function SettingsUrna(props) {
                   <input type="radio" name="eligibility" value="limitedreg" />{" "}
                   only voters who are members of
                   <select name="category_id">
-                    {categories.map((category) => {
-                      return <option value={category.id}></option>;
+                    {categories.map((category, index) => {
+                      return <option key={index} value={category.id}></option>;
                     })}
                   </select>
                   <br />

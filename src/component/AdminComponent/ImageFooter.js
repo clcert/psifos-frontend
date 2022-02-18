@@ -1,4 +1,3 @@
-import { Image } from "react-bootstrap";
 
 function ImageFooter(props) {
   return (
@@ -7,7 +6,7 @@ function ImageFooter(props) {
       id="drawing-section"
     >
       <figure className="image">
-        <Image id="send-final-img" src={props.imagePath} />
+        <img id="send-final-img" src={props.imagePath} />
       </figure>
     </section>
   );

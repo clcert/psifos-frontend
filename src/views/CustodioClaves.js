@@ -84,9 +84,10 @@ function CustodioClaves() {
           <TrusteesList uuid={uuid} election={election} admin={admin} />
         </div>
       </section>
-
-      <ImageFooter imagePath={imageTrustees} />
-      <FooterParticipa />
+      <div>
+        <ImageFooter imagePath={imageTrustees} />
+        <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+      </div>
     </div>
   );
 }

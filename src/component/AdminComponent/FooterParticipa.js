@@ -1,10 +1,10 @@
-function FooterParticipa() {
+function FooterParticipa(props) {
   return (
     <div>
       <footer className="footer">
         <div className="container has-text-centered">
           <p>
-            PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021
+            {props.message}
           </p>
         </div>
       </footer>
