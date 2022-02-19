@@ -11,13 +11,13 @@ function VotacionesRealizadas(props) {
   }
   return (
     <div>
-      <section className="section past-section">
+      <section className="section past-section" ref={myRef}>
         <div
           className={
             "container " +
             (showAnimation ? "slide-left-activate" : "slide-left-enter")
           }
-          ref={myRef}
+         
         >
           <div className="past-elections-box  pb-2">
             <div className="is-flex mt-2">
