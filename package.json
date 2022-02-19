@@ -12,8 +12,10 @@
     "react-bulma-components": "^4.1.0",
     "react-confirm-alert": "^2.8.0",
     "react-dom": "^17.0.2",
+    "react-in-viewport": "^1.0.0-alpha.20",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-transition-group": "^4.4.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

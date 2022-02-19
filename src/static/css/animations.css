@@ -1,0 +1,61 @@
+.opacity-enter {
+  opacity: 0.01;
+}
+
+.opacity-activate {
+  opacity: 1;
+  transition: opacity 700ms ease-in;
+}
+
+.slide-left-enter {
+  position: relative;
+  left: -1000px;
+  opacity: 0.01;
+}
+
+.slide-left-activate {
+  position: relative;
+  left: 0px;
+  opacity: 1;
+  transition: all 1s ease-in-out;
+}
+
+.slide-right-enter {
+  position: relative;
+  right: -1000px;
+  opacity: 0.01;
+}
+
+.slide-right-activate {
+  position: relative;
+  right: 0px;
+  opacity: 1;
+  transition: all 1s ease-in-out;
+}
+
+.slide-up-enter {
+  position: relative;
+  top: -100px;
+  opacity: 0.01;
+}
+
+.slide-up-activate {
+  position: relative;
+  top: 0px;
+  opacity: 1;
+  transition: all 1.5s ease-in-out;
+}
+
+
+.slide-down-enter {
+  position: relative;
+  bottom: -100px;
+  opacity: 0.01;
+}
+
+.slide-down-activate {
+  position: relative;
+  bottom: 0px;
+  opacity: 1;
+  transition: all 1.5s ease-in-out;
+}

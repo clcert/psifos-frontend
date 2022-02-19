@@ -1,6 +1,22 @@
+import { useInViewport } from "react-in-viewport";
+import React, { useRef } from "react";
+
 function TeamComponent(props) {
+  const myRef = useRef();
+  const [showAnimation, setShowAnimation] = React.useState(false);
+  const { inViewport, enterCount, leaveCount } = useInViewport(myRef);
+  if (inViewport && !showAnimation) {
+    console.log("inViewport");
+    setShowAnimation(true);
+  }
   return (
-    <div className="box has-text-centered team-box">
+    <div
+      className={
+        "box has-text-centered team-box " +
+        (showAnimation ? "slide-up-activate" : "slide-up-enter")
+      }
+      ref={myRef}
+    >
       <figure className="image">
         <img className="" src={props.image} />
       </figure>

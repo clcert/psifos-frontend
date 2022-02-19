@@ -16,6 +16,8 @@ import sobre from "../static/new_home_assets/SVG/sobre.svg";
 import ticket from "../static/new_home_assets/SVG/ticket.svg";
 import ScrollButton from "../component/HomeComponent/ScrollButton";
 
+
+
 function Home() {
   const dataNotice = require("../static/dummyData/noticeData.json");
   return (
