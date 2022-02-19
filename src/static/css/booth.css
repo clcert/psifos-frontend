@@ -133,7 +133,6 @@
   border: 1px solid #004c94;
 }
 
-
 #results-table td {
   border: 1px solid #004c94 !important;
   padding-left: 1.5rem;
@@ -258,48 +257,41 @@
   text-decoration: none !important;
 }
 
-.menu-text {
-  color: black;
+.menu-text-admin {
+  text-decoration: none;
+  color: #004c94;
   font-size: 0.9em !important;
   text-decoration: none !important;
   font-weight: 600 !important;
 }
 
-#navbar-button-1-admin {
-  border-bottom: 2px solid #004c94;
+.menu-text-admin:hover {
+  color: #6dcaf3;
+}
+
+#text-button {
+  text-align: left !important;
+  margin: 0 15px;
+  width: 60px;
+  padding-bottom: 10px;
+  position: relative;
   text-decoration: none;
 }
 
-#inicio:hover {
-  color: #004c94 !important;
-  font-weight: bold;
+#text-button:after {
+  content: "";
+  position: absolute;
+  background: #004c94;
+  bottom: 3px;
+  left: 0;
+  width: 110%;
+  height: 2px;
+  transition: 0.3s;
 }
 
-#navbar-button-2-admin {
-  border-bottom: 2px solid #e43427;
-}
-
-#info:hover {
-  color: #e43427 !important;
-  font-weight: bold;
-}
-
-#navbar-button-3-admin {
-  border-bottom: 2px solid #027d47;
-}
-
-#ayuda:hover {
-  color: #027d47 !important;
-  font-weight: bold;
-}
-
-#navbar-button-4-admin {
-  border-bottom: 2px solid #fdd245;
-}
-
-#salir:hover {
-  color: #fdd245 !important;
-  font-weight: bold;
+#text-button:hover:after {
+  width: 50%;
+  background: #6dcaf3
 }
 
 /* Progress Bar */
@@ -11909,6 +11901,5 @@ a.has-text-danger-dark:focus {
 .button-custom:hover {
   background-color: #00b7ff !important;
 }
-
 
 /*# sourceMappingURL=booth.css.map */

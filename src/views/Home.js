@@ -225,11 +225,11 @@ function Home() {
             <h1 className="title pt-4" id="election-current">
               NOTICIAS
             </h1>
-            <div className="container">
-              <div className="columns is-centered">
+            <div className="container steps-container">
+              <div className="columns is-variable">
                 {Object.keys(dataNotice).map((key, index) => {
                   return (
-                    <div key={index}>
+                    <div class="column" key={index}>
                       <Notice
                         title={dataNotice[key].title}
                         image={dataNotice[key].image}

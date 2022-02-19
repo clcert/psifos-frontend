@@ -78,6 +78,23 @@ div#preload {
 #logo-header {
   background-color: white;
   max-height: 6rem;
+  display: inline-flex;
+}
+
+#logo-image-1 {
+  max-height: 15rem;
+}
+
+#logo-image-2 {
+  max-height: 5rem;
+  max-width: 5rem;
+}
+
+#logo-barra-menu {
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  height: 50px;
+  border-left: solid 2px gainsboro;
 }
 
 .barra-menu {
@@ -117,6 +134,8 @@ div#preload {
   height: 4.9rem;
   display: flex;
   align-items: flex-end;
+  position: relative;
+  top: -3px
 }
 
 .navbar-button {
@@ -2799,22 +2818,22 @@ fieldset[disabled] .button {
 }
 @media screen and (max-width: 991px) {
   .container.is-widescreen:not(.is-max-desktop) {
-    max-width: 928px !important;
+    max-width: 928px;
   }
 }
 @media screen and (max-width: 1199px) {
   .container.is-fullhd:not(.is-max-desktop):not(.is-max-widescreen) {
-    max-width: 1136px !important;
+    max-width: 1136px;
   }
 }
 @media screen and (min-width: 992px) {
   .container:not(.is-max-desktop) {
-    max-width: 928px !important;
+    max-width: 928px;
   }
 }
 @media screen and (min-width: 1200px) {
   .container:not(.is-max-desktop):not(.is-max-widescreen) {
-    max-width: 1136px !important;
+    max-width: 1136px;
   }
 }
 
@@ -12127,12 +12146,9 @@ body::-webkit-scrollbar-thumb {
   position: relative;
 }
 
-
-.card-cabina-text{
-
+.card-cabina-text {
   font-size: 1.1rem;
   font-weight: 500;
-
 }
 
 #start-button-cabina {

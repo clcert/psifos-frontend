@@ -3,7 +3,6 @@ import $ from "jquery";
 function Notice(props) {
   return (
     <>
-      <div className="column">
         <div className="card">
           <div className="card-content">
             <div className="title-notice-box pt-1 pb-2">
@@ -21,7 +20,9 @@ function Notice(props) {
               <div className="pt-4 more-notice-box">
                 <a
                   onClick={() => {
-                    $("#info-notice" + String(props.index)).addClass("is-active");
+                    $("#info-notice" + String(props.index)).addClass(
+                      "is-active"
+                    );
                   }}
                 >
                   {" "}
@@ -31,7 +32,6 @@ function Notice(props) {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 }
