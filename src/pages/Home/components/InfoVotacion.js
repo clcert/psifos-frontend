@@ -1,5 +1,5 @@
 function InfoVotacion(props) {
-  const data = require("../../static/dummyData/eleccionesCursoData.json");
+  const data = require("../../../static/dummyData/eleccionesCursoData.json");
   return (
     <div>
       <section className="section" id="eleccion">

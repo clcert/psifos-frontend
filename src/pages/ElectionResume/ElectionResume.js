@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import imageTrustees from "../static/svg/trustees-list.svg";
+import imageTrustees from "../../static/svg/trustees-list.svg";
+import Title from "../../component/OthersComponents/Title";
+import ImageFooter from "../../component/Footers/ImageFooter";
+import InfoElection from "./components/InfoElection";
+import ElectionCode from "../../component/Footers/ElectionCode";
+import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { useParams } from "react-router";
-import { backendIP } from "../server";
-import Title from "../component/AdminComponent/Title";
-import ImageFooter from "../component/AdminComponent/ImageFooter";
-import InfoElection from "../component/AdminComponent/InfoElection";
-import ElectionCode from "../component/AdminComponent/ElectionCode";
-import MyNavbar from "../component/AdminComponent/MyNavbar";
+import { backendIP } from "../../server";
+import { useEffect, useState } from "react";
 
 function ElectionResume() {
   const [nameElection, setNameElection] = useState("");

@@ -1,12 +1,12 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import ElectionResume from "./views/ElectionResume";
-import Urna from "./views/Urna";
-import CustodioClaves from "./views/CustodioClaves";
-import Resultados from "./views/Resultados";
-import Home from "./views/Home";
+import ElectionResume from "./pages/ElectionResume/ElectionResume";
+import Urna from "./pages/Urna/Urna";
+import CustodioClaves from "./pages/CustodioClaves/CustodioClaves";
+import Resultados from "./pages/Results/Resultados";
+import Home from "./pages/Home/Home";
 import "bulma/css/bulma.min.css";
-import Cabina from "./views/Cabina";
+import Cabina from "./pages/Cabina/Cabina";
 
 function App() {
   return (

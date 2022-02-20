@@ -1,6 +1,6 @@
 
-import sobre from "../../static/cabina/svg/sobre.svg";
-import instruccionesUser from "../../static/cabina/svg/instrucciones-user.svg";
+import sobre from "../../../static/cabina/svg/sobre.svg";
+import instruccionesUser from "../../../static/cabina/svg/instrucciones-user.svg";
 
 
 

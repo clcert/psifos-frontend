@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { backendIP } from "../server";
-import FooterParticipa from "../component/AdminComponent/FooterParticipa";
-import MyNavbar from "../component/AdminComponent/MyNavbar";
+import { backendIP } from "../../server";
+import FooterParticipa from "../../component/Footers/FooterParticipa";
+import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 
 function Resultados() {
   const [electionName, setElectionName] = useState("");

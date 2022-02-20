@@ -1,9 +1,9 @@
-import seleccionar from "../../static/cabina/img/seleccionar.jpg";
-import revisar from "../../static/cabina/img/revisar.jpg";
-import enviar from "../../static/cabina/img/enviar.jpg";
-import CardInfo from "../../component/CabinaComponent/CardInfo";
-import seleccionarIcono from "../../static/cabina/svg/seleccionar-ico-color.svg";
-import revisarIcono from "../../static/cabina/svg/revisar-ico-color.svg";
+import seleccionar from "../../../static/cabina/img/seleccionar.jpg";
+import revisar from "../../../static/cabina/img/revisar.jpg";
+import enviar from "../../../static/cabina/img/enviar.jpg";
+import CardInfo from "../components/CardInfo";
+import seleccionarIcono from "../../../static/cabina/svg/seleccionar-ico-color.svg";
+import revisarIcono from "../../../static/cabina/svg/revisar-ico-color.svg";
 
 function InstructionsSection(props) {
   return (

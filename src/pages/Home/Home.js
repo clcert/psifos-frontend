@@ -1,25 +1,22 @@
-import InfoVotacion from "../component/HomeComponent/InfoVotacion";
-import NavHome from "../component/HomeComponent/NavHom";
-import VotacionesRealizadas from "../component/HomeComponent/VotacionesRealizadas";
-import PreguntasFrecuentes from "../component/HomeComponent/PreguntasFrecuentes";
-import TeamComponent from "../component/HomeComponent/TeamComponent";
-import Video from "../component/HomeComponent/Video";
-import mono from "../static/new_home_assets/SVG/monito.svg";
-import logoParticipa from "../static/new_home_assets/SVG/logo participa.svg";
-import logoUchile from "../static/new_home_assets/SVG/logo uchile.svg";
-
-import FooterParticipa from "../component/AdminComponent/FooterParticipa";
-import "../static/assets_home/css/Home.css";
-import Notice from "../component/HomeComponent/Notice";
-import ModalNotice from "../component/HomeComponent/ModalNotice";
-import sobre from "../static/new_home_assets/SVG/sobre.svg";
-import ticket from "../static/new_home_assets/SVG/ticket.svg";
-import ScrollButton from "../component/HomeComponent/ScrollButton";
-
-
+import InfoVotacion from "./components/InfoVotacion";
+import NavHome from "../../component/Navbar/NavHom";
+import VotacionesRealizadas from "./components/VotacionesRealizadas";
+import PreguntasFrecuentes from "./components/PreguntasFrecuentes";
+import TeamComponent from "./components/TeamComponent";
+import Video from "./components/Video";
+import FooterParticipa from "../../component/Footers/FooterParticipa";
+import Notice from "./components/Notice";
+import ModalNotice from "./components/ModalNotice";
+import ScrollButton from "./components/ScrollButton";
+import sobre from "../../static/new_home_assets/SVG/sobre.svg";
+import ticket from "../../static/new_home_assets/SVG/ticket.svg";
+import "../../static/assets_home/css/Home.css";
+import mono from "../../static/new_home_assets/SVG/monito.svg";
+import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
+import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
 
 function Home() {
-  const dataNotice = require("../static/dummyData/noticeData.json");
+  const dataNotice = require("../../static/dummyData/noticeData.json");
   return (
     <div id="content">
       <div className="navbar-div">

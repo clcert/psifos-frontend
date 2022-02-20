@@ -6,7 +6,6 @@ function TeamComponent(props) {
   const [showAnimation, setShowAnimation] = React.useState(false);
   const { inViewport, enterCount, leaveCount } = useInViewport(myRef);
   if (inViewport && !showAnimation) {
-    console.log("inViewport");
     setShowAnimation(true);
   }
   return (

@@ -1,9 +1,9 @@
-import MyNavbar from "../component/AdminComponent/MyNavbar";
-import Title from "../component/AdminComponent/Title";
+import MyNavbar from "../../component/ShortNavBar/MyNavbar";
+import Title from "../../component/OthersComponents/Title";
 import { useParams } from "react-router-dom";
-import ElectionCode from "../component/AdminComponent/ElectionCode";
-import InstructionsSection from "../component/CabinaComponent/InstructionsSection";
-import MediaSection from "../component/CabinaComponent/MediaSection";
+import ElectionCode from "../../component/Footers/ElectionCode";
+import InstructionsSection from "../../pages/Cabina/components/InstructionsSection";
+import MediaSection from "../../pages/Cabina/components/MediaSection";
 
 function Cabina() {
   const { uuid } = useParams();

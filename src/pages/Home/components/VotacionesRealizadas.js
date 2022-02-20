@@ -2,7 +2,7 @@ import { useInViewport } from "react-in-viewport";
 import React, { useRef } from "react";
 
 function VotacionesRealizadas(props) {
-  const data = require("../../static/dummyData/eleccionesData.json");
+  const data = require("../../../static/dummyData/eleccionesData.json");
   const myRef = useRef();
   const [showAnimation, setShowAnimation] = React.useState(false);
   const { inViewport, enterCount, leaveCount } = useInViewport(myRef);
