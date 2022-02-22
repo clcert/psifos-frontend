@@ -68,10 +68,7 @@ function Resultados() {
                     <br />
                   </div>
                   <div className="disable-text-selection row justify-content-md-center">
-                    <table
-                      className="pretty table is-hoverable voters-table"
-                    
-                    >
+                    <table className="pretty table is-hoverable voters-table">
                       <thead>
                         <tr>
                           <th className="has-text-centered">Respuesta</th>
@@ -107,7 +104,7 @@ function Resultados() {
         )}
       </section>
 
-      <FooterParticipa />
+      <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
     </div>
   );
 }

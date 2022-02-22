@@ -15,6 +15,7 @@ function Question(props) {
       {Object.keys(props.questions).map((key, index) => {
         return (
           <div
+            key={key}
             style={{
               display: actualQuestion === index ? "block" : "none",
             }}
@@ -31,33 +32,32 @@ function Question(props) {
                   {Object.keys(props.questions[key].answers).map(
                     (key2, index2) => {
                       return (
-                        <>
-                          <div id="">
-                            {props.questions[key].min === 1 && props.questions[key].max === 1 ? (
-                              <InputRadio
-                                value={String(index)}
-                                answer={props.questions[key].answers[key2]}
-                              />
-                            ) : (
-                              <InputCheckbox
-                                value={String(index)}
-                                answer={props.questions[key].answers[key2]}
-                              />
-                            )}
-                            &nbsp;&nbsp;
-                            <span style={{ fontSize: "12pt" }}>
-                              [
-                              <a
-                                target="_blank"
-                                href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
-                                rel="noopener noreferrer"
-                              >
-                                more info
-                              </a>
-                              ]
-                            </span>
-                          </div>
-                        </>
+                        <div key={key2}>
+                          {props.questions[key].min === 1 &&
+                          props.questions[key].max === 1 ? (
+                            <InputRadio
+                              value={String(index)}
+                              answer={props.questions[key].answers[key2]}
+                            />
+                          ) : (
+                            <InputCheckbox
+                              value={String(index)}
+                              answer={props.questions[key].answers[key2]}
+                            />
+                          )}
+                          &nbsp;&nbsp;
+                          <span style={{ fontSize: "12pt" }}>
+                            [
+                            <a
+                              target="_blank"
+                              href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
+                              rel="noopener noreferrer"
+                            >
+                              more info
+                            </a>
+                            ]
+                          </span>
+                        </div>
                       );
                     }
                   )}

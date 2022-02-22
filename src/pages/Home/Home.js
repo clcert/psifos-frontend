@@ -228,7 +228,7 @@ function Home() {
               <div className="columns is-variable">
                 {Object.keys(dataNotice).map((key, index) => {
                   return (
-                    <div class="column" key={index}>
+                    <div className="column" key={index}>
                       <Notice
                         title={dataNotice[key].title}
                         image={dataNotice[key].image}

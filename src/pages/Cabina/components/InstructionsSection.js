@@ -7,10 +7,10 @@ import revisarIcono from "../../../static/cabina/svg/revisar-ico-color.svg";
 
 function InstructionsSection(props) {
   return (
-    <section class="section" id="instructions">
-      <div class="container has-text-centered steps-container">
-        <div class="columns is-8 is-variable">
-          <div class="column is-one-third">
+    <section className="section" id="instructions">
+      <div className="container has-text-centered steps-container">
+        <div className="columns is-8 is-variable">
+          <div className="column is-one-third">
             <CardInfo
               title="SELECCIÓN"
               icon={seleccionarIcono}
@@ -18,7 +18,7 @@ function InstructionsSection(props) {
               image={seleccionar}
             ></CardInfo>
           </div>
-          <div class="column is-one-third">
+          <div className="column is-one-third">
             <CardInfo
               title="REVISIÓN"
               icon={revisarIcono}
@@ -29,7 +29,7 @@ function InstructionsSection(props) {
             ></CardInfo>
           </div>
 
-          <div class="column is-one-third">
+          <div className="column is-one-third">
             <CardInfo
               title="ENVÍO"
               icon={revisarIcono}
@@ -41,13 +41,15 @@ function InstructionsSection(props) {
           </div>
         </div>
         <button
-          class="button is-medium pl-6 pr-6"
+          className="button is-medium pl-6 pr-6"
           id="start-button-cabina"
-          onclick="BOOTH.show_question(0, false);BOOTH.switch_background_image('02');$(window).scrollTop($('#progress_div').position().top);"
+          onClick={() => {
+            props.beginAction();
+          }}
         >
           <span>COMENZAR</span>
-          <span class="icon">
-            <i class="fas fa-2x fa-caret-right"></i>
+          <span className="icon">
+            <i className="fas fa-2x fa-caret-right"></i>
           </span>
         </button>
       </div>
