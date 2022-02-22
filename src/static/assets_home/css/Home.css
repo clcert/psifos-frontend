@@ -58,6 +58,24 @@ div#preload {
   min-height: 100vh;
 }
 
+.parallax-01 {
+  background-image: url("../img/parallax01.jpg") !important;
+}
+
+.parallax-02 {
+  background-image: url("../img/parallax02.jpg") !important;
+}
+
+.parallax-03 {
+  background-image: url("../img/parallax03.jpg") !important;
+}
+
+.parallax-04 {
+  background-image: url("../img/parallax04.jpg") !important;
+}
+
+
+
 .election-section {
   background-color: rgba(0, 76, 148, 0.15);
 }
@@ -523,20 +541,20 @@ div#preload {
 
 /* Progress Bar */
 .line-1 {
-  top: 21.6rem;
-  background: #b3c9de;
+  top: 19.97rem;
+  background: #004c94;
   position: absolute;
   height: 2px;
   width: 100%;
 }
 
-.line-1:before {
+/* .line-1:before {
   content: "";
   background: red;
   width: 30%;
   height: 2px;
   position: absolute;
-}
+} */
 
 .line-2 {
   top: 21.6rem;
@@ -580,8 +598,8 @@ div#preload {
 
 #progress-bar {
   background-color: white;
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .progress-container {
@@ -709,12 +727,7 @@ div#preload {
 
 /* 02: Select Question */
 #question-section {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.question-box {
-  background-color: #004c94 !important;
-  line-height: 3.5rem;
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .control-box {
@@ -730,15 +743,22 @@ input[type="radio"] {
   width: 12rem;
   color: white !important;
   border-radius: 10px !important;
+  border-color: #004c94;
+}
+
+.question-button:hover {
+  background-color: #00b7ff !important;
+  border-color: #00b7ff !important;
 }
 
 .answer-selected {
   outline: 2px solid white;
+  color: #00b7ff;
   border-radius: 5px;
 }
 
 .question-answer:hover {
-  color: #fdd245 !important;
+  color: #00b7ff !important;
 }
 
 .previous-button {
@@ -750,7 +770,7 @@ input[type="radio"] {
 }
 
 .proceed-button {
-  background-color: #027d47 !important;
+  background-color: #004c94 !important;
 }
 
 #select-final-img {
@@ -760,15 +780,64 @@ input[type="radio"] {
 
 /* 03: Review */
 #review-section {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .review-answer {
   background-color: #004c94 !important;
+  margin-left: 7rem;
+  margin-right: 7rem;
+}
+@media screen and (max-width: 768px) {
+  .review-answer {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.review-buttons-container {
+  margin-left: 7rem !important;
+  margin-right: 7rem !important;
+}
+@media screen and (max-width: 768px) {
+  .review-buttons-container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
 
 .review-buttons {
   border-radius: 10px !important;
+}
+
+.review-buttons:hover {
+  background-color: #00b7ff !important;
+}
+
+.right-button-column {
+  justify-content: flex-end;
+  padding-right: 0 !important;
+}
+@media screen and (max-width: 768px) {
+  .right-button-column {
+    justify-content: center;
+    padding-right: 0.75rem !important;
+  }
+}
+
+.left-button-column {
+  justify-content: flex-start;
+  padding-left: 0 !important;
+}
+@media screen and (max-width: 768px) {
+  .left-button-column {
+    justify-content: center;
+    padding-left: 0.75rem !important;
+  }
+}
+
+#vote-fingerprint-anchor::before {
+  word-break: normal;
 }
 
 #audit-button {
@@ -776,17 +845,40 @@ input[type="radio"] {
   color: #004c94 !important;
 }
 
-.question-audit {
-  border-bottom: none !important;
-}
-
 .question-audit-icon {
   cursor: help;
 }
 
 #proceed_button {
-  background-color: #e43427 !important;
+  background-color: #004c94 !important;
+  border-color: #004c94 !important;
   color: white !important;
+  font-weight: bold;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media screen and (max-width: 768px) {
+  #proceed_button {
+    margin-bottom: 3rem;
+  }
+}
+
+.buttons-question {
+  padding-bottom: 0;
+  margin-left: 7rem !important;
+  margin-right: 7rem !important;
+}
+@media screen and (max-width: 768px) {
+  .buttons-question {
+    padding-bottom: 3rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+#proceed_button:hover {
+  background-color: #00b7ff !important;
+  border-color: #00b7ff !important;
 }
 
 #review-final-img {
@@ -2829,27 +2921,27 @@ fieldset[disabled] .button {
 }
 @media screen and (min-width: 992px) {
   .container {
-    max-width: 928px;
+    max-width: 928px !important;
   }
 }
 @media screen and (max-width: 991px) {
   .container.is-widescreen:not(.is-max-desktop) {
-    max-width: 928px;
+    max-width: 928px !important;
   }
 }
 @media screen and (max-width: 1199px) {
   .container.is-fullhd:not(.is-max-desktop):not(.is-max-widescreen) {
-    max-width: 1136px;
+    max-width: 1250px !important;
   }
 }
 @media screen and (min-width: 992px) {
   .container:not(.is-max-desktop) {
-    max-width: 928px;
+    max-width: 928px !important;
   }
 }
 @media screen and (min-width: 1200px) {
   .container:not(.is-max-desktop):not(.is-max-widescreen) {
-    max-width: 1136px;
+    max-width: 1250px !important;
   }
 }
 

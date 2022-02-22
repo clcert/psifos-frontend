@@ -1,112 +1,115 @@
+import { useState } from "react";
+import selectImg from "../../../static/cabina/svg/select-img.svg";
+import FinishButton from "./Buttons/FinishButton";
+import InputCheckbox from "./Questions/InputCheckbox";
+import InputRadio from "./Questions/InputRadio";
+import NextButton from "./Buttons/NextButton";
+import PreviousButton from "./Buttons/PreviousButton";
+import QuestionHeader from "./QuestionHeader";
 
+function Question(props) {
+  const [actualQuestion, setActualQuestion] = useState(0);
 
-function Question(props){
+  return (
+    <div>
+      {Object.keys(props.questions).map((key, index) => {
+        return (
+          <div
+            style={{
+              display: actualQuestion === index ? "block" : "none",
+            }}
+          >
+            <QuestionHeader
+              actualQuestion={actualQuestion}
+              totalQuestions={Object.keys(props.questions).length}
+              questions={props.questions[key]}
+            />
 
-
-    return(
-        <form onsubmit="return false;" class="prettyform" id="answer_form">
-    <input type="hidden" name="question_num" value="{$T.question_num}" />
-
-    <section class="section pb-0" id="question-section">
-        <div class="container has-text-centered is-max-desktop">
-            <p class="subtitle is-italic mb-0">Pregunta</p>
-            <p class="title is-4 has-text-black pt-6"></p>
-            <p class="subtitle is-italic">
-                (seleccionar
-                {/* {#if $T.question.min >= 0}
-                {#if $T.question.max}
-                {#if $T.question.min == $T.question.max}
-                {#if $T.question.min == 1}
-                solo {$T.question.min} opción)
-                {#else}
-                solo {$T.question.min} opciones)
-                {#/if}
-                {#else}
-                {$T.question.min} a {$T.question.max} opciones)
-                {#/if}
-                {#else}
-                {#if $T.question.min > 0}
-                al menos {$T.question.min})
-                {#else}
-                cuantos quieras)
-                {#/if}
-                {#/if}
-                {#/if} */}
-            </p>
-
-            <div class="box has-text-left question-box has-text-white is-flex is-justify-content-center">
-                <div class="control control-box">
-                    <div id="answer_label_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}">
-
-                        <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="radio question-answer p-2">
-                            <input type="radio" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}" value="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" onclick="BOOTH.click_radiobox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);"/>
-                            <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="checkbox question-answer p-2">
-                            <input type="checkbox" class="ballot_answer" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" value="yes" onclick="BOOTH.click_checkbox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);" />
-                                <span class="is-size-4"></span>
-                        </label>
-                       
-                        &nbsp;&nbsp;
-                        <span style={{fontSize: "12pt"}}>
-                        [<a target="_blank" href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}" rel="noopener noreferrer">more info</a>]
-                    </span>
-                      
-                        </label>
-                    </div>
-                   
+            <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center">
+              <div className="control control-box">
+                <div id="">
+                  {Object.keys(props.questions[key].answers).map(
+                    (key2, index2) => {
+                      return (
+                        <>
+                          <div id="">
+                            {props.questions[key].min === 1 && props.questions[key].max === 1 ? (
+                              <InputRadio
+                                value={String(index)}
+                                answer={props.questions[key].answers[key2]}
+                              />
+                            ) : (
+                              <InputCheckbox
+                                value={String(index)}
+                                answer={props.questions[key].answers[key2]}
+                              />
+                            )}
+                            &nbsp;&nbsp;
+                            <span style={{ fontSize: "12pt" }}>
+                              [
+                              <a
+                                target="_blank"
+                                href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
+                                rel="noopener noreferrer"
+                              >
+                                more info
+                              </a>
+                              ]
+                            </span>
+                          </div>
+                        </>
+                      );
+                    }
+                  )}
                 </div>
+              </div>
             </div>
+          </div>
+        );
+      })}
 
-            <div class="columns pt-1 pb-4 buttons-question">
-             
-                <div class="column is-flex left-button-column">
+      <div className="columns pt-1 pb-4 buttons-question">
+        {actualQuestion != 0 &&
+        actualQuestion < Object.keys(props.questions).length ? (
+          <div className="column is-flex left-button-column">
+            <PreviousButton
+              action={() => {
+                setActualQuestion(actualQuestion - 1);
+              }}
+            />
+          </div>
+        ) : (
+          <div className="column is-invisible is-flex left-button-column">
+            <PreviousButton
+              action={() => {
+                setActualQuestion(actualQuestion - 1);
+              }}
+            />
+          </div>
+        )}
 
-                    <button onclick="BOOTH.previous({$T.question_num})" class="button is-medium question-button previous-button">
-              <span class="icon is-small">
-                <i class="fas fa-2x fa-caret-left"></i>
-              </span>
-                        <span>ANTERIOR</span>
-                    </button>
-                </div>
-                <div class="column is-invisible is-flex left-button-column">
-                    <button onclick="BOOTH.previous({$T.question_num})" class="button is-medium question-button previous-button">
-              <span class="icon is-small">
-                <i class="fas fa-2x fa-caret-left"></i>
-              </span>
-                        <span>ANTERIOR</span>
-                    </button>
-                </div>
-
-                <div class="column is-hidden-mobile pb-0">
-                    <figure class="image select-img-wrapper">
-                        <img id="select-final-img" src="svg/select-img.svg"/>
-                    </figure>
-                </div>
-
-                <div class="column is-flex right-button-column">
-
-                    <button onclick="BOOTH.next({$T.question_num});" class="button is-medium question-button next-button">
-                        <span>SIGUIENTE</span>
-                        <span class="icon is-small">
-                <i class="fas fa-2x fa-caret-right"></i>
-              </span>
-                    </button>
-                </div>
-                <div class="column is-flex right-button-column">
-                    <button onclick="BOOTH.validate_and_confirm({$T.question_num});" class="button is-medium question-button proceed-button">
-                        <span>FINALIZAR</span>
-                        <span class="icon is-small">
-                <i class="fas fa-2x fa-caret-right"></i>
-              </span>
-                    </button>
-                </div>
-       
-            </div>
-
+        <div className="column is-hidden-mobile pb-0">
+          <figure className="image select-img-wrapper">
+            <img id="select-final-img" src={selectImg} />
+          </figure>
         </div>
-    </section>
-</form>
-    )
 
-
+        {actualQuestion < Object.keys(props.questions).length - 1 ? (
+          <div className="column is-flex right-button-column">
+            <NextButton
+              action={() => {
+                console.log("next");
+                setActualQuestion(actualQuestion + 1);
+              }}
+            />
+          </div>
+        ) : (
+          <div className="column is-flex right-button-column">
+            <FinishButton />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 export default Question;

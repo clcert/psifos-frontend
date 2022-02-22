@@ -1,107 +1,71 @@
 {
-    "1": {
+  "1": {
+    "eleccion": "Facultad de Ciencias Físicas y Matemáticas",
+    "Fecha": "14-12-2021"
+  },
 
-        "eleccion": "Facultad de Ciencias Físicas y Matemáticas",
-        "Fecha": "14-12-2021"
+  "2": {
+    "eleccion": "Facultad de Economía y Negocios",
+    "Fecha": "03-12-2021"
+  },
 
+  "3": {
+    "eleccion": "Instituto de Estudios Internacionales",
+    "Fecha": "17-11-2021"
+  },
 
-    },
+  "4": {
+    "eleccion": " Asociación de Funcionarios Servicios Centrales",
+    "Fecha": "11-11-2021"
+  },
 
-    "2":{ 
+  "5": {
+    "eleccion": " Facultad de Ciencias Químicas y Farmacéuticas",
+    "Fecha": "09-11-2021"
+  },
 
-        "eleccion": "Facultad de Economía y Negocios",
-        "Fecha": "03-12-2021"
+  "6": {
+    "eleccion": "Facultad de Ciencias",
+    "Fecha": "03-12-2021"
+  },
 
-    },
+  "7": {
+    "eleccion": "Facultad de Arquitectura y Urbanismo",
+    "Fecha": "02-11-2021"
+  },
 
+  "8": {
+    "eleccion": "Instituto de Estudios Avanzados en Educación",
+    "Fecha": "20-10-2021"
+  },
 
+  "9": {
+    "eleccion": "Facultad de Ciencias Veterinarias y Pecuarias",
+    "Fecha": "05-10-2021"
+  },
 
+  "10": {
+    "eleccion": "Instituto de Asuntos Públicos",
+    "Fecha": "27-09-2021"
+  },
 
-    "3":{
+  "11": {
+    "eleccion": "Facultad de Economía y Negocios",
+    "Fecha": "27-08-2021"
+  },
 
-        "eleccion": "Instituto de Estudios Internacionales",
-        "Fecha": "17-11-2021"
+  "12": {
+    "eleccion": "Facultad de Ciencias Físicas y Matemáticas",
+    "Fecha": "25-08-2021"
+  },
 
-    },
+  "13": {
+    "eleccion": "Facultad de Ciencias Sociales",
+    "Fecha": "26-07-2021"
+  },
 
-    "4":{
-
-        "eleccion": " Asociación de Funcionarios Servicios Centrales",
-        "Fecha": "11-11-2021"
-
-    },
-
-    "5":{
-
-        "eleccion": " Facultad de Ciencias Químicas y Farmacéuticas",
-        "Fecha": "09-11-2021"
-
-    },
-
-    "6":{
-
-        "eleccion": "Facultad de Ciencias",
-        "Fecha": "03-12-2021"
-
-    },
-
-    "7":{
-
-        "eleccion": "Facultad de Arquitectura y Urbanismo",
-        "Fecha": "02-11-2021"
-
-    },
-
-    "8":{
-
-        "eleccion": "Instituto de Estudios Avanzados en Educación",
-        "Fecha": "20-10-2021"
-
-    },
-
-    "9":{
-
-        "eleccion": "Facultad de Ciencias Veterinarias y Pecuarias",
-        "Fecha": "05-10-2021"
-
-    },
-
-    "10":{
-
-        "eleccion": "Instituto de Asuntos Públicos",
-        "Fecha": "27-09-2021"
-
-    },
-
-    "11":{
-
-        "eleccion": "Facultad de Economía y Negocios",
-        "Fecha": "27-08-2021"
-
-    },
-
-    "12":{
-
-        "eleccion": "Facultad de Ciencias Físicas y Matemáticas",
-        "Fecha": "25-08-2021"
-
-    },
-
-    "13":{
-
-        "eleccion": "Facultad de Ciencias Sociales",
-        "Fecha": "26-07-2021"
-
-    },
-
-    "14":{
-
-        "eleccion": "Instituto de Estudios Internacionales",
-        "Fecha": "14-07-2021"
-
-    }
-
-
-
+  "14": {
+    "eleccion": "Instituto de Estudios Internacionales",
+    "Fecha": "14-07-2021"
+  }
 }
-
