@@ -1,6 +1,7 @@
 function FinishButton(props) {
   return (
     <button
+      onClick={props.action}
       className="button is-medium question-button proceed-button"
     >
       <span>FINALIZAR</span>

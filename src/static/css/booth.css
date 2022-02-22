@@ -485,7 +485,7 @@ input[type="radio"] {
 /* 03: Review */
 #review-section {
   background-color: rgba(2, 125, 71, 0.1);
-  min-height: 50rem;
+
 }
 
 .review-answer {
@@ -11856,9 +11856,9 @@ a.has-text-danger-dark:focus {
 }
 
 .hero-body {
-  flex-grow: 1;
-  flex-shrink: 0;
-  padding: 3rem 1.5rem;
+  flex-grow: 1 !important;
+  flex-shrink: 0 !important;
+  padding: 3rem 1.5rem !important;
 }
 
 .section {

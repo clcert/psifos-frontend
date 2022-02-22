@@ -23,7 +23,7 @@ function ProgressBar(props) {
           </div>
           <div className="column">
             <figure className="image is-3by1">
-              <img id="progress-3" src={props.phase === 2 ? fase3On : fase3} />
+              <img id="progress-3" src={props.phase === 3 ? fase3On : fase3} />
             </figure>
           </div>
         </div>

@@ -3,46 +3,99 @@ import Title from "../../component/OthersComponents/Title";
 import { useParams } from "react-router-dom";
 import selectImg from "../../static/cabina/svg/select-img.svg";
 import ElectionCode from "../../component/Footers/ElectionCode";
-import InstructionsSection from "../../pages/Cabina/components/InstructionsSection";
-import MediaSection from "../../pages/Cabina/components/MediaSection";
-import Question from "./components/Question";
+import InstructionsSection from "./InstructionsSection/InstructionsSection";
+import MediaSection from "./InstructionsSection/MediaSection";
+import Question from "./QuestionSection/Question";
 import ProgressBar from "./components/ProgressBar";
 import React, { useState } from "react";
+import EncryptingCharging from "./components/EncryptingCharging";
+import ReviewQuestions from "./components/ReviewQuestions";
+import CastDone from "./components/CastDone";
 
 function Cabina() {
   const { uuid } = useParams();
   const questions = require("../../static/dummyData/questionCabina.json");
-  const [begin, setBegin] = useState(false);
+  const [actualPhase, setActualPhase] = useState(1);
+
+  const phases = {
+    1: {
+      sectionClass: "parallax-01",
+      stage: 1,
+      component: (
+        <>
+          <MediaSection />
+          <InstructionsSection
+            beginAction={() => {
+              setActualPhase(2);
+            }}
+          />{" "}
+        </>
+      ),
+    },
+    2: {
+      sectionClass: "parallax-02",
+      stage: 1,
+      component: (
+        <>
+          <ProgressBar phase={1} />
+          <section className="section pb-0" id="question-section">
+            <div className="container has-text-centered is-max-desktop">
+              <Question
+                finish={() => {
+                  setActualPhase(4);
+                }}
+                questions={questions}
+              />
+            </div>
+          </section>
+        </>
+      ),
+    },
+    3: {
+      sectionClass: "parallax-03",
+      stage: 2,
+      component: (
+        <>
+          <ProgressBar phase={2} />
+          <EncryptingCharging />
+        </>
+      ),
+    },
+    4: {
+      sectionClass: "parallax-03",
+      stage: 2,
+      component: (
+        <>
+          <ProgressBar phase={2} />
+          <ReviewQuestions
+            finish={() => {
+              setActualPhase(5);
+            }}
+          />
+        </>
+      ),
+    },
+    5: {
+      sectionClass: "parallax-03",
+      stage: 3,
+      component: (
+        <>
+          <ProgressBar phase={3} />
+          <CastDone></CastDone>
+        </>
+      ),
+    },
+  };
 
   return (
-    <div id="content" class="parallax-01">
+    <div id="content" className={phases[actualPhase].sectionClass}>
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar />
           <Title namePage="Cabina Votación" nameElection={"nameElection"} />
         </div>
       </section>
-      {/* <ProgressBar></ProgressBar> */}
-      {!begin ? (
-        <>
-          <MediaSection />
-          <InstructionsSection
-            beginAction={() => {
-              console.log("begin");
-              setBegin(true);
-            }}
-          />{" "}
-        </>
-      ) : (
-        <>
-          <ProgressBar phase={1} />
-          <section className="section pb-0" id="question-section">
-            <div className="container has-text-centered is-max-desktop">
-              <Question questions={questions} />
-            </div>
-          </section>
-        </>
-      )}
+      {phases[actualPhase].component}
 
       <ElectionCode uuid={uuid} />
       <div id="bottom"></div>

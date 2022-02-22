@@ -74,8 +74,6 @@ div#preload {
   background-image: url("../img/parallax04.jpg") !important;
 }
 
-
-
 .election-section {
   background-color: rgba(0, 76, 148, 0.15);
 }
@@ -421,7 +419,6 @@ div#preload {
 }
 
 .bottom-hero {
-  background-color: white;
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
 }
@@ -885,6 +882,7 @@ input[type="radio"] {
   width: 15rem;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: -1rem;
 }
 
 #proceed-to-audit {
@@ -914,6 +912,7 @@ input[type="radio"] {
 
 #encrypting-final-img {
   width: 25vw;
+  margin-bottom: -1rem;
 }
 
 /* 04: Audit */
@@ -966,6 +965,8 @@ input[type="radio"] {
   background-color: #004c94 !important;
 }
 
+
+
 #send-audited-vote {
   border-radius: 10px !important;
   color: white;
@@ -985,7 +986,7 @@ input[type="radio"] {
 
 /* 05: Send */
 #send-section {
-  background-color: rgba(2, 125, 71, 0.1);
+  background-color: rgba(255, 255, 255, 0.8);
   padding-bottom: 18rem;
 }
 
@@ -1007,6 +1008,7 @@ input[type="radio"] {
   display: flex !important;
   align-items: center;
   justify-content: center;
+  margin-bottom: 0 !important;
 }
 
 #send-final-img {
@@ -12112,9 +12114,9 @@ a.has-text-danger-dark:focus {
 }
 
 .hero-body {
-  flex-grow: 1;
-  flex-shrink: 0;
-  padding: 3rem 1.5rem;
+  flex-grow: 1 !important;
+  flex-shrink: 0 !important;
+  padding: 3rem 1.5rem !important;
 }
 
 .section {

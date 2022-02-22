@@ -1,10 +1,10 @@
 import { useState } from "react";
 import selectImg from "../../../static/cabina/svg/select-img.svg";
-import FinishButton from "./Buttons/FinishButton";
+import FinishButton from "../components/Buttons/FinishButton";
 import InputCheckbox from "./Questions/InputCheckbox";
 import InputRadio from "./Questions/InputRadio";
-import NextButton from "./Buttons/NextButton";
-import PreviousButton from "./Buttons/PreviousButton";
+import NextButton from "../components/Buttons/NextButton";
+import PreviousButton from "../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
 
 function Question(props) {
@@ -105,7 +105,7 @@ function Question(props) {
           </div>
         ) : (
           <div className="column is-flex right-button-column">
-            <FinishButton />
+            <FinishButton action={props.finish} />
           </div>
         )}
       </div>
