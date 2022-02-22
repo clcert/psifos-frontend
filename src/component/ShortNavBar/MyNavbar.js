@@ -22,19 +22,21 @@ function MyNavbar() {
           <div className="navbar-brand pt-0">
             <a className="navbar-item pt-0" href="https://participa.uchile.cl/">
               <div id="logo-header">
+              <img
+                  className="p-2"
+                  id="logo-image-2"
+                  src={logoUchile}
+                  width="300"
+                />
+                <div id="logo-barra-menu" className="pl-2 pr-0"></div>
                 <img
                   className="p-2"
                   id="logo-image-1"
                   src={logoParticipa}
                   width="300"
                 />
-                <div id="logo-barra-menu" className="pl-2 pr-0"></div>
-                <img
-                  className="p-2"
-                  id="logo-image-2"
-                  src={logoUchile}
-                  width="300"
-                />
+                
+          
               </div>
             </a>
 

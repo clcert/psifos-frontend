@@ -102,14 +102,14 @@ div#preload {
 }
 
 #logo-image-2 {
-  max-height: 5rem;
+  max-height: 4rem;
   max-width: 5rem;
 }
 
 #logo-barra-menu {
-  margin-top: 1rem;
-  margin-left: 0.5rem;
-  height: 50px;
+  margin-top: 0.5rem;
+  margin-left: -0.5rem;
+  height: 55px;
   border-left: solid 2px gainsboro;
 }
 
