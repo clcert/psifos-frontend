@@ -1,4 +1,4 @@
-import logo from "../../static/new_home_assets/SVG/logo participa.svg";
+import logo from "../../static/new_home_assets/SVG/ícono Participa.svg";
 import $ from "jquery";
 
 function NavHome(props) {
@@ -7,7 +7,7 @@ function NavHome(props) {
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="https://participa.uchile.cl">
-            <img src={logo} width="150" height="40" />
+            <img src={logo} width="20" height="20" />
           </a>
 
           <a
