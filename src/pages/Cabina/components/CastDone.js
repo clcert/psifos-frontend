@@ -37,7 +37,7 @@ function CastDone(props) {
           presente en la urna electrónica y será contabilizada.
         </p>
         <a href="https://participa.uchile.cl/">
-          <button class="button is-medium my-4" id="back-button">
+          <button class="button is-medium my-4" id="back-vote-button">
             <span class="icon is-small">
               <i class="fas fa-2x fa-caret-left"></i>
             </span>

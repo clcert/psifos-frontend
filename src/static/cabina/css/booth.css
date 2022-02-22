@@ -630,6 +630,12 @@ input[type=radio] {
   border-radius: 10px !important;
 }
 
+#back-vote-button {
+  background-color: #004c94 !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
 .send-img-wrapper {
   display: flex !important;
   align-items: center;

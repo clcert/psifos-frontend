@@ -9,8 +9,9 @@ import Question from "./QuestionSection/Question";
 import ProgressBar from "./components/ProgressBar";
 import React, { useState } from "react";
 import EncryptingCharging from "./components/EncryptingCharging";
-import ReviewQuestions from "./components/ReviewQuestions";
+import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "./components/CastDone";
+import AuditSection from "./Review/AuditSection";
 
 function Cabina() {
   const { uuid } = useParams();
@@ -71,6 +72,10 @@ function Cabina() {
             finish={() => {
               setActualPhase(5);
             }}
+            audit={() => {
+              setActualPhase(6);
+            }}
+            
           />
         </>
       ),
@@ -82,6 +87,17 @@ function Cabina() {
         <>
           <ProgressBar phase={3} />
           <CastDone></CastDone>
+        </>
+      ),
+    },
+    6: {
+      sectionClass: "parallax-03",
+      stage: 3,
+      component: (
+        <>
+          <AuditSection auditBack={() => {
+              setActualPhase(2);
+            }} />
         </>
       ),
     },

@@ -1,6 +1,10 @@
 import reviewImage from "../../../static/cabina/svg/review-img.svg";
+import $ from "jquery";
+import AuditModal from "./AuditModal";
+import { useState } from "react";
 
 function ReviewQuestions(props) {
+  const [showModal, setShowModal] = useState(false);
   return (
     <section class="section pb-0" id="review-section">
       <div class="container has-text-centered is-max-desktop">
@@ -32,27 +36,30 @@ function ReviewQuestions(props) {
 
         <div class="container has-text-centered mt-6">
           <div class="columns pb-0 is-align-items-center review-buttons-container">
-            <div class="column is-hidden-mobile is-invisible">
+            <div class="column is-hidden-mobile">
               <div class="container">
-                <span
-                  class="icon question-audit has-tooltip-arrow has-tooltip-left has-tooltip-top-mobile has-tooltip-multiline has-tooltip-info"
-                  data-tooltip="Verificación avanzada de correcta encriptación de las preferencias."
-                >
-                  <i class="far fa-question-circle"></i>
-                </span>
                 <button
-                  class="button is-small review-buttons"
+                  class="button is-medium review-buttons"
                   id="audit-button"
-                  onclick="$('#audit-modal').addClass('is-active');"
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
                 >
                   <span class="icon">
                     <i class="far fa-envelope-open"></i>
                   </span>
+
                   <span>AUDITAR VOTO</span>
                 </button>
                 <br />
-                <span class="is-size-6 is-italic">(Opcional)</span>
               </div>
+              <span class="is-size-6 is-italic">(Opcional)</span>
+              <span
+                class="icon question-audit has-tooltip-arrow has-tooltip-left has-tooltip-top-mobile has-tooltip-multiline has-tooltip-info"
+                data-tooltip="Verificación avanzada de correcta encriptación de las preferencias."
+              >
+                <i class="far fa-question-circle"></i>
+              </span>
             </div>
             <div class="column pb-0 is-hidden-mobile">
               <figure class="image select-img-wrapper">
@@ -74,6 +81,14 @@ function ReviewQuestions(props) {
           </div>
         </div>
       </div>
+      <AuditModal
+        showModal={showModal}
+        onHide={() => {
+          setShowModal(false);
+        }}
+        auditBack={props.auditBack}
+        audit={props.audit}
+      />
     </section>
   );
 }
