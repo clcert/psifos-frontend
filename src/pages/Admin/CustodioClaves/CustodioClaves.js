@@ -1,15 +1,15 @@
-import FooterParticipa from "../../component/Footers/FooterParticipa";
-import MyNavbar from "../../component/ShortNavBar/MyNavbar";
-import Title from "../../component/OthersComponents/Title";
-import imageTrustees from "../../static/svg/trustees-list.svg";
-import ImageFooter from "../../component/Footers/ImageFooter";
+import FooterParticipa from "../../../component/Footers/FooterParticipa";
+import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
+import Title from "../../../component/OthersComponents/Title";
+import imageTrustees from "../../../static/svg/trustees-list.svg";
+import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
-import getElection from "../../utils/getElection";
-import ButtonAlert from "../../component/Alerts/ButtonAlert";
-import { backendHeliosIP } from "../../server";
+import getElection from "../../../utils/getElection";
+import ButtonAlert from "../../../component/Alerts/ButtonAlert";
+import { backendHeliosIP } from "../../../server";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import "../../static/css/booth.css";
+import "../../../static/css/booth.css";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
