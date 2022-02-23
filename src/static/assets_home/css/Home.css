@@ -754,11 +754,10 @@ input[type="radio"] {
   border-radius: 5px;
 }
 
-.custom-answer{
-
+.custom-answer {
   position: relative;
-top: -2px;
-left: -6px;
+  top: -2px;
+  left: -6px;
 }
 
 .question-answer:hover {
@@ -945,7 +944,7 @@ left: -6px;
 }
 
 #important-tab {
-  background-color: #0095D4;
+  background-color: #0095d4;
   color: white;
   font-size: 1.2rem;
 }
@@ -965,7 +964,7 @@ left: -6px;
 
 #pane-2 {
   height: 250px;
-  border: 15px solid #0095D4;
+  border: 15px solid #0095d4;
   border-top-left-radius: 0;
 }
 
@@ -12289,4 +12288,93 @@ body::-webkit-scrollbar-thumb {
 .is-active {
   transition: opacity 20000ms ease-in-out;
   opacity: 1;
+}
+
+/* Login */
+
+#content-login {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 101.6vh;
+  background-image: url("../img/background.jpg") !important;
+}
+
+.login-section {
+  background-color: rgba(0, 76, 148, 0.75);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 101.6vh;
+}
+
+.container-login {
+  border-radius: 15px;
+  padding: 3rem;
+  background-color: white;
+  width: 500px;
+  height: 100%;
+}
+
+.container-content-login {
+  position: relative;
+  height: 100%;
+}
+
+.container-login-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.container-login-subtitle {
+  text-align: center;
+  padding: 0 50px;
+}
+
+
+
+#clave-login {
+  background: url("../svg/lock-solid.svg") no-repeat scroll 7px 10px;
+  background-size: 20px;
+  padding-left: 35px;
+}
+
+#user-login {
+  background: url("../svg/user-large-solid.svg") no-repeat scroll 7px 10px;
+  background-size: 20px;
+  padding-left: 35px;
+}
+
+#correo-login {
+  background: url("../svg/envelope-solid.svg") no-repeat scroll 7px 10px;
+  background-size: 20px;
+  padding-left: 35px;
+}
+.field-login {
+  background-color: gainsboro !important;
+  border-radius: 10px !important;
+}
+
+.field-login::placeholder {
+  color: black !important;
+  font-size: 1.2rem;
+}
+
+.footer-register-login{
+  text-align: center;
+}
+
+.footer-register-text{
+  font-size: 0.9rem;
+}
+
+.footer-register-link{
+  text-decoration: none;
+  color: red;
+
+}
+
+.footer-register-button{
+  width: 150px;
+  background-color: red !important;
 }
