@@ -1,5 +1,14 @@
 @charset "utf-8";
 
+@import "bulma/bulma.sass";
+
+
+
+// Import Bulma first
+@import 'bulma';
+// Import Component main Sass File
+@import '~@creativebulma/bulma-collapsible';
+
 @font-face {
   font-family: Arial;
   src: url('../fonts/Arial.ttf');
@@ -292,7 +301,7 @@ $navbar-item-img-max-height: 3.5rem;
 /* 01: Instructions & Steps */
 .card-header-icon {
 	padding-left: 0 !important;
-	padding-right: 0.5rem !important;
+	padding-right: 0rem !important;
 }
 
 .step-icon {
@@ -630,7 +639,7 @@ input[type="radio"] {
 
 /* 05: Send */
 #send-section {
-	background-color: rgba(2, 125, 71, 0.1);
+	background-color: rgba(255, 255, 255, 0.85);
 	padding-bottom: 18rem;
 }
 
@@ -681,10 +690,3 @@ $footer-color: white;
 .bottom-hero {
 }
 
-@import "bulma/bulma.sass";
-
-
-// Import Bulma first
-@import 'bulma';
-// Import Component main Sass File
-@import '~@creativebulma/bulma-collapsible';

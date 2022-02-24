@@ -4,7 +4,7 @@ function AdministrationPanel(props) {
   return (
     <>
       panel vacio equisde
-      <SubNavbar />
+      <SubNavbar active={1} />
     </>
   );
 }

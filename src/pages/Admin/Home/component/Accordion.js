@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
 import "../../../../static/cabina/css/booth.scss";
+import { Link } from "react-router-dom";
 
 function Accordion(props) {
   let collapsiblesRef = useRef(null);
@@ -28,7 +29,6 @@ function Accordion(props) {
               {props.electionName}
             </p>
             <span className="accordion-state">En curso</span>
-            
 
             <span className="icon">
               <i className="fas fa-angle-down" aria-hidden="true"></i>
@@ -36,34 +36,68 @@ function Accordion(props) {
           </header>
         </a>
         {show ? (
-          <div id="collapsible-card" className="is-collapsible" style={{overflowX: "hidden"}}>
+          <div
+            id="collapsible-card"
+            className="is-collapsible"
+            style={{ overflowX: "hidden" }}
+          >
             <div className="card-content accordion-content pl-4">
-              <div className="columns">
+              <div className="columns pl-3 pr-3">
                 <div class="rows column">
                   <div class="row-accordion is-full">
                     {" "}
-                    <a className="accordion-link">Panel administración</a>{" "}
+                    <Link
+                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
+                      className="accordion-link"
+                    >
+                      Panel administración
+                    </Link>{" "}
                   </div>
                   <div class="row-accordion is-full">
                     {" "}
-                    <a className="accordion-link">Resumen</a>{" "}
+                    <Link
+                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resumen"
+                      className="accordion-link"
+                    >
+                      Resumen
+                    </Link>{" "}
                   </div>
                   <div class="row-accordion is-full">
                     {" "}
-                    <a className="accordion-link">Urna</a>{" "}
+                    <Link
+                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+                      className="accordion-link"
+                    >
+                      Urna
+                    </Link>{" "}
                   </div>
                 </div>
                 <div class="rows column">
                   <div class="row-accordion is-full">
                     {" "}
-                    <a className="accordion-link">Custodio de claves</a>{" "}
+                    <Link
+                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/custodio"
+                      className="accordion-link"
+                    >
+                      Custodio de claves
+                    </Link>{" "}
                   </div>
                   <div class="row-accordion is-full">
                     {" "}
-                    <a className="accordion-link">Resultados</a>{" "}
+                    <Link
+                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resultado"
+                      className="accordion-link"
+                    >
+                      Resultados
+                    </Link>{" "}
                   </div>
                   <div class="row-accordion is-full">
-                    <a className="accordion-link">Preguntas</a>{" "}
+                    <Link
+                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
+                      className="accordion-link"
+                    >
+                      Preguntas
+                    </Link>{" "}
                   </div>
                 </div>
               </div>
