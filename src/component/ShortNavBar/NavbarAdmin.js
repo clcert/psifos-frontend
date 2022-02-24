@@ -1,15 +1,14 @@
-import { useState } from "react";
-
-import ModalInfo from "./ModalInfo";
-import ModalHelp from "./ModalHelp";
 import $ from "jquery";
+import ModalInfo from "./ModalInfo";
 import NavbarLogo from "./NavbarLogo";
+import UserButton from "./UserButton";
+import { useState } from "react";
+import ModalHelp from "./ModalHelp";
 
-function MyNavbar() {
+function NavbarAdmin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-
   return (
     <div className="container">
       <div className="container disable-text-selection">
@@ -55,13 +54,16 @@ function MyNavbar() {
                   >
                     AYUDA
                   </a>
+
                   <a
                     href="https://participa.uchile.cl/"
                     className="menu-text-admin"
                     id="text-button"
                   >
-                    SALIR
+                    HELIOS
                   </a>
+
+                  <UserButton />
                 </div>
               </div>
             </div>
@@ -73,5 +75,4 @@ function MyNavbar() {
     </div>
   );
 }
-
-export default MyNavbar;
+export default NavbarAdmin;

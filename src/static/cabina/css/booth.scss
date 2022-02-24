@@ -96,9 +96,7 @@ div#preload {
 	background-image: url('../img/parallax04.jpg') !important;
 }
 
-.parallax-05 {
-	background-image: url('../img/parallax05.jpg') !important;
-}
+
 
 /* Header & Navbar */
 #header-section {
@@ -685,3 +683,9 @@ $footer-color: white;
 }
 
 @import "bulma/bulma.sass";
+
+
+// Import Bulma first
+@import 'bulma';
+// Import Component main Sass File
+@import '~@creativebulma/bulma-collapsible';

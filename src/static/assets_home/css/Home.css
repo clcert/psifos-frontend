@@ -255,6 +255,23 @@ div#preload {
   text-align: center;
 }
 
+.navbar-admin-button{
+  padding: 10px;
+  border-radius: 7px;
+  text-decoration: none;
+  color: #004c94 ;
+  font-size: 1rem;
+  font-weight: 600;
+
+}
+
+.navbar-admin-button:hover{
+
+  color: #6dcaf3 ;
+
+
+}
+
 .title-section {
   background-color: white;
 }
@@ -12331,8 +12348,6 @@ body::-webkit-scrollbar-thumb {
   padding: 0 50px;
 }
 
-
-
 #clave-login {
   background: url("../svg/lock-solid.svg") no-repeat scroll 7px 10px;
   background-size: 20px;
@@ -12360,21 +12375,114 @@ body::-webkit-scrollbar-thumb {
   font-size: 1.2rem;
 }
 
-.footer-register-login{
+.footer-register-login {
   text-align: center;
 }
 
-.footer-register-text{
+.footer-register-text {
   font-size: 0.9rem;
 }
 
-.footer-register-link{
+.footer-register-link {
   text-decoration: none;
   color: red;
+}
+
+.footer-register-button {
+  width: 150px;
+  background-color: red !important;
+}
+
+/*
+Home admin
+*/
+
+#content-home-admin {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 101.6vh;
+  background-image: url("../img/background.jpg") !important;
+}
+
+#accordion-section {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.home-admin-principal {
+  width: 50%;
+}
+
+.header-accordion {
+}
+
+.home-admin-accordion-section {
+}
+
+.home-admin-search {
+}
+
+.home-admin-button {
 
 }
 
-.footer-register-button{
-  width: 150px;
-  background-color: red !important;
+/*
+Accordion
+*/
+
+.card-accordion {
+  background-color: white;
+  width: 100%;
+}
+.accordion-a{
+  background-color: gainsboro;
+  text-decoration: none !important;
+
+}
+
+
+.accordion-a:hover{
+  background-color: gainsboro;
+
+}
+
+.accordion-header {
+  width: 100%;
+}
+
+.accordion-title {
+  text-decoration: none !important;
+}
+
+.accordion-content a {
+  color: #004990;
+}
+
+.accordion-state{
+
+  text-decoration: none !important;
+
+}
+
+.accordion-link {
+  text-decoration: none;
+  color: #004c94;
+  font-size: 1.1em !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+.accordion-link:hover {
+  color: #6dcaf3;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 90%;
+}
+
+.row {
+  width: 90%;
 }
