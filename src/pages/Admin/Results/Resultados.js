@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { backendIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
+import SubNavbar from "../component/SubNavbar";
+import Title from "../../../component/OthersComponents/Title";
 
 function Resultados() {
   const [electionName, setElectionName] = useState("");
@@ -33,21 +35,11 @@ function Resultados() {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar />
 
-          <div
-            className="has-text-centered mt-6 py-3"
-            id="election-title-background"
-          >
-            <h1
-              className="title has-text-black is-size-4-mobile"
-              id="election-title"
-            >
-              {electionName}
-              <br />
-              RESULTADOS PRELIMINARES
-            </h1>
-          </div>
+          <Title namePage="Resultados Preliminares" nameElection={"nameElection"} />
         </div>
       </section>
+
+      <SubNavbar active={5} />
 
       <section
         className="section is-flex is-align-items-center is-flex-direction-column"

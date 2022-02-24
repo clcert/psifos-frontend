@@ -9,6 +9,7 @@ import getElection from "../../../utils/getElection";
 import SettingsUrna from "./components/SettingsUrna";
 import Title from "../../../component/OthersComponents/Title";
 import { Button } from "react-bulma-components";
+import SubNavbar from "../component/SubNavbar";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
@@ -36,6 +37,8 @@ function Urna() {
             <Title namePage="Urna Electronica" nameElection="test" />
           </div>
         </section>
+
+        <SubNavbar active={3}/>
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
           <div style={{ width: "70%" }}>

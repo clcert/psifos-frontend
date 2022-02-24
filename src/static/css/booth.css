@@ -33,7 +33,7 @@
 }
 
 #content-voters {
-  background-image: url("../img/background-voters.jpg");
+  background-image: url("../img/parallax05.jpg");
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -362,9 +362,8 @@
 
 /* 01: Instructions Middle */
 #election-title {
-  font-family: "Arial Black", sans-serif;
   color: #004c94 !important;
-  font-weight: normal;
+  font-weight: 600 !important;
 }
 
 .buttons-container {
@@ -732,7 +731,7 @@ input[type="radio"] {
 }
 
 #drawing-section {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .do-tally {

@@ -40,29 +40,29 @@ function Accordion(props) {
             <div className="card-content accordion-content pl-4">
               <div className="columns">
                 <div class="rows column">
-                  <div class="row is-full">
+                  <div class="row-accordion is-full">
                     {" "}
                     <a className="accordion-link">Panel administración</a>{" "}
                   </div>
-                  <div class="row is-full">
+                  <div class="row-accordion is-full">
                     {" "}
                     <a className="accordion-link">Resumen</a>{" "}
                   </div>
-                  <div class="row is-full">
+                  <div class="row-accordion is-full">
                     {" "}
                     <a className="accordion-link">Urna</a>{" "}
                   </div>
                 </div>
                 <div class="rows column">
-                  <div class="row is-full">
+                  <div class="row-accordion is-full">
                     {" "}
                     <a className="accordion-link">Custodio de claves</a>{" "}
                   </div>
-                  <div class="row is-full">
+                  <div class="row-accordion is-full">
                     {" "}
                     <a className="accordion-link">Resultados</a>{" "}
                   </div>
-                  <div class="row is-full">
+                  <div class="row-accordion is-full">
                     <a className="accordion-link">Preguntas</a>{" "}
                   </div>
                 </div>

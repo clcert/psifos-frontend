@@ -245,8 +245,8 @@ div#preload {
 }
 
 #election-title {
-  font-family: "Arial Black", sans-serif;
   color: #004c94 !important;
+  
 }
 
 #election-current {
@@ -255,21 +255,17 @@ div#preload {
   text-align: center;
 }
 
-.navbar-admin-button{
+.navbar-admin-button {
   padding: 10px;
   border-radius: 7px;
   text-decoration: none;
-  color: #004c94 ;
+  color: #004c94;
   font-size: 1rem;
   font-weight: 600;
-
 }
 
-.navbar-admin-button:hover{
-
-  color: #6dcaf3 ;
-
-
+.navbar-admin-button:hover {
+  color: #6dcaf3;
 }
 
 .title-section {
@@ -12413,19 +12409,6 @@ Home admin
   width: 50%;
 }
 
-.header-accordion {
-}
-
-.home-admin-accordion-section {
-}
-
-.home-admin-search {
-}
-
-.home-admin-button {
-
-}
-
 /*
 Accordion
 */
@@ -12434,16 +12417,13 @@ Accordion
   background-color: white;
   width: 100%;
 }
-.accordion-a{
+.accordion-a {
   background-color: gainsboro;
   text-decoration: none !important;
-
 }
 
-
-.accordion-a:hover{
+.accordion-a:hover {
   background-color: gainsboro;
-
 }
 
 .accordion-header {
@@ -12458,10 +12438,8 @@ Accordion
   color: #004990;
 }
 
-.accordion-state{
-
+.accordion-state {
   text-decoration: none !important;
-
 }
 
 .accordion-link {
@@ -12483,6 +12461,42 @@ Accordion
   width: 90%;
 }
 
-.row {
+.row-accordion {
   width: 90%;
+}
+
+/*
+Subnavbar
+*/
+
+.subnavbar {
+  background-color: rgba(255, 255, 255);
+  width: 100%;
+}
+
+.text-subnavbar {
+  text-decoration: none;
+  color: #004c94;
+  font-size: 1.4rem;
+  margin: 10px 10px;
+}
+
+.text-subnavbar-active {
+  text-decoration: none;
+  color: #6dcaf3;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 10px 10px;
+}
+
+.text-subnavbar-active:hover {
+  color: #6dcaf3;
+}
+
+.text-subnavbar:hover {
+  color: #6dcaf3;
+}
+
+.subnavbar-section {
+  width: 101%;
 }

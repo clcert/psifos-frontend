@@ -7,6 +7,7 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { useParams } from "react-router";
 import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
+import SubNavbar from "../component/SubNavbar";
 
 function ElectionResume() {
   const [nameElection, setNameElection] = useState("");
@@ -49,8 +50,11 @@ function ElectionResume() {
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar />
             <Title namePage="Resumen de Elección" nameElection={nameElection} />
+            
           </div>
         </section>
+
+        <SubNavbar active={2}/>
 
         <InfoElection
           infoElection={infoElection}

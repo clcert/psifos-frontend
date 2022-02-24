@@ -9,14 +9,17 @@ import "bulma/css/bulma.min.css";
 import Cabina from "./pages/Cabina/Cabina";
 import Login from "./pages/Cabina/Login/Login";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
+import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 
 function App() {
   return (
     <Routes>
       <Route path="home" element={<Home />} />
-      <Route path="login" element={<Login />} />
+
       <Route path="/admin">
+        <Route path="login" element={<Login />} />
         <Route path="home" element={<HomeAdmin />} />
+        <Route path=":uuid/panel" element={<AdministrationPanel />} />
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />
         <Route path=":uuid/custodio" element={<CustodioClaves />} />

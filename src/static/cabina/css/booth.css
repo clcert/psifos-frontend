@@ -177,9 +177,8 @@ div#preload {
 }
 
 #election-title {
-  font-family: "Arial Black", sans-serif;
   color: #004c94 !important;
-  font-weight: normal !important;
+  font-weight: 600 !important;
 }
 
 /* Progress Bar */

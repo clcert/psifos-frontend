@@ -10,6 +10,7 @@ import { backendHeliosIP } from "../../../server";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../../../static/css/booth.css";
+import SubNavbar from "../component/SubNavbar";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
@@ -27,11 +28,13 @@ function CustodioClaves() {
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
-        <div className="hero-body py-0 px-0 header-hero">
+        <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar />
           <Title namePage="Custodio de Claves" nameElection={nameElection} />
         </div>
       </section>
+
+      <SubNavbar active={4} />
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">

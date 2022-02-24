@@ -192,9 +192,8 @@ div#preload {
 }
 
 #election-title {
-	font-family: "Arial Black", sans-serif;
 	color: $blue-uch !important;
-	font-weight: normal !important;
+	font-weight: 600 !important;
 }
 
 $navbar-item-img-max-height: 3.5rem;
@@ -667,7 +666,7 @@ input[type="radio"] {
 #send-final-img {
 	width: 20rem;
 	display: inline-block;
-	margin-bottom: -20.5rem;
+	margin-bottom: 1.5rem;
 }
 
 /* Footer & Bottom */
