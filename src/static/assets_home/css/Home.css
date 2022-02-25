@@ -248,10 +248,8 @@ div#preload {
   color: #004c94 !important;
 }
 
-#election-subtitle{
+#election-subtitle {
   color: #004c94 !important;
-  
-
 }
 
 #election-current {
@@ -1083,6 +1081,11 @@ input[type="radio"] {
   position: relative;
   vertical-align: top;
 }
+.link-button{
+  text-decoration: none;
+  color: white;
+}
+
 .pagination-previous:focus,
 .pagination-next:focus,
 .pagination-link:focus,
@@ -12470,11 +12473,11 @@ Accordion
   width: 90%;
 }
 
-.accordion-panel-p{
+.accordion-panel-p {
   color: black;
 }
 
-.accordion-panel-title{
+.accordion-panel-title {
   color: black;
   font-weight: 600;
 }
@@ -12529,6 +12532,23 @@ Panel administración
   font-size: 1.3rem;
 }
 
-.panel-info{
+.panel-info {
   margin-bottom: 10 !important;
+}
+
+/*
+Create election
+*/
+
+#create-election-section {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.form-election{
+  width: 50%;
+}
+.label-form-election{
+  color: black !important;
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
 }

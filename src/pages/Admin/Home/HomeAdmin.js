@@ -4,6 +4,7 @@ import Accordion from "./component/Accordion";
 import { Button } from "react-bulma-components";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
+import { Link } from "react-router-dom";
 
 function HomeAdmin(props) {
   return (
@@ -35,14 +36,14 @@ function HomeAdmin(props) {
                   window.location.href = "";
                 }}
               >
-                <span>Crear Votación</span>
+                <Link className="link-button" to="/admin/create" >Crear Votación</Link>
               </Button>
             </div>
           </div>
           <div className="home-admin-accordion-section">
-            <Accordion electionName="Elección 1" />
-            <Accordion electionName="Elección 2" />
-            <Accordion electionName="Elección 3" />
+            <Accordion state="En curso" electionName="Elección 1" />
+            <Accordion state="Terminada" electionName="Elección 2" />
+            <Accordion state="Inicio pronto" electionName="Elección 3" />
           </div>
         </div>
       </section>

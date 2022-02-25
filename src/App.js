@@ -7,9 +7,10 @@ import Resultados from "./pages/Admin/Results/Resultados";
 import Home from "./pages/Home/Home";
 import "bulma/css/bulma.min.css";
 import Cabina from "./pages/Cabina/Cabina";
-import Login from "./pages/Cabina/Login/Login";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
+import Login from "./pages/Admin/Login/Login";
+import CreateElection from "./pages/Admin/CreateElection/CreateElection";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/admin">
         <Route path="login" element={<Login />} />
         <Route path="home" element={<HomeAdmin />} />
+        <Route path="create" element={<CreateElection />} />
         <Route path=":uuid/panel" element={<AdministrationPanel />} />
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />

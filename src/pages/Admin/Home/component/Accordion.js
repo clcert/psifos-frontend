@@ -28,7 +28,7 @@ function Accordion(props) {
             <p className="card-header-title accordion-title mb-0">
               {props.electionName}
             </p>
-            <span className="accordion-state">En curso</span>
+            <span className="accordion-state">{props.state}</span>
 
             <span className="icon">
               <i className="fas fa-angle-down" aria-hidden="true"></i>

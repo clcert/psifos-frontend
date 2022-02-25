@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.svg";
 
 function Login(props) {
@@ -62,7 +63,7 @@ function Login(props) {
                 </div>
                 <div className="field ml-5">
                   <div className="control">
-                    <button className="button is-primary footer-register-button">ACCEDE</button>
+                    <button className="button is-primary footer-register-button"><Link style={{textDecoration: "None", color: "white"}} to="/admin/home">ACCEDE</Link></button>
                   </div>{" "}
                   {/* .control */}
                 </div>{" "}

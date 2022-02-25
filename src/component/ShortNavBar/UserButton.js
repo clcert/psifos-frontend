@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function UserButton(props) {
   return (
     <div class="dropdown is-hoverable mb-2">
@@ -15,7 +17,7 @@ function UserButton(props) {
       </div>
       <div class="dropdown-menu mt-2" id="dropdown-menu4" role="menu">
         <div class="dropdown-item">
-          <a>Log out</a>
+          <Link style={{textDecoration: "None", color: "black"}} to="/admin/login">Log out</Link>
         </div>
       </div>
     </div>
