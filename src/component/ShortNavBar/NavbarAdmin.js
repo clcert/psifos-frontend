@@ -55,14 +55,6 @@ function NavbarAdmin(props) {
                     AYUDA
                   </a>
 
-                  <a
-                    href="https://participa.uchile.cl/"
-                    className="menu-text-admin"
-                    id="text-button"
-                  >
-                    HELIOS
-                  </a>
-
                   <UserButton />
                 </div>
               </div>

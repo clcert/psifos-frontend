@@ -246,7 +246,12 @@ div#preload {
 
 #election-title {
   color: #004c94 !important;
+}
+
+#election-subtitle{
+  color: #004c94 !important;
   
+
 }
 
 #election-current {
@@ -12465,6 +12470,15 @@ Accordion
   width: 90%;
 }
 
+.accordion-panel-p{
+  color: black;
+}
+
+.accordion-panel-title{
+  color: black;
+  font-weight: 600;
+}
+
 /*
 Subnavbar
 */
@@ -12499,4 +12513,22 @@ Subnavbar
 
 .subnavbar-section {
   width: 101%;
+}
+
+/*
+Panel administración
+*/
+
+.panel-text {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+.panel-text-sect {
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.panel-info{
+  margin-bottom: 10 !important;
 }

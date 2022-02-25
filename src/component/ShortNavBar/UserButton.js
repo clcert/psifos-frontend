@@ -15,7 +15,7 @@ function UserButton(props) {
       </div>
       <div class="dropdown-menu mt-2" id="dropdown-menu4" role="menu">
         <div class="dropdown-item">
-          <a>SALIR</a>
+          <a>Log out</a>
         </div>
       </div>
     </div>
