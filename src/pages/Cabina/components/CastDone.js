@@ -47,7 +47,7 @@ function CastDone(props) {
       </div>
 
       <figure className="image send-img-wrapper pt-4">
-        <img id="send-final-img" src={sendImage} />
+        <img id="send-final-img" src={sendImage} alt="" />
       </figure>
     </section>
   );

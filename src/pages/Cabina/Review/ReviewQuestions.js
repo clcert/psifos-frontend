@@ -1,5 +1,4 @@
 import reviewImage from "../../../static/cabina/svg/review-img.svg";
-import $ from "jquery";
 import AuditModal from "./AuditModal";
 import { useState } from "react";
 
@@ -63,7 +62,7 @@ function ReviewQuestions(props) {
             </div>
             <div className="column pb-0 is-hidden-mobile">
               <figure className="image select-img-wrapper">
-                <img id="review-final-img" src={reviewImage} />
+                <img id="review-final-img" src={reviewImage} alt=""/>
               </figure>
             </div>
             <div className="column right-button-column has-text-centered-mobile is-flex">

@@ -1,7 +1,6 @@
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import Title from "../../component/OthersComponents/Title";
 import { useParams } from "react-router-dom";
-import selectImg from "../../static/cabina/svg/select-img.svg";
 import ElectionCode from "../../component/Footers/ElectionCode";
 import InstructionsSection from "./InstructionsSection/InstructionsSection";
 import MediaSection from "./InstructionsSection/MediaSection";

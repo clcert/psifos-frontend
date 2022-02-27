@@ -8,7 +8,7 @@ import SubNavbar from "../component/SubNavbar";
 import Title from "../../../component/OthersComponents/Title";
 
 function Resultados() {
-  const [electionName, setElectionName] = useState("");
+  const [electionName, setElectionName] = useState("test");
   const [results, setResults] = useState([]);
   const [questions, setQuestions] = useState([]);
   const { uuid } = useParams();
@@ -35,7 +35,7 @@ function Resultados() {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar />
 
-          <Title namePage="Resultados Preliminares" nameElection={"nameElection"} />
+          <Title namePage="Resultados Preliminares" nameElection={electionName} />
         </div>
       </section>
 

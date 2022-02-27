@@ -2,7 +2,7 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
-import { backendIP, backendHeliosIP } from "../../../server";
+import { backendHeliosIP } from "../../../server";
 import { useEffect } from "react";
 import VotersTable from "./components/VotersTable";
 import getElection from "../../../utils/getElection";

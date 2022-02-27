@@ -1,4 +1,3 @@
-import $ from "jquery";
 import { useState } from "react";
 import auditImage from "../../../static/cabina/svg/audit-img.svg";
 
@@ -78,7 +77,7 @@ function AuditSection(props) {
                 <li>
                   <a
                     target="_blank"
-                    href="single-ballot-verify.html?election_url={$T.election_url}"
+                    href=""
                   >
                     Verificador Participa UChile
                   </a>
@@ -118,7 +117,7 @@ function AuditSection(props) {
             </div>
             <div className="column pb-0">
               <figure className="image select-img-wrapper is-hidden-mobile">
-                <img id="audit-final-img" src={auditImage} />
+                <img id="audit-final-img" src={auditImage} alt=""/>
               </figure>
             </div>
             <div className="column">

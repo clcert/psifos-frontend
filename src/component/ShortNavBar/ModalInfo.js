@@ -1,14 +1,7 @@
-import $ from "jquery";
-
 function ModalInfo(props) {
   return (
-    <div className="modal" id="info-modal">
-      <div
-        className="modal-background"
-        onClick={() => {
-          $("#info-modal").removeClass("is-active");
-        }}
-      ></div>
+    <div className={"modal " + (props.show ? "is-active" : "")} id="info-modal">
+      <div className="modal-background" onClick={props.onHide}></div>
       <div className="modal-card">
         <section className="modal-card-body">
           <h1 className="title">INFORMACIÓN</h1>
@@ -33,9 +26,7 @@ function ModalInfo(props) {
           <div className="container">
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold"
-              onClick={() => {
-                $("#info-modal").removeClass("is-active");
-              }}
+              onClick={props.onHide}
             >
               <span>VOLVER ATRÁS</span>
             </button>

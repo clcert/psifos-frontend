@@ -1,8 +1,9 @@
-import $ from "jquery";
-
 function AuditModal(props) {
   return (
-    <div className={"modal " + (props.showModal ? "is-active" : "")} id="audit-modal">
+    <div
+      className={"modal " + (props.showModal ? "is-active" : "")}
+      id="audit-modal"
+    >
       <div
         className="modal-background"
         onClick={() => {

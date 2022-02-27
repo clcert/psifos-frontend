@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import ModalInfo from "./ModalInfo";
 import ModalHelp from "./ModalHelp";
-import $ from "jquery";
 import NavbarLogo from "./NavbarLogo";
 
 function MyNavbar() {
@@ -39,7 +38,7 @@ function MyNavbar() {
                   </a>
                   <a
                     onClick={() => {
-                      $("#info-modal").addClass("is-active");
+                      setShowInfo(true);
                     }}
                     className="menu-text-admin"
                     id="text-button"
@@ -48,7 +47,7 @@ function MyNavbar() {
                   </a>
                   <a
                     onClick={() => {
-                      $("#help-modal").addClass("is-active");
+                      setShowHelp(true);
                     }}
                     className="menu-text-admin"
                     id="text-button"

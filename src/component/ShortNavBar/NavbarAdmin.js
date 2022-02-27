@@ -1,4 +1,3 @@
-import $ from "jquery";
 import ModalInfo from "./ModalInfo";
 import NavbarLogo from "./NavbarLogo";
 import UserButton from "./UserButton";
@@ -38,7 +37,7 @@ function NavbarAdmin(props) {
                   </a>
                   <a
                     onClick={() => {
-                      $("#info-modal").addClass("is-active");
+                      setShowInfo(true);
                     }}
                     className="menu-text-admin"
                     id="text-button"
@@ -47,7 +46,7 @@ function NavbarAdmin(props) {
                   </a>
                   <a
                     onClick={() => {
-                      $("#help-modal").addClass("is-active");
+                      setShowHelp(true);
                     }}
                     className="menu-text-admin"
                     id="text-button"

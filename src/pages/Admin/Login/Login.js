@@ -7,7 +7,7 @@ function Login(props) {
       <section className="columns is-flex is-vcentered is-centered login-section parallax hero is-medium">
         <div className="container-login">
           <div className="container-content-login">
-            <img src={logoParticipa} />
+            <img src={logoParticipa} alt="Logo Participa"/>
             <div className="container-login-title">VOTACIÓN PRIVADA</div>
             <div className="container-login-subtitle">
               Para continuar ingrese los datos enviados por correo

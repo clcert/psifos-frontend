@@ -9,7 +9,7 @@ function InfoVotacion(props) {
               <div className="election-box">
                 <div className="election-box-info">
                   <div className="is-flex ml-0">
-                    <img width={40} height={40} src={props.image} />
+                    <img width={40} height={40} src={props.image} alt=""/>
 
                     <p className="has-text-weight-bold is-size-4 ml-3 mt-4 current-election-title ">
                       {data.type + " EN CURSO"}

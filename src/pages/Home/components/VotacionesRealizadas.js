@@ -21,7 +21,7 @@ function VotacionesRealizadas(props) {
         >
           <div className="past-elections-box  pb-2">
             <div className="is-flex mt-2">
-              <img width={40} height={40} src={props.image} />
+              <img width={40} height={40} src={props.image} alt=""/>
               <p className="election-info mb-2 mx-2">
                 <span className="has-text-weight-bold current-election-title">
                   {props.title}

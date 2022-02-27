@@ -3,7 +3,6 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
-import Accordion from "../Home/component/Accordion";
 import AccordionAudit from "./component/AccordionAudit";
 import ExtendElection from "./component/ExtendElection";
 import { useState } from "react";

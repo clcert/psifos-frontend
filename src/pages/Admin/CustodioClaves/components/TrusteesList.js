@@ -125,6 +125,7 @@ function TrusteesList(props) {
                     <img
                       className="is-align-self-center loading-trustee"
                       src="{{ settings.STATIC_URL }}app/loading2.gif"
+                      alt=""
                     />
                   </p>
                 )}

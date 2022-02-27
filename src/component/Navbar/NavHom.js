@@ -1,24 +1,26 @@
 import logo from "../../static/new_home_assets/SVG/ícono Participa.svg";
-import $ from "jquery";
+import { useState } from "react";
 
 function NavHome(props) {
+  const [showNavbarBurger, setShowNavbarBurger] = useState(false);
+  const [showNavbarMenu, setShowNavbarMenu] = useState(false);
   return (
     <div className="columns is-flex is-vcentered">
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="https://participa.uchile.cl">
-            <img src={logo} width="20" height="20" />
+            <img src={logo} width="20" height="20" alt="Logo participa UCHILE" />
           </a>
 
           <a
             role="button"
-            className="navbar-burger"
+            className={"navbar-burger " + (showNavbarBurger ? "is-active" : "")}
             aria-label="menu"
             aria-expanded="false"
             data-target="navbarBasicExample"
             onClick={() => {
-              $(".navbar-burger").toggleClass("is-active");
-              $(".navbar-menu").toggleClass("is-active");
+              setShowNavbarBurger(!showNavbarBurger);
+              setShowNavbarMenu(!showNavbarMenu);
             }}
           >
             <span aria-hidden="true"></span>
@@ -29,14 +31,18 @@ function NavHome(props) {
 
         <div
           id="navbarBasicExample"
-          className="navbar-menu"
+          className={"navbar-menu " + (showNavbarMenu ? "is-active" : "")}
           style={{ position: "relative" }}
         >
           <div className="navbar-start">
             <a className="navbar-item" href="#curso" id="navbar-button-home">
               EN CURSO
             </a>
-            <a className="navbar-item" href="#realizada" id="navbar-button-home">
+            <a
+              className="navbar-item"
+              href="#realizada"
+              id="navbar-button-home"
+            >
               REALIZADAS
             </a>
             <a className="navbar-item" href="#video" id="navbar-button-home">

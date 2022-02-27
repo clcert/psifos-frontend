@@ -21,6 +21,7 @@ function MediaSection(props) {
                   className="mr-4"
                   align="left"
                   id="instructions-main-image-cabina"
+                  alt=""
                 />
                 Te damos la bienvenida al sistema Participa UChile. Para
                 realizar tu sufragio debes seguir los pasos descritos más abajo.
@@ -31,7 +32,7 @@ function MediaSection(props) {
             </div>
 
             <figure className="image img-wrapper is-hidden-mobile is-align-self-auto mt-auto">
-              <img id="instructions-text-img-cabina" src={instruccionesUser} />
+              <img id="instructions-text-img-cabina" src={instruccionesUser} alt=""/>
             </figure>
           </div>
           <div className="column has-text-centered video-column py-6">

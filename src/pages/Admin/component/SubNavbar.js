@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { frontIP } from "../../../server";
 
 function SubNavbar(props) {
   return (

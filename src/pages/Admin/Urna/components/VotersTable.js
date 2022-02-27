@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { backendIP, backendHeliosIP, frontIP } from "../../../../server";
+import { backendIP, backendHeliosIP } from "../../../../server";
 import ButtonAlert from "../../../../component/Alerts/ButtonAlert";
 import IconAlert from "../../../../component/Alerts/IconAlert";
 import { Button } from "react-bulma-components";

@@ -17,7 +17,7 @@ function TeamComponent(props) {
       ref={myRef}
     >
       <figure className="image">
-        <img className="" src={props.image} />
+        <img className="" src={props.image} alt=""/>
       </figure>
       <p
         className="

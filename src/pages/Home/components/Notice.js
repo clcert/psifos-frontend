@@ -5,13 +5,18 @@ import React, { useRef } from "react";
 function Notice(props) {
   const myRef = useRef();
   const [showAnimation, setShowAnimation] = React.useState(false);
-  const { inViewport, enterCount, leaveCount } = useInViewport(myRef);
+  const { inViewport } = useInViewport(myRef);
   if (inViewport && !showAnimation) {
     setShowAnimation(true);
   }
   return (
     <>
-      <div className={"card " + (showAnimation ? "opacity-activate" : "opacity-enter")} ref={myRef}>
+      <div
+        className={
+          "card " + (showAnimation ? "opacity-activate" : "opacity-enter")
+        }
+        ref={myRef}
+      >
         <div className="card-content">
           <div className="title-notice-box pt-1 pb-2">
             <p>{props.date}</p>
@@ -21,6 +26,7 @@ function Notice(props) {
             width={1000}
             height={100}
             src={process.env.PUBLIC_URL + props.image}
+            alt=""
           ></img>
 
           <div className="p-5 text-notice-box">

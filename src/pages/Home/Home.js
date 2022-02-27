@@ -32,7 +32,7 @@ function Home() {
               className="image"
               style={{ width: "316px", height: "374px" }}
             >
-              <img src={mono} />
+              <img src={mono} alt=""/>
             </figure>
           </div>
           <div className="column is-align-self-center">
@@ -44,13 +44,13 @@ function Home() {
           </div>
           <div className="column is-align-self-center">
             <figure className="image" style={{ width: "400px" }}>
-              <img src={logoParticipa} />
+              <img src={logoParticipa} alt="Logo participa"/>
             </figure>
           </div>
           <div className="barra-menu"></div>
           <div className="column is-align-self-center">
             <figure className="image" style={{ width: "70px" }}>
-              <img src={logoUchile} />
+              <img src={logoUchile} alt="Logo Uchile"/>
             </figure>
           </div>
         </div>

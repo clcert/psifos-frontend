@@ -4,7 +4,7 @@ function CardInfo(props) {
       <header className="card-header">
         <div className="card-header-icon">
           <span className="icon step-icon">
-            <img src={props.icon} />
+            <img src={props.icon} alt=""/>
           </span>
         </div>
         <p className="card-header-title is-size-5 pl-0">{props.title}</p>
@@ -15,7 +15,7 @@ function CardInfo(props) {
             className="instruction-image"
             id="select-image"
             src={props.image}
-            alt="Placeholder image"
+            alt="Placeholder"
           />
         </figure>
       </div>

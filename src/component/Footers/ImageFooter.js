@@ -6,7 +6,7 @@ function ImageFooter(props) {
       id="drawing-section"
     >
       <figure className="image">
-        <img id="send-final-img" src={props.imagePath} />
+        <img id="send-final-img" src={props.imagePath} alt=""/>
       </figure>
     </section>
   );

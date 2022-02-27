@@ -1,15 +1,9 @@
-import $ from "jquery";
 import "../../static/css/animations.css";
 
 function ModalHelp(props) {
   return (
-    <div className="modal" id="help-modal">
-      <div
-        className="modal-background"
-        onClick={() => {
-          $("#help-modal").removeClass("is-active");
-        }}
-      ></div>
+    <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
+      <div className="modal-background" onClick={props.onHide}></div>
       <div className="modal-card">
         <section className="modal-card-body">
           <h1 className="title">MESA DE AYUDA</h1>
@@ -71,9 +65,7 @@ function ModalHelp(props) {
           <div className="container">
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold"
-              onClick={() => {
-                $("#help-modal").removeClass("is-active");
-              }}
+              onClick={props.onHide}
             >
               <span>VOLVER ATRÁS</span>
             </button>

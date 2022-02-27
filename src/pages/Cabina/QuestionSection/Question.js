@@ -69,7 +69,7 @@ function Question(props) {
       })}
 
       <div className="columns pt-1 pb-4 buttons-question">
-        {actualQuestion != 0 &&
+        {actualQuestion !== 0 &&
         actualQuestion < Object.keys(props.questions).length ? (
           <div className="column is-flex left-button-column">
             <PreviousButton
@@ -90,7 +90,7 @@ function Question(props) {
 
         <div className="column is-hidden-mobile pb-0">
           <figure className="image select-img-wrapper">
-            <img id="select-final-img" src={selectImg} />
+            <img id="select-final-img" src={selectImg} alt=""/>
           </figure>
         </div>
 
