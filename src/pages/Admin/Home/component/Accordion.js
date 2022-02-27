@@ -43,8 +43,8 @@ function Accordion(props) {
           >
             <div className="card-content accordion-content pl-4">
               <div className="columns pl-3 pr-3">
-                <div class="rows column">
-                  <div class="row-accordion is-full">
+                <div className="rows column">
+                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
@@ -53,7 +53,7 @@ function Accordion(props) {
                       Panel administración
                     </Link>{" "}
                   </div>
-                  <div class="row-accordion is-full">
+                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resumen"
@@ -62,7 +62,7 @@ function Accordion(props) {
                       Resumen
                     </Link>{" "}
                   </div>
-                  <div class="row-accordion is-full">
+                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
@@ -72,8 +72,8 @@ function Accordion(props) {
                     </Link>{" "}
                   </div>
                 </div>
-                <div class="rows column">
-                  <div class="row-accordion is-full">
+                <div className="rows column">
+                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/custodio"
@@ -82,7 +82,7 @@ function Accordion(props) {
                       Custodio de claves
                     </Link>{" "}
                   </div>
-                  <div class="row-accordion is-full">
+                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resultado"
@@ -91,7 +91,7 @@ function Accordion(props) {
                       Resultados
                     </Link>{" "}
                   </div>
-                  <div class="row-accordion is-full">
+                  <div className="row-accordion is-full">
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
                       className="accordion-link"

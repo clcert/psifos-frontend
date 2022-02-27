@@ -5,15 +5,21 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import Accordion from "../Home/component/Accordion";
 import AccordionAudit from "./component/AccordionAudit";
+import ExtendElection from "./component/ExtendElection";
+import { useState } from "react";
 
 function AdministrationPanel(props) {
+  const [extendElectionModal, setExtendElectionModal] = useState(false);
   return (
     <>
       <div id="content-home-admin">
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <Title namePage="Bienvenido a Participa Uchile DEV" nameElection={"Elección creada por Helios Admin"} />
+            <Title
+              namePage="Bienvenido a Participa Uchile DEV"
+              nameElection={"Elección creada por Helios Admin"}
+            />
           </div>
         </section>
 
@@ -28,12 +34,15 @@ function AdministrationPanel(props) {
               <Button className="button-custom mr-2 ml-2">Editar</Button>
               <Button className="button-custom mr-2 ml-2">Archivar</Button>
               <Button className="button-custom mr-2 ml-2">Copiar</Button>
-              <Button className="button-custom mr-2 ml-2">
+              <Button
+                className="button-custom mr-2 ml-2"
+                onClick={() => {
+                  setExtendElectionModal(true);
+                }}
+              >
                 Extender votación
               </Button>
-              <Button className="button-custom mr-2 ml-2">
-                Preguntas
-              </Button>
+              <Button className="button-custom mr-2 ml-2">Preguntas</Button>
             </div>
 
             <div className="panel-info mb-4">
@@ -41,13 +50,16 @@ function AdministrationPanel(props) {
                 <span className="panel-text-sect">Estado</span>: Activa
               </p>
               <p className="panel-text">
-                <span className="panel-text-sect">Fecha inicio</span>: 11-02-2018
+                <span className="panel-text-sect">Fecha inicio</span>:
+                11-02-2018
               </p>
               <p className="panel-text">
-                <span className="panel-text-sect">Fecha termino</span>: 12-06-2018
+                <span className="panel-text-sect">Fecha termino</span>:
+                12-06-2018
               </p>
               <p className="panel-text">
-                <span className="panel-text-sect">Proximo paso</span>: Añadir preguntas...
+                <span className="panel-text-sect">Proximo paso</span>: Añadir
+                preguntas...
               </p>
             </div>
 
@@ -57,6 +69,10 @@ function AdministrationPanel(props) {
           </div>
         </section>
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+        <ExtendElection
+          show={extendElectionModal}
+          onHide={() => setExtendElectionModal(false)}
+        />
       </div>
     </>
   );

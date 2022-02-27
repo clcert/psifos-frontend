@@ -42,20 +42,20 @@ function AccordionAudit(props) {
           >
             <div className="card-content accordion-content pl-4">
               <div className="columns pl-3 pr-3">
-                <div class="rows column">
-                  <div class="row-accordion is-full mb-3">
+                <div className="rows column">
+                  <div className="row-accordion is-full mb-3">
                     <p className="accordion-panel-title mb-0">URL Elección:</p>
                     <a className="accordion-panel-a">
                       http://localhost:8000/app/e/Test1
                     </a>
                   </div>
-                  <div class="row-accordion is-full">
+                  <div className="row-accordion is-full">
                     <p className="accordion-panel-title mb-0">Elección Fingerprint:</p>
                     <p className="accordion-panel-p">
                       LPiP5SmzCADCOh6nLCDsangs4E+R4jgfUve5XDet5Lc
                     </p>
                   </div>
-                  <div class="row-accordion is-full">
+                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"

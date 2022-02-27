@@ -12552,3 +12552,7 @@ Create election
   font-size: 1.3rem !important;
   font-weight: 600 !important;
 }
+
+.input-calendar{
+  width: 34.5% !important;
+}

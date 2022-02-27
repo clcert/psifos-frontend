@@ -17,6 +17,7 @@
     "react-in-viewport": "^1.0.0-alpha.20",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
+    "react-simple-timefield": "^3.2.5",
     "react-transition-group": "^4.4.2",
     "sass": "^1.49.8",
     "web-vitals": "^2.1.4"
