@@ -11,6 +11,7 @@ import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 import Login from "./pages/Admin/Login/Login";
 import CreateElection from "./pages/Admin/CreateElection/CreateElection";
+import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
       <Route path="/admin">
         <Route path="login" element={<Login />} />
         <Route path="home" element={<HomeAdmin />} />
-        <Route path="create" element={<CreateElection />} />
+        <Route path="createElection" element={<CreateElection />} />
+        <Route path="createQuestion" element={<CreateQuestion />} />
         <Route path=":uuid/panel" element={<AdministrationPanel />} />
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />

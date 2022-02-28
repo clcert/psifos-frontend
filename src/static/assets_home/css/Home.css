@@ -1081,7 +1081,7 @@ input[type="radio"] {
   position: relative;
   vertical-align: top;
 }
-.link-button{
+.link-button {
   text-decoration: none;
   color: white;
 }
@@ -12544,15 +12544,57 @@ Create election
   background-color: rgba(255, 255, 255, 0.85);
 }
 
-.form-election{
+.form-election {
   width: 50%;
 }
-.label-form-election{
+.label-form-election {
   color: black !important;
   font-size: 1.3rem !important;
   font-weight: 600 !important;
 }
 
-.input-calendar{
+.input-calendar {
   width: 34.5% !important;
+}
+
+/*
+Create Question
+*/
+
+#content-create-question {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 101.6vh;
+  background-image: url("../img/background.jpg") !important;
+}
+
+#create-question-section {
+  background-color: rgba(0, 76, 148, 0.75);
+}
+
+.form-question {
+  width: 100%;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.input-create-question::placeholder {
+  color: black !important;
+  opacity: 1 !important;
+}
+
+.button-create-question {
+  background-color: #004c94 !important;
+  color: white !important;
+}
+
+.question-content {
+  width: 65%;
+}
+
+.input-number-question{
+  width: 10%;
+  -moz-appearance: textfield;
 }
