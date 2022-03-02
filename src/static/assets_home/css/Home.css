@@ -12599,6 +12599,21 @@ Create Question
   -moz-appearance: textfield;
 }
 
+.header-question {
+  margin-top: -1.5rem !important;
+  margin-bottom: 0.9rem !important;
+}
+
+.close-question {
+  cursor: pointer;
+  margin-right: 0.5rem !important;
+
+}
+
+.close-question:hover {
+  color: #004c94;
+}
+
 /*
 Consult
 */

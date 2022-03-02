@@ -36,6 +36,15 @@ function QuestionsForms(props) {
 
   return (
     <div className="form-question mt-5">
+      <div className="header-question level">
+        <div className="level-left"></div>
+        <div className="level-right">
+          <i
+            onClick={props.remove}
+            className="close-question fa-solid fa-trash"
+          ></i>
+        </div>
+      </div>
       <div className="is-flex mb-2 ">
         <input
           className="input mr-3 input-create-question"

@@ -22,12 +22,24 @@ function CreateQuestion(props) {
     setQuestion(questionAux);
     setQuestionCantidad(questionCantidad + 1);
   }
+
+  function removeQuestion(key) {
+    console.log(question);
+    let newQuestion = [];
+    for (let i = 0; i < question.length; i++) {
+      if (question[i].key !== key) {
+        newQuestion.push(question[i]);
+      }
+    }
+    console.log(newQuestion);
+    setQuestion(newQuestion);
+  }
   return (
     <div id="content-create-question">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Creación de Elección" />
+          <Title namePage="Creación de Preguntas" />
         </div>
       </section>
 
@@ -38,9 +50,12 @@ function CreateQuestion(props) {
         <div className="question-content">
           {question.map((item, index) => {
             return (
-              <>
-                <QuestionsForms />
-              </>
+              <QuestionsForms
+                key={item.key}
+                remove={() => {
+                  removeQuestion(item.key);
+                }}
+              />
             );
           })}
 

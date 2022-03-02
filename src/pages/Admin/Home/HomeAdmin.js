@@ -36,7 +36,7 @@ function HomeAdmin(props) {
                   window.location.href = "";
                 }}
               >
-                <Link className="link-button" to="/admin/create" >Crear Votación</Link>
+                <Link className="link-button" to="/admin/createElection" >Crear Votación</Link>
               </Button>
             </div>
           </div>
