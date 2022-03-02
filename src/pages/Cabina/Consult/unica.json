@@ -1,0 +1,10 @@
+{
+  "question": "Pregunta 1",
+  "description": "Descripción de la pregunta 1",
+  "answers": {
+    "a": "Respuesta 1",
+    "b": "Respuesta 2",
+    "c": "Respuesta 3",
+    "d": "Respuesta 4"
+  }
+}

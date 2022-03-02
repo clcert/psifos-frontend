@@ -12,6 +12,7 @@ import AdministrationPanel from "./pages/Admin/AdministrationPanel/Administratio
 import Login from "./pages/Admin/Login/Login";
 import CreateElection from "./pages/Admin/CreateElection/CreateElection";
 import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
+import Consult from "./pages/Cabina/Consult/Consult";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
 
       <Route path="/cabina">
         <Route path=":uuid" element={<Cabina />} />
+        <Route path="consult" element={<Consult />} />
       </Route>
     </Routes>
   );

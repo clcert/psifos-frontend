@@ -1464,7 +1464,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: "Arial", sans-serif;
+  font-family: "Arial", sans-serif !important;
 }
 
 code,
@@ -12594,7 +12594,108 @@ Create Question
   width: 65%;
 }
 
-.input-number-question{
+.input-number-question {
   width: 10%;
   -moz-appearance: textfield;
+}
+
+/*
+Consult
+*/
+
+#content-consult-question {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 101.6vh;
+  background-image: url("../img/background.jpg") !important;
+}
+
+#consult-question-section {
+  background-color: rgba(255, 255, 255, 0.85);
+  width: 51%;
+  border-radius: 15px;
+}
+
+.consult-question {
+  background-color: white;
+  border: solid 1px #004c94;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 17px;
+}
+
+.consult-question-title {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+.consult-question-description {
+}
+
+.consult-question-info {
+  color: #004c94;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.consult-answer {
+  background-color: #ddf3ff;
+  margin-bottom: 10px;
+  margin-left: -0.9rem;
+  margin-right: -0.9rem;
+}
+
+.select-consult {
+  background-color: #004c94;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.consult-qualification {
+  margin-left: 2.5rem;
+  padding-bottom: 0;
+}
+
+.quealification-radio {
+  margin-bottom: 1rem;
+}
+
+.qualification-key {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.query-question-answer-grade {
+  background: repeating-linear-gradient(
+    white,
+    white 45%,
+    #ddf3ff 45.1%,
+    #ddf3ff 100%
+  );
+}
+
+.query-question-grade-label {
+  padding-top: 2.5rem;
+  font-weight: bold;
+}
+
+.query-question-group-options {
+  text-align: center;
+}
+
+.title-box {
+  text-align: center;
+  font-weight: bold;
+  background-color: #004b93 !important;
+  color: white !important;
+  font-size: 1.6rem;
+  margin-left: -3rem;
+  margin-right: -3rem;
+}
+
+.query-question-answer-image {
+  border: 2px solid #004b93;
+  cursor: pointer;
 }

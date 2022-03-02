@@ -3,7 +3,7 @@ function FooterParticipa(props) {
     <div>
       <footer className="footer">
         <div className="container has-text-centered">
-          <p>
+          <p style={{marginBottom: "0"}}>
             {props.message}
           </p>
         </div>
