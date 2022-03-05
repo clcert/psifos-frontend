@@ -43,6 +43,7 @@ UTILS.select_element_content = function(element) {
   } else {
     document.selection.empty();
     range = document.body.createTextRange();
+    var el = new HELIOS.Election();
     range.moveToElementText(el);
     range.select();
   }

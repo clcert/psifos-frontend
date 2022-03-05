@@ -3,6 +3,9 @@
  * Distributed under the BSD License
  * Some bits taken from Paul Johnston's SHA-1 implementation
  */
+import { b64pad } from "./sha1"
+
+
 var chrsz   = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode      */
 var hexcase = 0;/* hex output format. 0 - lowercase; 1 - uppercase        */
 
@@ -140,5 +143,5 @@ function binb2b64 (binarray) {
 }
 
 function hex_sha256(s){return binb2hex(core_sha256(str2binb(s),s.length * chrsz));}
-function b64_sha256(s){return binb2b64(core_sha256(str2binb(s),s.length * chrsz));}
+export function b64_sha256(s){return binb2b64(core_sha256(str2binb(s),s.length * chrsz));}
 function str_sha256(s){return binb2str(core_sha256(str2binb(s),s.length * chrsz));}

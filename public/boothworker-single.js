@@ -3,7 +3,7 @@
  */
 
 // import needed resources
-importScripts("js/underscore-min.js");
+importScripts("./js/underscore-min.js");
 
 importScripts("js/jscrypto/jsbn.js",
 	      "js/jscrypto/jsbn2.js",

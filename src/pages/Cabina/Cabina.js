@@ -11,11 +11,42 @@ import EncryptingCharging from "./components/EncryptingCharging";
 import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "./components/CastDone";
 import AuditSection from "./Review/AuditSection";
+import { BOOTH } from "../../static/cabina/js/booth";
+import { BigInt } from "../../static/cabina/js/jscrypto/bigint";
+import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
+import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
+//import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
+import { raw_json } from "../../static/dummyData/questionsData";
+
 
 function Cabina() {
   const { uuid } = useParams();
   const questions = require("../../static/dummyData/questionCabina.json");
   const [actualPhase, setActualPhase] = useState(1);
+
+  if (USE_SJCL) {
+    sjcl.random.startCollectors();
+  }
+
+  // // we're asynchronous if we have SJCL and Worker
+  BOOTH.synchronous = !(USE_SJCL && window.Worker);
+
+  // // we do in the browser only if it's asynchronous
+  BigInt.in_browser = !BOOTH.synchronous;
+
+  // // set up dummy bigint for fast parsing and serialization
+  //if (!BigInt.in_browser) BigInt = BigIntDummy;
+
+  // BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
+
+  let election_metadata = require("../../static/dummyData/electionMetadata.json")
+  console.log(raw_json);
+  BOOTH.setup_election(raw_json, election_metadata);
+  BOOTH.ballot_answers = [[0], [1, 2], [1], [0]];
+  BOOTH.launch_async_encryption_answer(1);
+  BOOTH.wait_for_ciphertexts();
+
+  console.log(BOOTH.encrypted_answers);
 
   const phases = {
     1: {
@@ -74,7 +105,6 @@ function Cabina() {
             audit={() => {
               setActualPhase(6);
             }}
-            
           />
         </>
       ),
@@ -94,9 +124,11 @@ function Cabina() {
       stage: 3,
       component: (
         <>
-          <AuditSection auditBack={() => {
+          <AuditSection
+            auditBack={() => {
               setActualPhase(2);
-            }} />
+            }}
+          />
         </>
       ),
     },

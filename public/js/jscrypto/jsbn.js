@@ -12,7 +12,7 @@ var canary = 0xdeadbeefcafe;
 var j_lm = ((canary&0xffffff)==0xefcafe);
 
 // (public) Constructor
-function BigInteger(a,b,c) {
+export function BigInteger(a,b,c) {
   this.arr = new Array();
   if(a != null)
     if("number" == typeof a) this.fromNumber(a,b,c);
@@ -119,12 +119,14 @@ function bnpFromInt(x) {
   this.t = 1;
   this.s = (x<0)?-1:0;
   if(x > 0) this.arr[0] = x;
-  else if(x < -1) this.arr[0] = x+DV;
+  else if(x < -1) this.arr[0] = x+this.DV;
   else this.t = 0;
 }
 
 // return bigint initialized to value
 function nbv(i) { var r = nbi(); r.fromInt(i); return r; }
+
+function bnpChunkSize(r) { return Math.floor(Math.LN2*this.DB/Math.log(r)); }
 
 // (protected) set from string and radix
 function bnpFromString(s,b) {
@@ -201,6 +203,32 @@ function bnToString(b) {
   return m?r:"0";
 }
 
+function bnpFromRadix(s,b) {
+  this.fromInt(0);
+  if(b == null) b = 10;
+  var cs = this.chunkSize(b);
+  var d = Math.pow(b,cs), mi = false, j = 0, w = 0;
+  for(var i = 0; i < s.length; ++i) {
+    var x = intAt(s,i);
+    if(x < 0) {
+      if(s.charAt(i) == "-" && this.signum() == 0) mi = true;
+      continue;
+    }
+    w = b*w+x;
+    if(++j >= cs) {
+      this.dMultiply(d);
+      this.dAddOffset(w,0);
+      j = 0;
+      w = 0;
+    }
+  }
+  if(j > 0) {
+    this.dMultiply(Math.pow(b,j));
+    this.dAddOffset(w,0);
+  }
+  if(mi) BigInteger.ZERO.subTo(this,this);
+}
+
 // (public) -this
 function bnNegate() { var r = nbi(); BigInteger.ZERO.subTo(this,r); return r; }
 
@@ -251,6 +279,12 @@ function bnpDRShiftTo(n,r) {
   r.s = this.s;
 }
 
+function bnpDMultiply(n) {
+  this.arr[this.t] = this.am(0,n-1,this,0,0,this.t);
+  ++this.t;
+  this.clamp();
+}
+
 // (protected) r = this << n
 function bnpLShiftTo(n,r) {
   var bs = n%this.DB;
@@ -266,6 +300,17 @@ function bnpLShiftTo(n,r) {
   r.t = this.t+ds+1;
   r.s = this.s;
   r.clamp();
+}
+
+function bnpDAddOffset(n,w) {
+  if(n == 0) return;
+  while(this.t <= w) this.arr[this.t++] = 0;
+  this.arr[w] += n;
+  while(this.arr[w] >= this.DV) {
+    this.arr[w] -= this.DV;
+    if(++w >= this.t) this.arr[this.t++] = 0;
+    ++this.arr[w];
+  }
 }
 
 // (protected) r = this >> n
@@ -530,9 +575,16 @@ function bnModPowInt(e,m) {
 }
 
 // protected
+
+BigInteger.prototype.chunkSize = bnpChunkSize;
 BigInteger.prototype.copyTo = bnpCopyTo;
 BigInteger.prototype.fromInt = bnpFromInt;
 BigInteger.prototype.fromString = bnpFromString;
+BigInteger.prototype.fromRadix = bnpFromRadix;
+BigInteger.prototype.dMultiply = bnpDMultiply;
+BigInteger.prototype.dAddOffset = bnpDAddOffset;
+
+
 BigInteger.prototype.clamp = bnpClamp;
 BigInteger.prototype.dlShiftTo = bnpDLShiftTo;
 BigInteger.prototype.drShiftTo = bnpDRShiftTo;

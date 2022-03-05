@@ -12,6 +12,9 @@ function CreateQuestion(props) {
   const [question, setQuestion] = useState([]);
 
   function addQuestion() {
+    /**
+     * add new question to array allowing rendering
+     */
     let questionAux = question.concat({
       key: questionCantidad,
       value: "",
@@ -24,14 +27,16 @@ function CreateQuestion(props) {
   }
 
   function removeQuestion(key) {
-    console.log(question);
+    /**
+     * remove a question from array
+     * @param {number} key
+     */
     let newQuestion = [];
     for (let i = 0; i < question.length; i++) {
       if (question[i].key !== key) {
         newQuestion.push(question[i]);
       }
     }
-    console.log(newQuestion);
     setQuestion(newQuestion);
   }
   return (

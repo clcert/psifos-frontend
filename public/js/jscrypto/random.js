@@ -2,8 +2,11 @@
 /*
  * Random Number generation, now uses the glue to Java
  */
+import { sjcl } from "./sjcl";
+import { BigInt } from "./bigint";
 
-Random = {};
+
+export var Random = {};
 
 Random.GENERATOR = null;
 

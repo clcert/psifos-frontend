@@ -1,11 +1,17 @@
-import * as script from "../../cabina/js/20160507-helios-booth-compressed";
+import $ from "jquery";
+import { HELIOS, UTILS, BALLOT } from "./jscrypto/helios";
+import { USE_SJCL } from "./jscrypto/bigint";
+import _ from "lodash";
+import { BigInt } from "./jscrypto/bigint";
+import { sjcl } from "./jscrypto/sjcl";
+import { b64_sha256 } from "./jscrypto/sha2"
 
 // utils
 let BOOTH = {};
 
 BOOTH.vote_url = function () {
   if (
-    confirm(
+    window.confirm(
       "¿Estás seguro de reiniciar el proceso de votación y perder todo tu avance?"
     )
   ) {
@@ -54,7 +60,7 @@ window.onbeforeunload = function (evt) {
 
 BOOTH.exit = function () {
   if (
-    confirm(
+    window.confirm(
       "¿Estás seguro de salir de la cabina de votación y perder todo tu avance?"
     )
   ) {
@@ -97,7 +103,7 @@ BOOTH.setup_workers = function (election_raw_json) {
     // and one worker per question
     BOOTH.encrypted_answers = [];
     BOOTH.answer_timestamps = [];
-    BOOTH.worker = new window.Worker("boothworker-single.js");
+    BOOTH.worker = new Worker(process.env.PUBLIC_URL + "/boothworker-single.js");
     BOOTH.worker.postMessage({
       type: "setup",
       election: election_raw_json,
@@ -179,23 +185,23 @@ BOOTH.setup_election = function (raw_json, election_metadata) {
     BOOTH.election.question_answer_orderings[i] = ordering;
   });
 
-  $("#content").addClass("parallax-01");
-  $("#header").processTemplate({
-    election: BOOTH.election,
-    election_metadata: BOOTH.election_metadata,
-  });
-  $("#progress_div").processTemplate({
-    election: BOOTH.election,
-    election_metadata: BOOTH.election_metadata,
-  });
-  $("#footer").processTemplate({
-    election: BOOTH.election,
-    election_metadata: BOOTH.election_metadata,
-  });
-  $("#bottom").processTemplate({
-    election: BOOTH.election,
-    election_metadata: BOOTH.election_metadata,
-  });
+  // $("#content").addClass("parallax-01");
+  // $("#header").processTemplate({
+  //   election: BOOTH.election,
+  //   election_metadata: BOOTH.election_metadata,
+  // });
+  // $("#progress_div").processTemplate({
+  //   election: BOOTH.election,
+  //   election_metadata: BOOTH.election_metadata,
+  // });
+  // $("#footer").processTemplate({
+  //   election: BOOTH.election,
+  //   election_metadata: BOOTH.election_metadata,
+  // });
+  // $("#bottom").processTemplate({
+  //   election: BOOTH.election,
+  //   election_metadata: BOOTH.election_metadata,
+  // });
   BOOTH.setup_ballot();
 };
 
@@ -473,10 +479,11 @@ BOOTH.show_progress = function (step_num) {
 BOOTH.so_lets_go = function () {
   BOOTH.hide_progress();
 
-  BOOTH.setup_templates();
+  //BOOTH.setup_templates();
 
   // election URL
-  var election_url = $.query.get("election_url");
+  //var election_url = $.query.get("election_url");
+  let election_url = null
   BOOTH.load_and_setup_election(election_url);
 };
 
@@ -493,22 +500,22 @@ BOOTH.nojava = function () {
 
 BOOTH.ready_p = false;
 
-$(document).ready(function () {
-  if (USE_SJCL) {
-    sjcl.random.startCollectors();
-  }
+// $(document).ready(function () {
+//   if (USE_SJCL) {
+//     sjcl.random.startCollectors();
+//   }
 
-  // we're asynchronous if we have SJCL and Worker
-  BOOTH.synchronous = !(USE_SJCL && window.Worker);
+//   // we're asynchronous if we have SJCL and Worker
+//   BOOTH.synchronous = !(USE_SJCL && window.Worker);
 
-  // we do in the browser only if it's asynchronous
-  BigInt.in_browser = !BOOTH.synchronous;
+//   // we do in the browser only if it's asynchronous
+//   BigInt.in_browser = !BOOTH.synchronous;
 
-  // set up dummy bigint for fast parsing and serialization
-  if (!BigInt.in_browser) BigInt = BigIntDummy;
+//   // set up dummy bigint for fast parsing and serialization
+//   if (!BigInt.in_browser) BigInt = BigIntDummy;
 
-  BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
-});
+//   BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
+// });
 
 BOOTH.check_encryption_status = function () {
   var progress = BOOTH.progress.progress();
@@ -720,3 +727,5 @@ BOOTH.switch_background_image = function (num) {
     .removeClass("parallax-05")
     .addClass("parallax-" + num);
 };
+
+export { BOOTH };

@@ -45,6 +45,11 @@ function VotersTable(props) {
   }, []);
 
   function buttonAction(value, votersArray = auxArrayVoters) {
+    /**
+     * set button disabled or enabled
+     * @param {string} value
+     * @param {array} votersArray
+     */
     const newPage = page + value;
     setPage(newPage);
     if (newPage > 0 || newPage * maxForPage + maxForPage > votersArray.length) {
@@ -66,6 +71,10 @@ function VotersTable(props) {
   }
 
   function search(event) {
+    /**
+     * Search for a voter by name
+     * @param {event} event
+     */
     let auxArray = [];
     for (let i = 0; i < voters.length; i++) {
       let auxName = voters[i].name.toLowerCase();

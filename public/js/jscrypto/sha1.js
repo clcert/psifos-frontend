@@ -12,14 +12,14 @@
  * the server-side, but the defaults work in most cases.
  */
 var hexcase = 0;  /* hex output format. 0 - lowercase; 1 - uppercase        */
-var b64pad  = ""; /* base-64 pad character. "=" for strict RFC compliance   */
+export var b64pad  = ""; /* base-64 pad character. "=" for strict RFC compliance   */
 var chrsz   = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode      */
 
 /*
  * These are the functions you'll usually want to call
  * They take string arguments and return either hex or base-64 encoded strings
  */
-function hex_sha1(s){return binb2hex(core_sha1(str2binb(s),s.length * chrsz));}
+export function hex_sha1(s){return binb2hex(core_sha1(str2binb(s),s.length * chrsz));}
 function b64_sha1(s){return binb2b64(core_sha1(str2binb(s),s.length * chrsz));}
 function str_sha1(s){return binb2str(core_sha1(str2binb(s),s.length * chrsz));}
 function hex_hmac_sha1(key, data){ return binb2hex(core_hmac_sha1(key, data));}

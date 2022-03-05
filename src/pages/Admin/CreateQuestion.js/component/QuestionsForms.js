@@ -8,6 +8,9 @@ function QuestionsForms(props) {
   const [typeQuestion, setTypeQuestion] = useState("unic");
 
   function addAnswer() {
+    /**
+     * add new answers to array allowing rendering
+     **/
     let answersAux = answers.concat({
       key: numberQuestion,
       value: "",
@@ -19,11 +22,15 @@ function QuestionsForms(props) {
     setNumberQuestion(numberQuestion + 1);
   }
 
-  function handleRemoveItem(e) {
-    const name = e;
+  function handleRemoveItem(key) {
+    /**
+     * remove item from array
+     * @param {number} key
+     */
+
     let newAns = [];
     for (let i = 0; i < answers.length; i++) {
-      if (answers[i].key !== name) {
+      if (answers[i].key !== key) {
         newAns.push(answers[i]);
       }
     }
@@ -31,6 +38,10 @@ function QuestionsForms(props) {
   }
 
   function changeQuestion(e) {
+    /**
+     * change question type
+     * @param {event} e
+     */
     setTypeQuestion(e.target.value);
   }
 
