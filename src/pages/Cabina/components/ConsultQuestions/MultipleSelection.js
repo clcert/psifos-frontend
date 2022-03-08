@@ -23,7 +23,6 @@ function MultipleSelection(props) {
       questionsSelected.indexOf(value) === -1
     );
   }
-  console.log(questionsSelected);
   return (
     <div className="consult-question">
       <div>

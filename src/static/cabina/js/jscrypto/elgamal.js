@@ -296,6 +296,7 @@ class Ciphertext {
 
     // the DH tuple we are simulating here is
     // g, y, alpha, beta/m
+  
     return ElGamal.Proof.simulate(
       this.pk.g,
       this.pk.y,
@@ -354,8 +355,9 @@ class Ciphertext {
     // note how the interface is as such so that the result does not reveal which is the real proof.
     var self = this;
 
-    var proofs = _(list_of_plaintexts).map(function (plaintext, p_num) {
-      if (p_num == real_index) {
+
+    var proofs = list_of_plaintexts.map(function (plaintext, p_num) {
+      if (p_num === real_index) {
         // no real proof yet
         return {};
       } else {
@@ -363,6 +365,7 @@ class Ciphertext {
         return self.simulateProof(plaintext);
       }
     });
+    
 
     // do the real proof
     var real_proof = this.generateProof(
@@ -622,11 +625,10 @@ DisjunctiveProof.fromJSONObject = function (d) {
 ElGamal.DisjunctiveProof = DisjunctiveProof;
 
 ElGamal.encrypt = function (pk, plaintext, r) {
-  if (plaintext.getM().equals(BigInt.ZERO))
+  if (plaintext.getM().compareTo(BigInt.ZERO) === 0)
     throw "Can't encrypt 0 with El Gamal";
 
   if (!r) r = Random.getRandomInteger(pk.q);
-
   var alpha = pk.g.modPow(r, pk.p);
   var beta = pk.y.modPow(r, pk.p).multiply(plaintext.m).mod(pk.p);
 

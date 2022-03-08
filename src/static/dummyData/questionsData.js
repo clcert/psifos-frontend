@@ -15,11 +15,22 @@ export let raw_json = `{
   "questions": [
     {
       "answer_urls": ["", ""],
-      "answers": ["test", "test"],
+      "answers": ["test", "test1"],
       "choice_type": "approval",
       "max": 1,
       "min": 1,
-      "question": "Test",
+      "question": "Pregunta unica",
+      "result_type": "absolute",
+      "short_name": "Test",
+      "tally_type": "homomorphic"
+    },
+    {
+      "answer_urls": ["", ""],
+      "answers": ["test", "test1"],
+      "choice_type": "approval",
+      "max": 2,
+      "min": 1,
+      "question": "Pregunta multiple",
       "result_type": "absolute",
       "short_name": "Test",
       "tally_type": "homomorphic"

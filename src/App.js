@@ -13,6 +13,7 @@ import Login from "./pages/Admin/Login/Login";
 import CreateElection from "./pages/Admin/CreateElection/CreateElection";
 import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
 import Consult from "./pages/Cabina/Consult/Consult";
+// eslint-disable-next-line import/no-webpack-loader-syntax
 
 function App() {
   return (

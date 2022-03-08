@@ -42,8 +42,8 @@ function MediaSection(props) {
                 width="640"
                 height="360"
                 src="https://www.youtube.com//embed/9sVCptKbr48"
-                frameborder="0"
-                allowfullscreen
+                frameBorder="0"
+                allowFullScreen
               ></iframe>
             </figure>
           </div>

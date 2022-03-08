@@ -1,7 +1,6 @@
 import TimeField from "react-simple-timefield";
 
 function ExtendElection(props) {
-  console.log(props.show);
   return (
     <div
       className={"modal " + (props.show ? "is-active" : "")}

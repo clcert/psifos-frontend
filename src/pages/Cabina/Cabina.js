@@ -15,13 +15,12 @@ import { BOOTH } from "../../static/cabina/js/booth";
 import { BigInt } from "../../static/cabina/js/jscrypto/bigint";
 import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
-//import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
+import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../static/dummyData/questionsData";
-
 
 function Cabina() {
   const { uuid } = useParams();
-  const questions = require("../../static/dummyData/questionCabina.json");
+  //const questions = require("../../static/dummyData/questionCabina.json");
   const [actualPhase, setActualPhase] = useState(1);
 
   if (USE_SJCL) {
@@ -35,19 +34,18 @@ function Cabina() {
   BigInt.in_browser = !BOOTH.synchronous;
 
   // // set up dummy bigint for fast parsing and serialization
-  //if (!BigInt.in_browser) BigInt = BigIntDummy;
+  if (!BigInt.in_browser) BigInt = BigIntDummy;
 
-  // BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
+  //BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
 
-  let election_metadata = require("../../static/dummyData/electionMetadata.json")
-  console.log(raw_json);
+  let election_metadata = require("../../static/dummyData/electionMetadata.json");
+
+  BOOTH.election_metadata = election_metadata;
   BOOTH.setup_election(raw_json, election_metadata);
-  BOOTH.ballot_answers = [[0], [1, 2], [1], [0]];
-  BOOTH.launch_async_encryption_answer(1);
-  BOOTH.wait_for_ciphertexts();
-
-  console.log(BOOTH.encrypted_answers);
-
+  BOOTH.ballot.answers = [[0]];
+  BOOTH.launch_async_encryption_answer(0);
+  //BOOTH.wait_for_ciphertexts();
+  const election_data = JSON.parse(raw_json);
   const phases = {
     1: {
       sectionClass: "parallax-01",
@@ -75,7 +73,7 @@ function Cabina() {
                 finish={() => {
                   setActualPhase(4);
                 }}
-                questions={questions}
+                questions={election_data.questions}
               />
             </div>
           </section>

@@ -18,14 +18,13 @@ $.extend({
 });
 */
 
-import _ from "lodash";
 import { ElGamal } from "./elgamal";
 import { BigInt } from "./bigint";
 import { b64_sha256 } from "./sha2";
 import { Random } from "./random";
 
-
 export var UTILS = {};
+var _ = require("lodash");
 
 UTILS.array_remove_value = function (arr, val) {
   var new_arr = [];
@@ -235,7 +234,9 @@ UTILS.generate_plaintexts = function (pk, min, max) {
 class EncryptedAnswer {
   constructor(question, answer, pk, progress) {
     // if nothing in the constructor
-    if (question == null) return;
+    if (question === null || answer === null) return;
+
+
 
     // store answer
     // CHANGE 2008-08-06: answer is now an *array* of answers, not just a single integer
@@ -272,12 +273,11 @@ class EncryptedAnswer {
 
     // keep track of number of options selected.
     var num_selected_answers = 0;
-
     // go through each possible answer and encrypt either a g^0 or a g^1.
     for (var i = 0; i < question.answers.length; i++) {
       var index, plaintext_index;
       // if this is the answer, swap them so m is encryption 1 (g)
-      if (_(answer).include(i)) {
+      if (_.includes(answer, i)) {
         plaintext_index = 1;
         num_selected_answers += 1;
       } else {
@@ -298,6 +298,7 @@ class EncryptedAnswer {
       // generate proof
       if (generate_new_randomness) {
         // generate proof that this ciphertext is a 0 or a 1
+  
         individual_proofs[i] = choices[i].generateDisjunctiveProof(
           zero_one_plaintexts,
           plaintext_index,

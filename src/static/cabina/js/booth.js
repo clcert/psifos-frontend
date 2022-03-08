@@ -4,7 +4,7 @@ import { USE_SJCL } from "./jscrypto/bigint";
 import _ from "lodash";
 import { BigInt } from "./jscrypto/bigint";
 import { sjcl } from "./jscrypto/sjcl";
-import { b64_sha256 } from "./jscrypto/sha2"
+import { b64_sha256 } from "./jscrypto/sha2";
 
 // utils
 let BOOTH = {};
@@ -103,7 +103,9 @@ BOOTH.setup_workers = function (election_raw_json) {
     // and one worker per question
     BOOTH.encrypted_answers = [];
     BOOTH.answer_timestamps = [];
-    BOOTH.worker = new Worker(process.env.PUBLIC_URL + "/boothworker-single.js");
+    BOOTH.worker = new Worker(
+      new URL("./boothworker-single.worker.js", import.meta.url)
+    );
     BOOTH.worker.postMessage({
       type: "setup",
       election: election_raw_json,
@@ -183,6 +185,7 @@ BOOTH.setup_election = function (raw_json, election_metadata) {
     }
 
     BOOTH.election.question_answer_orderings[i] = ordering;
+    console.log(BOOTH.election);
   });
 
   // $("#content").addClass("parallax-01");
@@ -219,6 +222,7 @@ BOOTH.launch_async_encryption_answer = function (question_num) {
   BOOTH.answer_timestamps[question_num] = new Date().getTime();
   BOOTH.encrypted_answers[question_num] = null;
   BOOTH.dirty[question_num] = false;
+  console.log(BOOTH.ballot.answers);
   BOOTH.worker.postMessage({
     type: "encrypt",
     q_num: question_num,
@@ -483,7 +487,7 @@ BOOTH.so_lets_go = function () {
 
   // election URL
   //var election_url = $.query.get("election_url");
-  let election_url = null
+  let election_url = null;
   BOOTH.load_and_setup_election(election_url);
 };
 
