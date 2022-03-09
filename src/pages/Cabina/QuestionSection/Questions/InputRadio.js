@@ -2,8 +2,8 @@ import { useState } from "react";
 
 function InputRadio(props) {
   const [answer, setAnswer] = useState([]);
+  
 
-  console.log(props.answers);
   return (
     <div>
       {Object.keys(props.answers.answers).map((key, index) => {

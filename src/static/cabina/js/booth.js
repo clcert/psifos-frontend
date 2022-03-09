@@ -185,7 +185,6 @@ BOOTH.setup_election = function (raw_json, election_metadata) {
     }
 
     BOOTH.election.question_answer_orderings[i] = ordering;
-    console.log(BOOTH.election);
   });
 
   // $("#content").addClass("parallax-01");
@@ -222,7 +221,6 @@ BOOTH.launch_async_encryption_answer = function (question_num) {
   BOOTH.answer_timestamps[question_num] = new Date().getTime();
   BOOTH.encrypted_answers[question_num] = null;
   BOOTH.dirty[question_num] = false;
-  console.log(BOOTH.ballot.answers);
   BOOTH.worker.postMessage({
     type: "encrypt",
     q_num: question_num,

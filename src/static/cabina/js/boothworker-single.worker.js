@@ -24,16 +24,15 @@ function do_encrypt(message) {
     "encrypting answer for question " + ELECTION.questions[message.q_num]
   );
 
-    console.log("EMPIEZA A ENCRIPTAR")
+  console.log("EMPIEZA A ENCRIPTAR");
   var encrypted_answer = new HELIOS.EncryptedAnswer(
     ELECTION.questions[message.q_num],
     message.answer,
     ELECTION.public_key
   );
 
-
-
   console.log("done encrypting");
+  console.log(encrypted_answer);
 
   // send the result back
   // postMessage({

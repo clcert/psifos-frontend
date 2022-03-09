@@ -10,13 +10,13 @@ import QuestionHeader from "./QuestionHeader";
 function Question(props) {
   const [actualQuestion, setActualQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
-  console.log(props.questions);
 
   function addAnswer(answer, index) {
     let answersAux = [...answers];
     answersAux[index] = answer;
     setAnswers(answersAux);
   }
+
   console.log(answers);
 
   return (
@@ -26,11 +26,11 @@ function Question(props) {
           <div
             key={key}
             style={{
-              display: actualQuestion === index ? "block" : "none",
+              display: props.actualQuestion === index ? "block" : "none",
             }}
           >
             <QuestionHeader
-              actualQuestion={actualQuestion}
+              actualQuestion={props.actualQuestion}
               totalQuestions={Object.keys(props.questions).length}
               questions={props.questions[key]}
             />
@@ -62,12 +62,12 @@ function Question(props) {
       })}
 
       <div className="columns pt-1 pb-4 buttons-question">
-        {actualQuestion !== 0 &&
-        actualQuestion < Object.keys(props.questions).length ? (
+        {props.actualQuestion !== 0 &&
+        props.actualQuestion < Object.keys(props.questions).length ? (
           <div className="column is-flex left-button-column">
             <PreviousButton
               action={() => {
-                setActualQuestion(actualQuestion - 1);
+                props.nextQuestion(props.actualQuestion - 1);
               }}
             />
           </div>
@@ -75,7 +75,7 @@ function Question(props) {
           <div className="column is-invisible is-flex left-button-column">
             <PreviousButton
               action={() => {
-                setActualQuestion(actualQuestion - 1);
+                props.nextQuestion(props.actualQuestion - 1);
               }}
             />
           </div>
@@ -87,17 +87,21 @@ function Question(props) {
           </figure>
         </div>
 
-        {actualQuestion < Object.keys(props.questions).length - 1 ? (
+        {props.actualQuestion < Object.keys(props.questions).length - 1 ? (
           <div className="column is-flex right-button-column">
             <NextButton
               action={() => {
-                setActualQuestion(actualQuestion + 1);
+                props.nextQuestion(props.actualQuestion + 1);
               }}
             />
           </div>
         ) : (
           <div className="column is-flex right-button-column">
-            <FinishButton action={props.finish} />
+            <FinishButton
+              action={() => {
+                props.answersFunction(answers);
+              }}
+            />
           </div>
         )}
       </div>

@@ -5,17 +5,16 @@ function InputCheckbox(props) {
 
   function addAnswer(event, index) {
     let value = parseInt(event.target.value);
+    let answersAux = [...answers];
     if (event.target.checked && !answers.includes(value)) {
-      let answersAux = [...answers];
       answersAux.push(value);
       setAnswers(answersAux);
-      console.log(answersAux)
     } else if (!event.target.checked && answers.includes(value)) {
-      let answersAux = [...answers];
       answersAux.splice(answersAux.indexOf(value), 1);
       setAnswers(answersAux);
-      console.log(answersAux)
     }
+    console.log(answersAux);
+    return answersAux;
   }
 
   return (
@@ -31,8 +30,8 @@ function InputCheckbox(props) {
                 name=""
                 value={index}
                 onClick={(e) => {
-                  addAnswer(e, props.index);
-                  props.addAnswer(answers, props.index);
+                  let ans = addAnswer(e, props.index);
+                  props.addAnswer(ans, props.index);
                 }}
               />
               <span className="is-size-4">{props.answers.answers[key]}</span>

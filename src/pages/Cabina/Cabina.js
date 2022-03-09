@@ -22,6 +22,8 @@ function Cabina() {
   const { uuid } = useParams();
   //const questions = require("../../static/dummyData/questionCabina.json");
   const [actualPhase, setActualPhase] = useState(1);
+  const [answers, setAnswers] = useState([]);
+  const [actualQuestion, setActualQuestion] = useState(0);
 
   if (USE_SJCL) {
     sjcl.random.startCollectors();
@@ -64,21 +66,7 @@ function Cabina() {
     2: {
       sectionClass: "parallax-02",
       stage: 1,
-      component: (
-        <>
-          <ProgressBar phase={1} />
-          <section className="section pb-0" id="question-section">
-            <div className="container has-text-centered is-max-desktop">
-              <Question
-                finish={() => {
-                  setActualPhase(4);
-                }}
-                questions={election_data.questions}
-              />
-            </div>
-          </section>
-        </>
-      ),
+      component: <></>,
     },
     3: {
       sectionClass: "parallax-03",
@@ -102,6 +90,16 @@ function Cabina() {
             }}
             audit={() => {
               setActualPhase(6);
+            }}
+            answers={answers}
+            questions={election_data.questions}
+            changeAnswer={(question) => {
+              setActualQuestion(question);
+              setActualPhase(2);
+            }}
+            sendAnswer={() => {
+              BOOTH.ballot.answers = answers;
+              BOOTH.launch_async_encryption_answer(0);
             }}
           />
         </>
@@ -140,6 +138,28 @@ function Cabina() {
           <Title namePage="Cabina Votación" nameElection={"nameElection"} />
         </div>
       </section>
+      <div
+        style={{
+          display: actualPhase === 2 ? "block" : "none",
+        }}
+      >
+        <ProgressBar phase={1} />
+        <section className="section pb-0" id="question-section">
+          <div className="container has-text-centered is-max-desktop">
+            <Question
+              questions={election_data.questions}
+              answersFunction={(answers) => {
+                setAnswers(answers);
+                setActualPhase(4);
+              }}
+              nextQuestion={(num) => {
+                setActualQuestion(num);
+              }}
+              actualQuestion={actualQuestion}
+            />
+          </div>
+        </section>
+      </div>
       {phases[actualPhase].component}
 
       <ElectionCode uuid={uuid} />
