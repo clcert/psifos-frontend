@@ -1,6 +1,5 @@
 export default class WebWorker {
     constructor(worker) {
-        console.log(worker)
         let code = worker.toString();
         code = code.substring(code.indexOf("{") + 1, code.lastIndexOf("}"));
 

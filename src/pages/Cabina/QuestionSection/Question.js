@@ -6,18 +6,19 @@ import InputRadio from "./Questions/InputRadio";
 import NextButton from "../components/Buttons/NextButton";
 import PreviousButton from "../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
+import { BOOTH } from "../../../static/cabina/js/booth";
+import ModalPercentage from "../components/ModalPercentage";
 
 function Question(props) {
   const [actualQuestion, setActualQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   function addAnswer(answer, index) {
     let answersAux = [...answers];
     answersAux[index] = answer;
     setAnswers(answersAux);
   }
-
-  console.log(answers);
 
   return (
     <div>
@@ -99,12 +100,24 @@ function Question(props) {
           <div className="column is-flex right-button-column">
             <FinishButton
               action={() => {
-                props.answersFunction(answers);
+                props.encrypQuestions(answers);
+                setShowModal(true);
               }}
+              booth={props.booth}
+              answers={answers}
             />
           </div>
         )}
       </div>
+      <ModalPercentage
+        booth={props.booth}
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        afterEncrypt={() => {
+          props.afterEncrypt(props.booth.ballot.answers);
+          setShowModal(false);
+        }}
+      />
     </div>
   );
 }

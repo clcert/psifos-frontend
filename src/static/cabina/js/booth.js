@@ -572,6 +572,7 @@ BOOTH.copyToClipboard = function (element) {
     });
 };
 
+BOOTH.percentageDone = 0;
 BOOTH.total_cycles_waited = 0;
 
 // wait for all workers to be done
@@ -582,7 +583,6 @@ BOOTH.wait_for_ciphertexts = function () {
   var percentage_done = Math.round(
     (100 * answers_done.length) / BOOTH.encrypted_answers.length
   );
-  console.log(percentage_done);
 
   if (BOOTH.total_cycles_waited > 250) {
     alert(

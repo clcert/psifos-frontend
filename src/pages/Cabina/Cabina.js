@@ -17,6 +17,8 @@ import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../static/dummyData/questionsData";
+import _ from "lodash";
+import PercentageBar from "./components/PercentageBar";
 
 function Cabina() {
   const { uuid } = useParams();
@@ -24,11 +26,18 @@ function Cabina() {
   const [actualPhase, setActualPhase] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [actualQuestion, setActualQuestion] = useState(0);
+  const [percentageDone, setPercentageDone] = useState(0);
 
-  function validateAllQuestions() {
-    for (let i = 0; i < answers.length; i++) {
+  function validateAllQuestions(answersQuestions) {
+    for (let i = 0; i < answersQuestions.length; i++) {
       BOOTH.validate_question(i);
     }
+  }
+
+  function sendEncryp(answersQuestions) {
+    BOOTH.ballot.answers = answersQuestions;
+    validateAllQuestions(answersQuestions);
+    BOOTH.seal_ballot();
   }
 
   if (USE_SJCL) {
@@ -100,12 +109,8 @@ function Cabina() {
               setActualQuestion(question);
               setActualPhase(2);
             }}
-            sendAnswer={() => {
-              BOOTH.ballot.answers = answers;
-              validateAllQuestions();
-              BOOTH.seal_ballot();
-            }}
           />
+          <PercentageBar booth={BOOTH} />
         </>
       ),
     },
@@ -152,14 +157,18 @@ function Cabina() {
           <div className="container has-text-centered is-max-desktop">
             <Question
               questions={election_data.questions}
-              answersFunction={(answers) => {
-                setAnswers(answers);
+              afterEncrypt={(answersQuestions) => {
+                setAnswers(answersQuestions);
                 setActualPhase(4);
               }}
               nextQuestion={(num) => {
                 setActualQuestion(num);
               }}
               actualQuestion={actualQuestion}
+              booth={BOOTH}
+              encrypQuestions={(answersQuestions) => {
+                sendEncryp(answersQuestions);
+              }}
             />
           </div>
         </section>

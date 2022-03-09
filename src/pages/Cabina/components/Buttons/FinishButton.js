@@ -1,7 +1,14 @@
+import { useState } from "react";
+
 function FinishButton(props) {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <button
-      onClick={props.action}
+      onClick={() => {
+        props.action();
+        setShowModal(true);
+      }}
       className="button is-medium question-button proceed-button"
     >
       <span>FINALIZAR</span>

@@ -13,7 +13,6 @@ function InputCheckbox(props) {
       answersAux.splice(answersAux.indexOf(value), 1);
       setAnswers(answersAux);
     }
-    console.log(answersAux);
     return answersAux;
   }
   

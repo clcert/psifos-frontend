@@ -236,8 +236,6 @@ class EncryptedAnswer {
     // if nothing in the constructor
     if (question === undefined || answer === null) return;
 
-    console.log(question);
-
     // store answer
     // CHANGE 2008-08-06: answer is now an *array* of answers, not just a single integer
     this.answer = answer;

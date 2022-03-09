@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 function ReviewQuestions(props) {
   const [showModal, setShowModal] = useState(false);
-  console.log(props.answers);
   return (
     <section className="section pb-0" id="review-section">
       <div className="container has-text-centered is-max-desktop">
@@ -13,7 +12,6 @@ function ReviewQuestions(props) {
           A continuación podrás revisar tu papeleta de votación.
         </p>
         {Object.keys(props.questions).map((key, index) => {
-          console.log(props.questions[key]);
           return (
             <div key={index}>
               <p className="subtitle is-4 mt-6 mb-2 has-text-black">
@@ -87,7 +85,7 @@ function ReviewQuestions(props) {
               <button
                 className="button is-medium review-buttons"
                 id="proceed_button"
-                onClick={props.sendAnswer}
+                
               >
                 <span className="icon">
                   <i className="fas fa-paper-plane"></i>
