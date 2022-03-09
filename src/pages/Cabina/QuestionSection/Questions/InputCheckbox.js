@@ -16,7 +16,7 @@ function InputCheckbox(props) {
     console.log(answersAux);
     return answersAux;
   }
-
+  
   return (
     <div>
       {Object.keys(props.answers.answers).map((key, index) => {
@@ -36,17 +36,21 @@ function InputCheckbox(props) {
               />
               <span className="is-size-4">{props.answers.answers[key]}</span>
               &nbsp;&nbsp;
-              <span style={{ fontSize: "12pt" }}>
-                [
-                <a
-                  target="_blank"
-                  href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
-                  rel="noopener noreferrer"
-                >
-                  more info
-                </a>
-                ]
-              </span>
+              {props.answers.answer_urls[key] !== "" ? (
+                <span style={{ fontSize: "12pt" }}>
+                  [
+                  <a
+                    target="_blank"
+                    href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
+                    rel="noopener noreferrer"
+                  >
+                    more info
+                  </a>
+                  ]
+                </span>
+              ) : (
+                <></>
+              )}
             </label>
           </div>
         );

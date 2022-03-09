@@ -37,7 +37,6 @@ function ReviewQuestions(props) {
                       })}
 
                   <br />
-                  <br />
                   <a onClick={() => props.changeAnswer(index)}>
                     <span className="icon has-text-white">
                       <i className="far fa-edit"></i>

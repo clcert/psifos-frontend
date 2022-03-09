@@ -2,7 +2,6 @@ import { useState } from "react";
 
 function InputRadio(props) {
   const [answer, setAnswer] = useState([]);
-  
 
   return (
     <div>
@@ -23,17 +22,21 @@ function InputRadio(props) {
               />
               <span className="is-size-4">{props.answers.answers[key]}</span>
               &nbsp;&nbsp;
-              <span style={{ fontSize: "12pt" }}>
-                [
-                <a
-                  target="_blank"
-                  href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
-                  rel="noopener noreferrer"
-                >
-                  more info
-                </a>
-                ]
-              </span>
+              {props.answers.answer_urls[key] !== "" ? (
+                <span style={{ fontSize: "12pt" }}>
+                  [
+                  <a
+                    target="_blank"
+                    href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
+                    rel="noopener noreferrer"
+                  >
+                    more info 
+                  </a>
+                  ]
+                </span>
+              ) : (
+                <></>
+              )}
             </label>
           </div>
         );
