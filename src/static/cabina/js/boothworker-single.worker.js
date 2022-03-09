@@ -34,13 +34,16 @@ function do_encrypt(message) {
   console.log("done encrypting");
   console.log(encrypted_answer);
 
+  let data = {
+    type: "result",
+    q_num: message.q_num,
+    encrypted_answer: encrypted_answer.toJSONObject(true),
+    id: message.id,
+    // });
+  }
+
   // send the result back
-  // postMessage({
-  //   type: "result",
-  //   q_num: message.q_num,
-  //   encrypted_answer: encrypted_answer.toJSONObject(true),
-  //   id: message.id,
-  // });
+  postMessage(JSON.parse(JSON.stringify(data)));
 }
 
 // receive either

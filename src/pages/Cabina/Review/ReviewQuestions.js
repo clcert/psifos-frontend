@@ -29,8 +29,9 @@ function ReviewQuestions(props) {
                             <span key={index}>
                               {"[ ✓ ] " +
                                 props.questions[key].answers[key] +
-                                " "}{" "}
+                                " "}
                             </span>
+                            <br />
                           </React.Fragment>
                         );
                       })}

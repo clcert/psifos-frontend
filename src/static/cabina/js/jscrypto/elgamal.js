@@ -539,7 +539,7 @@ class Proof {
   }
 }
 
-Proof.fromJSONObjectProof = function (d) {
+Proof.fromJSONObject = function (d) {
   return new Proof(
     BigInt.fromJSONObject(d.commitment.A),
     BigInt.fromJSONObject(d.commitment.B),

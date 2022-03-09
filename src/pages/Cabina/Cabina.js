@@ -25,6 +25,12 @@ function Cabina() {
   const [answers, setAnswers] = useState([]);
   const [actualQuestion, setActualQuestion] = useState(0);
 
+  function validateAllQuestions() {
+    for (let i = 0; i < answers.length; i++) {
+      BOOTH.validate_question(i);
+    }
+  }
+
   if (USE_SJCL) {
     sjcl.random.startCollectors();
   }
@@ -44,8 +50,8 @@ function Cabina() {
 
   BOOTH.election_metadata = election_metadata;
   BOOTH.setup_election(raw_json, election_metadata);
-  BOOTH.ballot.answers = [[0]];
-  BOOTH.launch_async_encryption_answer(0);
+  //BOOTH.ballot.answers = [[0]];
+  //BOOTH.launch_async_encryption_answer(0);
   //BOOTH.wait_for_ciphertexts();
   const election_data = JSON.parse(raw_json);
   const phases = {
@@ -85,9 +91,6 @@ function Cabina() {
         <>
           <ProgressBar phase={2} />
           <ReviewQuestions
-            finish={() => {
-              setActualPhase(5);
-            }}
             audit={() => {
               setActualPhase(6);
             }}
@@ -99,7 +102,8 @@ function Cabina() {
             }}
             sendAnswer={() => {
               BOOTH.ballot.answers = answers;
-              BOOTH.launch_async_encryption_answer(0);
+              validateAllQuestions();
+              BOOTH.seal_ballot();
             }}
           />
         </>

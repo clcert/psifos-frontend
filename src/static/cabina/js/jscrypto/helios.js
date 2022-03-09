@@ -234,9 +234,9 @@ UTILS.generate_plaintexts = function (pk, min, max) {
 class EncryptedAnswer {
   constructor(question, answer, pk, progress) {
     // if nothing in the constructor
-    if (question === null || answer === null) return;
+    if (question === undefined || answer === null) return;
 
-
+    console.log(question);
 
     // store answer
     // CHANGE 2008-08-06: answer is now an *array* of answers, not just a single integer
@@ -298,7 +298,7 @@ class EncryptedAnswer {
       // generate proof
       if (generate_new_randomness) {
         // generate proof that this ciphertext is a 0 or a 1
-  
+
         individual_proofs[i] = choices[i].generateDisjunctiveProof(
           zero_one_plaintexts,
           plaintext_index,

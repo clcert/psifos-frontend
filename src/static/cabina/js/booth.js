@@ -534,24 +534,26 @@ BOOTH._after_ballot_encryption = function () {
 
   var do_hash = function () {
     BOOTH.encrypted_ballot_hash = b64_sha256(BOOTH.encrypted_vote_json); // BOOTH.encrypted_ballot.get_hash();
-    window.setTimeout(show_cast, 0);
+    //window.setTimeout(show_cast, 0);
   };
 
-  var show_cast = function () {
-    $("#seal_div").processTemplate({
-      cast_url: BOOTH.election.cast_url,
-      encrypted_vote_json: BOOTH.encrypted_vote_json,
-      encrypted_vote_hash: BOOTH.encrypted_ballot_hash,
-      election_uuid: BOOTH.election.uuid,
-      election_hash: BOOTH.election_hash,
-      election: BOOTH.election,
-      election_metadata: BOOTH.election_metadata,
-      questions: BOOTH.election.questions,
-      choices: BALLOT.pretty_choices(BOOTH.election, BOOTH.ballot),
-    });
-    BOOTH.show($("#seal_div"));
-    BOOTH.encrypted_vote_json = null;
-  };
+  // var show_cast = function () {
+  //   $("#seal_div").processTemplate({
+  //     cast_url: BOOTH.election.cast_url,
+  //     encrypted_vote_json: BOOTH.encrypted_vote_json,
+  //     encrypted_vote_hash: BOOTH.encrypted_ballot_hash,
+  //     election_uuid: BOOTH.election.uuid,
+  //     election_hash: BOOTH.election_hash,
+  //     election: BOOTH.election,
+  //     election_metadata: BOOTH.election_metadata,
+  //     questions: BOOTH.election.questions,
+  //     choices: BALLOT.pretty_choices(BOOTH.election, BOOTH.ballot),
+  //   });
+  //   BOOTH.show($("#seal_div"));
+  //   BOOTH.encrypted_vote_json = null;
+  // };
+
+  console.log(BOOTH.encrypted_vote_json);
 
   window.setTimeout(do_hash, 0);
 };
@@ -580,6 +582,7 @@ BOOTH.wait_for_ciphertexts = function () {
   var percentage_done = Math.round(
     (100 * answers_done.length) / BOOTH.encrypted_answers.length
   );
+  console.log(percentage_done);
 
   if (BOOTH.total_cycles_waited > 250) {
     alert(
