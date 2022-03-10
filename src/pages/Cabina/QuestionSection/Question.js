@@ -30,12 +30,22 @@ function Question(props) {
     setAnswers(answersAux);
   }, []);
 
+  function createMessageAlert(min, max) {
+    if (min === max) {
+      setMessageAlert("Debes seleccionar " + min + " respuesta(s)");
+    } else {
+      setMessageAlert(
+        "Debes seleccionar entre " + min + " y " + max + " respuestas"
+      );
+    }
+  }
+
   function checkAnswers(index) {
     const min = props.questions[index].min;
     const max = props.questions[index].max;
     if (answers[index].length < min || answers[index].length > max) {
       setShowAlert(true);
-      setMessageAlert("Selecciona entre " + min + " y " + max + " respuestas");
+      createMessageAlert(min, max);
       return false;
     }
     setShowAlert(false);

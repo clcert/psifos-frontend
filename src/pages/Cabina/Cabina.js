@@ -6,7 +6,7 @@ import InstructionsSection from "./InstructionsSection/InstructionsSection";
 import MediaSection from "./InstructionsSection/MediaSection";
 import Question from "./QuestionSection/Question";
 import ProgressBar from "./components/ProgressBar";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import EncryptingCharging from "./components/EncryptingCharging";
 import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "./components/CastDone";
