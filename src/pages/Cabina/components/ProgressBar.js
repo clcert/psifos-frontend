@@ -10,7 +10,6 @@ function ProgressBar(props) {
   const Image = React.memo(function Image({ src }) {
     return <img src={src} className="spinner" alt="" />;
   });
-  console.log(props.phase);
   return (
     <section className="section px-0" id="progress-bar">
       <div className="line-1 is-hidden-touch" id="progress-line"></div>

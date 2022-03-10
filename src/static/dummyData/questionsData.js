@@ -46,6 +46,23 @@ export let raw_json = `{
       "result_type": "absolute",
       "short_name": "Test",
       "tally_type": "homomorphic"
+    },
+    {
+      "answer_urls": [
+        "",
+        ""
+      ],
+      "answers": [
+        "test",
+        "test1"
+      ],
+      "choice_type": "approval",
+      "max": 2,
+      "min": 2,
+      "question": "Pregunta unica 1",
+      "result_type": "absolute",
+      "short_name": "Test 2",
+      "tally_type": "homomorphic"
     }
   ],
   "short_name": "Test",

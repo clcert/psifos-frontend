@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function InputCheckbox(props) {
   const [answers, setAnswers] = useState([]);
@@ -15,13 +15,19 @@ function InputCheckbox(props) {
     }
     return answersAux;
   }
-  
+
   return (
     <div>
       {Object.keys(props.answers.answers).map((key, index) => {
         return (
           <div key={index}>
-            <label id="" className="checkbox question-answer p-2">
+            <label
+              id=""
+              className={
+                "checkbox question-answer p-2 " +
+                (answers.includes(index) ? "answer-selected" : "")
+              }
+            >
               <input
                 type="checkbox"
                 className="ballot_answer custom-answer"

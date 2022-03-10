@@ -46,7 +46,6 @@ function Cabina() {
   if (USE_SJCL) {
     sjcl.random.startCollectors();
   }
-  console.log(answers);
 
   // // we're asynchronous if we have SJCL and Worker
   BOOTH.synchronous = !(USE_SJCL && window.Worker);
@@ -121,6 +120,7 @@ function Cabina() {
       stage: 3,
       component: (
         <>
+        <ProgressBar phase={3} />
           <CastDone></CastDone>
         </>
       ),

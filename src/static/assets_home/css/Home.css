@@ -776,6 +776,14 @@ input[type="radio"] {
   left: -6px;
 }
 
+.question-answer{
+
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
+}
+
 .question-answer:hover {
   color: #00b7ff !important;
 }

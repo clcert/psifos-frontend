@@ -232,17 +232,17 @@ BOOTH.launch_async_encryption_answer = function (question_num) {
 // check if the current question is ok
 BOOTH.validate_question = function (question_num) {
   // check if enough answers are checked
-  if (
-    BOOTH.ballot.answers[question_num].length <
-    BOOTH.election.questions[question_num].min
-  ) {
-    alert(
-      "Debes seleccionar a lo menos " +
-        BOOTH.election.questions[question_num].min +
-        " respuesta(s)."
-    );
-    return false;
-  }
+  // if (
+  //   BOOTH.ballot.answers[question_num].length <
+  //   BOOTH.election.questions[question_num].min
+  // ) {
+  //   alert(
+  //     "Debes seleccionar a lo menos " +
+  //       BOOTH.election.questions[question_num].min +
+  //       " respuesta(s)."
+  //   );
+  //   return false;
+  // }
 
   // if we need to launch the worker, let's do it
   if (!BOOTH.synchronous) {

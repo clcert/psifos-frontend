@@ -7,11 +7,14 @@ import NextButton from "../components/Buttons/NextButton";
 import PreviousButton from "../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../components/ModalPercentage";
+import AlertQuestions from "./Questions/AlertQuestions";
 
 function Question(props) {
   const [answers, setAnswers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("");
 
   function addAnswer(answer, index) {
     let answersAux = [...answers];
@@ -19,7 +22,25 @@ function Question(props) {
     setAnswers(answersAux);
   }
 
-  
+  useEffect(() => {
+    let answersAux = [];
+    for (let i = 0; i < props.questions.length; i++) {
+      answersAux.push([]);
+    }
+    setAnswers(answersAux);
+  }, []);
+
+  function checkAnswers(index) {
+    const min = props.questions[index].min;
+    const max = props.questions[index].max;
+    if (answers[index].length < min || answers[index].length > max) {
+      setShowAlert(true);
+      setMessageAlert("Selecciona entre " + min + " y " + max + " respuestas");
+      return false;
+    }
+    setShowAlert(false);
+    return true;
+  }
 
   return (
     <div>
@@ -31,6 +52,7 @@ function Question(props) {
               display: props.actualQuestion === index ? "block" : "none",
             }}
           >
+            {showAlert ? <AlertQuestions message={messageAlert} /> : <></>}
             <QuestionHeader
               actualQuestion={props.actualQuestion}
               totalQuestions={Object.keys(props.questions).length}
@@ -94,7 +116,9 @@ function Question(props) {
           <div className="column is-flex right-button-column">
             <NextButton
               action={() => {
-                props.nextQuestion(props.actualQuestion + 1);
+                if (checkAnswers(props.actualQuestion)) {
+                  props.nextQuestion(props.actualQuestion + 1);
+                }
               }}
             />
           </div>
@@ -102,9 +126,11 @@ function Question(props) {
           <div className="column is-flex right-button-column">
             <FinishButton
               action={() => {
-                props.encrypQuestions(answers);
-                setShowModal(true);
-                setFinished(true);
+                if (checkAnswers(props.actualQuestion)) {
+                  props.encrypQuestions(answers);
+                  setShowModal(true);
+                  setFinished(true);
+                }
               }}
               booth={props.booth}
               answers={answers}

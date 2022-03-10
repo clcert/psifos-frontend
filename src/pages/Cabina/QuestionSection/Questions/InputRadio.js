@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function InputRadio(props) {
   const [answer, setAnswer] = useState([]);
@@ -8,7 +8,13 @@ function InputRadio(props) {
       {Object.keys(props.answers.answers).map((key, index) => {
         return (
           <div key={index}>
-            <label id="" className="radio question-answer p-2">
+            <label
+              id=""
+              className={
+                "radio question-answer p-2 " +
+                (answer.includes(index) ? "answer-selected" : "")
+              }
+            >
               <input
                 className="custom-answer"
                 type="radio"
@@ -30,7 +36,7 @@ function InputRadio(props) {
                     href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
                     rel="noopener noreferrer"
                   >
-                    more info 
+                    more info
                   </a>
                   ]
                 </span>
