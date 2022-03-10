@@ -85,6 +85,7 @@ function ReviewQuestions(props) {
               <button
                 className="button is-medium review-buttons"
                 id="proceed_button"
+                onClick={props.sendVote}
                 
               >
                 <span className="icon">

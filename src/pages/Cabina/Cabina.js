@@ -6,7 +6,7 @@ import InstructionsSection from "./InstructionsSection/InstructionsSection";
 import MediaSection from "./InstructionsSection/MediaSection";
 import Question from "./QuestionSection/Question";
 import ProgressBar from "./components/ProgressBar";
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import EncryptingCharging from "./components/EncryptingCharging";
 import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "./components/CastDone";
@@ -17,16 +17,12 @@ import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../static/dummyData/questionsData";
-import _ from "lodash";
-import PercentageBar from "./components/PercentageBar";
 
 function Cabina() {
   const { uuid } = useParams();
-  //const questions = require("../../static/dummyData/questionCabina.json");
   const [actualPhase, setActualPhase] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [actualQuestion, setActualQuestion] = useState(0);
-  const [percentageDone, setPercentageDone] = useState(0);
 
   function validateAllQuestions(answersQuestions) {
     for (let i = 0; i < answersQuestions.length; i++) {
@@ -40,9 +36,17 @@ function Cabina() {
     BOOTH.seal_ballot();
   }
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [actualPhase]);
+
   if (USE_SJCL) {
     sjcl.random.startCollectors();
   }
+  console.log(answers);
 
   // // we're asynchronous if we have SJCL and Worker
   BOOTH.synchronous = !(USE_SJCL && window.Worker);
@@ -59,9 +63,6 @@ function Cabina() {
 
   BOOTH.election_metadata = election_metadata;
   BOOTH.setup_election(raw_json, election_metadata);
-  //BOOTH.ballot.answers = [[0]];
-  //BOOTH.launch_async_encryption_answer(0);
-  //BOOTH.wait_for_ciphertexts();
   const election_data = JSON.parse(raw_json);
   const phases = {
     1: {
@@ -88,7 +89,6 @@ function Cabina() {
       stage: 2,
       component: (
         <>
-          <ProgressBar phase={2} />
           <EncryptingCharging />
         </>
       ),
@@ -109,8 +109,10 @@ function Cabina() {
               setActualQuestion(question);
               setActualPhase(2);
             }}
+            sendVote={() => {
+              setActualPhase(5);
+            }}
           />
-          <PercentageBar booth={BOOTH} />
         </>
       ),
     },
@@ -119,7 +121,6 @@ function Cabina() {
       stage: 3,
       component: (
         <>
-          <ProgressBar phase={3} />
           <CastDone></CastDone>
         </>
       ),
@@ -147,12 +148,13 @@ function Cabina() {
           <Title namePage="Cabina Votación" nameElection={"nameElection"} />
         </div>
       </section>
+
       <div
         style={{
           display: actualPhase === 2 ? "block" : "none",
         }}
       >
-        <ProgressBar phase={1} />
+        <ProgressBar phase={phases[actualPhase].stage} />
         <section className="section pb-0" id="question-section">
           <div className="container has-text-centered is-max-desktop">
             <Question

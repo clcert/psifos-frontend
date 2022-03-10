@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import selectImg from "../../../static/cabina/svg/select-img.svg";
 import FinishButton from "../components/Buttons/FinishButton";
 import InputCheckbox from "./Questions/InputCheckbox";
@@ -6,19 +6,20 @@ import InputRadio from "./Questions/InputRadio";
 import NextButton from "../components/Buttons/NextButton";
 import PreviousButton from "../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
-import { BOOTH } from "../../../static/cabina/js/booth";
 import ModalPercentage from "../components/ModalPercentage";
 
 function Question(props) {
-  const [actualQuestion, setActualQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [finished, setFinished] = useState(false);
 
   function addAnswer(answer, index) {
     let answersAux = [...answers];
     answersAux[index] = answer;
     setAnswers(answersAux);
   }
+
+  
 
   return (
     <div>
@@ -88,7 +89,8 @@ function Question(props) {
           </figure>
         </div>
 
-        {props.actualQuestion < Object.keys(props.questions).length - 1 ? (
+        {props.actualQuestion < Object.keys(props.questions).length - 1 &&
+        !finished ? (
           <div className="column is-flex right-button-column">
             <NextButton
               action={() => {
@@ -102,6 +104,7 @@ function Question(props) {
               action={() => {
                 props.encrypQuestions(answers);
                 setShowModal(true);
+                setFinished(true);
               }}
               booth={props.booth}
               answers={answers}

@@ -6,6 +6,7 @@ import seleccionarIcono from "../../../static/cabina/svg/seleccionar-ico-color.s
 import revisarIcono from "../../../static/cabina/svg/revisar-ico-color.svg";
 
 function InstructionsSection(props) {
+
   return (
     <section className="section" id="instructions">
       <div className="container has-text-centered steps-container">

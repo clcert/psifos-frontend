@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { HELIOS, UTILS, BALLOT } from "./jscrypto/helios";
+import { HELIOS, UTILS } from "./jscrypto/helios";
 import { USE_SJCL } from "./jscrypto/bigint";
 import _ from "lodash";
 import { BigInt } from "./jscrypto/bigint";
@@ -44,7 +44,7 @@ BOOTH.started_p = false;
 window.onbeforeunload = function (evt) {
   if (!BOOTH.started_p) return;
 
-  if (typeof evt == "undefined") {
+  if (typeof evt === "undefined") {
     evt = window.event;
   }
 
@@ -113,13 +113,13 @@ BOOTH.setup_workers = function (election_raw_json) {
 
     BOOTH.worker.onmessage = function (event) {
       // logging
-      if (event.data.type == "log") return BOOTH.log(event.data.msg);
+      if (event.data.type === "log") return BOOTH.log(event.data.msg);
 
       // result of encryption
-      if (event.data.type == "result") {
+      if (event.data.type === "result") {
         // this check ensures that race conditions
         // don't screw up votes.
-        if (event.data.id == BOOTH.answer_timestamps[event.data.q_num]) {
+        if (event.data.id === BOOTH.answer_timestamps[event.data.q_num]) {
           BOOTH.encrypted_answers[event.data.q_num] =
             HELIOS.EncryptedAnswer.fromJSONObject(
               event.data.encrypted_answer,
@@ -308,7 +308,7 @@ BOOTH.show_question = function (question_num, editing) {
   BOOTH.started_p = true;
 
   // the first time we hit the last question, we enable the review all button
-  if (question_num == BOOTH.election.questions.length - 1)
+  if (question_num === BOOTH.election.questions.length - 1)
     BOOTH.all_questions_seen = true;
 
   BOOTH.show_progress("1");
@@ -344,7 +344,7 @@ BOOTH.click_radiobox = function (question_num, answer_num, checked_p) {
   // keep track of dirty answers that need encrypting
   BOOTH.dirty[question_num] = true;
 
-  if ($(BOOTH.ballot.answers[question_num]).index(answer_num) == -1)
+  if ($(BOOTH.ballot.answers[question_num]).index(answer_num) === -1)
     var answer_unselected = BOOTH.ballot.answers[question_num].pop();
   console.log("a: " + answer_unselected);
   $("#answer_wrapper_" + question_num + "_" + answer_unselected).removeClass(
@@ -366,7 +366,7 @@ BOOTH.click_checkbox = function (question_num, answer_num, checked_p) {
 
   if (checked_p) {
     // multiple click events shouldn't screw this up
-    if ($(BOOTH.ballot.answers[question_num]).index(answer_num) == -1)
+    if ($(BOOTH.ballot.answers[question_num]).index(answer_num) === -1)
       BOOTH.ballot.answers[question_num].push(answer_num);
 
     $("#answer_wrapper_" + question_num + "_" + answer_num).addClass(
@@ -472,7 +472,7 @@ BOOTH.show_progress = function (step_num) {
   $("#progress-" + step_num).attr("src", "svg/menu" + step_num + "-2.svg");
 
   $(["1", "2", "3", "4"]).each(function (n, step) {
-    if (step == step_num)
+    if (step === step_num)
       $("#progress-" + step).attr("src", "svg/menu" + step + "-2.svg");
     else $("#progress-" + step).attr("src", "svg/menu" + step + "-1.svg");
   });
@@ -521,7 +521,7 @@ BOOTH.ready_p = false;
 
 BOOTH.check_encryption_status = function () {
   var progress = BOOTH.progress.progress();
-  if (progress == "" || progress == null) progress = "0";
+  if (progress === "" || progress === null) progress = "0";
 
   $("#percent_done").html(progress);
 };
@@ -577,40 +577,35 @@ BOOTH.total_cycles_waited = 0;
 
 // wait for all workers to be done
 BOOTH.wait_for_ciphertexts = function () {
-  BOOTH.total_cycles_waited += 1;
-
-  var answers_done = _.reject(BOOTH.encrypted_answers, _.isNull);
-  var percentage_done = Math.round(
-    (100 * answers_done.length) / BOOTH.encrypted_answers.length
-  );
-
-  if (BOOTH.total_cycles_waited > 250) {
-    alert(
-      "there appears to be a problem with the encryption process.\nPlease email help@heliosvoting.org and indicate that your encryption process froze at " +
-        percentage_done +
-        "%"
-    );
-    return;
-  }
-
-  if (percentage_done < 100) {
-    setTimeout(BOOTH.wait_for_ciphertexts, 500);
-    $("#percent_done").html(percentage_done + "");
-    return;
-  }
-
-  BOOTH.encrypted_ballot = HELIOS.EncryptedVote.fromEncryptedAnswers(
-    BOOTH.election,
-    BOOTH.encrypted_answers
-  );
-
-  BOOTH._after_ballot_encryption();
+  // BOOTH.total_cycles_waited += 1;
+  // var answers_done = _.reject(BOOTH.encrypted_answers, _.isNull);
+  // var percentage_done = Math.round(
+  //   (100 * answers_done.length) / BOOTH.encrypted_answers.length
+  // );
+  // if (BOOTH.total_cycles_waited > 250) {
+  //   alert(
+  //     "there appears to be a problem with the encryption process.\nPlease email help@heliosvoting.org and indicate that your encryption process froze at " +
+  //       percentage_done +
+  //       "%"
+  //   );
+  //   return;
+  // }
+  // if (percentage_done < 100) {
+  //   setTimeout(BOOTH.wait_for_ciphertexts, 500);
+  //   $("#percent_done").html(percentage_done + "");
+  //   return;
+  // }
+  // BOOTH.encrypted_ballot = HELIOS.EncryptedVote.fromEncryptedAnswers(
+  //   BOOTH.election,
+  //   BOOTH.encrypted_answers
+  // );
+  // BOOTH._after_ballot_encryption();
 };
 
 BOOTH.seal_ballot_raw = function () {
   if (BOOTH.synchronous) {
     BOOTH.progress = new UTILS.PROGRESS();
-    var progress_interval = setInterval("BOOTH.check_encryption_status()", 500);
+    var progress_interval = setInterval(BOOTH.check_encryption_status, 500);
     BOOTH.encrypted_ballot = new HELIOS.EncryptedVote(
       BOOTH.election,
       BOOTH.ballot.answers,
