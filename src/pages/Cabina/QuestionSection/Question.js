@@ -142,7 +142,6 @@ function Question(props) {
                   setFinished(true);
                 }
               }}
-              booth={props.booth}
               answers={answers}
             />
           </div>

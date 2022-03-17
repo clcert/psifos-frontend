@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function InputCheckbox(props) {
   const [answers, setAnswers] = useState([]);

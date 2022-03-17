@@ -13,6 +13,8 @@ import Login from "./pages/Admin/Login/Login";
 import CreateElection from "./pages/Admin/CreateElection/CreateElection";
 import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
 import Consult from "./pages/Cabina/Consult/Consult";
+import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
+import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />
         <Route path=":uuid/custodio" element={<CustodioClaves />} />
+        <Route path=":uuid/custodio/:uuidTrustee/home" element={<CustodioHome />} />
+        <Route path=":uuid/custodio/:uuidTrustee/keygenerator" element={<Keygenerator />} />
         <Route path=":uuid/resultado" element={<Resultados />} />
       </Route>
 
