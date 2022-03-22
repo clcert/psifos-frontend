@@ -1,5 +1,4 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
@@ -11,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
+import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
@@ -29,7 +29,7 @@ function CustodioClaves() {
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
+        <NavbarAdmin />
           <Title namePage="Custodio de Claves" nameElection={nameElection} />
         </div>
       </section>

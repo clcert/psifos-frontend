@@ -6,14 +6,24 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import TimeField from "react-simple-timefield";
 import { useState } from "react";
 import { backendIP } from "../../../server";
-import { rest } from "lodash";
 
 function CreateElection() {
   const [shortName, setShortName] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [maxWeight, setMaxWeight] = useState(1);
   const [electionType, setElectionType] = useState("election");
+  const [helpEmail, setHelpEmail] = useState(null);
+  const [maxWeight, setMaxWeight] = useState(1);
+  const [votingStartDate, setVotingStartDate] = useState(null);
+  const [votingStartTime, setVotingStartTime] = useState("00:00");
+  const [votingEndDate, setVotingEndDate] = useState(null);
+  const [votingEndTime, setVotingEndTime] = useState("00:00");
+
+  const [voterAliases, setVoterAliases] = useState(false);
+  const [randomizeAnswer, setRandomizeAnswer] = useState(false);
+  const [privateElection, setPrivateElection] = useState(false);
+  const [normalization, setNormalization] = useState(false);
+
   const [alertMessage, setAlertMessage] = useState("");
 
   async function createElection() {
@@ -28,9 +38,16 @@ function CreateElection() {
         short_name: shortName,
         name: name,
         description: description,
-        max_weight: maxWeight,
         election_type: electionType,
-        admin: 1,
+        help_email: helpEmail,
+        max_weight: maxWeight,
+        voting_started_at: votingStartDate ? (votingStartDate + " " + votingStartTime + ":00") : null,
+        voting_ends_at: votingEndDate ?  (votingEndDate + " " + votingEndTime + ":00") : null,
+        use_voter_aliases: voterAliases,
+        randomize_answer_order: randomizeAnswer,
+        private_p: privateElection,
+        normalization: normalization,
+
       }),
     });
     const jsonResponse = await resp.json();
@@ -126,7 +143,14 @@ function CreateElection() {
           <div className="field">
             <label className="label label-form-election">Correo de ayuda</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Correo" />
+              <input
+                onChange={(e) => {
+                  setHelpEmail(e.target.value);
+                }}
+                className="input"
+                type="text"
+                placeholder="Correo"
+              />
             </div>
             <p className="help">
               An email address voters should contact if they need help.
@@ -156,9 +180,18 @@ function CreateElection() {
                 className="input input-calendar"
                 type="date"
                 placeholder="Fecha de inicio"
+                onChange={(e) => {
+                  setVotingStartDate(e.target.value);
+                }}
               />
             </div>
-            <TimeField style={{ width: "46px" }} colon=":" />
+            <TimeField
+              onChange={(e) => {
+                setVotingStartTime(e.target.value);
+              }}
+              style={{ width: "46px" }}
+              colon=":"
+            />
           </div>
           <div className="field">
             <label className="label label-form-election">
@@ -169,14 +202,29 @@ function CreateElection() {
                 className="input input-calendar"
                 type="date"
                 placeholder="Fecha de inicio"
+                onChange={(e) => {
+                  setVotingEndDate(e.target.value);
+                }}
               />
             </div>
-            <TimeField style={{ width: "46px" }} colon=":" />
+            <TimeField
+              onChange={(e) => {
+                setVotingEndTime(e.target.value);
+              }}
+              style={{ width: "46px" }}
+              colon=":"
+            />
           </div>
           <div className="field">
             <div className="control">
               <label className="checkbox">
-                <input type="checkbox" className="mr-2" />
+                <input
+                  onChange={(e) => {
+                    setVoterAliases(e.target.checked);
+                  }}
+                  type="checkbox"
+                  className="mr-2"
+                />
                 User voter aliases
               </label>
             </div>
@@ -188,7 +236,13 @@ function CreateElection() {
           <div className="field">
             <div className="control">
               <label className="checkbox">
-                <input type="checkbox" className="mr-2" />
+                <input
+                  onChange={(e) => {
+                    setRandomizeAnswer(e.target.checked);
+                  }}
+                  type="checkbox"
+                  className="mr-2"
+                />
                 Randomize answer order
               </label>
             </div>
@@ -200,7 +254,13 @@ function CreateElection() {
           <div className="field">
             <div className="control">
               <label className="checkbox">
-                <input type="checkbox" className="mr-2" />
+                <input
+                  onChange={(e) => {
+                    setPrivateElection(e.target.checked);
+                  }}
+                  type="checkbox"
+                  className="mr-2"
+                />
                 Elección privada
               </label>
             </div>
@@ -211,7 +271,13 @@ function CreateElection() {
           <div className="field">
             <div className="control">
               <label className="checkbox">
-                <input type="checkbox" className="mr-2" />
+                <input
+                  onChange={(e) => {
+                    setNormalization(e.target.checked);
+                  }}
+                  type="checkbox"
+                  className="mr-2"
+                />
                 Normalizar los resultados
               </label>
             </div>

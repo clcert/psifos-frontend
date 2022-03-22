@@ -5,6 +5,8 @@ import { Buffer } from "buffer";
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [colorAlert, setColorAlert] = useState("");
 
   function setToken(userToken) {
     sessionStorage.setItem("token", userToken["token"]);
@@ -27,9 +29,13 @@ function Login(props) {
 
     if (resp.status === 200) {
       const data = await resp.json();
+      setColorAlert("green")
+      setAlertMessage("Inicio exitoso!");
       setToken(data);
-    } else {
-      console.log("Error al iniciar sesión");
+    } else if(resp.status === 401) {
+      const data = await resp.json();
+      setColorAlert("red");
+      setAlertMessage(data["message"]);
     }
   }
 
@@ -40,9 +46,7 @@ function Login(props) {
           <div className="container-content-login">
             <img src={logoParticipa} alt="Logo Participa" />
             <div className="container-login-title">PANEL ADMINISTRADOR</div>
-            <div className="container-login-subtitle">
-              Para continuar ingrese los datos enviados por correo
-            </div>
+            <div style={{color: colorAlert}} className="container-login-subtitle">{alertMessage}</div>
             <div className="container-login-form">
               <div className="field">
                 <label className="label">Usuario</label>

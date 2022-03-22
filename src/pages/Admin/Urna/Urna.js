@@ -1,4 +1,3 @@
-import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
@@ -10,6 +9,7 @@ import SettingsUrna from "./components/SettingsUrna";
 import Title from "../../../component/OthersComponents/Title";
 import { Button } from "react-bulma-components";
 import SubNavbar from "../component/SubNavbar";
+import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
@@ -33,12 +33,12 @@ function Urna() {
       <div id="content-voters">
         <section className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar />
+            <NavbarAdmin />
             <Title namePage="Urna Electronica" nameElection="test" />
           </div>
         </section>
 
-        <SubNavbar active={3}/>
+        <SubNavbar active={3} />
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
           <div style={{ width: "70%" }}>

@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { backendIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import SubNavbar from "../component/SubNavbar";
 import Title from "../../../component/OthersComponents/Title";
+import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 
 function Resultados() {
   const [electionName, setElectionName] = useState("test");
@@ -33,7 +33,7 @@ function Resultados() {
     <div id="content-results">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
+        <NavbarAdmin />
 
           <Title namePage="Resultados Preliminares" nameElection={electionName} />
         </div>
