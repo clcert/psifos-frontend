@@ -4,8 +4,46 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import TimeField from "react-simple-timefield";
+import { useState } from "react";
+import { backendIP } from "../../../server";
+import { rest } from "lodash";
 
 function CreateElection() {
+  const [shortName, setShortName] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [maxWeight, setMaxWeight] = useState(1);
+  const [electionType, setElectionType] = useState("election");
+  const [alertMessage, setAlertMessage] = useState("");
+
+  async function createElection() {
+    const token = sessionStorage.getItem("token");
+    const resp = await fetch(backendIP + "/create_election", {
+      method: "POST",
+      headers: {
+        "x-access-tokens": token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        short_name: shortName,
+        name: name,
+        description: description,
+        max_weight: maxWeight,
+        election_type: electionType,
+        admin: 1,
+      }),
+    });
+    const jsonResponse = await resp.json();
+    if (resp.status === 400) {
+      if (jsonResponse.message.hasOwnProperty("short_name")) {
+        setAlertMessage(jsonResponse.message["short_name"][0]);
+      }
+    }
+    if (resp.status === 200) {
+      window.location.href = "/admin/home";
+    }
+  }
+
   return (
     <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
@@ -20,10 +58,18 @@ function CreateElection() {
         id="create-election-section"
       >
         <div className="form-election">
+          <div>{alertMessage}</div>
           <div className="field">
             <label className="label label-form-election">Nombre corto</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Nombre corto" />
+              <input
+                className="input"
+                type="text"
+                placeholder="Nombre corto"
+                onChange={(e) => {
+                  setShortName(e.target.value);
+                }}
+              />
             </div>
             <p className="help">
               No espacios, esta sera parte de la URL, e.g. my-club-2010
@@ -38,6 +84,9 @@ function CreateElection() {
                 className="input"
                 type="text"
                 placeholder="Nombre de la elección"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
             </div>
             <p className="help">
@@ -47,16 +96,28 @@ function CreateElection() {
           <div className="field">
             <label className="label label-form-election">Descripción</label>
             <div className="control">
-              <textarea className="textarea" placeholder="Descripción"></textarea>
+              <textarea
+                className="textarea"
+                placeholder="Descripción"
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              ></textarea>
             </div>
           </div>
           <div className="field">
-            <label className="label label-form-election">Tipo de elección</label>
+            <label className="label label-form-election">
+              Tipo de elección
+            </label>
             <div className="control">
               <div className="select">
-                <select>
-                  <option>Elección</option>
-                  <option>Referendum</option>
+                <select
+                  onChange={(e) => {
+                    setElectionType(e.target.value);
+                  }}
+                >
+                  <option value="election">Elección</option>
+                  <option value="referendum">Referendum</option>
                 </select>
               </div>
             </div>
@@ -80,6 +141,9 @@ function CreateElection() {
                 className="input"
                 type="number"
                 placeholder="Peso maximo"
+                onChange={(e) => {
+                  setMaxWeight(e.target.value);
+                }}
               />
             </div>
             <p className="help">The maximum value of the voter weights.</p>
@@ -93,7 +157,6 @@ function CreateElection() {
                 type="date"
                 placeholder="Fecha de inicio"
               />
-              
             </div>
             <TimeField style={{ width: "46px" }} colon=":" />
           </div>
@@ -107,7 +170,6 @@ function CreateElection() {
                 type="date"
                 placeholder="Fecha de inicio"
               />
-             
             </div>
             <TimeField style={{ width: "46px" }} colon=":" />
           </div>
@@ -163,10 +225,11 @@ function CreateElection() {
                 Atras
               </Link>
             </Button>
-            <Button className="button-custom mr-2 ml-2 level-right">
-              <Link className="link-button" to="/admin/home">
-                Crear elección
-              </Link>
+            <Button
+              onClick={createElection}
+              className="button-custom mr-2 ml-2 level-right"
+            >
+              Crear elección
             </Button>
           </div>
         </div>

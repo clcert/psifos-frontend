@@ -47,7 +47,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
+                      to={"/admin/" + props.uuid + "/panel"}
                       className="accordion-link"
                     >
                       Panel administración
@@ -56,7 +56,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resumen"
+                      to={"/admin/" + props.uuid + "/resumen"}
                       className="accordion-link"
                     >
                       Resumen
@@ -65,7 +65,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+                      to={"/admin/" + props.uuid + "/urna"}
                       className="accordion-link"
                     >
                       Urna
@@ -76,7 +76,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/custodio"
+                      to={"/admin/" + props.uuid + "/custodio"}
                       className="accordion-link"
                     >
                       Custodio de claves
@@ -85,7 +85,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resultado"
+                      to={"/admin/" + props.uuid + "/resultado"}
                       className="accordion-link"
                     >
                       Resultados
@@ -93,7 +93,7 @@ function Accordion(props) {
                   </div>
                   <div className="row-accordion is-full">
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
+                      to={"/admin/" + props.uuid + "/panel"}
                       className="accordion-link"
                     >
                       Preguntas

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Redirect, useNavigate } from "react-router-dom";
 import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
 import Urna from "./pages/Admin/Urna/Urna";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
@@ -15,15 +15,34 @@ import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
 import Consult from "./pages/Cabina/Consult/Consult";
 import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
-// eslint-disable-next-line import/no-webpack-loader-syntax
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
+
+  function getToken() {
+    const tokenString = sessionStorage.getItem("token");
+    return tokenString;
+  }
+
+  const token = getToken();
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/admin/login", { replace: true });
+    }
+  }, [token, navigate]);
   return (
     <Routes>
       <Route path="home" element={<Home />} />
 
       <Route path="/admin">
-        <Route path="login" element={<Login />} />
+        {token ? (
+          <Route path="login" element={<Navigate replace to="/admin/home" />} />
+        ) : (
+          <Route path="login" element={<Login />} />
+        )}
         <Route path="home" element={<HomeAdmin />} />
         <Route path="createElection" element={<CreateElection />} />
         <Route path="createQuestion" element={<CreateQuestion />} />
@@ -31,8 +50,14 @@ function App() {
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />
         <Route path=":uuid/custodio" element={<CustodioClaves />} />
-        <Route path=":uuid/custodio/:uuidTrustee/home" element={<CustodioHome />} />
-        <Route path=":uuid/custodio/:uuidTrustee/keygenerator" element={<Keygenerator />} />
+        <Route
+          path=":uuid/custodio/:uuidTrustee/home"
+          element={<CustodioHome />}
+        />
+        <Route
+          path=":uuid/custodio/:uuidTrustee/keygenerator"
+          element={<Keygenerator />}
+        />
         <Route path=":uuid/resultado" element={<Resultados />} />
       </Route>
 

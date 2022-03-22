@@ -7,7 +7,7 @@ import ImageFooter from "../../../component/Footers/ImageFooter";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import Title from "../../../component/OthersComponents/Title";
-import imageTrustees from "../../../static/svg/trustees1.svg"
+import imageTrustees from "../../../static/svg/trustees1.svg";
 import {
   PARAMS,
   CERTIFICATES,
@@ -15,6 +15,7 @@ import {
   SUM,
   SECRET_KEY,
 } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { Link } from "react-router-dom";
 
 function Keygenerator(props) {
   var COEFFICIENTS = [];
@@ -444,49 +445,65 @@ function Keygenerator(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar />
-          <Title namePage="Custodio de Claves" nameElection="Pagina privada de Vocal" />
+          <Title
+            namePage="Custodio de Claves"
+            nameElection="Pagina privada de Vocal"
+          />
         </div>
       </section>
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
-          <div class="level">
-            <div class="level-item has-text-centered">
+          <div className="level">
+            <div className="level-item has-text-centered">
               <div>
-                <p class="pb-2 title has-text-white">
+                <p className="pb-2 title has-text-white">
                   Generación claves{" "}
-                  <i id="step_0" class="fa-solid fa-circle-xmark"></i>
+                  <i id="step_0" className="fa-solid fa-circle-xmark"></i>
                 </p>
               </div>
             </div>
-            <div class="level-item has-text-centered">
+            <div className="level-item has-text-centered">
               <div>
-                <p class="pb-2 title has-text-white">
-                  Etapa 1 <i id="step_1" class="fa-solid fa-circle-xmark"></i>
+                <p className="pb-2 title has-text-white">
+                  Etapa 1{" "}
+                  <i id="step_1" className="fa-solid fa-circle-xmark"></i>
                 </p>
               </div>
             </div>
-            <div class="level-item has-text-centered">
+            <div className="level-item has-text-centered">
               <div>
-                <p class="pb-2 title has-text-white">
-                  Etapa 2 <i id="step_2" class="fa-solid fa-circle-xmark"></i>
+                <p className="pb-2 title has-text-white">
+                  Etapa 2{" "}
+                  <i id="step_2" className="fa-solid fa-circle-xmark"></i>
                 </p>
               </div>
             </div>
-            <div class="level-item has-text-centered">
+            <div className="level-item has-text-centered">
               <div>
-                <p class="pb-2 title has-text-white">
-                  Etapa 3 <i id="step_3" class="fa-solid fa-circle-xmark"></i>
+                <p className="pb-2 title has-text-white">
+                  Etapa 3{" "}
+                  <i id="step_3" className="fa-solid fa-circle-xmark"></i>
                 </p>
               </div>
             </div>
           </div>
-          <div id="process_step" class="has-text-white"></div>
+          <div id="process_step" className="has-text-white"></div>
           <br />
+          <button id="button-init" className="button is-link mr-5">
+            <Link
+              style={{ textDecoration: "None", color: "white" }}
+              to="/admin/10/custodio/10/home"
+            >
+              Volver atrás
+            </Link>
+          </button>
           <button
             id="button-init"
-            class="button is-link"
-            onclick="process.init_process()"
+            className="button is-link mr-5"
+            onClick={() => {
+              process.init_process();
+            }}
           >
             Iniciar Proceso
           </button>

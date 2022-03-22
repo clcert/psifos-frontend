@@ -1,12 +1,31 @@
 import Title from "../../../component/OthersComponents/Title";
-import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import Accordion from "./component/Accordion";
 import { Button } from "react-bulma-components";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { backendIP } from "../../../server";
 
 function HomeAdmin(props) {
+  const [elections, setElections] = useState([]);
+
+  useEffect(() => {
+    async function getElections() {
+      const token = sessionStorage.getItem("token");
+      const resp = await fetch(backendIP + "/get_elections", {
+        method: "GET",
+        headers: {
+          "x-access-tokens": token,
+          "Content-Type": "application/json",
+        },
+      });
+      const jsonResponse = await resp.json();
+      setElections(jsonResponse);
+    }
+    getElections();
+  }, []);
+
   return (
     <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
@@ -36,14 +55,26 @@ function HomeAdmin(props) {
                   window.location.href = "";
                 }}
               >
-                <Link className="link-button" to="/admin/createElection" >Crear Votación</Link>
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  className="link-button"
+                  to="/admin/createElection"
+                >
+                  Crear Votación
+                </Link>
               </Button>
             </div>
           </div>
           <div className="home-admin-accordion-section">
-            <Accordion state="En curso" electionName="Elección 1" />
-            <Accordion state="Terminada" electionName="Elección 2" />
-            <Accordion state="Inicio pronto" electionName="Elección 3" />
+            {Object.keys(elections).map((key) => {
+              return (
+                <Accordion
+                  state="En curso"
+                  electionName={elections[key].short_name}
+                  uuid={elections[key].uuid}
+                />
+              );
+            })}
           </div>
         </div>
       </section>

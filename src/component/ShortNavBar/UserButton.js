@@ -1,6 +1,11 @@
+import { Button } from "react-bulma-components";
 import { Link } from "react-router-dom";
 
 function UserButton(props) {
+  function logOut() {
+    sessionStorage.removeItem("token");
+    window.location.href = "/admin/login";
+  }
   return (
     <div className="dropdown is-hoverable mb-2">
       <div className="dropdown-trigger">
@@ -15,9 +20,14 @@ function UserButton(props) {
           </span>
         </a>
       </div>
-      <div className="dropdown-menu mt-2" id="dropdown-menu4" role="menu">
+      <div className="dropdown-menu" id="dropdown-menu4" role="menu">
         <div className="dropdown-item">
-          <Link style={{textDecoration: "None", color: "black"}} to="/admin/login">Log out</Link>
+          <a
+            onClick={logOut}
+            style={{ textDecoration: "None", color: "black" }}
+          >
+            Log out
+          </a>
         </div>
       </div>
     </div>
