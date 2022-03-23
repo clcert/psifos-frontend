@@ -1,22 +1,23 @@
 import { Button } from "react-bulma-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import TimeField from "react-simple-timefield";
 import { useState } from "react";
 import { backendIP } from "../../../server";
+import { useEffect } from "react";
 
-function CreateElection() {
+function CreateElection(props) {
   const [shortName, setShortName] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [electionType, setElectionType] = useState("election");
-  const [helpEmail, setHelpEmail] = useState(null);
+  const [helpEmail, setHelpEmail] = useState(undefined);
   const [maxWeight, setMaxWeight] = useState(1);
-  const [votingStartDate, setVotingStartDate] = useState(null);
+  const [votingStartDate, setVotingStartDate] = useState(undefined);
   const [votingStartTime, setVotingStartTime] = useState("00:00");
-  const [votingEndDate, setVotingEndDate] = useState(null);
+  const [votingEndDate, setVotingEndDate] = useState(undefined);
   const [votingEndTime, setVotingEndTime] = useState("00:00");
 
   const [voterAliases, setVoterAliases] = useState(false);
@@ -25,6 +26,82 @@ function CreateElection() {
   const [normalization, setNormalization] = useState(false);
 
   const [alertMessage, setAlertMessage] = useState("");
+  const { uuid } = useParams();
+
+  useEffect(() => {
+    if (props.edit) {
+      async function getElection() {
+        const token = sessionStorage.getItem("token");
+        const resp = await fetch(backendIP + "/get_election/" + uuid, {
+          method: "GET",
+          headers: {
+            "x-access-tokens": token,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await resp.json();
+        if (resp.status === 200) {
+          setShortName(data.short_name);
+          setName(data.name);
+          setDescription(data.description);
+          setElectionType(data.election_type);
+          setHelpEmail(data.help_email);
+          setMaxWeight(data.max_weight);
+          setVotingStartDate(data.voting_started_at.split("T")[0]);
+          setVotingStartTime(
+            data.voting_started_at.split("T")[1].substring(0, 5)
+          );
+          setVotingEndDate(data.voting_ends_at.split("T")[0]);
+          setVotingEndTime(data.voting_ends_at.split("T")[1].substring(0, 5));
+          setVoterAliases(data.use_voter_aliases);
+          setRandomizeAnswer(data.randomize_answer_order);
+          setPrivateElection(data.private_p);
+          setNormalization(data.normalization);
+          console.log(votingEndDate);
+        } else {
+          setAlertMessage(data.message);
+        }
+        console.log(data);
+      }
+      getElection();
+    }
+  }, []);
+
+  async function editElection() {
+    const token = sessionStorage.getItem("token");
+    const resp = await fetch(backendIP + "/edit_election/" + uuid, {
+      method: "POST",
+      headers: {
+        "x-access-tokens": token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        short_name: shortName,
+        name: name,
+        description: description,
+        election_type: electionType,
+        help_email: helpEmail,
+        max_weight: maxWeight,
+        voting_started_at: votingStartDate
+          ? votingStartDate + " " + votingStartTime + ":00"
+          : null,
+        voting_ends_at: votingEndDate
+          ? votingEndDate + " " + votingEndTime + ":00"
+          : null,
+        use_voter_aliases: voterAliases,
+        randomize_answer_order: randomizeAnswer,
+        private_p: privateElection,
+        normalization: normalization,
+      }),
+    });
+    const data = await resp.json();
+    if (resp.status === 200) {
+      setAlertMessage(data.message);
+    } else {
+      setAlertMessage(data.message);
+    }
+    console.log(data);
+  }
 
   async function createElection() {
     const token = sessionStorage.getItem("token");
@@ -41,13 +118,16 @@ function CreateElection() {
         election_type: electionType,
         help_email: helpEmail,
         max_weight: maxWeight,
-        voting_started_at: votingStartDate ? (votingStartDate + " " + votingStartTime + ":00") : null,
-        voting_ends_at: votingEndDate ?  (votingEndDate + " " + votingEndTime + ":00") : null,
+        voting_started_at: votingStartDate
+          ? votingStartDate + " " + votingStartTime + ":00"
+          : null,
+        voting_ends_at: votingEndDate
+          ? votingEndDate + " " + votingEndTime + ":00"
+          : null,
         use_voter_aliases: voterAliases,
         randomize_answer_order: randomizeAnswer,
         private_p: privateElection,
         normalization: normalization,
-
       }),
     });
     const jsonResponse = await resp.json();
@@ -83,6 +163,7 @@ function CreateElection() {
                 className="input"
                 type="text"
                 placeholder="Nombre corto"
+                value={shortName}
                 onChange={(e) => {
                   setShortName(e.target.value);
                 }}
@@ -101,6 +182,7 @@ function CreateElection() {
                 className="input"
                 type="text"
                 placeholder="Nombre de la elección"
+                value={name}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -116,6 +198,7 @@ function CreateElection() {
               <textarea
                 className="textarea"
                 placeholder="Descripción"
+                value={description}
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
@@ -129,6 +212,7 @@ function CreateElection() {
             <div className="control">
               <div className="select">
                 <select
+                  value={electionType}
                   onChange={(e) => {
                     setElectionType(e.target.value);
                   }}
@@ -147,6 +231,7 @@ function CreateElection() {
                 onChange={(e) => {
                   setHelpEmail(e.target.value);
                 }}
+                value={helpEmail}
                 className="input"
                 type="text"
                 placeholder="Correo"
@@ -165,6 +250,7 @@ function CreateElection() {
                 className="input"
                 type="number"
                 placeholder="Peso maximo"
+                value={maxWeight}
                 onChange={(e) => {
                   setMaxWeight(e.target.value);
                 }}
@@ -180,6 +266,7 @@ function CreateElection() {
                 className="input input-calendar"
                 type="date"
                 placeholder="Fecha de inicio"
+                value={votingStartDate}
                 onChange={(e) => {
                   setVotingStartDate(e.target.value);
                 }}
@@ -189,6 +276,7 @@ function CreateElection() {
               onChange={(e) => {
                 setVotingStartTime(e.target.value);
               }}
+              value={votingStartTime}
               style={{ width: "46px" }}
               colon=":"
             />
@@ -202,6 +290,7 @@ function CreateElection() {
                 className="input input-calendar"
                 type="date"
                 placeholder="Fecha de inicio"
+                value={votingEndDate}
                 onChange={(e) => {
                   setVotingEndDate(e.target.value);
                 }}
@@ -211,6 +300,7 @@ function CreateElection() {
               onChange={(e) => {
                 setVotingEndTime(e.target.value);
               }}
+              value={votingEndTime}
               style={{ width: "46px" }}
               colon=":"
             />
@@ -222,6 +312,7 @@ function CreateElection() {
                   onChange={(e) => {
                     setVoterAliases(e.target.checked);
                   }}
+                  checked={voterAliases}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -240,6 +331,7 @@ function CreateElection() {
                   onChange={(e) => {
                     setRandomizeAnswer(e.target.checked);
                   }}
+                  checked={randomizeAnswer}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -258,6 +350,7 @@ function CreateElection() {
                   onChange={(e) => {
                     setPrivateElection(e.target.checked);
                   }}
+                  checked={privateElection}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -275,6 +368,7 @@ function CreateElection() {
                   onChange={(e) => {
                     setNormalization(e.target.checked);
                   }}
+                  checked={normalization}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -291,12 +385,21 @@ function CreateElection() {
                 Atras
               </Link>
             </Button>
-            <Button
-              onClick={createElection}
-              className="button-custom mr-2 ml-2 level-right"
-            >
-              Crear elección
-            </Button>
+            {props.edit ? (
+              <Button
+                onClick={editElection}
+                className="button-custom mr-2 ml-2 level-right"
+              >
+                Editar Elección
+              </Button>
+            ) : (
+              <Button
+                onClick={createElection}
+                className="button-custom mr-2 ml-2 level-right"
+              >
+                Crear elección
+              </Button>
+            )}
           </div>
         </div>
       </section>

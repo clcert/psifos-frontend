@@ -46,6 +46,10 @@ function App() {
         <Route path="home" element={<HomeAdmin />} />
         <Route path="createElection" element={<CreateElection />} />
         <Route path="createQuestion" element={<CreateQuestion />} />
+        <Route
+          path="editQuestion/:uuid"
+          element={<CreateElection edit={true} />}
+        />
         <Route path=":uuid/panel" element={<AdministrationPanel />} />
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />

@@ -6,9 +6,12 @@ import SubNavbar from "../component/SubNavbar";
 import AccordionAudit from "./component/AccordionAudit";
 import ExtendElection from "./component/ExtendElection";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function AdministrationPanel(props) {
   const [extendElectionModal, setExtendElectionModal] = useState(false);
+  const { uuid } = useParams();
   return (
     <>
       <div id="content-home-admin">
@@ -30,7 +33,9 @@ function AdministrationPanel(props) {
         >
           <div className="panel-body">
             <div className="panel-action mb-4">
-              <Button className="button-custom mr-2 ml-2">Editar</Button>
+              <Link to={"/admin/editQuestion/" + uuid}>
+                <Button className="button-custom mr-2 ml-2"> Editar</Button>
+              </Link>
               <Button className="button-custom mr-2 ml-2">Archivar</Button>
               <Button className="button-custom mr-2 ml-2">Copiar</Button>
               <Button

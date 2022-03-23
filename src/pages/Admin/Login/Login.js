@@ -15,10 +15,7 @@ function Login(props) {
 
   async function login() {
     let url = "http://127.0.0.1:5000/login";
-    console.log(username);
-    console.log(password);
     let encoded = Buffer.from(username + ":" + password);
-    console.log(encoded);
     const resp = await fetch(url, {
       method: "POST",
       headers: {
@@ -29,10 +26,10 @@ function Login(props) {
 
     if (resp.status === 200) {
       const data = await resp.json();
-      setColorAlert("green")
+      setColorAlert("green");
       setAlertMessage("Inicio exitoso!");
       setToken(data);
-    } else if(resp.status === 401) {
+    } else if (resp.status === 401) {
       const data = await resp.json();
       setColorAlert("red");
       setAlertMessage(data["message"]);
@@ -46,7 +43,12 @@ function Login(props) {
           <div className="container-content-login">
             <img src={logoParticipa} alt="Logo Participa" />
             <div className="container-login-title">PANEL ADMINISTRADOR</div>
-            <div style={{color: colorAlert}} className="container-login-subtitle">{alertMessage}</div>
+            <div
+              style={{ color: colorAlert }}
+              className="container-login-subtitle"
+            >
+              {alertMessage}
+            </div>
             <div className="container-login-form">
               <div className="field">
                 <label className="label">Usuario</label>
