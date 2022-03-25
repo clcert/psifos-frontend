@@ -13,11 +13,11 @@ function CreateElection(props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [electionType, setElectionType] = useState("election");
-  const [helpEmail, setHelpEmail] = useState(undefined);
+  const [helpEmail, setHelpEmail] = useState(null);
   const [maxWeight, setMaxWeight] = useState(1);
-  const [votingStartDate, setVotingStartDate] = useState(undefined);
+  const [votingStartDate, setVotingStartDate] = useState(null);
   const [votingStartTime, setVotingStartTime] = useState("00:00");
-  const [votingEndDate, setVotingEndDate] = useState(undefined);
+  const [votingEndDate, setVotingEndDate] = useState(null);
   const [votingEndTime, setVotingEndTime] = useState("00:00");
 
   const [voterAliases, setVoterAliases] = useState(false);
@@ -57,11 +57,9 @@ function CreateElection(props) {
           setRandomizeAnswer(data.randomize_answer_order);
           setPrivateElection(data.private_p);
           setNormalization(data.normalization);
-          console.log(votingEndDate);
         } else {
           setAlertMessage(data.message);
         }
-        console.log(data);
       }
       getElection();
     }
@@ -100,7 +98,6 @@ function CreateElection(props) {
     } else {
       setAlertMessage(data.message);
     }
-    console.log(data);
   }
 
   async function createElection() {

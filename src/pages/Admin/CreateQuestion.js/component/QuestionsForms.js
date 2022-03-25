@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bulma-components";
 import InputQuestion from "./InputQuestion";
 
@@ -6,6 +6,14 @@ function QuestionsForms(props) {
   const [answers, setAnswers] = useState([]);
   const [numberQuestion, setNumberQuestion] = useState(1);
   const [typeQuestion, setTypeQuestion] = useState("unic");
+  const [question, setQuestion] = useState("");
+
+  useEffect(() => {
+    if (props.question !== undefined) {
+      setQuestion(props.question.name);
+      setAnswers(props.question.value);
+    }
+  }, [props.question]);
 
   function addAnswer() {
     /**
@@ -14,8 +22,6 @@ function QuestionsForms(props) {
     let answersAux = answers.concat({
       key: numberQuestion,
       value: "",
-      correct: false,
-      delete: false,
     });
 
     setAnswers(answersAux);
@@ -45,6 +51,17 @@ function QuestionsForms(props) {
     setTypeQuestion(e.target.value);
   }
 
+  function editAnswer(key, newValue) {
+    let auxAns = [...answers];
+    for (let i = 0; i < auxAns.length; i++) {
+      if (auxAns[i].key === key) {
+        auxAns[i].value = newValue;
+      }
+    }
+    setAnswers(auxAns);
+    props.changeQuestion(question, auxAns);
+  }
+
   return (
     <div className="form-question mt-5">
       <div className="header-question level">
@@ -61,6 +78,11 @@ function QuestionsForms(props) {
           className="input mr-3 input-create-question"
           type="text"
           placeholder="Pregunta"
+          value={question}
+          onChange={(e) => {
+            setQuestion(e.target.value);
+            props.changeQuestion(question, answers);
+          }}
         />
         <select className="mr-2" onChange={changeQuestion} value={typeQuestion}>
           <option value="unic">Unica Opción</option>
@@ -80,8 +102,13 @@ function QuestionsForms(props) {
           return (
             <InputQuestion
               key={item.key}
+              numberQuestion={item.key}
+              value={item.value}
               delete={() => {
                 handleRemoveItem(item.key);
+              }}
+              onChange={(key, value) => {
+                editAnswer(key, value);
               }}
             ></InputQuestion>
           );

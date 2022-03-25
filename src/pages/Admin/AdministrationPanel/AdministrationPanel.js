@@ -33,7 +33,7 @@ function AdministrationPanel(props) {
         >
           <div className="panel-body">
             <div className="panel-action mb-4">
-              <Link to={"/admin/editQuestion/" + uuid}>
+              <Link to={"/admin/editElection/" + uuid}>
                 <Button className="button-custom mr-2 ml-2"> Editar</Button>
               </Link>
               <Button className="button-custom mr-2 ml-2">Archivar</Button>
@@ -46,7 +46,9 @@ function AdministrationPanel(props) {
               >
                 Extender votación
               </Button>
-              <Button className="button-custom mr-2 ml-2">Preguntas</Button>
+              <Link to={"/admin/createQuestion/" + uuid}>
+                <Button className="button-custom mr-2 ml-2">Preguntas</Button>
+              </Link>
             </div>
 
             <div className="panel-info mb-4">

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bulma-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
+import { backendIP } from "../../../server";
 import InputQuestion from "./component/InputQuestion";
 import QuestionsForms from "./component/QuestionsForms";
 
@@ -11,15 +12,35 @@ function CreateQuestion(props) {
   const [questionCantidad, setQuestionCantidad] = useState(1);
   const [question, setQuestion] = useState([]);
 
+  const { uuid } = useParams();
+
+  useEffect(() => {
+    async function getQuestions() {
+      const token = sessionStorage.getItem("token");
+      const response = await fetch(backendIP + "/get_questions/" + uuid, {
+        method: "GET",
+        headers: {
+          "x-access-tokens": token,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.hasOwnProperty("question")) {
+        setQuestion(data.question);
+      }
+    }
+    getQuestions();
+  }, []);
+
   function addQuestion() {
     /**
      * add new question to array allowing rendering
      */
     let questionAux = question.concat({
       key: questionCantidad,
-      value: "",
-      correct: false,
-      delete: false,
+      type: "unic",
+      name: "",
+      value: [],
     });
 
     setQuestion(questionAux);
@@ -39,6 +60,33 @@ function CreateQuestion(props) {
     }
     setQuestion(newQuestion);
   }
+
+  function editAnswers(key, newName, newValue) {
+    let auxQuestion = [...question];
+    for (let i = 0; i < auxQuestion.length; i++) {
+      if (auxQuestion[i].key === key) {
+        auxQuestion[i].value = newValue;
+        auxQuestion[i].name = newName;
+      }
+    }
+    setQuestion(auxQuestion);
+  }
+
+  async function sendQuestions() {
+    const token = sessionStorage.getItem("token");
+    const resp = await fetch(backendIP + "/create_questions/" + uuid, {
+      method: "POST",
+      headers: {
+        "x-access-tokens": token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question: question,
+      }),
+    });
+    const data = await resp.json();
+  }
+
   return (
     <div id="content-create-question">
       <section id="header-section" className="parallax hero is-medium">
@@ -57,6 +105,10 @@ function CreateQuestion(props) {
             return (
               <QuestionsForms
                 key={item.key}
+                question={item}
+                changeQuestion={(name, question) =>
+                  editAnswers(item.key, name, question)
+                }
                 remove={() => {
                   removeQuestion(item.key);
                 }}
@@ -72,7 +124,7 @@ function CreateQuestion(props) {
               Añadir pregunta
             </Button>
 
-            <Button className="level-right" onClick={() => addQuestion()}>
+            <Button className="level-right" onClick={() => sendQuestions()}>
               Crear Preguntas
             </Button>
           </div>
