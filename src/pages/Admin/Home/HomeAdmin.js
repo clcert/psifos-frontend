@@ -9,6 +9,7 @@ import { backendIP } from "../../../server";
 
 function HomeAdmin(props) {
   const [elections, setElections] = useState([]);
+  const [electionsSearch, setElectionsSearch] = useState([]);
 
   useEffect(() => {
     async function getElections() {
@@ -22,9 +23,19 @@ function HomeAdmin(props) {
       });
       const jsonResponse = await resp.json();
       setElections(jsonResponse);
+      setElectionsSearch(jsonResponse);
     }
     getElections();
   }, []);
+
+
+  function searchElection(e) {
+    const search = e.target.value;
+    const newElections = elections.filter((election) => {
+      return election.name.toLowerCase().includes(search.toLowerCase());
+    });
+    setElectionsSearch(newElections);
+  }
 
   return (
     <div id="content-home-admin">
@@ -46,6 +57,7 @@ function HomeAdmin(props) {
                 className="home-admin-search level-item"
                 type="text"
                 placeholder="Buscar"
+                onChange={searchElection}
               />
             </div>
             <div className="level-right">
@@ -66,12 +78,12 @@ function HomeAdmin(props) {
             </div>
           </div>
           <div className="home-admin-accordion-section">
-            {Object.keys(elections).map((key) => {
+            {Object.keys(electionsSearch).map((key) => {
               return (
                 <Accordion
                   state="En curso"
-                  electionName={elections[key].short_name}
-                  uuid={elections[key].uuid}
+                  electionName={electionsSearch[key].short_name}
+                  uuid={electionsSearch[key].uuid}
                 />
               );
             })}

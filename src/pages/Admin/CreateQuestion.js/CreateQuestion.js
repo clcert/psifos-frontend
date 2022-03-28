@@ -5,7 +5,6 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { backendIP } from "../../../server";
-import InputQuestion from "./component/InputQuestion";
 import QuestionsForms from "./component/QuestionsForms";
 
 function CreateQuestion(props) {
