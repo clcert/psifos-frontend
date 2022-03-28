@@ -65,77 +65,62 @@ function CreateElection(props) {
     }
   }, []);
 
-  async function editElection() {
-    const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendIP + "/edit_election/" + uuid, {
-      method: "POST",
-      headers: {
-        "x-access-tokens": token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        short_name: shortName,
-        name: name,
-        description: description,
-        election_type: electionType,
-        help_email: helpEmail,
-        max_weight: maxWeight,
-        voting_started_at: votingStartDate
-          ? votingStartDate + " " + votingStartTime + ":00"
-          : null,
-        voting_ends_at: votingEndDate
-          ? votingEndDate + " " + votingEndTime + ":00"
-          : null,
-        use_voter_aliases: voterAliases,
-        randomize_answer_order: randomizeAnswer,
-        private_p: privateElection,
-        normalization: normalization,
-      }),
-    });
-    const data = await resp.json();
-    if (resp.status === 200) {
-      setAlertMessage(data.message);
+  async function sendElection(url) {
+    if (checkData()) {
+      const token = sessionStorage.getItem("token");
+      const resp = await fetch(backendIP + url, {
+        method: "POST",
+        headers: {
+          "x-access-tokens": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          short_name: shortName,
+          name: name,
+          description: description,
+          election_type: electionType,
+          help_email: helpEmail,
+          max_weight: maxWeight,
+          voting_started_at: votingStartDate
+            ? votingStartDate + " " + votingStartTime + ":00"
+            : null,
+          voting_ends_at: votingEndDate
+            ? votingEndDate + " " + votingEndTime + ":00"
+            : null,
+          use_voter_aliases: voterAliases,
+          randomize_answer_order: randomizeAnswer,
+          private_p: privateElection,
+          normalization: normalization,
+        }),
+      });
+      const jsonResponse = await resp.json();
+      if (resp.status === 400) {
+        if (jsonResponse.message.hasOwnProperty("short_name")) {
+          setAlertMessage(jsonResponse.message["short_name"][0]);
+        }
+      }
+      if (resp.status === 200) {
+        window.location.href = "/admin/home";
+      }
     } else {
-      setAlertMessage(data.message);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
   }
 
-  async function createElection() {
-    const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendIP + "/create_election", {
-      method: "POST",
-      headers: {
-        "x-access-tokens": token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        short_name: shortName,
-        name: name,
-        description: description,
-        election_type: electionType,
-        help_email: helpEmail,
-        max_weight: maxWeight,
-        voting_started_at: votingStartDate
-          ? votingStartDate + " " + votingStartTime + ":00"
-          : null,
-        voting_ends_at: votingEndDate
-          ? votingEndDate + " " + votingEndTime + ":00"
-          : null,
-        use_voter_aliases: voterAliases,
-        randomize_answer_order: randomizeAnswer,
-        private_p: privateElection,
-        normalization: normalization,
-      }),
-    });
-    const jsonResponse = await resp.json();
-    if (resp.status === 400) {
-      if (jsonResponse.message.hasOwnProperty("short_name")) {
-        setAlertMessage(jsonResponse.message["short_name"][0]);
-      }
+  function checkData() {
+    if (shortName.length === 0 || shortName.length > 100) {
+      setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
+      return false;
+    } else if (name.length === 0 || name.length > 250) {
+      setAlertMessage(
+        "El nombre de la elección debe tener entre 1 y 250 caracteres"
+      );
+      return false;
     }
-    if (resp.status === 200) {
-      window.location.href = "/admin/home";
-    }
+    return true;
   }
 
   return (
@@ -152,7 +137,18 @@ function CreateElection(props) {
         id="create-election-section"
       >
         <div className="form-election">
-          <div>{alertMessage}</div>
+          {alertMessage.length > 0 && (
+            <div class="notification is-danger is-light">
+              <button
+                className="delete"
+                onClick={() => {
+                  setAlertMessage("");
+                }}
+              ></button>
+              {alertMessage}
+            </div>
+          )}
+
           <div className="field">
             <label className="label label-form-election">Nombre corto</label>
             <div className="control">
@@ -164,6 +160,7 @@ function CreateElection(props) {
                 onChange={(e) => {
                   setShortName(e.target.value);
                 }}
+                maxLength="100"
               />
             </div>
             <p className="help">
@@ -384,14 +381,18 @@ function CreateElection(props) {
             </Button>
             {props.edit ? (
               <Button
-                onClick={editElection}
+                onClick={() => {
+                  sendElection("/edit_election/" + uuid);
+                }}
                 className="button-custom mr-2 ml-2 level-right"
               >
                 Editar Elección
               </Button>
             ) : (
               <Button
-                onClick={createElection}
+                onClick={() => {
+                  sendElection("/create_election");
+                }}
                 className="button-custom mr-2 ml-2 level-right"
               >
                 Crear elección
