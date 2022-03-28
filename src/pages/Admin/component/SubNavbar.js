@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function SubNavbar(props) {
+  const { uuid } = useParams();
+
   return (
     <section className="subnavbar-section mb-3">
       <div className="subnavbar columns is-flex is-centered">
@@ -19,7 +22,7 @@ function SubNavbar(props) {
               className={
                 props.active !== 1 ? "text-subnavbar" : "text-subnavbar-active"
               }
-              to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/panel"
+              to={"/admin/" + uuid + "/panel"}
             >
               <i className="fa-solid fa-screwdriver-wrench mr-2"></i>
               <span>Panel</span>
@@ -29,7 +32,7 @@ function SubNavbar(props) {
               className={
                 props.active !== 2 ? "text-subnavbar" : "text-subnavbar-active"
               }
-              to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resumen"
+              to={"/admin/" + uuid + "/resumen"}
             >
               <i className="fa fa-list-alt mr-2"></i>
               <span>Resumen</span>
@@ -39,7 +42,7 @@ function SubNavbar(props) {
               className={
                 props.active !== 3 ? "text-subnavbar" : "text-subnavbar-active"
               }
-              to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+              to={"/admin/" + uuid + "/urna"}
             >
               <i className="fa-solid fa-check-to-slot mr-2"></i>
               <span>Urna</span>
@@ -49,7 +52,7 @@ function SubNavbar(props) {
               className={
                 props.active !== 4 ? "text-subnavbar" : "text-subnavbar-active"
               }
-              to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/custodio"
+              to={"/admin/" + uuid + "/custodio"}
             >
               <i className="fa-solid fa-user-check mr-2"></i>
               <span>Custodio de Claves</span>
@@ -59,7 +62,7 @@ function SubNavbar(props) {
               className={
                 props.active !== 5 ? "text-subnavbar" : "text-subnavbar-active"
               }
-              to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/resultado"
+              to={"/admin/" + uuid + "/resultado"}
             >
               <i className="fa-solid fa-square-poll-vertical mr-2"></i>
               <span>Resultados</span>

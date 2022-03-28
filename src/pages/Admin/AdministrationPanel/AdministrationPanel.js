@@ -5,13 +5,44 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import AccordionAudit from "./component/AccordionAudit";
 import ExtendElection from "./component/ExtendElection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { backendIP } from "../../../server";
 
 function AdministrationPanel(props) {
   const [extendElectionModal, setExtendElectionModal] = useState(false);
+  const [votingStartDate, setVotingStartDate] = useState("");
+  const [votingEndDate, setVotingEndDate] = useState("");
+  const [titleElection, setTitleElection] = useState("");
   const { uuid } = useParams();
+
+  useEffect(() => {
+    async function getElection() {
+      const token = sessionStorage.getItem("token");
+      const resp = await fetch(backendIP + "/get_election/" + uuid, {
+        method: "GET",
+        headers: {
+          "x-access-tokens": token,
+          "Content-Type": "application/json",
+        },
+      });
+      const jsonResponse = await resp.json();
+      setVotingStartDate(
+        jsonResponse.voting_started_at.split("T")[0] +
+          " " +
+          jsonResponse.voting_started_at.split("T")[1]
+      );
+      setVotingEndDate(
+        jsonResponse.voting_ends_at.split("T")[0] +
+          " " +
+          jsonResponse.voting_ends_at.split("T")[1]
+      );
+      setTitleElection(jsonResponse.name);
+    }
+    getElection();
+  }, []);
+
   return (
     <>
       <div id="content-home-admin">
@@ -32,6 +63,10 @@ function AdministrationPanel(props) {
           id="accordion-section"
         >
           <div className="panel-body">
+            <div className="has-text-centered title is-size-4-mobile">
+              {titleElection}
+            </div>
+            <hr/>
             <div className="panel-action mb-4">
               <Link to={"/admin/editElection/" + uuid}>
                 <Button className="button-custom mr-2 ml-2"> Editar</Button>
@@ -56,12 +91,12 @@ function AdministrationPanel(props) {
                 <span className="panel-text-sect">Estado</span>: Activa
               </p>
               <p className="panel-text">
-                <span className="panel-text-sect">Fecha inicio</span>:
-                11-02-2018
+                <span className="panel-text-sect">Fecha inicio</span>:{" "}
+                {votingStartDate ? votingStartDate : "No definida"}
               </p>
               <p className="panel-text">
-                <span className="panel-text-sect">Fecha termino</span>:
-                12-06-2018
+                <span className="panel-text-sect">Fecha termino</span>:{" "}
+                {votingEndDate ? votingEndDate : "No definida"}
               </p>
               <p className="panel-text">
                 <span className="panel-text-sect">Proximo paso</span>: Añadir
