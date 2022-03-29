@@ -15,13 +15,13 @@ function ElectionResume() {
   const [totalVoters, setTotalVoters] = useState("");
   const [maxWeight, setMaxWeight] = useState("");
   const [loading, setLoading] = useState(false);
-  const [infoElection, setInfoElection] = useState(null);
+  const [infoElection, setInfoElection] = useState([]);
 
   const { uuid } = useParams();
 
   useEffect(function effectFunction() {
     async function getElectionResume() {
-      const resp = await fetch(backendIP + "/elections/" + uuid + "/resume", {
+      const resp = await fetch(backendIP + "/" + uuid + "/resume", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -30,11 +30,7 @@ function ElectionResume() {
 
       if (resp.status == 200) {
         const jsonResponse = await resp.json();
-        setNameElection(jsonResponse.name);
-        setNumVoters(jsonResponse.num_voters);
-        setTotalVoters(jsonResponse.total_voters);
-        setMaxWeight(jsonResponse.max_weight);
-        setInfoElection(jsonResponse.info);
+
         setLoading(true);
 
         return jsonResponse;

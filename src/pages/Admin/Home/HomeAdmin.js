@@ -28,7 +28,6 @@ function HomeAdmin(props) {
     getElections();
   }, []);
 
-
   function searchElection(e) {
     const search = e.target.value;
     const newElections = elections.filter((election) => {
@@ -81,6 +80,7 @@ function HomeAdmin(props) {
             {Object.keys(electionsSearch).map((key) => {
               return (
                 <Accordion
+                  key={key}
                   state="En curso"
                   electionName={electionsSearch[key].short_name}
                   uuid={electionsSearch[key].uuid}

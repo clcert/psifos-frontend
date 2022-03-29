@@ -19,27 +19,28 @@ function VotersTable(props) {
 
   useEffect(function effectFunction() {
     async function getVoters() {
-      const resp = await fetch(
-        backendIP + "/elections/" + props.uuid + "/voters/info",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const token = sessionStorage.getItem("token");
+      const resp = await fetch(backendIP + "/" + props.uuid + "/get_voters", {
+        method: "GET",
+        headers: {
+          "x-access-tokens": token,
+
+          "Content-Type": "application/json",
+        },
+      });
 
       const jsonResponse = await resp.json();
-      setTotalVoters(jsonResponse.info_votes.total_voters);
-      setTotalVotes(jsonResponse.info_votes.votes_cast);
-      setVoters(jsonResponse.info_voters);
-      setAuxArrayVoters(jsonResponse.info_voters);
-      setVoterForPage(
-        jsonResponse.info_voters.slice(
-          maxForPage * page,
-          maxForPage * page + maxForPage
-        )
-      );
+      if (resp.status === 200) {
+        setTotalVoters(jsonResponse.length);
+        //setTotalVotes(jsonResponse.info_votes.votes_cast);
+        setVoters(jsonResponse);
+        setAuxArrayVoters(jsonResponse);
+        setVoterForPage(
+          jsonResponse.slice(maxForPage * page, maxForPage * page + maxForPage)
+        );
+      } else {
+        console.log(jsonResponse);
+      }
     }
     getVoters();
   }, []);
@@ -210,7 +211,7 @@ function VotersTable(props) {
                         {admin && (
                           <>
                             <td className="align-middle has-text-centered">
-                              {voter.voter_login_id}
+                              {voter.voter_name}
                             </td>
                             {!election.openreg && (
                               <>
@@ -218,7 +219,7 @@ function VotersTable(props) {
                                   {voter.voter_email}
                                 </td>
                                 <td className="align-middle has-text-centered">
-                                  {voter.name}
+                                  {voter.alias}
                                 </td>
                               </>
                             )}
