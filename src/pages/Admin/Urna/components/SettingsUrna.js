@@ -1,3 +1,4 @@
+import { Button } from "react-bulma-components";
 import { backendIP } from "../../../../server";
 
 function SettingsUrna(props) {
@@ -14,18 +15,17 @@ function SettingsUrna(props) {
   }
 
   async function updateRegElection() {
-    const resp = await fetch(
-      backendIP + "/elections/" + props.uuid + "/openreg",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          openreg: openReg,
-        }),
-      }
-    );
+    const token = sessionStorage.getItem("token");
+    const resp = await fetch(backendIP + "/" + props.uuid + "/openreg", {
+      method: "POST",
+      headers: {
+        "x-access-tokens": token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        openreg: openReg,
+      }),
+    });
     const data = await resp.json();
   }
 
@@ -41,21 +41,26 @@ function SettingsUrna(props) {
           <div>
             Puedes cambiar esta configuración
             <div onChange={openregUpdate}>
-              <input
-                type="radio"
-                name="eligibility"
-                value="openreg"
-                defaultChecked={openReg}
-              />{" "}
-              Cualquiera puede votar
+              <label>
+                <input
+                  type="radio"
+                  name="eligibility"
+                  value="openreg"
+                  defaultChecked={openReg}
+                />{" "}
+                Cualquiera puede votar
+              </label>
               <br />
-              <input
-                type="radio"
-                name="eligibility"
-                value="closedreg"
-                defaultChecked={!openReg}
-              />{" "}
-              Las votantes enumeradas explícitamente a continuación pueden votar
+              <label>
+                <input
+                  type="radio"
+                  name="eligibility"
+                  value="closedreg"
+                  defaultChecked={!openReg}
+                />{" "}
+                Las votantes enumeradas explícitamente a continuación pueden
+                votar
+              </label>
               <br />
               {categories && (
                 <>
@@ -70,13 +75,14 @@ function SettingsUrna(props) {
                 </>
               )}
               <br />
-              <button
+              <Button
+                className="button-custom ml-3"
                 onClick={() => {
                   updateRegElection();
                 }}
               >
                 Actualizar
-              </button>
+              </Button>
             </div>
           </div>
         )}

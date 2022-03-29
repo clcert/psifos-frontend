@@ -1,10 +1,12 @@
 import { backendIP } from "../server";
 
 async function getElection(uuid) {
-  const resp = await fetch(backendIP + "/elections/" + uuid, {
+  const token = sessionStorage.getItem("token");
+  const resp = await fetch(backendIP + "/get_election/" + uuid, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      "x-access-tokens": token,
     },
   });
 
