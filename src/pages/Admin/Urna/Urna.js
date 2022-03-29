@@ -10,6 +10,7 @@ import Title from "../../../component/OthersComponents/Title";
 import { Button } from "react-bulma-components";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
+import { backendIP } from "../../../server";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
@@ -19,8 +20,24 @@ function Urna() {
   const [votersFiles, setVotersFiles] = useState([]);
   const [election, setElection] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
 
   const { uuid } = useParams();
+
+  async function sendVoter() {
+    let data = new FormData();
+    const input = document.getElementById("fileinput");
+    data.append("file", input.files[0]);
+    const token = sessionStorage.getItem("token");
+    const resp = await fetch(backendIP + "/" + uuid + "/send_voters", {
+      method: "POST",
+      headers: {
+        "x-access-tokens": token,
+      },
+      body: data,
+    });
+    const jsonResponse = await resp.json();
+  }
 
   useEffect(function effectFunction() {
     getElection(uuid).then((election) => {
@@ -61,15 +78,18 @@ function Urna() {
                   <span>Email voters</span>{" "}
                 </Button>
               )}
+              <input
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                }}
+                type="file"
+                id="fileinput"
+              />
               {admin && upload && !electionOpenReg && (
                 <Button
                   className="button-custom ml-3"
                   onClick={() => {
-                    window.location.href =
-                      backendHeliosIP +
-                      "/app/elections/" +
-                      uuid +
-                      "/voters/upload";
+                    sendVoter();
                   }}
                 >
                   <span>Bulk upload voters</span>
