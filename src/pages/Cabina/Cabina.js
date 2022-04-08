@@ -17,12 +17,15 @@ import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../static/dummyData/questionsData";
+import { backendIP } from "../../server";
 
 function Cabina() {
   const { uuid } = useParams();
   const [actualPhase, setActualPhase] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [actualQuestion, setActualQuestion] = useState(0);
+  const [load, setLoad] = useState(false);
+  const [auth, setAuth] = useState(false);
 
   function validateAllQuestions(answersQuestions) {
     for (let i = 0; i < answersQuestions.length; i++) {
@@ -35,6 +38,26 @@ function Cabina() {
     validateAllQuestions(answersQuestions);
     BOOTH.seal_ballot();
   }
+
+  useEffect(() => {
+    async function test() {
+      let url = backendIP + "/election_questions/" + uuid;
+      const resp = await fetch(url, {
+        method: "GET",
+        credentials: "include",
+      });
+      const jsonResponse = await resp.json();
+      setLoad(true);
+      if (resp.status === 401) {
+        if (jsonResponse.message === "Usuario no autorizado") {
+          window.location.href = backendIP + "/vote/" + uuid;
+        }
+      } else if (resp.status === 200) {
+        setAuth(true);
+      }
+    }
+    test();
+  }, []);
 
   useEffect(() => {
     window.scrollTo({
@@ -120,7 +143,7 @@ function Cabina() {
       stage: 3,
       component: (
         <>
-        <ProgressBar phase={3} />
+          <ProgressBar phase={3} />
           <CastDone></CastDone>
         </>
       ),
@@ -140,47 +163,54 @@ function Cabina() {
     },
   };
 
-  return (
-    <div id="content" className={phases[actualPhase].sectionClass}>
-      <section className="parallax hero is-medium">
-        <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
-          <Title namePage="Cabina Votación" nameElection={"nameElection"} />
-        </div>
-      </section>
-
-      <div
-        style={{
-          display: actualPhase === 2 ? "block" : "none",
-        }}
-      >
-        <ProgressBar phase={phases[actualPhase].stage} />
-        <section className="section pb-0" id="question-section">
-          <div className="container has-text-centered is-max-desktop">
-            <Question
-              questions={election_data.questions}
-              afterEncrypt={(answersQuestions) => {
-                setAnswers(answersQuestions);
-                setActualPhase(4);
-              }}
-              nextQuestion={(num) => {
-                setActualQuestion(num);
-              }}
-              actualQuestion={actualQuestion}
-              booth={BOOTH}
-              encrypQuestions={(answersQuestions) => {
-                sendEncryp(answersQuestions);
-              }}
-            />
+  if (!load) {
+    return <>LOAD</>;
+  } else if (!auth) {
+    return <>No tienes permitido votar en esta elección</>;
+  }
+  else if (load) {
+    return (
+      <div id="content" className={phases[actualPhase].sectionClass}>
+        <section className="parallax hero is-medium">
+          <div className="hero-body pt-0 px-0 header-hero">
+            <MyNavbar />
+            <Title namePage="Cabina Votación" nameElection={"nameElection"} />
           </div>
         </section>
-      </div>
-      {phases[actualPhase].component}
 
-      <ElectionCode uuid={uuid} />
-      <div id="bottom"></div>
-    </div>
-  );
+        <div
+          style={{
+            display: actualPhase === 2 ? "block" : "none",
+          }}
+        >
+          <ProgressBar phase={phases[actualPhase].stage} />
+          <section className="section pb-0" id="question-section">
+            <div className="container has-text-centered is-max-desktop">
+              <Question
+                questions={election_data.questions}
+                afterEncrypt={(answersQuestions) => {
+                  setAnswers(answersQuestions);
+                  setActualPhase(4);
+                }}
+                nextQuestion={(num) => {
+                  setActualQuestion(num);
+                }}
+                actualQuestion={actualQuestion}
+                booth={BOOTH}
+                encrypQuestions={(answersQuestions) => {
+                  sendEncryp(answersQuestions);
+                }}
+              />
+            </div>
+          </section>
+        </div>
+        {phases[actualPhase].component}
+
+        <ElectionCode uuid={uuid} />
+        <div id="bottom"></div>
+      </div>
+    );
+  }
 }
 
 export default Cabina;

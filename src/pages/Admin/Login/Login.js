@@ -36,10 +36,16 @@ function Login(props) {
     }
   }
 
+  const onKeyDownHandler = e => {
+    if (e.keyCode === 13) {
+      login();
+    }
+  };
+
   return (
-    <div id="content-login">
+    <div onKeyDown={onKeyDownHandler} id="content-login">
       <section className="columns is-flex is-vcentered is-centered login-section parallax hero is-medium">
-        <div className="container-login">
+        <div  className="container-login">
           <div className="container-content-login">
             <img src={logoParticipa} alt="Logo Participa" />
             <div className="container-login-title">PANEL ADMINISTRADOR</div>

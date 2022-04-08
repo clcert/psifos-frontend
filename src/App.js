@@ -17,6 +17,8 @@ import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import RequireAuth from "./pages/Auth/RequireAuth";
+import AutchCas from "./pages/Auth/AuthCas";
 
 function App() {
   const navigate = useNavigate();
@@ -28,13 +30,13 @@ function App() {
 
   const token = getToken();
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/admin/login", { replace: true });
-    }
-  }, [token, navigate]);
   return (
     <Routes>
+      {token ? (
+        <Route path="/" element={<Navigate replace to="/admin/home" />} />
+      ) : (
+        <Route path="/" element={<Login />} />
+      )}
       <Route path="home" element={<Home />} />
 
       <Route path="/admin">
@@ -43,7 +45,14 @@ function App() {
         ) : (
           <Route path="login" element={<Login />} />
         )}
-        <Route path="home" element={<HomeAdmin />} />
+        <Route
+          path="home"
+          element={
+            <RequireAuth>
+              <HomeAdmin />
+            </RequireAuth>
+          }
+        />
         <Route path="createElection" element={<CreateElection />} />
         <Route path="createQuestion/:uuid" element={<CreateQuestion />} />
         <Route
@@ -69,6 +78,8 @@ function App() {
         <Route path=":uuid" element={<Cabina />} />
         <Route path="consult" element={<Consult />} />
       </Route>
+
+      <Route path="/test/:uuid" element={<AutchCas />}></Route>
     </Routes>
   );
 }

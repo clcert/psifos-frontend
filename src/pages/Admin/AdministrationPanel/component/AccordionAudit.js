@@ -1,11 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import React from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
+import { backendHeliosIP, backendIP } from "../../../../server";
 
 function AccordionAudit(props) {
   let collapsiblesRef = useRef(null);
   const [show, setShow] = React.useState(false);
+
+  const { uuid } = useParams();
 
   useEffect(() => {
     bulmaCollapsible.attach(".is-collapsible", {
@@ -46,7 +49,7 @@ function AccordionAudit(props) {
                   <div className="row-accordion is-full mb-3">
                     <p className="accordion-panel-title mb-0">URL Elección:</p>
                     <a className="accordion-panel-a">
-                      http://localhost:8000/app/e/Test1
+                      {backendIP + "/vote/" + uuid}
                     </a>
                   </div>
                   <div className="row-accordion is-full">

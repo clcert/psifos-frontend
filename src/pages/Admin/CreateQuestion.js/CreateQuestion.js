@@ -10,6 +10,8 @@ import QuestionsForms from "./component/QuestionsForms";
 function CreateQuestion(props) {
   const [questionCantidad, setQuestionCantidad] = useState(1);
   const [question, setQuestion] = useState([]);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [colorAlert, setColorAlert] = useState("");
 
   const { uuid } = useParams();
 
@@ -83,7 +85,14 @@ function CreateQuestion(props) {
         question: question,
       }),
     });
-    const data = await resp.json();
+    if (resp.status === 200) {
+      setAlertMessage("Preguntas creadas con éxito!");
+      setColorAlert("is-success");
+    } else {
+      const data = await resp.json();
+      setAlertMessage(data["message"]);
+      setColorAlert("is-danger");
+    }
   }
 
   return (
@@ -100,6 +109,12 @@ function CreateQuestion(props) {
         id="create-question-section"
       >
         <div className="question-content">
+          {alertMessage !== "" && (
+            <div className={"notification " + colorAlert + " is-light"}>
+              <button onClick={() => setAlertMessage("")} class="delete"></button>
+              {alertMessage}
+            </div>
+          )}
           {question.map((item, index) => {
             return (
               <QuestionsForms
@@ -117,14 +132,14 @@ function CreateQuestion(props) {
 
           <div className="columns is-centered mt-5 level">
             <Button className="level-left mr-6">
-              <Link to="/admin/home">Volver inicio</Link>
+              <Link style={{textDecoration: "none", color: "#363636"}} to={"/admin/" + uuid + "/panel"}>Volver inicio</Link>
             </Button>
             <Button className="level-center mr-6" onClick={() => addQuestion()}>
               Añadir pregunta
             </Button>
 
             <Button className="level-right" onClick={() => sendQuestions()}>
-              Crear Preguntas
+              Guardar Preguntas
             </Button>
           </div>
         </div>

@@ -375,7 +375,7 @@ function CreateElection(props) {
           </div>
           <div className="level">
             <Button className="button-custom mr-2 ml-2 level-left">
-              <Link className="link-button" to="/admin/home">
+              <Link className="link-button" to={"/admin/" + uuid + "/panel"}>
                 Atras
               </Link>
             </Button>

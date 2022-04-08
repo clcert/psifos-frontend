@@ -28,16 +28,18 @@ function AdministrationPanel(props) {
         },
       });
       const jsonResponse = await resp.json();
-      setVotingStartDate(
-        jsonResponse.voting_started_at.split("T")[0] +
-          " " +
-          jsonResponse.voting_started_at.split("T")[1]
-      );
-      setVotingEndDate(
-        jsonResponse.voting_ends_at.split("T")[0] +
-          " " +
-          jsonResponse.voting_ends_at.split("T")[1]
-      );
+      if (jsonResponse.voting_started_at !== null) {
+        setVotingStartDate(
+          jsonResponse.voting_started_at.split("T")[0] +
+            " " +
+            jsonResponse.voting_started_at.split("T")[1]
+        );
+        setVotingEndDate(
+          jsonResponse.voting_ends_at.split("T")[0] +
+            " " +
+            jsonResponse.voting_ends_at.split("T")[1]
+        );
+      }
       setTitleElection(jsonResponse.name);
     }
     getElection();
@@ -66,7 +68,7 @@ function AdministrationPanel(props) {
             <div className="has-text-centered title is-size-4-mobile">
               {titleElection}
             </div>
-            <hr/>
+            <hr />
             <div className="panel-action mb-4">
               <Link to={"/admin/editElection/" + uuid}>
                 <Button className="button-custom mr-2 ml-2"> Editar</Button>
