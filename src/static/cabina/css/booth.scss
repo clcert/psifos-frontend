@@ -380,6 +380,11 @@ $card-header-shadow: 0;
   background-color: rgba(255, 255, 255, 0.85);
 }
 
+#auth-section{
+	background-color: rgba(255, 255, 255, 0.85);
+	min-height: 8rem;
+}
+
 .question-box {
   background-color: $blue-uch !important;
   line-height: 3.5rem;

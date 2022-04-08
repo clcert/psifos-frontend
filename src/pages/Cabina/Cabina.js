@@ -18,6 +18,7 @@ import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../static/dummyData/questionsData";
 import { backendIP } from "../../server";
+import NoAuth from "./NoAuth";
 
 function Cabina() {
   const { uuid } = useParams();
@@ -166,9 +167,8 @@ function Cabina() {
   if (!load) {
     return <>LOAD</>;
   } else if (!auth) {
-    return <>No tienes permitido votar en esta elección</>;
-  }
-  else if (load) {
+    return <NoAuth></NoAuth>;
+  } else if (load) {
     return (
       <div id="content" className={phases[actualPhase].sectionClass}>
         <section className="parallax hero is-medium">

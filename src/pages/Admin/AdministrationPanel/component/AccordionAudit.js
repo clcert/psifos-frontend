@@ -18,7 +18,7 @@ function AccordionAudit(props) {
 
   return (
     <div ref={collapsiblesRef} id="accordion_first">
-      <div className="card" className="card-accordion">
+      <div className="card-accordion">
         <a
           href="#collapsible-card"
           onClick={() => {
