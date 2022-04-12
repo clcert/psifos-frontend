@@ -12,10 +12,11 @@ function ReviewQuestions(props) {
           A continuación podrás revisar tu papeleta de votación.
         </p>
         {Object.keys(props.questions).map((key, index) => {
+          console.log(props.questions[key]);
           return (
             <div key={index}>
               <p className="subtitle is-4 mt-6 mb-2 has-text-black">
-                {props.questions[key].short_name}
+                {props.questions[key].question}
               </p>
               <div className="box has-text-left pl-6 review-answer">
                 <p className="subtitle is-5 has-text-white answer-text">
@@ -26,7 +27,7 @@ function ReviewQuestions(props) {
                           <React.Fragment key={index}>
                             <span key={index}>
                               {"[ ✓ ] " +
-                                props.questions[key].answers[key] +
+                                props.questions[key].answers[key].value +
                                 " "}
                             </span>
                             <br />

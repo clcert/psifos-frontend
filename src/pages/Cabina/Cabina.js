@@ -19,6 +19,7 @@ import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../static/dummyData/questionsData";
 import { backendIP } from "../../server";
 import NoAuth from "./NoAuth";
+import { useSearchParams } from "react-router-dom";
 
 function Cabina() {
   const { uuid } = useParams();
@@ -27,6 +28,10 @@ function Cabina() {
   const [actualQuestion, setActualQuestion] = useState(0);
   const [load, setLoad] = useState(false);
   const [auth, setAuth] = useState(false);
+  const [electionData, setElectionData] = useState([]);
+  const [election, setElection] = useState([]);
+  const [NoAuthMessage, setNoAuthMessage] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
 
   function validateAllQuestions(answersQuestions) {
     for (let i = 0; i < answersQuestions.length; i++) {
@@ -41,20 +46,32 @@ function Cabina() {
   }
 
   useEffect(() => {
+    if (searchParams.get("logout") === "true") {
+      window.location.href = backendIP + "/vote/" + uuid;
+    }
+
     async function test() {
-      let url = backendIP + "/election_questions/" + uuid;
+      let url = backendIP + "/" + uuid + "/questions";
       const resp = await fetch(url, {
         method: "GET",
         credentials: "include",
       });
-      const jsonResponse = await resp.json();
-      setLoad(true);
-      if (resp.status === 401) {
-        if (jsonResponse.message === "Usuario no autorizado") {
-          window.location.href = backendIP + "/vote/" + uuid;
+      try {
+        const jsonResponse = await resp.json();
+        setLoad(true);
+        if (resp.status === 200) {
+          setElectionData(jsonResponse.question);
+          setAuth(true);
+        } else {
+          setNoAuthMessage(
+            "La elección no exite o no estas habilitado para votar en ella"
+          );
         }
-      } else if (resp.status === 200) {
-        setAuth(true);
+      } catch (err) {
+        setLoad(true);
+        setNoAuthMessage(
+          "La elección no exite o no estas habilitado para votar en ella"
+        );
       }
     }
     test();
@@ -127,7 +144,7 @@ function Cabina() {
               setActualPhase(6);
             }}
             answers={answers}
-            questions={election_data.questions}
+            questions={electionData}
             changeAnswer={(question) => {
               setActualQuestion(question);
               setActualPhase(2);
@@ -167,7 +184,7 @@ function Cabina() {
   if (!load) {
     return <>LOAD</>;
   } else if (!auth) {
-    return <NoAuth></NoAuth>;
+    return <NoAuth message={NoAuthMessage}></NoAuth>;
   } else if (load) {
     return (
       <div id="content" className={phases[actualPhase].sectionClass}>
@@ -187,7 +204,7 @@ function Cabina() {
           <section className="section pb-0" id="question-section">
             <div className="container has-text-centered is-max-desktop">
               <Question
-                questions={election_data.questions}
+                questions={electionData}
                 afterEncrypt={(answersQuestions) => {
                   setAnswers(answersQuestions);
                   setActualPhase(4);

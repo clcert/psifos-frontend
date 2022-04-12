@@ -138,7 +138,7 @@ function CreateElection(props) {
       >
         <div className="form-election">
           {alertMessage.length > 0 && (
-            <div class="notification is-danger is-light">
+            <div className="notification is-danger is-light">
               <button
                 className="delete"
                 onClick={() => {

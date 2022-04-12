@@ -10,8 +10,8 @@ function QuestionsForms(props) {
 
   useEffect(() => {
     if (props.question !== undefined) {
-      setQuestion(props.question.name);
-      setAnswers(props.question.value);
+      setQuestion(props.question.question);
+      setAnswers(props.question.answers);
     }
   }, [props.question]);
 

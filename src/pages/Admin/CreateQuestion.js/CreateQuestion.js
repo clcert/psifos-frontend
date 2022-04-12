@@ -39,9 +39,13 @@ function CreateQuestion(props) {
      */
     let questionAux = question.concat({
       key: questionCantidad,
-      type: "unic",
-      name: "",
-      value: [],
+      choice_type: "approval",
+      question: "",
+      answers: [],
+      answer_urls : [],
+      min: 1,
+      max: 1,
+
     });
 
     setQuestion(questionAux);
@@ -66,8 +70,8 @@ function CreateQuestion(props) {
     let auxQuestion = [...question];
     for (let i = 0; i < auxQuestion.length; i++) {
       if (auxQuestion[i].key === key) {
-        auxQuestion[i].value = newValue;
-        auxQuestion[i].name = newName;
+        auxQuestion[i].answers = newValue;
+        auxQuestion[i].question = newName;
       }
     }
     setQuestion(auxQuestion);
@@ -111,7 +115,7 @@ function CreateQuestion(props) {
         <div className="question-content">
           {alertMessage !== "" && (
             <div className={"notification " + colorAlert + " is-light"}>
-              <button onClick={() => setAlertMessage("")} class="delete"></button>
+              <button onClick={() => setAlertMessage("")} className="delete"></button>
               {alertMessage}
             </div>
           )}

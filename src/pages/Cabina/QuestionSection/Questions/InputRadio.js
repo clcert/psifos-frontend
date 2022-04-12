@@ -4,6 +4,7 @@ function InputRadio(props) {
   const [answer, setAnswer] = useState([]);
 
   return (
+
     <div>
       {Object.keys(props.answers.answers).map((key, index) => {
         return (
@@ -19,14 +20,14 @@ function InputRadio(props) {
                 className="custom-answer"
                 type="radio"
                 id=""
-                name="answer"
+                name={"answer_"+props.index}
                 value={index}
                 onClick={(e) => {
                   setAnswer(e.target.value);
                   props.addAnswer([parseInt(e.target.value)], props.index);
                 }}
               />
-              <span className="is-size-4">{props.answers.answers[key]}</span>
+              <span className="is-size-4">{props.answers.answers[key].value}</span>
               &nbsp;&nbsp;
               {props.answers.answer_urls[key] !== "" ? (
                 <span style={{ fontSize: "12pt" }}>
