@@ -8,15 +8,31 @@ import { backendIP } from "../../../server";
 import QuestionsForms from "./component/QuestionsForms";
 
 function CreateQuestion(props) {
+  /**
+   * view that is responsible for creating a question
+   */
+
+  /** @state {number} number of questions */
   const [questionCantidad, setQuestionCantidad] = useState(1);
+
+  /** @state {array} array containing the questions */
   const [question, setQuestion] = useState([]);
+
+  /** @state {string} alert message for state of creation */
   const [alertMessage, setAlertMessage] = useState("");
+
+  /** @state {string} color state for state of creation */
   const [colorAlert, setColorAlert] = useState("");
 
+  /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
   useEffect(() => {
     async function getQuestions() {
+      /**
+       * async function to get the questions
+       */
+
       const token = sessionStorage.getItem("token");
       const response = await fetch(backendIP + "/get_questions/" + uuid, {
         method: "GET",
@@ -42,10 +58,9 @@ function CreateQuestion(props) {
       choice_type: "approval",
       question: "",
       answers: [],
-      answer_urls : [],
+      answer_urls: [],
       min: 1,
       max: 1,
-
     });
 
     setQuestion(questionAux);
@@ -67,6 +82,13 @@ function CreateQuestion(props) {
   }
 
   function editAnswers(key, newName, newValue) {
+    /**
+     * edit the answers of a question
+     * @param {number} key number of answer
+     * @param {string} newName new name for the answer
+     * @param {string} newValue new value for the answer
+     */
+
     let auxQuestion = [...question];
     for (let i = 0; i < auxQuestion.length; i++) {
       if (auxQuestion[i].key === key) {
@@ -78,6 +100,10 @@ function CreateQuestion(props) {
   }
 
   async function sendQuestions() {
+    /**
+     * send the questions to the server
+     */
+
     const token = sessionStorage.getItem("token");
     const resp = await fetch(backendIP + "/create_questions/" + uuid, {
       method: "POST",
@@ -115,7 +141,10 @@ function CreateQuestion(props) {
         <div className="question-content">
           {alertMessage !== "" && (
             <div className={"notification " + colorAlert + " is-light"}>
-              <button onClick={() => setAlertMessage("")} className="delete"></button>
+              <button
+                onClick={() => setAlertMessage("")}
+                className="delete"
+              ></button>
               {alertMessage}
             </div>
           )}
@@ -136,7 +165,12 @@ function CreateQuestion(props) {
 
           <div className="columns is-centered mt-5 level">
             <Button className="level-left mr-6">
-              <Link style={{textDecoration: "none", color: "#363636"}} to={"/admin/" + uuid + "/panel"}>Volver inicio</Link>
+              <Link
+                style={{ textDecoration: "none", color: "#363636" }}
+                to={"/admin/" + uuid + "/panel"}
+              >
+                Volver inicio
+              </Link>
             </Button>
             <Button className="level-center mr-6" onClick={() => addQuestion()}>
               Añadir pregunta

@@ -4,33 +4,69 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import TimeField from "react-simple-timefield";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { backendIP } from "../../../server";
-import { useEffect } from "react";
 
 function CreateElection(props) {
+  /**
+   * view that handles the creation of a election
+   */
+
+  /** @state {string} short name for election */
   const [shortName, setShortName] = useState("");
+
+  /** @state {string} title of election */
   const [name, setName] = useState("");
+
+  /** @state {string} description of election */
   const [description, setDescription] = useState("");
+
+  /** @state {string} date for start election */
   const [electionType, setElectionType] = useState("election");
+
+  /** @state {boolean} indicates if there is a help mail */
   const [helpEmail, setHelpEmail] = useState(null);
+
+  /** @state {number} max weight for election */
   const [maxWeight, setMaxWeight] = useState(1);
+
+  /** @state {string} date for start election */
   const [votingStartDate, setVotingStartDate] = useState(null);
+
+  /** @state {string} time for start election */
   const [votingStartTime, setVotingStartTime] = useState("00:00");
+
+  /** @state {string} date for end election */
   const [votingEndDate, setVotingEndDate] = useState(null);
+
+  /** @state {string} time for end election */
   const [votingEndTime, setVotingEndTime] = useState("00:00");
 
+  /** @state {boolean} indicates if the election has aliases  */
   const [voterAliases, setVoterAliases] = useState(false);
+
+  /** @state {boolean} indicates if the election has randomize  */
   const [randomizeAnswer, setRandomizeAnswer] = useState(false);
+
+  /** @state {boolean} indicates if the election is private  */
   const [privateElection, setPrivateElection] = useState(false);
+
+  /** @state {boolean} indicates if normalize the election  */
   const [normalization, setNormalization] = useState(false);
 
+  /** @state {string} alert message  */
   const [alertMessage, setAlertMessage] = useState("");
+
+  /** @urlParam {string} uuid of election  */
   const { uuid } = useParams();
 
   useEffect(() => {
     if (props.edit) {
       async function getElection() {
+        /**
+         * async function to get the election data
+         */
+
         const token = sessionStorage.getItem("token");
         const resp = await fetch(backendIP + "/get_election/" + uuid, {
           method: "GET",
@@ -66,6 +102,9 @@ function CreateElection(props) {
   }, []);
 
   async function sendElection(url) {
+    /**
+     * async function to send and create a election
+     */
     if (checkData()) {
       const token = sessionStorage.getItem("token");
       const resp = await fetch(backendIP + url, {
@@ -111,6 +150,10 @@ function CreateElection(props) {
   }
 
   function checkData() {
+    /**
+     * function to check if the data is correct
+     */
+
     if (shortName.length === 0 || shortName.length > 100) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;

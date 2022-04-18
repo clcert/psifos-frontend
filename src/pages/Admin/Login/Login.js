@@ -2,18 +2,38 @@ import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.sv
 import { useState } from "react";
 import { Buffer } from "buffer";
 
-function Login(props) {
+function Login() {
+  /**
+   * View for admin login
+   */
+
+  /** @state {string} username admin */
   const [username, setUsername] = useState("");
+
+  /** @state {string} password admin */
   const [password, setPassword] = useState("");
+
+  /** @state {boolean} message for login feedback */
   const [alertMessage, setAlertMessage] = useState("");
+
+  /** @state {boolean} color alert */
   const [colorAlert, setColorAlert] = useState("");
 
   function setToken(userToken) {
+    /**
+     * set token in localStorage
+     * @param {string} userToken info with token
+     */
+
     sessionStorage.setItem("token", userToken["token"]);
     window.location.href = "/admin/home";
   }
 
   async function login() {
+    /**
+     * async function for login admin
+     */
+
     let url = "http://127.0.0.1:5000/login";
     let encoded = Buffer.from(username + ":" + password);
     const resp = await fetch(url, {
@@ -36,7 +56,7 @@ function Login(props) {
     }
   }
 
-  const onKeyDownHandler = e => {
+  const onKeyDownHandler = (e) => {
     if (e.keyCode === 13) {
       login();
     }
@@ -45,7 +65,7 @@ function Login(props) {
   return (
     <div onKeyDown={onKeyDownHandler} id="content-login">
       <section className="columns is-flex is-vcentered is-centered login-section parallax hero is-medium">
-        <div  className="container-login">
+        <div className="container-login">
           <div className="container-content-login">
             <img src={logoParticipa} alt="Logo Participa" />
             <div className="container-login-title">PANEL ADMINISTRADOR</div>

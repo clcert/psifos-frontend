@@ -7,12 +7,23 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { backendIP } from "../../../server";
 
-function HomeAdmin(props) {
+function HomeAdmin() {
+  /**
+   * View home for admin
+   */
+
+  /** @state {array} all elections for the current admin  */
   const [elections, setElections] = useState([]);
+
+  /** @state {array} choices filtered by the search engine  */
   const [electionsSearch, setElectionsSearch] = useState([]);
 
   useEffect(() => {
     async function getElections() {
+      /**
+       * Get all elections for the current admin
+       */
+
       const token = sessionStorage.getItem("token");
       const resp = await fetch(backendIP + "/get_elections", {
         method: "GET",
@@ -29,6 +40,10 @@ function HomeAdmin(props) {
   }, []);
 
   function searchElection(e) {
+    /**
+     * Search for elections by name
+     */
+
     const search = e.target.value;
     const newElections = elections.filter((election) => {
       return election.name.toLowerCase().includes(search.toLowerCase());

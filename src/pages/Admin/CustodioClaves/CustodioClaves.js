@@ -11,12 +11,15 @@ import { useState, useEffect } from "react";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
+import ModalCreateCustodio from "./components/ModalCreateCustodio";
 
 function CustodioClaves() {
   const [nameElection, setNameElection] = useState("test");
   const [election, setElection] = useState([]);
   const [admin, setAdmin] = useState(true);
   const [forloop, setForLoop] = useState(true);
+  const [modalCustodio, setModalCustodio] = useState(false);
+
   const { uuid } = useParams();
   const ipHeliosElection = backendHeliosIP + "/app/elections/" + uuid;
 
@@ -29,7 +32,7 @@ function CustodioClaves() {
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-        <NavbarAdmin />
+          <NavbarAdmin />
           <Title namePage="Custodio de Claves" nameElection={nameElection} />
         </div>
       </section>
@@ -58,16 +61,14 @@ function CustodioClaves() {
             <>
               {admin && (
                 <>
-                  <ButtonAlert
-                    classStyle="button mb-4"
-                    title={"AGREGAR CUSTODIO DE CLAVE"}
-                    message={
-                      "Adding your own trustee requires a good bit more work to tally the election.\nYou will need to have trustees generate keypairs and safeguard their secret key.\n\nIf you are not sure what that means, we strongly recommend\nclicking Cancel and letting Helios tally the election for you."
-                    }
-                    action={() => {
-                      window.location.href = ipHeliosElection + "/trustees/new";
+                  <button
+                    className="button mb-4"
+                    onClick={() => {
+                      setModalCustodio(true);
                     }}
-                  />
+                  >
+                    AGREGAR CUSTODIO DE CLAVE
+                  </button>
                   {!election.has_helios_trustee && (
                     <p className="has-text-white mb-4">
                       [
@@ -91,6 +92,11 @@ function CustodioClaves() {
         <ImageFooter imagePath={imageTrustees} />
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
       </div>
+      <ModalCreateCustodio
+        show={modalCustodio}
+        onHide={() => setModalCustodio(false)}
+        uuid={uuid}
+      />
     </div>
   );
 }

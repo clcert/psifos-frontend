@@ -6,19 +6,35 @@ import SubNavbar from "../component/SubNavbar";
 import AccordionAudit from "./component/AccordionAudit";
 import ExtendElection from "./component/ExtendElection";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { backendIP } from "../../../server";
 
+/**
+ * Main view of the administrator panel where you can modify the parameters of an election
+ */
+
 function AdministrationPanel(props) {
+  /** @state {bool} modal state to extend voting */
   const [extendElectionModal, setExtendElectionModal] = useState(false);
+
+  /** @state {string} date for start election */
   const [votingStartDate, setVotingStartDate] = useState("");
+
+  /** @state {string} date for end election */
   const [votingEndDate, setVotingEndDate] = useState("");
+
+  /** @state {string} title of election */
   const [titleElection, setTitleElection] = useState("");
+
+  /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
   useEffect(() => {
     async function getElection() {
+      /**
+       * async function to get the election data
+       */
+
       const token = sessionStorage.getItem("token");
       const resp = await fetch(backendIP + "/get_election/" + uuid, {
         method: "GET",

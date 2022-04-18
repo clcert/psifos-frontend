@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, Redirect, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
 import Urna from "./pages/Admin/Urna/Urna";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
@@ -15,15 +15,18 @@ import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
 import Consult from "./pages/Cabina/Consult/Consult";
 import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
-import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import RequireAuth from "./pages/Auth/RequireAuth";
 import AutchCas from "./pages/Auth/AuthCas";
+import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 
 function App() {
-  const navigate = useNavigate();
-
   function getToken() {
+    /**
+     * get token from localStorage
+     * @returns {string} token
+     */
+
     const tokenString = sessionStorage.getItem("token");
     return tokenString;
   }
@@ -32,13 +35,17 @@ function App() {
 
   return (
     <Routes>
+      {/** Route for home page */}
+      <Route path="home" element={<Home />} />
+
+      {/** init route for login */}
       {token ? (
         <Route path="/" element={<Navigate replace to="/admin/home" />} />
       ) : (
         <Route path="/" element={<Login />} />
       )}
-      <Route path="home" element={<Home />} />
 
+      {/** Routes for admin page */}
       <Route path="/admin">
         {token ? (
           <Route path="login" element={<Navigate replace to="/admin/home" />} />
@@ -55,14 +62,12 @@ function App() {
         />
         <Route path="createElection" element={<CreateElection />} />
         <Route path="createQuestion/:uuid" element={<CreateQuestion />} />
-        <Route
-          path="editElection/:uuid"
-          element={<CreateElection edit={true} />}
-        />
         <Route path=":uuid/panel" element={<AdministrationPanel />} />
         <Route path=":uuid/resumen" element={<ElectionResume />} />
         <Route path=":uuid/urna" element={<Urna />} />
         <Route path=":uuid/custodio" element={<CustodioClaves />} />
+        <Route path=":uuid/createCustodio" element={<CreateCustodio />} />
+        <Route path=":uuid/resultado" element={<Resultados />} />
         <Route
           path=":uuid/custodio/:uuidTrustee/home"
           element={<CustodioHome />}
@@ -71,9 +76,13 @@ function App() {
           path=":uuid/custodio/:uuidTrustee/keygenerator"
           element={<Keygenerator />}
         />
-        <Route path=":uuid/resultado" element={<Resultados />} />
+        <Route
+          path="editElection/:uuid"
+          element={<CreateElection edit={true} />}
+        />
       </Route>
 
+      {/** Routes for cabina (voters) */}
       <Route path="/cabina">
         <Route path=":uuid" element={<Cabina />} />
         <Route path="consult" element={<Consult />} />

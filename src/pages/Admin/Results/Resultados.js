@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { backendIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import SubNavbar from "../component/SubNavbar";
@@ -8,13 +7,28 @@ import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 
 function Resultados() {
+  /**
+   * View for results of an election
+   */
+
+  /** @state {string} name election */
   const [electionName, setElectionName] = useState("test");
+
+  /** @state {array} election results (resume) */
   const [results, setResults] = useState([]);
+
+  /** @state {array} election questions */
   const [questions, setQuestions] = useState([]);
+
+  /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
   useEffect(function effectFunction() {
     async function getResults() {
+      /**
+       * Get results of an election
+       */
+
       const resp = await fetch(backendIP + "/elections/" + uuid + "/result", {
         method: "GET",
         headers: {
@@ -33,9 +47,12 @@ function Resultados() {
     <div id="content-results">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-        <NavbarAdmin />
+          <NavbarAdmin />
 
-          <Title namePage="Resultados Preliminares" nameElection={electionName} />
+          <Title
+            namePage="Resultados Preliminares"
+            nameElection={electionName}
+          />
         </div>
       </section>
 

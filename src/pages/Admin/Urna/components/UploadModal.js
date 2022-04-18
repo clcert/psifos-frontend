@@ -3,14 +3,30 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 function UploadModal(props) {
+  /**
+   * Modal for upload voters from a file
+   */
+
+  /** @state {bool} modal state to extend voting */
   const [uploadState, setUploadState] = useState(false);
+
+  /** @state {string} status to see if it finished uploading */
   const [finishedUpload, setFinishedUpload] = useState(false);
+
+  /** @state {string} status to see if an error occurred */
   const [errorUpload, setErrorUpload] = useState(false);
+
+  /** @state {string} message for finish state */
   const [messageFinish, setMessageFinish] = useState("");
 
+  /** @urlParam {string} uuid for election */
   const { uuid } = useParams();
 
   async function sendVoter() {
+    /**
+     * async function to send the voters to the server
+     */
+
     try {
       setUploadState(true);
       let data = new FormData();
@@ -23,7 +39,7 @@ function UploadModal(props) {
           "x-access-tokens": token,
         },
         body: data,
-      })
+      });
       setUploadState(false);
       setFinishedUpload(true);
       const jsonResponse = await resp.json();

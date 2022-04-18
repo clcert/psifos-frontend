@@ -10,17 +10,36 @@ import { useEffect, useState } from "react";
 import SubNavbar from "../component/SubNavbar";
 
 function ElectionResume() {
+  /**
+   * view to summarize the election
+   */
+
+  /** @state {string} name of election */
   const [nameElection, setNameElection] = useState("");
+
+  /** @state {string} number of voters */
   const [numVoters, setNumVoters] = useState("");
+
+  /** @state {string} total voters */
   const [totalVoters, setTotalVoters] = useState("");
+
+  /** @state {string} max weight election */
   const [maxWeight, setMaxWeight] = useState("");
+
+  /** @state {string} state of loading data */
   const [loading, setLoading] = useState(false);
+
+  /** @urlParam {array} array with election metadata */
   const [infoElection, setInfoElection] = useState([]);
 
+  /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
   useEffect(function effectFunction() {
     async function getElectionResume() {
+      /**
+       * async function to get the election data
+       */
       const resp = await fetch(backendIP + "/" + uuid + "/resume", {
         method: "GET",
         headers: {
@@ -46,11 +65,10 @@ function ElectionResume() {
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar />
             <Title namePage="Resumen de Elección" nameElection={nameElection} />
-            
           </div>
         </section>
 
-        <SubNavbar active={2}/>
+        <SubNavbar active={2} />
 
         <InfoElection
           infoElection={infoElection}
