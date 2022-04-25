@@ -7,6 +7,8 @@ function QuestionsForms(props) {
   const [numberQuestion, setNumberQuestion] = useState(1);
   const [typeQuestion, setTypeQuestion] = useState("unic");
   const [question, setQuestion] = useState("");
+  const [minAnswers, setMinAnswers] = useState(1);
+  const [maxAnswers, setMaxAnswers] = useState(1);
 
   useEffect(() => {
     if (props.question !== undefined) {
@@ -92,8 +94,22 @@ function QuestionsForms(props) {
         {typeQuestion === "multi" ? (
           <>
             {" "}
-            <input className="input-number-question mr-2" type="number" />
-            <input className="input-number-question" type="number" />
+            <input
+              onChange={(e) => {
+                setMinAnswers(parseInt(e.target.value));
+                props.changeMinMax(parseInt(e.target.value), maxAnswers);
+              }}
+              className="input-number-question mr-2"
+              type="number"
+            />
+            <input
+              onChange={(e) => {
+                setMaxAnswers(parseInt(e.target.value));
+                props.changeMinMax(minAnswers, parseInt(e.target.value));
+              }}
+              className="input-number-question"
+              type="number"
+            />
           </>
         ) : null}
       </div>

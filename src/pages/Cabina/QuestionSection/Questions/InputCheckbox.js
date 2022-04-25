@@ -39,7 +39,7 @@ function InputCheckbox(props) {
                   props.addAnswer(ans, props.index);
                 }}
               />
-              <span className="is-size-4">{props.answers.answers[key]}</span>
+              <span className="is-size-4">{props.answers.answers[key].value}</span>
               &nbsp;&nbsp;
               {props.answers.answer_urls[key] !== "" ? (
                 <span style={{ fontSize: "12pt" }}>

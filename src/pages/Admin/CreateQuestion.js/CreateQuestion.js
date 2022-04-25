@@ -99,6 +99,24 @@ function CreateQuestion(props) {
     setQuestion(auxQuestion);
   }
 
+  function editMinMax(key, newMin, newMax) {
+    /**
+     * edit the min and max of a question
+     * @param {number} key number of answer
+     * @param {number} newMin new min for the answer
+     * @param {number} newMax new max for the answer
+     */
+
+    let auxQuestion = [...question];
+    for (let i = 0; i < auxQuestion.length; i++) {
+      if (auxQuestion[i].key === key) {
+        auxQuestion[i].min = newMin;
+        auxQuestion[i].max = newMax;
+      }
+    }
+    setQuestion(auxQuestion);
+  }
+
   async function sendQuestions() {
     /**
      * send the questions to the server
@@ -156,6 +174,7 @@ function CreateQuestion(props) {
                 changeQuestion={(name, question) =>
                   editAnswers(item.key, name, question)
                 }
+                changeMinMax={(min, max) => editMinMax(item.key, min, max)}
                 remove={() => {
                   removeQuestion(item.key);
                 }}
