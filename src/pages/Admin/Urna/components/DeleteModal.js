@@ -2,68 +2,58 @@ import { backendIP } from "../../../../server";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
-function UploadModal(props) {
+function DeleteModal(props) {
   /**
-   * Modal for upload voters from a file
+   * Modal for delete voters from a file
    */
 
-  /** @state {bool} modal state to extend voting */
-  const [uploadState, setUploadState] = useState(false);
+  /** @state {bool} modal state to delete voters */
+  const [deleteState, setDeleteState] = useState(false);
 
-  /** @state {string} status to see if it finished uploading */
-  const [finishedUpload, setFinishedUpload] = useState(false);
+  /** @state {string} status to see if it finished delete */
+  const [finishedDelete, setFinishedDelete] = useState(false);
 
   /** @state {string} status to see if an error occurred */
-  const [errorUpload, setErrorUpload] = useState(false);
-
-  /** @state {string} message for finish state */
-  const [messageFinish, setMessageFinish] = useState("");
+  const [errorDelete, setErrorDelete] = useState(false);
 
   /** @urlParam {string} uuid for election */
   const { uuid } = useParams();
 
-  async function sendVoter() {
+  async function deleteVoters() {
     /**
-     * async function to send the voters to the server
+     * async function to delete the voters to the server
      */
 
     try {
-      setUploadState(true);
-      let data = new FormData();
-      const input = document.getElementById("fileinput");
-      data.append("file", input.files[0]);
+      setDeleteState(true);
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + uuid + "/send_voters", {
+      const resp = await fetch(backendIP + "/" + uuid + "/delete_voters", {
         method: "POST",
         headers: {
           "x-access-tokens": token,
         },
-        body: data,
       });
-      setUploadState(false);
-      setFinishedUpload(true);
+      setDeleteState(false);
+      setFinishedDelete(true);
       const jsonResponse = await resp.json();
       if (resp.status == 200) {
-        setMessageFinish("Votantes subidos con exito");
       } else {
-        setErrorUpload(true);
-        setMessageFinish("Ha ocurrido un error");
+        setErrorDelete(true);
       }
     } catch (error) {
-      setUploadState(false);
-      setFinishedUpload(true);
-      setErrorUpload(true);
-      setMessageFinish("Ha ocurrido un error");
+      setDeleteState(false);
+      setFinishedDelete(true);
+      setErrorDelete(true);
     }
   }
-  if (!finishedUpload) {
+  if (!finishedDelete) {
     return (
       <div
         className={"modal " + (props.show ? "is-active" : "")}
         id="extend-modal"
       >
         <div className="modal-background" onClick={props.onHide}></div>
-        {uploadState ? (
+        {deleteState ? (
           <div className="modal-card">
             <section className="modal-card-body">
               <h1 className="title">Los votantes se estan subiendo..</h1>
@@ -77,35 +67,23 @@ function UploadModal(props) {
         ) : (
           <div className="modal-card">
             <section className="modal-card-body">
-              <h1 className="title">Subir Votantes</h1>
-              <div className="field">
-                <label className="label label-form-election">
-                  Suba el archivo csv..
-                </label>
-                <div className="control">
-                  <input
-                    className="input input-calendar"
-                    type="file"
-                    id="fileinput"
-                    placeholder="Fecha de inicio"
-                  />
-                </div>
-              </div>
+              <h1 className="title">Eliminar Votantes</h1>
+              <div className="">Todos los votantes seran eliminados</div>
             </section>
             <footer className="modal-card-foot">
               <div className="container level">
                 <button
                   className="button review-buttons previous-button has-text-white has-text-weight-bold level-left"
-                  onClick={() => window.location.reload()}
+                  onClick={props.onHide}
                 >
                   <span>VOLVER ATRÁS</span>
                 </button>
 
                 <button
                   className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
-                  onClick={sendVoter}
+                  onClick={deleteVoters}
                 >
-                  <span>SUBIR</span>
+                  <span>ELIMINAR</span>
                 </button>
               </div>
             </footer>
@@ -122,12 +100,12 @@ function UploadModal(props) {
         <div className="modal-background" onClick={props.onHide}></div>
 
         <div className="modal-card">
-          {!errorUpload ? (
+          {!errorDelete ? (
             <section className="modal-card-body">
               <h1 className="title">Proceso terminado con exito</h1>
               <div className="field">
                 <label className="label label-form-election">
-                  Los votantes se han subido con exito
+                  Los votantes han sido eliminados con exito
                 </label>
               </div>
             </section>
@@ -136,29 +114,19 @@ function UploadModal(props) {
               <h1 className="title">Ha ocurrido un error</h1>
               <div className="field">
                 <label className="label label-form-election">
-                  Los votantes no han sido subidos, intente nuevamente
+                  Los votantes no han sido eliminados, intente nuevamente
                 </label>
               </div>
             </section>
           )}
 
           <footer className="modal-card-foot">
-            <div className="container level">
+            <div className="d-flex justify-content-center">
               <button
-                className="button review-buttons previous-button has-text-white has-text-weight-bold level-left"
+                className="button review-buttons previous-button has-text-white has-text-weight-bold"
                 onClick={() => window.location.reload()}
               >
                 <span>VOLVER ATRÁS</span>
-              </button>
-
-              <button
-                className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
-                onClick={() => {
-                  setFinishedUpload(false);
-                  setErrorUpload(false);
-                }}
-              >
-                <span>SUBIR VOTANTES</span>
               </button>
             </div>
           </footer>
@@ -168,4 +136,4 @@ function UploadModal(props) {
   }
 }
 
-export default UploadModal;
+export default DeleteModal;

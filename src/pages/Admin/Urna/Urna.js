@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import { backendHeliosIP } from "../../../server";
-import { useEffect } from "react";
 import VotersTable from "./components/VotersTable";
 import getElection from "../../../utils/getElection";
 import SettingsUrna from "./components/SettingsUrna";
@@ -10,8 +9,8 @@ import Title from "../../../component/OthersComponents/Title";
 import { Button } from "react-bulma-components";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import { backendIP } from "../../../server";
 import UploadModal from "./components/UploadModal";
+import DeleteModal from "./components/DeleteModal";
 
 function Urna() {
   const [admin, setAdmin] = useState(true);
@@ -21,8 +20,8 @@ function Urna() {
   const [votersFiles, setVotersFiles] = useState([]);
   const [election, setElection] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [file, setFile] = useState(null);
   const [uploadModal, setUploadModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const { uuid } = useParams();
 
@@ -67,14 +66,24 @@ function Urna() {
               )}
 
               {admin && upload && !electionOpenReg && (
-                <Button
-                  className="button-custom ml-3"
-                  onClick={() => {
-                    setUploadModal(true);
-                  }}
-                >
-                  <span>Subir votantes</span>
-                </Button>
+                <>
+                  <Button
+                    className="button-custom ml-3"
+                    onClick={() => {
+                      setUploadModal(true);
+                    }}
+                  >
+                    <span>Subir votantes</span>
+                  </Button>
+                  <Button
+                    className="button progress-previous has-text-white has-text-weight-bold ml-3"
+                    onClick={() => {
+                      setDeleteModal(true);
+                    }}
+                  >
+                    <span>Eliminar Votantes</span>
+                  </Button>
+                </>
               )}
             </div>
 
@@ -122,6 +131,7 @@ function Urna() {
         </section>
         <ElectionCode uuid={uuid} />
         <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} />
+        <DeleteModal show={deleteModal} onHide={() => setDeleteModal(false)} />
       </div>
     );
   } else {
