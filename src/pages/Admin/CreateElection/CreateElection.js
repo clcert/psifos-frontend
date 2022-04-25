@@ -24,9 +24,6 @@ function CreateElection(props) {
   /** @state {string} date for start election */
   const [electionType, setElectionType] = useState("election");
 
-  /** @state {boolean} indicates if there is a help mail */
-  const [helpEmail, setHelpEmail] = useState(null);
-
   /** @state {number} max weight for election */
   const [maxWeight, setMaxWeight] = useState(1);
 
@@ -81,7 +78,6 @@ function CreateElection(props) {
           setName(data.name);
           setDescription(data.description);
           setElectionType(data.election_type);
-          setHelpEmail(data.help_email);
           setMaxWeight(data.max_weight);
           setVotingStartDate(data.voting_started_at.split("T")[0]);
           setVotingStartTime(
@@ -118,7 +114,6 @@ function CreateElection(props) {
           name: name,
           description: description,
           election_type: electionType,
-          help_email: helpEmail,
           max_weight: maxWeight,
           voting_started_at: votingStartDate
             ? votingStartDate + " " + votingStartTime + ":00"
@@ -261,23 +256,6 @@ function CreateElection(props) {
             </div>
           </div>
 
-          <div className="field">
-            <label className="label label-form-election">Correo de ayuda</label>
-            <div className="control">
-              <input
-                onChange={(e) => {
-                  setHelpEmail(e.target.value);
-                }}
-                value={helpEmail}
-                className="input"
-                type="text"
-                placeholder="Correo"
-              />
-            </div>
-            <p className="help">
-              An email address voters should contact if they need help.
-            </p>
-          </div>
           <div className="field">
             <label className="label label-form-election">
               Peso maximo de los votantes
