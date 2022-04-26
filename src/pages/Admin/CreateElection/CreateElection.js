@@ -27,18 +27,6 @@ function CreateElection(props) {
   /** @state {number} max weight for election */
   const [maxWeight, setMaxWeight] = useState(1);
 
-  /** @state {string} date for start election */
-  const [votingStartDate, setVotingStartDate] = useState(null);
-
-  /** @state {string} time for start election */
-  const [votingStartTime, setVotingStartTime] = useState("00:00");
-
-  /** @state {string} date for end election */
-  const [votingEndDate, setVotingEndDate] = useState(null);
-
-  /** @state {string} time for end election */
-  const [votingEndTime, setVotingEndTime] = useState("00:00");
-
   /** @state {boolean} indicates if the election has aliases  */
   const [voterAliases, setVoterAliases] = useState(false);
 
@@ -79,12 +67,6 @@ function CreateElection(props) {
           setDescription(data.description);
           setElectionType(data.election_type);
           setMaxWeight(data.max_weight);
-          setVotingStartDate(data.voting_started_at.split("T")[0]);
-          setVotingStartTime(
-            data.voting_started_at.split("T")[1].substring(0, 5)
-          );
-          setVotingEndDate(data.voting_ends_at.split("T")[0]);
-          setVotingEndTime(data.voting_ends_at.split("T")[1].substring(0, 5));
           setVoterAliases(data.use_voter_aliases);
           setRandomizeAnswer(data.randomize_answer_order);
           setPrivateElection(data.private_p);
@@ -115,13 +97,7 @@ function CreateElection(props) {
           description: description,
           election_type: electionType,
           max_weight: maxWeight,
-          voting_started_at: votingStartDate
-            ? votingStartDate + " " + votingStartTime + ":00"
-            : null,
-          voting_ends_at: votingEndDate
-            ? votingEndDate + " " + votingEndTime + ":00"
-            : null,
-          use_voter_aliases: voterAliases,
+          obscure_voter_names: voterAliases,
           randomize_answer_order: randomizeAnswer,
           private_p: privateElection,
           normalization: normalization,
@@ -249,8 +225,8 @@ function CreateElection(props) {
                     setElectionType(e.target.value);
                   }}
                 >
-                  <option value="election">Elección</option>
-                  <option value="referendum">Referendum</option>
+                  <option value="Election">Elección</option>
+                  <option value="Query">Consulta</option>
                 </select>
               </div>
             </div>
@@ -273,53 +249,6 @@ function CreateElection(props) {
             </div>
             <p className="help">The maximum value of the voter weights.</p>
           </div>
-
-          <div className="field">
-            <label className="label label-form-election">Fecha de inicio</label>
-            <div className="control mb-2">
-              <input
-                className="input input-calendar"
-                type="date"
-                placeholder="Fecha de inicio"
-                value={votingStartDate}
-                onChange={(e) => {
-                  setVotingStartDate(e.target.value);
-                }}
-              />
-            </div>
-            <TimeField
-              onChange={(e) => {
-                setVotingStartTime(e.target.value);
-              }}
-              value={votingStartTime}
-              style={{ width: "46px" }}
-              colon=":"
-            />
-          </div>
-          <div className="field">
-            <label className="label label-form-election">
-              Fecha de termino
-            </label>
-            <div className="control mb-2">
-              <input
-                className="input input-calendar"
-                type="date"
-                placeholder="Fecha de inicio"
-                value={votingEndDate}
-                onChange={(e) => {
-                  setVotingEndDate(e.target.value);
-                }}
-              />
-            </div>
-            <TimeField
-              onChange={(e) => {
-                setVotingEndTime(e.target.value);
-              }}
-              value={votingEndTime}
-              style={{ width: "46px" }}
-              colon=":"
-            />
-          </div>
           <div className="field">
             <div className="control">
               <label className="checkbox">
@@ -331,7 +260,7 @@ function CreateElection(props) {
                   type="checkbox"
                   className="mr-2"
                 />
-                User voter aliases
+                Esconder nombres de los votantes
               </label>
             </div>
             <p className="help">
@@ -350,12 +279,12 @@ function CreateElection(props) {
                   type="checkbox"
                   className="mr-2"
                 />
-                Randomize answer order
+                Aleatorizar el orden de las respuestas
               </label>
             </div>
             <p className="help">
-              enable this if you want the answers to questions to appear in
-              random order for each voter
+            actívelo si desea que las respuestas a las preguntas aparezcan en
+              orden aleatorio para cada votante
             </p>
           </div>
           <div className="field">
@@ -373,7 +302,7 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              A private election is only visible to registered voters.
+            Una elección privada solo es visible para los votantes registrados.
             </p>
           </div>
           <div className="field">
@@ -391,7 +320,7 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              Results numbers displayed are divided by Maximum Voter Weight
+            Los números de resultados que se muestran se dividen por el peso máximo de votantes
             </p>
           </div>
           <div className="level">
