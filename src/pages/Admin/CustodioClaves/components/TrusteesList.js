@@ -2,16 +2,19 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { backendIP, backendHeliosIP } from "../../../../server";
 import TextAlert from "../../../../component/Alerts/TextAlert";
+import { Button } from "react-bulma-components";
 function TrusteesList(props) {
   const [trustees, setTrustees] = useState([]);
 
   useEffect(function effectFunction() {
     async function getTrustees() {
+      const token = sessionStorage.getItem("token");
       const resp = await fetch(
-        backendIP + "/elections/" + props.uuid + "/trustees",
+        backendIP + "/" + props.uuid + "/get_trustees",
         {
           method: "GET",
           headers: {
+            "x-access-tokens": token,
             "Content-Type": "application/json",
           },
         }
@@ -66,21 +69,7 @@ function TrusteesList(props) {
                           {!props.election.frozen_at && (
                             <>
                               [
-                              <TextAlert
-                                id="trustees-link"
-                                title={"eliminar"}
-                                message={
-                                  "Are you sure you want to remove this Trustee?"
-                                }
-                                action={() => {
-                                  window.location.href =
-                                    backendHeliosIP +
-                                    "/app/elections/" +
-                                    props.uuid +
-                                    "/trustees/delete?uuid=" +
-                                    t.uuid;
-                                }}
-                              />
+                              <a style={{color: "rgb(0, 182, 254)"}} onClick={() => {props.deleteTrustee(t.uuid)}}>Eliminar</a>
                               ]
                             </>
                           )}

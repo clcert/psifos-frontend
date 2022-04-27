@@ -4,21 +4,25 @@ import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
 import getElection from "../../../utils/getElection";
-import ButtonAlert from "../../../component/Alerts/ButtonAlert";
 import { backendHeliosIP } from "../../../server";
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import ModalCreateCustodio from "./components/ModalCreateCustodio";
+import ModalDeleteCustodio from "./components/ModalDeleteCustodio";
 
-function CustodioClaves() {
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+function CustodioClaves(props) {
   const [nameElection, setNameElection] = useState("test");
   const [election, setElection] = useState([]);
   const [admin, setAdmin] = useState(true);
-  const [forloop, setForLoop] = useState(true);
   const [modalCustodio, setModalCustodio] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [uuidTrustee, setUuidTrustee] = useState("");
+
+  const location = useLocation();
 
   const { uuid } = useParams();
   const ipHeliosElection = backendHeliosIP + "/app/elections/" + uuid;
@@ -41,6 +45,11 @@ function CustodioClaves() {
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
+          {location.state && (
+            <div className="notification is-primary is-light">
+              {location.state.message}
+            </div>
+          )}
           <div className="content d-flex justify-content-center">
             <ul className="has-text-white has-text-left">
               <li>
@@ -85,7 +94,15 @@ function CustodioClaves() {
               )}
             </>
           )}
-          <TrusteesList uuid={uuid} election={election} admin={admin} />
+          <TrusteesList
+            deleteTrustee={(uuid) => {
+              setUuidTrustee(uuid);
+              setModalDelete(true);
+            }}
+            uuid={uuid}
+            election={election}
+            admin={admin}
+          />
         </div>
       </section>
       <div>
@@ -96,6 +113,12 @@ function CustodioClaves() {
         show={modalCustodio}
         onHide={() => setModalCustodio(false)}
         uuid={uuid}
+      />
+      <ModalDeleteCustodio
+        show={modalDelete}
+        onHide={() => setModalDelete(false)}
+        uuid={uuid}
+        uuidTrustee={uuidTrustee}
       />
     </div>
   );
