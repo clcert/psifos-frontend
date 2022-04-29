@@ -5,6 +5,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { backendIP } from "../../../server";
+import SubNavbar from "../component/SubNavbar";
 import QuestionsForms from "./component/QuestionsForms";
 
 function CreateQuestion(props) {
@@ -151,6 +152,8 @@ function CreateQuestion(props) {
           <Title namePage="Creación de Preguntas" />
         </div>
       </section>
+
+      <SubNavbar active={1} />
 
       <section
         className="section columns is-flex is-vcentered is-centered mb-0 mt-3"

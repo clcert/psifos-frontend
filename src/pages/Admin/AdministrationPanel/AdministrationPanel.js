@@ -17,11 +17,29 @@ function AdministrationPanel(props) {
   /** @state {bool} modal state to extend voting */
   const [extendElectionModal, setExtendElectionModal] = useState(false);
 
-  /** @state {string} date for start election */
-  const [votingStartDate, setVotingStartDate] = useState("");
+  /** @state {bool} election have questions */
+  const [haveQuestions, setHaveQuestions] = useState(true);
 
-  /** @state {string} date for end election */
-  const [votingEndDate, setVotingEndDate] = useState("");
+  /** @state {bool} election have public keys */
+  const [havePublicKeys, setHavePublicKeys] = useState(true);
+
+  /** @state {bool} election have voters */
+  const [haveVoters, setHaveVoters] = useState(true);
+
+  /** @state {bool} election have obscure state */
+  const [obscureVoter, setObscureVoter] = useState(true);
+
+  /** @state {bool} election private */
+  const [privateElection, setPrivateElection] = useState(true);
+
+  /** @state {bool} election have audit */
+  const [totalVoters, setTotalVoters] = useState(0);
+
+  /** @state {bool} election have audit */
+  const [randomizeAnswers, setRandomizeAnswers] = useState(true);
+
+  /** @state {bool} election have trustee */
+  const [haveTrustee, setHaveTrustee] = useState(true);
 
   /** @state {string} title of election */
   const [titleElection, setTitleElection] = useState("");
@@ -44,19 +62,15 @@ function AdministrationPanel(props) {
         },
       });
       const jsonResponse = await resp.json();
-      if (jsonResponse.voting_started_at !== null) {
-        setVotingStartDate(
-          jsonResponse.voting_started_at.split("T")[0] +
-            " " +
-            jsonResponse.voting_started_at.split("T")[1]
-        );
-        setVotingEndDate(
-          jsonResponse.voting_ends_at.split("T")[0] +
-            " " +
-            jsonResponse.voting_ends_at.split("T")[1]
-        );
-      }
       setTitleElection(jsonResponse.name);
+      setHaveQuestions(jsonResponse.questions.length > 0);
+      setHavePublicKeys(jsonResponse.public_keys !== "")
+      setHaveVoters(jsonResponse.voters.length > 0);
+      setHaveTrustee(jsonResponse.trustees.length > 0);
+      setObscureVoter(jsonResponse.obscure_voter_names);
+      setPrivateElection(jsonResponse.private_p);
+      setRandomizeAnswers(jsonResponse.randomize_answer_order);
+      setTotalVoters(jsonResponse.voters.length);
     }
     getElection();
   }, []);
@@ -108,18 +122,84 @@ function AdministrationPanel(props) {
               <p className="panel-text">
                 <span className="panel-text-sect">Estado</span>: Activa
               </p>
+
               <p className="panel-text">
-                <span className="panel-text-sect">Fecha inicio</span>:{" "}
-                {votingStartDate ? votingStartDate : "No definida"}
+                <span className="panel-text-sect">Cantidad de votantes</span>:{" "}
+                {totalVoters}
               </p>
+
               <p className="panel-text">
-                <span className="panel-text-sect">Fecha termino</span>:{" "}
-                {votingEndDate ? votingEndDate : "No definida"}
+                <span className="panel-text-sect">
+                  Esconder nombre de los votantes:{" "}
+                </span>
+                {obscureVoter ? (
+                  <i class="fa-solid fa-check" />
+                ) : (
+                  <i class="fa-solid fa-x" />
+                )}
               </p>
+
               <p className="panel-text">
-                <span className="panel-text-sect">Proximo paso</span>: Añadir
-                preguntas...
+                <span className="panel-text-sect">Elección privada</span>:{" "}
+                {privateElection ? (
+                  <i class="fa-solid fa-check" />
+                ) : (
+                  <i class="fa-solid fa-x" />
+                )}
               </p>
+
+              <p className="panel-text">
+                <span className="panel-text-sect">Randomize answers</span>:{" "}
+                {randomizeAnswers ? (
+                  <i class="fa-solid fa-check" />
+                ) : (
+                  <i class="fa-solid fa-x" />
+                )}
+              </p>
+
+              <p className="panel-text">
+                <span className="panel-text-sect">Proximos pasos</span>:
+              </p>
+
+              <ul>
+                {!haveVoters && (
+                  <p className="panel-text">
+                    <span className="panel-text-sect">
+                      <Link to={"/admin/" + uuid + "/urna"}>
+                        Añadir votantes
+                      </Link>
+                    </span>
+                  </p>
+                )}
+                {!haveQuestions && (
+                  <p className="panel-text">
+                    <span className="panel-text-sect">
+                      <Link to={"/admin/createQuestion/" + uuid}>
+                        Añadir Preguntas
+                      </Link>
+                    </span>
+                  </p>
+                )}
+                {!haveTrustee && (
+                  <p className="panel-text">
+                    <span className="panel-text-sect">
+                      <Link to={"/admin/" + uuid + "/custodio"}>
+                        Añadir Custodios
+                      </Link>
+                    </span>
+                  </p>
+                )}
+                {!haveVoters &&
+                  !haveQuestions &&
+                  !havePublicKeys &&
+                  !haveTrustee(
+                    <p className="panel-text">
+                      <span className="panel-text-sect">
+                        <Link to="">Freeze ballot</Link>
+                      </span>
+                    </p>
+                  )}
+              </ul>
             </div>
 
             <div className="panel-audit">

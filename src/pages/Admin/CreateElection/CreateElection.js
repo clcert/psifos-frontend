@@ -67,7 +67,7 @@ function CreateElection(props) {
           setDescription(data.description);
           setElectionType(data.election_type);
           setMaxWeight(data.max_weight);
-          setVoterAliases(data.use_voter_aliases);
+          setVoterAliases(data.obscure_voter_names);
           setRandomizeAnswer(data.randomize_answer_order);
           setPrivateElection(data.private_p);
           setNormalization(data.normalization);
