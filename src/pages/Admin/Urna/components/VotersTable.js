@@ -187,7 +187,6 @@ function VotersTable(props) {
                         <th className="has-text-centered">Login</th>
                         {!election.openreg && (
                           <>
-                            <th className="has-text-centered">Email Address</th>
                             <th className="has-text-centered">VOTANTE</th>
                           </>
                         )}
@@ -215,9 +214,6 @@ function VotersTable(props) {
                             </td>
                             {!election.openreg && (
                               <>
-                                <td className="align-middle has-text-centered">
-                                  {voter.voter_email}
-                                </td>
                                 <td className="align-middle has-text-centered">
                                   {voter.alias}
                                 </td>

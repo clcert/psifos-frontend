@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import TimeField from "react-simple-timefield";
 import { useState, useEffect } from "react";
 import { backendIP } from "../../../server";
+import SubNavbar from "../component/SubNavbar";
 
 function CreateElection(props) {
   /**
@@ -110,7 +111,7 @@ function CreateElection(props) {
         }
       }
       if (resp.status === 200) {
-        window.location.href = "/admin/home";
+        window.location.href = "/admin/" + jsonResponse.uuid + "/panel";
       }
     } else {
       window.scrollTo({
@@ -145,6 +146,8 @@ function CreateElection(props) {
           <Title namePage="Creación de Elección" />
         </div>
       </section>
+
+      <SubNavbar active={1} />
 
       <section
         className="section columns is-flex is-vcentered is-centered mb-0 mt-3"
