@@ -1,11 +1,11 @@
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import AgroupQuestions from "../components/ConsultQuestions/AgroupQuestions";
-import DropdownSelection from "../components/ConsultQuestions/DropdownSelection";
-import ImageQuestions from "../components/ConsultQuestions/ImageQuestions";
-import MultipleSelection from "../components/ConsultQuestions/MultipleSelection";
-import QuealificationSelection from "../components/ConsultQuestions/QualificationSelection";
-import UniqueSelection from "../components/ConsultQuestions/UniqueSelection";
+import AgroupQuestions from "./ConsultQuestions/AgroupQuestions";
+import DropdownSelection from "./ConsultQuestions/DropdownSelection";
+import ImageQuestions from "./ConsultQuestions/ImageQuestions";
+import MultipleSelection from "./ConsultQuestions/MultipleSelection";
+import QuealificationSelection from "./ConsultQuestions/QualificationSelection";
+import UniqueSelection from "./ConsultQuestions/UniqueSelection";
 import InfoConsult from "./components/InfoConsult";
 import TitleConsult from "./components/TitleConsult";
 

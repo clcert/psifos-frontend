@@ -45,6 +45,7 @@ function CreateElection(props) {
 
   /** @urlParam {string} uuid of election  */
   const { uuid } = useParams();
+  console.log(uuid);
 
   useEffect(() => {
     if (props.edit) {
@@ -328,7 +329,7 @@ function CreateElection(props) {
           </div>
           <div className="level">
             <Button className="button-custom mr-2 ml-2 level-left">
-              <Link className="link-button" to={"/admin/" + uuid + "/panel"}>
+              <Link className="link-button" style={{color: "white"}} to={props.edit ? ("/admin/" + uuid + "/panel"):("/admin/home") }>
                 Atras
               </Link>
             </Button>

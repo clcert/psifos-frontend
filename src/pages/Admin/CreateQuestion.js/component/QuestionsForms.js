@@ -87,11 +87,13 @@ function QuestionsForms(props) {
           }}
         />
         <select className="mr-2" onChange={changeQuestion} value={typeQuestion}>
-          <option value="unic">Unica Opción</option>
-          <option value="multi">Opciones Multiples</option>
+          <option value="unique">Unica Opción</option>
+          <option value="multiple">Opciones Multiples</option>
+          <option value="dropdown">Dropdown</option>
+          <option value="score">Puntuación</option>
           <option value="pharaf">Parrafo</option>
         </select>
-        {typeQuestion === "multi" ? (
+        {typeQuestion === "multiple" ? (
           <>
             {" "}
             <input

@@ -6,7 +6,7 @@ import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
 import Resultados from "./pages/Admin/Results/Resultados";
 import Home from "./pages/Home/Home";
 import "bulma/css/bulma.min.css";
-import Cabina from "./pages/Cabina/Cabina";
+import CabinaElection from "./pages/Cabina/Election/CabinaElection";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 import Login from "./pages/Admin/Login/Login";
@@ -19,6 +19,7 @@ import { Navigate } from "react-router-dom";
 import RequireAuth from "./pages/Auth/RequireAuth";
 import AutchCas from "./pages/Auth/AuthCas";
 import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
+import Cabina from "./pages/Cabina/Cabina";
 
 function App() {
   function getToken() {

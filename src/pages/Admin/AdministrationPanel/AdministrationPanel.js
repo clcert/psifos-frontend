@@ -44,6 +44,9 @@ function AdministrationPanel(props) {
   /** @state {string} title of election */
   const [titleElection, setTitleElection] = useState("");
 
+  /** @state {string} election type */
+  const [typeElection, setTypeElection] = useState("");
+
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
@@ -64,13 +67,14 @@ function AdministrationPanel(props) {
       const jsonResponse = await resp.json();
       setTitleElection(jsonResponse.name);
       setHaveQuestions(jsonResponse.questions.length > 0);
-      setHavePublicKeys(jsonResponse.public_keys !== "")
+      setHavePublicKeys(jsonResponse.public_keys !== "");
       setHaveVoters(jsonResponse.voters.length > 0);
       setHaveTrustee(jsonResponse.trustees.length > 0);
       setObscureVoter(jsonResponse.obscure_voter_names);
       setPrivateElection(jsonResponse.private_p);
       setRandomizeAnswers(jsonResponse.randomize_answer_order);
       setTotalVoters(jsonResponse.voters.length);
+      setTypeElection(jsonResponse.election_type);
     }
     getElection();
   }, []);
@@ -124,6 +128,10 @@ function AdministrationPanel(props) {
               </p>
 
               <p className="panel-text">
+                <span className="panel-text-sect">Tipo de votación</span>: {typeElection}
+              </p>
+
+              <p className="panel-text">
                 <span className="panel-text-sect">Cantidad de votantes</span>:{" "}
                 {totalVoters}
               </p>
@@ -133,27 +141,27 @@ function AdministrationPanel(props) {
                   Esconder nombre de los votantes:{" "}
                 </span>
                 {obscureVoter ? (
-                  <i class="fa-solid fa-check" />
+                  <i className="fa-solid fa-check" />
                 ) : (
-                  <i class="fa-solid fa-x" />
+                  <i className="fa-solid fa-x" />
                 )}
               </p>
 
               <p className="panel-text">
                 <span className="panel-text-sect">Elección privada</span>:{" "}
                 {privateElection ? (
-                  <i class="fa-solid fa-check" />
+                  <i className="fa-solid fa-check" />
                 ) : (
-                  <i class="fa-solid fa-x" />
+                  <i className="fa-solid fa-x" />
                 )}
               </p>
 
               <p className="panel-text">
                 <span className="panel-text-sect">Randomize answers</span>:{" "}
                 {randomizeAnswers ? (
-                  <i class="fa-solid fa-check" />
+                  <i className="fa-solid fa-check" />
                 ) : (
-                  <i class="fa-solid fa-x" />
+                  <i className="fa-solid fa-x" />
                 )}
               </p>
 

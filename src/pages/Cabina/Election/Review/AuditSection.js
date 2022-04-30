@@ -1,5 +1,5 @@
 import { useState } from "react";
-import auditImage from "../../../static/cabina/svg/audit-img.svg";
+import auditImage from "../../../../static/cabina/svg/audit-img.svg";
 
 function AuditSection(props) {
   const [pane1, setPane1] = useState(true);

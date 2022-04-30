@@ -40,9 +40,12 @@ function ElectionResume() {
       /**
        * async function to get the election data
        */
+
+      const token = sessionStorage.getItem("token");
       const resp = await fetch(backendIP + "/" + uuid + "/resume", {
         method: "GET",
         headers: {
+          "x-access-tokens": token,
           "Content-Type": "application/json",
         },
       });

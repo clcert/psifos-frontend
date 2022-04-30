@@ -75,12 +75,7 @@ function HomeAdmin() {
               />
             </div>
             <div className="level-right">
-              <Button
-                className="button-custom ml-3 home-admin-button level-item"
-                onClick={() => {
-                  window.location.href = "";
-                }}
-              >
+              <Button className="button-custom ml-3 home-admin-button level-item">
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
                   className="link-button"

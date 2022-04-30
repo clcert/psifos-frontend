@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import selectImg from "../../../static/cabina/svg/select-img.svg";
-import FinishButton from "../components/Buttons/FinishButton";
+import selectImg from "../../../../static/cabina/svg/select-img.svg";
+import FinishButton from "../../components/Buttons/FinishButton";
 import InputCheckbox from "./Questions/InputCheckbox";
 import InputRadio from "./Questions/InputRadio";
-import NextButton from "../components/Buttons/NextButton";
-import PreviousButton from "../components/Buttons/PreviousButton";
+import NextButton from "../../components/Buttons/NextButton";
+import PreviousButton from "../../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
-import ModalPercentage from "../components/ModalPercentage";
+import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 
 function Question(props) {

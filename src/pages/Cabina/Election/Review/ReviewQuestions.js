@@ -1,4 +1,4 @@
-import reviewImage from "../../../static/cabina/svg/review-img.svg";
+import reviewImage from "../../../../static/cabina/svg/review-img.svg";
 import AuditModal from "./AuditModal";
 import React, { useState } from "react";
 
