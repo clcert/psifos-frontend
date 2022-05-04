@@ -13,7 +13,7 @@ function QuestionsForms(props) {
   useEffect(() => {
     if (props.question !== undefined) {
       setQuestion(props.question.question);
-      setAnswers(props.question.answers);
+      setAnswers(props.question.closed_options);
     }
   }, [props.question]);
 
@@ -50,7 +50,10 @@ function QuestionsForms(props) {
      * change question type
      * @param {event} e
      */
+
+    console.log(e.target.value);
     setTypeQuestion(e.target.value);
+    props.editType(e.target.value);
   }
 
   function editAnswer(key, newValue) {
@@ -87,11 +90,9 @@ function QuestionsForms(props) {
           }}
         />
         <select className="mr-2" onChange={changeQuestion} value={typeQuestion}>
-          <option value="unique">Unica Opción</option>
-          <option value="multiple">Opciones Multiples</option>
-          <option value="dropdown">Dropdown</option>
-          <option value="score">Puntuación</option>
-          <option value="pharaf">Parrafo</option>
+          <option value="open_question">Pregunta abierta</option>
+          <option value="closed_question">Pregunta cerrada</option>
+
         </select>
         {typeQuestion === "multiple" ? (
           <>
