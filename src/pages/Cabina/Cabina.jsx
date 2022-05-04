@@ -68,7 +68,7 @@ function Cabina() {
   } else if (!auth) {
     return <NoAuth message={noAuthMessage}></NoAuth>;
   } else if (load) {
-    return <CabinaElection></CabinaElection>;
+    return <Consult></Consult>;
   }
 }
 

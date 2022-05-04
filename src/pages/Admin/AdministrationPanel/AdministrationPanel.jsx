@@ -8,6 +8,7 @@ import ExtendElection from "./component/ExtendElection";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { backendIP } from "../../../server";
+import ModalFreeze from "./component/ModalFreeze";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -46,6 +47,9 @@ function AdministrationPanel(props) {
 
   /** @state {string} election type */
   const [typeElection, setTypeElection] = useState("");
+
+  /** @state {bool} state modal freeze */
+  const [freezeModal, setFreezeModal] = useState(false);
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
@@ -86,8 +90,8 @@ function AdministrationPanel(props) {
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
             <Title
-              namePage="Bienvenido a Participa Uchile DEV"
-              nameElection={"Elección creada por Helios Admin"}
+              namePage="Panel de administración"
+              nameElection={titleElection}
             />
           </div>
         </section>
@@ -128,7 +132,8 @@ function AdministrationPanel(props) {
               </p>
 
               <p className="panel-text">
-                <span className="panel-text-sect">Tipo de votación</span>: {typeElection}
+                <span className="panel-text-sect">Tipo de votación</span>:{" "}
+                {typeElection === "Election" ? "Elección" : "Consulta"}
               </p>
 
               <p className="panel-text">
@@ -157,7 +162,7 @@ function AdministrationPanel(props) {
               </p>
 
               <p className="panel-text">
-                <span className="panel-text-sect">Randomize answers</span>:{" "}
+                <span className="panel-text-sect">Aleatorizar respuestas</span>:{" "}
                 {randomizeAnswers ? (
                   <i className="fa-solid fa-check" />
                 ) : (
@@ -197,16 +202,18 @@ function AdministrationPanel(props) {
                     </span>
                   </p>
                 )}
-                {!haveVoters &&
+                {/* {true && !haveVoters &&
                   !haveQuestions &&
-                  !havePublicKeys &&
-                  !haveTrustee(
-                    <p className="panel-text">
-                      <span className="panel-text-sect">
-                        <Link to="">Freeze ballot</Link>
-                      </span>
-                    </p>
-                  )}
+                  !havePublicKeys && */}
+                {/* !haveTrustee( */}
+                <p className="panel-text">
+                  <span
+                    onClick={() => setFreezeModal(true)}
+                    className="panel-text-sect"
+                  >
+                    Freeze ballot
+                  </span>
+                </p>
               </ul>
             </div>
 
@@ -219,6 +226,11 @@ function AdministrationPanel(props) {
         <ExtendElection
           show={extendElectionModal}
           onHide={() => setExtendElectionModal(false)}
+        />
+        <ModalFreeze
+          show={freezeModal}
+          onHide={() => setFreezeModal(false)}
+          uuid={uuid}
         />
       </div>
     </>

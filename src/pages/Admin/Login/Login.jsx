@@ -29,6 +29,14 @@ function Login() {
     window.location.href = "/admin/home";
   }
 
+  function setUser(user) {
+    /**
+     * set user in localStorage
+     * @param {string} user info with user
+     */
+    sessionStorage.setItem("user", user);
+  }
+
   async function login() {
     /**
      * async function for login admin
@@ -48,6 +56,7 @@ function Login() {
       const data = await resp.json();
       setColorAlert("green");
       setAlertMessage("Inicio exitoso!");
+      setUser(username);
       setToken(data);
     } else if (resp.status === 401) {
       const data = await resp.json();

@@ -15,7 +15,9 @@ import {
   SUM,
   SECRET_KEY,
 } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { backendIP } from "../../../server";
+import { useEffect, useState } from "react";
 
 function Keygenerator(props) {
   var COEFFICIENTS = [];
@@ -23,6 +25,37 @@ function Keygenerator(props) {
   var SENT, ACKS2;
   var TRUSTEE, CERTIFICATE;
   var ELGAMAL_PARAMS;
+
+  const [trustee, setTrustee] = useState(null);
+
+  const { uuid, uuidTrustee } = useParams();
+
+  async function getRandomness() {
+    const resp = await fetch(backendIP + "/" + uuid + "/get_randomness", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (resp.status == 200) {
+      const jsonResponse = await resp.json();
+      return jsonResponse.randomness;
+    }
+  }
+
+  async function getTrustee() {
+    const resp = await fetch(backendIP + "/" + uuidTrustee + "/get_trustee", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (resp.status == 200) {
+      const jsonResponse = await resp.json();
+      setTrustee(jsonResponse);
+      return jsonResponse;
+    }
+  }
 
   class Steps {
     constructor() {
@@ -88,11 +121,12 @@ function Keygenerator(props) {
           return;
         }
 
-        $.getJSON("../../get-randomness", function (result) {
-          sjcl.random.addEntropy(result.randomness);
+        getRandomness().then((data) => {
+          const randomness = data["randomness"];
+          sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
             PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
-            PARAMS.trustee_id = "{{trustee.trustee_id}}";
+            PARAMS.trustee_id = trustee.trustee_id;
             CERTIFICATES = JSON.parse(data["certificates"]);
           });
 
@@ -111,11 +145,12 @@ function Keygenerator(props) {
           return;
         }
         // get some more server-side randomness for keygen
-        $.getJSON("../../get-randomness", function (result) {
-          sjcl.random.addEntropy(result.randomness);
+        getRandomness().then((data) => {
+          const randomness = data["randomness"];
+          sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
             PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
-            PARAMS.trustee_id = "{{trustee.trustee_id}}";
+            PARAMS.trustee_id = trustee.trustee_id;
             CERTIFICATES = JSON.parse(data["certificates"]);
             COEFFICIENTS = JSON.parse(data["coefficents"]);
             POINTS = JSON.parse(data["points"]);
@@ -135,8 +170,9 @@ function Keygenerator(props) {
           return;
         }
         // get some more server-side randomness for keygen
-        $.getJSON("../../get-randomness", function (result) {
-          sjcl.random.addEntropy(result.randomness);
+        getRandomness().then((data) => {
+          const randomness = data["randomness"];
+          sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
             PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
             PARAMS.trustee_id = "{{trustee.trustee_id}}";
@@ -428,17 +464,36 @@ function Keygenerator(props) {
     });
   }
 
-  set_step_init();
+  useEffect(() => {
+    /** Get trustee info */
+    const trustee = getTrustee();
+
+    /** Set actual step for trustee */
+    set_step_init();
+
+    /** Set initial params */
+    getRandomness().then((data) => {
+      const randomness = data["randomness"];
+      sjcl.random.addEntropy(randomness);
+      BigInt.setup(function () {
+        ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(
+          "{{eg_params_json|safe}}"
+        );
+        ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
+        TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+      });
+    });
+  }, []);
 
   // get some more server-side randomness for keygen
-  $.getJSON("../../get-randomness", function (result) {
-    sjcl.random.addEntropy(result.randomness);
-    BigInt.setup(function () {
-      ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject("{{eg_params_json|safe}}");
-      ELGAMAL_PARAMS.trustee_id = "{{trustee.trustee_id}}";
-      TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
-    });
-  });
+  // $.getJSON("../../get-randomness", function (result) {
+  //   sjcl.random.addEntropy(result.randomness);
+  //   BigInt.setup(function () {
+  //     ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject("{{eg_params_json|safe}}");
+  //     ELGAMAL_PARAMS.trustee_id = "{{trustee.trustee_id}}";
+  //     TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+  //   });
+  // });
 
   return (
     <div id="content-trustees">

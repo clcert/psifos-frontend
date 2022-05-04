@@ -3,7 +3,7 @@ import Title from "../../../component/OthersComponents/Title";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import InfoElection from "./components/InfoElection";
 import ElectionCode from "../../../component/Footers/ElectionCode";
-import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
+import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useParams } from "react-router";
 import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
@@ -66,7 +66,7 @@ function ElectionResume() {
       <div id="content-voters">
         <section className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar />
+          <NavbarAdmin />
             <Title namePage="Resumen de Elección" nameElection={nameElection} />
           </div>
         </section>

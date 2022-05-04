@@ -3,6 +3,7 @@ import NavbarLogo from "./NavbarLogo";
 import UserButton from "./UserButton";
 import { useState } from "react";
 import ModalHelp from "./ModalHelp";
+import { Link } from "react-router-dom";
 
 function NavbarAdmin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -23,18 +24,14 @@ function NavbarAdmin(props) {
             <div className="navbar-end">
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
-                  <a
-                    href={
-                      isAdmin
-                        ? "https://participa.uchile.cl/"
-                        : "https://participa.uchile.cl/"
-                    }
+                  <Link
+                    to="/admin/home"
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"
                   >
                     INICIO
-                  </a>
+                  </Link>
                   <a
                     onClick={() => {
                       setShowInfo(true);

@@ -12687,6 +12687,12 @@ Consult
   padding-bottom: 0;
 }
 
+.consult-agroup{
+
+  overflow-y: auto;
+
+}
+
 .quealification-radio {
   margin-bottom: 1rem;
 }

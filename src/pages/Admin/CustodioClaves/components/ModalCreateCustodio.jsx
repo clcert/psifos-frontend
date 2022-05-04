@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 
 function ModalCreateCustodio(props) {
-
-    /**
-     * Modal for show info before create a custodio
-     */
+  /**
+   * Modal for show info before create a custodio
+   */
 
   return (
     <div
@@ -18,11 +17,11 @@ function ModalCreateCustodio(props) {
           <h1 className="title">Agregar Custodio de clave</h1>
           <div className="field">
             <label className="">
-              Adding your own trustee requires a good bit more work to tally the
-              election.\nYou will need to have trustees generate keypairs and
-              safeguard their secret key.\n\nIf you are not sure what that
-              means, we strongly recommend\nclicking Cancel and letting Helios
-              tally the election for you.
+              Agregar su propio Custodio requiere un poco más de trabajo
+              para contar la elección. Necesitará que los Custodios
+              generen pares de claves y protejan su clave secreta. Si no está
+              seguro de lo que eso significa, le recomendamos que haga clic en
+              Cancelar y deje que Helios cuente la elección por usted.
             </label>
           </div>
         </section>

@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import React from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
-import { backendHeliosIP, backendIP } from "../../../../server";
+import { backendIP } from "../../../../server";
 
 function AccordionAudit(props) {
   let collapsiblesRef = useRef(null);

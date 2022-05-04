@@ -14,7 +14,7 @@ function UserButton(props) {
           aria-haspopup="true"
           aria-controls="dropdown-menu4"
         >
-          <span>Helios Admin</span>
+          <span>{sessionStorage.getItem("user")}</span>
           <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true"></i>
           </span>
