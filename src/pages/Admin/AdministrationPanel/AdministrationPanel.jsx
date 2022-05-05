@@ -70,7 +70,7 @@ function AdministrationPanel(props) {
       });
       const jsonResponse = await resp.json();
       setTitleElection(jsonResponse.name);
-      setHaveQuestions(jsonResponse.questions.length > 0);
+      setHaveQuestions(jsonResponse.questions !== "");
       setHavePublicKeys(jsonResponse.public_keys !== "");
       setHaveVoters(jsonResponse.voters.length > 0);
       setHaveTrustee(jsonResponse.trustees.length > 0);
@@ -202,18 +202,17 @@ function AdministrationPanel(props) {
                     </span>
                   </p>
                 )}
-                {/* {true && !haveVoters &&
-                  !haveQuestions &&
-                  !havePublicKeys && */}
-                {/* !haveTrustee( */}
-                <p className="panel-text">
-                  <span
-                    onClick={() => setFreezeModal(true)}
-                    className="panel-text-sect"
-                  >
-                    Freeze ballot
-                  </span>
-                </p>
+
+                {haveVoters && haveQuestions && haveTrustee && (
+                  <p className="panel-text">
+                    <span
+                      onClick={() => setFreezeModal(true)}
+                      className="panel-text-sect"
+                    >
+                      <Link to="">Freeze ballot</Link>
+                    </span>
+                  </p>
+                )}
               </ul>
             </div>
 

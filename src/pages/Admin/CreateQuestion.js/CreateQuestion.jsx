@@ -43,8 +43,8 @@ function CreateQuestion(props) {
         },
       });
       const data = await response.json();
-      if (data.hasOwnProperty("question")) {
-        setQuestion(data.question);
+      if (data.length > 0) {
+        setQuestion(data);
       }
     }
     getQuestions();

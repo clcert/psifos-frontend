@@ -6,7 +6,6 @@ import Consult from "./Consult/Consult";
 import NoAuth from "./NoAuth";
 
 function Cabina() {
-
   /** View for cabina */
 
   /** @state {string} type of election */
@@ -30,14 +29,18 @@ function Cabina() {
   /** @state {string} uuid of election */
   const { uuid } = useParams();
 
-
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
       window.location.href = backendIP + "/vote/" + uuid;
     }
 
-    async function test() {
-      let url = backendIP + "/" + uuid + "/questions";
+    async function getElectionQuestions() {
+      /**
+       * async function to get the election data
+       * check if voter can vote in election
+       */
+
+      const url = backendIP + "/" + uuid + "/questions";
       const resp = await fetch(url, {
         method: "GET",
         credentials: "include",
@@ -60,7 +63,7 @@ function Cabina() {
         );
       }
     }
-    test();
+    getElectionQuestions();
   }, []);
 
   if (!load) {
@@ -68,7 +71,11 @@ function Cabina() {
   } else if (!auth) {
     return <NoAuth message={noAuthMessage}></NoAuth>;
   } else if (load) {
-    return <Consult></Consult>;
+    return type === "Query" ? (
+      <Consult></Consult>
+    ) : (
+      <CabinaElection></CabinaElection>
+    );
   }
 }
 

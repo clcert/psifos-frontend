@@ -8,6 +8,10 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees1.svg";
+import { Link, useParams } from "react-router-dom";
+import { backendIP } from "../../../server";
+import { useEffect, useState } from "react";
+
 import {
   PARAMS,
   CERTIFICATES,
@@ -15,9 +19,6 @@ import {
   SUM,
   SECRET_KEY,
 } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
-import { Link, useParams } from "react-router-dom";
-import { backendIP } from "../../../server";
-import { useEffect, useState } from "react";
 
 function Keygenerator(props) {
   var COEFFICIENTS = [];
@@ -26,11 +27,30 @@ function Keygenerator(props) {
   var TRUSTEE, CERTIFICATE;
   var ELGAMAL_PARAMS;
 
+  /** @state Trustee   */
   const [trustee, setTrustee] = useState(null);
 
+  /** @state {string} feedback button (init process) */
+  const [textButtonInit, setTextButtonInit] = useState("Iniciar proceso");
+
+  /** @state {bool} enabled statefeedback button (generate keys) */
+  const [enabledButtonInit, setEnabledButtonInit] = useState(true);
+
+  /** @state {string} totally process feedback */
+  const [processFeedback, setProcessFeedback] = useState("");
+
+  /** @state {int} actual step process */
+  const [actualStep, setActualStep] = useState(0);
+
+  /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
 
   async function getRandomness() {
+    /**
+     * async function to get the randomness
+     * @returns {int} randomness
+     */
+
     const resp = await fetch(backendIP + "/" + uuid + "/get_randomness", {
       method: "GET",
       headers: {
@@ -44,6 +64,11 @@ function Keygenerator(props) {
   }
 
   async function getTrustee() {
+    /**
+     * async function to get the trustee
+     * set the trustee in the state (params)
+     * @returns {object} trustee
+     */
     const resp = await fetch(backendIP + "/" + uuidTrustee + "/get_trustee", {
       method: "GET",
       headers: {
@@ -57,12 +82,54 @@ function Keygenerator(props) {
     }
   }
 
+  async function send_step(step, data) {
+    /**
+     * async function to send the step
+     * @param {int} step to send
+     * @param {object} data to send with info about step
+     * @returns {object} data response
+     */
+
+    const url =
+      backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/step" + step;
+
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+
+    if (resp.status == 200) {
+      process.actual_step = process.actual_step + 1;
+      process.execute = false;
+      set_step_init();
+      setProcessFeedback("Etapa " + step + " completada");
+    } else {
+      setProcessFeedback("Error al enviar la etapa " + step);
+    }
+  }
+
   class Steps {
+    /**
+     * Class steps: is responsible for managing the process of the stages for the generation of keys
+     * @param {int} actual_step actual step of the process
+     * @param {bool} execute status with process execution
+     * @param {object} secret_key secret key
+     * @param {object} certificate certificate
+     * @param {object} coefficients coefficients
+     * @param {object} points points
+     * @param {object} acknowledgements acknowledgements
+     * @param {object} verification_key verification key
+     * @param {object} interval time to ask the server about the process
+     *
+     */
+
     constructor() {
       this.actual_step = 0;
       this.execute = false;
       this.secret_key = null;
-      //this.storage = window.localStorage;
       this.certificate = null;
       this.coefficients = null;
       this.points = null;
@@ -74,7 +141,7 @@ function Keygenerator(props) {
     init_process() {
       this.execute = false;
       this.total_process();
-      $("#button-init").attr("disabled", true);
+      setEnabledButtonInit(false);
       this.interval = window.setInterval(() => {
         this.total_process();
       }, 1000);
@@ -100,24 +167,22 @@ function Keygenerator(props) {
         this.step_3();
       } else if (this.actual_step === 4) {
         window.clearInterval(this.interval);
-        $("#process_step").text("Proceso completado!");
+        setProcessFeedback("Proceso completado!");
       }
     }
 
     step_0() {
       this.generate_keypair();
-      this.download_sk_to_file("trustee_key_for{{election.name}}.txt");
+      this.download_sk_to_file("trustee_key.txt");
       this.send_public_key();
-      $("#process_step").text(
-        "Proceso de generación de clave privada completado"
-      );
+      setProcessFeedback("Proceso de generación de clave privada completado");
     }
 
     step_1() {
       this.get_data_step("step1").then((data) => {
         if ("error" in data) {
           this.execute = false;
-          $("#process_step").text(data["error"]);
+          setProcessFeedback(data["error"]);
           return;
         }
 
@@ -141,7 +206,7 @@ function Keygenerator(props) {
       this.get_data_step("step2").then((data) => {
         if ("error" in data) {
           this.execute = false;
-          $("#process_step").text(data["error"]);
+          setProcessFeedback(data["error"]);
           return;
         }
         // get some more server-side randomness for keygen
@@ -166,7 +231,7 @@ function Keygenerator(props) {
       this.get_data_step("step3").then((data) => {
         if ("error" in data) {
           this.execute = false;
-          $("#process_step").text(data["error"]);
+          setProcessFeedback(data["error"]);
           return;
         }
         // get some more server-side randomness for keygen
@@ -175,7 +240,7 @@ function Keygenerator(props) {
           sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
             PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
-            PARAMS.trustee_id = "{{trustee.trustee_id}}";
+            PARAMS.trustee_id = trustee.trustee_id;
             CERTIFICATES = JSON.parse(data["certificates"]);
             COEFFICIENTS = JSON.parse(data["coefficents"]);
             POINTS = JSON.parse(data["points"]);
@@ -191,15 +256,9 @@ function Keygenerator(props) {
     }
 
     async get_data_step(step) {
-      let election_uuid = "{{election.uuid}}";
-      let trustee_uuid = "{{trustee.uuid}}";
-      let url =
-        "/app/elections/" +
-        String(election_uuid) +
-        "/trustees/" +
-        String(trustee_uuid) +
-        "/" +
-        step;
+      const url =
+        backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/step" + step;
+
       const resp = await fetch(url, {
         method: "GET",
         headers: {
@@ -212,15 +271,9 @@ function Keygenerator(props) {
     }
 
     async get_step() {
-      let election_uuid = "{{election.uuid}}";
-      let trustee_uuid = "{{trustee.uuid}}";
-      let url =
-        "/app/elections/" +
-        String(election_uuid) +
-        "/trustees/" +
-        String(trustee_uuid) +
-        "/" +
-        "get-step";
+      const url =
+        backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/get_step";
+
       const resp = await fetch(url, {
         method: "GET",
         headers: {
@@ -234,7 +287,6 @@ function Keygenerator(props) {
     }
 
     generate_keypair() {
-      //$('#buttons').hide();
       try {
         TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
         this.setup_public_key_and_proof();
@@ -267,17 +319,10 @@ function Keygenerator(props) {
     }
 
     async send_public_key() {
-      $("#public_key_status").text("Enviando la clave publica...");
-
-      let election_uuid = "{{election.uuid}}";
-      let trustee_uuid = "{{trustee.uuid}}";
       let certificate = this.certificate;
-      let url =
-        "/app/elections/" +
-        String(election_uuid) +
-        "/trustees/" +
-        String(trustee_uuid) +
-        "/upload-pk";
+      const url =
+        backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/upload_pk";
+
       const resp = await fetch(url, {
         method: "POST",
         headers: {
@@ -289,35 +334,10 @@ function Keygenerator(props) {
       });
 
       const jsonResponse = await resp.json();
-      $("#public_key_status").text("Clave publica enviada!!");
       this.actual_step = 1;
       this.execute = false;
       set_step_init();
     }
-  }
-
-  async function send_step(step, data) {
-    $("#public_key_status").text("Enviando la clave publica...");
-    let election_uuid = "{{election.uuid}}";
-    let trustee_uuid = "{{trustee.uuid}}";
-    let url =
-      "/app/elections/" +
-      String(election_uuid) +
-      "/trustees/" +
-      String(trustee_uuid) +
-      "/step" +
-      step;
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: data,
-    });
-    process.actual_step = process.actual_step + 1;
-    process.execute = false;
-    set_step_init();
-    $("#process_step").text("Etapa " + step + " completada");
   }
 
   function prepare_upload() {
@@ -452,14 +472,12 @@ function Keygenerator(props) {
   function set_step_init() {
     process.get_step().then((data) => {
       const step = data["status"];
+      setActualStep(step);
       if (step > 0) {
         if (step === 4) {
-          $("#button-init").attr("disabled", true);
+          setEnabledButtonInit(false);
         }
-        $("#button-init").text("Continuar proceso");
-        for (let i = 0; i < step; i++) {
-          $("#step_" + i).attr("class", "fa-solid fa-circle-check");
-        }
+        setTextButtonInit("Continuar proceso");
       }
     });
   }
@@ -514,7 +532,14 @@ function Keygenerator(props) {
               <div>
                 <p className="pb-2 title has-text-white">
                   Generación claves{" "}
-                  <i id="step_0" className="fa-solid fa-circle-xmark"></i>
+                  <i
+                    id="step_0"
+                    className={
+                      actualStep >= 1
+                        ? "fa-solid fa-circle-check"
+                        : "fa-solid fa-circle-xmark"
+                    }
+                  ></i>
                 </p>
               </div>
             </div>
@@ -522,7 +547,14 @@ function Keygenerator(props) {
               <div>
                 <p className="pb-2 title has-text-white">
                   Etapa 1{" "}
-                  <i id="step_1" className="fa-solid fa-circle-xmark"></i>
+                  <i
+                    id="step_1"
+                    className={
+                      actualStep >= 2
+                        ? "fa-solid fa-circle-check"
+                        : "fa-solid fa-circle-xmark"
+                    }
+                  ></i>
                 </p>
               </div>
             </div>
@@ -530,7 +562,14 @@ function Keygenerator(props) {
               <div>
                 <p className="pb-2 title has-text-white">
                   Etapa 2{" "}
-                  <i id="step_2" className="fa-solid fa-circle-xmark"></i>
+                  <i
+                    id="step_2"
+                    className={
+                      actualStep >= 3
+                        ? "fa-solid fa-circle-check"
+                        : "fa-solid fa-circle-xmark"
+                    }
+                  ></i>
                 </p>
               </div>
             </div>
@@ -538,12 +577,21 @@ function Keygenerator(props) {
               <div>
                 <p className="pb-2 title has-text-white">
                   Etapa 3{" "}
-                  <i id="step_3" className="fa-solid fa-circle-xmark"></i>
+                  <i
+                    id="step_3"
+                    className={
+                      actualStep >= 4
+                        ? "fa-solid fa-circle-check"
+                        : "fa-solid fa-circle-xmark"
+                    }
+                  ></i>
                 </p>
               </div>
             </div>
           </div>
-          <div id="process_step" className="has-text-white"></div>
+          <div id="process_step" className="has-text-white">
+            {processFeedback}
+          </div>
           <br />
           <button id="button-init" className="button is-link mr-5">
             <Link
@@ -556,11 +604,12 @@ function Keygenerator(props) {
           <button
             id="button-init"
             className="button is-link mr-5"
+            disabled={!enabledButtonInit}
             onClick={() => {
               process.init_process();
             }}
           >
-            Iniciar Proceso
+            {textButtonInit}
           </button>
         </div>
       </section>

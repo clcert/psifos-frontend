@@ -12,8 +12,16 @@ function QuestionsForms(props) {
 
   useEffect(() => {
     if (props.question !== undefined) {
-      setQuestion(props.question.question);
-      setAnswers(props.question.closed_options);
+      setQuestion(props.question.q_text);
+      let answersAux = [];
+      for (let i = 0; i < props.question.closed_options.length; i++) {
+        answersAux.push({
+          key: i,
+          value: props.question.closed_options[i],
+        });
+      }
+      setNumberQuestion(props.question.closed_options.length);
+      setAnswers(answersAux);
     }
   }, [props.question]);
 
@@ -51,7 +59,6 @@ function QuestionsForms(props) {
      * @param {event} e
      */
 
-    console.log(e.target.value);
     setTypeQuestion(e.target.value);
     props.editType(e.target.value);
   }
@@ -92,7 +99,6 @@ function QuestionsForms(props) {
         <select className="mr-2" onChange={changeQuestion} value={typeQuestion}>
           <option value="open_question">Pregunta abierta</option>
           <option value="closed_question">Pregunta cerrada</option>
-
         </select>
         {typeQuestion === "multiple" ? (
           <>
@@ -120,8 +126,6 @@ function QuestionsForms(props) {
         {answers.map((item, index) => {
           return (
             <InputQuestion
-              key={item.key}
-              numberQuestion={item.key}
               value={item.value}
               delete={() => {
                 handleRemoveItem(item.key);
