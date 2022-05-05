@@ -138,6 +138,7 @@ function QuestionsForms(props) {
           return (
             <InputQuestion
               value={item.value}
+              numberQuestion={item.key}
               delete={() => {
                 handleRemoveItem(item.key);
               }}
