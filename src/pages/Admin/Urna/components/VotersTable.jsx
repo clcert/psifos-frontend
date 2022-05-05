@@ -7,7 +7,6 @@ import { Button } from "react-bulma-components";
 function VotersTable(props) {
   const [voters, setVoters] = useState([]);
   const [election, setElection] = useState([]);
-  const [admin, setAdmin] = useState(true);
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const [maxForPage, setMaxForPage] = useState(4);
@@ -180,16 +179,12 @@ function VotersTable(props) {
           >
             <thead>
               <tr>
-                {(admin || !election.use_voter_aliases) && (
+                {!election.use_voter_aliases && (
                   <>
-                    {admin && (
+                    <th className="has-text-centered">Login</th>
+                    {!election.openreg && (
                       <>
-                        <th className="has-text-centered">Login</th>
-                        {!election.openreg && (
-                          <>
-                            <th className="has-text-centered">VOTANTE</th>
-                          </>
-                        )}
+                        <th className="has-text-centered">VOTANTE</th>
                       </>
                     )}
                   </>
@@ -205,20 +200,16 @@ function VotersTable(props) {
               return (
                 <tbody key={index}>
                   <tr>
-                    {(admin || !election.use_voter_aliases) && (
+                    {!election.use_voter_aliases && (
                       <>
-                        {admin && (
+                        <td className="align-middle has-text-centered">
+                          {voter.voter_login_id}
+                        </td>
+                        {!election.openreg && (
                           <>
                             <td className="align-middle has-text-centered">
                               {voter.voter_name}
                             </td>
-                            {!election.openreg && (
-                              <>
-                                <td className="align-middle has-text-centered">
-                                  {voter.alias}
-                                </td>
-                              </>
-                            )}
                           </>
                         )}
                       </>
@@ -229,7 +220,7 @@ function VotersTable(props) {
                         {
                           voter.vote_hash ? (
                             <>
-                              {admin && election.voting_stopped && (
+                              {election.voting_stopped && (
                                 <>
                                   <IconAlert
                                     icon="fa-solid fa-eye"
@@ -255,7 +246,7 @@ function VotersTable(props) {
                         <>{voter.voter_weight} </>
                       )}
 
-                      {election.voting_stopped && admin && (
+                      {election.voting_stopped && (
                         <IconAlert
                           icon="fa-solid fa-pen-to-square"
                           action={() => {

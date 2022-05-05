@@ -26,6 +26,7 @@ function SettingsUrna(props) {
         openreg: openReg,
       }),
     });
+    props.changeReg(openReg);
     const data = await resp.json();
   }
 

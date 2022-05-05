@@ -3,6 +3,7 @@ import { Button } from "react-bulma-components";
 import { useState } from "react";
 
 function InputQuestion(props) {
+  /** @state {string} answers text */
   const [value, setValue] = useState("");
 
   useEffect(() => {

@@ -17,7 +17,6 @@ import { useState, useEffect } from "react";
 function CustodioClaves(props) {
   const [nameElection, setNameElection] = useState("test");
   const [election, setElection] = useState([]);
-  const [admin, setAdmin] = useState(true);
   const [modalCustodio, setModalCustodio] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [uuidTrustee, setUuidTrustee] = useState("");
@@ -68,30 +67,28 @@ function CustodioClaves(props) {
           </div>
           {!election.frozen_at && (
             <>
-              {admin && (
-                <>
-                  <button
-                    className="button mb-4"
-                    onClick={() => {
-                      setModalCustodio(true);
-                    }}
-                  >
-                    AGREGAR CUSTODIO DE CLAVE
-                  </button>
-                  {!election.has_helios_trustee && (
-                    <p className="has-text-white mb-4">
-                      [
-                      <a
-                        id="trustees-link"
-                        href={ipHeliosElection + "/trustees/add-helios"}
-                      >
-                        agregar al servidor como custodio de clave
-                      </a>
-                      ]
-                    </p>
-                  )}
-                </>
-              )}
+              <>
+                <button
+                  className="button mb-4"
+                  onClick={() => {
+                    setModalCustodio(true);
+                  }}
+                >
+                  AGREGAR CUSTODIO DE CLAVE
+                </button>
+                {!election.has_helios_trustee && (
+                  <p className="has-text-white mb-4">
+                    [
+                    <a
+                      id="trustees-link"
+                      href={ipHeliosElection + "/trustees/add-helios"}
+                    >
+                      agregar al servidor como custodio de clave
+                    </a>
+                    ]
+                  </p>
+                )}
+              </>
             </>
           )}
           <TrusteesList
@@ -101,7 +98,6 @@ function CustodioClaves(props) {
             }}
             uuid={uuid}
             election={election}
-            admin={admin}
           />
         </div>
       </section>

@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import TimeField from "react-simple-timefield";
 import { useState, useEffect } from "react";
 import { backendIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
@@ -45,7 +44,6 @@ function CreateElection(props) {
 
   /** @urlParam {string} uuid of election  */
   const { uuid } = useParams();
-  console.log(uuid);
 
   useEffect(() => {
     if (props.edit) {

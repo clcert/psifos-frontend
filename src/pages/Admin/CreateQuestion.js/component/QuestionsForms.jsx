@@ -3,11 +3,22 @@ import { Button } from "react-bulma-components";
 import InputQuestion from "./InputQuestion";
 
 function QuestionsForms(props) {
+  /** @state {array} answers for actual questions */
   const [answers, setAnswers] = useState([]);
+
+  /** @state {int} actual question */
   const [numberQuestion, setNumberQuestion] = useState(1);
+
+  /** @state {string} question type */
   const [typeQuestion, setTypeQuestion] = useState("unic");
+
+  /** @state {string} question text */
   const [question, setQuestion] = useState("");
+
+  /** @state {int} minimum number of answers selected */
   const [minAnswers, setMinAnswers] = useState(1);
+
+  /** @state {int} maximum number of answers selected */
   const [maxAnswers, setMaxAnswers] = useState(1);
 
   useEffect(() => {

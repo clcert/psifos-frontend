@@ -13,21 +13,32 @@ import UploadModal from "./components/UploadModal";
 import DeleteModal from "./components/DeleteModal";
 
 function Urna() {
-  const [admin, setAdmin] = useState(true);
+  /**
+   * View of the urna
+   */
+
+  /** @state {bool} open election state */
   const [electionOpenReg, setElectionOpenReg] = useState(false);
-  const [emailVoters, setEmailVoter] = useState(true);
-  const [upload, setUpload] = useState(true);
-  const [votersFiles, setVotersFiles] = useState([]);
+
+  /** @state {array} election info */
   const [election, setElection] = useState([]);
+
+  /** @state {bool} loading state */
   const [loading, setLoading] = useState(false);
+
+  /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
+
+  /** @state {bool} delete modal state */
   const [deleteModal, setDeleteModal] = useState(false);
 
+  /** @urlParam {uuid} election uuid */
   const { uuid } = useParams();
 
   useEffect(function effectFunction() {
     getElection(uuid).then((election) => {
       setElection(election);
+      setElectionOpenReg(election.openreg);
     });
   }, []);
 
@@ -45,12 +56,18 @@ function Urna() {
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
           <div style={{ width: "70%" }}>
-            {admin && !election.frozen_at && (
-              <SettingsUrna reg={election.openreg} uuid={uuid} />
+            {!election.frozen_at && (
+              <SettingsUrna
+                reg={election.openreg}
+                uuid={uuid}
+                changeReg={(newState) => {
+                  setElectionOpenReg(newState);
+                }}
+              />
             )}
             <br />
             <div className="d-flex justify-content-center">
-              {emailVoters && election.frozen_at && admin && (
+              {election.frozen_at && (
                 <Button
                   className="button-custom"
                   onClick={() => {
@@ -65,7 +82,7 @@ function Urna() {
                 </Button>
               )}
 
-              {admin && upload && !electionOpenReg && (
+              {!electionOpenReg && (
                 <>
                   <Button
                     className="button-custom ml-3"
@@ -87,45 +104,6 @@ function Urna() {
               )}
             </div>
 
-            {admin && (
-              //</div>Add a Voter: WORK HERE
-              <div style={{ textAlign: "center" }}>
-                {upload && !electionOpenReg && (
-                  <>
-                    <br />
-
-                    {votersFiles && (
-                      <>
-                        <ul>
-                          {votersFiles.map((vf) => {
-                            return (
-                              <li>
-                                vf.voter_file % ? ( vf.voter_file.size :
-                                vf.voter_file_content) bytes, at vf.uploaded_at:
-                                {vf.processing_finished_at ? (
-                                  <em>
-                                    done processing: {vf.num_voters} voters
-                                    loaded
-                                  </em>
-                                ) : (
-                                  <>
-                                    {vf.processing_started_at ? (
-                                      <em>currently processing</em>
-                                    ) : (
-                                      <em>not yet processed</em>
-                                    )}
-                                  </>
-                                )}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
-            )}
             <VotersTable uuid={uuid} election={election} />
           </div>
         </section>
