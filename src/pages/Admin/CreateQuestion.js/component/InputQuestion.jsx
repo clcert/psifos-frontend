@@ -19,7 +19,7 @@ function InputQuestion(props) {
         onChange={(e) => {
           props.onChange(props.numberQuestion, e.target.value);
         }}
-        className="input mr-2 input-create-question"
+        className="input"
         type="text"
         placeholder="Respuesta"
       />

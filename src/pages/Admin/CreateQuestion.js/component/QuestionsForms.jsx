@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bulma-components";
 import InputQuestion from "./InputQuestion";
+import OptionQuestions from "./OptionQuestions";
 
 function QuestionsForms(props) {
   /** @state {array} answers for actual questions */
@@ -15,11 +16,6 @@ function QuestionsForms(props) {
   /** @state {string} question text */
   const [question, setQuestion] = useState("");
 
-  /** @state {int} minimum number of answers selected */
-  const [minAnswers, setMinAnswers] = useState(1);
-
-  /** @state {int} maximum number of answers selected */
-  const [maxAnswers, setMaxAnswers] = useState(1);
 
   useEffect(() => {
     if (props.question !== undefined) {
@@ -32,6 +28,7 @@ function QuestionsForms(props) {
         });
       }
       setNumberQuestion(props.question.closed_options.length);
+      setTypeQuestion(props.question.q_type);
       setAnswers(answersAux);
     }
   }, [props.question]);
@@ -96,9 +93,11 @@ function QuestionsForms(props) {
           ></i>
         </div>
       </div>
+
+      <div className="create-title mb-1">Pregunta</div>
       <div className="is-flex mb-2 ">
         <input
-          className="input mr-3 input-create-question"
+          className="input"
           type="text"
           placeholder="Pregunta"
           value={question}
@@ -111,32 +110,19 @@ function QuestionsForms(props) {
           <option value="open_question">Pregunta abierta</option>
           <option value="closed_question">Pregunta cerrada</option>
         </select>
-        {typeQuestion === "multiple" ? (
-          <>
-            {" "}
-            <input
-              onChange={(e) => {
-                setMinAnswers(parseInt(e.target.value));
-                props.changeMinMax(parseInt(e.target.value), maxAnswers);
-              }}
-              className="input-number-question mr-2"
-              type="number"
-            />
-            <input
-              onChange={(e) => {
-                setMaxAnswers(parseInt(e.target.value));
-                props.changeMinMax(minAnswers, parseInt(e.target.value));
-              }}
-              className="input-number-question"
-              type="number"
-            />
-          </>
-        ) : null}
       </div>
+      <OptionQuestions
+        q_type={typeQuestion}
+        changeOptions={props.changeOptions}
+        question={props.question}
+      />
+
+      <div className="create-title ml-2 mb-1">Respuestas</div>
       <div id="create-questions">
         {answers.map((item, index) => {
           return (
             <InputQuestion
+              key={item.key}
               value={item.value}
               numberQuestion={item.key}
               delete={() => {
@@ -149,6 +135,7 @@ function QuestionsForms(props) {
           );
         })}
       </div>
+
       <div className="is-flex level">
         <div className="is-flex leve-left">
           <Button

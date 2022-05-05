@@ -44,7 +44,7 @@ function CreateQuestion(props) {
       });
       const data = await response.json();
       if (data.length > 0) {
-        setQuestion(data);
+        setQuestions(data);
       }
     }
     getQuestions();
@@ -70,6 +70,41 @@ function CreateQuestion(props) {
 
     setQuestion(questionAux);
     setQuestionCantidad(questionCantidad + 1);
+  }
+
+  function setQuestions(questions) {
+    /**
+     * add keys to the question
+     * @param {object} question
+     * @returns {object} question with keys
+     */
+    let questionAux = questions;
+    questions.map((question, index) => {
+      question.key = index;
+      question.q_type = question.q_type ? question.q_type : "open_question";
+      question.q_text = question.q_text ? question.q_text : "";
+      question.q_description = question.q_description
+        ? question.q_description
+        : "";
+      question.total_options = question.total_options
+        ? question.total_options
+        : 3;
+      question.total_closed_options = question.total_closed_options
+        ? question.total_closed_options
+        : 2;
+      question.closed_options = question.closed_options
+        ? question.closed_options
+        : [];
+      question.open_option_max_size = question.open_option_max_size
+        ? question.open_option_max_size
+        : 50;
+      question.total_open_options = question.total_open_options
+        ? question.total_open_options
+        : 1;
+      question.min_answers = question.min_answers ? question.min_answers : 1;
+      question.max_answers = question.max_answers ? question.max_answers : 1;
+    });
+    setQuestion(questionAux);
   }
 
   function removeQuestion(key) {
@@ -114,28 +149,11 @@ function CreateQuestion(props) {
      * @param {string} newType new type for the question
      * @returns {void}
      */
+
     let auxQuestion = [...question];
     for (let i = 0; i < auxQuestion.length; i++) {
       if (auxQuestion[i].key === key) {
         auxQuestion[i].q_type = newType;
-      }
-    }
-    setQuestion(auxQuestion);
-  }
-
-  function editMinMax(key, newMin, newMax) {
-    /**
-     * edit the min and max of a question
-     * @param {number} key number of answer
-     * @param {number} newMin new min for the answer
-     * @param {number} newMax new max for the answer
-     */
-
-    let auxQuestion = [...question];
-    for (let i = 0; i < auxQuestion.length; i++) {
-      if (auxQuestion[i].key === key) {
-        auxQuestion[i].min = newMin;
-        auxQuestion[i].max = newMax;
       }
     }
     setQuestion(auxQuestion);
@@ -165,6 +183,35 @@ function CreateQuestion(props) {
       setAlertMessage(data["message"]);
       setColorAlert("is-danger");
     }
+  }
+
+  function setOptionsQuestions(
+    key,
+    description,
+    openSize,
+    openOptions,
+    minAnswers,
+    maxAnswers
+  ) {
+    /**
+     * set the options of a question
+     * @param {number} key number of question
+     * @param {string} description description of the question
+     * @param {number} openSize max size of the open question
+     * @param {array} openOptions options of the open question
+     */
+
+    let auxQuestion = [...question];
+    for (let i = 0; i < auxQuestion.length; i++) {
+      if (auxQuestion[i].key === key) {
+        auxQuestion[i].q_description = description;
+        auxQuestion[i].open_option_max_size = openSize;
+        auxQuestion[i].total_open_options = openOptions;
+        auxQuestion[i].min_answers = minAnswers;
+        auxQuestion[i].max_answers = maxAnswers;
+      }
+    }
+    setQuestion(auxQuestion);
   }
 
   return (
@@ -200,7 +247,22 @@ function CreateQuestion(props) {
                 changeQuestion={(name, question) =>
                   editAnswers(item.key, name, question)
                 }
-                changeMinMax={(min, max) => editMinMax(item.key, min, max)}
+                changeOptions={(
+                  description,
+                  openSize,
+                  openOptions,
+                  minAnswers,
+                  maxAnswers
+                ) => {
+                  setOptionsQuestions(
+                    item.key,
+                    description,
+                    openSize,
+                    openOptions,
+                    minAnswers,
+                    maxAnswers
+                  );
+                }}
                 remove={() => {
                   removeQuestion(item.key);
                 }}
