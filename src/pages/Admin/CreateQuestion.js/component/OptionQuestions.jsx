@@ -4,18 +4,28 @@ import { useState } from "react";
 function OptionQuestions(props) {
   /** @state {string} question description */
   const [description, setDescription] = useState("");
+  const [checkDescription, setCheckDescription] = useState(true);
+  const [textDescription, setTextDescription] = useState("");
 
   /** @state {int} min answers for question */
   const [minAnswers, setMinAnswers] = useState("");
+  const [checkMinAnswers, setCheckMinAnswers] = useState(true);
+  const [textMinAnswers, setTextMinAnswers] = useState("");
 
   /** @state {int} max answers for questions */
   const [maxAnswers, setMaxAnswers] = useState("");
+  const [checkMaxAnswers, setCheckMaxAnswers] = useState(true);
+  const [textMaxAnswers, setTextMaxAnswers] = useState("");
 
   /** @state {string} total open options for open election */
   const [totalOpenOptions, setTotalOpenOptions] = useState("");
+  const [checkTotalOpenOptions, setCheckTotalOpenOptions] = useState(true);
+  const [textTotalOpenOptions, setTextTotalOpenOptions] = useState("");
 
   /** @state {string} max size text open question */
   const [openOptionsSize, setOpenOptionsSize] = useState("");
+  const [checkOpenOptionsSize, setCheckOpenOptionsSize] = useState(true);
+  const [textOpenOptionsSize, setTextOpenOptionsSize] = useState("");
 
   useEffect(() => {
     setDescription(props.question.q_description);
@@ -39,6 +49,60 @@ function OptionQuestions(props) {
     );
   }
 
+  function checkOptions() {
+    /**
+     * check options for question
+     */
+    let final_state = true;
+
+    setCheckDescription(true);
+    if (description.length > 100) {
+      setTextDescription("La descripción debe tener menos de 100 caracteres");
+      setCheckDescription(false);
+      final_state = false;
+    }
+
+    setCheckMinAnswers(true);
+    if (String(minAnswers) === "NaN" || minAnswers === 0) {
+      setTextMinAnswers("Debe introducir un número mayor que 0");
+      setCheckMinAnswers(false);
+      final_state = false;
+    }
+
+    setCheckMaxAnswers(true);
+    if (
+      String(maxAnswers) === "NaN" ||
+      maxAnswers === 0 ||
+      maxAnswers < minAnswers
+    ) {
+      setTextMaxAnswers(
+        "Debe introducir un número mayor que 0 y menor que el minimo"
+      );
+      setCheckMaxAnswers(false);
+      final_state = false;
+    }
+
+    setCheckTotalOpenOptions(true);
+    if (String(totalOpenOptions) === "NaN" || totalOpenOptions === 0) {
+      setTextTotalOpenOptions("Debe introducir un número mayor que 0");
+      setCheckTotalOpenOptions(false);
+      final_state = false;
+    }
+
+    setCheckOpenOptionsSize(true);
+    if (String(openOptionsSize) === "NaN" || openOptionsSize === 0) {
+      setTextOpenOptionsSize("Debe introducir un número mayor que 0");
+      setCheckOpenOptionsSize(false);
+      final_state = false;
+    }
+    console.log(final_state)
+    props.checkOptions(final_state);
+  }
+
+  useEffect(() => {
+    checkOptions();
+  }, [description, minAnswers, maxAnswers, totalOpenOptions, openOptionsSize]);
+
   return (
     <div>
       <div className="field">
@@ -46,7 +110,9 @@ function OptionQuestions(props) {
         <div className="control">
           <textarea
             value={description}
-            className="textarea is-small"
+            className={
+              "textarea is-small " + (checkDescription ? "" : "is-danger")
+            }
             placeholder="Descripción pregunta"
             onChange={(e) => {
               setDescription(e.target.value);
@@ -54,6 +120,7 @@ function OptionQuestions(props) {
             }}
           ></textarea>
         </div>
+        {!checkDescription && <p class="help is-danger">{textDescription}</p>}
       </div>
       <div className="columns">
         <div className="column">
@@ -62,7 +129,7 @@ function OptionQuestions(props) {
             <div className="control">
               <input
                 value={minAnswers}
-                className="input"
+                className={"input " + (checkMinAnswers ? "" : "is-danger")}
                 type="number"
                 placeholder="Minimo"
                 onChange={(e) => {
@@ -71,6 +138,7 @@ function OptionQuestions(props) {
                 }}
               />
             </div>
+            {!checkMinAnswers && <p class="help is-danger">{textMinAnswers}</p>}
           </div>
         </div>
         <div className="column">
@@ -79,7 +147,7 @@ function OptionQuestions(props) {
             <div className="control">
               <input
                 value={maxAnswers}
-                className="input"
+                className={"input " + (checkMaxAnswers ? "" : "is-danger")}
                 type="number"
                 placeholder="Maximo"
                 onChange={(e) => {
@@ -89,6 +157,7 @@ function OptionQuestions(props) {
               />
             </div>
           </div>
+          {!checkMaxAnswers && <p class="help is-danger">{textMaxAnswers}</p>}
         </div>
       </div>
       {props.q_type === "open_question" && (
@@ -99,7 +168,9 @@ function OptionQuestions(props) {
               <div className="control">
                 <input
                   value={totalOpenOptions}
-                  className="input"
+                  className={
+                    "input " + (checkTotalOpenOptions ? "" : "is-danger")
+                  }
                   type="number"
                   placeholder="Cantidad respuestas abiertas"
                   onChange={(e) => {
@@ -108,6 +179,9 @@ function OptionQuestions(props) {
                   }}
                 />
               </div>
+              {!checkTotalOpenOptions && (
+                <p class="help is-danger">{textTotalOpenOptions}</p>
+              )}
             </div>
           </div>
           <div className="column">
@@ -116,7 +190,9 @@ function OptionQuestions(props) {
               <div className="control">
                 <input
                   value={openOptionsSize}
-                  className="input"
+                  className={
+                    "input " + (checkOpenOptionsSize ? "" : "is-danger")
+                  }
                   type="number"
                   placeholder="Tamaño maximo respuesta abierta"
                   onChange={(e) => {
@@ -126,6 +202,9 @@ function OptionQuestions(props) {
                 />
               </div>
             </div>
+            {!checkOpenOptionsSize && (
+              <p class="help is-danger">{textOpenOptionsSize}</p>
+            )}
           </div>
         </div>
       )}

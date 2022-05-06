@@ -25,6 +25,8 @@ function CreateQuestion(props) {
   /** @state {string} color state for state of creation */
   const [colorAlert, setColorAlert] = useState("");
 
+  const [optionsChecked, setOptionsChecked] = useState(true);
+
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
@@ -159,32 +161,52 @@ function CreateQuestion(props) {
     setQuestion(auxQuestion);
   }
 
+  function checkQuestions() {
+    /**
+     * check if the questions are valid
+     * @returns {boolean} true if the questions are valid
+     */
+    console.log(optionsChecked);
+    if (!optionsChecked) {
+      return false;
+    }
+    return true;
+  }
   async function sendQuestions() {
     /**
      * send the questions to the server
      */
 
-    const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendIP + "/create_questions/" + uuid, {
-      method: "POST",
-      headers: {
-        "x-access-tokens": token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        question: question,
-      }),
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
-    if (resp.status === 200) {
-      setAlertMessage("Preguntas creadas con éxito!");
-      setColorAlert("is-success");
+
+    if (checkQuestions()) {
+      const token = sessionStorage.getItem("token");
+      const resp = await fetch(backendIP + "/create_questions/" + uuid, {
+        method: "POST",
+        headers: {
+          "x-access-tokens": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: question,
+        }),
+      });
+      if (resp.status === 200) {
+        setAlertMessage("Preguntas creadas con éxito!");
+        setColorAlert("is-success");
+      } else {
+        const data = await resp.json();
+        setAlertMessage(data["message"]);
+        setColorAlert("is-danger");
+      }
     } else {
-      const data = await resp.json();
-      setAlertMessage(data["message"]);
+      setAlertMessage("Hay errores en el formulario");
       setColorAlert("is-danger");
     }
   }
-
   function setOptionsQuestions(
     key,
     description,
@@ -268,6 +290,9 @@ function CreateQuestion(props) {
                 }}
                 editType={(newType) => {
                   editType(item.key, newType);
+                }}
+                checkOptions={(state) => {
+                  setOptionsChecked(state);
                 }}
               />
             );

@@ -49,7 +49,7 @@ function Cabina() {
         const jsonResponse = await resp.json();
         setLoad(true);
         if (resp.status === 200) {
-          setElectionData({});
+          setElectionData(jsonResponse);
           setAuth(true);
         } else {
           setNoAuthMessage(
@@ -74,7 +74,7 @@ function Cabina() {
     return type === "Query" ? (
       <Consult></Consult>
     ) : (
-      <CabinaElection></CabinaElection>
+      <CabinaElection electionData={electionData}></CabinaElection>
     );
   }
 }

@@ -18,7 +18,7 @@ import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../../static/dummyData/questionsData";
 
-function CabinaElection() {
+function CabinaElection(props) {
   const { uuid } = useParams();
   const [actualPhase, setActualPhase] = useState(1);
   const [answers, setAnswers] = useState([]);
@@ -43,6 +43,10 @@ function CabinaElection() {
       behavior: "smooth",
     });
   }, [actualPhase]);
+
+  useEffect(() => {
+    setElectionData(props.electionData);
+  }, [props.electionData]);
 
   if (USE_SJCL) {
     sjcl.random.startCollectors();

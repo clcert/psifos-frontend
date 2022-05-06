@@ -227,8 +227,8 @@ function CreateElection(props) {
                     setElectionType(e.target.value);
                   }}
                 >
-                  <option value="Election">Elección</option>
-                  <option value="Query">Consulta</option>
+                  <option value="election">Elección</option>
+                  <option value="query">Consulta</option>
                 </select>
               </div>
             </div>

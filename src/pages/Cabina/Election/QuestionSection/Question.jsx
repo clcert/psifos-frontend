@@ -54,10 +54,10 @@ function Question(props) {
 
   return (
     <div>
-      {Object.keys(props.questions).map((key, index) => {
+      {props.questions.map((question, index) => {
         return (
           <div
-            key={key}
+            key={index}
             style={{
               display: props.actualQuestion === index ? "block" : "none",
             }}
@@ -65,27 +65,26 @@ function Question(props) {
             {showAlert ? <AlertQuestions message={messageAlert} /> : <></>}
             <QuestionHeader
               actualQuestion={props.actualQuestion}
-              totalQuestions={Object.keys(props.questions).length}
-              questions={props.questions[key]}
+              totalQuestions={props.questions.length}
+              questions={question}
             />
 
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center">
               <div className="control control-box">
                 <div id="">
-                  {props.questions[key].min === 1 &&
-                  props.questions[key].max === 1 ? (
+                  {question.min_answers === 1 && question.max_answers === 1 ? (
                     <InputRadio
                       index={index}
                       addAnswer={addAnswer}
                       value={String(index)}
-                      answers={props.questions[index]}
+                      answers={question}
                     />
                   ) : (
                     <InputCheckbox
                       index={index}
                       addAnswer={addAnswer}
                       value={String(index)}
-                      answers={props.questions[key]}
+                      answers={question}
                     />
                   )}
                 </div>
@@ -97,7 +96,7 @@ function Question(props) {
 
       <div className="columns pt-1 pb-4 buttons-question">
         {props.actualQuestion !== 0 &&
-        props.actualQuestion < Object.keys(props.questions).length ? (
+        props.actualQuestion < props.questions.length ? (
           <div className="column is-flex left-button-column">
             <PreviousButton
               action={() => {
@@ -121,8 +120,7 @@ function Question(props) {
           </figure>
         </div>
 
-        {props.actualQuestion < Object.keys(props.questions).length - 1 &&
-        !finished ? (
+        {props.actualQuestion < props.questions.length - 1 && !finished ? (
           <div className="column is-flex right-button-column">
             <NextButton
               action={() => {

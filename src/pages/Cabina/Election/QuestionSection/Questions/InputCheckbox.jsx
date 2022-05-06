@@ -18,7 +18,7 @@ function InputCheckbox(props) {
 
   return (
     <div>
-      {Object.keys(props.answers.answers).map((key, index) => {
+      {props.answers.closed_options.map((key, index) => {
         return (
           <div key={index}>
             <label
@@ -39,9 +39,9 @@ function InputCheckbox(props) {
                   props.addAnswer(ans, props.index);
                 }}
               />
-              <span className="is-size-4">{props.answers.answers[key].value}</span>
+              <span className="is-size-4">{key}</span>
               &nbsp;&nbsp;
-              {props.answers.answer_urls[key] !== "" ? (
+              {key !== "" ? (
                 <span style={{ fontSize: "12pt" }}>
                   [
                   <a

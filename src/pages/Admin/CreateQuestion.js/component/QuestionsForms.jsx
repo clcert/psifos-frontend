@@ -16,7 +16,6 @@ function QuestionsForms(props) {
   /** @state {string} question text */
   const [question, setQuestion] = useState("");
 
-
   useEffect(() => {
     if (props.question !== undefined) {
       setQuestion(props.question.q_text);
@@ -115,6 +114,7 @@ function QuestionsForms(props) {
         q_type={typeQuestion}
         changeOptions={props.changeOptions}
         question={props.question}
+        checkOptions={props.checkOptions}
       />
 
       <div className="create-title ml-2 mb-1">Respuestas</div>
