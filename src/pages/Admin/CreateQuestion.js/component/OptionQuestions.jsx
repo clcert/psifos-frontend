@@ -35,6 +35,10 @@ function OptionQuestions(props) {
     setOpenOptionsSize(props.question.open_option_max_size);
   }, [props.questions]);
 
+  useEffect(() => {
+    changeOptions();
+  }, [description, totalOpenOptions, openOptionsSize, minAnswers, maxAnswers]);
+
   function changeOptions() {
     /**
      * change options for question
@@ -95,7 +99,6 @@ function OptionQuestions(props) {
       setCheckOpenOptionsSize(false);
       final_state = false;
     }
-    console.log(final_state)
     props.checkOptions(final_state);
   }
 
@@ -116,7 +119,6 @@ function OptionQuestions(props) {
             placeholder="Descripción pregunta"
             onChange={(e) => {
               setDescription(e.target.value);
-              changeOptions();
             }}
           ></textarea>
         </div>
@@ -134,7 +136,6 @@ function OptionQuestions(props) {
                 placeholder="Minimo"
                 onChange={(e) => {
                   setMinAnswers(parseInt(e.target.value));
-                  changeOptions();
                 }}
               />
             </div>
@@ -152,7 +153,6 @@ function OptionQuestions(props) {
                 placeholder="Maximo"
                 onChange={(e) => {
                   setMaxAnswers(parseInt(e.target.value));
-                  changeOptions();
                 }}
               />
             </div>
@@ -175,7 +175,6 @@ function OptionQuestions(props) {
                   placeholder="Cantidad respuestas abiertas"
                   onChange={(e) => {
                     setTotalOpenOptions(parseInt(e.target.value));
-                    changeOptions();
                   }}
                 />
               </div>
@@ -197,7 +196,6 @@ function OptionQuestions(props) {
                   placeholder="Tamaño maximo respuesta abierta"
                   onChange={(e) => {
                     setOpenOptionsSize(parseInt(e.target.value));
-                    changeOptions();
                   }}
                 />
               </div>

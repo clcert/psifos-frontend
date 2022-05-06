@@ -166,7 +166,6 @@ function CreateQuestion(props) {
      * check if the questions are valid
      * @returns {boolean} true if the questions are valid
      */
-    console.log(optionsChecked);
     if (!optionsChecked) {
       return false;
     }

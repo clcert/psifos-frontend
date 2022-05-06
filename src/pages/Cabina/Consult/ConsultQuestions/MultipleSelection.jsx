@@ -19,30 +19,30 @@ function MultipleSelection(props) {
 
   function isDisabled(value) {
     return (
-      questionsSelected.length >= props.data.maxSelection &&
+      questionsSelected.length >= props.data.max_answers &&
       questionsSelected.indexOf(value) === -1
     );
   }
   return (
     <div className="consult-question">
       <div>
-        <h1 className="consult-question-title">Pregunta Selección Multiple</h1>
+        <h1 className="consult-question-title">{props.data.text}e</h1>
       </div>
 
       <div>
-        <p className="consult-question-description">{props.data.description}</p>
+        <p className="consult-question-description">{props.data.q_description}</p>
       </div>
       <div className="mb-3">
         <span className="consult-question-info">
-          • debes seleccionar {props.data.minSelection} a{" "}
-          {props.data.maxSelection} opciones
+          • debes seleccionar {props.data.min_answers} a{" "}
+          {props.data.max_answers} opciones
         </span>
       </div>
 
       <div className="">
-        {Object.keys(props.data.answers).map((key, index) => {
+        {props.data.closed_options.map((key, index) => {
           return (
-            <div className="consult-answer p-2">
+            <div key={index} className="consult-answer p-2">
               <label>
                 <input
                   type="checkbox"
@@ -52,7 +52,7 @@ function MultipleSelection(props) {
                   disabled={isDisabled(key)}
                   className="mr-2"
                 />
-                <span className="">{props.data.answers[key]}</span>
+                <span className="">{key}</span>
               </label>
             </div>
           );

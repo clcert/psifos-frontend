@@ -38,7 +38,6 @@ function VotersTable(props) {
           jsonResponse.slice(maxForPage * page, maxForPage * page + maxForPage)
         );
       } else {
-        console.log(jsonResponse);
       }
     }
     getVoters();

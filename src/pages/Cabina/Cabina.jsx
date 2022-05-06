@@ -9,7 +9,7 @@ function Cabina() {
   /** View for cabina */
 
   /** @state {string} type of election */
-  const [type, setType] = useState("");
+  const [type, setType] = useState("Query");
 
   /** @state {bool} state of load election */
   const [load, setLoad] = useState(false);
@@ -72,7 +72,7 @@ function Cabina() {
     return <NoAuth message={noAuthMessage}></NoAuth>;
   } else if (load) {
     return type === "Query" ? (
-      <Consult></Consult>
+      <Consult electionData={electionData}></Consult>
     ) : (
       <CabinaElection electionData={electionData}></CabinaElection>
     );
