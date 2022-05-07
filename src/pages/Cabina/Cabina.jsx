@@ -9,7 +9,7 @@ function Cabina() {
   /** View for cabina */
 
   /** @state {string} type of election */
-  const [type, setType] = useState("Query");
+  const [type, setType] = useState("");
 
   /** @state {bool} state of load election */
   const [load, setLoad] = useState(false);
@@ -49,7 +49,8 @@ function Cabina() {
         const jsonResponse = await resp.json();
         setLoad(true);
         if (resp.status === 200) {
-          setElectionData(jsonResponse);
+          setElectionData(JSON.parse(jsonResponse.questions));
+          setType(jsonResponse.election_type);
           setAuth(true);
         } else {
           setNoAuthMessage(
