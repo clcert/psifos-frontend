@@ -61,17 +61,77 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="createElection" element={<CreateElection />} />
-        <Route path="createQuestion/:uuid" element={<CreateQuestion />} />
-        <Route path=":uuid/panel" element={<AdministrationPanel />} />
-        <Route path=":uuid/resumen" element={<ElectionResume />} />
-        <Route path=":uuid/urna" element={<Urna />} />
-        <Route path=":uuid/custodio" element={<CustodioClaves />} />
-        <Route path=":uuid/createCustodio" element={<CreateCustodio />} />
-        <Route path=":uuid/resultado" element={<Resultados />} />
+        <Route
+          path="createElection"
+          element={
+            <RequireAuth>
+              <CreateElection />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="createQuestion/:uuid"
+          element={
+            <RequireAuth>
+              <CreateQuestion />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":uuid/panel"
+          element={
+            <RequireAuth>
+              <AdministrationPanel />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":uuid/resumen"
+          element={
+            <RequireAuth>
+              <ElectionResume />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":uuid/urna"
+          element={
+            <RequireAuth>
+              <Urna />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":uuid/custodio"
+          element={
+            <RequireAuth>
+              <CustodioClaves />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":uuid/createCustodio"
+          element={
+            <RequireAuth>
+              <CreateCustodio />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path=":uuid/resultado"
+          element={
+            <RequireAuth>
+              <Resultados />
+            </RequireAuth>
+          }
+        />
         <Route
           path="editElection/:uuid"
-          element={<CreateElection edit={true} />}
+          element={
+            <RequireAuth>
+              <CreateElection edit={true} />
+            </RequireAuth>
+          }
         />
       </Route>
 
@@ -81,7 +141,7 @@ function App() {
         <Route path="consult" element={<Consult />} />
       </Route>
 
-      {/** Routes for trustee */  }
+      {/** Routes for trustee */}
       <Route
         path=":uuid/trustee/:uuidTrustee/home"
         element={<CustodioHome />}
