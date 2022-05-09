@@ -70,14 +70,6 @@ function App() {
         <Route path=":uuid/createCustodio" element={<CreateCustodio />} />
         <Route path=":uuid/resultado" element={<Resultados />} />
         <Route
-          path=":uuid/custodio/:uuidTrustee/home"
-          element={<CustodioHome />}
-        />
-        <Route
-          path=":uuid/custodio/:uuidTrustee/keygenerator"
-          element={<Keygenerator />}
-        />
-        <Route
           path="editElection/:uuid"
           element={<CreateElection edit={true} />}
         />
@@ -88,6 +80,16 @@ function App() {
         <Route path=":uuid" element={<Cabina />} />
         <Route path="consult" element={<Consult />} />
       </Route>
+
+      {/** Routes for trustee */  }
+      <Route
+        path=":uuid/trustee/:uuidTrustee/home"
+        element={<CustodioHome />}
+      />
+      <Route
+        path=":uuid/custodio/:uuidTrustee/keygenerator"
+        element={<Keygenerator />}
+      />
 
       <Route path="/test/:uuid" element={<AutchCas />}></Route>
     </Routes>

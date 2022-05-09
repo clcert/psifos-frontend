@@ -8,16 +8,26 @@ import UniqueSelection from "./ConsultQuestions/UniqueSelection";
 import InfoConsult from "./components/InfoConsult";
 import TitleConsult from "./components/TitleConsult";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
+import { useEffect, useState } from "react";
 
 function Consult(props) {
   const dataUnique = require("./unica.json");
   const dataMulti = require("./multi.json");
+
+  const [questions, setQuestions] = useState([]);
+  const [electionDescription, setElectionDescription] = useState("");
+
+  useEffect(() => {
+    setQuestions(JSON.parse(props.electionData.questions));
+    setElectionDescription(props.electionData.description);
+  }, []);
+
   return (
     <div id="content-consult-question">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar />
-          <Title namePage="Creación de Elección" />
+          <Title namePage="Consulta" />
         </div>
       </section>
       <div className="columns is-flex is-centered">
@@ -26,11 +36,10 @@ function Consult(props) {
           id="consult-question-section"
         >
           <TitleConsult title="Consulta" />
-          <InfoConsult info="Consulta dummy" />
-          {props.electionData.map((item, index) => {
+          <InfoConsult info={electionDescription} />
+          {questions.map((item, index) => {
             return (
               <div key={index}>
-                
                 {item.min_answers === item.max_answers && (
                   <UniqueSelection data={item} />
                 )}

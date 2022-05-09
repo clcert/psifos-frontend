@@ -111,6 +111,45 @@ function Keygenerator(props) {
     }
   }
 
+  async function get_data_step(step) {
+    /**
+     * async function to get the data of the step
+     * @param {int} step to get
+     * @returns {object} data response
+     */
+
+    const url =
+      backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/step" + step;
+
+    const resp = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const jsonResponse = await resp.json();
+    return jsonResponse;
+  }
+
+  async function get_step() {
+    /**
+     * async function to get the actual step for trustee
+     * @returns {object} data response
+     */
+    const url = backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/get_step";
+
+    const resp = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const jsonResponse = await resp.json();
+    return jsonResponse;
+  }
+
   class Steps {
     /**
      * Class steps: is responsible for managing the process of the stages for the generation of keys
@@ -148,7 +187,7 @@ function Keygenerator(props) {
     }
 
     total_process() {
-      this.get_step();
+      get_step();
       if (this.actual_step === 0 && !this.execute) {
         console.log("Step 0");
         this.execute = true;
@@ -172,6 +211,11 @@ function Keygenerator(props) {
     }
 
     step_0() {
+      /**
+       * Step 0: generate the secret key
+       *
+       */
+
       this.generate_keypair();
       this.download_sk_to_file("trustee_key.txt");
       this.send_public_key();
@@ -179,7 +223,11 @@ function Keygenerator(props) {
     }
 
     step_1() {
-      this.get_data_step("step1").then((data) => {
+      /**
+       * Step 1: generate the certificate
+       */
+
+      get_data_step("step1").then((data) => {
         if ("error" in data) {
           this.execute = false;
           setProcessFeedback(data["error"]);
@@ -203,7 +251,11 @@ function Keygenerator(props) {
     }
 
     step_2() {
-      this.get_data_step("step2").then((data) => {
+      /**
+       * Step 2: generate the coefficients
+       */
+
+      get_data_step("step2").then((data) => {
         if ("error" in data) {
           this.execute = false;
           setProcessFeedback(data["error"]);
@@ -228,7 +280,11 @@ function Keygenerator(props) {
     }
 
     step_3() {
-      this.get_data_step("step3").then((data) => {
+      /**
+       * Step 3: generate the points
+       */
+
+      get_data_step("step3").then((data) => {
         if ("error" in data) {
           this.execute = false;
           setProcessFeedback(data["error"]);
@@ -253,37 +309,6 @@ function Keygenerator(props) {
           heliosc.ui.share.start(prepare_upload);
         });
       });
-    }
-
-    async get_data_step(step) {
-      const url =
-        backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/step" + step;
-
-      const resp = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const jsonResponse = await resp.json();
-      return jsonResponse;
-    }
-
-    async get_step() {
-      const url =
-        backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/get_step";
-
-      const resp = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const jsonResponse = await resp.json();
-      this.actual_step = jsonResponse["status"];
-      return jsonResponse;
     }
 
     generate_keypair() {
@@ -439,7 +464,6 @@ function Keygenerator(props) {
 
   var check_acks = {
     trustee: function (i) {
-      var log = this.log;
       if (i < PARAMS.l) {
         var id = i + 1;
         console.log("Checking acknowledgement from trustee #" + id + "...");
@@ -472,6 +496,7 @@ function Keygenerator(props) {
   function set_step_init() {
     process.get_step().then((data) => {
       const step = data["status"];
+      process.actual_step = step;
       setActualStep(step);
       if (step > 0) {
         if (step === 4) {

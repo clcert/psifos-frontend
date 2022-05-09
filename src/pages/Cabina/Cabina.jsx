@@ -49,18 +49,18 @@ function Cabina() {
         const jsonResponse = await resp.json();
         setLoad(true);
         if (resp.status === 200) {
-          setElectionData(JSON.parse(jsonResponse.questions));
+          setElectionData(jsonResponse);
           setType(jsonResponse.election_type);
           setAuth(true);
         } else {
           setNoAuthMessage(
-            "La elección no exite o no estas habilitado para votar en ella"
+            "La elección no existe o no estas habilitado para votar en ella"
           );
         }
       } catch (err) {
         setLoad(true);
         setNoAuthMessage(
-          "La elección no exite o no estas habilitado para votar en ella"
+          "La elección no existe o no estas habilitado para votar en ella"
         );
       }
     }

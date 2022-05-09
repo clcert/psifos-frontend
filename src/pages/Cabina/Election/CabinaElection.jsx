@@ -24,6 +24,9 @@ function CabinaElection(props) {
   const [answers, setAnswers] = useState([]);
   const [actualQuestion, setActualQuestion] = useState(0);
   const [electionData, setElectionData] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  
+
 
   function validateAllQuestions(answersQuestions) {
     for (let i = 0; i < answersQuestions.length; i++) {
@@ -46,6 +49,7 @@ function CabinaElection(props) {
 
   useEffect(() => {
     setElectionData(props.electionData);
+    setQuestions(JSON.parse(props.electionData.questions));
   }, [props.electionData]);
 
   if (USE_SJCL) {
@@ -163,7 +167,7 @@ function CabinaElection(props) {
         <section className="section pb-0" id="question-section">
           <div className="container has-text-centered is-max-desktop">
             <Question
-              questions={electionData}
+              questions={questions}
               afterEncrypt={(answersQuestions) => {
                 setAnswers(answersQuestions);
                 setActualPhase(4);

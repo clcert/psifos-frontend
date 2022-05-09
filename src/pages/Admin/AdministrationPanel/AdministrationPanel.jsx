@@ -70,7 +70,7 @@ function AdministrationPanel(props) {
       });
       const jsonResponse = await resp.json();
       setTitleElection(jsonResponse.name);
-      setHaveQuestions(jsonResponse.questions !== "");
+      setHaveQuestions(jsonResponse.questions !== null);
       setHavePublicKeys(jsonResponse.public_keys !== "");
       setHaveVoters(jsonResponse.voters.length > 0);
       setHaveTrustee(jsonResponse.trustees.length > 0);
