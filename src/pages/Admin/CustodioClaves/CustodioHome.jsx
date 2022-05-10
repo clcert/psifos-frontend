@@ -15,7 +15,7 @@ function CustodioHome(props) {
   const [auth, setAuth] = useState(false);
   const [noAuthMessage, setNoAuthMessage] = useState("");
 
-  const { uuid, trustee_uuid } = useParams();
+  const { uuid, uuidTrustee } = useParams();
 
   const disabledButton1 = Boolean(
     !trustee.public_key ||
@@ -33,7 +33,7 @@ function CustodioHome(props) {
   );
 
   async function getTrustee() {
-    const url = backendIP + "/" + uuid + "/trustee/" + trustee_uuid + "/home";
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/home";
     const resp = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -93,7 +93,7 @@ function CustodioHome(props) {
                 >
                   <Link
                     style={{ textDecoration: "None", color: "white" }}
-                    to="/admin/10/custodio/10/keygenerator"
+                    to={"/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"}
                   >
                     <span>PASO 1:&nbsp;</span>
                     <span>Generar llaves.</span>

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { backendIP } from "../../../server";
 import ModalFreeze from "./component/ModalFreeze";
+import logout from "../../../utils/utils";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -68,17 +69,21 @@ function AdministrationPanel(props) {
           "Content-Type": "application/json",
         },
       });
-      const jsonResponse = await resp.json();
-      setTitleElection(jsonResponse.name);
-      setHaveQuestions(jsonResponse.questions !== null);
-      setHavePublicKeys(jsonResponse.public_keys !== "");
-      setHaveVoters(jsonResponse.voters.length > 0);
-      setHaveTrustee(jsonResponse.trustees.length > 0);
-      setObscureVoter(jsonResponse.obscure_voter_names);
-      setPrivateElection(jsonResponse.private_p);
-      setRandomizeAnswers(jsonResponse.randomize_answer_order);
-      setTotalVoters(jsonResponse.voters.length);
-      setTypeElection(jsonResponse.election_type);
+      if (resp.status == 200) {
+        const jsonResponse = await resp.json();
+        setTitleElection(jsonResponse.name);
+        setHaveQuestions(jsonResponse.questions !== null);
+        setHavePublicKeys(jsonResponse.public_keys !== "");
+        setHaveVoters(jsonResponse.voters.length > 0);
+        setHaveTrustee(jsonResponse.trustees.length > 0);
+        setObscureVoter(jsonResponse.obscure_voter_names);
+        setPrivateElection(jsonResponse.private_p);
+        setRandomizeAnswers(jsonResponse.randomize_answer_order);
+        setTotalVoters(jsonResponse.voters.length);
+        setTypeElection(jsonResponse.election_type);
+      } else if (resp.status == 401) {
+        logout();
+      }
     }
     getElection();
   }, []);

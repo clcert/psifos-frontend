@@ -5,6 +5,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { backendIP } from "../../../server";
+import logout from "../../../utils/utils";
 import SubNavbar from "../component/SubNavbar";
 import QuestionsForms from "./component/QuestionsForms";
 
@@ -44,9 +45,13 @@ function CreateQuestion(props) {
           "Content-Type": "application/json",
         },
       });
-      const data = await response.json();
-      if (data.length > 0) {
-        setQuestions(data);
+      if (response.status == 200) {
+        const data = await response.json();
+        if (data.length > 0) {
+          setQuestions(data);
+        }
+      } else if (response.status == 401) {
+        logout();
       }
     }
     getQuestions();

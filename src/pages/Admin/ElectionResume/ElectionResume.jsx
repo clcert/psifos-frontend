@@ -8,6 +8,7 @@ import { useParams } from "react-router";
 import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
 import SubNavbar from "../component/SubNavbar";
+import logout from "../../../utils/utils";
 
 function ElectionResume() {
   /**
@@ -52,10 +53,10 @@ function ElectionResume() {
 
       if (resp.status == 200) {
         const jsonResponse = await resp.json();
-
         setLoading(true);
-
         return jsonResponse;
+      } else if (resp.status == 401) {
+        logout();
       }
     }
     getElectionResume();
@@ -66,7 +67,7 @@ function ElectionResume() {
       <div id="content-voters">
         <section className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-          <NavbarAdmin />
+            <NavbarAdmin />
             <Title namePage="Resumen de Elección" nameElection={nameElection} />
           </div>
         </section>

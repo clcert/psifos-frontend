@@ -147,7 +147,7 @@ function App() {
         element={<CustodioHome />}
       />
       <Route
-        path=":uuid/custodio/:uuidTrustee/keygenerator"
+        path=":uuid/trustee/:uuidTrustee/keygenerator"
         element={<Keygenerator />}
       />
 

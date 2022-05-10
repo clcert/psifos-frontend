@@ -494,7 +494,7 @@ function Keygenerator(props) {
   var process = new Steps();
 
   function set_step_init() {
-    process.get_step().then((data) => {
+    get_step().then((data) => {
       const step = data["status"];
       process.actual_step = step;
       setActualStep(step);

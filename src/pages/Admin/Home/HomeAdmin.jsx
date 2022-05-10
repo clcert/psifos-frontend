@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { backendIP } from "../../../server";
+import logout from "../../../utils/utils";
 
 function HomeAdmin() {
   /**
@@ -32,9 +33,14 @@ function HomeAdmin() {
           "Content-Type": "application/json",
         },
       });
-      const jsonResponse = await resp.json();
-      setElections(jsonResponse);
-      setElectionsSearch(jsonResponse);
+
+      if (resp.status === 200) {
+        const jsonResponse = await resp.json();
+        setElections(jsonResponse);
+        setElectionsSearch(jsonResponse);
+      } else if (resp.status === 401) {
+        logout();
+      }
     }
     getElections();
   }, []);

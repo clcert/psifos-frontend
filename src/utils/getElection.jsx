@@ -1,4 +1,5 @@
 import { backendIP } from "../server";
+import logout from "./utils";
 
 async function getElection(uuid) {
   const token = sessionStorage.getItem("token");
@@ -10,11 +11,15 @@ async function getElection(uuid) {
     },
   });
 
-  const jsonResponse = await resp.json();
-  if (jsonResponse.frozen_at === "None") {
-    jsonResponse.frozen_at = null;
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    if (jsonResponse.frozen_at === "None") {
+      jsonResponse.frozen_at = null;
+    }
+    return jsonResponse;
+  } else if (resp.status === 401) {
+    logout();
   }
-  return jsonResponse;
 }
 
 export default getElection;
