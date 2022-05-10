@@ -84,7 +84,7 @@ function CustodioHome(props) {
             <MyNavbar adressExit={backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"} />
             <Title
               namePage="Custodio de Claves"
-              nameElection="Pagina privada de Vocal"
+              nameElection={"Pagina privada de Vocal"}
             />
           </div>
         </section>

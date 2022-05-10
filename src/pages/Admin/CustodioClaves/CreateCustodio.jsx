@@ -15,6 +15,7 @@ function CreateCustodio() {
    */
 
   const [name, setName] = useState("");
+  const [login_id, setLoginId] = useState("");
   const [email, setEmail] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
@@ -38,6 +39,7 @@ function CreateCustodio() {
       },
       body: JSON.stringify({
         name: name,
+        trustee_login_id: login_id,
         email: email,
       }),
     });
@@ -100,6 +102,19 @@ function CreateCustodio() {
                 placeholder="Nombre"
                 onChange={(e) => {
                   setName(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label label-form-election">Login ID</label>
+            <div className="control">
+              <input
+                className="input"
+                type="text"
+                placeholder="Login ID"
+                onChange={(e) => {
+                  setLoginId(e.target.value);
                 }}
               />
             </div>

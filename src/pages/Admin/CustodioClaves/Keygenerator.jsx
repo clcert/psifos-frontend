@@ -542,10 +542,14 @@ function Keygenerator(props) {
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
+          <MyNavbar
+            adressExit={
+              backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"
+            }
+          />
           <Title
             namePage="Custodio de Claves"
-            nameElection="Pagina privada de Vocal"
+            nameElection={"Pagina privada de Vocal"}
           />
         </div>
       </section>
