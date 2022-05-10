@@ -6,11 +6,12 @@ import { backendIP } from "../../server";
 
 function NoAuth(props) {
   const { uuid } = useParams();
+
   return (
     <div id="content">
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
+          <MyNavbar adressExit={props.adressLogout} />
           <Title namePage="Cabina Votación" />
         </div>
       </section>
@@ -28,7 +29,8 @@ function NoAuth(props) {
           </button>
           <button
             onClick={() => {
-              window.location.href = backendIP + "/logout/" + uuid;
+              console.log(props.adressLogout);
+              window.location.href = props.adressLogout;
             }}
             className="button review-buttons previous-button has-text-white has-text-weight-bold ml-3"
           >

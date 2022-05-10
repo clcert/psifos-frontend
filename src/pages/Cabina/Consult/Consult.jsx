@@ -9,6 +9,8 @@ import InfoConsult from "./components/InfoConsult";
 import TitleConsult from "./components/TitleConsult";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { useEffect, useState } from "react";
+import { backendIP } from "../../../server";
+import { useParams } from "react-router-dom";
 
 function Consult(props) {
   const dataUnique = require("./unica.json");
@@ -16,6 +18,8 @@ function Consult(props) {
 
   const [questions, setQuestions] = useState([]);
   const [electionDescription, setElectionDescription] = useState("");
+
+  const { uuid } = useParams();
 
   useEffect(() => {
     setQuestions(JSON.parse(props.electionData.questions));
@@ -26,7 +30,7 @@ function Consult(props) {
     <div id="content-consult-question">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
+          <MyNavbar adressExit={backendIP + "/vote/" + uuid + "/logout"} />
           <Title namePage="Consulta" />
         </div>
       </section>

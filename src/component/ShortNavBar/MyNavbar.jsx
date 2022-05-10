@@ -4,9 +4,11 @@ import ModalInfo from "./ModalInfo";
 import ModalHelp from "./ModalHelp";
 import NavbarLogo from "./NavbarLogo";
 
-function MyNavbar() {
-  const [isAdmin, setIsAdmin] = useState(false);
+function MyNavbar(props) {
+  /** @state {bool} state for info modal */
   const [showInfo, setShowInfo] = useState(false);
+
+  /** @state {bool} state for help modal */
   const [showHelp, setShowHelp] = useState(false);
 
   return (
@@ -25,11 +27,7 @@ function MyNavbar() {
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
                   <a
-                    href={
-                      isAdmin
-                        ? "https://participa.uchile.cl/"
-                        : "https://participa.uchile.cl/"
-                    }
+                    href={"https://participa.uchile.cl/"}
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"
@@ -55,7 +53,7 @@ function MyNavbar() {
                     AYUDA
                   </a>
                   <a
-                    href="https://participa.uchile.cl/"
+                    href={props.adressExit}
                     className="menu-text-admin"
                     id="text-button"
                   >

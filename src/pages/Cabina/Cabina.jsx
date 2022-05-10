@@ -70,7 +70,12 @@ function Cabina() {
   if (!load) {
     return <>LOAD</>;
   } else if (!auth) {
-    return <NoAuth message={noAuthMessage}></NoAuth>;
+    return (
+      <NoAuth
+        message={noAuthMessage}
+        adressLogout={backendIP + "/vote/" + uuid + "/logout"}
+      ></NoAuth>
+    );
   } else if (load) {
     return type === "Query" ? (
       <Consult electionData={electionData}></Consult>

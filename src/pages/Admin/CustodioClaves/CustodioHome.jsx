@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
@@ -14,6 +14,9 @@ function CustodioHome(props) {
   const [load, setLoad] = useState(false);
   const [auth, setAuth] = useState(false);
   const [noAuthMessage, setNoAuthMessage] = useState("");
+
+  /** @state {bool}  */
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { uuid, uuidTrustee } = useParams();
 
@@ -57,19 +60,28 @@ function CustodioHome(props) {
   }
 
   useEffect(() => {
+    if (searchParams.get("logout") === "true") {
+      window.location.href = backendIP + "/" + uuid + "/trustee/login";
+    }
+
     getTrustee();
   }, []);
 
   if (!load) {
     return <>LOAD</>;
   } else if (!auth) {
-    return <NoAuth message={noAuthMessage}></NoAuth>;
+    return (
+      <NoAuth
+        message={noAuthMessage}
+        adressLogout={backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"}
+      ></NoAuth>
+    );
   } else if (load) {
     return (
       <div id="content-trustees">
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar />
+            <MyNavbar adressExit={backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"} />
             <Title
               namePage="Custodio de Claves"
               nameElection="Pagina privada de Vocal"
@@ -93,7 +105,9 @@ function CustodioHome(props) {
                 >
                   <Link
                     style={{ textDecoration: "None", color: "white" }}
-                    to={"/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"}
+                    to={
+                      "/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
+                    }
                   >
                     <span>PASO 1:&nbsp;</span>
                     <span>Generar llaves.</span>

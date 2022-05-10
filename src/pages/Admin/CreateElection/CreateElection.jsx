@@ -65,7 +65,7 @@ function CreateElection(props) {
           setShortName(data.short_name);
           setName(data.name);
           setDescription(data.description);
-          setElectionType(data.election_type);
+          setElectionType(data.election_type.toLocaleLowerCase());
           setMaxWeight(data.max_weight);
           setVoterAliases(data.obscure_voter_names);
           setRandomizeAnswer(data.randomize_answer_order);
@@ -285,7 +285,7 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-            actívelo si desea que las respuestas a las preguntas aparezcan en
+              actívelo si desea que las respuestas a las preguntas aparezcan en
               orden aleatorio para cada votante
             </p>
           </div>
@@ -304,7 +304,8 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-            Una elección privada solo es visible para los votantes registrados.
+              Una elección privada solo es visible para los votantes
+              registrados.
             </p>
           </div>
           <div className="field">
@@ -322,12 +323,17 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-            Los números de resultados que se muestran se dividen por el peso máximo de votantes
+              Los números de resultados que se muestran se dividen por el peso
+              máximo de votantes
             </p>
           </div>
           <div className="level">
             <Button className="button-custom mr-2 ml-2 level-left">
-              <Link className="link-button" style={{color: "white"}} to={props.edit ? ("/admin/" + uuid + "/panel"):("/admin/home") }>
+              <Link
+                className="link-button"
+                style={{ color: "white" }}
+                to={props.edit ? "/admin/" + uuid + "/panel" : "/admin/home"}
+              >
                 Atras
               </Link>
             </Button>

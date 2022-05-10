@@ -17,24 +17,43 @@ import { USE_SJCL } from "../../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../../static/cabina/js/jscrypto/bigintDummy.js";
 import { raw_json } from "../../../static/dummyData/questionsData";
+import { backendIP } from "../../../server";
 
 function CabinaElection(props) {
-  const { uuid } = useParams();
+  /** @state {int} election phase */
   const [actualPhase, setActualPhase] = useState(1);
-  const [answers, setAnswers] = useState([]);
-  const [actualQuestion, setActualQuestion] = useState(0);
-  const [electionData, setElectionData] = useState([]);
-  const [questions, setQuestions] = useState([]);
-  
 
+  /** @state {array} list with answers  */
+  const [answers, setAnswers] = useState([]);
+
+  /** @state {int} actual voter question  */
+  const [actualQuestion, setActualQuestion] = useState(0);
+
+  /** @state {array} election data (questions, key..)  */
+  const [electionData, setElectionData] = useState([]);
+
+  /** @state {array} list with questions  */
+  const [questions, setQuestions] = useState([]);
+
+  /** @urlParam {uuid} election uuid  */
+  const { uuid } = useParams();
 
   function validateAllQuestions(answersQuestions) {
+    /**
+     * validate all questions with BOOTH
+     * @param {array} answersQuestions
+     *
+     */
     for (let i = 0; i < answersQuestions.length; i++) {
       BOOTH.validate_question(i);
     }
   }
 
   function sendEncryp(answersQuestions) {
+    /**
+     * Create encryp answers
+     */
+
     BOOTH.ballot.answers = answersQuestions;
     validateAllQuestions(answersQuestions);
     BOOTH.seal_ballot();
@@ -153,7 +172,7 @@ function CabinaElection(props) {
     <div id="content" className={phases[actualPhase].sectionClass}>
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar />
+          <MyNavbar adressExit={backendIP + "/vote/" + uuid + "/logout"} />
           <Title namePage="Cabina Votación" nameElection={"nameElection"} />
         </div>
       </section>
