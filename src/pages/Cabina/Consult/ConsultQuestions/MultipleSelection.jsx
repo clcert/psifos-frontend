@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function MultipleSelection(props) {
   const [questionsSelected, setQuestionsSelected] = useState([]);
+  const [otherChecked, setOtherChecked] = useState(false);
 
   function handleChange(e) {
     const { value } = e.target;
@@ -30,7 +31,9 @@ function MultipleSelection(props) {
       </div>
 
       <div>
-        <p className="consult-question-description">{props.data.q_description}</p>
+        <p className="consult-question-description">
+          {props.data.q_description}
+        </p>
       </div>
       <div className="mb-3">
         <span className="consult-question-info">
@@ -57,6 +60,42 @@ function MultipleSelection(props) {
             </div>
           );
         })}
+        {props.data.q_type === "open_question" && (
+          <>
+            <div className="consult-answer p-2">
+              <label>
+                <input
+                  type="checkbox"
+                  name="question"
+                  value="other"
+                  className="mr-2"
+                  onChange={(e) => {
+                    setOtherChecked(e.target.checked);
+                  }}
+                />
+                <span>Otro</span>
+              </label>
+            </div>
+            {otherChecked &&
+              [...Array(props.data.total_open_options).keys()].map(
+                (key, index) => {
+                  return (
+                    <div key={index} className="consult-answer p-2">
+                      <label>
+                        <input
+                          type="text"
+                          name="question"
+                          value=""
+                          className="input mr-2"
+                          placeholder={"Opción " + (key + 1)}
+                        />
+                      </label>
+                    </div>
+                  );
+                }
+              )}
+          </>
+        )}
       </div>
     </div>
   );

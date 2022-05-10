@@ -37,7 +37,7 @@ function OptionQuestions(props) {
 
   useEffect(() => {
     changeOptions();
-  }, [description, totalOpenOptions, openOptionsSize, minAnswers, maxAnswers]);
+  }, [description, openOptionsSize, totalOpenOptions, minAnswers, maxAnswers]);
 
   function changeOptions() {
     /**
@@ -46,8 +46,8 @@ function OptionQuestions(props) {
      */
     props.changeOptions(
       description,
-      totalOpenOptions,
       openOptionsSize,
+      totalOpenOptions,
       minAnswers,
       maxAnswers
     );
