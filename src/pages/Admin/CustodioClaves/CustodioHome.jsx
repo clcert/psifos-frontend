@@ -63,7 +63,6 @@ function CustodioHome(props) {
     if (searchParams.get("logout") === "true") {
       window.location.href = backendIP + "/" + uuid + "/trustee/login";
     }
-
     getTrustee();
   }, []);
 
@@ -73,7 +72,7 @@ function CustodioHome(props) {
     return (
       <NoAuth
         message={noAuthMessage}
-        adressLogout={backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"}
+        adressLogout={backendIP + "/" + uuid + "/trustee" + "/logout"}
       ></NoAuth>
     );
   } else if (load) {
@@ -81,7 +80,9 @@ function CustodioHome(props) {
       <div id="content-trustees">
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar adressExit={backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"} />
+            <MyNavbar
+              adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            />
             <Title
               namePage="Custodio de Claves"
               nameElection={"Pagina privada de Vocal"}

@@ -543,9 +543,7 @@ function Keygenerator(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            adressExit={
-              backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/logout"
-            }
+            adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
           />
           <Title
             namePage="Custodio de Claves"
@@ -625,7 +623,7 @@ function Keygenerator(props) {
           <button id="button-init" className="button is-link mr-5">
             <Link
               style={{ textDecoration: "None", color: "white" }}
-              to="/admin/10/custodio/10/home"
+              to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             >
               Volver atrás
             </Link>
