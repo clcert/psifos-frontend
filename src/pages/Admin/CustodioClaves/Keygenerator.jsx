@@ -91,7 +91,7 @@ function Keygenerator(props) {
      */
 
     const url =
-      backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/step" + step;
+      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -119,7 +119,7 @@ function Keygenerator(props) {
      */
 
     const url =
-      backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/step" + step;
+      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
 
     const resp = await fetch(url, {
       method: "GET",
@@ -137,7 +137,7 @@ function Keygenerator(props) {
      * async function to get the actual step for trustee
      * @returns {object} data response
      */
-    const url = backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/get_step";
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get_step";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -346,7 +346,7 @@ function Keygenerator(props) {
     async send_public_key() {
       let certificate = this.certificate;
       const url =
-        backendIP + "/" + uuid + "/trustee" + uuidTrustee + "/upload_pk";
+        backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload_pk";
 
       const resp = await fetch(url, {
         method: "POST",
