@@ -137,7 +137,26 @@ function Keygenerator(props) {
      * async function to get the actual step for trustee
      * @returns {object} data response
      */
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get_step";
+    const url =
+      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get_step";
+
+    const resp = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const jsonResponse = await resp.json();
+    return jsonResponse;
+  }
+
+  async function get_eg_params() {
+    /**
+     * async function to get the eg params
+     * @returns {object} data response
+     */
+    const url = backendIP + "/" + uuid + "/get_eg_params";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -216,8 +235,11 @@ function Keygenerator(props) {
        *
        */
 
+      console.log("generate key");
       this.generate_keypair();
+      console.log("download key");
       this.download_sk_to_file("trustee_key.txt");
+      console.log("send key");
       this.send_public_key();
       setProcessFeedback("Proceso de generación de clave privada completado");
     }
@@ -513,17 +535,23 @@ function Keygenerator(props) {
 
     /** Set actual step for trustee */
     set_step_init();
+    let eg_params_json = "";
+    get_eg_params().then((data) => {
+      eg_params_json = data;
+      console.log(data);
+      console.log(eg_params_json);
 
-    /** Set initial params */
-    getRandomness().then((data) => {
-      const randomness = data["randomness"];
-      sjcl.random.addEntropy(randomness);
-      BigInt.setup(function () {
-        ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(
-          "{{eg_params_json|safe}}"
-        );
-        ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
-        TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+      /** Set initial params */
+      getRandomness().then((data) => {
+        const randomness = data["randomness"];
+        sjcl.random.addEntropy(randomness);
+        BigInt.setup(function () {
+          console.log(eg_params_json);
+          ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
+          console.log(ELGAMAL_PARAMS);
+          ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
+          TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+        });
       });
     });
   }, []);
