@@ -73,6 +73,13 @@ function AccordionAudit(props) {
                     >
                       Audited Ballots
                     </Link>{" "}
+                    <span style={{color: "black"}}>&nbsp;|&nbsp;&nbsp;</span>
+                    <Link
+                      to={"/admin/" + uuid + "/cabina"}
+                      className="accordion-link"
+                    >
+                      Vista previa
+                    </Link>{" "}
                   </div>
                 </div>
               </div>

@@ -5,7 +5,7 @@ import CabinaElection from "./Election/CabinaElection";
 import Consult from "./Consult/Consult";
 import NoAuth from "./NoAuth";
 
-function Cabina() {
+function Cabina(props) {
   /** View for cabina */
 
   /** @state {string} type of election */
@@ -32,6 +32,31 @@ function Cabina() {
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
       window.location.href = backendIP + "/vote/" + uuid;
+    }
+
+    async function getElectionQuestionsPreview() {
+      /**
+       * async function to get the election data
+       * check if voter can vote in election
+       */
+
+      const url = backendIP + "/get_election/" + uuid;
+      const token = sessionStorage.getItem("token");
+      const resp = await fetch(url, {
+        method: "GET",
+        headers: {
+          "x-access-tokens": token,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const jsonResponse = await resp.json();
+      setLoad(true);
+      if (resp.status === 200) {
+        setElectionData(jsonResponse);
+        setType(jsonResponse.election_type);
+        setAuth(true);
+      }
     }
 
     async function getElectionQuestions() {
@@ -64,7 +89,11 @@ function Cabina() {
         );
       }
     }
-    getElectionQuestions();
+    if (props.preview) {
+      getElectionQuestionsPreview();
+    } else {
+      getElectionQuestions();
+    }
   }, []);
 
   if (!load) {

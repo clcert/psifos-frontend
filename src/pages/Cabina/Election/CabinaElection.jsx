@@ -68,7 +68,9 @@ function CabinaElection(props) {
 
   useEffect(() => {
     setElectionData(props.electionData);
-    setQuestions(JSON.parse(props.electionData.questions));
+    if (props.electionData.questions) {
+      setQuestions(JSON.parse(props.electionData.questions));
+    }
   }, [props.electionData]);
 
   if (USE_SJCL) {

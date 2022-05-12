@@ -22,7 +22,9 @@ function Consult(props) {
   const { uuid } = useParams();
 
   useEffect(() => {
-    setQuestions(JSON.parse(props.electionData.questions));
+    if (props.electionData.questions) {
+      setQuestions(JSON.parse(props.electionData.questions));
+    }
     setElectionDescription(props.electionData.description);
   }, []);
 

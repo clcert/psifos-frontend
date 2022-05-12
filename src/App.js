@@ -133,6 +133,14 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path=":uuid/cabina"
+          element={
+            <RequireAuth>
+              <Cabina preview={true} />
+            </RequireAuth>
+          }
+        />
       </Route>
 
       {/** Routes for cabina (voters) */}
