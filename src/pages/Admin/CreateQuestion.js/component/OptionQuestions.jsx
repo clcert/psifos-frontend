@@ -73,7 +73,22 @@ function OptionQuestions(props) {
       final_state = false;
     }
 
+    if (minAnswers > props.answers.length) {
+      setTextMinAnswers(
+        "Debe introducir un número menor a la cantidad de respuestas"
+      );
+      setCheckMinAnswers(false);
+      final_state = false;
+    }
     setCheckMaxAnswers(true);
+    if (maxAnswers > props.answers.length) {
+      setTextMaxAnswers(
+        "Debe introducir un número menor a la cantidad de respuestas"
+      );
+      setCheckMaxAnswers(false);
+      final_state = false;
+    }
+
     if (
       String(maxAnswers) === "NaN" ||
       maxAnswers === 0 ||
@@ -104,7 +119,14 @@ function OptionQuestions(props) {
 
   useEffect(() => {
     checkOptions();
-  }, [description, minAnswers, maxAnswers, totalOpenOptions, openOptionsSize]);
+  }, [
+    description,
+    minAnswers,
+    maxAnswers,
+    totalOpenOptions,
+    openOptionsSize,
+    props.answers,
+  ]);
 
   return (
     <div>

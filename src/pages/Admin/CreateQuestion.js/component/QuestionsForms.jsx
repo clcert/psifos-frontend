@@ -115,6 +115,8 @@ function QuestionsForms(props) {
         changeOptions={props.changeOptions}
         question={props.question}
         checkOptions={props.checkOptions}
+        answers={answers}
+
       />
 
       <div className="create-title ml-2 mb-1">Respuestas</div>
