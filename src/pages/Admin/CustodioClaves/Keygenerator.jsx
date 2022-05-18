@@ -71,7 +71,9 @@ function Keygenerator(props) {
      */
     const resp = await fetch(backendIP + "/" + uuidTrustee + "/get_trustee", {
       method: "GET",
-      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     if (resp.status == 200) {
       const jsonResponse = await resp.json();
