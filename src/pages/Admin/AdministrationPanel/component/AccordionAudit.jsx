@@ -53,12 +53,6 @@ function AccordionAudit(props) {
                     </a>
                   </div>
                   <div className="row-accordion is-full">
-                    <p className="accordion-panel-title mb-0">Elección Fingerprint:</p>
-                    <p className="accordion-panel-p">
-                      LPiP5SmzCADCOh6nLCDsangs4E+R4jgfUve5XDet5Lc
-                    </p>
-                  </div>
-                  <div className="row-accordion is-full">
                     {" "}
                     <Link
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
@@ -71,7 +65,7 @@ function AccordionAudit(props) {
                       to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
                       className="accordion-link"
                     >
-                      Audited Ballots
+                      Votos Auditados
                     </Link>{" "}
                     <span style={{color: "black"}}>&nbsp;|&nbsp;&nbsp;</span>
                     <Link

@@ -19,7 +19,7 @@ import { BigInteger } from "./jsbn";
 import $ from "jquery";
 
 export var PARAMS, CERTIFICATES, TRUSTEE;
-export var SECRET_KEY;
+export var SECRET_KEY = undefined;
 export var POINTS = [];
 export var SUM = BigInteger.ZERO;
 
@@ -41,6 +41,7 @@ heliosc.signature = {
     var C = new BigInt(tmp, 16).mod(pk.q);
     // we do (q-x*challenge)+w instead of directly w-x*challenge,
     // in case mod doesn't support negative numbers as expected
+    console.log(pk.q)
     var R = pk.q.subtract(sk.x.multiply(C).mod(pk.q));
     R = R.add(w).mod(pk.q);
     return { challenge: C.toString(), response: R.toString() };
@@ -160,10 +161,13 @@ heliosc.trustee = function (PARAMS, seed) {
   var coefficients = [];
 
   res.get_secret_key = function () {
+    sjcl.codec.hex.fromBits(key);
+    console.log("uwu")
     return sjcl.codec.hex.fromBits(key);
   };
 
   res.generate_certificate = function () {
+    console.log(PARAMS)
     return heliosc.certificate.generate(
       PARAMS.trustee_id,
       signature_key,

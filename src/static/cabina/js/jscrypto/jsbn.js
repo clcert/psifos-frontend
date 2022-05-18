@@ -219,6 +219,15 @@ function bnpToRadix(b) {
   return z.intValue().toString(b) + r;
 }
 
+function Barrett(m) {
+  // setup Barrett
+  this.r2 = nbi();
+  this.q3 = nbi();
+  BigInteger.ONE.dlShiftTo(2*m.t,this.r2);
+  this.mu = this.r2.divide(m);
+  this.m = m;
+}
+
 // (public) return string representation in given radix
 function bnToString(b) {
   if (this.s < 0) return "-" + this.negate().toString(b);
@@ -342,6 +351,8 @@ function bnMultiply(a) {
   this.multiplyTo(a, r);
   return r;
 }
+
+function bnSubtract(a) { var r = nbi(); this.subTo(a,r); return r; }
 
 function bnAdd(a) { var r = nbi(); this.addTo(a,r); return r; }
 
@@ -921,6 +932,7 @@ BigInteger.prototype.dMultiply = bnpDMultiply;
 BigInteger.prototype.dAddOffset = bnpDAddOffset;
 BigInteger.prototype.toRadix = bnpToRadix;
 
+
 BigInteger.prototype.clamp = bnpClamp;
 BigInteger.prototype.dlShiftTo = bnpDLShiftTo;
 BigInteger.prototype.drShiftTo = bnpDRShiftTo;
@@ -952,6 +964,7 @@ BigInteger.prototype.mod = bnMod;
 BigInteger.prototype.modPowInt = bnModPowInt;
 BigInteger.prototype.modPow = bnModPow;
 BigInteger.prototype.multiply = bnMultiply;
+BigInteger.prototype.subtract = bnSubtract;
 BigInteger.prototype.modInverse = bnModInverse;
 
 // "constants"

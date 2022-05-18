@@ -46,7 +46,7 @@ function CustodioHome(props) {
       setLoad(true);
       if (resp.status === 200) {
         setAuth(true);
-      } else {
+      } else if(resp.status === 401) {
         setNoAuthMessage(
           "La elección no existe o no estas habilitado para generar llaves en ella"
         );

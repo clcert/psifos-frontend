@@ -17,18 +17,18 @@ import {
   CERTIFICATES,
   POINTS,
   SUM,
-  SECRET_KEY,
 } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
 
 function Keygenerator(props) {
   var COEFFICIENTS = [];
   var ACKS = [];
   var SENT, ACKS2;
-  var TRUSTEE, CERTIFICATE;
+  var TRUSTEE, CERTIFICATE, SECRET_KEY;
   var ELGAMAL_PARAMS;
+  var trustee;
+  var process;
 
   /** @state Trustee   */
-  const [trustee, setTrustee] = useState(null);
 
   /** @state {string} feedback button (init process) */
   const [textButtonInit, setTextButtonInit] = useState("Iniciar proceso");
@@ -41,6 +41,8 @@ function Keygenerator(props) {
 
   /** @state {int} actual step process */
   const [actualStep, setActualStep] = useState(0);
+
+  const [dataInit, setDataInit] = useState(false);
 
   /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
@@ -77,7 +79,6 @@ function Keygenerator(props) {
     });
     if (resp.status == 200) {
       const jsonResponse = await resp.json();
-      setTrustee(jsonResponse);
       return jsonResponse;
     }
   }
@@ -335,7 +336,10 @@ function Keygenerator(props) {
 
     generate_keypair() {
       try {
+        console.log("generate_keypair");
+        console.log(ELGAMAL_PARAMS);
         TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+        console.log(TRUSTEE);
         this.setup_public_key_and_proof();
         return true;
       } catch (e) {
@@ -349,7 +353,7 @@ function Keygenerator(props) {
       SECRET_KEY = TRUSTEE.get_secret_key();
       this.secret_key = SECRET_KEY;
       //this.storage.setItem('key', SECRET_KEY);
-      this.certificate = $.toJSON(CERTIFICATE);
+      this.certificate = JSON.stringify(CERTIFICATE);
     }
 
     download_sk_to_file(filename) {
@@ -512,8 +516,7 @@ function Keygenerator(props) {
   };
 
   // start collecting some local randomness
-  sjcl.random.startCollectors();
-  var process = new Steps();
+
 
   function set_step_init() {
     get_step().then((data) => {
@@ -530,27 +533,31 @@ function Keygenerator(props) {
   }
 
   useEffect(() => {
+
+    sjcl.random.startCollectors();
+    process = new Steps();
     /** Get trustee info */
-    const trustee = getTrustee();
+    getTrustee().then((data) => {
+      trustee = data;
 
-    /** Set actual step for trustee */
-    set_step_init();
-    let eg_params_json = "";
-    get_eg_params().then((data) => {
-      eg_params_json = data;
-      console.log(data);
-      console.log(eg_params_json);
+      /** Set actual step for trustee */
+      set_step_init();
+      let eg_params_json = "";
+      get_eg_params().then((data) => {
+        eg_params_json = data;
 
-      /** Set initial params */
-      getRandomness().then((data) => {
-        const randomness = data["randomness"];
-        sjcl.random.addEntropy(randomness);
-        BigInt.setup(function () {
-          console.log(eg_params_json);
+        /** Set initial params */
+        getRandomness().then((data) => {
+          const randomness = data;
+          sjcl.random.addEntropy(randomness);
           ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
-          console.log(ELGAMAL_PARAMS);
           ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
           TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+          BigInt.setup(function () {
+            ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
+            ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
+            TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+          });
         });
       });
     });
