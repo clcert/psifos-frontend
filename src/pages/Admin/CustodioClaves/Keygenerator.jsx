@@ -366,9 +366,7 @@ function Keygenerator(props) {
 
       const resp = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        credentials: "include",
         body: JSON.stringify({
           public_key_json: certificate,
         }),
