@@ -55,9 +55,7 @@ function Keygenerator(props) {
 
     const resp = await fetch(backendIP + "/" + uuid + "/get_randomness", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      credentials: "include",
     });
     if (resp.status == 200) {
       const jsonResponse = await resp.json();
@@ -143,9 +141,8 @@ function Keygenerator(props) {
 
     const resp = await fetch(url, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      credentials: "include",
+   
     });
 
     const jsonResponse = await resp.json();
@@ -161,9 +158,8 @@ function Keygenerator(props) {
 
     const resp = await fetch(url, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      credentials: "include",
+    
     });
 
     const jsonResponse = await resp.json();
