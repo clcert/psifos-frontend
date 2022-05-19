@@ -118,7 +118,7 @@ function Keygenerator(props) {
      */
 
     const url =
-      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
+      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
 
     const resp = await fetch(url, {
       method: "GET",
