@@ -89,12 +89,14 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url =
-      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
 
     const resp = await fetch(url, {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: data,
     });
 
@@ -138,7 +140,6 @@ function Keygenerator(props) {
     const resp = await fetch(url, {
       method: "GET",
       credentials: "include",
-   
     });
 
     const jsonResponse = await resp.json();
@@ -155,7 +156,6 @@ function Keygenerator(props) {
     const resp = await fetch(url, {
       method: "GET",
       credentials: "include",
-    
     });
 
     const jsonResponse = await resp.json();
@@ -363,12 +363,17 @@ function Keygenerator(props) {
 
     async send_public_key() {
       let certificate = this.certificate;
-      const url =
-        backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload_pk";
+
+      const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload_pk";
 
       const resp = await fetch(url, {
         method: "POST",
         credentials: "include",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
         body: JSON.stringify({
           public_key_json: certificate,
         }),
@@ -507,7 +512,6 @@ function Keygenerator(props) {
 
   // start collecting some local randomness
 
-
   function set_step_init() {
     get_step().then((data) => {
       const step = data["status"];
@@ -523,7 +527,6 @@ function Keygenerator(props) {
   }
 
   useEffect(() => {
-
     sjcl.random.startCollectors();
     process = new Steps();
     /** Get trustee info */
