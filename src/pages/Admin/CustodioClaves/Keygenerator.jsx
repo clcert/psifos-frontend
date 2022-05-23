@@ -23,10 +23,15 @@ function Keygenerator(props) {
   var COEFFICIENTS = [];
   var ACKS = [];
   var SENT, ACKS2;
-  var TRUSTEE, CERTIFICATE, SECRET_KEY;
+  var TRUSTEE, CERTIFICATE, SECRET_KEY, PARAMS;
   var ELGAMAL_PARAMS;
-  var trustee;
-  var process;
+  var ACTUAL_STEP = 0;
+  var TRUSTEE_AUX;
+  var CERTIFICATES;
+  var POINTS_AUX = [];
+  var EXECUTE = false;
+  var ACKNOWLEDGEMENTS;
+  var VERIFICATION_KEY
 
   /** @state Trustee   */
 
@@ -34,18 +39,54 @@ function Keygenerator(props) {
   const [textButtonInit, setTextButtonInit] = useState("Iniciar proceso");
 
   /** @state {bool} enabled statefeedback button (generate keys) */
-  const [enabledButtonInit, setEnabledButtonInit] = useState(true);
+  const [enabledButtonInit, setEnabledButtonInit] = useState(false);
 
   /** @state {string} totally process feedback */
-  const [processFeedback, setProcessFeedback] = useState("");
+  const [processFeedback, setProcessFeedback] = useState("Cargando datos..");
 
-  /** @state {int} actual step process */
   const [actualStep, setActualStep] = useState(0);
 
-  const [dataInit, setDataInit] = useState(false);
+  const [trustee, setTrustee] = useState("");
+
+  const [interval, setInterval] = useState(null);
+
+  const [ElGamalParams, setElGamalParams] = useState("");
 
   /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
+
+  useEffect(() => {
+    sjcl.random.startCollectors();
+    /** Get trustee info */
+    getTrustee().then((data) => {
+      TRUSTEE_AUX = data;
+      setTrustee(data);
+
+      set_step_init();
+      /** Set actual step for trustee */
+      let eg_params_json = "";
+      get_eg_params().then((data) => {
+        eg_params_json = data;
+
+        /** Set initial params */
+        getRandomness().then((data) => {
+          const randomness = data;
+          sjcl.random.addEntropy(randomness);
+          ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
+
+          ELGAMAL_PARAMS.trustee_id = TRUSTEE_AUX.trustee_id;
+          TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+          setElGamalParams(ELGAMAL_PARAMS);
+          BigInt.setup(function () {
+            ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
+            ELGAMAL_PARAMS.trustee_id = TRUSTEE_AUX.trustee_id;
+            TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+          });
+          setEnabledButtonInit(true);
+        });
+      });
+    });
+  }, []);
 
   async function getRandomness() {
     /**
@@ -101,8 +142,8 @@ function Keygenerator(props) {
     });
 
     if (resp.status == 200) {
-      process.actual_step = process.actual_step + 1;
-      process.execute = false;
+      setActualStep(actualStep + 1);
+      EXECUTE = false;
       set_step_init();
       setProcessFeedback("Etapa " + step + " completada");
     } else {
@@ -117,8 +158,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url =
-      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
 
     const resp = await fetch(url, {
       method: "GET",
@@ -162,228 +202,214 @@ function Keygenerator(props) {
     return jsonResponse;
   }
 
-  class Steps {
+  function init_process() {
+    setEnabledButtonInit(false);
+    total_process();
+    setInterval(
+      window.setInterval(() => {
+        total_process();
+      }, 5000)
+    );
+  }
+
+  function total_process() {
+    get_step().then((data) => {
+      if (data.status > ACTUAL_STEP) {
+        ACTUAL_STEP = data.status;
+      }
+      console.log("ACTUAL_STEP: " + ACTUAL_STEP);
+      if (ACTUAL_STEP === 0 && !EXECUTE) {
+        console.log("Step 0");
+        EXECUTE = true;
+        step_0();
+      } else if (ACTUAL_STEP === 1 && !EXECUTE) {
+        console.log("Step 1");
+        EXECUTE = true;
+        step_1();
+      } else if (ACTUAL_STEP === 2 && !EXECUTE) {
+        console.log("Step 2");
+        EXECUTE = true;
+        step_2();
+      } else if (ACTUAL_STEP === 3 && !EXECUTE) {
+        console.log("Step 3");
+        EXECUTE = true;
+        step_3();
+      } else if (ACTUAL_STEP === 4) {
+        window.clearInterval(interval);
+        setProcessFeedback("Proceso completado!");
+      }
+    });
+  }
+
+  function step_0() {
     /**
-     * Class steps: is responsible for managing the process of the stages for the generation of keys
-     * @param {int} actual_step actual step of the process
-     * @param {bool} execute status with process execution
-     * @param {object} secret_key secret key
-     * @param {object} certificate certificate
-     * @param {object} coefficients coefficients
-     * @param {object} points points
-     * @param {object} acknowledgements acknowledgements
-     * @param {object} verification_key verification key
-     * @param {object} interval time to ask the server about the process
+     * Step 0: generate the secret key
      *
      */
 
-    constructor() {
-      this.actual_step = 0;
-      this.execute = false;
-      this.secret_key = null;
-      this.certificate = null;
-      this.coefficients = null;
-      this.points = null;
-      this.acknowledgements = null;
-      this.verification_key = null;
-      this.interval = null;
-    }
+    console.log("generate key");
+    generate_keypair();
+    console.log("download key");
+    download_sk_to_file("trustee_key.txt");
+    console.log("send key");
+    send_public_key();
+    setProcessFeedback("Proceso de generación de clave privada completado");
+  }
 
-    init_process() {
-      this.execute = false;
-      this.total_process();
-      setEnabledButtonInit(false);
-      this.interval = window.setInterval(() => {
-        this.total_process();
-      }, 1000);
-    }
+  function step_1() {
+    /**
+     * Step 1: generate the certificate
+     */
 
-    total_process() {
-      get_step();
-      if (this.actual_step === 0 && !this.execute) {
-        console.log("Step 0");
-        this.execute = true;
-        this.step_0();
-      } else if (this.actual_step === 1 && !this.execute) {
-        console.log("Step 1");
-        this.execute = true;
-        this.step_1();
-      } else if (this.actual_step === 2 && !this.execute) {
-        console.log("Step 2");
-        this.execute = true;
-        this.step_2();
-      } else if (this.actual_step === 3 && !this.execute) {
-        console.log("Step 3");
-        this.execute = true;
-        this.step_3();
-      } else if (this.actual_step === 4) {
-        window.clearInterval(this.interval);
-        setProcessFeedback("Proceso completado!");
+    get_data_step("step1").then((data_step) => {
+      if ("error" in data_step) {
+        EXECUTE = false;
+        setProcessFeedback(data_step["error"]);
+        return;
       }
-    }
 
-    step_0() {
-      /**
-       * Step 0: generate the secret key
-       *
-       */
+      getRandomness().then((data_randomnes) => {
+        const randomness = data_randomnes;
+        sjcl.random.addEntropy(randomness);
 
-      console.log("generate key");
-      this.generate_keypair();
-      console.log("download key");
-      this.download_sk_to_file("trustee_key.txt");
-      console.log("send key");
-      this.send_public_key();
-      setProcessFeedback("Proceso de generación de clave privada completado");
-    }
-
-    step_1() {
-      /**
-       * Step 1: generate the certificate
-       */
-
-      get_data_step("step1").then((data) => {
-        if ("error" in data) {
-          this.execute = false;
-          setProcessFeedback(data["error"]);
-          return;
-        }
-
-        getRandomness().then((data) => {
-          const randomness = data["randomness"];
-          sjcl.random.addEntropy(randomness);
-          BigInt.setup(function () {
-            PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
-            PARAMS.trustee_id = trustee.trustee_id;
-            CERTIFICATES = JSON.parse(data["certificates"]);
-          });
-
-          heliosc.ui.validator.start();
-          heliosc.ui.load_secret_key("#derive");
-          derivator.start();
+        BigInt.setup(function () {
+          PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data_step.params));
+          PARAMS.trustee_id = trustee.trustee_id;
+          CERTIFICATES = JSON.parse(data_step.certificates);
         });
+
+        heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
+        TRUSTEE = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        derivator.start(CERTIFICATES, TRUSTEE);
       });
-    }
+    });
+  }
 
-    step_2() {
-      /**
-       * Step 2: generate the coefficients
-       */
+  function step_2() {
+    /**
+     * Step 2: generate the coefficients
+     */
 
-      get_data_step("step2").then((data) => {
-        if ("error" in data) {
-          this.execute = false;
-          setProcessFeedback(data["error"]);
-          return;
-        }
-        // get some more server-side randomness for keygen
-        getRandomness().then((data) => {
-          const randomness = data["randomness"];
-          sjcl.random.addEntropy(randomness);
-          BigInt.setup(function () {
-            PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
-            PARAMS.trustee_id = trustee.trustee_id;
-            CERTIFICATES = JSON.parse(data["certificates"]);
-            COEFFICIENTS = JSON.parse(data["coefficents"]);
-            POINTS = JSON.parse(data["points"]);
-          });
-          heliosc.ui.validator.start();
-          heliosc.ui.load_secret_key("#acknowledge");
-          acknowledger.start();
-        });
-      });
-    }
-
-    step_3() {
-      /**
-       * Step 3: generate the points
-       */
-
-      get_data_step("step3").then((data) => {
-        if ("error" in data) {
-          this.execute = false;
-          setProcessFeedback(data["error"]);
-          return;
-        }
-        // get some more server-side randomness for keygen
-        getRandomness().then((data) => {
-          const randomness = data["randomness"];
-          sjcl.random.addEntropy(randomness);
-          BigInt.setup(function () {
-            PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data["params"]));
-            PARAMS.trustee_id = trustee.trustee_id;
-            CERTIFICATES = JSON.parse(data["certificates"]);
-            COEFFICIENTS = JSON.parse(data["coefficents"]);
-            POINTS = JSON.parse(data["points"]);
-            SENT = JSON.parse(data["points_sent"]);
-            ACKS2 = data["acks"];
-          });
-          heliosc.ui.validator.start();
-          heliosc.ui.load_secret_key("#check_acks");
-          check_acks.start();
-          heliosc.ui.share.start(prepare_upload);
-        });
-      });
-    }
-
-    generate_keypair() {
-      try {
-        console.log("generate_keypair");
-        console.log(ELGAMAL_PARAMS);
-        TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
-        console.log(TRUSTEE);
-        this.setup_public_key_and_proof();
-        return true;
-      } catch (e) {
-        alert(e);
-        return false;
+    get_data_step("step2").then((data_step) => {
+      if ("error" in data_step) {
+        EXECUTE = false;
+        setProcessFeedback(data_step["error"]);
+        return;
       }
-    }
-
-    setup_public_key_and_proof() {
-      CERTIFICATE = TRUSTEE.generate_certificate();
-      SECRET_KEY = TRUSTEE.get_secret_key();
-      this.secret_key = SECRET_KEY;
-      //this.storage.setItem('key', SECRET_KEY);
-      this.certificate = JSON.stringify(CERTIFICATE);
-    }
-
-    download_sk_to_file(filename) {
-      var element = document.createElement("a");
-      element.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," + SECRET_KEY
-      );
-      element.setAttribute("download", filename);
-      element.style.display = "none";
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
-    }
-
-    async send_public_key() {
-      let certificate = this.certificate;
-
-      const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload_pk";
-
-      const resp = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          public_key_json: certificate,
-        }),
+      // get some more server-side randomness for keygen
+      getRandomness().then((data_randomnes) => {
+        const randomness = data_randomnes;
+        sjcl.random.addEntropy(randomness);
+        BigInt.setup(function () {
+          PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data_step.params));
+          PARAMS.trustee_id = trustee.trustee_id;
+          CERTIFICATES = JSON.parse(data_step.certificates);
+          COEFFICIENTS = JSON.parse(data_step.coefficients);
+          POINTS_AUX = JSON.parse(data_step.points);
+        });
+        heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
+        TRUSTEE = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        acknowledger.start(POINTS_AUX, COEFFICIENTS, TRUSTEE);
       });
+    });
+  }
 
-      const jsonResponse = await resp.json();
-      this.actual_step = 1;
-      this.execute = false;
-      set_step_init();
+  function step_3() {
+    /**
+     * Step 3: generate the points
+     */
+
+    get_data_step("step3").then((data_step) => {
+      if ("error" in data_step) {
+        EXECUTE = false;
+        setProcessFeedback(data_step["error"]);
+        return;
+      }
+      // get some more server-side randomness for keygen
+      getRandomness().then((data_randomnes) => {
+        const randomness = data_randomnes;
+        sjcl.random.addEntropy(randomness);
+        BigInt.setup(function () {
+          PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data_step.params));
+          PARAMS.trustee_id = trustee.trustee_id;
+          CERTIFICATES = JSON.parse(data_step.certificates);
+          COEFFICIENTS = JSON.parse(data_step.coefficents);
+          POINTS_AUX = JSON.parse(data_step.points);
+          SENT = JSON.parse(data_step.points_sent);
+          ACKS2 = JSON.parse(data_step.acks);
+        });
+        heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
+        TRUSTEE = heliosc.ui.load_secret_key("#check_acks");
+        check_acks.start();
+
+        heliosc.ui.share.start(prepare_upload, CERTIFICATES, POINTS_AUX, PARAMS);
+      });
+    });
+  }
+
+  function generate_keypair() {
+    try {
+      TRUSTEE = heliosc.trustee(ElGamalParams);
+      setup_public_key_and_proof();
+      return true;
+    } catch (e) {
+      alert(e);
+      return false;
     }
+  }
+
+  function setup_public_key_and_proof() {
+    CERTIFICATE = TRUSTEE.generate_certificate();
+    SECRET_KEY = TRUSTEE.get_secret_key();
+    //this.storage.setItem('key', SECRET_KEY);
+  }
+
+  function download_sk_to_file(filename) {
+    var element = document.createElement("a");
+    element.setAttribute("href", "data:text/plain;charset=utf-8," + SECRET_KEY);
+    element.setAttribute("download", filename);
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  async function send_public_key() {
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload_pk";
+
+    const resp = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        public_key_json: JSON.stringify(CERTIFICATE),
+      }),
+    });
+
+    const jsonResponse = await resp.json();
+    ACTUAL_STEP = 1;
+    setActualStep(1);
+    EXECUTE = false;
+    set_step_init();
+  }
+
+  function set_step_init() {
+    get_step().then((data) => {
+      const step = data.status;
+      ACTUAL_STEP = step;
+      setActualStep(step);
+      if (step > 0) {
+        if (step === 4) {
+          setEnabledButtonInit(false);
+        }
+        setTextButtonInit("Continuar proceso");
+      }
+      setProcessFeedback(`Actualmente se esta en la etapa ${step}`);
+    });
   }
 
   function prepare_upload() {
@@ -393,8 +419,8 @@ function Keygenerator(props) {
       q: PARAMS.q.toString(),
       y: PARAMS.g.modPow(SUM, PARAMS.p).toString(),
     };
-    process.verification_key = $.toJSON(pk);
-    const verification_key = process.verification_key;
+    VERIFICATION_KEY = JSON.stringify(pk);
+    const verification_key = VERIFICATION_KEY;
     send_step(
       3,
       JSON.stringify({
@@ -418,20 +444,18 @@ function Keygenerator(props) {
     },
 
     point: function (i) {
-      if (i < PARAMS.l) {
+      if (i < parseInt(PARAMS.l)) {
         var id = i + 1;
         setTimeout(function () {
           derivator.pk.y = new BigInt(CERTIFICATES[i].encryption_key);
-          POINTS[i] = TRUSTEE.generate_point(id, derivator.pk);
+          POINTS_AUX[i] = TRUSTEE.generate_point(id, derivator.pk);
           setTimeout(function () {
             derivator.point(i + 1);
           }, 500);
         }, 500);
       } else {
-        process.coefficients = $.toJSON(COEFFICIENTS);
-        process.points = $.toJSON(POINTS);
-        const coefficients = process.coefficients;
-        const points = process.points;
+        const coefficients = JSON.stringify(COEFFICIENTS);
+        const points = JSON.stringify(POINTS_AUX);
         send_step(
           1,
           JSON.stringify({
@@ -442,7 +466,8 @@ function Keygenerator(props) {
       }
     },
 
-    start: function () {
+    start: function (CERTIFICATES) {
+      CERTIFICATES = CERTIFICATES;
       this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
       this.coeff(0);
     },
@@ -450,24 +475,24 @@ function Keygenerator(props) {
 
   var acknowledger = {
     trustee: function (i) {
-      if (i < PARAMS.l) {
+      if (i < parseInt(PARAMS.l)) {
         var id = i + 1;
         setTimeout(function () {
           var pk = acknowledger.pk;
           pk.y = new BigInt(CERTIFICATES[i].signature_key);
-          var ack = TRUSTEE.check_point(id, pk, POINTS[i], COEFFICIENTS[i]);
+          var ack = TRUSTEE.check_point(id, pk, POINTS_AUX[i], COEFFICIENTS[i]);
           if (ack) {
             ACKS[i] = ack;
             setTimeout(function () {
               acknowledger.trustee(i + 1);
             }, 500);
           } else {
-            console.log("Point from trustee #" + id + " failed validation!");
+            console.log("Points from trustee #" + id + " failed validation!");
           }
         }, 500);
       } else {
-        process.acknowledgements = $.toJSON(ACKS);
-        const ack = process.acknowledgements;
+        ACKNOWLEDGEMENTS = JSON.stringify(ACKS);
+        const ack = ACKNOWLEDGEMENTS;
         send_step(
           2,
           JSON.stringify({
@@ -476,8 +501,9 @@ function Keygenerator(props) {
         );
       }
     },
-
-    start: function () {
+    start: function (points, coefficents) {
+      POINTS_AUX = points;
+      COEFFICIENTS = coefficents;
       this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
       this.trustee(0);
     },
@@ -511,50 +537,6 @@ function Keygenerator(props) {
   };
 
   // start collecting some local randomness
-
-  function set_step_init() {
-    get_step().then((data) => {
-      const step = data["status"];
-      process.actual_step = step;
-      setActualStep(step);
-      if (step > 0) {
-        if (step === 4) {
-          setEnabledButtonInit(false);
-        }
-        setTextButtonInit("Continuar proceso");
-      }
-    });
-  }
-
-  useEffect(() => {
-    sjcl.random.startCollectors();
-    process = new Steps();
-    /** Get trustee info */
-    getTrustee().then((data) => {
-      trustee = data;
-
-      /** Set actual step for trustee */
-      set_step_init();
-      let eg_params_json = "";
-      get_eg_params().then((data) => {
-        eg_params_json = data;
-
-        /** Set initial params */
-        getRandomness().then((data) => {
-          const randomness = data;
-          sjcl.random.addEntropy(randomness);
-          ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
-          ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
-          TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
-          BigInt.setup(function () {
-            ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
-            ELGAMAL_PARAMS.trustee_id = trustee.trustee_id;
-            TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
-          });
-        });
-      });
-    });
-  }, []);
 
   // get some more server-side randomness for keygen
   // $.getJSON("../../get-randomness", function (result) {
@@ -661,7 +643,7 @@ function Keygenerator(props) {
             className="button is-link mr-5"
             disabled={!enabledButtonInit}
             onClick={() => {
-              process.init_process();
+              init_process();
             }}
           >
             {textButtonInit}

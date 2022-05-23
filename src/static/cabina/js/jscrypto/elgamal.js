@@ -15,10 +15,12 @@ import { hex_sha1 } from "./sha1";
 export var ElGamal = {};
 
 class Params {
-  constructor(p, q, g) {
+  constructor(p, q, g, t, l) {
     this.p = p;
     this.q = q;
     this.g = g;
+    this.t = parseInt(t);
+    this.l = parseInt(l);
   }
 
   generate() {
@@ -42,6 +44,8 @@ Params.fromJSONObject = function (d) {
   params.p = BigInt.fromJSONObject(d.p);
   params.q = BigInt.fromJSONObject(d.q);
   params.g = BigInt.fromJSONObject(d.g);
+  params.t = parseInt(d.t);
+  params.l = parseInt(d.l);
   return params;
 };
 ElGamal.Params = Params;
@@ -296,7 +300,7 @@ class Ciphertext {
 
     // the DH tuple we are simulating here is
     // g, y, alpha, beta/m
-  
+
     return ElGamal.Proof.simulate(
       this.pk.g,
       this.pk.y,

@@ -29,7 +29,6 @@ function NoAuth(props) {
           </button>
           <button
             onClick={() => {
-              console.log(props.adressLogout);
               window.location.href = props.adressLogout;
             }}
             className="button review-buttons previous-button has-text-white has-text-weight-bold ml-3"

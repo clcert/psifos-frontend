@@ -23,7 +23,6 @@ export var SECRET_KEY = undefined;
 export var POINTS = [];
 export var SUM = BigInteger.ZERO;
 
-
 // Significant Helios-C-specific code is inside the heliosc.* namespace
 export var heliosc = {};
 
@@ -41,7 +40,6 @@ heliosc.signature = {
     var C = new BigInt(tmp, 16).mod(pk.q);
     // we do (q-x*challenge)+w instead of directly w-x*challenge,
     // in case mod doesn't support negative numbers as expected
-    console.log(pk.q)
     var R = pk.q.subtract(sk.x.multiply(C).mod(pk.q));
     R = R.add(w).mod(pk.q);
     return { challenge: C.toString(), response: R.toString() };
@@ -162,12 +160,10 @@ heliosc.trustee = function (PARAMS, seed) {
 
   res.get_secret_key = function () {
     sjcl.codec.hex.fromBits(key);
-    console.log("uwu")
     return sjcl.codec.hex.fromBits(key);
   };
 
   res.generate_certificate = function () {
-    console.log(PARAMS)
     return heliosc.certificate.generate(
       PARAMS.trustee_id,
       signature_key,
@@ -192,6 +188,7 @@ heliosc.trustee = function (PARAMS, seed) {
 
   res.generate_point = function (j, pk) {
     // here, we assume that all coefficients have been generated
+
     var point = BigInteger.ZERO;
     var bigj = BigInteger.fromInt(j);
     for (var i = PARAMS.t; i >= 0; i--) {
@@ -232,6 +229,7 @@ heliosc.trustee = function (PARAMS, seed) {
   };
 
   res.check_ack = function (j, pk, secret, ack) {
+
     var i = PARAMS.trustee_id;
     // check the signature
     var tmp = "point|" + i + "|" + j + "|";
@@ -261,7 +259,6 @@ heliosc.ui = {};
 
 // Logging
 heliosc.ui.logger = function (id) {
-  console.log(id);
   var main_div = document.getElementById(id);
   var x = document.createElement("pre");
   main_div.appendChild(x);
@@ -274,6 +271,7 @@ heliosc.ui.logger = function (id) {
 heliosc.ui.validator = {
   check: function (i) {
     var log = this.log;
+
     if (i < CERTIFICATES.length) {
       var id = i + 1;
       //log("Checking certificate for trustee #" + id + "...");
@@ -292,7 +290,10 @@ heliosc.ui.validator = {
       $("#input_secret_key").show();
     }
   },
-  start: function () {
+  start: function (certificates, secret_key, params) {
+    CERTIFICATES = certificates;
+    SECRET_KEY = secret_key;
+    PARAMS = params;
     $("#check_certificates_button").hide();
     //this.log = heliosc.ui.logger("check_certificates_log");
     //$("#check_certificates_log").show();
@@ -301,8 +302,11 @@ heliosc.ui.validator = {
 };
 
 // Loading the secret key
-heliosc.ui.load_secret_key = function (next) {
+heliosc.ui.load_secret_key = function (next, secretKey) {
   //var secret_key = window.localStorage.getItem("key");
+  if (secretKey !== undefined) {
+    SECRET_KEY = secretKey;
+  }
   var secret_key = SECRET_KEY;
   if (secret_key === undefined) {
     secret_key = prompt("Please enter your secret key:");
@@ -319,6 +323,7 @@ heliosc.ui.load_secret_key = function (next) {
       //window.localStorage.setItem('key', secret_key);
       SECRET_KEY = secret_key;
       $(next).show();
+      return TRUSTEE;
     } catch (e) {
       $("#button-init").attr("disabled", false);
       alert(e);
@@ -329,7 +334,7 @@ heliosc.ui.load_secret_key = function (next) {
 // Building the secret share of the election key
 
 heliosc.ui.share = {
-  trustee: function (i) {
+  trustee: function (i, POINTS) {
     var log = this.log;
     if (i < PARAMS.l) {
       var id = i + 1;
@@ -370,9 +375,12 @@ heliosc.ui.share = {
     return { x: SUM, public_key: pk };
   },
 
-  start: function (cont) {
+  start: function (cont, CERTIFICATES, POINTS, PARAMS) {
+    CERTIFICATES = CERTIFICATES;
+    this.points = POINTS;
+    PARAMS = PARAMS;
     this.cont = cont;
     this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
-    this.trustee(0);
+    this.trustee(0, POINTS);
   },
 };

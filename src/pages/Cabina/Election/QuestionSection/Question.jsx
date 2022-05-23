@@ -41,7 +41,6 @@ function Question(props) {
   }
 
   function checkAnswers(index) {
-    console.log(index)
     const min = props.questions[index].min_answers;
     const max = props.questions[index].max_answers;
     if (answers[index].length < min || answers[index].length > max) {
