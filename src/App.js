@@ -20,6 +20,7 @@ import RequireAuth from "./pages/Auth/RequireAuth";
 import AutchCas from "./pages/Auth/AuthCas";
 import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 import Cabina from "./pages/Cabina/Cabina";
+import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 
 function App() {
   function getToken() {
@@ -159,6 +160,11 @@ function App() {
       <Route
         path=":uuid/trustee/:uuidTrustee/keygenerator"
         element={<Keygenerator />}
+      />
+      <Route path=":uuid/trustee/:uuidTrustee/check-sk" element={<CheckSk />} />
+      <Route
+        path=":uuid/trustee/:uuidTrustee/decrypt-and-prove"
+        element={<CheckSk />}
       />
 
       <Route path="/test/:uuid" element={<AutchCas />}></Route>

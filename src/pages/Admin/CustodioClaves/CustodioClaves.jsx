@@ -4,14 +4,14 @@ import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
 import getElection from "../../../utils/getElection";
-import { backendHeliosIP } from "../../../server";
+import { backendHeliosIP, backendIP } from "../../../server";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import ModalCreateCustodio from "./components/ModalCreateCustodio";
 import ModalDeleteCustodio from "./components/ModalDeleteCustodio";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function CustodioClaves(props) {
@@ -91,6 +91,16 @@ function CustodioClaves(props) {
               </>
             </>
           )}
+          <div className="box" id="trustee-box">
+            Link de conexión custodio:{" "}
+            <a
+              target="_blank"
+              style={{ color: "rgb(0, 182, 254)" }}
+              href  ={backendIP + "/" + uuid + "/trustee/login"}
+            >
+              {backendIP + "/" + uuid + "/trustee/login"}
+            </a>
+          </div>
           <TrusteesList
             deleteTrustee={(uuid) => {
               setUuidTrustee(uuid);

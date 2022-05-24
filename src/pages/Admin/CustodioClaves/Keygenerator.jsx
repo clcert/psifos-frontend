@@ -31,7 +31,8 @@ function Keygenerator(props) {
   var POINTS_AUX = [];
   var EXECUTE = false;
   var ACKNOWLEDGEMENTS;
-  var VERIFICATION_KEY
+  var VERIFICATION_KEY;
+  var TRUSTEE_STEP;
 
   /** @state Trustee   */
 
@@ -60,9 +61,9 @@ function Keygenerator(props) {
     /** Get trustee info */
     getTrustee().then((data) => {
       TRUSTEE_AUX = data;
+      TRUSTEE_STEP = data.current_step;
+      setActualStep(TRUSTEE_STEP);
       setTrustee(data);
-
-      set_step_init();
       /** Set actual step for trustee */
       let eg_params_json = "";
       get_eg_params().then((data) => {
@@ -83,6 +84,7 @@ function Keygenerator(props) {
             TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
           });
           setEnabledButtonInit(true);
+          set_step_init(TRUSTEE_STEP);
         });
       });
     });
@@ -142,10 +144,11 @@ function Keygenerator(props) {
     });
 
     if (resp.status == 200) {
-      setActualStep(actualStep + 1);
+      setActualStep(TRUSTEE_STEP + 1);
+      setProcessFeedback("Paso " + step + " completada");
+      TRUSTEE_STEP = TRUSTEE_STEP + 1;
       EXECUTE = false;
       set_step_init();
-      setProcessFeedback("Etapa " + step + " completada");
     } else {
       setProcessFeedback("Error al enviar la etapa " + step);
     }
@@ -203,6 +206,7 @@ function Keygenerator(props) {
   }
 
   function init_process() {
+    TRUSTEE_STEP = trustee.current_step;
     setEnabledButtonInit(false);
     total_process();
     setInterval(
@@ -214,29 +218,34 @@ function Keygenerator(props) {
 
   function total_process() {
     get_step().then((data) => {
-      if (data.status > ACTUAL_STEP) {
+      console.log(TRUSTEE_STEP);
+      console.log(data.status);
+      if (TRUSTEE_STEP === data.status) {
         ACTUAL_STEP = data.status;
-      }
-      console.log("ACTUAL_STEP: " + ACTUAL_STEP);
-      if (ACTUAL_STEP === 0 && !EXECUTE) {
-        console.log("Step 0");
-        EXECUTE = true;
-        step_0();
-      } else if (ACTUAL_STEP === 1 && !EXECUTE) {
-        console.log("Step 1");
-        EXECUTE = true;
-        step_1();
-      } else if (ACTUAL_STEP === 2 && !EXECUTE) {
-        console.log("Step 2");
-        EXECUTE = true;
-        step_2();
-      } else if (ACTUAL_STEP === 3 && !EXECUTE) {
-        console.log("Step 3");
-        EXECUTE = true;
-        step_3();
-      } else if (ACTUAL_STEP === 4) {
-        window.clearInterval(interval);
-        setProcessFeedback("Proceso completado!");
+        setActualStep(ACTUAL_STEP);
+        console.log("ACTUAL_STEP: " + ACTUAL_STEP);
+        if (ACTUAL_STEP === 0 && !EXECUTE) {
+          console.log("Step 0");
+          EXECUTE = true;
+          step_0();
+        } else if (ACTUAL_STEP === 1 && !EXECUTE) {
+          console.log("Step 1");
+          EXECUTE = true;
+          step_1();
+        } else if (ACTUAL_STEP === 2 && !EXECUTE) {
+          console.log("Step 2");
+          EXECUTE = true;
+          step_2();
+        } else if (ACTUAL_STEP === 3 && !EXECUTE) {
+          console.log("Step 3");
+          EXECUTE = true;
+          step_3();
+        } else if (ACTUAL_STEP === 4) {
+          window.clearInterval(interval);
+          setProcessFeedback("Proceso completado!");
+        }
+      } else {
+        setProcessFeedback("Los otros trustee aun no completan la etapa");
       }
     });
   }
@@ -342,7 +351,12 @@ function Keygenerator(props) {
         TRUSTEE = heliosc.ui.load_secret_key("#check_acks");
         check_acks.start();
 
-        heliosc.ui.share.start(prepare_upload, CERTIFICATES, POINTS_AUX, PARAMS);
+        heliosc.ui.share.start(
+          prepare_upload,
+          CERTIFICATES,
+          POINTS_AUX,
+          PARAMS
+        );
       });
     });
   }
@@ -392,24 +406,23 @@ function Keygenerator(props) {
 
     const jsonResponse = await resp.json();
     ACTUAL_STEP = 1;
+    TRUSTEE_STEP = 1;
     setActualStep(1);
     EXECUTE = false;
     set_step_init();
   }
 
   function set_step_init() {
-    get_step().then((data) => {
-      const step = data.status;
-      ACTUAL_STEP = step;
-      setActualStep(step);
-      if (step > 0) {
-        if (step === 4) {
-          setEnabledButtonInit(false);
-        }
+    console.log(TRUSTEE_STEP);
+    if (TRUSTEE_STEP > 0) {
+      if (TRUSTEE_STEP === 4) {
+        setEnabledButtonInit(false);
+        setProcessFeedback("Proceso terminado!");
+      } else {
         setTextButtonInit("Continuar proceso");
+        setProcessFeedback(`Actualmente se esta en la etapa ${TRUSTEE_STEP}`);
       }
-      setProcessFeedback(`Actualmente se esta en la etapa ${step}`);
-    });
+    }
   }
 
   function prepare_upload() {
@@ -557,7 +570,7 @@ function Keygenerator(props) {
           />
           <Title
             namePage="Custodio de Claves"
-            nameElection={"Pagina privada de Vocal"}
+            nameElection={"Paso 1: Generación de Claves " + trustee.name}
           />
         </div>
       </section>
@@ -583,7 +596,7 @@ function Keygenerator(props) {
             <div className="level-item has-text-centered">
               <div>
                 <p className="pb-2 title has-text-white">
-                  Etapa 1{" "}
+                  Paso 1{" "}
                   <i
                     id="step_1"
                     className={
@@ -598,7 +611,7 @@ function Keygenerator(props) {
             <div className="level-item has-text-centered">
               <div>
                 <p className="pb-2 title has-text-white">
-                  Etapa 2{" "}
+                  Paso 2{" "}
                   <i
                     id="step_2"
                     className={
@@ -613,7 +626,7 @@ function Keygenerator(props) {
             <div className="level-item has-text-centered">
               <div>
                 <p className="pb-2 title has-text-white">
-                  Etapa 3{" "}
+                  Paso 3{" "}
                   <i
                     id="step_3"
                     className={

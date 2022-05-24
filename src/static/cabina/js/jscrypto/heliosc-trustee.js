@@ -346,7 +346,7 @@ heliosc.ui.share = {
         if (point) {
           SUM = SUM.add(point).mod(pk.q);
           setTimeout(function () {
-            heliosc.ui.share.trustee(i + 1);
+            heliosc.ui.share.trustee(i + 1, POINTS);
           }, 500);
         } else {
           console.log("Point from trustee #" + id + " is not properly signed!");

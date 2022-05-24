@@ -22,7 +22,7 @@ function CustodioHome(props) {
 
   const disabledButton1 = Boolean(
     !trustee.public_key ||
-      (trustee.threshold_step >= 0 && trustee.threshold_step < 3)
+      (trustee.current_step >= 0 && trustee.current_step < 3)
       ? false
       : true
   );
@@ -46,7 +46,8 @@ function CustodioHome(props) {
       setLoad(true);
       if (resp.status === 200) {
         setAuth(true);
-      } else if(resp.status === 401) {
+        setTrustee(jsonResponse);
+      } else if (resp.status === 401) {
         setNoAuthMessage(
           "La elección no existe o no estas habilitado para generar llaves en ella"
         );
@@ -110,7 +111,7 @@ function CustodioHome(props) {
                       "/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
                     }
                   >
-                    <span>PASO 1:&nbsp;</span>
+                    <span>ETAPA 1:&nbsp;</span>
                     <span>Generar llaves.</span>
                   </Link>
                 </button>
@@ -122,8 +123,13 @@ function CustodioHome(props) {
                   }
                   disabled={disabledButton2}
                 >
-                  <span>PASO 2:&nbsp;</span>
-                  <span>Verifica tu Clave Privada</span>
+                  <Link
+                    style={{ textDecoration: "None", color: "white" }}
+                    to={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
+                  >
+                    <span>ETAPA 2:&nbsp;</span>
+                    <span>Verifica tu Clave Privada</span>
+                  </Link>
                 </button>
 
                 <button
@@ -133,7 +139,7 @@ function CustodioHome(props) {
                   }
                   disabled={disabledButton3}
                 >
-                  <span>PASO 3:&nbsp;</span>
+                  <span>ETAPA 3:&nbsp;</span>
                   <span>Desencriptar resultado final</span>
                 </button>
               </div>
