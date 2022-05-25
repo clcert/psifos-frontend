@@ -218,8 +218,6 @@ function Keygenerator(props) {
 
   function total_process() {
     get_step().then((data) => {
-      console.log(TRUSTEE_STEP);
-      console.log(data.status);
       if (TRUSTEE_STEP === data.status) {
         ACTUAL_STEP = data.status;
         setActualStep(ACTUAL_STEP);
@@ -270,7 +268,7 @@ function Keygenerator(props) {
      * Step 1: generate the certificate
      */
 
-    get_data_step("step1").then((data_step) => {
+    get_data_step("step-1").then((data_step) => {
       if ("error" in data_step) {
         EXECUTE = false;
         setProcessFeedback(data_step["error"]);
@@ -288,7 +286,9 @@ function Keygenerator(props) {
         });
 
         heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
-        TRUSTEE = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        const loadKey = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        TRUSTEE = loadKey.trustee;
+        SECRET_KEY = loadKey.key;
         derivator.start(CERTIFICATES, TRUSTEE);
       });
     });
@@ -299,7 +299,7 @@ function Keygenerator(props) {
      * Step 2: generate the coefficients
      */
 
-    get_data_step("step2").then((data_step) => {
+    get_data_step("step-2").then((data_step) => {
       if ("error" in data_step) {
         EXECUTE = false;
         setProcessFeedback(data_step["error"]);
@@ -317,7 +317,9 @@ function Keygenerator(props) {
           POINTS_AUX = JSON.parse(data_step.points);
         });
         heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
-        TRUSTEE = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        const loadKey = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        TRUSTEE = loadKey.trustee;
+        SECRET_KEY = loadKey.key;
         acknowledger.start(POINTS_AUX, COEFFICIENTS, TRUSTEE);
       });
     });
@@ -328,7 +330,7 @@ function Keygenerator(props) {
      * Step 3: generate the points
      */
 
-    get_data_step("step3").then((data_step) => {
+    get_data_step("step-3").then((data_step) => {
       if ("error" in data_step) {
         EXECUTE = false;
         setProcessFeedback(data_step["error"]);
@@ -348,7 +350,9 @@ function Keygenerator(props) {
           ACKS2 = JSON.parse(data_step.acks);
         });
         heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
-        TRUSTEE = heliosc.ui.load_secret_key("#check_acks");
+        const loadKey = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
+        TRUSTEE = loadKey.trustee;
+        SECRET_KEY = loadKey.key;
         check_acks.start();
 
         heliosc.ui.share.start(

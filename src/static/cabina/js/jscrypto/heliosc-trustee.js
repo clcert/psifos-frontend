@@ -229,7 +229,6 @@ heliosc.trustee = function (PARAMS, seed) {
   };
 
   res.check_ack = function (j, pk, secret, ack) {
-
     var i = PARAMS.trustee_id;
     // check the signature
     var tmp = "point|" + i + "|" + j + "|";
@@ -304,7 +303,7 @@ heliosc.ui.validator = {
 // Loading the secret key
 heliosc.ui.load_secret_key = function (next, secretKey) {
   //var secret_key = window.localStorage.getItem("key");
-  if (secretKey !== undefined) {
+  if (secretKey !== undefined && SECRET_KEY === undefined) {
     SECRET_KEY = secretKey;
   }
   var secret_key = SECRET_KEY;
@@ -323,7 +322,7 @@ heliosc.ui.load_secret_key = function (next, secretKey) {
       //window.localStorage.setItem('key', secret_key);
       SECRET_KEY = secret_key;
       $(next).show();
-      return TRUSTEE;
+      return { trustee: TRUSTEE, key: SECRET_KEY };
     } catch (e) {
       $("#button-init").attr("disabled", false);
       alert(e);
