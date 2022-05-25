@@ -3,7 +3,7 @@ import logout from "./utils";
 
 async function getElection(uuid) {
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendIP + "/get_election/" + uuid, {
+  const resp = await fetch(backendIP + "/get-election/" + uuid, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

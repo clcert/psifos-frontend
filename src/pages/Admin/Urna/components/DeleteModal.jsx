@@ -27,7 +27,7 @@ function DeleteModal(props) {
     try {
       setDeleteState(true);
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + uuid + "/delete_voters", {
+      const resp = await fetch(backendIP + "/" + uuid + "/delete-voters", {
         method: "POST",
         headers: {
           "x-access-tokens": token,

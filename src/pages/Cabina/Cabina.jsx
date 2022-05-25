@@ -40,7 +40,7 @@ function Cabina(props) {
        * check if voter can vote in election
        */
 
-      const url = backendIP + "/get_election/" + uuid;
+      const url = backendIP + "/get-election/" + uuid;
       const token = sessionStorage.getItem("token");
       const resp = await fetch(url, {
         method: "GET",

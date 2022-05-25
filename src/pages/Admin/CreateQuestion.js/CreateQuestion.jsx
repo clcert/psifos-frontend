@@ -38,7 +38,7 @@ function CreateQuestion(props) {
        */
 
       const token = sessionStorage.getItem("token");
-      const response = await fetch(backendIP + "/get_questions/" + uuid, {
+      const response = await fetch(backendIP + "/get-questions/" + uuid, {
         method: "GET",
         headers: {
           "x-access-tokens": token,
@@ -188,7 +188,7 @@ function CreateQuestion(props) {
 
     if (checkQuestions()) {
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/create_questions/" + uuid, {
+      const resp = await fetch(backendIP + "/create-questions/" + uuid, {
         method: "POST",
         headers: {
           "x-access-tokens": token,

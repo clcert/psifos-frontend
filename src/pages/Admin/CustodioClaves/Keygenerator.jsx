@@ -96,7 +96,7 @@ function Keygenerator(props) {
      * @returns {int} randomness
      */
 
-    const resp = await fetch(backendIP + "/" + uuid + "/get_randomness", {
+    const resp = await fetch(backendIP + "/" + uuid + "/get-randomness", {
       method: "GET",
       credentials: "include",
     });
@@ -112,7 +112,7 @@ function Keygenerator(props) {
      * set the trustee in the state (params)
      * @returns {object} trustee
      */
-    const resp = await fetch(backendIP + "/" + uuidTrustee + "/get_trustee", {
+    const resp = await fetch(backendIP + "/" + uuidTrustee + "/get-trustee", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +132,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/step" + step;
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -178,7 +178,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
     const url =
-      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get_step";
+      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get-step";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -194,7 +194,7 @@ function Keygenerator(props) {
      * async function to get the eg params
      * @returns {object} data response
      */
-    const url = backendIP + "/" + uuid + "/get_eg_params";
+    const url = backendIP + "/" + uuid + "/get-eg-params";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -389,7 +389,7 @@ function Keygenerator(props) {
   }
 
   async function send_public_key() {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload_pk";
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
 
     const resp = await fetch(url, {
       method: "POST",

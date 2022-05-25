@@ -26,7 +26,7 @@ function HomeAdmin() {
        */
 
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/get_elections", {
+      const resp = await fetch(backendIP + "/get-elections", {
         method: "GET",
         headers: {
           "x-access-tokens": token,

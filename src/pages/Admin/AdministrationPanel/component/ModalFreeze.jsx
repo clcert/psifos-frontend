@@ -4,7 +4,7 @@ import { backendIP } from "../../../../server";
 function ModalFreeze(props) {
   async function freeze() {
 
-    const url = backendIP + "/" + props.uuid + "/freeze_ballot";
+    const url = backendIP + "/" + props.uuid + "/freeze-ballot";
     const response = await fetch(url, {
       method: "POST",
       headers: {

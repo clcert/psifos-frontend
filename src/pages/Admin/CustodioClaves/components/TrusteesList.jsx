@@ -13,7 +13,7 @@ function TrusteesList(props) {
        * set the trustees list
        */
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + props.uuid + "/get_trustees", {
+      const resp = await fetch(backendIP + "/" + props.uuid + "/get-trustees", {
         method: "GET",
         headers: {
           "x-access-tokens": token,

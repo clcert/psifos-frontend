@@ -30,7 +30,7 @@ function CreateCustodio() {
      * Create a new custodio
      */
     const token = sessionStorage.getItem("token");
-    const url = backendIP + "/" + uuid + "/create_trustee";
+    const url = backendIP + "/" + uuid + "/create-trustee";
     const resp = await fetch(url, {
       method: "POST",
       headers: {

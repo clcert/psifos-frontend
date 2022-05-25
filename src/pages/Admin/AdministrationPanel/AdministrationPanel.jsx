@@ -62,7 +62,7 @@ function AdministrationPanel(props) {
        */
 
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/get_election/" + uuid, {
+      const resp = await fetch(backendIP + "/get-election/" + uuid, {
         method: "GET",
         headers: {
           "x-access-tokens": token,

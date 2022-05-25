@@ -19,7 +19,7 @@ function VotersTable(props) {
   useEffect(function effectFunction() {
     async function getVoters() {
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + props.uuid + "/get_voters", {
+      const resp = await fetch(backendIP + "/" + props.uuid + "/get-voters", {
         method: "GET",
         headers: {
           "x-access-tokens": token,

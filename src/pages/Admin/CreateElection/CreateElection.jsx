@@ -53,7 +53,7 @@ function CreateElection(props) {
          */
 
         const token = sessionStorage.getItem("token");
-        const resp = await fetch(backendIP + "/get_election/" + uuid, {
+        const resp = await fetch(backendIP + "/get-election/" + uuid, {
           method: "GET",
           headers: {
             "x-access-tokens": token,
@@ -340,7 +340,7 @@ function CreateElection(props) {
             {props.edit ? (
               <Button
                 onClick={() => {
-                  sendElection("/edit_election/" + uuid);
+                  sendElection("/edit-election/" + uuid);
                 }}
                 className="button-custom mr-2 ml-2 level-right"
               >
@@ -349,7 +349,7 @@ function CreateElection(props) {
             ) : (
               <Button
                 onClick={() => {
-                  sendElection("/create_election");
+                  sendElection("/create-election");
                 }}
                 className="button-custom mr-2 ml-2 level-right"
               >
