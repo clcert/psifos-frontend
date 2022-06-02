@@ -1,17 +1,29 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { backendIP } from "../../../../server";
 
 function ModalFreeze(props) {
-  async function freeze() {
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [freezeBallot, setFreezeBallot] = useState(false);
 
-    const url = backendIP + "/" + props.uuid + "/freeze-ballot";
+  async function freeze() {
+    const url = backendIP + "/" + props.uuid + "/freeze-election";
+    const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
+        "x-access-tokens": token,
         "Content-Type": "application/json",
       },
     });
     const data = await response.json();
+    if (response.status === 200) {
+      setFeedbackMessage(data.message);
+      props.freezeChange(false);
+      setFreezeBallot(true);
+    } else {
+      setFeedbackMessage(data.message);
+    }
   }
 
   return (
@@ -26,7 +38,9 @@ function ModalFreeze(props) {
           <h1 className="title">Freeze Ballot</h1>
           <div className="field">
             <label className="">
-              Estas seguro que quieres congelar la votación?
+              {freezeBallot
+                ? feedbackMessage
+                : "Estas seguro que quieres congelar la votación?"}
             </label>
           </div>
         </section>
@@ -39,12 +53,14 @@ function ModalFreeze(props) {
               <span>VOLVER ATRÁS</span>
             </button>
 
-            <button
-              className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
-              onClick={freeze}
-            >
-              <span>CONGELAR</span>
-            </button>
+            {!freezeBallot && (
+              <button
+                className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
+                onClick={freeze}
+              >
+                <span>CONGELAR</span>
+              </button>
+            )}
           </div>
         </footer>
       </div>

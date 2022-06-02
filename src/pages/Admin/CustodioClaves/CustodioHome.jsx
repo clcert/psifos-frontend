@@ -5,6 +5,7 @@ import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { backendIP } from "../../../server";
+import { getTrustee, getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import NoAuth from "../../Cabina/NoAuth";
 
@@ -35,36 +36,30 @@ function CustodioHome(props) {
     election.encrypted_tally && !trustee.decryption_factors ? false : true
   );
 
-  async function getTrustee() {
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/home";
-    const resp = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-    });
-    try {
-      const jsonResponse = await resp.json();
-      setLoad(true);
-      if (resp.status === 200) {
-        setAuth(true);
-        setTrustee(jsonResponse);
-      } else if (resp.status === 401) {
-        setNoAuthMessage(
-          "La elección no existe o no estas habilitado para generar llaves en ella"
-        );
-      }
-    } catch (err) {
-      setLoad(true);
-      setNoAuthMessage(
-        "La elección no existe o no estas habilitado para generar llaves en ella"
-      );
-    }
-  }
-
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
       window.location.href = backendIP + "/" + uuid + "/trustee/login";
     }
-    getTrustee();
+    getTrusteeHome(uuid, uuidTrustee).then((trustee) => {
+      try {
+        const jsonResponse = trustee.jsonResponse.trustee;
+        const resp = trustee.resp;
+        setLoad(true);
+        if (resp.status === 200) {
+          setAuth(true);
+          setTrustee(jsonResponse);
+        } else if (resp.status === 401) {
+          setNoAuthMessage(
+            "La elección no existe o no estas habilitado para generar llaves en ella"
+          );
+        }
+      } catch (err) {
+        setLoad(true);
+        setNoAuthMessage(
+          "La elección no existe o no estas habilitado para generar llaves en ella"
+        );
+      }
+    });
   }, []);
 
   if (!load) {

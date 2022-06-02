@@ -2,29 +2,15 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { backendIP, backendHeliosIP } from "../../../../server";
 import TextAlert from "../../../../component/Alerts/TextAlert";
+import { getTrustees } from "../../../../services/trustee";
 function TrusteesList(props) {
   /** @state {array} trustees list */
   const [trustees, setTrustees] = useState([]);
 
   useEffect(function effectFunction() {
-    async function getTrustees() {
-      /**
-       * async function to get the trustees
-       * set the trustees list
-       */
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + props.uuid + "/get-trustees", {
-        method: "GET",
-        headers: {
-          "x-access-tokens": token,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const jsonResponse = await resp.json();
-      setTrustees(jsonResponse);
-    }
-    getTrustees();
+    getTrustees(props.uuid).then((trustees) => {
+      setTrustees(trustees.jsonResponse);
+    });
   }, []);
 
   return (

@@ -23,7 +23,7 @@ function AdministrationPanel(props) {
   const [haveQuestions, setHaveQuestions] = useState(true);
 
   /** @state {bool} election have public keys */
-  const [havePublicKeys, setHavePublicKeys] = useState(true);
+  const [canFreeze, setCanFreeze] = useState(true);
 
   /** @state {bool} election have voters */
   const [haveVoters, setHaveVoters] = useState(true);
@@ -72,8 +72,8 @@ function AdministrationPanel(props) {
       if (resp.status == 200) {
         const jsonResponse = await resp.json();
         setTitleElection(jsonResponse.name);
-        setHaveQuestions(jsonResponse.questions !== null);
-        setHavePublicKeys(jsonResponse.public_keys !== "");
+        setHaveQuestions(jsonResponse.questions !== "");
+        setCanFreeze(jsonResponse.public_key === null);
         setHaveVoters(jsonResponse.voters.length > 0);
         setHaveTrustee(jsonResponse.trustees.length > 0);
         setObscureVoter(jsonResponse.obscure_voter_names);
@@ -87,6 +87,8 @@ function AdministrationPanel(props) {
     }
     getElection();
   }, []);
+  console.log(haveQuestions);
+  console.log(canFreeze); 
 
   return (
     <>
@@ -208,7 +210,7 @@ function AdministrationPanel(props) {
                   </p>
                 )}
 
-                {haveVoters && haveQuestions && haveTrustee && (
+                {haveVoters && haveQuestions && haveTrustee && canFreeze && (
                   <p className="panel-text">
                     <span
                       onClick={() => setFreezeModal(true)}
@@ -234,6 +236,7 @@ function AdministrationPanel(props) {
         <ModalFreeze
           show={freezeModal}
           onHide={() => setFreezeModal(false)}
+          freezeChange={(newValue) => setCanFreeze(newValue)}
           uuid={uuid}
         />
       </div>

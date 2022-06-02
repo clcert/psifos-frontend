@@ -21,6 +21,7 @@ import AutchCas from "./pages/Auth/AuthCas";
 import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 import Cabina from "./pages/Cabina/Cabina";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
+import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
 
 function App() {
   function getToken() {
@@ -164,7 +165,7 @@ function App() {
       <Route path=":uuid/trustee/:uuidTrustee/check-sk" element={<CheckSk />} />
       <Route
         path=":uuid/trustee/:uuidTrustee/decrypt-and-prove"
-        element={<CheckSk />}
+        element={<DecryptProve />}
       />
 
       <Route path="/test/:uuid" element={<AutchCas />}></Route>

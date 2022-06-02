@@ -18,6 +18,7 @@ import {
   POINTS,
   SUM,
 } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { getTrusteeHome } from "../../../services/trustee";
 
 function Keygenerator(props) {
   var COEFFICIENTS = [];
@@ -59,11 +60,13 @@ function Keygenerator(props) {
   useEffect(() => {
     sjcl.random.startCollectors();
     /** Get trustee info */
-    getTrustee().then((data) => {
-      TRUSTEE_AUX = data;
-      TRUSTEE_STEP = data.current_step;
+    getTrusteeHome(uuid, uuidTrustee).then((data) => {
+      const trusteeData = data.jsonResponse.trustee;
+      console.log(trusteeData);
+      TRUSTEE_AUX = trusteeData;
+      TRUSTEE_STEP = trusteeData.current_step;
       setActualStep(TRUSTEE_STEP);
-      setTrustee(data);
+      setTrustee(trusteeData);
       /** Set actual step for trustee */
       let eg_params_json = "";
       get_eg_params().then((data) => {
@@ -103,24 +106,6 @@ function Keygenerator(props) {
     if (resp.status == 200) {
       const jsonResponse = await resp.json();
       return jsonResponse.randomness;
-    }
-  }
-
-  async function getTrustee() {
-    /**
-     * async function to get the trustee
-     * set the trustee in the state (params)
-     * @returns {object} trustee
-     */
-    const resp = await fetch(backendIP + "/" + uuidTrustee + "/get-trustee", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (resp.status == 200) {
-      const jsonResponse = await resp.json();
-      return jsonResponse;
     }
   }
 
