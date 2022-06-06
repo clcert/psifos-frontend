@@ -2,18 +2,17 @@ function QuestionHeader(props) {
   const generateText = () => {
     const questions = props.questions;
     let textAux = "(seleccionar ";
-    if (questions.min_answers === questions.max && questions.max_answers === 1) {
+    if (questions.min_answers === questions.max_answers) {
       if (questions.min_answers === 1) {
         textAux = textAux + "solo " + questions.min_answers + " opción)";
       } else {
         textAux = textAux + "solo " + questions.min_answers + " opciónes)";
       }
     }
-    else if (questions.min_answers > 0) {
-      textAux = textAux + "al menos " + questions.min_answers + ")";
-    } else {
-      textAux = textAux + "cuantos quieras)";
+    else{
+      textAux = textAux + "entre " + questions.min_answers + " y " + questions.max_answers + " opciones)";
     }
+
     return textAux;
   };
 

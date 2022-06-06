@@ -313,10 +313,10 @@ function DecryptProve(props) {
             <textarea class="textarea" placeholder="Clave secreta"></textarea>
 
             <div className="mt-4">
-              <button className="button mr-2" onclick="do_tally();">
+              <button className="button mr-2" onClick="do_tally();">
                 Generar descifrado parcial
               </button>
-              <button className="button ml-2" onclick="do_tally();">
+              <button className="button ml-2" onClick="do_tally();">
                 Saltar al segundo paso
               </button>
             </div>
@@ -330,7 +330,7 @@ function DecryptProve(props) {
               placeholder="Factores de descifrado"
             ></textarea>
             <div className="mt-4">
-              <button className="button ml-2" onclick="">
+              <button className="button ml-2" onClick="">
                 Subir factores de descifrado
               </button>
             </div>

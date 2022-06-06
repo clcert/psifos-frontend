@@ -146,6 +146,8 @@ HELIOS.Election = Election;
 
 HELIOS.Election.fromJSONString = function (raw_json) {
   var json_object = JSON.parse(raw_json);
+  json_object.questions = JSON.parse(json_object.questions);
+  json_object.public_key = JSON.parse(json_object.public_key);
 
   // let's hash the raw_json
   var election = HELIOS.Election.fromJSONObject(json_object);
@@ -272,7 +274,7 @@ class EncryptedAnswer {
     // keep track of number of options selected.
     var num_selected_answers = 0;
     // go through each possible answer and encrypt either a g^0 or a g^1.
-    for (var i = 0; i < question.answers.length; i++) {
+    for (var i = 0; i < question.closed_options.length; i++) {
       var index, plaintext_index;
       // if this is the answer, swap them so m is encryption 1 (g)
       if (_.includes(answer, i)) {

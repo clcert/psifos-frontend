@@ -54,7 +54,7 @@ function AuditSection(props) {
             <button
               id="button-copy-audited"
               className="button is-rounded button-copy-audited"
-              onclick="BOOTH.copyToClipboard('#code-audited');"
+              onClick="BOOTH.copyToClipboard('#code-audited');"
             >
               <span>COPIAR VOTO AUDITADO</span>
               <span className="icon">
@@ -86,7 +86,7 @@ function AuditSection(props) {
             </p>
             <p>
               También puedes{" "}
-              <a onclick="BOOTH.post_audited_ballot();">
+              <a onClick="BOOTH.post_audited_ballot();">
                 publicar tu voto auditado
               </a>{" "}
               para que otras personas puedan confirmar que este voto fue
@@ -124,7 +124,7 @@ function AuditSection(props) {
               <button
                 className="button is-medium"
                 id="back-to-vote"
-                onclick="BOOTH.reset_ciphertexts();BOOTH.seal_ballot();$(window).scrollTop(0);BOOTH.switch_background_image('03');"
+                onClick="BOOTH.reset_ciphertexts();BOOTH.seal_ballot();$(window).scrollTop(0);BOOTH.switch_background_image('03');"
               >
                 <span>ENVIAR VOTO AUDITADO</span>
                 <span className="icon">

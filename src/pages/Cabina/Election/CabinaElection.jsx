@@ -91,7 +91,7 @@ function CabinaElection(props) {
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
 
   BOOTH.election_metadata = election_metadata;
-  BOOTH.setup_election(raw_json, election_metadata);
+  BOOTH.setup_election(JSON.stringify(props.electionData), election_metadata);
   const election_data = JSON.parse(raw_json);
   const phases = {
     1: {
@@ -133,7 +133,7 @@ function CabinaElection(props) {
               setActualPhase(6);
             }}
             answers={answers}
-            questions={electionData}
+            questions={questions }
             changeAnswer={(question) => {
               setActualQuestion(question);
               setActualPhase(2);

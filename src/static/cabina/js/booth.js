@@ -172,7 +172,7 @@ BOOTH.setup_election = function (raw_json, election_metadata) {
   // less error-prone.
   BOOTH.election.question_answer_orderings = [];
   $(BOOTH.election.questions).each(function (i, question) {
-    var ordering = new Array(question.answers.length);
+    var ordering = new Array(question.closed_options.length);
 
     // initialize array so it is the identity permutation
     $(ordering).each(function (j, answer) {
