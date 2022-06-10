@@ -27,24 +27,17 @@ function TrusteesList(props) {
                   <>
                     {t.public_key_hash ? (
                       <>
-                        {!props.election.frozen_at && (
+                        {!props.election.voting_started_at && (
                           <>
                             <span> &nbsp; </span>[
-                            <TextAlert
-                              id="trustees-link"
-                              title={"eliminar"}
-                              message={
-                                "Are you sure you want to remove Helios as a trustee?"
-                              }
-                              action={() => {
-                                window.location.href =
-                                  backendHeliosIP +
-                                  "/app/elections/" +
-                                  props.uuid +
-                                  "/trustees/delete?uuid=" +
-                                  t.uuid;
+                            <a
+                              style={{ color: "rgb(0, 182, 254)" }}
+                              onClick={() => {
+                                props.deleteTrustee(t.uuid);
                               }}
-                            />
+                            >
+                              Eliminar
+                            </a>
                             ]
                           </>
                         )}
@@ -52,7 +45,7 @@ function TrusteesList(props) {
                     ) : (
                       <>
                         <br />({t.email})<span> &nbsp; </span>
-                        {!props.election.frozen_at && (
+                        {!props.election.voting_started_at && (
                           <>
                             [
                             <a
