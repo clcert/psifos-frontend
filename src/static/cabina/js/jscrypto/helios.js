@@ -258,8 +258,8 @@ class EncryptedAnswer {
 
     // possible plaintexts [question.min .. , question.max]
     var plaintexts = null;
-    if (question.max != null) {
-      plaintexts = UTILS.generate_plaintexts(pk, question.min, question.max);
+    if (question.max_answers != null) {
+      plaintexts = UTILS.generate_plaintexts(pk, question.min_answers, question.max_answers);
     }
 
     var zero_one_plaintexts = UTILS.generate_plaintexts(pk, 0, 1);
@@ -310,14 +310,14 @@ class EncryptedAnswer {
       if (progress) progress.tick();
     }
 
-    if (generate_new_randomness && question.max != null) {
+    if (generate_new_randomness && question.max_answers != null) {
       // we also need proof that the whole thing sums up to the right number
       // only if max is non-null, otherwise it's full approval voting
 
       // compute the homomorphic sum of all the options
       var hom_sum = choices[0];
       var rand_sum = randomness[0];
-      for (var i = 1; i < question.answers.length; i++) {
+      for (var i = 1; i < question.closed_options.length; i++) {
         hom_sum = hom_sum.multiply(choices[i]);
         rand_sum = rand_sum.add(randomness[i]).mod(pk.q);
       }
@@ -328,7 +328,7 @@ class EncryptedAnswer {
       // now that "plaintexts" only contains the array of plaintexts that are possible starting with min
       // and going to max, the num_selected_answers needs to be reduced by min to be the proper index
       var overall_plaintext_index = num_selected_answers;
-      if (question.min) overall_plaintext_index -= question.min;
+      if (question.min_answers) overall_plaintext_index -= question.min;
 
       overall_proof = hom_sum.generateDisjunctiveProof(
         plaintexts,
@@ -338,7 +338,7 @@ class EncryptedAnswer {
       );
 
       if (progress) {
-        for (var i = 0; i < question.max; i++) progress.tick();
+        for (var i = 0; i < question.max_answers; i++) progress.tick();
       }
     }
 
