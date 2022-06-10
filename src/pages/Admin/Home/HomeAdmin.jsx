@@ -97,9 +97,7 @@ function HomeAdmin() {
               return (
                 <Accordion
                   key={key}
-                  state="En curso"
-                  electionName={electionsSearch[key].short_name}
-                  uuid={electionsSearch[key].uuid}
+                  election = {electionsSearch[key]}
                 />
               );
             })}
