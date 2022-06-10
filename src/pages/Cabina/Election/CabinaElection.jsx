@@ -32,6 +32,8 @@ function CabinaElection(props) {
   /** @state {array} election data (questions, key..)  */
   const [electionData, setElectionData] = useState([]);
 
+  const [nameElection, setNameElection] = useState("");
+
   /** @state {array} list with questions  */
   const [questions, setQuestions] = useState([]);
 
@@ -70,6 +72,7 @@ function CabinaElection(props) {
     setElectionData(props.electionData);
     if (props.electionData.questions) {
       setQuestions(JSON.parse(props.electionData.questions));
+      setNameElection(props.electionData.name);
     }
   }, [props.electionData]);
 
@@ -175,7 +178,7 @@ function CabinaElection(props) {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar adressExit={backendIP + "/vote/" + uuid + "/logout"} />
-          <Title namePage="Cabina Votación" nameElection={"nameElection"} />
+          <Title namePage="Cabina Votación" nameElection={nameElection} />
         </div>
       </section>
 
