@@ -1,10 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { backendIP } from "../../../../server";
 
-function ModalFreeze(props) {
-  async function freeze() {
-    const url = backendIP + "/" + props.uuid + "/freeze-election";
+function ModalCloseElection(props) {
+  async function closeElection() {
+    const url = backendIP + "/" + props.uuid + "/close-election";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -22,7 +20,6 @@ function ModalFreeze(props) {
       props.feedback(data.message, "is-danger");
     }
   }
-
   return (
     <div
       className={"modal " + (props.show ? "is-active" : "")}
@@ -32,10 +29,10 @@ function ModalFreeze(props) {
 
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">Freeze Ballot</h1>
+          <h1 className="title">Cerrar Elección</h1>
           <div className="field">
             <label className="">
-              Estas seguro que quieres congelar la votación?
+              Estas seguro que quieres cerrar la votación?
             </label>
           </div>
         </section>
@@ -50,9 +47,9 @@ function ModalFreeze(props) {
 
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
-              onClick={freeze}
+              onClick={closeElection}
             >
-              <span>CONGELAR</span>
+              <span>CERRAR</span>
             </button>
           </div>
         </footer>
@@ -61,4 +58,4 @@ function ModalFreeze(props) {
   );
 }
 
-export default ModalFreeze;
+export default ModalCloseElection;
