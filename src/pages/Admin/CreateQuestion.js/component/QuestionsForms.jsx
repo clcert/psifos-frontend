@@ -58,6 +58,7 @@ function QuestionsForms(props) {
       }
     }
     setAnswers(newAns);
+    props.changeQuestion(question, newAns);
   }
 
   function changeQuestion(e) {

@@ -140,6 +140,7 @@ function CreateQuestion(props) {
     for (let i = 0; i < auxQuestion.length; i++) {
       if (auxQuestion[i].key === key) {
         auxQuestion[i].q_text = newName;
+        auxQuestion[i].closed_options = [];
         for (let j = 0; j < newValue.length; j++) {
           auxQuestion[i].closed_options[j] = newValue[j].value;
         }
