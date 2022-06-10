@@ -72,7 +72,7 @@ function ModalDeleteCustodio(props) {
                   className="button review-buttons previous-button has-text-white has-text-weight-bold"
                   onClick={() => {
                     props.onHide();
-                    navigate("/admin/" + props.uuid + "/custodio");
+                    navigate("/admin/" + props.uuid + "/trustee");
                     window.location.reload();
                   }}
                 >

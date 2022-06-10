@@ -10,6 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { backendIP } from "../../../server";
 import ModalFreeze from "./component/ModalFreeze";
 import logout from "../../../utils/utils";
+import ModalCloseElection from "./component/ModalCloseElection";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -52,6 +53,13 @@ function AdministrationPanel(props) {
   /** @state {bool} state modal freeze */
   const [freezeModal, setFreezeModal] = useState(false);
 
+  /** @state {bool} state modal close election */
+  const [closeModal, setCloseModal] = useState(false);
+
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+
+  const [typeFeedback, setTypeFeedback] = useState("");
+
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
@@ -87,8 +95,6 @@ function AdministrationPanel(props) {
     }
     getElection();
   }, []);
-  console.log(haveQuestions);
-  console.log(canFreeze); 
 
   return (
     <>
@@ -110,12 +116,23 @@ function AdministrationPanel(props) {
           id="accordion-section"
         >
           <div className="panel-body">
+            {feedbackMessage && (
+              <div className={"notification is-primary " + typeFeedback}>
+                <button
+                  className="delete"
+                  onClick={() => setFeedbackMessage("")}
+                ></button>
+                {feedbackMessage}
+              </div>
+            )}
+
             <div className="has-text-centered title is-size-4-mobile">
               {titleElection}
             </div>
             <hr />
+
             <div className="panel-action mb-4">
-              <Link to={"/admin/editElection/" + uuid}>
+              <Link to={"/admin/" + uuid + "/edit-election/"}>
                 <Button className="button-custom mr-2 ml-2"> Editar</Button>
               </Link>
               <Button className="button-custom mr-2 ml-2">Archivar</Button>
@@ -128,7 +145,7 @@ function AdministrationPanel(props) {
               >
                 Extender votación
               </Button>
-              <Link to={"/admin/createQuestion/" + uuid}>
+              <Link to={"/admin/" + uuid + "/create-question/"}>
                 <Button className="button-custom mr-2 ml-2">Preguntas</Button>
               </Link>
             </div>
@@ -194,7 +211,7 @@ function AdministrationPanel(props) {
                 {!haveQuestions && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
-                      <Link to={"/admin/createQuestion/" + uuid}>
+                      <Link to={"/admin/" + uuid + "/create-question/"}>
                         Añadir Preguntas
                       </Link>
                     </span>
@@ -203,7 +220,7 @@ function AdministrationPanel(props) {
                 {!haveTrustee && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
-                      <Link to={"/admin/" + uuid + "/custodio"}>
+                      <Link to={"/admin/" + uuid + "/trustee"}>
                         Añadir Custodios
                       </Link>
                     </span>
@@ -217,6 +234,17 @@ function AdministrationPanel(props) {
                       className="panel-text-sect"
                     >
                       <Link to="">Freeze ballot</Link>
+                    </span>
+                  </p>
+                )}
+
+                {haveVoters && haveQuestions && haveTrustee && !canFreeze && (
+                  <p className="panel-text">
+                    <span
+                      onClick={() => setCloseModal(true)}
+                      className="panel-text-sect"
+                    >
+                      <Link to="">Cerrar elección</Link>
                     </span>
                   </p>
                 )}
@@ -237,6 +265,15 @@ function AdministrationPanel(props) {
           show={freezeModal}
           onHide={() => setFreezeModal(false)}
           freezeChange={(newValue) => setCanFreeze(newValue)}
+          feedback={(message, type) => {
+            setFeedbackMessage(message);
+            setTypeFeedback(type);
+          }}
+          uuid={uuid}
+        />
+        <ModalCloseElection
+          show={closeModal}
+          onHide={() => setCloseModal(false)}
           uuid={uuid}
         />
       </div>

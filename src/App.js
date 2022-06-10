@@ -64,7 +64,7 @@ function App() {
           }
         />
         <Route
-          path="createElection"
+          path="create-election"
           element={
             <RequireAuth>
               <CreateElection />
@@ -72,7 +72,7 @@ function App() {
           }
         />
         <Route
-          path="createQuestion/:uuid"
+          path=":uuid/create-question/"
           element={
             <RequireAuth>
               <CreateQuestion />
@@ -104,7 +104,7 @@ function App() {
           }
         />
         <Route
-          path=":uuid/custodio"
+          path=":uuid/trustee"
           element={
             <RequireAuth>
               <CustodioClaves />
@@ -112,7 +112,7 @@ function App() {
           }
         />
         <Route
-          path=":uuid/createCustodio"
+          path=":uuid/create-trustee"
           element={
             <RequireAuth>
               <CreateCustodio />
@@ -128,7 +128,7 @@ function App() {
           }
         />
         <Route
-          path="editElection/:uuid"
+          path=":uuid/edit-election/"
           element={
             <RequireAuth>
               <CreateElection edit={true} />

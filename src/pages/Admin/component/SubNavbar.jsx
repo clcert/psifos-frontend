@@ -52,7 +52,7 @@ function SubNavbar(props) {
               className={
                 props.active !== 4 ? "text-subnavbar" : "text-subnavbar-active"
               }
-              to={"/admin/" + uuid + "/custodio"}
+              to={"/admin/" + uuid + "/trustee"}
             >
               <i className="fa-solid fa-user-check mr-2"></i>
               <span>Custodio de Claves</span>

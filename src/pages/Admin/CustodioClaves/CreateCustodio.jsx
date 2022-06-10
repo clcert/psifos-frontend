@@ -134,7 +134,7 @@ function CreateCustodio() {
           </div>
           <div className="level">
             <Button className="button-custom mr-2 ml-2 level-left">
-              <Link className="link-button" to={"/admin/" + uuid + "/custodio"}>
+              <Link className="link-button" to={"/admin/" + uuid + "/trustee"}>
                 Atras
               </Link>
             </Button>
