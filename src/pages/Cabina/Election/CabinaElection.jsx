@@ -4,20 +4,15 @@ import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import InstructionsSection from "./InstructionsSection/InstructionsSection";
 import MediaSection from "./InstructionsSection/MediaSection";
-import Question from "./QuestionSection/Question";
+import QuestionElection from "./QuestionSection/QuestionElection";
 import ProgressBar from "../components/ProgressBar";
 import React, { useState, useEffect } from "react";
 import EncryptingCharging from "../components/EncryptingCharging";
 import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
-import { BOOTH } from "../../../static/cabina/js/booth";
-import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
-import { USE_SJCL } from "../../../static/cabina/js/jscrypto/bigint";
-import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
-import { BigIntDummy } from "../../../static/cabina/js/jscrypto/bigintDummy.js";
-import { raw_json } from "../../../static/dummyData/questionsData";
 import { backendIP } from "../../../server";
+import BoothPsifos from "../BoothPsifos";
 
 function CabinaElection(props) {
   /** @state {int} election phase */
@@ -40,27 +35,6 @@ function CabinaElection(props) {
   /** @urlParam {uuid} election uuid  */
   const { uuid } = useParams();
 
-  function validateAllQuestions(answersQuestions) {
-    /**
-     * validate all questions with BOOTH
-     * @param {array} answersQuestions
-     *
-     */
-    for (let i = 0; i < answersQuestions.length; i++) {
-      BOOTH.validate_question(i);
-    }
-  }
-
-  function sendEncryp(answersQuestions) {
-    /**
-     * Create encryp answers
-     */
-
-    BOOTH.ballot.answers = answersQuestions;
-    validateAllQuestions(answersQuestions);
-    BOOTH.seal_ballot();
-  }
-
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -76,26 +50,11 @@ function CabinaElection(props) {
     }
   }, [props.electionData]);
 
-  if (USE_SJCL) {
-    sjcl.random.startCollectors();
-  }
-
-  // // we're asynchronous if we have SJCL and Worker
-  BOOTH.synchronous = !(USE_SJCL && window.Worker);
-
-  // // we do in the browser only if it's asynchronous
-  BigInt.in_browser = !BOOTH.synchronous;
-
-  // // set up dummy bigint for fast parsing and serialization
-  if (!BigInt.in_browser) BigInt = BigIntDummy;
-
-  //BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
-
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
-
-  BOOTH.election_metadata = election_metadata;
-  BOOTH.setup_election(JSON.stringify(props.electionData), election_metadata);
-  const election_data = JSON.parse(raw_json);
+  let BOOTH_PSIFOS = new BoothPsifos(
+    JSON.stringify(props.electionData),
+    election_metadata
+  );
   const phases = {
     1: {
       sectionClass: "parallax-01",
@@ -136,7 +95,7 @@ function CabinaElection(props) {
               setActualPhase(6);
             }}
             answers={answers}
-            questions={questions }
+            questions={questions}
             changeAnswer={(question) => {
               setActualQuestion(question);
               setActualPhase(2);
@@ -190,7 +149,7 @@ function CabinaElection(props) {
         <ProgressBar phase={phases[actualPhase].stage} />
         <section className="section pb-0" id="question-section">
           <div className="container has-text-centered is-max-desktop">
-            <Question
+            <QuestionElection
               questions={questions}
               afterEncrypt={(answersQuestions) => {
                 setAnswers(answersQuestions);
@@ -200,9 +159,9 @@ function CabinaElection(props) {
                 setActualQuestion(num);
               }}
               actualQuestion={actualQuestion}
-              booth={BOOTH}
+              booth={BOOTH_PSIFOS.getBooth()}
               encrypQuestions={(answersQuestions) => {
-                sendEncryp(answersQuestions);
+                BOOTH_PSIFOS.sendEncryp(answersQuestions);
               }}
             />
           </div>

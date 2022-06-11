@@ -9,20 +9,40 @@ import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 
-function Question(props) {
+function QuestionElection(props) {
+  /** Component for election questions */
+
+  /** @state {array} election answers */
   const [answers, setAnswers] = useState([]);
+
+  /** @state {boolean} percentage modal state */
   const [showModal, setShowModal] = useState(false);
+
+  /** @state {boolean} encryption status */
   const [finished, setFinished] = useState(false);
+
+  /** @state {boolean} alert status */
   const [showAlert, setShowAlert] = useState(false);
+
+  /** @state {string} feedback message of alert */
   const [messageAlert, setMessageAlert] = useState("");
 
   function addAnswer(answer, index) {
+    /**
+     * @param {array} answersAux - consult answers
+     * @param {number} index - question index
+     *
+     * include the responses in the response array for encryption
+     */
     let answersAux = [...answers];
     answersAux[index] = answer;
     setAnswers(answersAux);
   }
 
   useEffect(() => {
+    /**
+     * Empty arrays are included in each response
+     */
     let answersAux = [];
     for (let i = 0; i < props.questions.length; i++) {
       answersAux.push([]);
@@ -31,6 +51,11 @@ function Question(props) {
   }, []);
 
   function createMessageAlert(min, max) {
+    /**
+     * @param {number} min - minimum number of answers
+     * @param {number} max - maximum number of answers
+     * Set the message of the alert
+     */
     if (min === max) {
       setMessageAlert("Debes seleccionar " + min + " respuesta(s)");
     } else {
@@ -41,6 +66,11 @@ function Question(props) {
   }
 
   function checkAnswers(index) {
+    /**
+     * @param {number} index - question index
+     * Check if the number of answers is correct
+     * If not, show the alert
+     */
     const min = props.questions[index].min_answers;
     const max = props.questions[index].max_answers;
     if (answers[index].length < min || answers[index].length > max) {
@@ -157,4 +187,4 @@ function Question(props) {
     </div>
   );
 }
-export default Question;
+export default QuestionElection;

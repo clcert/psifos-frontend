@@ -8,20 +8,22 @@ function MultipleSelection(props) {
     const { value } = e.target;
     const { name } = e.target;
     const { checked } = e.target;
-
+    console.log(value);
+    let questionsSelectedAux = [...questionsSelected];
     if (checked) {
-      setQuestionsSelected([...questionsSelected, value]);
+      questionsSelectedAux.push(parseInt(value));
     } else {
-      setQuestionsSelected(
-        questionsSelected.filter((question) => question !== value)
-      );
+      questionsSelectedAux.splice(questionsSelectedAux.indexOf(value), 1);
     }
+    setQuestionsSelected(questionsSelectedAux);
+    props.addAnswer(questionsSelectedAux, props.index);
   }
 
   function isDisabled(value) {
     return (
       questionsSelected.length >= props.data.max_answers &&
-      questionsSelected.indexOf(value) === -1
+      questionsSelected.indexOf(value) === -1 &&
+      !questionsSelected[questionsSelected.indexOf(value)]
     );
   }
   return (
@@ -50,9 +52,9 @@ function MultipleSelection(props) {
                 <input
                   type="checkbox"
                   name="question"
-                  value={key}
+                  value={index}
                   onChange={handleChange}
-                  disabled={isDisabled(key)}
+                  disabled={isDisabled(index)}
                   className="mr-2"
                 />
                 <span className="">{key}</span>

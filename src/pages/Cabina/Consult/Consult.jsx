@@ -1,16 +1,12 @@
 import Title from "../../../component/OthersComponents/Title";
-import AgroupQuestions from "./ConsultQuestions/AgroupQuestions";
-import DropdownSelection from "./ConsultQuestions/DropdownSelection";
-import ImageQuestions from "./ConsultQuestions/ImageQuestions";
-import MultipleSelection from "./ConsultQuestions/MultipleSelection";
-import QuealificationSelection from "./ConsultQuestions/QualificationSelection";
-import UniqueSelection from "./ConsultQuestions/UniqueSelection";
 import InfoConsult from "./components/InfoConsult";
 import TitleConsult from "./components/TitleConsult";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { useEffect, useState } from "react";
 import { backendIP } from "../../../server";
 import { useParams } from "react-router-dom";
+import QuestionConsult from "./ConsultQuestions/QuestionConsult";
+import BoothPsifos from "../BoothPsifos";
 
 function Consult(props) {
   const dataUnique = require("./unica.json");
@@ -28,6 +24,12 @@ function Consult(props) {
     setElectionDescription(props.electionData.description);
   }, []);
 
+  let election_metadata = require("../../../static/dummyData/electionMetadata.json");
+  let BOOTH_PSIFOS = new BoothPsifos(
+    JSON.stringify(props.electionData),
+    election_metadata
+  );
+
   return (
     <div id="content-consult-question">
       <section id="header-section" className="parallax hero is-medium">
@@ -43,19 +45,14 @@ function Consult(props) {
         >
           <TitleConsult title="Consulta" />
           <InfoConsult info={electionDescription} />
-          {questions.map((item, index) => {
-            return (
-              <div key={index}>
-                {item.min_answers === item.max_answers && (
-                  <UniqueSelection data={item} />
-                )}
-
-                {item.min_answers !== item.max_answers && (
-                  <MultipleSelection data={item} />
-                )}
-              </div>
-            );
-          })}
+          <QuestionConsult
+            questions={questions}
+            booth={BOOTH_PSIFOS.getBooth()}
+            encrypQuestions={(answersQuestions) => {
+              console.log(answersQuestions);
+              BOOTH_PSIFOS.sendEncryp(answersQuestions);
+            }}
+          />
         </section>
       </div>
     </div>

@@ -29,7 +29,10 @@ function UniqueSelection(props) {
                 name="question"
                 value="1"
                 className="mr-2"
-                onChange={(e) => setActualAnswers(e.target.value)}
+                onChange={(e) => {
+                  setActualAnswers(e.target.value);
+                  props.addAnswer([parseInt(e.target.value)], props.index);
+                }}
               />
               <span>{key}</span>
             </label>
@@ -63,7 +66,7 @@ function UniqueSelection(props) {
                         name="question"
                         value=""
                         className="input mr-2"
-                        placeholder={"Opción " + (key+1)}
+                        placeholder={"Opción " + (key + 1)}
                       />
                     </label>
                   </div>
