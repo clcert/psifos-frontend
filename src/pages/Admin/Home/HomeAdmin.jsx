@@ -85,7 +85,7 @@ function HomeAdmin() {
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
                   className="link-button"
-                  to="/admin/createElection"
+                  to="/admin/create-election"
                 >
                   Crear Votación
                 </Link>
