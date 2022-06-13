@@ -45,7 +45,7 @@ function CreateCustodio() {
     });
     const data = await resp.json();
     if (resp.status === 200) {
-      navigate("/admin/" + uuid + "/custodio", {
+      navigate("/admin/" + uuid + "/trustee", {
         state: {
           message: "Custodio creado con exito!",
         },

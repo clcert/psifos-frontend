@@ -2,7 +2,7 @@ import $ from "jquery";
 import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { heliosc } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
@@ -12,24 +12,14 @@ import { Link, useParams } from "react-router-dom";
 import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
 
-import {
-  PARAMS,
-  CERTIFICATES,
-  POINTS,
-  SUM,
-} from "../../../static/cabina/js/jscrypto/heliosc-trustee";
 import { getTrusteeHome } from "../../../services/trustee";
 
 function Keygenerator(props) {
   var COEFFICIENTS = [];
   var ACKS = [];
   var SENT, ACKS2;
-  var TRUSTEE, CERTIFICATE, SECRET_KEY, PARAMS;
-  var ELGAMAL_PARAMS;
+  var CERTIFICATE;
   var ACTUAL_STEP = 0;
-  var TRUSTEE_AUX;
-  var CERTIFICATES;
-  var POINTS_AUX = [];
   var EXECUTE = false;
   var ACKNOWLEDGEMENTS;
   var VERIFICATION_KEY;
@@ -62,10 +52,8 @@ function Keygenerator(props) {
     /** Get trustee info */
     getTrusteeHome(uuid, uuidTrustee).then((data) => {
       const trusteeData = data.jsonResponse.trustee;
-      console.log(trusteeData);
-      TRUSTEE_AUX = trusteeData;
-      TRUSTEE_STEP = trusteeData.current_step;
-      setActualStep(TRUSTEE_STEP);
+      let trustee_aux = trusteeData;
+      setActualStep(trusteeData.current_step);
       setTrustee(trusteeData);
       /** Set actual step for trustee */
       let eg_params_json = "";
@@ -76,15 +64,15 @@ function Keygenerator(props) {
         getRandomness().then((data) => {
           const randomness = data;
           sjcl.random.addEntropy(randomness);
-          ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
+          let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
 
-          ELGAMAL_PARAMS.trustee_id = TRUSTEE_AUX.trustee_id;
-          TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
-          setElGamalParams(ELGAMAL_PARAMS);
+          elgamal_params.trustee_id = trustee_aux.trustee_id;
+          helios_c.trustee = helios_c.trustee_create(elgamal_params);
+          setElGamalParams(elgamal_params);
           BigInt.setup(function () {
-            ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject(eg_params_json);
-            ELGAMAL_PARAMS.trustee_id = TRUSTEE_AUX.trustee_id;
-            TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
+            elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
+            elgamal_params.trustee_id = trustee_aux.trustee_id;
+            helios_c.trustee = helios_c.trustee_create(elgamal_params);
           });
           setEnabledButtonInit(true);
           set_step_init(TRUSTEE_STEP);
@@ -265,16 +253,21 @@ function Keygenerator(props) {
         sjcl.random.addEntropy(randomness);
 
         BigInt.setup(function () {
-          PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data_step.params));
-          PARAMS.trustee_id = trustee.trustee_id;
-          CERTIFICATES = JSON.parse(data_step.certificates);
+          helios_c.params = ElGamal.Params.fromJSONObject(
+            JSON.parse(data_step.params)
+          );
+          helios_c.params.trustee_id = trustee.trustee_id;
+          helios_c.certificates = JSON.parse(data_step.certificates);
         });
 
-        heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
-        const loadKey = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
-        TRUSTEE = loadKey.trustee;
-        SECRET_KEY = loadKey.key;
-        derivator.start(CERTIFICATES, TRUSTEE);
+        helios_c.ui_validator_start();
+        const loadKey = helios_c.ui_load_secret_key(
+          "#acknowledge",
+          helios_c.secret_key
+        );
+        helios_c.trustee = loadKey.trustee;
+        helios_c.secret_key = loadKey.key;
+        derivator.start();
       });
     });
   }
@@ -295,17 +288,22 @@ function Keygenerator(props) {
         const randomness = data_randomnes;
         sjcl.random.addEntropy(randomness);
         BigInt.setup(function () {
-          PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data_step.params));
-          PARAMS.trustee_id = trustee.trustee_id;
-          CERTIFICATES = JSON.parse(data_step.certificates);
+          helios_c.params = ElGamal.Params.fromJSONObject(
+            JSON.parse(data_step.params)
+          );
+          helios_c.params.trustee_id = trustee.trustee_id;
+          helios_c.certificates = JSON.parse(data_step.certificates);
           COEFFICIENTS = JSON.parse(data_step.coefficients);
-          POINTS_AUX = JSON.parse(data_step.points);
+          helios_c.points = JSON.parse(data_step.points);
         });
-        heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
-        const loadKey = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
-        TRUSTEE = loadKey.trustee;
-        SECRET_KEY = loadKey.key;
-        acknowledger.start(POINTS_AUX, COEFFICIENTS, TRUSTEE);
+        helios_c.ui_validator_start();
+        const loadKey = helios_c.ui_load_secret_key(
+          "#acknowledge",
+          helios_c.secret_key
+        );
+        helios_c.trustee = loadKey.trustee;
+        helios_c.secret_key = loadKey.key;
+        acknowledger.start();
       });
     });
   }
@@ -326,33 +324,35 @@ function Keygenerator(props) {
         const randomness = data_randomnes;
         sjcl.random.addEntropy(randomness);
         BigInt.setup(function () {
-          PARAMS = ElGamal.Params.fromJSONObject(JSON.parse(data_step.params));
-          PARAMS.trustee_id = trustee.trustee_id;
-          CERTIFICATES = JSON.parse(data_step.certificates);
+          helios_c.params = ElGamal.Params.fromJSONObject(
+            JSON.parse(data_step.params)
+          );
+          helios_c.params.trustee_id = trustee.trustee_id;
+          helios_c.certificates = JSON.parse(data_step.certificates);
           COEFFICIENTS = JSON.parse(data_step.coefficents);
-          POINTS_AUX = JSON.parse(data_step.points);
+          helios_c.points = JSON.parse(data_step.points);
           SENT = JSON.parse(data_step.points_sent);
           ACKS2 = JSON.parse(data_step.acks);
         });
-        heliosc.ui.validator.start(CERTIFICATES, SECRET_KEY, PARAMS);
-        const loadKey = heliosc.ui.load_secret_key("#acknowledge", SECRET_KEY);
-        TRUSTEE = loadKey.trustee;
-        SECRET_KEY = loadKey.key;
+        helios_c.ui_validator_start();
+
+        const loadKey = helios_c.ui_load_secret_key(
+          "#acknowledge",
+          helios_c.secret_key
+        );
+
+        helios_c.trustee = loadKey.trustee;
+        helios_c.secret_key = loadKey.key;
         check_acks.start();
 
-        heliosc.ui.share.start(
-          prepare_upload,
-          CERTIFICATES,
-          POINTS_AUX,
-          PARAMS
-        );
+        helios_c.ui_share_start(prepare_upload);
       });
     });
   }
 
   function generate_keypair() {
     try {
-      TRUSTEE = heliosc.trustee(ElGamalParams);
+      helios_c.trustee = helios_c.trustee_create(ElGamalParams);
       setup_public_key_and_proof();
       return true;
     } catch (e) {
@@ -362,14 +362,17 @@ function Keygenerator(props) {
   }
 
   function setup_public_key_and_proof() {
-    CERTIFICATE = TRUSTEE.generate_certificate();
-    SECRET_KEY = TRUSTEE.get_secret_key();
+    CERTIFICATE = helios_c.trustee.generate_certificate();
+    helios_c.secret_key = helios_c.trustee.get_secret_key();
     //this.storage.setItem('key', SECRET_KEY);
   }
 
   function download_sk_to_file(filename) {
     var element = document.createElement("a");
-    element.setAttribute("href", "data:text/plain;charset=utf-8," + SECRET_KEY);
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + helios_c.secret_key
+    );
     element.setAttribute("download", filename);
     element.style.display = "none";
     document.body.appendChild(element);
@@ -402,7 +405,6 @@ function Keygenerator(props) {
   }
 
   function set_step_init() {
-    console.log(TRUSTEE_STEP);
     if (TRUSTEE_STEP > 0) {
       if (TRUSTEE_STEP === 4) {
         setEnabledButtonInit(false);
@@ -416,10 +418,10 @@ function Keygenerator(props) {
 
   function prepare_upload() {
     var pk = {
-      g: PARAMS.g.toString(),
-      p: PARAMS.p.toString(),
-      q: PARAMS.q.toString(),
-      y: PARAMS.g.modPow(SUM, PARAMS.p).toString(),
+      g: helios_c.params.g.toString(),
+      p: helios_c.params.p.toString(),
+      q: helios_c.params.q.toString(),
+      y: helios_c.params.g.modPow(helios_c.sum, helios_c.params.p).toString(),
     };
     VERIFICATION_KEY = JSON.stringify(pk);
     const verification_key = VERIFICATION_KEY;
@@ -433,31 +435,23 @@ function Keygenerator(props) {
 
   var derivator = {
     coeff: function (i) {
-      if (i <= PARAMS.t) {
-        setTimeout(function () {
-          COEFFICIENTS[i] = TRUSTEE.generate_coefficient(i);
-          setTimeout(function () {
-            derivator.coeff(i + 1);
-          }, 500);
-        }, 500);
+      if (i <= helios_c.params.t) {
+        COEFFICIENTS[i] = helios_c.trustee.generate_coefficient(i);
+        derivator.coeff(i + 1);
       } else {
         this.point(0);
       }
     },
 
     point: function (i) {
-      if (i < parseInt(PARAMS.l)) {
+      if (i < parseInt(helios_c.params.l)) {
         var id = i + 1;
-        setTimeout(function () {
-          derivator.pk.y = new BigInt(CERTIFICATES[i].encryption_key);
-          POINTS_AUX[i] = TRUSTEE.generate_point(id, derivator.pk);
-          setTimeout(function () {
-            derivator.point(i + 1);
-          }, 500);
-        }, 500);
+        derivator.pk.y = new BigInt(helios_c.certificates[i].encryption_key);
+        helios_c.points[i] = helios_c.trustee.generate_point(id, derivator.pk);
+        derivator.point(i + 1);
       } else {
         const coefficients = JSON.stringify(COEFFICIENTS);
-        const points = JSON.stringify(POINTS_AUX);
+        const points = JSON.stringify(helios_c.points);
         send_step(
           1,
           JSON.stringify({
@@ -468,30 +462,35 @@ function Keygenerator(props) {
       }
     },
 
-    start: function (CERTIFICATES) {
-      CERTIFICATES = CERTIFICATES;
-      this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
+    start: function () {
+      this.pk = {
+        g: helios_c.params.g,
+        p: helios_c.params.p,
+        q: helios_c.params.q,
+      };
       this.coeff(0);
     },
   };
 
   var acknowledger = {
     trustee: function (i) {
-      if (i < parseInt(PARAMS.l)) {
+      if (i < parseInt(helios_c.params.l)) {
         var id = i + 1;
-        setTimeout(function () {
-          var pk = acknowledger.pk;
-          pk.y = new BigInt(CERTIFICATES[i].signature_key);
-          var ack = TRUSTEE.check_point(id, pk, POINTS_AUX[i], COEFFICIENTS[i]);
-          if (ack) {
-            ACKS[i] = ack;
-            setTimeout(function () {
-              acknowledger.trustee(i + 1);
-            }, 500);
-          } else {
-            console.log("Points from trustee #" + id + " failed validation!");
-          }
-        }, 500);
+
+        var pk = acknowledger.pk;
+        pk.y = new BigInt(helios_c.certificates[i].signature_key);
+        var ack = helios_c.trustee.check_point(
+          id,
+          pk,
+          helios_c.points[i],
+          COEFFICIENTS[i]
+        );
+        if (ack) {
+          ACKS[i] = ack;
+          acknowledger.trustee(i + 1);
+        } else {
+          console.log("Points from trustee #" + id + " failed validation!");
+        }
       } else {
         ACKNOWLEDGEMENTS = JSON.stringify(ACKS);
         const ack = ACKNOWLEDGEMENTS;
@@ -503,23 +502,25 @@ function Keygenerator(props) {
         );
       }
     },
-    start: function (points, coefficents) {
-      POINTS_AUX = points;
-      COEFFICIENTS = coefficents;
-      this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
+    start: function () {
+      this.pk = {
+        g: helios_c.params.g,
+        p: helios_c.params.p,
+        q: helios_c.params.q,
+      };
       this.trustee(0);
     },
   };
 
   var check_acks = {
     trustee: function (i) {
-      if (i < PARAMS.l) {
+      if (i < helios_c.params.l) {
         var id = i + 1;
         console.log("Checking acknowledgement from trustee #" + id + "...");
         setTimeout(function () {
           var pk = check_acks.pk;
-          pk.y = new BigInt(CERTIFICATES[i].signature_key);
-          if (TRUSTEE.check_ack(id, pk, SENT[i], ACKS2[i])) {
+          pk.y = new BigInt(helios_c.certificates[i].signature_key);
+          if (helios_c.trustee.check_ack(id, pk, SENT[i], ACKS2[i])) {
             setTimeout(function () {
               check_acks.trustee(i + 1);
             }, 500);
@@ -533,7 +534,11 @@ function Keygenerator(props) {
     },
 
     start: function () {
-      this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
+      this.pk = {
+        g: helios_c.params.g,
+        p: helios_c.params.p,
+        q: helios_c.params.q,
+      };
       this.trustee(0);
     },
   };

@@ -18,50 +18,47 @@ import { BigInt } from "./bigint";
 import { BigInteger } from "./jsbn";
 import $ from "jquery";
 
-export var PARAMS, CERTIFICATES, TRUSTEE;
-export var SECRET_KEY = undefined;
-export var POINTS = [];
-export var SUM = BigInteger.ZERO;
 
-// Significant Helios-C-specific code is inside the heliosc.* namespace
-export var heliosc = {};
+class Heliosc {
+  constructor() {
+    this.params = {};
+    this.certificates = {};
+    this.trustee = {};
+    this.secret_key = undefined;
+    this.points = [];
+    this.sum = BigInteger.ZERO;
+  }
 
-heliosc.hash = function (m) {
-  return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(m));
-};
+  hash(data) {
+    return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(data));
+  }
 
-// Schnorr signature scheme
-heliosc.signature = {
-  sign: function (sk, m) {
+  signature_sign(sk, m) {
     var pk = sk.public_key;
     var w = Random.getRandomInteger(pk.q);
     var A = pk.g.modPow(w, pk.p);
-    var tmp = heliosc.hash("sign|" + A.toString() + "|" + m);
+    var tmp = this.hash("sign|" + A.toString() + "|" + m);
     var C = new BigInt(tmp, 16).mod(pk.q);
     // we do (q-x*challenge)+w instead of directly w-x*challenge,
     // in case mod doesn't support negative numbers as expected
     var R = pk.q.subtract(sk.x.multiply(C).mod(pk.q));
     R = R.add(w).mod(pk.q);
     return { challenge: C.toString(), response: R.toString() };
-  },
+  }
 
-  check: function (pk, m, s) {
+  signature_check(pk, m, s) {
     var C = new BigInt(s.challenge);
     var R = new BigInt(s.response);
     var A = pk.g.modPow(R, pk.p).multiply(pk.y.modPow(C, pk.p)).mod(pk.p);
-    var tmp = heliosc.hash("sign|" + A.toString() + "|" + m);
+    var tmp = this.hash("sign|" + A.toString() + "|" + m);
     return new BigInt(tmp, 16).mod(pk.q).compareTo(C) == 0;
-  },
-};
+  }
 
-// Stream cipher based on ElGamal, with beta = Enc(m, H(y^r))
-// where Enc = AES in CTR mode with CBC MAC and iv = alpha
-heliosc.encryption = {
-  encrypt: function (pk, m) {
+  encryption_encrypt(pk, m) {
     var r = Random.getRandomInteger(pk.q);
     var alpha = pk.g.modPow(r, pk.p).toString();
     var key = pk.y.modPow(r, pk.p);
-    key = heliosc.hash(key.toString(16));
+    key = this.hash(key.toString(16));
     key = sjcl.codec.hex.toBits(key);
     var aes = new sjcl.cipher.aes(key);
     var a = sjcl.codec.utf8String.toBits(alpha);
@@ -71,35 +68,32 @@ heliosc.encryption = {
       alpha: alpha,
       beta: sjcl.codec.hex.fromBits(beta),
     };
-  },
+  }
 
-  decrypt: function (sk, m) {
+  encryption_decrypt(sk, m) {
     var pk = sk.public_key;
     var alpha = new BigInt(m.alpha);
     var key = alpha.modPow(sk.x, pk.p);
-    key = heliosc.hash(key.toString(16));
+    key = this.hash(key.toString(16));
     key = sjcl.codec.hex.toBits(key);
     var aes = new sjcl.cipher.aes(key);
     var a = sjcl.codec.utf8String.toBits(m.alpha);
     var b = sjcl.codec.hex.toBits(m.beta);
     var beta = sjcl.mode.ccm.decrypt(aes, b, a);
     return sjcl.codec.utf8String.fromBits(beta);
-  },
-};
+  }
 
-// "Trustee certificates", i.e. public setup keys + self-signature
-heliosc.certificate = {
-  generate: function (id, signature_key, encryption_key) {
+  certificate_generate(id, signature_key, encryption_key) {
     var res = {};
     res.signature_key = signature_key.public_key.y.toString();
     res.encryption_key = encryption_key.public_key.y.toString();
     var tmp = "certificate|" + id + "|";
     tmp += res.signature_key + "|" + res.encryption_key;
-    res.signature = heliosc.signature.sign(signature_key, tmp);
+    res.signature = this.signature_sign(signature_key, tmp);
     return res;
-  },
+  }
 
-  check: function (params, id, cert) {
+  certificate_check(params, id, cert) {
     var tmp = "certificate|" + id + "|";
     tmp += cert.signature_key + "|" + cert.encryption_key;
     var pk = {
@@ -108,12 +102,130 @@ heliosc.certificate = {
       q: params.q,
       y: new BigInt(cert.signature_key),
     };
-    return heliosc.signature.check(pk, tmp, cert.signature);
-  },
-};
+    return this.signature_check(pk, tmp, cert.signature);
+  }
 
-// Trustee algorithms that need access to the private setup keys
-heliosc.trustee = function (PARAMS, seed) {
+  // Logging
+  ui_logger(id) {
+    var main_div = document.getElementById(id);
+    var x = document.createElement("pre");
+    main_div.appendChild(x);
+    return function (s) {
+      x.appendChild(document.createTextNode(s + "\n"));
+    };
+  }
+
+  // Validation of trustee certificates
+  ui_validator_check(i) {
+    var log = this.log;
+
+    if (i < this.certificates.length) {
+      var id = i + 1;
+      //log("Checking certificate for trustee #" + id + "...");
+      if (this.certificate_check(this.params, id, this.certificates[i])) {
+        this.ui_validator_check(i + 1);
+      } else {
+        console.log("Certificate for trustee #" + id + " failed validation!");
+      }
+    } else {
+      //log("All certificates passed validation!");
+      $("#public_key_fingerprint").show();
+      $("#input_secret_key").show();
+    }
+  }
+
+  ui_validator_start() {
+    $("#check_certificates_button").hide();
+    //this.log = heliosc.ui.logger("check_certificates_log");
+    //$("#check_certificates_log").show();
+    this.ui_validator_check(0);
+  }
+
+  // Loading the secret key
+  ui_load_secret_key(next, secretKey) {
+    //var secret_key = window.localStorage.getItem("key");
+    if (secretKey !== undefined && this.secret_key === undefined) {
+      this.secret_key = secretKey;
+    }
+    var secret_key = this.secret_key;
+    if (secret_key === undefined) {
+      secret_key = prompt("Please enter your secret key:");
+    }
+
+    if (secret_key) {
+      try {
+        this.trustee = this.trustee_create(this.params, secret_key);
+        if (
+          !this.trustee.check_certificate(
+            this.certificates[this.params.trustee_id - 1]
+          )
+        ) {
+          throw "Not the right key!";
+        }
+        $("#input_secret_key_button").hide();
+        $("#input_secret_key_done").show();
+        //window.localStorage.setItem('key', secret_key);
+        this.secret_key = secret_key;
+        $(next).show();
+        return { trustee: this.trustee, key: this.secret_key };
+      } catch (e) {
+        $("#button-init").attr("disabled", false);
+        alert(e);
+      }
+    }
+  };
+
+  // Building the secret share of the election key
+
+  ui_share_trustee(i) {
+    var log = this.log;
+    if (i < this.params.l) {
+      var id = i + 1;
+      console.log("Decrypting point shared with trustee #" + id + "...");
+
+      var pk = { g: this.params.g, p: this.params.p, q: this.params.q };
+      pk.y = new BigInt(this.certificates[i].signature_key);
+      var point = this.trustee.decrypt_point(id, pk, helios_c.points[i]);
+      if (point) {
+        this.sum = this.sum.add(point).mod(pk.q);
+
+        this.ui_share_trustee(i + 1, helios_c.points);
+      } else {
+        console.log("Point from trustee #" + id + " is not properly signed!");
+      }
+    } else {
+      console.log("SUCCESS!");
+      this.cont();
+    }
+  }
+
+  ui_share_get_direct() {
+    var pk = { g: this.params.g, p: this.params.p, q: this.params.q };
+    var SUM = BigInteger.ZERO;
+    for (var i = 0; i < this.params.l; i++) {
+      var id = i + 1;
+      pk.y = new BigInt(this.certificates[i].signature_key);
+      var point = this.trustee.decrypt_point(id, pk, this.points[i]);
+      if (point) {
+        SUM = SUM.add(point).mod(pk.q);
+      } else {
+        throw "Error while building the secret share of the election key";
+      }
+    }
+    pk.y = this.params.g.modPow(SUM, this.params.p);
+    return { x: SUM, public_key: pk };
+  }
+
+  ui_share_start(cont) {
+    this.cont = cont;
+    this.pk = { g: this.params.g, p: this.params.p, q: this.params.q };
+    this.ui_share_trustee(0);
+  }
+}
+
+export let helios_c = new Heliosc();
+
+helios_c.trustee_create = function (PARAMS, seed) {
   var key,
     res = {};
 
@@ -164,7 +276,7 @@ heliosc.trustee = function (PARAMS, seed) {
   };
 
   res.generate_certificate = function () {
-    return heliosc.certificate.generate(
+    return helios_c.certificate_generate(
       PARAMS.trustee_id,
       signature_key,
       encryption_key
@@ -182,7 +294,7 @@ heliosc.trustee = function (PARAMS, seed) {
     var tmp = "coef|" + PARAMS.trustee_id + "|" + k + "|" + r;
     return {
       coefficient: r,
-      signature: heliosc.signature.sign(signature_key, tmp),
+      signature: helios_c.signature_sign(signature_key, tmp),
     };
   };
 
@@ -194,10 +306,10 @@ heliosc.trustee = function (PARAMS, seed) {
     for (var i = PARAMS.t; i >= 0; i--) {
       point = point.multiply(bigj).add(coefficients[i]).mod(PARAMS.p);
     }
-    var res = heliosc.encryption.encrypt(pk, point.toString());
+    var res = helios_c.encryption_encrypt(pk, point.toString());
     var tmp = "point|" + PARAMS.trustee_id + "|" + j + "|";
     tmp += res.alpha + "|" + res.beta;
-    res.signature = heliosc.signature.sign(signature_key, tmp);
+    res.signature = helios_c.signature_sign(signature_key, tmp);
     return res;
   };
 
@@ -206,11 +318,11 @@ heliosc.trustee = function (PARAMS, seed) {
     // check the signature
     var tmp = "point|" + i + "|" + j + "|";
     tmp += secret.alpha + "|" + secret.beta;
-    if (!heliosc.signature.check(pk, tmp, secret.signature)) {
+    if (!helios_c.signature_check(pk, tmp, secret.signature)) {
       return false;
     }
     // decrypt and check the point
-    var point = heliosc.encryption.decrypt(encryption_key, secret);
+    var point = helios_c.encryption_decrypt(encryption_key, secret);
     point = PARAMS.g.modPow(new BigInt(point), PARAMS.p);
     var product = BigInteger.ONE;
     var bigj = BigInteger.fromInt(j);
@@ -225,7 +337,7 @@ heliosc.trustee = function (PARAMS, seed) {
     }
     // sign an acknowledgement that checks have been done successfully
     tmp += "|ack";
-    return heliosc.signature.sign(signature_key, tmp);
+    return helios_c.signature_sign(signature_key, tmp);
   };
 
   res.check_ack = function (j, pk, secret, ack) {
@@ -233,7 +345,7 @@ heliosc.trustee = function (PARAMS, seed) {
     // check the signature
     var tmp = "point|" + i + "|" + j + "|";
     tmp += secret.alpha + "|" + secret.beta + "|ack";
-    return heliosc.signature.check(pk, tmp, ack);
+    return helios_c.signature_check(pk, tmp, ack);
   };
 
   res.decrypt_point = function (i, pk, secret) {
@@ -242,144 +354,13 @@ heliosc.trustee = function (PARAMS, seed) {
     // check the signature
     var tmp = "point|" + i + "|" + j + "|";
     tmp += secret.alpha + "|" + secret.beta;
-    if (!heliosc.signature.check(pk, tmp, secret.signature)) {
+    if (!helios_c.signature_check(pk, tmp, secret.signature)) {
       return false;
     }
     // decrypt the point
-    var point = heliosc.encryption.decrypt(encryption_key, secret);
+    var point = helios_c.encryption_decrypt(encryption_key, secret);
     return new BigInt(point);
   };
 
   return res;
-};
-
-// Stuff that depend on external global variables (incl. the DOM)
-heliosc.ui = {};
-
-// Logging
-heliosc.ui.logger = function (id) {
-  var main_div = document.getElementById(id);
-  var x = document.createElement("pre");
-  main_div.appendChild(x);
-  return function (s) {
-    x.appendChild(document.createTextNode(s + "\n"));
-  };
-};
-
-// Validation of trustee certificates
-heliosc.ui.validator = {
-  check: function (i) {
-    var log = this.log;
-
-    if (i < CERTIFICATES.length) {
-      var id = i + 1;
-      //log("Checking certificate for trustee #" + id + "...");
-      setTimeout(function () {
-        if (heliosc.certificate.check(PARAMS, id, CERTIFICATES[i])) {
-          setTimeout(function () {
-            heliosc.ui.validator.check(i + 1);
-          }, 500);
-        } else {
-          console.log("Certificate for trustee #" + id + " failed validation!");
-        }
-      }, 500);
-    } else {
-      //log("All certificates passed validation!");
-      $("#public_key_fingerprint").show();
-      $("#input_secret_key").show();
-    }
-  },
-  start: function (certificates, secret_key, params) {
-    CERTIFICATES = certificates;
-    SECRET_KEY = secret_key;
-    PARAMS = params;
-    $("#check_certificates_button").hide();
-    //this.log = heliosc.ui.logger("check_certificates_log");
-    //$("#check_certificates_log").show();
-    this.check(0);
-  },
-};
-
-// Loading the secret key
-heliosc.ui.load_secret_key = function (next, secretKey) {
-  //var secret_key = window.localStorage.getItem("key");
-  if (secretKey !== undefined && SECRET_KEY === undefined) {
-    SECRET_KEY = secretKey;
-  }
-  var secret_key = SECRET_KEY;
-  if (secret_key === undefined) {
-    secret_key = prompt("Please enter your secret key:");
-  }
-
-  if (secret_key) {
-    try {
-      TRUSTEE = heliosc.trustee(PARAMS, secret_key);
-      if (!TRUSTEE.check_certificate(CERTIFICATES[PARAMS.trustee_id - 1])) {
-        throw "Not the right key!";
-      }
-      $("#input_secret_key_button").hide();
-      $("#input_secret_key_done").show();
-      //window.localStorage.setItem('key', secret_key);
-      SECRET_KEY = secret_key;
-      $(next).show();
-      return { trustee: TRUSTEE, key: SECRET_KEY };
-    } catch (e) {
-      $("#button-init").attr("disabled", false);
-      alert(e);
-    }
-  }
-};
-
-// Building the secret share of the election key
-
-heliosc.ui.share = {
-  trustee: function (i, POINTS) {
-    var log = this.log;
-    if (i < PARAMS.l) {
-      var id = i + 1;
-      console.log("Decrypting point shared with trustee #" + id + "...");
-      setTimeout(function () {
-        var pk = heliosc.ui.share.pk;
-        pk.y = new BigInt(CERTIFICATES[i].signature_key);
-        var point = TRUSTEE.decrypt_point(id, pk, POINTS[i]);
-        if (point) {
-          SUM = SUM.add(point).mod(pk.q);
-          setTimeout(function () {
-            heliosc.ui.share.trustee(i + 1, POINTS);
-          }, 500);
-        } else {
-          console.log("Point from trustee #" + id + " is not properly signed!");
-        }
-      }, 500);
-    } else {
-      console.log("SUCCESS!");
-      this.cont();
-    }
-  },
-
-  get_direct: function () {
-    var pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
-    var SUM = BigInteger.ZERO;
-    for (var i = 0; i < PARAMS.l; i++) {
-      var id = i + 1;
-      pk.y = new BigInt(CERTIFICATES[i].signature_key);
-      var point = TRUSTEE.decrypt_point(id, pk, POINTS[i]);
-      if (point) {
-        SUM = SUM.add(point).mod(pk.q);
-      } else {
-        throw "Error while building the secret share of the election key";
-      }
-    }
-    pk.y = PARAMS.g.modPow(SUM, PARAMS.p);
-    return { x: SUM, public_key: pk };
-  },
-
-  start: function (cont, CERTIFICATES, POINTS, PARAMS) {
-    CERTIFICATES = CERTIFICATES;
-    this.points = POINTS;
-    PARAMS = PARAMS;
-    this.cont = cont;
-    this.pk = { g: PARAMS.g, p: PARAMS.p, q: PARAMS.q };
-    this.trustee(0, POINTS);
-  },
 };

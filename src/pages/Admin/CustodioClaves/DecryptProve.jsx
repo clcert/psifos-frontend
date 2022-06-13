@@ -12,7 +12,7 @@ import getElection from "../../../utils/getElection";
 import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { heliosc } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
 import $ from "jquery";
 
 function DecryptProve(props) {
@@ -118,9 +118,9 @@ function DecryptProve(props) {
   }
 
   function get_secret_key() {
-    TRUSTEE = heliosc.trustee(PARAMS, $("#sk_textarea").val());
+    TRUSTEE = helios_c.trustee_create(PARAMS, $("#sk_textarea").val());
     // TODO: check key
-    var sk = heliosc.ui.share.get_direct();
+    var sk = helios_c.ui_share.get_direct();
     return new ElGamal.SecretKey(sk.x, sk.public_key);
   }
 
