@@ -9,8 +9,6 @@ import QuestionConsult from "./ConsultQuestions/QuestionConsult";
 import BoothPsifos from "../BoothPsifos";
 
 function Consult(props) {
-  const dataUnique = require("./unica.json");
-  const dataMulti = require("./multi.json");
 
   const [questions, setQuestions] = useState([]);
   const [electionDescription, setElectionDescription] = useState("");
@@ -49,7 +47,6 @@ function Consult(props) {
             questions={questions}
             booth={BOOTH_PSIFOS.getBooth()}
             encrypQuestions={(answersQuestions) => {
-              console.log(answersQuestions);
               BOOTH_PSIFOS.sendEncryp(answersQuestions);
             }}
           />

@@ -35,7 +35,6 @@ async function getTrustees(uuid) {
 }
 
 async function getTrusteeHome(uuid, uuidTrustee) {
-  console.log("uwu")
   const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/home";
   const resp = await fetch(url, {
     method: "GET",

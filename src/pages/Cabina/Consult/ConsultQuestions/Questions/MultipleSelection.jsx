@@ -8,7 +8,6 @@ function MultipleSelection(props) {
     const { value } = e.target;
     const { name } = e.target;
     const { checked } = e.target;
-    console.log(value);
     let questionsSelectedAux = [...questionsSelected];
     if (checked) {
       questionsSelectedAux.push(parseInt(value));

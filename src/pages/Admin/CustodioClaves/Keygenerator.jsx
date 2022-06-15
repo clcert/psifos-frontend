@@ -1,4 +1,3 @@
-import $ from "jquery";
 import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
@@ -15,15 +14,13 @@ import { useEffect, useState } from "react";
 import { getTrusteeHome } from "../../../services/trustee";
 
 function Keygenerator(props) {
-  var COEFFICIENTS = [];
-  var ACKS = [];
-  var SENT, ACKS2;
-  var CERTIFICATE;
-  var ACTUAL_STEP = 0;
-  var EXECUTE = false;
-  var ACKNOWLEDGEMENTS;
-  var VERIFICATION_KEY;
-  var TRUSTEE_STEP;
+  let COEFFICIENTS = [];
+  let ACKS = [];
+  let SENT, ACKS2;
+  let CERTIFICATE;
+  let EXECUTE = false;
+  let ACKNOWLEDGEMENTS;
+  let TRUSTEE_STEP = 0;
 
   /** @state Trustee   */
 
@@ -51,10 +48,9 @@ function Keygenerator(props) {
     sjcl.random.startCollectors();
     /** Get trustee info */
     getTrusteeHome(uuid, uuidTrustee).then((data) => {
-      const trusteeData = data.jsonResponse.trustee;
-      let trustee_aux = trusteeData;
-      setActualStep(trusteeData.current_step);
-      setTrustee(trusteeData);
+      const trustee_aux = data.jsonResponse.trustee;
+      setActualStep(trustee_aux.current_step);
+      setTrustee(trustee_aux);
       /** Set actual step for trustee */
       let eg_params_json = "";
       get_eg_params().then((data) => {
@@ -75,7 +71,7 @@ function Keygenerator(props) {
             helios_c.trustee = helios_c.trustee_create(elgamal_params);
           });
           setEnabledButtonInit(true);
-          set_step_init(TRUSTEE_STEP);
+          set_step_init(trustee_aux.current_step);
         });
       });
     });
@@ -121,7 +117,7 @@ function Keygenerator(props) {
       setProcessFeedback("Paso " + step + " completada");
       TRUSTEE_STEP = TRUSTEE_STEP + 1;
       EXECUTE = false;
-      set_step_init();
+      set_step_init(TRUSTEE_STEP);
     } else {
       setProcessFeedback("Error al enviar la etapa " + step);
     }
@@ -192,26 +188,24 @@ function Keygenerator(props) {
   function total_process() {
     get_step().then((data) => {
       if (TRUSTEE_STEP === data.status) {
-        ACTUAL_STEP = data.status;
-        setActualStep(ACTUAL_STEP);
-        console.log("ACTUAL_STEP: " + ACTUAL_STEP);
-        if (ACTUAL_STEP === 0 && !EXECUTE) {
-          console.log("Step 0");
+        setActualStep(TRUSTEE_STEP);
+        if (TRUSTEE_STEP === 0 && !EXECUTE) {
+          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_0();
-        } else if (ACTUAL_STEP === 1 && !EXECUTE) {
-          console.log("Step 1");
+        } else if (TRUSTEE_STEP === 1 && !EXECUTE) {
+          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_1();
-        } else if (ACTUAL_STEP === 2 && !EXECUTE) {
-          console.log("Step 2");
+        } else if (TRUSTEE_STEP === 2 && !EXECUTE) {
+          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_2();
-        } else if (ACTUAL_STEP === 3 && !EXECUTE) {
-          console.log("Step 3");
+        } else if (TRUSTEE_STEP === 3 && !EXECUTE) {
+          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_3();
-        } else if (ACTUAL_STEP === 4) {
+        } else if (TRUSTEE_STEP === 4) {
           window.clearInterval(interval);
           setProcessFeedback("Proceso completado!");
         }
@@ -227,11 +221,8 @@ function Keygenerator(props) {
      *
      */
 
-    console.log("generate key");
     generate_keypair();
-    console.log("download key");
     download_sk_to_file("trustee_key.txt");
-    console.log("send key");
     send_public_key();
     setProcessFeedback("Proceso de generación de clave privada completado");
   }
@@ -262,7 +253,6 @@ function Keygenerator(props) {
 
         helios_c.ui_validator_start();
         const loadKey = helios_c.ui_load_secret_key(
-          "#acknowledge",
           helios_c.secret_key
         );
         helios_c.trustee = loadKey.trustee;
@@ -298,7 +288,6 @@ function Keygenerator(props) {
         });
         helios_c.ui_validator_start();
         const loadKey = helios_c.ui_load_secret_key(
-          "#acknowledge",
           helios_c.secret_key
         );
         helios_c.trustee = loadKey.trustee;
@@ -337,7 +326,6 @@ function Keygenerator(props) {
         helios_c.ui_validator_start();
 
         const loadKey = helios_c.ui_load_secret_key(
-          "#acknowledge",
           helios_c.secret_key
         );
 
@@ -397,21 +385,20 @@ function Keygenerator(props) {
     });
 
     const jsonResponse = await resp.json();
-    ACTUAL_STEP = 1;
     TRUSTEE_STEP = 1;
     setActualStep(1);
     EXECUTE = false;
-    set_step_init();
+    set_step_init(TRUSTEE_STEP);
   }
 
-  function set_step_init() {
-    if (TRUSTEE_STEP > 0) {
-      if (TRUSTEE_STEP === 4) {
+  function set_step_init(step) {
+    if (step >= 0) {
+      if (step === 4) {
         setEnabledButtonInit(false);
         setProcessFeedback("Proceso terminado!");
       } else {
         setTextButtonInit("Continuar proceso");
-        setProcessFeedback(`Actualmente se esta en la etapa ${TRUSTEE_STEP}`);
+        setProcessFeedback(`Actualmente se esta en el paso ${step}`);
       }
     }
   }
@@ -423,8 +410,7 @@ function Keygenerator(props) {
       q: helios_c.params.q.toString(),
       y: helios_c.params.g.modPow(helios_c.sum, helios_c.params.p).toString(),
     };
-    VERIFICATION_KEY = JSON.stringify(pk);
-    const verification_key = VERIFICATION_KEY;
+    const verification_key = JSON.stringify(pk);
     send_step(
       3,
       JSON.stringify({

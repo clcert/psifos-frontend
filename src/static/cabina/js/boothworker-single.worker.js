@@ -40,7 +40,7 @@ function do_encrypt(message) {
     encrypted_answer: encrypted_answer.toJSONObject(true),
     id: message.id,
     // });
-  }
+  };
 
   // send the result back
   postMessage(JSON.parse(JSON.stringify(data)));
