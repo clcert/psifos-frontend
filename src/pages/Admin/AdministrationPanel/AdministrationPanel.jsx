@@ -81,7 +81,7 @@ function AdministrationPanel(props) {
         const jsonResponse = await resp.json();
         setTitleElection(jsonResponse.name);
         setHaveQuestions(jsonResponse.questions !== "");
-        setCanFreeze(jsonResponse.public_key === null);
+        setCanFreeze(jsonResponse.public_key === "");
         setHaveVoters(jsonResponse.voters.length > 0);
         setHaveTrustee(jsonResponse.trustees.length > 0);
         setObscureVoter(jsonResponse.obscure_voter_names);

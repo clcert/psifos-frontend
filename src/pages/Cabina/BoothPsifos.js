@@ -3,6 +3,7 @@ import { BigInt } from "../../static/cabina/js/jscrypto/bigint";
 import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
+import { backendIP } from "../../server";
 
 class BoothPsifos {
   /** Class in charge of handling the Helios BOOTH */
@@ -48,8 +49,28 @@ class BoothPsifos {
      */
 
     BOOTH.ballot.answers = answersQuestions;
+    BOOTH.ballot.open_answers = [];
     this.validateAllQuestions(answersQuestions);
     BOOTH.seal_ballot();
+  }
+
+  async sendJson(uuid) {
+    /**
+     * Send encryp answers to the server
+     */
+
+    const url = "/" + uuid + "/cast-vote";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        credentials: "include",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        encrypted_vote: BOOTH.encrypted_vote_json,
+      }),
+    });
+    const data = await response.json();
   }
 }
 export default BoothPsifos;

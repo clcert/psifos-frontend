@@ -101,6 +101,7 @@ function CabinaElection(props) {
               setActualPhase(2);
             }}
             sendVote={() => {
+              BOOTH_PSIFOS.sendJson(uuid);
               setActualPhase(5);
             }}
           />

@@ -27,7 +27,9 @@ class BoothPsifos {
   constructor() {
     this.started_p = false;
     this.templates_setup_p = true;
+    this.election = {};
     this.encrypted_answers = [];
+    this.encrypted_open_answers = [];
   }
 
   setup_ballot(election) {
@@ -60,7 +62,7 @@ class BoothPsifos {
 
   setup_workers(election_raw_json) {
     // async?
-    
+
     if (!this.synchronous) {
       // prepare spots for encrypted answers
       // and one worker per question
@@ -84,10 +86,7 @@ class BoothPsifos {
           // don't screw up votes.
           if (event.data.id === this.answer_timestamps[event.data.q_num]) {
             this.encrypted_answers[event.data.q_num] =
-              HELIOS.EncryptedAnswer.fromJSONObject(
-                event.data.encrypted_answer,
-                this.election
-              );
+              HELIOS.EncryptedAnswer.fromJSONObject(event.data, this.election);
             this.log("got encrypted answer " + event.data.q_num);
           } else {
             this.log("no way jose");
@@ -159,11 +158,14 @@ class BoothPsifos {
   launch_async_encryption_answer = function (question_num) {
     this.answer_timestamps[question_num] = new Date().getTime();
     this.encrypted_answers[question_num] = null;
+    this.encrypted_open_answers[question_num] = null;
     this.dirty[question_num] = false;
     this.worker.postMessage({
       type: "encrypt",
       q_num: question_num,
+      q_type: this.election.questions[question_num].q_type,
       answer: this.ballot.answers[question_num],
+      open_answer: this.ballot.open_answers[question_num],
       id: this.answer_timestamps[question_num],
     });
   };
@@ -220,7 +222,7 @@ class BoothPsifos {
 
   ready_p = false;
 
-  _after_ballot_encryption = function () {
+  _after_ballot_encryption() {
     // if already serialized, use that, otherwise serialize
     this.encrypted_vote_json =
       this.encrypted_ballot_serialized ||
@@ -232,37 +234,28 @@ class BoothPsifos {
     }.bind(this);
     console.log(this.encrypted_vote_json);
     window.setTimeout(do_hash, 0);
-  };
+  }
 
   percentageDone = 0;
   total_cycles_waited = 0;
 
   // wait for all workers to be done
   wait_for_ciphertexts = function () {
-    // this.total_cycles_waited += 1;
-    // var answers_done = _.reject(this.encrypted_answers, _.isNull);
-    // var percentage_done = Math.round(
-    //   (100 * answers_done.length) / this.encrypted_answers.length
-    // );
-    // if (this.total_cycles_waited > 250) {
-    //   alert(
-    //     "there appears to be a problem with the encryption process.\nPlease email help@heliosvoting.org and indicate that your encryption process froze at " +
-    //       percentage_done +
-    //       "%"
-    //   );
-    //   return;
-    // }
-    // if (percentage_done < 100) {
-    //   setTimeout(this.wait_for_ciphertexts, 500);
-    //   $("#percent_done").html(percentage_done + "");
-    //   return;
-    // }
-    // this.encrypted_ballot = HELIOS.EncryptedVote.fromEncryptedAnswers(
-    //   this.election,
-    //   this.encrypted_answers
-    // );
-    // this._after_ballot_encryption();
-  };
+    this.total_cycles_waited += 1;
+    var answers_done = _.reject(this.encrypted_answers, _.isNull);
+    var percentage_done = Math.round(
+      (100 * answers_done.length) / this.encrypted_answers.length
+    );
+    if (percentage_done < 100) {
+      setTimeout(this.wait_for_ciphertexts, 500);
+      return;
+    }
+    this.encrypted_ballot = HELIOS.EncryptedVote.fromEncryptedAnswers(
+      this.election,
+      this.encrypted_answers
+    );
+    this._after_ballot_encryption();
+  }.bind(this);
 
   seal_ballot_raw = function () {
     if (this.synchronous) {
@@ -282,7 +275,6 @@ class BoothPsifos {
   }.bind(this);
 
   request_ballot_encryption = function () {
-    console.log(this.ballot.answers);
     $.post(
       this.election_url + "/encrypt-ballot",
       { answers_json: $.toJSON(this.ballot.answers) },

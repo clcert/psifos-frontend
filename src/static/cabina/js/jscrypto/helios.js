@@ -234,7 +234,7 @@ UTILS.generate_plaintexts = function (pk, min, max) {
 //
 
 class EncryptedAnswer {
-  constructor(question, answer, pk, progress) {
+  constructor(question, answer, pk, progress, type) {
     // if nothing in the constructor
     if (question === undefined || answer === null) return;
 
@@ -249,6 +249,7 @@ class EncryptedAnswer {
     this.randomness = enc_result.randomness;
     this.individual_proofs = enc_result.individual_proofs;
     this.overall_proof = enc_result.overall_proof;
+    this.enc_ans_type = type;
   }
 
   doEncryption(question, answer, pk, randomness, progress) {
@@ -386,6 +387,7 @@ class EncryptedAnswer {
 
   toJSONObject(include_plaintext) {
     var return_obj = {
+      enc_ans_type: this.enc_ans_type,
       choices: _(this.choices).map(function (choice) {
         return choice.toJSONObject();
       }),
@@ -412,26 +414,27 @@ class EncryptedAnswer {
 }
 HELIOS.EncryptedAnswer = EncryptedAnswer;
 
-HELIOS.EncryptedAnswer.fromJSONObject = function (d, election) {
+HELIOS.EncryptedAnswer.fromJSONObject = function (data, election) {
+  let encrypted_answer = data.encrypted_answer
   var ea = new HELIOS.EncryptedAnswer();
-  ea.choices = _(d.choices).map(function (choice) {
+  ea.enc_ans_type = data.enc_ans_type;
+  ea.choices = _(encrypted_answer.choices).map(function (choice) {
     return ElGamal.Ciphertext.fromJSONObject(choice, election.public_key);
   });
 
-  ea.individual_proofs = _(d.individual_proofs).map(function (p) {
+  ea.individual_proofs = _(encrypted_answer.individual_proofs).map(function (p) {
     return ElGamal.DisjunctiveProof.fromJSONObject(p);
   });
 
-  ea.overall_proof = ElGamal.DisjunctiveProof.fromJSONObject(d.overall_proof);
+  ea.overall_proof = ElGamal.DisjunctiveProof.fromJSONObject(encrypted_answer.overall_proof);
 
   // possibly load randomness and plaintext
-  if (d.randomness) {
-    ea.randomness = _(d.randomness).map(function (r) {
+  if (encrypted_answer.randomness) {
+    ea.randomness = _(encrypted_answer.randomness).map(function (r) {
       return BigInt.fromJSONObject(r);
     });
-    ea.answer = d.answer;
+    ea.answer = encrypted_answer.answer;
   }
-
   return ea;
 };
 
@@ -439,6 +442,9 @@ class EncryptedVote {
   constructor(election, answers, progress) {
     // empty constructor
     if (election == null) return;
+
+    console.log(election)
+    console.log(answers)
 
     // keep information about the election around
     this.election_uuid = election.uuid;
@@ -588,6 +594,7 @@ HELIOS.EncryptedVote.fromJSONObject = function (d, election) {
 
 // create an encrypted vote from a set of answers
 HELIOS.EncryptedVote.fromEncryptedAnswers = function (election, enc_answers) {
+  console.log(enc_answers)
   var enc_vote = new HELIOS.EncryptedVote(election, null);
   enc_vote.encrypted_answers = [];
   _(enc_answers).each(function (enc_answer, answer_num) {
