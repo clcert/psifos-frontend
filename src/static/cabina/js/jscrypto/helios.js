@@ -507,7 +507,6 @@ class EncryptedVote {
 
     return {
       answers: answers,
-      election_hash: this.election_hash,
       election_uuid: this.election_uuid,
     };
   }
