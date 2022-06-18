@@ -1,11 +1,16 @@
 import PercentageBar from "./PercentageBar";
 import _ from "lodash";
 import { useState } from "react";
-import { HELIOS } from "../../../static/cabina/js/jscrypto/helios";
+import EncryptedVote from "../../../static/cabina/js/jscrypto/encrypted-vote";
 
 function ModalPercentage(props) {
+
+  /** @state {int} total percentage of encryp process */
   const [percentage, setPercentage] = useState(0);
+
+  /** @state {boolean}  */
   const [initialize, setInitialize] = useState(false);
+  
   function waitEncryp() {
     let answers_done = _.reject(props.booth.encrypted_answers, _.isNull);
     let percentage_done = Math.round(
@@ -16,7 +21,7 @@ function ModalPercentage(props) {
     if (percentage_done < 100) {
       setTimeout(waitEncryp, 100);
     } else {
-      props.booth.encrypted_ballot = HELIOS.EncryptedVote.fromEncryptedAnswers(
+      props.booth.encrypted_ballot = EncryptedVote.fromEncryptedAnswers(
         props.booth.election,
         props.booth.encrypted_answers
       );

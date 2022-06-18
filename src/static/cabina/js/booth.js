@@ -5,6 +5,8 @@ import _ from "lodash";
 import { BigInt } from "./jscrypto/bigint";
 import { sjcl } from "./jscrypto/sjcl";
 import { b64_sha256 } from "./jscrypto/sha2";
+import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
+
 
 window.onbeforeunload = function (evt) {
   if (!BOOTH.started_p) return;
@@ -86,7 +88,7 @@ class BoothPsifos {
           // don't screw up votes.
           if (event.data.id === this.answer_timestamps[event.data.q_num]) {
             this.encrypted_answers[event.data.q_num] =
-              HELIOS.EncryptedAnswer.fromJSONObject(event.data, this.election);
+            EncryptedAnswerFactory.fromJSONObject(event.data, this.election);
             this.log("got encrypted answer " + event.data.q_num);
           } else {
             this.log("no way jose");

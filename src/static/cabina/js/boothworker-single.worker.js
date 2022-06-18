@@ -6,6 +6,7 @@
 import { HELIOS } from "./jscrypto/helios";
 import { BigInt } from "./jscrypto/bigint";
 import { ElGamal } from "./jscrypto/elgamal";
+import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
 
 var console = {
   log: function (msg) {
@@ -30,23 +31,22 @@ function do_encrypt(message) {
     type: "result",
     q_num: message.q_num,
     id: message.id,
+    q_type: message.q_type
     // });
   };
 
   console.log("EMPIEZA A ENCRIPTAR");
-  var encrypted_answer = new HELIOS.EncryptedAnswer(
+  var encrypted_answer = new EncryptedAnswerFactory().create(
+    message.q_type,
     ELECTION.questions[message.q_num],
     message.answer,
     ELECTION.public_key
   );
   data.encrypted_answer = encrypted_answer.toJSONObject(true);
 
-  if (message.q_type === "closed_question") {
-    data.enc_ans_type = "encrypted_closed_answer";
-  }
 
   let encrypted_open_answer = null;
-  if (message.q_type === "open_question") {
+  if (message.q_type === "open_questionn") {
     data.enc_ans_type = "encrypted_open_answer";
     console.log("encrypting open answer for question " + message.q_num);
     let encrypt_open_answer = (answer) => {
