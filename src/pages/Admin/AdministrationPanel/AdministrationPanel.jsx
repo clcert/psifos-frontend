@@ -233,7 +233,7 @@ function AdministrationPanel(props) {
                       onClick={() => setFreezeModal(true)}
                       className="panel-text-sect"
                     >
-                      <Link to="">Freeze ballot</Link>
+                      <Link to="">Iniciar elección</Link>
                     </span>
                   </p>
                 )}

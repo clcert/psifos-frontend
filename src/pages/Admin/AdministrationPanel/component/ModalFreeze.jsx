@@ -32,10 +32,10 @@ function ModalFreeze(props) {
 
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">Freeze Ballot</h1>
+          <h1 className="title">Iniciar elección</h1>
           <div className="field">
             <label className="">
-              Estas seguro que quieres congelar la votación?
+              Estas seguro que quieres iniciar la votación?
             </label>
           </div>
         </section>
@@ -52,7 +52,7 @@ function ModalFreeze(props) {
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
               onClick={freeze}
             >
-              <span>CONGELAR</span>
+              <span>INICIAR</span>
             </button>
           </div>
         </footer>
