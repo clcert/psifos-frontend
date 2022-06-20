@@ -6,6 +6,7 @@ import { BigInt } from "./jscrypto/bigint";
 import { sjcl } from "./jscrypto/sjcl";
 import { b64_sha256 } from "./jscrypto/sha2";
 import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
+import EncryptedVote from "./jscrypto/encrypted-vote";
 
 
 window.onbeforeunload = function (evt) {
@@ -263,7 +264,7 @@ class BoothPsifos {
     if (this.synchronous) {
       this.progress = new UTILS.PROGRESS();
       var progress_interval = setInterval(this.check_encryption_status, 500);
-      this.encrypted_ballot = new HELIOS.EncryptedVote(
+      this.encrypted_ballot = EncryptedVote(
         this.election,
         this.ballot.answers,
         this.progress

@@ -146,7 +146,7 @@ class EncryptedAnswer {
       // now that "plaintexts" only contains the array of plaintexts that are possible starting with min
       // and going to max, the num_selected_answers needs to be reduced by min to be the proper index
       var overall_plaintext_index = num_selected_answers;
-      if (question.min_answers) overall_plaintext_index -= question.min;
+      if (question.min_answers) overall_plaintext_index -= question.min_answers;
 
       overall_proof = hom_sum.generateDisjunctiveProof(
         plaintexts,
@@ -159,7 +159,6 @@ class EncryptedAnswer {
         for (var i = 0; i < question.max_answers; i++) progress.tick();
       }
     }
-
     return {
       choices: choices,
       randomness: randomness,
