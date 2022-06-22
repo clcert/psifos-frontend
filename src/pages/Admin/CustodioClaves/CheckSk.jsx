@@ -9,59 +9,58 @@ import imageTrustees from "../../../static/svg/trustees2.svg";
 import $ from "jquery";
 import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { b64_sha256 } from "../../../static/cabina/js/jscrypto/sha2";
-import { getTrustee } from "../../../services/trustee";
+import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { get_eg_params } from "../../../services/crypto";
 
 function CheckSk(props) {
+
+  /** @state {string} secret key for check */
   const [secretKey, setSecretKey] = useState("");
-  const [trustee, setTrustee] = useState("");
+
+  /** @state {string} trustee uuid */
   const { uuid, uuidTrustee } = useParams();
-  const [PkHash, setPkHash] = useState("");
+
+  /** @state {string} message with check result */
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
-  async function sendSecretKey() {
+  /** @state {json} el gamal params */
+  const [ElGamalParams, setElGamalParams] = useState({});
+
+  /** @state {string} trustee certificates */
+  const [certificates, setCertificates] = useState({});
+
+  async function getDataTrustee() {
     const url = "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
-    const resp = await fetch(url, {
-      method: "POST",
+    const response = await fetch(url, {
+      method: "GET",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        secret_key: secretKey,
-      }),
     });
-    try {
-      const jsonResponse = await resp.json();
-      if (resp.status === 200) {
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    const data = await response.json();
+    return data;
   }
 
   useEffect(() => {
-    getTrustee(uuidTrustee).then((trustee) => {
-      setTrustee(trustee.jsonResponse.trustee);
-      setPkHash(trustee.jsonResponse.trustee.public_key_hash);
+    getDataTrustee().then((data) => {
+      setCertificates(data);
+    });
+    get_eg_params(uuid).then((data) => {
+      setElGamalParams(data);
     });
   }, []);
 
   function check_sk() {
-    try {
-      var secret_key = ElGamal.SecretKey.fromJSONObject(
-        $.secureEvalJSON(secretKey)
-      );
-      console.log(secret_key);
-
-      var pk_hash = b64_sha256($.toJSON(secret_key.pk));
-      console.log(pk_hash);
-      var key_ok_p = pk_hash == PkHash;
-    } catch (e) {
-      console.log(e);
-      var key_ok_p = false;
+    let params = ElGamal.Params.fromJSONObject(ElGamalParams);
+    let trustee_aux = helios_c.trustee_create(params, secretKey);
+    let key_ok_p = false;
+    if (!trustee_aux.check_certificate(certificates)) {
+      console.log("Not the right key!");
+    } else {
+      console.log("The right key!");
+      key_ok_p = true;
     }
-
     if (key_ok_p) {
       setFeedbackMessage("¡Tu clave privada está correcta!");
     } else {
@@ -78,7 +77,7 @@ function CheckSk(props) {
           />
           <Title
             namePage="Custodio de Claves"
-            nameElection={"Paso 2: Verificación clave privada"}
+            nameElection={"Etapa 2: Verificación clave privada"}
           />
         </div>
       </section>

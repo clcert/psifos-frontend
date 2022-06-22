@@ -12,6 +12,7 @@ import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../services/trustee";
+import { get_eg_params } from "../../../services/crypto";
 
 function Keygenerator(props) {
   let COEFFICIENTS = [];
@@ -53,7 +54,7 @@ function Keygenerator(props) {
       setTrustee(trustee_aux);
       /** Set actual step for trustee */
       let eg_params_json = "";
-      get_eg_params().then((data) => {
+      get_eg_params(uuid).then((data) => {
         eg_params_json = data;
 
         /** Set initial params */
@@ -61,6 +62,7 @@ function Keygenerator(props) {
           const randomness = data;
           sjcl.random.addEntropy(randomness);
           let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
+          console.log(elgamal_params);
 
           elgamal_params.trustee_id = trustee_aux.trustee_id;
           helios_c.trustee = helios_c.trustee_create(elgamal_params);
@@ -158,22 +160,6 @@ function Keygenerator(props) {
     return jsonResponse;
   }
 
-  async function get_eg_params() {
-    /**
-     * async function to get the eg params
-     * @returns {object} data response
-     */
-    const url = backendIP + "/" + uuid + "/get-eg-params";
-
-    const resp = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-    });
-
-    const jsonResponse = await resp.json();
-    return jsonResponse;
-  }
-
   function init_process() {
     TRUSTEE_STEP = trustee.current_step;
     setEnabledButtonInit(false);
@@ -252,9 +238,7 @@ function Keygenerator(props) {
         });
 
         helios_c.ui_validator_start();
-        const loadKey = helios_c.ui_load_secret_key(
-          helios_c.secret_key
-        );
+        const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
         helios_c.trustee = loadKey.trustee;
         helios_c.secret_key = loadKey.key;
         derivator.start();
@@ -287,9 +271,7 @@ function Keygenerator(props) {
           helios_c.points = JSON.parse(data_step.points);
         });
         helios_c.ui_validator_start();
-        const loadKey = helios_c.ui_load_secret_key(
-          helios_c.secret_key
-        );
+        const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
         helios_c.trustee = loadKey.trustee;
         helios_c.secret_key = loadKey.key;
         acknowledger.start();
@@ -325,9 +307,7 @@ function Keygenerator(props) {
         });
         helios_c.ui_validator_start();
 
-        const loadKey = helios_c.ui_load_secret_key(
-          helios_c.secret_key
-        );
+        const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
 
         helios_c.trustee = loadKey.trustee;
         helios_c.secret_key = loadKey.key;
