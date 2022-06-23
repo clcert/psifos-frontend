@@ -32,6 +32,9 @@ function CabinaElection(props) {
   /** @state {array} list with questions  */
   const [questions, setQuestions] = useState([]);
 
+  /** @state {string} vote hash  */
+  const [voteHash, setVoteHash] = useState("");
+
   /** @urlParam {uuid} election uuid  */
   const { uuid } = useParams();
 
@@ -101,8 +104,10 @@ function CabinaElection(props) {
               setActualPhase(2);
             }}
             sendVote={() => {
-              BOOTH_PSIFOS.sendJson(uuid);
-              setActualPhase(5);
+              BOOTH_PSIFOS.sendJson(uuid).then((res) => {
+                setVoteHash(res);
+                setActualPhase(5);
+              });
             }}
           />
         </>
@@ -114,7 +119,7 @@ function CabinaElection(props) {
       component: (
         <>
           <ProgressBar phase={3} />
-          <CastDone></CastDone>
+          <CastDone voteHash={voteHash}></CastDone>
         </>
       ),
     },

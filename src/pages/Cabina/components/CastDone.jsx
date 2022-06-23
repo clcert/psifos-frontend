@@ -20,9 +20,9 @@ function CastDone(props) {
           </span>
         </p>
         <p className="subtitle py-1 mb-5" id="vote-code">
+          {props.voteHash}
           <a
             id="vote-fingerprint-anchor"
-            onclick="copyToClipboard('#vote-fingerprint')"
             className="has-tooltip-arrow has-tooltip-bottom has-tooltip-info"
             data-tooltip="Copiar"
           >

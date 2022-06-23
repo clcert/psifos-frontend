@@ -71,6 +71,7 @@ class BoothPsifos {
       }),
     });
     const data = await response.json();
+    return data.vote_hash
   }
 }
 export default BoothPsifos;
