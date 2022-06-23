@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import { backendHeliosIP } from "../../../server";
 import VotersTable from "./components/VotersTable";
-import getElection from "../../../utils/getElection";
 import SettingsUrna from "./components/SettingsUrna";
 import Title from "../../../component/OthersComponents/Title";
 import { Button } from "react-bulma-components";
@@ -11,6 +10,7 @@ import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import UploadModal from "./components/UploadModal";
 import DeleteModal from "./components/DeleteModal";
+import { getElection } from "../../../services/election";
 
 function Urna() {
   /**
@@ -37,8 +37,9 @@ function Urna() {
 
   useEffect(function effectFunction() {
     getElection(uuid).then((election) => {
-      setElection(election);
-      setElectionOpenReg(election.openreg);
+      const { resp, jsonResponse } = election;
+      setElection(jsonResponse);
+      setElectionOpenReg(jsonResponse.openreg);
     });
   }, []);
 
@@ -48,7 +49,7 @@ function Urna() {
         <section className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <Title namePage="Urna Electronica" nameElection="test" />
+            <Title namePage="Urna Electronica" nameElection={election.name} />
           </div>
         </section>
 

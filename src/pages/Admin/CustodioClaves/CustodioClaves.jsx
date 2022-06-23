@@ -3,7 +3,6 @@ import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
-import getElection from "../../../utils/getElection";
 import { backendHeliosIP, backendIP } from "../../../server";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
@@ -11,14 +10,21 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import ModalCreateCustodio from "./components/ModalCreateCustodio";
 import ModalDeleteCustodio from "./components/ModalDeleteCustodio";
 
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getElection } from "../../../services/election";
 
 function CustodioClaves(props) {
-  const [nameElection, setNameElection] = useState("test");
-  const [election, setElection] = useState([]);
+  /** @state {json} election data  */
+  const [election, setElection] = useState({});
+
+  /** @state {boolean} state of modal with create info  */
   const [modalCustodio, setModalCustodio] = useState(false);
+
+  /** @state {boolean} state of model with delete trustee info  */
   const [modalDelete, setModalDelete] = useState(false);
+
+  /** @state {string} uuid trustee  */
   const [uuidTrustee, setUuidTrustee] = useState("");
 
   const location = useLocation();
@@ -28,7 +34,7 @@ function CustodioClaves(props) {
 
   useEffect(function effectFunction() {
     getElection(uuid).then((election) => {
-      setElection(election);
+      setElection(election.jsonResponse);
     });
   }, []);
   return (
@@ -36,7 +42,7 @@ function CustodioClaves(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Custodio de Claves" nameElection={nameElection} />
+          <Title namePage="Custodio de Claves" nameElection={election.name} />
         </div>
       </section>
 
@@ -96,7 +102,7 @@ function CustodioClaves(props) {
             <a
               target="_blank"
               style={{ color: "rgb(0, 182, 254)" }}
-              href  ={backendIP + "/" + uuid + "/trustee/login"}
+              href={backendIP + "/" + uuid + "/trustee/login"}
             >
               {backendIP + "/" + uuid + "/trustee/login"}
             </a>

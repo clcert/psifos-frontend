@@ -1,6 +1,6 @@
 import { backendIP } from "../server";
 
-async function get_eg_params(uuid) {
+async function getEgParams(uuid) {
     /**
      * async function to get the eg params
      * @returns {object} data response
@@ -16,4 +16,19 @@ async function get_eg_params(uuid) {
     return jsonResponse;
   }
 
-export { get_eg_params }    
+  async function getCheckSk(uuid, uuidTrustee) {
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  }
+
+export { getEgParams, getCheckSk }  
+
+

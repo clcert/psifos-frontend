@@ -12,7 +12,7 @@ import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../services/trustee";
-import { get_eg_params } from "../../../services/crypto";
+import { getEgParams } from "../../../services/crypto";
 
 function Keygenerator(props) {
   let COEFFICIENTS = [];
@@ -54,7 +54,7 @@ function Keygenerator(props) {
       setTrustee(trustee_aux);
       /** Set actual step for trustee */
       let eg_params_json = "";
-      get_eg_params(uuid).then((data) => {
+      getEgParams(uuid).then((data) => {
         eg_params_json = data;
 
         /** Set initial params */
@@ -62,7 +62,6 @@ function Keygenerator(props) {
           const randomness = data;
           sjcl.random.addEntropy(randomness);
           let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
-          console.log(elgamal_params);
 
           elgamal_params.trustee_id = trustee_aux.trustee_id;
           helios_c.trustee = helios_c.trustee_create(elgamal_params);

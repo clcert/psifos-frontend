@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
 import { backendIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
+import { getElection } from "../../../services/election";
 
 function CreateElection(props) {
   /**
@@ -47,20 +48,8 @@ function CreateElection(props) {
 
   useEffect(() => {
     if (props.edit) {
-      async function getElection() {
-        /**
-         * async function to get the election data
-         */
-
-        const token = sessionStorage.getItem("token");
-        const resp = await fetch(backendIP + "/get-election/" + uuid, {
-          method: "GET",
-          headers: {
-            "x-access-tokens": token,
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await resp.json();
+      getElection().then((election) => {
+        const { resp, data } = election;
         if (resp.status === 200) {
           setShortName(data.short_name);
           setName(data.name);
@@ -74,8 +63,7 @@ function CreateElection(props) {
         } else {
           setAlertMessage(data.message);
         }
-      }
-      getElection();
+      });
     }
   }, []);
 

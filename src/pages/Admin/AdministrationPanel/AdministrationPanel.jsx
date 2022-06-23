@@ -1,16 +1,16 @@
 import { Button } from "react-bulma-components";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import AccordionAudit from "./component/AccordionAudit";
 import ExtendElection from "./component/ExtendElection";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { backendIP } from "../../../server";
 import ModalFreeze from "./component/ModalFreeze";
 import logout from "../../../utils/utils";
 import ModalCloseElection from "./component/ModalCloseElection";
+import { getElection } from "../../../services/election";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -64,21 +64,9 @@ function AdministrationPanel(props) {
   const { uuid } = useParams();
 
   useEffect(() => {
-    async function getElection() {
-      /**
-       * async function to get the election data
-       */
-
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/get-election/" + uuid, {
-        method: "GET",
-        headers: {
-          "x-access-tokens": token,
-          "Content-Type": "application/json",
-        },
-      });
-      if (resp.status == 200) {
-        const jsonResponse = await resp.json();
+    getElection(uuid).then((election) => {
+      const { resp, jsonResponse } = election;
+      if (resp.status === 200) {
         setTitleElection(jsonResponse.name);
         setHaveQuestions(jsonResponse.questions !== "");
         setCanFreeze(jsonResponse.public_key === "");
@@ -89,11 +77,10 @@ function AdministrationPanel(props) {
         setRandomizeAnswers(jsonResponse.randomize_answer_order);
         setTotalVoters(jsonResponse.voters.length);
         setTypeElection(jsonResponse.election_type);
-      } else if (resp.status == 401) {
+      } else if (resp.status === 401) {
         logout();
       }
-    }
-    getElection();
+    });
   }, []);
 
   return (

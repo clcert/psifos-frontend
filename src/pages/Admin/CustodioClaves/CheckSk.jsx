@@ -1,19 +1,17 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { getCheckSk, getEgParams } from "../../../services/crypto";
+import { backendIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import { backendIP } from "../../../server";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-import $ from "jquery";
-import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
-import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
-import { get_eg_params } from "../../../services/crypto";
+
 
 function CheckSk(props) {
-
   /** @state {string} secret key for check */
   const [secretKey, setSecretKey] = useState("");
 
@@ -29,24 +27,11 @@ function CheckSk(props) {
   /** @state {string} trustee certificates */
   const [certificates, setCertificates] = useState({});
 
-  async function getDataTrustee() {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
-    const response = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return data;
-  }
-
   useEffect(() => {
-    getDataTrustee().then((data) => {
+    getCheckSk(uuid, uuidTrustee).then((data) => {
       setCertificates(data);
     });
-    get_eg_params(uuid).then((data) => {
+    getEgParams(uuid).then((data) => {
       setElGamalParams(data);
     });
   }, []);
