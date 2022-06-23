@@ -14,10 +14,16 @@ function CreateCustodio() {
    * View for create a new custodio
    */
 
+  /** @state {string} name for the new trustee  */
   const [name, setName] = useState("");
+
+  /** @state {string} login id for the new trustee  */
   const [login_id, setLoginId] = useState("");
+
+  /** @state {string} email for the new trustee  */
   const [email, setEmail] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
+
+  /** @state {string} feedback message for trustee creation  */
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
@@ -27,7 +33,7 @@ function CreateCustodio() {
 
   async function createCustodio() {
     /**
-     * Create a new custodio
+     * fetch POST create a new custodio
      */
     const token = sessionStorage.getItem("token");
     const url = backendIP + "/" + uuid + "/create-trustee";
@@ -51,7 +57,6 @@ function CreateCustodio() {
         },
       });
     } else {
-      showMessage(true);
       setMessage("Ocurrio un error al crear el custodio, intente nuevamente");
     }
   }
@@ -61,7 +66,6 @@ function CreateCustodio() {
      * Verify if form is valid
      */
     if (name === "" || email === "") {
-      setShowMessage(true);
       setMessage("Todos los campos son obligatorios");
     } else {
       createCustodio();
@@ -90,7 +94,7 @@ function CreateCustodio() {
         id="not-allowed-section"
       >
         <div onKeyDown={onKeyDownHandler} className="form-election">
-          {showMessage && (
+          {message && (
             <div class="notification is-danger is-light">{message}</div>
           )}
           <div className="field">
