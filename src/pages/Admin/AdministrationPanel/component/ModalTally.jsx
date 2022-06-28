@@ -1,10 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { backendIP } from "../../../../server";
 
-function ModalFreeze(props) {
-  async function freeze() {
-    const url = backendIP + "/" + props.uuid + "/start-election";
+function ModalTally(props) {
+  async function computeTally() {
+    const url = backendIP + "/" + props.uuid + "/compute-tally";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -16,13 +14,13 @@ function ModalFreeze(props) {
     const data = await response.json();
     if (response.status === 200) {
       props.feedback(data.message, "is-success");
-      props.freezeChange(true);
+      props.tallyChange(true);
       props.onHide();
     } else {
       props.feedback(data.message, "is-danger");
+      props.onHide();
     }
   }
-
   return (
     <div
       className={"modal " + (props.show ? "is-active" : "")}
@@ -32,10 +30,10 @@ function ModalFreeze(props) {
 
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">Iniciar elección</h1>
+          <h1 className="title">Computar Tally</h1>
           <div className="field">
             <label className="">
-              Estas seguro que quieres iniciar la votación?
+              Estas seguro que quieres computar el tally de la votación?
             </label>
           </div>
         </section>
@@ -50,9 +48,9 @@ function ModalFreeze(props) {
 
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
-              onClick={freeze}
+              onClick={computeTally}
             >
-              <span>INICIAR</span>
+              <span>COMPUTAR</span>
             </button>
           </div>
         </footer>
@@ -61,4 +59,4 @@ function ModalFreeze(props) {
   );
 }
 
-export default ModalFreeze;
+export default ModalTally;

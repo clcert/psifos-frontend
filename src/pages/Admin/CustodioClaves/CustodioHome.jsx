@@ -33,7 +33,7 @@ function CustodioHome(props) {
   );
 
   const disabledButton3 = Boolean(
-    election.encrypted_tally && !trustee.decryption_factors ? false : true
+    election.encrypted_tally && !trustee.decryption_factors ? false : false
   );
 
   useEffect(() => {
@@ -134,8 +134,13 @@ function CustodioHome(props) {
                   }
                   disabled={disabledButton3}
                 >
-                  <span>ETAPA 3:&nbsp;</span>
-                  <span>Desencriptar resultado final</span>
+                  <Link
+                    style={{ textDecoration: "None", color: "white" }}
+                    to={"/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove"}
+                  >
+                    <span>ETAPA 3:&nbsp;</span>
+                    <span>Desencriptar resultado final</span>
+                  </Link>
                 </button>
               </div>
               {!election.encrypted_tally && (

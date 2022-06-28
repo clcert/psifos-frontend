@@ -230,6 +230,9 @@ class EncryptedAnswer {
 }
 
 class EncryptedOpenAnswer extends EncryptedAnswer {
+  /**
+   * class to encrypt an open question
+   */
   constructor(question, answer, pk, progress, type) {
     super(question, answer, pk, progress, type);
     this.enc_ans_type = "encrypted_open_answer";
@@ -237,6 +240,10 @@ class EncryptedOpenAnswer extends EncryptedAnswer {
 }
 
 class EncryptedCloseAnswer extends EncryptedAnswer {
+  /**
+   * class to encrypt an closed question
+   */
+
   constructor(question, answer, pk, progress, type) {
     super(question, answer, pk, progress, type);
     this.enc_ans_type = "encrypted_closed_answer";

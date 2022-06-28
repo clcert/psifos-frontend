@@ -2,7 +2,7 @@ import { backendIP } from "../../../../server";
 
 function ModalCloseElection(props) {
   async function closeElection() {
-    const url = backendIP + "/" + props.uuid + "/close-election";
+    const url = backendIP + "/" + props.uuid + "/end-election";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -14,7 +14,7 @@ function ModalCloseElection(props) {
     const data = await response.json();
     if (response.status === 200) {
       props.feedback(data.message, "is-success");
-      props.freezeChange(false);
+      props.endChange(true);
       props.onHide();
     } else {
       props.feedback(data.message, "is-danger");

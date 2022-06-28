@@ -8,11 +8,11 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { backendIP } from "../../../server";
 import { getTrustee, getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-import getElection from "../../../utils/getElection";
 import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
 import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { HELIOS } from "../../../static/cabina/js/jscrypto/helios";
 import $ from "jquery";
 
 function DecryptProve(props) {
@@ -20,31 +20,64 @@ function DecryptProve(props) {
 
   const [trustee, setTrustee] = useState("");
   const [election, setElection] = useState("");
-  var TRUSTEE, CERTIFICATES, POINTS, ELECTION_JSON, ELECTION_PK,HELIOS, TALLY, PARAMS ;
+  const [params, setParams] = useState({});
+  const [certificates, setCertificates] = useState({});
+  const [points, setPoints] = useState({});
+  var TRUSTEE, CERTIFICATES, POINTS, ELECTION_JSON, ELECTION_PK, TALLY, PARAMS;
+
+  async function getDescrypt() {
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  }
 
   useEffect(() => {
-    console.log("awa");
-    getTrusteeHome(uuid, uuidTrustee).then((trusteeResponse) => {
-      console.log(trusteeResponse);
-      setTrustee(trusteeResponse.jsonResponse.trustee);
-      setElection(trusteeResponse.jsonResponse.election);
-    });
+    let params_aux, certificates_aux, points_aux, election_aux, trustee_aux;
 
-    // BigInt.setup(function () {
-    //   PARAMS = ElGamal.Params.fromJSONObject(election.params);
-    //   PARAMS.trustee_id = trustee.trustee_id;
-    //   ELECTION_JSON = election.toJSON;
-    //   ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
-    //     ELECTION_JSON["public_key"]
-    //   );
-    //   TALLY = HELIOS.Tally.fromJSONObject(
-    //     election.encrypted_tally.toJSON,
-    //     ELECTION_PK
-    //   );
-    //   CERTIFICATES = election.certificates;
-    //   POINTS = election.points ;
-    //   $("#sk_section").show();
-    // });
+    getDescrypt().then((data) => {
+      params_aux = JSON.parse(data.params);
+      certificates_aux = JSON.parse(data.certificates);
+      points_aux = data.points;
+      election_aux = data.election;
+      trustee_aux = JSON.parse(data.trustee);
+
+      console.log(params_aux);
+      console.log(certificates_aux);
+      console.log(points_aux);
+      console.log(election_aux);
+      console.log(trustee_aux);
+
+      setParams(params_aux);
+      setCertificates(certificates_aux);
+      setPoints(points_aux);
+      setElection(election_aux);
+      setTrustee(trustee_aux);
+
+      BigInt.setup(function () {
+        let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
+        PARAMS.trustee_id = trustee_aux.trustee_id;
+        console.log(PARAMS);
+        let ELECTION_JSON = JSON.parse(election_aux);
+        console.log(ELECTION_JSON);
+        let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
+          ELECTION_JSON["public_key"]
+        );
+        TALLY = HELIOS.Tally.fromJSONObject(
+          election.encrypted_tally.toJSON,
+          ELECTION_PK
+        );
+        CERTIFICATES = election.certificates;
+        POINTS = election.points;
+        $("#sk_section").show();
+      });
+    });
   }, []);
 
   function decrypt_and_prove_tally(tally, public_key, secret_key) {
@@ -237,68 +270,19 @@ function DecryptProve(props) {
           />
           <Title
             namePage="Custodio de Claves"
-            nameElection={"Paso 3: Verificación clave privada"}
+            nameElection={"Etapa 3: Verificación clave privada"}
           />
         </div>
       </section>
 
-      <section
-        className="section columns is-flex is-vcentered is-centered mb-0 mt-3"
-        id="medium-section"
-      >
-        {" "}
-        <div className="panel-body">
+      <section className="section" id="medium-section">
+        <div className="container has-text-centered is-max-desktop">
           <div className="panel-info has-text-white mb-4">
             <p className="panel-text">
               <span className="panel-text-sect">Custodio</span>: {trustee.name}
             </p>
-
-            <p className="panel-text">
-              <span className="panel-text-sect">Public Key Fingerprint</span>:
-              {trustee.public_key_hash}
-            </p>
-
-            <p className="panel-text">
-              <span className="panel-text-sect">
-                Encrypted Tally Fingerprint
-              </span>
-              : {election.encrypted_tally_hash}
-            </p>
-          </div>
-          <div className="panel-info has-text-white mb-4">
-            <ul
-              className="has-text-white has-text-left"
-              style={{ listStyle: "circle" }}
-            >
-              <li>
-                The encrypted tally for your election has been computed.
-                <br />
-                Now it's time to compute and submit your partial decryption.
-              </li>
-              <li>This process is performed in two steps.</li>
-              <li>
-                <u>First</u>, your secret key is used to decrypt the tally{" "}
-                <em>inside</em> your browser, without connecting to the network.
-                <br />
-                You can choose to take your browser "offline" for this step, if
-                you'd like.
-              </li>
-              <li>
-                <u>Second</u>, once your decryption factors have been computed,
-                your browser will need to be "online" <br />
-                to submit them to the server.
-              </li>
-              <li>
-                If you'd like, you can compute your decryption factors, copy
-                them to your clipboard, <br /> restart your browser, and skip to
-                the second step so that your browser is never <br />
-                online when you enter your secret key.
-              </li>
-            </ul>
           </div>
         </div>
-      </section>
-      <section className="section" id="medium-section">
         <div className="container has-text-centered has-text-white is-max-desktop">
           <p>
             The encrypted tally for your election has been computed.
@@ -306,32 +290,13 @@ function DecryptProve(props) {
             Now it's time to compute and submit your partial decryption.
           </p>
 
-          <p>This process is performed in two steps.</p>
-
           <div id="sk_section">
-            <h3>Primer paso: Sube su clave secreta</h3>
+            <h3>Sube su clave secreta</h3>
             <textarea class="textarea" placeholder="Clave secreta"></textarea>
 
             <div className="mt-4">
               <button className="button mr-2" onClick="do_tally();">
-                Generar descifrado parcial
-              </button>
-              <button className="button ml-2" onClick="do_tally();">
-                Saltar al segundo paso
-              </button>
-            </div>
-          </div>
-
-          <div id="result_div" className="mt-4">
-            <h3>Segundo paso: Sube tu descifrado parcial</h3>
-
-            <textarea
-              class="textarea"
-              placeholder="Factores de descifrado"
-            ></textarea>
-            <div className="mt-4">
-              <button className="button ml-2" onClick="">
-                Subir factores de descifrado
+                Generar desencriptado parcial
               </button>
             </div>
           </div>

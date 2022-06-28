@@ -11,6 +11,7 @@ import ModalFreeze from "./component/ModalFreeze";
 import logout from "../../../utils/utils";
 import ModalCloseElection from "./component/ModalCloseElection";
 import { getElection } from "../../../services/election";
+import ModalTally from "./component/ModalTally";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -24,7 +25,9 @@ function AdministrationPanel(props) {
   const [haveQuestions, setHaveQuestions] = useState(true);
 
   /** @state {bool} election have public keys */
-  const [canFreeze, setCanFreeze] = useState(true);
+  const [initElection, setInitElection] = useState(true);
+
+  const [closeElection, setCloseElection] = useState(false);
 
   /** @state {bool} election have voters */
   const [haveVoters, setHaveVoters] = useState(true);
@@ -56,6 +59,8 @@ function AdministrationPanel(props) {
   /** @state {bool} state modal close election */
   const [closeModal, setCloseModal] = useState(false);
 
+  const [tallyModal, setTallyModal] = useState(false);
+
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const [typeFeedback, setTypeFeedback] = useState("");
@@ -69,7 +74,7 @@ function AdministrationPanel(props) {
       if (resp.status === 200) {
         setTitleElection(jsonResponse.name);
         setHaveQuestions(jsonResponse.questions !== "");
-        setCanFreeze(jsonResponse.public_key === "");
+        setInitElection(jsonResponse.public_key !== "");
         setHaveVoters(jsonResponse.voters.length > 0);
         setHaveTrustee(jsonResponse.trustees.length > 0);
         setObscureVoter(jsonResponse.obscure_voter_names);
@@ -77,6 +82,7 @@ function AdministrationPanel(props) {
         setRandomizeAnswers(jsonResponse.randomize_answer_order);
         setTotalVoters(jsonResponse.voters.length);
         setTypeElection(jsonResponse.election_type);
+        setCloseElection(jsonResponse.voting_ended_at !== null);
       } else if (resp.status === 401) {
         logout();
       }
@@ -214,7 +220,7 @@ function AdministrationPanel(props) {
                   </p>
                 )}
 
-                {haveVoters && haveQuestions && haveTrustee && canFreeze && (
+                {haveVoters && haveQuestions && haveTrustee && !initElection && (
                   <p className="panel-text">
                     <span
                       onClick={() => setFreezeModal(true)}
@@ -225,16 +231,34 @@ function AdministrationPanel(props) {
                   </p>
                 )}
 
-                {haveVoters && haveQuestions && haveTrustee && !canFreeze && (
-                  <p className="panel-text">
-                    <span
-                      onClick={() => setCloseModal(true)}
-                      className="panel-text-sect"
-                    >
-                      <Link to="">Cerrar elección</Link>
-                    </span>
-                  </p>
-                )}
+                {haveVoters &&
+                  haveQuestions &&
+                  haveTrustee &&
+                  initElection &&
+                  !closeElection && (
+                    <p className="panel-text">
+                      <span
+                        onClick={() => setCloseModal(true)}
+                        className="panel-text-sect"
+                      >
+                        <Link to="">Cerrar elección</Link>
+                      </span>
+                    </p>
+                  )}
+                {haveVoters &&
+                  haveQuestions &&
+                  haveTrustee &&
+                  initElection &&
+                  closeElection &&  (
+                    <p className="panel-text">
+                      <span
+                        onClick={() => setTallyModal(true)}
+                        className="panel-text-sect"
+                      >
+                        <Link to="">Computar Tally</Link>
+                      </span>
+                    </p>
+                  )}
               </ul>
             </div>
 
@@ -251,7 +275,7 @@ function AdministrationPanel(props) {
         <ModalFreeze
           show={freezeModal}
           onHide={() => setFreezeModal(false)}
-          freezeChange={(newValue) => setCanFreeze(newValue)}
+          freezeChange={(newValue) => setInitElection(newValue)}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -261,6 +285,22 @@ function AdministrationPanel(props) {
         <ModalCloseElection
           show={closeModal}
           onHide={() => setCloseModal(false)}
+          endChange={(newValue) => setCloseElection(newValue)}
+          feedback={(message, type) => {
+            setFeedbackMessage(message);
+            setTypeFeedback(type);
+          }}
+          uuid={uuid}
+        />
+
+        <ModalTally
+          show={tallyModal}
+          onHide={() => setTallyModal(false)}
+          tallyChange={(newValue) => setCloseModal(newValue)}
+          feedback={(message, type) => {
+            setFeedbackMessage(message);
+            setTypeFeedback(type);
+          }}
           uuid={uuid}
         />
       </div>
