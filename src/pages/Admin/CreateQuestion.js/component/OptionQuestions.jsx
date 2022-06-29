@@ -102,14 +102,14 @@ function OptionQuestions(props) {
     }
 
     setCheckTotalOpenOptions(true);
-    if (String(totalOpenOptions) === "NaN" || totalOpenOptions === 0) {
+    if (String(totalOpenOptions) === "NaN" || totalOpenOptions < 0) {
       setTextTotalOpenOptions("Debe introducir un número mayor que 0");
       setCheckTotalOpenOptions(false);
       final_state = false;
     }
 
     setCheckOpenOptionsSize(true);
-    if (String(openOptionsSize) === "NaN" || openOptionsSize === 0) {
+    if (String(openOptionsSize) === "NaN" || openOptionsSize < 0) {
       setTextOpenOptionsSize("Debe introducir un número mayor que 0");
       setCheckOpenOptionsSize(false);
       final_state = false;

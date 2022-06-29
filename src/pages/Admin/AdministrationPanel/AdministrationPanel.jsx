@@ -29,6 +29,8 @@ function AdministrationPanel(props) {
 
   const [closeElection, setCloseElection] = useState(false);
 
+  const [tallyCompute, setTallyCompute] = useState(false);
+
   /** @state {bool} election have voters */
   const [haveVoters, setHaveVoters] = useState(true);
 
@@ -249,13 +251,28 @@ function AdministrationPanel(props) {
                   haveQuestions &&
                   haveTrustee &&
                   initElection &&
-                  closeElection &&  (
+                  closeElection && 
+                  !tallyCompute &&  (
                     <p className="panel-text">
                       <span
                         onClick={() => setTallyModal(true)}
                         className="panel-text-sect"
                       >
                         <Link to="">Computar Tally</Link>
+                      </span>
+                    </p>
+                  )}
+                  {haveVoters &&
+                  haveQuestions &&
+                  haveTrustee &&
+                  initElection &&
+                  closeElection && 
+                  tallyCompute &&  (
+                    <p className="panel-text">
+                      <span
+                        className="panel-text-sect"
+                      >
+                        <Link to="">Esperando desencriptaciones parciales</Link>
                       </span>
                     </p>
                   )}
@@ -296,7 +313,7 @@ function AdministrationPanel(props) {
         <ModalTally
           show={tallyModal}
           onHide={() => setTallyModal(false)}
-          tallyChange={(newValue) => setCloseModal(newValue)}
+          tallyChange={(newValue) => setTallyCompute(newValue)}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);

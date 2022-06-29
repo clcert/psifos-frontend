@@ -66,11 +66,11 @@ function CreateQuestion(props) {
       q_type: "open_question",
       q_text: "",
       q_description: "",
-      total_options: 3,
-      total_closed_options: 2,
+      total_options: 0,
+      total_closed_options: 0,
       closed_options: [],
       open_option_max_size: 50,
-      total_open_options: 1,
+      total_open_options: 0,
       min_answers: 1,
       max_answers: 1,
     });
@@ -141,6 +141,8 @@ function CreateQuestion(props) {
       if (auxQuestion[i].key === key) {
         auxQuestion[i].q_text = newName;
         auxQuestion[i].closed_options = [];
+        auxQuestion[i].total_closed_options = newValue.length;
+        auxQuestion[i].total_options = newValue.length;
         for (let j = 0; j < newValue.length; j++) {
           auxQuestion[i].closed_options[j] = newValue[j].value;
         }
