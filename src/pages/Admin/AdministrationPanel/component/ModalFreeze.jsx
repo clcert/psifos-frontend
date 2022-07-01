@@ -16,7 +16,7 @@ function ModalFreeze(props) {
     const data = await response.json();
     if (response.status === 200) {
       props.feedback(data.message, "is-success");
-      props.freezeChange(true);
+      props.freezeChange();
       props.onHide();
     } else {
       props.feedback(data.message, "is-danger");

@@ -12,6 +12,7 @@ import logout from "../../../utils/utils";
 import ModalCloseElection from "./component/ModalCloseElection";
 import { getElection } from "../../../services/election";
 import ModalTally from "./component/ModalTally";
+import ModalCombineTally from "./component/ModalCombineTally";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -26,10 +27,6 @@ function AdministrationPanel(props) {
 
   /** @state {bool} election have public keys */
   const [initElection, setInitElection] = useState(true);
-
-  const [closeElection, setCloseElection] = useState(false);
-
-  const [tallyCompute, setTallyCompute] = useState(false);
 
   /** @state {bool} election have voters */
   const [haveVoters, setHaveVoters] = useState(true);
@@ -63,9 +60,13 @@ function AdministrationPanel(props) {
 
   const [tallyModal, setTallyModal] = useState(false);
 
+  const [combineTallyModal, setCombineTallyModal] = useState(false);
+
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const [typeFeedback, setTypeFeedback] = useState("");
+
+  const [electionStatus, setElectionStatus] = useState("");
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
@@ -74,6 +75,7 @@ function AdministrationPanel(props) {
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
+        setElectionStatus(jsonResponse.election_status);
         setTitleElection(jsonResponse.name);
         setHaveQuestions(jsonResponse.questions !== "");
         setInitElection(jsonResponse.public_key !== "");
@@ -84,8 +86,6 @@ function AdministrationPanel(props) {
         setRandomizeAnswers(jsonResponse.randomize_answer_order);
         setTotalVoters(jsonResponse.voters.length);
         setTypeElection(jsonResponse.election_type);
-        setCloseElection(jsonResponse.voting_ended_at !== null);
-        setTallyCompute(jsonResponse.encrypted_tally !== "");
       } else if (resp.status === 401) {
         logout();
       }
@@ -195,7 +195,7 @@ function AdministrationPanel(props) {
               </p>
 
               <ul>
-                {!haveVoters && (
+                {!haveVoters && electionStatus === "Setting up" && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
                       <Link to={"/admin/" + uuid + "/urna"}>
@@ -204,7 +204,7 @@ function AdministrationPanel(props) {
                     </span>
                   </p>
                 )}
-                {!haveQuestions && (
+                {!haveQuestions && electionStatus === "Setting up" && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
                       <Link to={"/admin/" + uuid + "/create-question/"}>
@@ -213,7 +213,7 @@ function AdministrationPanel(props) {
                     </span>
                   </p>
                 )}
-                {!haveTrustee && (
+                {!haveTrustee && electionStatus === "Setting up" && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
                       <Link to={"/admin/" + uuid + "/trustee"}>
@@ -234,49 +234,43 @@ function AdministrationPanel(props) {
                   </p>
                 )}
 
-                {haveVoters &&
-                  haveQuestions &&
-                  haveTrustee &&
-                  initElection &&
-                  !closeElection && (
-                    <p className="panel-text">
-                      <span
-                        onClick={() => setCloseModal(true)}
-                        className="panel-text-sect"
-                      >
-                        <Link to="">Cerrar elección</Link>
-                      </span>
-                    </p>
-                  )}
-                {haveVoters &&
-                  haveQuestions &&
-                  haveTrustee &&
-                  initElection &&
-                  closeElection && 
-                  !tallyCompute &&  (
-                    <p className="panel-text">
-                      <span
-                        onClick={() => setTallyModal(true)}
-                        className="panel-text-sect"
-                      >
-                        <Link to="">Computar Tally</Link>
-                      </span>
-                    </p>
-                  )}
-                  {haveVoters &&
-                  haveQuestions &&
-                  haveTrustee &&
-                  initElection &&
-                  closeElection && 
-                  tallyCompute &&  (
-                    <p className="panel-text">
-                      <span
-                        className="panel-text-sect"
-                      >
-                        <Link to="">Esperando desencriptaciones parciales</Link>
-                      </span>
-                    </p>
-                  )}
+                {electionStatus === "Started" && (
+                  <p className="panel-text">
+                    <span
+                      onClick={() => setCloseModal(true)}
+                      className="panel-text-sect"
+                    >
+                      <Link to="">Cerrar elección</Link>
+                    </span>
+                  </p>
+                )}
+                {electionStatus === "Ended" && (
+                  <p className="panel-text">
+                    <span
+                      onClick={() => setTallyModal(true)}
+                      className="panel-text-sect"
+                    >
+                      <Link to="">Computar Tally</Link>
+                    </span>
+                  </p>
+                )}
+                {electionStatus === "Tally computed" && (
+                  <p className="panel-text">
+                    <span className="panel-text-sect">
+                      <Link to={"/admin/" + uuid + "/trustee"}>Esperando desencriptaciones parciales</Link>
+                    </span>
+                  </p>
+                )}
+                {electionStatus === "Descryptions uploaded" && (
+                  <p className="panel-text">
+                    <span
+                      onClick={() => setCombineTallyModal(true)}
+                      className="panel-text-sect"
+                    >
+                      <Link to="">Combinar desencriptaciones parciales</Link>
+                    </span>
+                  </p>
+                )}
               </ul>
             </div>
 
@@ -293,7 +287,7 @@ function AdministrationPanel(props) {
         <ModalFreeze
           show={freezeModal}
           onHide={() => setFreezeModal(false)}
-          freezeChange={(newValue) => setInitElection(newValue)}
+          freezeChange={() => setElectionStatus("Started")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -303,7 +297,7 @@ function AdministrationPanel(props) {
         <ModalCloseElection
           show={closeModal}
           onHide={() => setCloseModal(false)}
-          endChange={(newValue) => setCloseElection(newValue)}
+          endChange={() => setElectionStatus("Ended")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -314,7 +308,20 @@ function AdministrationPanel(props) {
         <ModalTally
           show={tallyModal}
           onHide={() => setTallyModal(false)}
-          tallyChange={(newValue) => setTallyCompute(newValue)}
+          tallyChange={() => setElectionStatus("Tally computed")}
+          feedback={(message, type) => {
+            setFeedbackMessage(message);
+            setTypeFeedback(type);
+          }}
+          uuid={uuid}
+        />
+
+        <ModalCombineTally
+          show={combineTallyModal}
+          onHide={() => setCombineTallyModal(false)}
+          combineChange={() =>
+            setElectionStatus("Descryptions combined")
+          }
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
