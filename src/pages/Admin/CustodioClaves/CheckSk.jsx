@@ -78,9 +78,9 @@ function CheckSk(props) {
             onChange={(e) => setSecretKey(e.target.value)}
           ></textarea>
           <p className="has-text-white">{feedbackMessage}</p>
-          <button id="button-init" className="button is-link mr-5">
+          <button id="button-init" className="button mr-5">
             <Link
-              style={{ textDecoration: "None", color: "white" }}
+              style={{ textDecoration: "None", color: "black" }}
               to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             >
               Volver atrás
@@ -88,7 +88,7 @@ function CheckSk(props) {
           </button>
           <button
             id="button-init"
-            className="button is-link mr-5"
+            className="button mr-5"
             onClick={() => check_sk()}
           >
             Verificar

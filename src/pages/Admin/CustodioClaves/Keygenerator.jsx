@@ -88,7 +88,7 @@ function Keygenerator(props) {
       method: "GET",
       credentials: "include",
     });
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       const jsonResponse = await resp.json();
       return jsonResponse.randomness;
     }
@@ -113,7 +113,7 @@ function Keygenerator(props) {
       body: data,
     });
 
-    if (resp.status == 200) {
+    if (resp.status === 200) {
       setActualStep(TRUSTEE_STEP + 1);
       setProcessFeedback("Paso " + step + " completada");
       TRUSTEE_STEP = TRUSTEE_STEP + 1;
@@ -529,7 +529,7 @@ function Keygenerator(props) {
           />
           <Title
             namePage="Custodio de Claves"
-            nameElection={"Paso 1: Generación de Claves " + trustee.name}
+            nameElection={"Etapa 1: Generación de Claves " + trustee.name}
           />
         </div>
       </section>
@@ -602,17 +602,16 @@ function Keygenerator(props) {
             {processFeedback}
           </div>
           <br />
-          <button id="button-init" className="button is-link mr-5">
+          <button id="button-init" className="button mr-5">
             <Link
-              style={{ textDecoration: "None", color: "white" }}
+              style={{ textDecoration: "None", color: "black" }}
               to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             >
               Volver atrás
             </Link>
           </button>
           <button
-            id="button-init"
-            className="button is-link mr-5"
+            className="button mr-5"
             disabled={!enabledButtonInit}
             onClick={() => {
               init_process();

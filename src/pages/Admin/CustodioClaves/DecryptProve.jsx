@@ -1,29 +1,34 @@
-import jquery from "jquery";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
+import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { backendIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import { backendIP } from "../../../server";
-import { getTrustee, getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
-import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
-import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
-import { HELIOS } from "../../../static/cabina/js/jscrypto/helios";
+import Tally from "../../../static/cabina/js/jscrypto/tally";
 import $ from "jquery";
 
 function DecryptProve(props) {
-  const { uuid, uuidTrustee } = useParams();
-
   const [trustee, setTrustee] = useState("");
   const [election, setElection] = useState("");
   const [params, setParams] = useState({});
+  const [secretKey, setSecretKey] = useState("");
   const [certificates, setCertificates] = useState({});
   const [points, setPoints] = useState({});
-  var TRUSTEE, CERTIFICATES, POINTS, ELECTION_JSON, ELECTION_PK, TALLY, PARAMS;
+  const [tally, setTally] = useState({});
+  const [descriptions, setDescriptions] = useState({});
+  const [electionPk, setElectionPk] = useState("");
+  const [tallyReady, setTallyReady] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState(
+    "Cargando información..."
+  );
+  const [generateDecrypt, setGenerateDecrypt] = useState(false);
+
+  const { uuid, uuidTrustee } = useParams();
 
   async function getDescrypt() {
     const url = "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
@@ -38,21 +43,37 @@ function DecryptProve(props) {
     return jsonResponse;
   }
 
+  async function sendDescrypt() {
+    setFeedbackMessage("Enviando información...");
+    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
+    const response = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: descriptions,
+    });
+    if (response.status === 200) {
+      setFeedbackMessage("Información enviada");
+      const jsonResponse = await response.json();
+      return jsonResponse;
+    } else {
+      setFeedbackMessage("Error al enviar información, intente nuevamente");
+      setGenerateDecrypt(false);
+      setTallyReady(false);
+    }
+  }
+
   useEffect(() => {
     let params_aux, certificates_aux, points_aux, election_aux, trustee_aux;
 
     getDescrypt().then((data) => {
       params_aux = JSON.parse(data.params);
       certificates_aux = JSON.parse(data.certificates);
-      points_aux = data.points;
+      points_aux = JSON.parse(data.points);
       election_aux = data.election;
       trustee_aux = JSON.parse(data.trustee);
-
-      console.log(params_aux);
-      console.log(certificates_aux);
-      console.log(points_aux);
-      console.log(election_aux);
-      console.log(trustee_aux);
 
       setParams(params_aux);
       setCertificates(certificates_aux);
@@ -63,74 +84,75 @@ function DecryptProve(props) {
       BigInt.setup(function () {
         let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
         PARAMS.trustee_id = trustee_aux.trustee_id;
-        console.log(PARAMS);
+        setParams(PARAMS);
         let ELECTION_JSON = JSON.parse(election_aux);
-        console.log(ELECTION_JSON);
         let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
           ELECTION_JSON["public_key"]
         );
-        TALLY = HELIOS.Tally.fromJSONObject(
-          election.encrypted_tally.toJSON,
+        setElectionPk(ELECTION_PK);
+        let TALLY = Tally.createAllTally(
+          JSON.parse(ELECTION_JSON.encrypted_tally),
           ELECTION_PK
         );
-        CERTIFICATES = election.certificates;
-        POINTS = election.points;
-        $("#sk_section").show();
+        setTally(TALLY);
       });
+      setFeedbackMessage("Listo para generar desencriptado parcial");
     });
   }, []);
 
-  function decrypt_and_prove_tally(tally, public_key, secret_key) {
-    // we need to keep track of the values of g^{voter_num} for decryption
-    var DISCRETE_LOGS = {};
-    var CURRENT_EXP = 0;
-    var CURRENT_RESULT = BigInt.ONE;
-    DISCRETE_LOGS[CURRENT_RESULT.toString()] = CURRENT_EXP;
-
-    // go through the num_tallied
-    while (CURRENT_EXP < tally.num_tallied) {
-      CURRENT_EXP += 1;
-      CURRENT_RESULT = CURRENT_RESULT.multiply(public_key.g).mod(public_key.p);
-      DISCRETE_LOGS[CURRENT_RESULT.toString()] = CURRENT_EXP;
+  useEffect(() => {
+    if (generateDecrypt) {
+      do_tally();
     }
+  }, [generateDecrypt]);
 
-    // initialize the arrays
-    var decryption_factors = [];
-    var decryption_proofs = [];
+  // function decrypt_and_prove_tally(tally, public_key, secret_key) {
+  //   // we need to keep track of the values of g^{voter_num} for decryption
+  //   // var DISCRETE_LOGS = {};
+  //   // var CURRENT_EXP = 0;
+  //   // var CURRENT_RESULT = BigInt.ONE;
+  //   // DISCRETE_LOGS[CURRENT_RESULT.toString()] = CURRENT_EXP;
 
-    // decrypt the tallies
-    $(tally.tally).each(function (q_num, q_tally) {
-      decryption_factors[q_num] = [];
-      decryption_proofs[q_num] = [];
+  //   // // go through the num_tallied
+  //   // while (CURRENT_EXP < tally.num_tallied) {
+  //   //   CURRENT_EXP += 1;
+  //   //   CURRENT_RESULT = CURRENT_RESULT.multiply(public_key.g).mod(public_key.p);
+  //   //   DISCRETE_LOGS[CURRENT_RESULT.toString()] = CURRENT_EXP;
+  //   // }
 
-      $(q_tally).each(function (choice_num, choice_tally) {
-        var one_choice_result = secret_key.decryptionFactorAndProof(
-          choice_tally,
-          ElGamal.fiatshamir_challenge_generator
-        );
+  //   // initialize the arrays
+  //   var decryption_factors = [];
+  //   var decryption_proofs = [];
 
-        decryption_factors[q_num][choice_num] =
-          one_choice_result.decryption_factor;
-        decryption_proofs[q_num][choice_num] =
-          one_choice_result.decryption_proof;
-      });
-    });
+  //   // decrypt the tallies
 
-    return {
-      decryption_factors: decryption_factors,
-      decryption_proofs: decryption_proofs,
-    };
-  }
+  //   tally.tally.forEach(function (choice_tally, choice_num) {
+  //     var one_choice_result = secret_key.decryptionFactorAndProof(
+  //       choice_tally,
+  //       ElGamal.fiatshamir_challenge_generator
+  //     );
+
+  //     decryption_factors[choice_num] = one_choice_result.decryption_factor;
+  //     decryption_proofs[choice_num] =
+  //       one_choice_result.decryption_proof.toJSONObject();
+  //   });
+
+  //   return {
+  //     tally_type: tally.tally_type,
+  //     decryption_factors: decryption_factors,
+  //     decryption_proofs: decryption_proofs,
+  //   };
+  // }
 
   function decrypt_open_answers(mixnet_open_answers, public_key, secret_key) {
     let open_answers = JSON.parse(mixnet_open_answers)["open_answers"];
     let decryption_factors = [];
     let decryption_proofs = [];
-    $(open_answers).each(function (q_num, q_open_answers) {
+    open_answers.forEach(function (q_open_answers, q_num) {
       decryption_factors[q_num] = [];
       decryption_proofs[q_num] = [];
 
-      $(q_open_answers["answers"]).each(function (ans_num, enc_ans) {
+      q_open_answers["answers"].forEach(function (enc_ans, ans_num) {
         let enc_ans_ciphertext = ElGamal.Ciphertext.fromJSONObject(
           enc_ans,
           public_key
@@ -151,114 +173,91 @@ function DecryptProve(props) {
   }
 
   function get_secret_key() {
-    TRUSTEE = helios_c.trustee_create(PARAMS, $("#sk_textarea").val());
+    helios_c.trustee = helios_c.trustee_create(params, secretKey);
+    helios_c.params = params;
+    helios_c.certificates = certificates;
+    helios_c.points = points;
     // TODO: check key
-    var sk = helios_c.ui_share.get_direct();
+    var sk = helios_c.ui_share_get_direct();
     return new ElGamal.SecretKey(sk.x, sk.public_key);
   }
 
-  function do_tally() {
-    $("#sk_section").hide();
-    $("#waiting_div").show();
-
+  async function do_tally() {
     var secret_key = get_secret_key();
 
     // ENCRYPTED TALLY :
-    var tally_factors_and_proof = decrypt_and_prove_tally(
-      TALLY,
-      ELECTION_PK,
-      secret_key
-    );
+    let tally_factors_and_proof = tally.map(function (q_tally) {
+      return q_tally.doDecrypt(electionPk, secret_key);
+    });
+
+    let final_json = {
+      factors_and_proofs: tally_factors_and_proof,
+    };
+    console.log(final_json);
+    console.log(JSON.stringify(final_json));
+    setDescriptions(JSON.stringify(final_json));
+    setFeedbackMessage("Listo para enviar el desencriptado parcial");
+    setTallyReady(true);
+
+    // var tally_factors_and_proof = decrypt_and_prove_tally(
+    //   TALLY,
+    //   ELECTION_PK,
+    //   secret_key
+    // );
 
     // json'ify it
-    var tally_factors = tally_factors_and_proof.decryption_factors;
-    var tally_decryption_proofs = $(
-      tally_factors_and_proof.decryption_proofs
-    ).map(function (i, q_proof) {
-      return $(q_proof).map(function (j, a_proof) {
-        return a_proof.toJSONObject();
-      });
-    });
+    // var tally_factors = tally_factors_and_proof.decryption_factors;
+    // let tally_decryption_proofs = tally_factors_and_proof.map(function (
+    //   q_proof
+    // ) {
+    //   console.log("q_proof", q_proof);
+    //   return q_proof.decryption_proofs.map(function (a_proof) {
+    //     console.log("a_proof", a_proof);
+    //     return a_proof.toJSONObject();
+    //   });
+    // });
 
-    var tally_factors_and_proofs = {
-      decryption_factors: tally_factors,
-      decryption_proofs: tally_decryption_proofs,
-    };
+    // console.log("tally json", tally_decryption_proofs)
 
-    // ENCRYPTED OPEN ANSWERS :
-    let open_answers_factors_and_proofs;
-    if (ELECTION_JSON["mixnet_open_answers"] !== null) {
-      open_answers_factors_and_proofs = decrypt_open_answers(
-        ELECTION_JSON["mixnet_open_answers"],
-        ELECTION_PK,
-        secret_key
-      );
-    } else {
-      open_answers_factors_and_proofs = {
-        decryption_factors: [],
-        decryption_proofs: [],
-      };
-    }
+    // var tally_factors_and_proofs = {
+    //   decryption_factors: tally_factors,
+    //   decryption_proofs: tally_decryption_proofs,
+    // };
 
-    // CREATE FINAL JSON:
-    let factors_and_proofs = {
-      answers: tally_factors_and_proofs,
-      open_answers: open_answers_factors_and_proofs,
-    };
-    let factors_and_proofs_json = $.toJSON(factors_and_proofs);
+    // console.log(tally_factors_and_proofs);
 
-    // clear stuff
-    secret_key = null;
-    $("#sk_textarea").val("");
+    // // ENCRYPTED OPEN ANSWERS :
+    // let open_answers_factors_and_proofs;
+    // if (ELECTION_JSON["mixnet_open_answers"] !== null) {
+    //   open_answers_factors_and_proofs = decrypt_open_answers(
+    //     ELECTION_JSON["mixnet_open_answers"],
+    //     ELECTION_PK,
+    //     secret_key
+    //   );
+    // } else {
+    //   open_answers_factors_and_proofs = {
+    //     decryption_factors: [],
+    //     decryption_proofs: [],
+    //   };
+    // }
 
-    // display the result in a text area.
-    $("#waiting_div").hide();
+    // // CREATE FINAL JSON:
+    // let factors_and_proofs = {
+    //   answers: tally_factors_and_proofs,
+    //   open_answers: open_answers_factors_and_proofs,
+    // };
+    // let factors_and_proofs_json = $.toJSON(factors_and_proofs);
 
-    $("#result_textarea").html(factors_and_proofs_json);
-    $("#result_div").show();
-    $("#first-step-success").show();
-  }
+    // // clear stuff
+    // secret_key = null;
+    // $("#sk_textarea").val("");
 
-  function submit_result() {
-    $("#result_div").hide();
-    $("#waiting_submit_div").show();
+    // // display the result in a text area.
+    // $("#waiting_div").hide();
 
-    var result = $("#result_textarea").val();
-
-    // do the post
-    $.ajax({
-      type: "POST",
-      url: "./upload-decryption",
-      data: { factors_and_proofs: result },
-      success: function (result) {
-        $("#waiting_submit_div").hide();
-        if (result != "FAILURE") {
-          $("#done_div").show();
-        } else {
-          alert("verification failed, you probably used the wrong key.");
-          reset();
-        }
-      },
-      error: function (error) {
-        $("#waiting_submit_div").hide();
-        $("#error_div").show();
-      },
-    });
-  }
-
-  function skip_to_second_step() {
-    $("#sk_section").hide();
-    $("#result_div").show();
-    $("#result_textarea").html("");
-    $("#skip_to_second_step_instructions").hide();
-  }
-
-  function reset() {
-    $("#result_div").hide();
-    $("#skip_to_second_step_instructions").show();
-    $("#sk_section").show();
-    $("#result_textarea").html("");
-    $("#first-step-success").hide();
+    // $("#result_textarea").html(factors_and_proofs_json);
+    // $("#result_div").show();
+    // $("#first-step-success").show();
   }
 
   return (
@@ -285,20 +284,55 @@ function DecryptProve(props) {
         </div>
         <div className="container has-text-centered has-text-white is-max-desktop">
           <p>
-            The encrypted tally for your election has been computed.
+            Se ha calculado el recuento cifrado de su elección.
             <br />
-            Now it's time to compute and submit your partial decryption.
+            Ahora es el momento de calcular y enviar su desencriptado parcial.
           </p>
 
           <div id="sk_section">
             <h3>Sube su clave secreta</h3>
-            <textarea class="textarea" placeholder="Clave secreta"></textarea>
+            <textarea
+              onChange={(e) => {
+                setSecretKey(e.target.value);
+              }}
+              className="textarea"
+              placeholder="Clave secreta"
+              disabled={generateDecrypt}
+            ></textarea>
+            <div className="mt-2">{feedbackMessage}</div>
 
             <div className="mt-4">
-              <button className="button mr-2" onClick="do_tally();">
-                Generar desencriptado parcial
+              <button className="button mr-2">
+                <Link
+                  style={{ textDecoration: "None", color: "black" }}
+                  to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+                >
+                  Volver atras
+                </Link>
               </button>
+              {!tallyReady ? (
+                <button
+                  className="button mr-2"
+                  disabled={generateDecrypt}
+                  onClick={() => {
+                    setGenerateDecrypt(true);
+                    setFeedbackMessage("Generando desencriptado parcial...");
+                  }}
+                >
+                  Generar desencriptado parcial
+                </button>
+              ) : (
+                <button
+                  className="button mr-2"
+                  onClick={() => {
+                    sendDescrypt();
+                  }}
+                >
+                  Enviar
+                </button>
+              )}
             </div>
+            <div className="mt-4"></div>
           </div>
         </div>
       </section>

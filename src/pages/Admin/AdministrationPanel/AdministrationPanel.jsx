@@ -85,6 +85,7 @@ function AdministrationPanel(props) {
         setTotalVoters(jsonResponse.voters.length);
         setTypeElection(jsonResponse.election_type);
         setCloseElection(jsonResponse.voting_ended_at !== null);
+        setTallyCompute(jsonResponse.encrypted_tally !== "");
       } else if (resp.status === 401) {
         logout();
       }

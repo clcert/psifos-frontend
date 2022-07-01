@@ -171,6 +171,7 @@ class Heliosc {
     if (i < this.params.l) {
       let id = i + 1;
       console.log("Decrypting point shared with trustee #" + id + "...");
+      console.log(helios_c.points)
 
       let pk = { g: this.params.g, p: this.params.p, q: this.params.q };
       pk.y = new BigInt(this.certificates[i].signature_key);
@@ -194,6 +195,7 @@ class Heliosc {
     for (let i = 0; i < this.params.l; i++) {
       let id = i + 1;
       pk.y = new BigInt(this.certificates[i].signature_key);
+      console.log(this.points)
       let point = this.trustee.decrypt_point(id, pk, this.points[i]);
       if (point) {
         SUM = SUM.add(point).mod(pk.q);
