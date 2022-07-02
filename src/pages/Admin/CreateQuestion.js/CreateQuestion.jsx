@@ -5,7 +5,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { backendIP } from "../../../server";
-import logout from "../../../utils/utils";
+import { getElection } from "../../../services/election";
 import SubNavbar from "../component/SubNavbar";
 import QuestionsForms from "./component/QuestionsForms";
 
@@ -26,35 +26,18 @@ function CreateQuestion(props) {
   /** @state {string} color state for state of creation */
   const [colorAlert, setColorAlert] = useState("");
 
+  const [disabledEdit, setDisabledEdit] = useState("");
+
   const [optionsChecked, setOptionsChecked] = useState(true);
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
   useEffect(() => {
-    async function getQuestions() {
-      /**
-       * async function to get the questions
-       */
-
-      const token = sessionStorage.getItem("token");
-      const response = await fetch(backendIP + "/get-questions/" + uuid, {
-        method: "GET",
-        headers: {
-          "x-access-tokens": token,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.status == 200) {
-        const data = await response.json();
-        if (data.length > 0) {
-          setQuestions(data);
-        }
-      } else if (response.status == 401) {
-        logout();
-      }
-    }
-    getQuestions();
+    getElection(uuid).then((resp) => {
+      setQuestions(JSON.parse(resp.jsonResponse.questions));
+      setDisabledEdit(resp.jsonResponse.election_status !== "Setting up");
+    });
   }, []);
 
   function addQuestion() {
@@ -271,6 +254,7 @@ function CreateQuestion(props) {
           {question.map((item, index) => {
             return (
               <QuestionsForms
+                disabledEdit={disabledEdit}
                 key={item.key}
                 question={item}
                 changeQuestion={(name, question) =>
@@ -314,11 +298,19 @@ function CreateQuestion(props) {
                 Volver inicio
               </Link>
             </Button>
-            <Button className="level-center mr-6" onClick={() => addQuestion()}>
+            <Button
+              disabled={disabledEdit}
+              className="level-center mr-6"
+              onClick={() => addQuestion()}
+            >
               Añadir pregunta
             </Button>
 
-            <Button className="level-right" onClick={() => sendQuestions()}>
+            <Button
+              disabled={disabledEdit}
+              className="level-right"
+              onClick={() => sendQuestions()}
+            >
               Guardar Preguntas
             </Button>
           </div>

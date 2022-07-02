@@ -1,4 +1,5 @@
 import { backendIP } from "../server";
+import logout from "../utils/utils";
 
 async function getElection(uuid) {
   /**
@@ -13,8 +14,12 @@ async function getElection(uuid) {
       "Content-Type": "application/json",
     },
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  if (resp.status == 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  } else if (resp.status == 401) {
+    logout();
+  }
 }
 
-export { getElection }
+export { getElection };

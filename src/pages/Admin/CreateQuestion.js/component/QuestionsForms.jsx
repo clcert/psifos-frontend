@@ -87,10 +87,12 @@ function QuestionsForms(props) {
       <div className="header-question level">
         <div className="level-left"></div>
         <div className="level-right">
-          <i
-            onClick={props.remove}
-            className="close-question fa-solid fa-trash"
-          ></i>
+          {!props.disabledEdit && (
+            <i
+              onClick={props.remove}
+              className="close-question fa-solid fa-trash"
+            ></i>
+          )}
         </div>
       </div>
 
@@ -98,6 +100,7 @@ function QuestionsForms(props) {
       <div className="is-flex mb-2 ">
         <input
           className="input"
+          disabled={props.disabledEdit}
           type="text"
           placeholder="Pregunta"
           value={question}
@@ -106,18 +109,23 @@ function QuestionsForms(props) {
             props.changeQuestion(question, answers);
           }}
         />
-        <select className="mr-2" onChange={changeQuestion} value={typeQuestion}>
+        <select
+          disabled={props.disabledEdit}
+          className="mr-2"
+          onChange={changeQuestion}
+          value={typeQuestion}
+        >
           <option value="open_question">Pregunta abierta</option>
           <option value="closed_question">Pregunta cerrada</option>
         </select>
       </div>
       <OptionQuestions
+        disabledEdit={props.disabledEdit}
         q_type={typeQuestion}
         changeOptions={props.changeOptions}
         question={props.question}
         checkOptions={props.checkOptions}
         answers={answers}
-
       />
 
       <div className="create-title ml-2 mb-1">Respuestas</div>
@@ -125,6 +133,7 @@ function QuestionsForms(props) {
         {answers.map((item, index) => {
           return (
             <InputQuestion
+              disabledEdit={props.disabledEdit}
               key={item.key}
               value={item.value}
               numberQuestion={item.key}
@@ -138,22 +147,23 @@ function QuestionsForms(props) {
           );
         })}
       </div>
-
-      <div className="is-flex level">
-        <div className="is-flex leve-left">
-          <Button
-            className="button-create-question"
-            onClick={() => {
-              addAnswer();
-            }}
-          >
-            Añadir opción
-          </Button>
+      {!props.disabledEdit && (
+        <div className="is-flex level">
+          <div className="is-flex leve-left">
+            <Button
+              className="button-create-question"
+              onClick={() => {
+                addAnswer();
+              }}
+            >
+              Añadir opción
+            </Button>
+          </div>
+          <div className="level-right">
+            <Button className="button-create-question">Duplicar</Button>
+          </div>
         </div>
-        <div className="level-right">
-          <Button className="button-create-question">Duplicar</Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

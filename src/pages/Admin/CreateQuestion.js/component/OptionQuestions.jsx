@@ -134,6 +134,7 @@ function OptionQuestions(props) {
         <label className="label">Descripción</label>
         <div className="control">
           <textarea
+            disabled={props.disabledEdit}
             value={description}
             className={
               "textarea is-small " + (checkDescription ? "" : "is-danger")
@@ -152,6 +153,7 @@ function OptionQuestions(props) {
             <label className="label">Cantidad minima respuestas</label>
             <div className="control">
               <input
+                disabled={props.disabledEdit}
                 value={minAnswers}
                 className={"input " + (checkMinAnswers ? "" : "is-danger")}
                 type="number"
@@ -169,6 +171,7 @@ function OptionQuestions(props) {
             <label className="label">Cantidad maximas respuestas</label>
             <div className="control">
               <input
+                disabled={props.disabledEdit}
                 value={maxAnswers}
                 className={"input " + (checkMaxAnswers ? "" : "is-danger")}
                 type="number"
@@ -189,6 +192,7 @@ function OptionQuestions(props) {
               <label className="label">Cantidad respuestas abiertas</label>
               <div className="control">
                 <input
+                  disabled={props.disabledEdit}
                   value={totalOpenOptions}
                   className={
                     "input " + (checkTotalOpenOptions ? "" : "is-danger")
@@ -210,6 +214,7 @@ function OptionQuestions(props) {
               <label className="label">Tamaño maximo respuesta abierta</label>
               <div className="control">
                 <input
+                  disabled={props.disabledEdit}
                   value={openOptionsSize}
                   className={
                     "input " + (checkOpenOptionsSize ? "" : "is-danger")

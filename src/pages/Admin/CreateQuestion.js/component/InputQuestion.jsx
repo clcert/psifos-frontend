@@ -15,6 +15,7 @@ function InputQuestion(props) {
   return (
     <div className="is-flex mb-2">
       <input
+        disabled={props.disabledEdit}
         value={value}
         onChange={(e) => {
           props.onChange(props.numberQuestion, e.target.value);
@@ -23,7 +24,9 @@ function InputQuestion(props) {
         type="text"
         placeholder="Respuesta"
       />
-      <Button onClick={props.delete}>X</Button>
+      <Button disabled={props.disabledEdit} onClick={props.delete}>
+        X
+      </Button>
     </div>
   );
 }
