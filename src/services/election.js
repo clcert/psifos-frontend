@@ -14,10 +14,10 @@ async function getElection(uuid) {
       "Content-Type": "application/json",
     },
   });
-  if (resp.status == 200) {
+  if (resp.status === 200) {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status == 401) {
+  } else if (resp.status === 401) {
     logout();
   }
 }

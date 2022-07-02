@@ -33,7 +33,7 @@ function CustodioHome(props) {
   );
 
   const disabledButton3 = Boolean(
-    election.encrypted_tally && !trustee.decryption_factors ? false : false
+    election.encrypted_tally && !trustee.decryptions ? false : true
   );
 
   useEffect(() => {
