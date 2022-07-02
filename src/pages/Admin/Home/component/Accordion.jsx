@@ -9,9 +9,9 @@ function Accordion(props) {
   const [stateElection, setStateElection] = useState("");
 
   function state() {
-    if (!props.election.voting_started_at) {
+    if (props.election.election_status === "Setting up") {
       setStateElection("En configuración");
-    } else if (!props.election.voting_stopped_at) {
+    } else if (props.election.election_status === "Started") {
       setStateElection("En curso");
     } else {
       setStateElection("Finalizada");
