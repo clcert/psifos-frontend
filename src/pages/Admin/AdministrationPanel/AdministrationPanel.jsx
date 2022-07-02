@@ -223,7 +223,7 @@ function AdministrationPanel(props) {
                   </p>
                 )}
 
-                {haveVoters && haveQuestions && haveTrustee && !initElection && (
+                {haveVoters && haveQuestions && haveTrustee && electionStatus === "Setting up" && (
                   <p className="panel-text">
                     <span
                       onClick={() => setFreezeModal(true)}
@@ -261,7 +261,7 @@ function AdministrationPanel(props) {
                     </span>
                   </p>
                 )}
-                {electionStatus === "Descryptions uploaded" && (
+                {electionStatus === "Decryptions uploaded" && (
                   <p className="panel-text">
                     <span
                       onClick={() => setCombineTallyModal(true)}

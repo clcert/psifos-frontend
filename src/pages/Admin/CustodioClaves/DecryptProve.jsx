@@ -191,7 +191,7 @@ function DecryptProve(props) {
     });
 
     let final_json = {
-      factors_and_proofs: tally_factors_and_proof,
+      decryptions: tally_factors_and_proof,
     };
     console.log(final_json);
     console.log(JSON.stringify(final_json));
