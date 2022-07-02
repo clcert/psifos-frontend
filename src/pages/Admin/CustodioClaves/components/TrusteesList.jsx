@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { backendIP, backendHeliosIP } from "../../../../server";
 import TextAlert from "../../../../component/Alerts/TextAlert";
 import { getTrustees } from "../../../../services/trustee";
+import InfoTrustee from "./InfoTrustee";
 function TrusteesList(props) {
   /** @state {array} trustees list */
   const [trustees, setTrustees] = useState([]);
@@ -91,17 +92,7 @@ function TrusteesList(props) {
                 )}
 
                 {props.election.encrypted_tally && (
-                  <p
-                    id="status-decryption-{{ forloop.counter0 }}"
-                    className="has-text-weight-bold is-size-5 status-decryption is-flex is-flex-direction-column"
-                  >
-                    ESPERANDO DESENCRIPTACIÓN PARCIAL
-                    <img
-                      className="is-align-self-center loading-trustee"
-                      src="{{ settings.STATIC_URL }}app/loading2.gif"
-                      alt=""
-                    />
-                  </p>
+                  <InfoTrustee trustee={t}/>
                 )}
               </div>
             );

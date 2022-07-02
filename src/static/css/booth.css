@@ -705,13 +705,23 @@ input[type="radio"] {
   background-color: #004c94 !important;
 }
 
-.status-decryption {
+#decryption-wait {
   margin-top: 2rem;
   background-color: white;
   border-radius: 10px;
   color: #004c94;
   padding: 1rem;
   border: 5px solid #fdd245;
+}
+
+#decryption-finish{
+
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  color: #004c94;
+  padding: 1rem;
+  border: 5px solid #52dc1c;
 }
 
 .loading-trustee {

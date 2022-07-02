@@ -71,7 +71,7 @@ function CustodioClaves(props) {
               </li>
             </ul>
           </div>
-          {!election.frozen_at && (
+          {election.election_status === "Setting up" && (
             <>
               <>
                 <button
