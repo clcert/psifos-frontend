@@ -43,25 +43,28 @@ function CreateElection(props) {
   /** @state {string} alert message  */
   const [alertMessage, setAlertMessage] = useState("");
 
+  const [disabledEdit, setDisabledEdit] = useState("");
+
   /** @urlParam {string} uuid of election  */
   const { uuid } = useParams();
 
   useEffect(() => {
     if (props.edit) {
-      getElection().then((election) => {
-        const { resp, data } = election;
+      getElection(uuid).then((election) => {
+        const { resp, jsonResponse } = election;
         if (resp.status === 200) {
-          setShortName(data.short_name);
-          setName(data.name);
-          setDescription(data.description);
-          setElectionType(data.election_type.toLocaleLowerCase());
-          setMaxWeight(data.max_weight);
-          setVoterAliases(data.obscure_voter_names);
-          setRandomizeAnswer(data.randomize_answer_order);
-          setPrivateElection(data.private_p);
-          setNormalization(data.normalization);
+          setDisabledEdit(jsonResponse.election_status !== "Setting up");
+          setShortName(jsonResponse.short_name);
+          setName(jsonResponse.name);
+          setDescription(jsonResponse.description);
+          setElectionType(jsonResponse.election_type.toLocaleLowerCase());
+          setMaxWeight(jsonResponse.max_weight);
+          setVoterAliases(jsonResponse.obscure_voter_names);
+          setRandomizeAnswer(jsonResponse.randomize_answer_order);
+          setPrivateElection(jsonResponse.private_p);
+          setNormalization(jsonResponse.normalization);
         } else {
-          setAlertMessage(data.message);
+          setAlertMessage(jsonResponse.message);
         }
       });
     }
@@ -110,7 +113,7 @@ function CreateElection(props) {
 
   function checkData() {
     /**
-     * function to check if the data is correct
+     * function to check if the jsonResponse is correct
      */
 
     if (shortName.length === 0 || shortName.length > 100) {
@@ -157,6 +160,7 @@ function CreateElection(props) {
             <label className="label label-form-election">Nombre corto</label>
             <div className="control">
               <input
+                disabled={disabledEdit}
                 className="input"
                 type="text"
                 placeholder="Nombre corto"
@@ -177,6 +181,7 @@ function CreateElection(props) {
             </label>
             <div className="control">
               <input
+                disabled={disabledEdit}
                 className="input"
                 type="text"
                 placeholder="Nombre de la elección"
@@ -194,6 +199,7 @@ function CreateElection(props) {
             <label className="label label-form-election">Descripción</label>
             <div className="control">
               <textarea
+                disabled={disabledEdit}
                 className="textarea"
                 placeholder="Descripción"
                 value={description}
@@ -210,6 +216,7 @@ function CreateElection(props) {
             <div className="control">
               <div className="select">
                 <select
+                  disabled={disabledEdit}
                   value={electionType}
                   onChange={(e) => {
                     setElectionType(e.target.value);
@@ -228,6 +235,7 @@ function CreateElection(props) {
             </label>
             <div className="control">
               <input
+                disabled={disabledEdit}
                 className="input"
                 type="number"
                 placeholder="Peso maximo"
@@ -243,6 +251,7 @@ function CreateElection(props) {
             <div className="control">
               <label className="checkbox">
                 <input
+                  disabled={disabledEdit}
                   onChange={(e) => {
                     setVoterAliases(e.target.checked);
                   }}
@@ -262,6 +271,7 @@ function CreateElection(props) {
             <div className="control">
               <label className="checkbox">
                 <input
+                  disabled={disabledEdit}
                   onChange={(e) => {
                     setRandomizeAnswer(e.target.checked);
                   }}
@@ -273,7 +283,7 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              actívelo si desea que las respuestas a las preguntas aparezcan en
+              Actívelo si desea que las respuestas a las preguntas aparezcan en
               orden aleatorio para cada votante
             </p>
           </div>
@@ -281,6 +291,7 @@ function CreateElection(props) {
             <div className="control">
               <label className="checkbox">
                 <input
+                  disabled={disabledEdit}
                   onChange={(e) => {
                     setPrivateElection(e.target.checked);
                   }}
@@ -300,6 +311,7 @@ function CreateElection(props) {
             <div className="control">
               <label className="checkbox">
                 <input
+                  disabled={disabledEdit}
                   onChange={(e) => {
                     setNormalization(e.target.checked);
                   }}
@@ -316,17 +328,18 @@ function CreateElection(props) {
             </p>
           </div>
           <div className="level">
-            <Button className="button-custom mr-2 ml-2 level-left">
-              <Link
-                className="link-button"
-                style={{ color: "white" }}
-                to={props.edit ? "/admin/" + uuid + "/panel" : "/admin/home"}
-              >
+            <Link
+              className="link-button"
+              style={{ color: "white" }}
+              to={props.edit ? "/admin/" + uuid + "/panel" : "/admin/home"}
+            >
+              <Button className="button-custom mr-2 ml-2 level-left">
                 Atras
-              </Link>
-            </Button>
+              </Button>
+            </Link>
             {props.edit ? (
               <Button
+                disabled={disabledEdit}
                 onClick={() => {
                   sendElection("/edit-election/" + uuid);
                 }}
