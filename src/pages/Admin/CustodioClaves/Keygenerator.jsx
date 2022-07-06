@@ -508,24 +508,13 @@ function Keygenerator(props) {
     },
   };
 
-  // start collecting some local randomness
-
-  // get some more server-side randomness for keygen
-  // $.getJSON("../../get-randomness", function (result) {
-  //   sjcl.random.addEntropy(result.randomness);
-  //   BigInt.setup(function () {
-  //     ELGAMAL_PARAMS = ElGamal.Params.fromJSONObject("{{eg_params_json|safe}}");
-  //     ELGAMAL_PARAMS.trustee_id = "{{trustee.trustee_id}}";
-  //     TRUSTEE = heliosc.trustee(ELGAMAL_PARAMS);
-  //   });
-  // });
-
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
             adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title
             namePage="Custodio de Claves"
@@ -610,7 +599,27 @@ function Keygenerator(props) {
               Volver atrás
             </Link>
           </button>
-          <button
+          {actualStep === 4 ? (
+            <button id="button-init" className="button mr-5">
+              <Link
+                style={{ textDecoration: "None", color: "black" }}
+                to={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
+              >
+                Verificar clave privada
+              </Link>
+            </button>
+          ) : (
+            <button
+              className="button mr-5"
+              disabled={!enabledButtonInit}
+              onClick={() => {
+                init_process();
+              }}
+            >
+              {textButtonInit}
+            </button>
+          )}
+          {/* <button
             className="button mr-5"
             disabled={!enabledButtonInit}
             onClick={() => {
@@ -618,7 +627,7 @@ function Keygenerator(props) {
             }}
           >
             {textButtonInit}
-          </button>
+          </button> */}
         </div>
       </section>
       <div>

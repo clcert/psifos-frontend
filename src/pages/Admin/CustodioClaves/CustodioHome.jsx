@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { backendIP } from "../../../server";
-import { getTrustee, getTrusteeHome } from "../../../services/trustee";
+import { getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import NoAuth from "../../Cabina/NoAuth";
+import StepButton from "./components/StepButton";
 
 function CustodioHome(props) {
   const [trustee, setTrustee] = useState([]);
@@ -29,25 +30,31 @@ function CustodioHome(props) {
   );
 
   const disabledButton2 = Boolean(
-    trustee.public_key && !election.encrypted_tally ? false : true
+    trustee.public_key && election.encrypted_tally !== "" ? false : true
   );
 
   const disabledButton3 = Boolean(
-    election.encrypted_tally && !trustee.decryptions ? false : true
+    trustee.current_step === 4 &&
+      election.encrypted_tally !== "" &&
+      trustee.decryptions === ""
+      ? false
+      : true
   );
+
 
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
       window.location.href = backendIP + "/" + uuid + "/trustee/login";
     }
-    getTrusteeHome(uuid, uuidTrustee).then((trustee) => {
+    getTrusteeHome(uuid, uuidTrustee).then((data) => {
       try {
-        const jsonResponse = trustee.jsonResponse.trustee;
-        const resp = trustee.resp;
+        const { resp, jsonResponse } = data;
+
         setLoad(true);
         if (resp.status === 200) {
           setAuth(true);
-          setTrustee(jsonResponse);
+          setTrustee(jsonResponse.trustee);
+          setElection(jsonResponse.election);
         } else if (resp.status === 401) {
           setNoAuthMessage(
             "La elección no existe o no estas habilitado para generar llaves en ella"
@@ -77,7 +84,8 @@ function CustodioHome(props) {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
-              adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+              addressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+              addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
             <Title
               namePage="Custodio de Claves"
@@ -93,55 +101,32 @@ function CustodioHome(props) {
             </h1>
             <div className="is-flex is-align-items-center is-flex-direction-column">
               <div className="is-flex is-flex-direction-column">
-                <button
-                  className={
-                    "button is-medium step-button my-2 " +
-                    (disabledButton1 ? "inactive-button" : "")
-                  }
+                <StepButton
+                  step={1}
                   disabled={disabledButton1}
-                >
-                  <Link
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={
-                      "/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
-                    }
-                  >
-                    <span>ETAPA 1:&nbsp;</span>
-                    <span>Generar llaves.</span>
-                  </Link>
-                </button>
-
-                <button
-                  className={
-                    "button is-medium step-button my-2 " +
-                    (disabledButton2 ? "inactive-button" : "")
+                  text="Generar llaves."
+                  linkTo={
+                    "/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
                   }
+                />
+                <StepButton
+                  step={2}
                   disabled={disabledButton2}
-                >
-                  <Link
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
-                  >
-                    <span>ETAPA 2:&nbsp;</span>
-                    <span>Verifica tu Clave Privada</span>
-                  </Link>
-                </button>
-
-                <button
-                  className={
-                    "button is-medium step-button my-2 " +
-                    (disabledButton3 ? "inactive-button" : "")
-                  }
+                  text="Verifica tu Clave Privada"
+                  linkTo={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
+                />
+                <StepButton
+                  step={3}
                   disabled={disabledButton3}
-                >
-                  <Link
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={"/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove"}
-                  >
-                    <span>ETAPA 3:&nbsp;</span>
-                    <span>Desencriptar resultado final</span>
-                  </Link>
-                </button>
+                  text="Desencriptar resultado final"
+                  linkTo={
+                    "/" +
+                    uuid +
+                    "/trustee/" +
+                    uuidTrustee +
+                    "/decrypt-and-prove"
+                  }
+                />
               </div>
               {!election.encrypted_tally && (
                 <p className="has-text-white pt-5">
@@ -150,8 +135,8 @@ function CustodioHome(props) {
                 </p>
               )}
 
-              {trustee.decryption_factors ? (
-                <p className="has-text-white pt-5">
+              {trustee.decryptions ? (
+                <p className="has-text-white">
                   Ya has completado exitosamente todos los pasos como vocal de
                   la elección. Muchas gracias por tu participación.
                 </p>

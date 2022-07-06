@@ -3,6 +3,7 @@ import { useState } from "react";
 import ModalInfo from "./ModalInfo";
 import ModalHelp from "./ModalHelp";
 import NavbarLogo from "./NavbarLogo";
+import { Link } from "react-router-dom";
 
 function MyNavbar(props) {
   /** @state {bool} state for info modal */
@@ -10,6 +11,8 @@ function MyNavbar(props) {
 
   /** @state {bool} state for help modal */
   const [showHelp, setShowHelp] = useState(false);
+
+  console.log(props.addressInit)
 
   return (
     <div className="container">
@@ -26,14 +29,15 @@ function MyNavbar(props) {
             <div className="navbar-end">
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
-                  <a
-                    href={"https://participa.uchile.cl/"}
+                  <Link
+                    to={props.addressInit}
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"
                   >
                     INICIO
-                  </a>
+                  </Link>
+
                   <a
                     onClick={() => {
                       setShowInfo(true);
@@ -53,7 +57,7 @@ function MyNavbar(props) {
                     AYUDA
                   </a>
                   <a
-                    href={props.adressExit}
+                    href={props.addressExit}
                     className="menu-text-admin"
                     id="text-button"
                   >

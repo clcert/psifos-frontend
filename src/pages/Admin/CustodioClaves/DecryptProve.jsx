@@ -10,7 +10,6 @@ import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
 import Tally from "../../../static/cabina/js/jscrypto/tally";
-import $ from "jquery";
 
 function DecryptProve(props) {
   const [trustee, setTrustee] = useState("");
@@ -266,6 +265,7 @@ function DecryptProve(props) {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
             adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title
             namePage="Custodio de Claves"

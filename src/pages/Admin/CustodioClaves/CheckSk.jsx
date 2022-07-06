@@ -59,6 +59,7 @@ function CheckSk(props) {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
             adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title
             namePage="Custodio de Claves"
