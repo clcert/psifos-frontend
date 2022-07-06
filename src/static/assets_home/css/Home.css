@@ -12543,7 +12543,16 @@ Panel administración
 
 .panel-text-sect {
   font-weight: 600;
-  font-size: 1.3rem;
+}
+
+.link-without-line{
+  text-decoration: none;
+  color: #004c94
+}
+
+.link-without-line:hover{
+  text-decoration: none;
+  color: #6dcaf3
 }
 
 .panel-info {
@@ -12733,4 +12742,18 @@ Consult
 .query-question-answer-image {
   border: 2px solid #004b93;
   cursor: pointer;
+}
+
+
+.card-admin{
+
+  margin: 1rem;
+  background-color: white;
+  border-radius: 2px;
+  border: #004990;
+  padding: 1rem;
+}
+
+.alert-copy{
+ color: #007d46;
 }

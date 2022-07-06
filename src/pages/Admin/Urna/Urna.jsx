@@ -57,7 +57,7 @@ function Urna() {
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
           <div style={{ width: "70%" }}>
-            {!election.frozen_at && (
+            {/* {!election.frozen_at && (
               <SettingsUrna
                 reg={election.openreg}
                 uuid={uuid}
@@ -65,7 +65,7 @@ function Urna() {
                   setElectionOpenReg(newState);
                 }}
               />
-            )}
+            )} */}
             <br />
             <div className="d-flex justify-content-center">
               {election.frozen_at && (

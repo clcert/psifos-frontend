@@ -13,6 +13,10 @@ import ModalCloseElection from "./component/ModalCloseElection";
 import { getElection } from "../../../services/election";
 import ModalTally from "./component/ModalTally";
 import ModalCombineTally from "./component/ModalCombineTally";
+import CardInfo from "./component/CardInfo";
+import CardSettings from "./component/CardSettings";
+import CardSteps from "./component/CardSteps";
+import UploadModal from "../Urna/components/UploadModal";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -68,6 +72,9 @@ function AdministrationPanel(props) {
 
   const [electionStatus, setElectionStatus] = useState("");
 
+  /** @state {bool} upload modal state */
+  const [uploadModal, setUploadModal] = useState(false);
+
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
@@ -107,11 +114,8 @@ function AdministrationPanel(props) {
 
         <SubNavbar active={1} />
 
-        <section
-          className="section columns is-flex is-vcentered is-centered mb-0 mt-3"
-          id="accordion-section"
-        >
-          <div className="panel-body">
+        <section className="section mb-0 mt-3" id="accordion-section">
+          <div className="container is-max-desktop">
             {feedbackMessage && (
               <div className={"notification is-primary " + typeFeedback}>
                 <button
@@ -126,27 +130,54 @@ function AdministrationPanel(props) {
               {titleElection}
             </div>
             <hr />
+            <div class="columns">
+              <div class="column">
+                <CardSettings haveQuestions={haveQuestions} />
+                <CardSteps
+                  electionStatus={electionStatus}
+                  haveVoters={haveVoters}
+                  haveQuestions={haveQuestions}
+                  haveTrustee={haveTrustee}
+                  freezeModal={() => setFreezeModal(true)}
+                  closeModal={() => setCloseModal(true)}
+                  tallyModal={() => setTallyModal(true)}
+                  combineTallyModal={() => setCombineTallyModal(true)}
+                  uploadModalonClick={(value) => {
+                    setUploadModal(value);
+                  }}
+                />
+              </div>
+              <div class="column">
+                <CardInfo
+                  typeElection={typeElection}
+                  totalVoters={totalVoters}
+                  obscureVoter={obscureVoter}
+                  privateElection={privateElection}
+                  randomizeAnswers={randomizeAnswers}
+                />
+              </div>
+            </div>
 
-            <div className="panel-action mb-4">
+            {/* <div className="panel-action mb-4">
               <Link to={"/admin/" + uuid + "/edit-election/"}>
                 <Button className="button-custom mr-2 ml-2"> Editar</Button>
-              </Link>
-              <Button className="button-custom mr-2 ml-2">Archivar</Button>
-              <Button className="button-custom mr-2 ml-2">Copiar</Button>
-              <Button
+              </Link> */}
+            {/* <Button className="button-custom mr-2 ml-2">Archivar</Button> */}
+            {/* <Button className="button-custom mr-2 ml-2">Copiar</Button> */}
+            {/* <Button
                 className="button-custom mr-2 ml-2"
                 onClick={() => {
                   setExtendElectionModal(true);
                 }}
               >
                 Extender votación
-              </Button>
-              <Link to={"/admin/" + uuid + "/create-question/"}>
+              </Button> */}
+            {/* <Link to={"/admin/" + uuid + "/create-question/"}>
                 <Button className="button-custom mr-2 ml-2">Preguntas</Button>
               </Link>
-            </div>
+            </div> */}
 
-            <div className="panel-info mb-4">
+            {/* <div className="panel-info mb-4">
               <p className="panel-text">
                 <span className="panel-text-sect">Estado</span>: Activa
               </p>
@@ -198,9 +229,7 @@ function AdministrationPanel(props) {
                 {!haveVoters && electionStatus === "Setting up" && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
-                      <Link to={"/admin/" + uuid + "/urna"}>
-                        Añadir votantes
-                      </Link>
+                      <Link to="">Añadir votantes</Link>
                     </span>
                   </p>
                 )}
@@ -223,16 +252,19 @@ function AdministrationPanel(props) {
                   </p>
                 )}
 
-                {haveVoters && haveQuestions && haveTrustee && electionStatus === "Setting up" && (
-                  <p className="panel-text">
-                    <span
-                      onClick={() => setFreezeModal(true)}
-                      className="panel-text-sect"
-                    >
-                      <Link to="">Iniciar elección</Link>
-                    </span>
-                  </p>
-                )}
+                {haveVoters &&
+                  haveQuestions &&
+                  haveTrustee &&
+                  electionStatus === "Setting up" && (
+                    <p className="panel-text">
+                      <span
+                        onClick={() => setFreezeModal(true)}
+                        className="panel-text-sect"
+                      >
+                        <Link to="">Iniciar elección</Link>
+                      </span>
+                    </p>
+                  )}
 
                 {electionStatus === "Started" && (
                   <p className="panel-text">
@@ -257,7 +289,9 @@ function AdministrationPanel(props) {
                 {electionStatus === "Tally computed" && (
                   <p className="panel-text">
                     <span className="panel-text-sect">
-                      <Link to={"/admin/" + uuid + "/trustee"}>Esperando desencriptaciones parciales</Link>
+                      <Link to={"/admin/" + uuid + "/trustee"}>
+                        Esperando desencriptaciones parciales
+                      </Link>
                     </span>
                   </p>
                 )}
@@ -272,11 +306,11 @@ function AdministrationPanel(props) {
                   </p>
                 )}
               </ul>
-            </div>
+            </div> */}
 
-            <div className="panel-audit">
+            {/* <div className="panel-audit">
               <AccordionAudit />
-            </div>
+            </div> */}
           </div>
         </section>
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
@@ -319,15 +353,14 @@ function AdministrationPanel(props) {
         <ModalCombineTally
           show={combineTallyModal}
           onHide={() => setCombineTallyModal(false)}
-          combineChange={() =>
-            setElectionStatus("Descryptions combined")
-          }
+          combineChange={() => setElectionStatus("Descryptions combined")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
           uuid={uuid}
         />
+        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} />
       </div>
     </>
   );
