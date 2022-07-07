@@ -95,7 +95,7 @@ function CreateCustodio() {
       >
         <div onKeyDown={onKeyDownHandler} className="form-election">
           {message && (
-            <div class="notification is-danger is-light">{message}</div>
+            <div className="notification is-danger is-light">{message}</div>
           )}
           <div className="field">
             <label className="label label-form-election">Nombre</label>

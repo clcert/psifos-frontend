@@ -109,7 +109,10 @@ function Cabina(props) {
     return type === "Query" ? (
       <Consult electionData={electionData}></Consult>
     ) : (
-      <CabinaElection electionData={electionData}></CabinaElection>
+      <CabinaElection
+        preview={props.preview}
+        electionData={electionData}
+      ></CabinaElection>
     );
   }
 }

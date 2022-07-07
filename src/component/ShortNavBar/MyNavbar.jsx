@@ -12,7 +12,6 @@ function MyNavbar(props) {
   /** @state {bool} state for help modal */
   const [showHelp, setShowHelp] = useState(false);
 
-  console.log(props.addressInit)
 
   return (
     <div className="container">

@@ -145,7 +145,7 @@ function OptionQuestions(props) {
             }}
           ></textarea>
         </div>
-        {!checkDescription && <p class="help is-danger">{textDescription}</p>}
+        {!checkDescription && <p className="help is-danger">{textDescription}</p>}
       </div>
       <div className="columns">
         <div className="column">
@@ -163,7 +163,7 @@ function OptionQuestions(props) {
                 }}
               />
             </div>
-            {!checkMinAnswers && <p class="help is-danger">{textMinAnswers}</p>}
+            {!checkMinAnswers && <p className="help is-danger">{textMinAnswers}</p>}
           </div>
         </div>
         <div className="column">
@@ -182,7 +182,7 @@ function OptionQuestions(props) {
               />
             </div>
           </div>
-          {!checkMaxAnswers && <p class="help is-danger">{textMaxAnswers}</p>}
+          {!checkMaxAnswers && <p className="help is-danger">{textMaxAnswers}</p>}
         </div>
       </div>
       {props.q_type === "open_question" && (
@@ -205,7 +205,7 @@ function OptionQuestions(props) {
                 />
               </div>
               {!checkTotalOpenOptions && (
-                <p class="help is-danger">{textTotalOpenOptions}</p>
+                <p className="help is-danger">{textTotalOpenOptions}</p>
               )}
             </div>
           </div>
@@ -228,7 +228,7 @@ function OptionQuestions(props) {
               </div>
             </div>
             {!checkOpenOptionsSize && (
-              <p class="help is-danger">{textOpenOptionsSize}</p>
+              <p className="help is-danger">{textOpenOptionsSize}</p>
             )}
           </div>
         </div>

@@ -15,7 +15,7 @@ function CardSettings(props) {
 
       <div className="is-size-6">
         <div className="content-card-admin">
-          <i class="fa-solid fa-pen-to-square pr-1 mr-2"></i>
+          <i className="fa-solid fa-pen-to-square pr-1 mr-2"></i>
           <Link
             className="link-without-line"
             to={"/admin/" + uuid + "/edit-election/"}
@@ -24,7 +24,7 @@ function CardSettings(props) {
           </Link>
         </div>
         <div className="content-card-admin">
-          <i class="fa-solid fa-circle-question pr-2 mr-1"></i>
+          <i className="fa-solid fa-circle-question pr-2 mr-1"></i>
           <Link
             className="link-without-line"
             to={"/admin/" + uuid + "/create-question/"}
@@ -35,7 +35,7 @@ function CardSettings(props) {
 
         {props.haveQuestions && (
           <div className="content-card-admin">
-            <i class="fa-solid fa-person-booth mr-2"></i>
+            <i className="fa-solid fa-person-booth mr-2"></i>
             <Link
               className="link-without-line"
               to={"/admin/" + uuid + "/cabina"}
@@ -46,7 +46,7 @@ function CardSettings(props) {
         )}
 
         <div className="content-card-admin">
-          <i class="fa-solid fa-check-to-slot mr-2"></i>
+          <i className="fa-solid fa-check-to-slot mr-2"></i>
           <CopyToClipboard
             text={backendIP + "/vote/" + uuid}
             onCopy={() => setShowCopyMessage(true)}

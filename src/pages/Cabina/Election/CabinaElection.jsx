@@ -54,31 +54,34 @@ function CabinaElection(props) {
   }, [props.electionData]);
 
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
+
   let BOOTH_PSIFOS = new BoothPsifos(
     JSON.stringify(props.electionData),
-    election_metadata
+    election_metadata,
+    props.preview
   );
+
   const phases = {
+    // 1: {
+    //   sectionClass: "parallax-01",
+    //   stage: 1,
+    //   component: (
+    //     <>
+    //       <MediaSection />
+    //       <InstructionsSection
+    //         beginAction={() => {
+    //           setActualPhase(2);
+    //         }}
+    //       />{" "}
+    //     </>
+    //   ),
+    // },
     1: {
-      sectionClass: "parallax-01",
-      stage: 1,
-      component: (
-        <>
-          <MediaSection />
-          <InstructionsSection
-            beginAction={() => {
-              setActualPhase(2);
-            }}
-          />{" "}
-        </>
-      ),
-    },
-    2: {
       sectionClass: "parallax-02",
       stage: 1,
       component: <></>,
     },
-    3: {
+    2: {
       sectionClass: "parallax-03",
       stage: 2,
       component: (
@@ -87,7 +90,7 @@ function CabinaElection(props) {
         </>
       ),
     },
-    4: {
+    3: {
       sectionClass: "parallax-03",
       stage: 2,
       component: (
@@ -95,25 +98,25 @@ function CabinaElection(props) {
           <ProgressBar phase={2} />
           <ReviewQuestions
             audit={() => {
-              setActualPhase(6);
+              setActualPhase(5);
             }}
             answers={answers}
             questions={questions}
             changeAnswer={(question) => {
               setActualQuestion(question);
-              setActualPhase(2);
+              setActualPhase(1);
             }}
             sendVote={() => {
               BOOTH_PSIFOS.sendJson(uuid).then((res) => {
                 setVoteHash(res);
-                setActualPhase(5);
+                setActualPhase(4);
               });
             }}
           />
         </>
       ),
     },
-    5: {
+    4: {
       sectionClass: "parallax-03",
       stage: 3,
       component: (
@@ -123,14 +126,14 @@ function CabinaElection(props) {
         </>
       ),
     },
-    6: {
+    5: {
       sectionClass: "parallax-03",
       stage: 3,
       component: (
         <>
           <AuditSection
             auditBack={() => {
-              setActualPhase(2);
+              setActualPhase(1);
             }}
           />
         </>
@@ -146,13 +149,18 @@ function CabinaElection(props) {
             adressExit={backendIP + "/vote/" + uuid + "/logout"}
             addressInit=""
           />
-          <Title namePage="Cabina Votación" nameElection={nameElection} />
+          <Title
+            namePage={
+              props.preview ? "Previsualización de votación" : "Cabina votación"
+            }
+            nameElection={nameElection}
+          />
         </div>
       </section>
 
       <div
         style={{
-          display: actualPhase === 2 ? "block" : "none",
+          display: actualPhase === 1 ? "block" : "none",
         }}
       >
         <ProgressBar phase={phases[actualPhase].stage} />
@@ -162,7 +170,7 @@ function CabinaElection(props) {
               questions={questions}
               afterEncrypt={(answersQuestions) => {
                 setAnswers(answersQuestions);
-                setActualPhase(4);
+                setActualPhase(3);
               }}
               nextQuestion={(num) => {
                 setActualQuestion(num);
