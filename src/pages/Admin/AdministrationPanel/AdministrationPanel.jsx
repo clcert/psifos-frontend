@@ -72,6 +72,8 @@ function AdministrationPanel(props) {
 
   const [electionStatus, setElectionStatus] = useState("");
 
+  const [trustees, setTrustees] = useState([]);
+
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
 
@@ -88,6 +90,7 @@ function AdministrationPanel(props) {
         setInitElection(jsonResponse.public_key !== "");
         setHaveVoters(jsonResponse.voters.length > 0);
         setHaveTrustee(jsonResponse.trustees.length > 0);
+        setTrustees(jsonResponse.trustees);
         setObscureVoter(jsonResponse.obscure_voter_names);
         setPrivateElection(jsonResponse.private_p);
         setRandomizeAnswers(jsonResponse.randomize_answer_order);
@@ -130,8 +133,8 @@ function AdministrationPanel(props) {
               {titleElection}
             </div>
             <hr />
-            <div class="columns">
-              <div class="column">
+            <div className="columns">
+              <div className="column">
                 <CardSettings haveQuestions={haveQuestions} />
                 <CardSteps
                   electionStatus={electionStatus}
@@ -147,13 +150,15 @@ function AdministrationPanel(props) {
                   }}
                 />
               </div>
-              <div class="column">
+              <div className="column">
                 <CardInfo
                   typeElection={typeElection}
                   totalVoters={totalVoters}
                   obscureVoter={obscureVoter}
                   privateElection={privateElection}
                   randomizeAnswers={randomizeAnswers}
+                  trustees={trustees}
+                  electionStatus={electionStatus}
                 />
               </div>
             </div>

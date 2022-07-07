@@ -93,7 +93,7 @@ function CardSteps(props) {
           </span>
         </div>
       )}
-      {props.electionStatus === "Decryptions combined" && (
+      {props.electionStatus === "Descryptions combined" && (
         <div className="content-card-admin">
           <span onClick={() => props.combineTallyModal()}>
             <Link to={"/admin/" + uuid + "/resultado"} className="link-without-line">
