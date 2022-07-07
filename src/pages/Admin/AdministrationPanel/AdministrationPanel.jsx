@@ -80,7 +80,10 @@ function AdministrationPanel(props) {
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  useEffect(() => {
+  function updateInfo() {
+    /**
+     * Get election and trustee info
+     */
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
@@ -100,6 +103,10 @@ function AdministrationPanel(props) {
         logout();
       }
     });
+  }
+
+  useEffect(() => {
+    updateInfo();
   }, []);
 
   return (
@@ -152,6 +159,7 @@ function AdministrationPanel(props) {
               </div>
               <div className="column">
                 <CardInfo
+                  updateInfo={updateInfo}
                   typeElection={typeElection}
                   totalVoters={totalVoters}
                   obscureVoter={obscureVoter}

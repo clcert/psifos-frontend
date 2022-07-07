@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { backendIP } from "../../../../server";
+import { Link } from "react-router-dom";
 
 function CardInfo(props) {
-  const { uuid } = useParams();
 
   const [decryptionNumber, setDecryptionNumber] = useState(0);
 
@@ -20,7 +18,12 @@ function CardInfo(props) {
 
   return (
     <div className="box ">
-      <div className="is-size-4">Información elección</div>
+      <div className="is-size-4">
+        Información elección
+        <span className="ml-3 is-size-6" onClick={()=> {props.updateInfo()}}>
+          <Link className="link-without-line" to=""><i class="fa-solid fa-arrows-rotate"></i> Actualizar</Link>
+        </span>
+      </div>
 
       <hr />
       <div className="is-size-5">
@@ -48,12 +51,15 @@ function CardInfo(props) {
           {props.trustees.length}
         </div>
 
-        {props.electionStatus === "Tally computed" || props.electionStatus === "Decryptions uploaded" && (
-          <div className="content-card-admin">
-            <span className="panel-text-sect">Desencriptaciones Parciales</span>
-            : {decryptionNumber}/{props.trustees.length}
-          </div>
-        )}
+        {props.electionStatus === "Tally computed" ||
+          (props.electionStatus === "Decryptions uploaded" && (
+            <div className="content-card-admin">
+              <span className="panel-text-sect">
+                Desencriptaciones Parciales
+              </span>
+              : {decryptionNumber}/{props.trustees.length}
+            </div>
+          ))}
 
         <div className="content-card-admin">
           <span className="panel-text-sect">
