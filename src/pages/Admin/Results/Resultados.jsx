@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { backendIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import SubNavbar from "../component/SubNavbar";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
+import { getElection } from "../../../services/election";
 
 function Resultados() {
   /**
@@ -12,7 +12,7 @@ function Resultados() {
    */
 
   /** @state {string} name election */
-  const [electionName, setElectionName] = useState("test");
+  const [election, setElection] = useState("");
 
   /** @state {array} election results (resume) */
   const [results, setResults] = useState([]);
@@ -23,25 +23,15 @@ function Resultados() {
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  useEffect(function effectFunction() {
-    async function getResults() {
-      /**
-       * Get results of an election
-       */
-
-      const resp = await fetch(backendIP + "/elections/" + uuid + "/result", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const jsonResponse = await resp.json();
-
-      setResults(JSON.parse(jsonResponse.result));
-      setQuestions(JSON.parse(jsonResponse.questions));
-    }
-    getResults();
+  useEffect(() => {
+    getElection(uuid).then((election) => {
+      const { resp, jsonResponse } = election;
+      if (resp.status === 200) {
+        setElection(jsonResponse);
+        setQuestions(JSON.parse(jsonResponse.questions));
+        setResults(JSON.parse(jsonResponse.result));
+      }
+    });
   }, []);
   return (
     <div id="content-results">
@@ -51,7 +41,7 @@ function Resultados() {
 
           <Title
             namePage="Resultados Preliminares"
-            nameElection={electionName}
+            nameElection={election.name}
           />
         </div>
       </section>
@@ -62,17 +52,17 @@ function Resultados() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        {results ? (
+        {results.length > 0 ? (
           <>
             {questions.map((question, index) => {
               return (
-                <>
+                <div key={index}>
                   <div className="box" id="question-box-results" key={index}>
                     <b>
                       <span className="has-text-info">
-                        Opción n° {index + 1}:{" "}
+                        Pregunta n° {index + 1}:{" "}
                       </span>
-                      {question.question}
+                      {question.q_text}
                     </b>
                     <br />
                   </div>
@@ -81,18 +71,18 @@ function Resultados() {
                       <thead>
                         <tr>
                           <th className="has-text-centered">Respuesta</th>
-                          <th className="has-text-centered">Resultado</th>
+                          <th className="has-text-centered pl-4 pr-4">Resultado</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {results[index].map((result, index) => {
+                        {results[index].ans_results.map((result, index) => {
                           return (
-                            <tr className="p-8" key={index}>
+                            <tr className="has-text-centered" key={index}>
                               <td>
-                                <b className="p-4">1</b>
+                                <b className="p-4">{question.closed_options[index]}</b>
                               </td>
-                              <td align="right">
-                                <b className="p-4">1</b>
+                              <td>
+                                <b className="p-4">{result}</b>
                               </td>
                             </tr>
                           );
@@ -100,7 +90,7 @@ function Resultados() {
                       </tbody>
                     </table>
                   </div>
-                </>
+                </div>
               );
             })}
           </>
