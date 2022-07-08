@@ -21,7 +21,7 @@ function CardInfo(props) {
       <div className="is-size-4">
         Información elección
         <span className="ml-3 is-size-6" onClick={()=> {props.updateInfo()}}>
-          <Link className="link-without-line" to=""><i class="fa-solid fa-arrows-rotate"></i> Actualizar</Link>
+          <Link className="link-without-line" to=""><i className="fa-solid fa-arrows-rotate"></i> Actualizar</Link>
         </span>
       </div>
 

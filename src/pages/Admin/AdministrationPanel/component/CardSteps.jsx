@@ -15,6 +15,7 @@ function CardSteps(props) {
             onClick={() => {
               props.uploadModalonClick(true);
             }}
+            className="panel-text-sect"
           >
             <Link className="link-without-line" to="">
               Añadir votantes
@@ -24,22 +25,26 @@ function CardSteps(props) {
       )}
       {!props.haveQuestions && props.electionStatus === "Setting up" && (
         <div className="content-card-admin">
-          <Link
-            className="link-without-line"
-            to={"/admin/" + uuid + "/create-question/"}
-          >
-            Añadir Preguntas
-          </Link>
+          <span className="panel-text-sect">
+            <Link
+              className="link-without-line"
+              to={"/admin/" + uuid + "/create-question/"}
+            >
+              Añadir Preguntas
+            </Link>
+          </span>
         </div>
       )}
       {!props.haveTrustee && props.electionStatus === "Setting up" && (
         <div className="content-card-admin">
-          <Link
-            className="link-without-line"
-            to={"/admin/" + uuid + "/trustee"}
-          >
-            Añadir Custodios
-          </Link>
+          <span className="panel-text-sect">
+            <Link
+              className="link-without-line"
+              to={"/admin/" + uuid + "/trustee"}
+            >
+              Añadir Custodios
+            </Link>
+          </span>
         </div>
       )}
 
@@ -48,7 +53,10 @@ function CardSteps(props) {
         props.haveTrustee &&
         props.electionStatus === "Setting up" && (
           <div className="content-card-admin">
-            <span onClick={() => props.freezeModal()} className="">
+            <span
+              onClick={() => props.freezeModal()}
+              className="panel-text-sect"
+            >
               <Link className="link-without-line" to="">
                 Iniciar elección
               </Link>
@@ -76,27 +84,38 @@ function CardSteps(props) {
       )}
       {props.electionStatus === "Tally computed" && (
         <div className="content-card-admin">
-          <Link
-            className="link-without-line"
-            to={"/admin/" + uuid + "/trustee"}
-          >
-            Esperando desencriptaciones parciales
-          </Link>
+          <span className="panel-text-sect">
+            <Link
+              className="link-without-line"
+              to={"/admin/" + uuid + "/trustee"}
+            >
+              Esperando desencriptaciones parciales
+            </Link>
+          </span>
         </div>
       )}
       {props.electionStatus === "Decryptions uploaded" && (
         <div className="content-card-admin">
-          <span onClick={() => props.combineTallyModal()}>
+          <span
+            onClick={() => props.combineTallyModal()}
+            className="panel-text-sect"
+          >
             <Link className="link-without-line" to="">
               Combinar desencriptaciones parciales
             </Link>
           </span>
         </div>
       )}
-      {props.electionStatus === "Descryptions combined" && (
+      {props.electionStatus === "Decryptions combined" && (
         <div className="content-card-admin">
-          <span onClick={() => props.combineTallyModal()}>
-            <Link to={"/admin/" + uuid + "/resultado"} className="link-without-line">
+          <span
+            onClick={() => props.combineTallyModal()}
+            className="panel-text-sect"
+          >
+            <Link
+              to={"/admin/" + uuid + "/resultado"}
+              className="link-without-line"
+            >
               Ver resultados
             </Link>
           </span>

@@ -1,11 +1,9 @@
-import { Button } from "react-bulma-components";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
-import AccordionAudit from "./component/AccordionAudit";
 import ExtendElection from "./component/ExtendElection";
 import ModalFreeze from "./component/ModalFreeze";
 import logout from "../../../utils/utils";
@@ -170,160 +168,6 @@ function AdministrationPanel(props) {
                 />
               </div>
             </div>
-
-            {/* <div className="panel-action mb-4">
-              <Link to={"/admin/" + uuid + "/edit-election/"}>
-                <Button className="button-custom mr-2 ml-2"> Editar</Button>
-              </Link> */}
-            {/* <Button className="button-custom mr-2 ml-2">Archivar</Button> */}
-            {/* <Button className="button-custom mr-2 ml-2">Copiar</Button> */}
-            {/* <Button
-                className="button-custom mr-2 ml-2"
-                onClick={() => {
-                  setExtendElectionModal(true);
-                }}
-              >
-                Extender votación
-              </Button> */}
-            {/* <Link to={"/admin/" + uuid + "/create-question/"}>
-                <Button className="button-custom mr-2 ml-2">Preguntas</Button>
-              </Link>
-            </div> */}
-
-            {/* <div className="panel-info mb-4">
-              <p className="panel-text">
-                <span className="panel-text-sect">Estado</span>: Activa
-              </p>
-
-              <p className="panel-text">
-                <span className="panel-text-sect">Tipo de votación</span>:{" "}
-                {typeElection === "Election" ? "Elección" : "Consulta"}
-              </p>
-
-              <p className="panel-text">
-                <span className="panel-text-sect">Cantidad de votantes</span>:{" "}
-                {totalVoters}
-              </p>
-
-              <p className="panel-text">
-                <span className="panel-text-sect">
-                  Esconder nombre de los votantes:{" "}
-                </span>
-                {obscureVoter ? (
-                  <i className="fa-solid fa-check" />
-                ) : (
-                  <i className="fa-solid fa-x" />
-                )}
-              </p>
-
-              <p className="panel-text">
-                <span className="panel-text-sect">Elección privada</span>:{" "}
-                {privateElection ? (
-                  <i className="fa-solid fa-check" />
-                ) : (
-                  <i className="fa-solid fa-x" />
-                )}
-              </p>
-
-              <p className="panel-text">
-                <span className="panel-text-sect">Aleatorizar respuestas</span>:{" "}
-                {randomizeAnswers ? (
-                  <i className="fa-solid fa-check" />
-                ) : (
-                  <i className="fa-solid fa-x" />
-                )}
-              </p>
-
-              <p className="panel-text">
-                <span className="panel-text-sect">Proximos pasos</span>:
-              </p>
-
-              <ul>
-                {!haveVoters && electionStatus === "Setting up" && (
-                  <p className="panel-text">
-                    <span className="panel-text-sect">
-                      <Link to="">Añadir votantes</Link>
-                    </span>
-                  </p>
-                )}
-                {!haveQuestions && electionStatus === "Setting up" && (
-                  <p className="panel-text">
-                    <span className="panel-text-sect">
-                      <Link to={"/admin/" + uuid + "/create-question/"}>
-                        Añadir Preguntas
-                      </Link>
-                    </span>
-                  </p>
-                )}
-                {!haveTrustee && electionStatus === "Setting up" && (
-                  <p className="panel-text">
-                    <span className="panel-text-sect">
-                      <Link to={"/admin/" + uuid + "/trustee"}>
-                        Añadir Custodios
-                      </Link>
-                    </span>
-                  </p>
-                )}
-
-                {haveVoters &&
-                  haveQuestions &&
-                  haveTrustee &&
-                  electionStatus === "Setting up" && (
-                    <p className="panel-text">
-                      <span
-                        onClick={() => setFreezeModal(true)}
-                        className="panel-text-sect"
-                      >
-                        <Link to="">Iniciar elección</Link>
-                      </span>
-                    </p>
-                  )}
-
-                {electionStatus === "Started" && (
-                  <p className="panel-text">
-                    <span
-                      onClick={() => setCloseModal(true)}
-                      className="panel-text-sect"
-                    >
-                      <Link to="">Cerrar elección</Link>
-                    </span>
-                  </p>
-                )}
-                {electionStatus === "Ended" && (
-                  <p className="panel-text">
-                    <span
-                      onClick={() => setTallyModal(true)}
-                      className="panel-text-sect"
-                    >
-                      <Link to="">Computar Tally</Link>
-                    </span>
-                  </p>
-                )}
-                {electionStatus === "Tally computed" && (
-                  <p className="panel-text">
-                    <span className="panel-text-sect">
-                      <Link to={"/admin/" + uuid + "/trustee"}>
-                        Esperando desencriptaciones parciales
-                      </Link>
-                    </span>
-                  </p>
-                )}
-                {electionStatus === "Decryptions uploaded" && (
-                  <p className="panel-text">
-                    <span
-                      onClick={() => setCombineTallyModal(true)}
-                      className="panel-text-sect"
-                    >
-                      <Link to="">Combinar desencriptaciones parciales</Link>
-                    </span>
-                  </p>
-                )}
-              </ul>
-            </div> */}
-
-            {/* <div className="panel-audit">
-              <AccordionAudit />
-            </div> */}
           </div>
         </section>
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
@@ -366,7 +210,7 @@ function AdministrationPanel(props) {
         <ModalCombineTally
           show={combineTallyModal}
           onHide={() => setCombineTallyModal(false)}
-          combineChange={() => setElectionStatus("Descryptions combined")}
+          combineChange={() => setElectionStatus("Decryptions combined")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
