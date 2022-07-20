@@ -56,7 +56,7 @@ function Urna() {
         <SubNavbar active={3} />
 
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
-          <div style={{ width: "70%" }}>
+          <div>
             {/* {!election.frozen_at && (
               <SettingsUrna
                 reg={election.openreg}
@@ -109,7 +109,7 @@ function Urna() {
           </div>
         </section>
         <ElectionCode uuid={uuid} />
-        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} />
+        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} uuid={uuid} />
         <DeleteModal show={deleteModal} onHide={() => setDeleteModal(false)} />
       </div>
     );

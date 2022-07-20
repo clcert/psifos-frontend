@@ -199,39 +199,19 @@ function VotersTable(props) {
               return (
                 <tbody key={index}>
                   <tr>
-                    {!election.use_voter_aliases && (
-                      <>
-                        <td className="align-middle has-text-centered">
-                          {voter.voter_login_id}
-                        </td>
-                        {!election.openreg && (
-                          <>
-                            <td className="align-middle has-text-centered">
-                              {voter.voter_name}
-                            </td>
-                          </>
-                        )}
-                      </>
+                    <td className="align-middle has-text-centered">
+                      {voter.voter_login_id}
+                    </td>
+                    {!election.openreg && (
+                      <td className="align-middle has-text-centered">
+                        {voter.voter_name}
+                      </td>
                     )}
+
                     {election.use_voter_aliases && <td>{voter.alias}</td>}
                     <td>
                       <tt className="align-middle has-text-centered">
-                        {
-                          voter.vote_hash ? (
-                            <>
-                              {election.voting_stopped && (
-                                <>
-                                  <IconAlert
-                                    icon="fa-solid fa-eye"
-                                    href=""
-                                  ></IconAlert>
-                                </>
-                              )}
-                            </>
-                          ) : (
-                            <></>
-                          ) // TODO: Revisar esto
-                        }
+                        {voter.cast_vote.vote_hash}
                       </tt>
                     </td>
                     <td className="align-middle has-text-centered">
@@ -290,11 +270,9 @@ function VotersTable(props) {
     );
   } else {
     return (
-      <>
-        <br />
-        <br />
-        <em>no voters.</em>
-      </>
+      <div className="box mt-4" id="not-results-box">
+        <p className="is-size-3 has-text-weight-bold">Aun no hay votantes.</p>
+      </div>
     );
   }
 }
