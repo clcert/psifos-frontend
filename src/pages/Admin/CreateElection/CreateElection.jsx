@@ -137,7 +137,7 @@ function CreateElection(props) {
         </div>
       </section>
 
-      <SubNavbar active={1} />
+      {props.edit && <SubNavbar active={1} />}
 
       <section
         className="section columns is-flex is-vcentered is-centered mb-0 mt-3"
