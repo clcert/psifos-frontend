@@ -72,6 +72,8 @@ function AdministrationPanel(props) {
 
   const [trustees, setTrustees] = useState([]);
 
+  const [load, setLoad] = useState(false);
+
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
 
@@ -97,6 +99,7 @@ function AdministrationPanel(props) {
         setRandomizeAnswers(jsonResponse.randomize_answer_order);
         setTotalVoters(jsonResponse.voters.length);
         setTypeElection(jsonResponse.election_type);
+        setLoad(true);
       } else if (resp.status === 401) {
         logout();
       }
@@ -122,54 +125,60 @@ function AdministrationPanel(props) {
 
         <SubNavbar active={1} />
 
-        <section className="section mb-0 mt-3" id="accordion-section">
-          <div className="container is-max-desktop">
-            {feedbackMessage && (
-              <div className={"notification is-primary " + typeFeedback}>
-                <button
-                  className="delete"
-                  onClick={() => setFeedbackMessage("")}
-                ></button>
-                {feedbackMessage}
+        <section
+          className="section voters-section is-flex is-flex-direction-column is-align-items-center"
+          id="accordion-section"
+        >
+          {load ? (
+            <div className="container is-max-desktop">
+              {feedbackMessage && (
+                <div className={"notification is-primary " + typeFeedback}>
+                  <button
+                    className="delete"
+                    onClick={() => setFeedbackMessage("")}
+                  ></button>
+                  {feedbackMessage}
+                </div>
+              )}
+              <div className="has-text-centered title is-size-4-mobile">
+                {titleElection}
               </div>
-            )}
-
-            <div className="has-text-centered title is-size-4-mobile">
-              {titleElection}
+              <hr />
+              <div className="columns">
+                <div className="column">
+                  <CardSettings haveQuestions={haveQuestions} />
+                  <CardSteps
+                    uuid={uuid}
+                    electionStatus={electionStatus}
+                    haveVoters={haveVoters}
+                    haveQuestions={haveQuestions}
+                    haveTrustee={haveTrustee}
+                    freezeModal={() => setFreezeModal(true)}
+                    closeModal={() => setCloseModal(true)}
+                    tallyModal={() => setTallyModal(true)}
+                    combineTallyModal={() => setCombineTallyModal(true)}
+                    uploadModalonClick={(value) => {
+                      setUploadModal(value);
+                    }}
+                  />
+                </div>
+                <div className="column">
+                  <CardInfo
+                    electionStatus={electionStatus}
+                    updateInfo={updateInfo}
+                    typeElection={typeElection}
+                    totalVoters={totalVoters}
+                    obscureVoter={obscureVoter}
+                    privateElection={privateElection}
+                    randomizeAnswers={randomizeAnswers}
+                    trustees={trustees}
+                  />
+                </div>
+              </div>
             </div>
-            <hr />
-            <div className="columns">
-              <div className="column">
-                <CardSettings haveQuestions={haveQuestions} />
-                <CardSteps
-                  uuid={uuid}
-                  electionStatus={electionStatus}
-                  haveVoters={haveVoters}
-                  haveQuestions={haveQuestions}
-                  haveTrustee={haveTrustee}
-                  freezeModal={() => setFreezeModal(true)}
-                  closeModal={() => setCloseModal(true)}
-                  tallyModal={() => setTallyModal(true)}
-                  combineTallyModal={() => setCombineTallyModal(true)}
-                  uploadModalonClick={(value) => {
-                    setUploadModal(value);
-                  }}
-                />
-              </div>
-              <div className="column">
-                <CardInfo
-                  electionStatus={electionStatus}
-                  updateInfo={updateInfo}
-                  typeElection={typeElection}
-                  totalVoters={totalVoters}
-                  obscureVoter={obscureVoter}
-                  privateElection={privateElection}
-                  randomizeAnswers={randomizeAnswers}
-                  trustees={trustees}
-                />
-              </div>
-            </div>
-          </div>
+          ) : (
+            <div className="spinner-animation"></div>
+          )}
         </section>
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
         <ExtendElection

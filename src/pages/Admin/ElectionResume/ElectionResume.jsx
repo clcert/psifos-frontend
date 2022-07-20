@@ -23,7 +23,7 @@ function ElectionResume() {
   const [weightsEnd, setWeightsEnd] = useState({});
 
   /** @state {string} state of loading data */
-  const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
@@ -49,7 +49,7 @@ function ElectionResume() {
         setWeightsInit(JSON.parse(jsonResponse.weights_init));
         setWeightsEnd(JSON.parse(jsonResponse.weights_end));
 
-        setLoading(true);
+        setLoad(true);
         return jsonResponse;
       } else if (resp.status === 401) {
         logout();
@@ -58,31 +58,27 @@ function ElectionResume() {
     getElectionResume();
   }, []);
 
-  if (loading !== false) {
-    return (
-      <div id="content-voters">
-        <section className="parallax hero is-medium">
-          <div className="hero-body pt-0 px-0 header-hero">
-            <NavbarAdmin />
-            <Title namePage="Resumen de Elección" nameElection={nameElection} />
-          </div>
-        </section>
+  return (
+    <div id="content-voters">
+      <section className="parallax hero is-medium">
+        <div className="hero-body pt-0 px-0 header-hero">
+          <NavbarAdmin />
+          <Title namePage="Resumen de Elección" nameElection={nameElection} />
+        </div>
+      </section>
 
-        <SubNavbar active={2} />
+      <SubNavbar active={2} />
 
-        <InfoElection weightsInit={weightsInit} weightsEnd={weightsEnd} />
+      <InfoElection
+        load={load}
+        weightsInit={weightsInit}
+        weightsEnd={weightsEnd}
+      />
 
-        <ImageFooter imagePath={imageTrustees} />
-        <ElectionCode uuid={uuid} />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <h1>Loading</h1>
-      </div>
-    );
-  }
+      <ImageFooter imagePath={imageTrustees} />
+      <ElectionCode uuid={uuid} />
+    </div>
+  );
 }
 
 export default ElectionResume;
