@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { backendIP } from "../../../server";
 import logout from "../../../utils/utils";
+import { getElections } from "../../../services/election";
 
 function HomeAdmin() {
   /**
@@ -20,29 +21,13 @@ function HomeAdmin() {
   const [electionsSearch, setElectionsSearch] = useState([]);
 
   useEffect(() => {
-    async function getElections() {
-      /**
-       * Get all elections for the current admin
-       */
-
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/get-elections", {
-        method: "GET",
-        headers: {
-          "x-access-tokens": token,
-          "Content-Type": "application/json",
-        },
-      });
-
+    getElections().then((res) => {
+      const { resp, jsonResponse } = res;
       if (resp.status === 200) {
-        const jsonResponse = await resp.json();
         setElections(jsonResponse);
         setElectionsSearch(jsonResponse);
-      } else if (resp.status === 401) {
-        logout();
       }
-    }
-    getElections();
+    });
   }, []);
 
   function searchElection(e) {
@@ -81,25 +66,30 @@ function HomeAdmin() {
               />
             </div>
             <div className="level-right">
-              <Button className="button-custom ml-3 home-admin-button level-item">
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  className="link-button"
-                  to="/admin/create-election"
-                >
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                className="link-button"
+                to="/admin/general"
+              >
+                <Button className="button-custom ml-3 home-admin-button level-item">
+                  Panel general
+                </Button>
+              </Link>
+
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                className="link-button"
+                to="/admin/create-election"
+              >
+                <Button className="button-custom ml-3 home-admin-button level-item">
                   Crear Votación
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="home-admin-accordion-section">
             {Object.keys(electionsSearch).map((key) => {
-              return (
-                <Accordion
-                  key={key}
-                  election = {electionsSearch[key]}
-                />
-              );
+              return <Accordion key={key} election={electionsSearch[key]} />;
             })}
           </div>
         </div>

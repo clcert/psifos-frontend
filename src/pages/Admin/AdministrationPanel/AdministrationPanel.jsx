@@ -142,6 +142,7 @@ function AdministrationPanel(props) {
               <div className="column">
                 <CardSettings haveQuestions={haveQuestions} />
                 <CardSteps
+                  uuid = {uuid}
                   electionStatus={electionStatus}
                   haveVoters={haveVoters}
                   haveQuestions={haveQuestions}
@@ -217,7 +218,7 @@ function AdministrationPanel(props) {
           }}
           uuid={uuid}
         />
-        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} />
+        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} uuid = {uuid} />
       </div>
     </>
   );

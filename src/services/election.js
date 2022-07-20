@@ -22,4 +22,26 @@ async function getElection(uuid) {
   }
 }
 
-export { getElection };
+async function getElections() {
+  /**
+   * Get all elections for the current admin
+   */
+
+  const token = sessionStorage.getItem("token");
+  const resp = await fetch(backendIP + "/get-elections", {
+    method: "GET",
+    headers: {
+      "x-access-tokens": token,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  } else if (resp.status === 401) {
+    logout();
+  }
+}
+
+export { getElection, getElections };

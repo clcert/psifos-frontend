@@ -22,6 +22,7 @@ import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 import Cabina from "./pages/Cabina/Cabina";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
+import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
 
 function App() {
   function getToken() {
@@ -60,6 +61,14 @@ function App() {
           element={
             <RequireAuth>
               <HomeAdmin />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="general"
+          element={
+            <RequireAuth>
+              <GeneralAdmin />
             </RequireAuth>
           }
         />
