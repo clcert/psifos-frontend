@@ -5,8 +5,6 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { backendIP } from "../../../server";
-import logout from "../../../utils/utils";
 import { getElections } from "../../../services/election";
 
 function HomeAdmin() {

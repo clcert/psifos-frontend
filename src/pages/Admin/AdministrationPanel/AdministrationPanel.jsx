@@ -166,7 +166,6 @@ function AdministrationPanel(props) {
                   privateElection={privateElection}
                   randomizeAnswers={randomizeAnswers}
                   trustees={trustees}
-                  electionStatus={electionStatus}
                 />
               </div>
             </div>

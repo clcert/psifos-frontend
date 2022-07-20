@@ -35,7 +35,9 @@ function CreateQuestion(props) {
 
   useEffect(() => {
     getElection(uuid).then((resp) => {
-      setQuestions(JSON.parse(resp.jsonResponse.questions));
+      if (resp.jsonResponse.questions !== "") {
+        setQuestions(JSON.parse(resp.jsonResponse.questions));
+      }
       setDisabledEdit(resp.jsonResponse.election_status !== "Setting up");
     });
   }, []);

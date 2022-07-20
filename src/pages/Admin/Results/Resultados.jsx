@@ -27,9 +27,11 @@ function Resultados() {
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
-        setElection(jsonResponse);
-        setQuestions(JSON.parse(jsonResponse.questions));
-        setResults(JSON.parse(jsonResponse.result));
+        if (jsonResponse.election_status === "Results released") {
+          setElection(jsonResponse);
+          setQuestions(JSON.parse(jsonResponse.questions));
+          setResults(JSON.parse(jsonResponse.result));
+        }
       }
     });
   }, []);
@@ -71,7 +73,9 @@ function Resultados() {
                       <thead>
                         <tr>
                           <th className="has-text-centered">Respuesta</th>
-                          <th className="has-text-centered pl-4 pr-4">Resultado</th>
+                          <th className="has-text-centered pl-4 pr-4">
+                            Resultado
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -79,7 +83,9 @@ function Resultados() {
                           return (
                             <tr className="has-text-centered" key={index}>
                               <td>
-                                <b className="p-4">{question.closed_options[index]}</b>
+                                <b className="p-4">
+                                  {question.closed_options[index]}
+                                </b>
                               </td>
                               <td>
                                 <b className="p-4">{result}</b>
