@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { backendIP } from "../../../../server";
-import logout from "../../../../utils/utils";
+import { logout, translateStep } from "../../../../utils/utils";
 import Status from "../../AdministrationPanel/component/Status";
 
 function CardElection(props) {
@@ -47,7 +47,7 @@ function CardElection(props) {
       }
     }
     getStats();
-    setElectionStatus(props.electionStatus);
+    setElectionStatus(translateStep(props.electionStatus));
     setHaveQuestions(props.election.questions !== "");
     setHaveVoters(props.election.voters.length > 0);
     setHaveTrustee(props.election.trustees.length > 0);
@@ -70,7 +70,7 @@ function CardElection(props) {
       <hr />
       <div className="content-card-admin">
         <span className="panel-text-sect">
-          Estado: {props.election.election_status}
+          Estado: {electionStatus}
         </span>
       </div>
       <div className="content-card-admin">

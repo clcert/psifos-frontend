@@ -1,5 +1,5 @@
 import { backendIP } from "../server";
-import logout from "../utils/utils";
+import { logout } from "../utils/utils";
 
 async function getElection(uuid) {
   /**

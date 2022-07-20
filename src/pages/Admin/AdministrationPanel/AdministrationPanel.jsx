@@ -6,7 +6,6 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import ExtendElection from "./component/ExtendElection";
 import ModalFreeze from "./component/ModalFreeze";
-import logout from "../../../utils/utils";
 import ModalCloseElection from "./component/ModalCloseElection";
 import { getElection } from "../../../services/election";
 import ModalTally from "./component/ModalTally";
@@ -15,6 +14,7 @@ import CardInfo from "./component/CardInfo";
 import CardSettings from "./component/CardSettings";
 import CardSteps from "./component/CardSteps";
 import UploadModal from "../Urna/components/UploadModal";
+import { logout } from "../../../utils/utils";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -142,7 +142,7 @@ function AdministrationPanel(props) {
               <div className="column">
                 <CardSettings haveQuestions={haveQuestions} />
                 <CardSteps
-                  uuid = {uuid}
+                  uuid={uuid}
                   electionStatus={electionStatus}
                   haveVoters={haveVoters}
                   haveQuestions={haveQuestions}
@@ -158,6 +158,7 @@ function AdministrationPanel(props) {
               </div>
               <div className="column">
                 <CardInfo
+                  electionStatus={electionStatus}
                   updateInfo={updateInfo}
                   typeElection={typeElection}
                   totalVoters={totalVoters}
@@ -218,7 +219,11 @@ function AdministrationPanel(props) {
           }}
           uuid={uuid}
         />
-        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} uuid = {uuid} />
+        <UploadModal
+          show={uploadModal}
+          onHide={() => setUploadModal(false)}
+          uuid={uuid}
+        />
       </div>
     </>
   );

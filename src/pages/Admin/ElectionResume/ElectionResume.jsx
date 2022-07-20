@@ -8,7 +8,7 @@ import { useParams } from "react-router";
 import { backendIP } from "../../../server";
 import { useEffect, useState } from "react";
 import SubNavbar from "../component/SubNavbar";
-import logout from "../../../utils/utils";
+import { logout } from "../../../utils/utils";
 
 function ElectionResume() {
   /**
@@ -18,20 +18,12 @@ function ElectionResume() {
   /** @state {string} name of election */
   const [nameElection, setNameElection] = useState("");
 
-  /** @state {string} number of voters */
-  const [numVoters, setNumVoters] = useState("");
+  const [weightsInit, setWeightsInit] = useState({});
 
-  /** @state {string} total voters */
-  const [totalVoters, setTotalVoters] = useState("");
-
-  /** @state {string} max weight election */
-  const [maxWeight, setMaxWeight] = useState("");
+  const [weightsEnd, setWeightsEnd] = useState({});
 
   /** @state {string} state of loading data */
   const [loading, setLoading] = useState(false);
-
-  /** @urlParam {array} array with election metadata */
-  const [infoElection, setInfoElection] = useState([]);
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
@@ -51,11 +43,15 @@ function ElectionResume() {
         },
       });
 
-      if (resp.status == 200) {
+      if (resp.status === 200) {
         const jsonResponse = await resp.json();
+
+        setWeightsInit(JSON.parse(jsonResponse.weights_init));
+        setWeightsEnd(JSON.parse(jsonResponse.weights_end));
+
         setLoading(true);
         return jsonResponse;
-      } else if (resp.status == 401) {
+      } else if (resp.status === 401) {
         logout();
       }
     }
@@ -74,12 +70,7 @@ function ElectionResume() {
 
         <SubNavbar active={2} />
 
-        <InfoElection
-          infoElection={infoElection}
-          numVoters={numVoters}
-          totalVoters={totalVoters}
-          maxWeight={maxWeight}
-        />
+        <InfoElection weightsInit={weightsInit} weightsEnd={weightsEnd} />
 
         <ImageFooter imagePath={imageTrustees} />
         <ElectionCode uuid={uuid} />

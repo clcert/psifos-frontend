@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { translateStep } from "../../../../utils/utils";
 
 function CardInfo(props) {
 
   const [decryptionNumber, setDecryptionNumber] = useState(0);
 
+  const [electionStatus, setElectionStatus] = useState("");
+
   useEffect(() => {
+    setElectionStatus(translateStep(props.electionStatus));
     let number_decryptions = 0;
     props.trustees.forEach((trustee) => {
       if (trustee.decryptions !== "") {
@@ -28,7 +32,7 @@ function CardInfo(props) {
       <hr />
       <div className="is-size-5">
         <div className="content-card-admin">
-          <span className="panel-text-sect">Estado</span>: Activa
+          <span className="panel-text-sect">Estado</span>: {electionStatus}
         </div>
 
         <div className="content-card-admin">
