@@ -7,7 +7,7 @@ import SubNavbar from "../component/SubNavbar";
 import ExtendElection from "./component/ExtendElection";
 import ModalFreeze from "./component/ModalFreeze";
 import ModalCloseElection from "./component/ModalCloseElection";
-import { getElection } from "../../../services/election";
+import { getElection, getStats } from "../../../services/election";
 import ModalTally from "./component/ModalTally";
 import ModalCombineTally from "./component/ModalCombineTally";
 import CardInfo from "./component/CardInfo";
@@ -42,6 +42,8 @@ function AdministrationPanel(props) {
   /** @state {bool} election have audit */
   const [totalVoters, setTotalVoters] = useState(0);
 
+  const [totalVotes, setTotalVotes] = useState(0);
+
   /** @state {bool} election have audit */
   const [randomizeAnswers, setRandomizeAnswers] = useState(true);
 
@@ -74,6 +76,7 @@ function AdministrationPanel(props) {
 
   const [load, setLoad] = useState(false);
 
+
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
 
@@ -97,12 +100,16 @@ function AdministrationPanel(props) {
         setObscureVoter(jsonResponse.obscure_voter_names);
         setPrivateElection(jsonResponse.private_p);
         setRandomizeAnswers(jsonResponse.randomize_answer_order);
-        setTotalVoters(jsonResponse.voters.length);
         setTypeElection(jsonResponse.election_type);
         setLoad(true);
       } else if (resp.status === 401) {
         logout();
       }
+    });
+    getStats(uuid).then((res) => {
+      const { resp, jsonResponse } = res;
+      setTotalVoters(jsonResponse.total_voters);
+      setTotalVotes(jsonResponse.num_casted_votes);
     });
   }
 
@@ -168,6 +175,7 @@ function AdministrationPanel(props) {
                     updateInfo={updateInfo}
                     typeElection={typeElection}
                     totalVoters={totalVoters}
+                    totalVotes={totalVotes}
                     obscureVoter={obscureVoter}
                     privateElection={privateElection}
                     randomizeAnswers={randomizeAnswers}

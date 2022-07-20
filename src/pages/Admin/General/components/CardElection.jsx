@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { backendIP } from "../../../../server";
-import { logout, translateStep } from "../../../../utils/utils";
+import { getStats } from "../../../../services/election";
+import { translateStep } from "../../../../utils/utils";
 import Status from "../../AdministrationPanel/component/Status";
 
 function CardElection(props) {
+  /** @state {num} total election votes */
   const [totalVotes, setTotalVotes] = useState(0);
 
   /** @state {bool} election have questions */
@@ -26,28 +27,13 @@ function CardElection(props) {
   }, [props.electionStatus]);
 
   useEffect(() => {
-    async function getStats() {
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(
-        backendIP + "/get-election-stats/" + props.election.uuid,
-        {
-          method: "GET",
-          headers: {
-            "x-access-tokens": token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (resp.status === 200) {
-        const jsonResponse = await resp.json();
-        setTotalVoters(jsonResponse.total_voters);
-        setTotalVotes(jsonResponse.num_casted_votes);
-      } else if (resp.status === 401) {
-        logout();
-      }
-    }
-    getStats();
-    setElectionStatus(translateStep(props.electionStatus));
+    getStats(props.election.uuid).then((res) => {
+      const { resp, jsonResponse } = res;
+      setTotalVoters(jsonResponse.total_voters);
+      setTotalVotes(jsonResponse.num_casted_votes);
+    });
+
+    setElectionStatus(props.electionStatus);
     setHaveQuestions(props.election.questions !== "");
     setHaveVoters(props.election.voters.length > 0);
     setHaveTrustee(props.election.trustees.length > 0);
@@ -56,7 +42,8 @@ function CardElection(props) {
   return (
     <div className="box ">
       <div className="is-size-4">
-        {props.election.name}{" | "}
+        {props.election.name}
+        {" | "}
         <span className="is-size-6">
           <Link
             className="link-without-line"
@@ -69,9 +56,7 @@ function CardElection(props) {
 
       <hr />
       <div className="content-card-admin">
-        <span className="panel-text-sect">
-          Estado: {electionStatus}
-        </span>
+        <span className="panel-text-sect">Estado: {translateStep(electionStatus)}</span>
       </div>
       <div className="content-card-admin">
         <span className="panel-text-sect">

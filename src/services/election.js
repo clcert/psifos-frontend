@@ -44,4 +44,21 @@ async function getElections() {
   }
 }
 
-export { getElection, getElections };
+async function getStats(uuid) {
+  const token = sessionStorage.getItem("token");
+  const resp = await fetch(backendIP + "/get-election-stats/" + uuid, {
+    method: "GET",
+    headers: {
+      "x-access-tokens": token,
+      "Content-Type": "application/json",
+    },
+  });
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  } else if (resp.status === 401) {
+    logout();
+  }
+}
+
+export { getElection, getElections, getStats };

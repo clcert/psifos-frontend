@@ -47,7 +47,7 @@ function CardInfo(props) {
 
         <div className="content-card-admin">
           <span className="panel-text-sect">Votos recibidos</span>:{" "}
-          {props.totalVoters}
+          {props.totalVotes}
         </div>
 
         <div className="content-card-admin">
