@@ -1,6 +1,3 @@
-import { Button } from "react-bulma-components";
-import { Link } from "react-router-dom";
-
 function UserButton(props) {
   function logOut() {
     sessionStorage.removeItem("token");
@@ -26,7 +23,7 @@ function UserButton(props) {
             onClick={logOut}
             style={{ textDecoration: "None", color: "black" }}
           >
-            Log out
+            Cerrar sesión
           </a>
         </div>
       </div>
