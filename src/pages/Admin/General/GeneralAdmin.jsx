@@ -33,7 +33,7 @@ function GeneralAdmin() {
 
   const [typeFeedback, setTypeFeedback] = useState("");
 
-  const [electionStatus, setElectionStatus] = useState("");
+  const [load, setLoad] = useState(false);
 
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState({ state: false, uuid: "" });
@@ -53,6 +53,7 @@ function GeneralAdmin() {
       const { resp, jsonResponse } = res;
       if (resp.status === 200) {
         setElections(jsonResponse);
+        setLoad(true);
       }
     });
   }
@@ -71,52 +72,59 @@ function GeneralAdmin() {
           </div>
         </section>
 
-        <section className="section mb-0 mt-3" id="accordion-section">
-          <div className="container is-max-desktop">
-            {feedbackMessage && (
-              <div className={"notification is-primary " + typeFeedback}>
-                <button
-                  className="delete"
-                  onClick={() => setFeedbackMessage("")}
-                ></button>
-                {feedbackMessage}
+        <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
+          {load ? (
+            <div className="container is-max-desktop">
+              {feedbackMessage && (
+                <div className={"notification is-primary " + typeFeedback}>
+                  <button
+                    className="delete"
+                    onClick={() => setFeedbackMessage("")}
+                  ></button>
+                  {feedbackMessage}
+                </div>
+              )}
+              <div>
+                <Button className="button-custom mb-2 mt-0 home-admin-button level-item">
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    className="link-button"
+                    to="/admin/home"
+                  >
+                    Volver Atras
+                  </Link>
+                </Button>
               </div>
-            )}
-            <div>
-              <Button className="button-custom mb-2 mt-0 home-admin-button level-item">
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  className="link-button"
-                  to="/admin/home"
-                >
-                  Volver Atras
-                </Link>
-              </Button>
+              {elections.map((election) => {
+                return (
+                  <CardElection
+                    election={election}
+                    electionStatus={election.election_status}
+                    freezeModal={() => {
+                      setFreezeModal({ state: true, uuid: election.uuid });
+                    }}
+                    closeModal={() => {
+                      setCloseModal({ state: true, uuid: election.uuid });
+                    }}
+                    tallyModal={() => {
+                      setTallyModal({ state: true, uuid: election.uuid });
+                    }}
+                    combineTallyModal={() => {
+                      setCombineTallyModal({
+                        state: true,
+                        uuid: election.uuid,
+                      });
+                    }}
+                    uploadModalonClick={(value) => {
+                      setUploadModal({ state: true, uuid: election.uuid });
+                    }}
+                  />
+                );
+              })}
             </div>
-            {elections.map((election) => {
-              return (
-                <CardElection
-                  election={election}
-                  electionStatus={election.election_status}
-                  freezeModal={() => {
-                    setFreezeModal({ state: true, uuid: election.uuid });
-                  }}
-                  closeModal={() => {
-                    setCloseModal({ state: true, uuid: election.uuid });
-                  }}
-                  tallyModal={() => {
-                    setTallyModal({ state: true, uuid: election.uuid });
-                  }}
-                  combineTallyModal={() => {
-                    setCombineTallyModal({ state: true, uuid: election.uuid });
-                  }}
-                  uploadModalonClick={(value) => {
-                    setUploadModal({ state: true, uuid: election.uuid });
-                  }}
-                />
-              );
-            })}
-          </div>
+          ) : (
+            <div className="spinner-animation"></div>
+          )}
         </section>
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
         <ModalFreeze

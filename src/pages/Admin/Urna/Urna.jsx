@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
-import { backendHeliosIP } from "../../../server";
 import VotersTable from "./components/VotersTable";
-import SettingsUrna from "./components/SettingsUrna";
 import Title from "../../../component/OthersComponents/Title";
 import { Button } from "react-bulma-components";
 import SubNavbar from "../component/SubNavbar";
@@ -24,7 +22,7 @@ function Urna() {
   const [election, setElection] = useState([]);
 
   /** @state {bool} loading state */
-  const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
 
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
@@ -40,22 +38,23 @@ function Urna() {
       const { resp, jsonResponse } = election;
       setElection(jsonResponse);
       setElectionOpenReg(jsonResponse.openreg);
+      setLoad(true);
     });
   }, []);
 
-  if (!loading) {
-    return (
-      <div id="content-voters">
-        <section className="parallax hero is-medium">
-          <div className="hero-body pt-0 px-0 header-hero">
-            <NavbarAdmin />
-            <Title namePage="Urna Electronica" nameElection={election.name} />
-          </div>
-        </section>
+  return (
+    <div id="content-voters">
+      <section className="parallax hero is-medium">
+        <div className="hero-body pt-0 px-0 header-hero">
+          <NavbarAdmin />
+          <Title namePage="Urna Electronica" nameElection={election.name} />
+        </div>
+      </section>
 
-        <SubNavbar active={3} />
+      <SubNavbar active={3} />
 
-        <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
+      <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
+        {load ? (
           <div>
             {/* {!election.frozen_at && (
               <SettingsUrna
@@ -68,7 +67,7 @@ function Urna() {
             )} */}
             <br />
             <div className="d-flex justify-content-center">
-              {election.frozen_at && (
+              {/* {election.frozen_at && (
                 <Button
                   className="button-custom"
                   onClick={() => {
@@ -81,7 +80,7 @@ function Urna() {
                 >
                   <span>Email voters</span>{" "}
                 </Button>
-              )}
+              )} */}
 
               {!electionOpenReg && (
                 <>
@@ -107,19 +106,19 @@ function Urna() {
 
             <VotersTable uuid={uuid} election={election} />
           </div>
-        </section>
-        <ElectionCode uuid={uuid} />
-        <UploadModal show={uploadModal} onHide={() => setUploadModal(false)} uuid={uuid} />
-        <DeleteModal show={deleteModal} onHide={() => setDeleteModal(false)} />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <h1>Loading</h1>
-      </div>
-    );
-  }
+        ) : (
+          <div className="spinner-animation"></div>
+        )}
+      </section>
+      <ElectionCode uuid={uuid} />
+      <UploadModal
+        show={uploadModal}
+        onHide={() => setUploadModal(false)}
+        uuid={uuid}
+      />
+      <DeleteModal show={deleteModal} onHide={() => setDeleteModal(false)} />
+    </div>
+  );
 }
 
 export default Urna;

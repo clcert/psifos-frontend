@@ -27,7 +27,7 @@ function Resultados() {
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
-        if (jsonResponse.election_status === "Results released") {
+        if (jsonResponse.election_status === "Decryptions combined") {
           setElection(jsonResponse);
           setQuestions(JSON.parse(jsonResponse.questions));
           setResults(JSON.parse(jsonResponse.result));

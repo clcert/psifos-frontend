@@ -1,9 +1,14 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function InfoElection(props) {
+  /**
+   * Component containing the election information
+   */
+
+  /** @state {int} number of voters in the election  */
   const [totalVoters, setTotalVoters] = useState(0);
 
+  /** @state {int} number of votes in the election  */
   const [totalVotes, setTotalVotes] = useState(0);
 
   useEffect(() => {
@@ -19,7 +24,7 @@ function InfoElection(props) {
       setTotalVoters(aux_totalVoters);
       setTotalVotes(aux_totalVotes);
     }
-  }, []);
+  }, [props.weightsInit, props.weightsEnd]);
 
   if (props.totalVoters !== 0) {
     return (
