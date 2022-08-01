@@ -1,6 +1,7 @@
 import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
 import { Buffer } from "buffer";
+import { backendIP } from "../../../server";
 
 function Login() {
   /**
@@ -42,7 +43,7 @@ function Login() {
      * async function for login admin
      */
 
-    let url = "http://127.0.0.1:5000/login";
+    let url = backendIP + "/login";
     let encoded = Buffer.from(username + ":" + password);
     const resp = await fetch(url, {
       method: "POST",
