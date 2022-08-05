@@ -100,7 +100,7 @@ function CreateElection(props) {
           setAlertMessage(jsonResponse.message["short_name"][0]);
         }
       }
-      if (resp.status === 200) {
+      if (resp.status === 201) {
         window.location.href = "/admin/" + jsonResponse.uuid + "/panel";
       }
     } else {

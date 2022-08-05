@@ -53,7 +53,7 @@ function Login() {
       },
     });
 
-    if (resp.status === 200) {
+    if (resp.status === 201) {
       const data = await resp.json();
       setColorAlert("green");
       setAlertMessage("Inicio exitoso!");
