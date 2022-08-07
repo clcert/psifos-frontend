@@ -32,6 +32,10 @@ function Cabina(props) {
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
       window.location.href = backendIP + "/vote/" + uuid;
+    } else if (props.preview) {
+      getElectionQuestionsPreview();
+    } else {
+      getElectionQuestions();
     }
 
     async function getElectionQuestionsPreview() {
@@ -88,11 +92,6 @@ function Cabina(props) {
           "La elección no existe o no estas habilitado para votar en ella"
         );
       }
-    }
-    if (props.preview) {
-      getElectionQuestionsPreview();
-    } else {
-      getElectionQuestions();
     }
   }, []);
 
