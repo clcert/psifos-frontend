@@ -7,7 +7,7 @@ function ModalCombineTally(props) {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "x-access-tokens": token,
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
     });
@@ -17,7 +17,6 @@ function ModalCombineTally(props) {
       props.combineChange(true);
     } else {
       props.feedback(data.message, "is-danger");
-      
     }
     props.onHide();
   }
@@ -34,7 +33,8 @@ function ModalCombineTally(props) {
           <h1 className="title">Combinar Desencriptaciones</h1>
           <div className="field">
             <label className="">
-              Estas seguro que quieres combinar las desencriptaciones de la votación?
+              Estas seguro que quieres combinar las desencriptaciones de la
+              votación?
             </label>
           </div>
         </section>

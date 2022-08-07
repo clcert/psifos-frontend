@@ -30,7 +30,7 @@ function DeleteModal(props) {
       const resp = await fetch(backendIP + "/" + uuid + "/delete-voters", {
         method: "POST",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
         },
       });
       setDeleteState(false);

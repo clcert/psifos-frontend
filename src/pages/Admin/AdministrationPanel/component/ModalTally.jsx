@@ -7,7 +7,7 @@ function ModalTally(props) {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "x-access-tokens": token,
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
     });

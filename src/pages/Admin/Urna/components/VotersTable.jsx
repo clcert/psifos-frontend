@@ -22,7 +22,7 @@ function VotersTable(props) {
       const resp = await fetch(backendIP + "/" + props.uuid + "/get-voters", {
         method: "GET",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
 
           "Content-Type": "application/json",
         },

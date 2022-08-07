@@ -36,7 +36,7 @@ function UploadModal(props) {
       const resp = await fetch(backendIP + "/" + props.uuid + "/send-voters", {
         method: "POST",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
         },
         body: data,
       });

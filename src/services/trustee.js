@@ -25,7 +25,7 @@ async function getTrustees(uuid) {
   const resp = await fetch(backendIP + "/" + uuid + "/get-trustees", {
     method: "GET",
     headers: {
-      "x-access-tokens": token,
+      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   });

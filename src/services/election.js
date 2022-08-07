@@ -10,7 +10,7 @@ async function getElection(uuid) {
   const resp = await fetch(backendIP + "/get-election/" + uuid, {
     method: "GET",
     headers: {
-      "x-access-tokens": token,
+      "Authorization": "Bearer " + token,
       "Content-Type": "application/json",
     },
   });
@@ -31,7 +31,7 @@ async function getElections() {
   const resp = await fetch(backendIP + "/get-elections", {
     method: "GET",
     headers: {
-      "x-access-tokens": token,
+      "Authorization": "Bearer " + token,
       "Content-Type": "application/json",
     },
   });
@@ -40,7 +40,7 @@ async function getElections() {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
   } else if (resp.status === 401) {
-    logout();
+    //logout();
   }
 }
 
@@ -49,7 +49,7 @@ async function getStats(uuid) {
   const resp = await fetch(backendIP + "/get-election-stats/" + uuid, {
     method: "GET",
     headers: {
-      "x-access-tokens": token,
+      "Authorization": "Bearer " + token,
       "Content-Type": "application/json",
     },
   });

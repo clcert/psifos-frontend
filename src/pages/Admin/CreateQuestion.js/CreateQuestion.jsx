@@ -179,7 +179,7 @@ function CreateQuestion(props) {
       const resp = await fetch(backendIP + "/create-questions/" + uuid, {
         method: "POST",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

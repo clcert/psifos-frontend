@@ -45,7 +45,7 @@ function Cabina(props) {
       const resp = await fetch(url, {
         method: "GET",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
       });
