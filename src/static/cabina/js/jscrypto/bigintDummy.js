@@ -9,7 +9,7 @@
 // generally being a nice JavaScript object.
 
 
-class BigIntDummy{
+class BigIntDummy {
   constructor(value, radix) {
     if (radix != 10) throw "in dummy, only radix=10, here radix=" + radix;
 
@@ -82,3 +82,5 @@ BigIntDummy.setup = function (callback, fail_callback) {
   //console.log("using dummy bigint");
   callback();
 };
+
+export { BigIntDummy }

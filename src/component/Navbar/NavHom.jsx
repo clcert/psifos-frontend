@@ -1,4 +1,4 @@
-import logo from "../../static/new_home_assets/SVG/ícono Participa.svg";
+import logo from "../../static/new_home_assets/SVG/icono Participa.svg";
 import { useState } from "react";
 
 function NavHome(props) {
