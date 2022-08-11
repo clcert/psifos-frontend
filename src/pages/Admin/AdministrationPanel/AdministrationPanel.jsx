@@ -92,7 +92,7 @@ function AdministrationPanel(props) {
       if (resp.status === 200) {
         setElectionStatus(jsonResponse.election_status);
         setTitleElection(jsonResponse.name);
-        setHaveQuestions(jsonResponse.questions !== "");
+        setHaveQuestions(jsonResponse.questions !== null);
         setInitElection(jsonResponse.public_key !== "");
         setHaveVoters(jsonResponse.voters.length > 0);
         setHaveTrustee(jsonResponse.trustees.length > 0);
