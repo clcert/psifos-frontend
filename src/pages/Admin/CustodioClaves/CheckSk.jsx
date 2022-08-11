@@ -32,7 +32,7 @@ function CheckSk(props) {
       setCertificates(data);
     });
     getEgParams(uuid).then((data) => {
-      setElGamalParams(data);
+      setElGamalParams(JSON.parse(data));
     });
   }, []);
 

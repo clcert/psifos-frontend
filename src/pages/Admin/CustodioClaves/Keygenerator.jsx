@@ -55,7 +55,7 @@ function Keygenerator(props) {
       /** Set actual step for trustee */
       let eg_params_json = "";
       getEgParams(uuid).then((data) => {
-        eg_params_json = data;
+        eg_params_json = JSON.parse(data);
 
         /** Set initial params */
         getRandomness().then((data) => {
