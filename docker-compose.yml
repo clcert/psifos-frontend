@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  frontend-dev:
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    environment:
+      - APP_BACKEND_HOST
+      - APP_BACKEND_HELIOS_HOST
+      - APP_FRONTEND_HOST
+    build:
+      context: ./
+      dockerfile: Dockerfile.development
+
+  frontend-prod:
+    ports:
+      - "8080:80"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    build:
+      context: ./
+      dockerfile: Dockerfile.production
+    restart: always
+
+volumes:
+  caddy_data:
+  caddy_config:

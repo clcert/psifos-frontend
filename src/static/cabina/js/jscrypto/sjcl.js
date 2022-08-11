@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 "use strict";
 function q(a) {
   throw a;
