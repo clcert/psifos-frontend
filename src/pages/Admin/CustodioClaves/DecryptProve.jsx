@@ -72,7 +72,7 @@ function DecryptProve(props) {
       certificates_aux = JSON.parse(data.certificates);
       points_aux = JSON.parse(data.points);
       election_aux = data.election;
-      trustee_aux = JSON.parse(data.trustee);
+      trustee_aux = data.trustee;
 
       setParams(params_aux);
       setCertificates(certificates_aux);
@@ -84,7 +84,7 @@ function DecryptProve(props) {
         let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
         PARAMS.trustee_id = trustee_aux.trustee_id;
         setParams(PARAMS);
-        let ELECTION_JSON = JSON.parse(election_aux);
+        let ELECTION_JSON = election_aux;
         let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
           ELECTION_JSON["public_key"]
         );

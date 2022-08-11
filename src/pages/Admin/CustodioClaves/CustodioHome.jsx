@@ -36,7 +36,7 @@ function CustodioHome(props) {
   const disabledButton3 = Boolean(
     trustee.current_step === 4 &&
       election.encrypted_tally !== "" &&
-      trustee.decryptions === ""
+      trustee.decryptions === null
       ? false
       : true
   );
