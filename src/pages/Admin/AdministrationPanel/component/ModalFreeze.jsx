@@ -15,11 +15,11 @@ function ModalFreeze(props) {
     });
     const data = await response.json();
     if (response.status === 200) {
-      props.feedback(data.message, "is-success");
+      props.feedback("La elección ha sido iniciada con exito!", "is-success");
       props.freezeChange();
       props.onHide();
     } else {
-      props.feedback(data.message, "is-danger");
+      props.feedback("Ha ocurrido un problema al iniciar la elección", "is-danger");
     }
   }
 

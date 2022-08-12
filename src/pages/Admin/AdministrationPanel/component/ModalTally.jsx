@@ -13,11 +13,11 @@ function ModalTally(props) {
     });
     const data = await response.json();
     if (response.status === 200) {
-      props.feedback(data.message, "is-success");
+      props.feedback("El tally encriptado ha sido computado con exito!", "is-success");
       props.tallyChange(true);
       props.onHide();
     } else {
-      props.feedback(data.message, "is-danger");
+      props.feedback("Ha ocurrido un problema al intentar computar el tally", "is-danger");
       props.onHide();
     }
   }

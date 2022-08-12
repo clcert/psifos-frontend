@@ -13,10 +13,10 @@ function ModalCloseElection(props) {
     });
     const data = await response.json();
     if (response.status === 200) {
-      props.feedback(data.message, "is-success");
+      props.feedback("La elección ha sido cerrada con exito!", "is-success");
       props.endChange();
     } else {
-      props.feedback(data.message, "is-danger");
+      props.feedback("Ha ocurrido un problema al cerrar la elección", "is-danger");
     }
     props.onHide();
   }

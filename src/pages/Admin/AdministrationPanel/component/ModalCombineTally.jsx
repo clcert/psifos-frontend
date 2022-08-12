@@ -13,10 +13,10 @@ function ModalCombineTally(props) {
     });
     const data = await response.json();
     if (response.status === 200) {
-      props.feedback(data.message, "is-success");
+      props.feedback("Se han realizado las combinación de las desencriptaciones con exito! ", "is-success");
       props.combineChange(true);
     } else {
-      props.feedback(data.message, "is-danger");
+      props.feedback("Ha ocurrido un problema al combinar las desencriptaciones parciales", "is-danger");
     }
     props.onHide();
   }
