@@ -17,7 +17,7 @@ async function getElection(uuid) {
   if (resp.status === 200) {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 401) {
+  } else if (resp.status === 403) {
     logout();
   }
 }
@@ -39,8 +39,8 @@ async function getElections() {
   if (resp.status === 200) {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 401) {
-    //logout();
+  } else if (resp.status === 403) {
+    logout();
   }
 }
 
@@ -56,7 +56,7 @@ async function getStats(uuid) {
   if (resp.status === 200) {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 401) {
+  } else if (resp.status === 403) {
     logout();
   }
 }
