@@ -192,8 +192,6 @@ function DecryptProve(props) {
     let final_json = {
       decryptions: tally_factors_and_proof,
     };
-    console.log(final_json);
-    console.log(JSON.stringify(final_json));
     setDescriptions(JSON.stringify(final_json));
     setFeedbackMessage("Listo para enviar el desencriptado parcial");
     setTallyReady(true);

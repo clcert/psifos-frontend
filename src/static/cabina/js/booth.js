@@ -253,7 +253,7 @@ class BoothPsifos {
       setTimeout(this.wait_for_ciphertexts, 500);
       return;
     }
-    this.encrypted_ballot = HELIOS.EncryptedVote.fromEncryptedAnswers(
+    this.encrypted_ballot = EncryptedVote.fromEncryptedAnswers(
       this.election,
       this.encrypted_answers
     );

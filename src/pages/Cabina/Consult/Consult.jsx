@@ -7,11 +7,12 @@ import { backendIP } from "../../../server";
 import { useParams } from "react-router-dom";
 import QuestionConsult from "./ConsultQuestions/QuestionConsult";
 import BoothPsifos from "../BoothPsifos";
+import EndConsult from "./EndConsult";
 
 function Consult(props) {
-
   const [questions, setQuestions] = useState([]);
   const [electionDescription, setElectionDescription] = useState("");
+  const [actualPhase, setActualPhase] = useState(1);
 
   const { uuid } = useParams();
 
@@ -20,7 +21,7 @@ function Consult(props) {
       setQuestions(JSON.parse(props.electionData.questions));
     }
     setElectionDescription(props.electionData.description);
-  }, []);
+  }, [props.electionData]);
 
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
   let BOOTH_PSIFOS = new BoothPsifos(
@@ -32,7 +33,10 @@ function Consult(props) {
     <div id="content-consult-question">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar adressExit={backendIP + "/vote/" + uuid + "/logout"} />
+          <MyNavbar
+            adressExit={backendIP + "/vote/" + uuid + "/logout"}
+            addressInit=""
+          />
           <Title namePage="Consulta" />
         </div>
       </section>
@@ -41,18 +45,29 @@ function Consult(props) {
           className="section mb-0 mt-1 p-4"
           id="consult-question-section"
         >
-          <TitleConsult title="Consulta" />
-          <InfoConsult info={electionDescription} />
-          <QuestionConsult
-            questions={questions}
-            booth={BOOTH_PSIFOS.getBooth()}
-            encrypQuestions={(answersQuestions) => {
-              BOOTH_PSIFOS.sendEncryp(answersQuestions);
-            }}
-          />
+          {actualPhase === 1 && (
+            <div>
+              <TitleConsult title="Consulta" />
+              <InfoConsult info={electionDescription} />
+              <QuestionConsult
+                questions={questions}
+                booth={BOOTH_PSIFOS.getBooth()}
+                encrypQuestions={(answersQuestions) => {
+                  BOOTH_PSIFOS.sendEncryp(answersQuestions);
+                }}
+                afterEncrypt={() => {
+                  BOOTH_PSIFOS.sendJson(uuid).then((res) => {
+                    setActualPhase(2);
+                  });
+                }}
+              />
+            </div>
+          )}
+          {actualPhase === 2 && <EndConsult />}
         </section>
       </div>
     </div>
   );
 }
+
 export default Consult;
