@@ -27,7 +27,7 @@ function UniqueSelection(props) {
               <input
                 type="radio"
                 name="question"
-                value="1"
+                value={index}
                 className="mr-2"
                 onChange={(e) => {
                   setActualAnswers(e.target.value);
