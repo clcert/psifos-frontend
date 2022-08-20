@@ -11,7 +11,7 @@ function NoAuth(props) {
     <div id="content">
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar adressExit={props.adressLogout} addressInit="" />
+          <MyNavbar linkExit={props.adressLogout} linkInit="" />
           <Title namePage="Cabina Votación" />
         </div>
       </section>

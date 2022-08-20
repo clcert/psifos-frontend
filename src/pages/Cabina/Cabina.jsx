@@ -106,7 +106,7 @@ function Cabina(props) {
     );
   } else if (load) {
     return type === "Query" ? (
-      <Consult electionData={electionData}></Consult>
+      <Consult consultData={electionData}></Consult>
     ) : (
       <CabinaElection
         preview={props.preview}

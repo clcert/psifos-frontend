@@ -29,7 +29,7 @@ function MyNavbar(props) {
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
                   <Link
-                    to={props.addressInit}
+                    to={props.linkInit}
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"
@@ -56,7 +56,7 @@ function MyNavbar(props) {
                     AYUDA
                   </a>
                   <a
-                    href={props.addressExit}
+                    href={props.linkExit}
                     className="menu-text-admin"
                     id="text-button"
                   >

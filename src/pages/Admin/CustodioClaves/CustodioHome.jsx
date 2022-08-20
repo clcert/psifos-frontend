@@ -84,8 +84,8 @@ function CustodioHome(props) {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
-              addressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
-              addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              linkExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+              linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
             <Title
               namePage="Custodio de Claves"

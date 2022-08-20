@@ -146,8 +146,8 @@ function CabinaElection(props) {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            adressExit={backendIP + "/vote/" + uuid + "/logout"}
-            addressInit=""
+            linkExit={backendIP + "/vote/" + uuid + "/logout"}
+            linkInit=""
           />
           <Title
             namePage={

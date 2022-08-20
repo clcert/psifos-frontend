@@ -17,15 +17,15 @@ function Consult(props) {
   const { uuid } = useParams();
 
   useEffect(() => {
-    if (props.electionData.questions) {
-      setQuestions(JSON.parse(props.electionData.questions));
+    if (props.consultData.questions) {
+      setQuestions(JSON.parse(props.consultData.questions));
     }
-    setElectionDescription(props.electionData.description);
-  }, [props.electionData]);
+    setElectionDescription(props.consultData.description);
+  }, [props.consultData]);
 
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
   let BOOTH_PSIFOS = new BoothPsifos(
-    JSON.stringify(props.electionData),
+    JSON.stringify(props.consultData),
     election_metadata
   );
 
@@ -34,8 +34,8 @@ function Consult(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            adressExit={backendIP + "/vote/" + uuid + "/logout"}
-            addressInit=""
+            linkExit={backendIP + "/vote/" + uuid + "/logout"}
+            linkInit=""
           />
           <Title namePage="Consulta" />
         </div>
@@ -47,7 +47,7 @@ function Consult(props) {
         >
           {actualPhase === 1 && (
             <div>
-              <TitleConsult title="Consulta" />
+              <TitleConsult title={props.consultData.name} />
               <InfoConsult info={electionDescription} />
               <QuestionConsult
                 questions={questions}
@@ -63,7 +63,7 @@ function Consult(props) {
               />
             </div>
           )}
-          {actualPhase === 2 && <EndConsult />}
+          {actualPhase === 2 && <EndConsult consultData = {props.consultData} />}
         </section>
       </div>
     </div>
