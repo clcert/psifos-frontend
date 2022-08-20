@@ -78,6 +78,7 @@ function QuestionConsult(props) {
         show={showModal}
         onHide={() => setShowModal(false)}
         afterEncrypt={() => {
+          props.afterEncrypt()
           setShowModal(false);
         }}
       />
