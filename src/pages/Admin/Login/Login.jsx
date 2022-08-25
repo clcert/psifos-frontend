@@ -114,16 +114,15 @@ function Login() {
                 {/* .control */}
               </div>{" "}
               {/* .field */}
-              <div className="footer-login is-flex pt-2 ">
-                <div className="footer-register-login mr-3 pl-5 pr-5">
-                  <p className="footer-register-text mb-0">
-                    si aun no tienes cuenta
-                  </p>
-                  <p className="footer-register-text pt-0">
-                    Registrate <a className="footer-register-link">AQUÍ</a>
-                  </p>
+              <div className="footer-login level is-flex pt-2 ">
+                <div className="footer-register-login level-left mr-3 pl-5 pr-5">
+                  {/* <div>
+                    <p className="footer-register-text pt-0">
+                      Registrate <a className="footer-register-link">AQUÍ</a>
+                    </p>
+                  </div> */}
                 </div>
-                <div className="field ml-5">
+                <div className="field leve-right ml-5">
                   <div className="control">
                     <button
                       onClick={login}

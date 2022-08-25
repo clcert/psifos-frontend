@@ -12391,6 +12391,15 @@ body::-webkit-scrollbar-thumb {
   padding: 0 50px;
 }
 
+@media screen and (max-width: 768px) {
+
+  .container-login {
+    width: 96vw;
+ 
+  }
+
+}
+
 #clave-login {
   background: url("../svg/lock-solid.svg") no-repeat scroll 7px 10px;
   background-size: 20px;
@@ -12535,7 +12544,7 @@ Subnavbar
 
 .subnavbar {
   background-color: rgba(255, 255, 255);
-  width: 110%;
+  width: 102%;
 }
 
 .text-subnavbar {
