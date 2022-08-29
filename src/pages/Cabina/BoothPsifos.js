@@ -61,11 +61,12 @@ class BoothPsifos {
      * Send encryp answers to the server
      */
 
-    const url = "/" + uuid + "/cast-vote";
+    const url = backendIP + "/" + uuid + "/cast-vote";
     const response = await fetch(url, {
       method: "POST",
+      credentials: "include",
+
       headers: {
-        credentials: "include",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

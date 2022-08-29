@@ -30,7 +30,7 @@ function DecryptProve(props) {
   const { uuid, uuidTrustee } = useParams();
 
   async function getDescrypt() {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
     const response = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -44,7 +44,7 @@ function DecryptProve(props) {
 
   async function sendDescrypt() {
     setFeedbackMessage("Enviando información...");
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",

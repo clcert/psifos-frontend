@@ -102,7 +102,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -207,7 +207,7 @@ function Keygenerator(props) {
      */
 
     generate_keypair();
-    download_sk_to_file("trustee_key.txt");
+    download_sk_to_file("trustee_key_" + trustee.email + ".txt");
     send_public_key();
     setProcessFeedback("Proceso de generación de clave privada completado");
   }
@@ -348,7 +348,7 @@ function Keygenerator(props) {
   }
 
   async function send_public_key() {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
 
     const resp = await fetch(url, {
       method: "POST",

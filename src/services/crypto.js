@@ -17,7 +17,7 @@ async function getEgParams(uuid) {
   }
 
   async function getCheckSk(uuid, uuidTrustee) {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
+    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
     const response = await fetch(url, {
       method: "GET",
       credentials: "include",
