@@ -35,7 +35,7 @@ function ModalDeleteCustodio(props) {
       const jsonResponse = await resp.json();
       if (resp.status === 200) {
         setFinishDelete(true);
-        setMessageFinished(jsonResponse["message"]);
+        setMessageFinished("El custodio ha sido eliminado con exito!");
       }
     } catch {
       setFinishDelete(true);

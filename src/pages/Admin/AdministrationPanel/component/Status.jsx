@@ -25,7 +25,7 @@ function Status(props) {
               className="link-without-line"
               to={"/admin/" + props.uuid + "/create-question/"}
             >
-              Añadir Preguntas
+              Añadir preguntas
             </Link>
           </span>
         </div>
@@ -37,7 +37,7 @@ function Status(props) {
               className="link-without-line"
               to={"/admin/" + props.uuid + "/trustee"}
             >
-              Añadir Custodios
+              Añadir custodios
             </Link>
           </span>
         </div>
