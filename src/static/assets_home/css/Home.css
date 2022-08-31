@@ -115,9 +115,17 @@ div#preload {
   border-left: solid 2px gainsboro;
 }
 
+#load-image{
+  height: 300px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
 @media screen and (max-width: 768px) {
   #logo-image-1 {
-    max-width: 35vw;
+    max-width: 55vw;
   }
 
   #logo-image-2 {
@@ -5586,12 +5594,12 @@ fieldset[disabled] .select select:hover {
 }
 
 .dropdown-menu {
-  display: none;
-  left: 0;
+  display: block !important;
+  left: -5rem !important;
   min-width: 12rem;
   padding-top: 4px;
   position: absolute;
-  top: 100%;
+  top: 91% !important;
   z-index: 20;
 }
 
@@ -6812,6 +6820,7 @@ body.has-navbar-fixed-bottom {
 
 .navbar-menu {
   display: none;
+  background-color: transparent !important;
 }
 
 .navbar-item,
@@ -12828,6 +12837,16 @@ Consult
   border-radius: 50%;
   animation: spin-anim 1.2s linear infinite;
 }
+
+.spinner-animation-white {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: white transparent white transparent;
+  border-radius: 50%;
+  animation: spin-anim 1.2s linear infinite;
+}
+
 
 @keyframes spin-anim {
   0% {

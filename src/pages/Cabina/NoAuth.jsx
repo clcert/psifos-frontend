@@ -2,7 +2,6 @@ import ElectionCode from "../../component/Footers/ElectionCode";
 import Title from "../../component/OthersComponents/Title";
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { Link, useParams } from "react-router-dom";
-import { backendIP } from "../../server";
 
 function NoAuth(props) {
   const { uuid } = useParams();
@@ -12,7 +11,7 @@ function NoAuth(props) {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar linkExit={props.adressLogout} linkInit="" />
-          <Title namePage="Cabina Votación" />
+          <Title namePage={props.title} />
         </div>
       </section>
 

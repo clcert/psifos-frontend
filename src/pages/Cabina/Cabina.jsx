@@ -4,6 +4,7 @@ import { backendIP } from "../../server";
 import CabinaElection from "./Election/CabinaElection";
 import Consult from "./Consult/Consult";
 import NoAuth from "./NoAuth";
+import LoadPage from "../../component/Loading/LoadPage";
 
 function Cabina(props) {
   /** View for cabina */
@@ -96,10 +97,11 @@ function Cabina(props) {
   }, []);
 
   if (!load) {
-    return <>LOAD</>;
+    return <LoadPage/>;
   } else if (!auth) {
     return (
       <NoAuth
+        title={"Cabina de votación"}
         message={noAuthMessage}
         adressLogout={backendIP + "/vote/" + uuid + "/logout"}
       ></NoAuth>
