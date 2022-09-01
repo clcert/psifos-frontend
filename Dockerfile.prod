@@ -1,0 +1,35 @@
+FROM node:lts as build
+
+RUN apt install -y git
+
+COPY ./app /app
+
+WORKDIR /app
+
+ENV PATH /app/node_modules/.bin:$PATH
+
+RUN npm install
+
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
+ARG APP_BACKEND_HOST
+ARG APP_BACKEND_HELIOS_HOST
+ARG APP_FRONTEND_HOST
+
+ENV APP_BACKEND_HOST=$APP_BACKEND_HOST
+ENV APP_BACKEND_HELIOS_HOST=$APP_BACKEND_HELIOS_HOST
+ENV APP_FRONTEND_HOST=$APP_FRONTEND_HOST
+
+RUN sed -i '0,/APP_BACKEND_HOST/s//'$APP_BACKEND_HOST'/' /app/src/server.js
+RUN sed -i '0,/APP_FRONTEND_HOST/s//'$APP_FRONTEND_HOST'/' /app/src/server.js
+
+RUN cat /app/src/server.js
+
+RUN npm run build
+
+FROM caddy:alpine as app
+
+COPY --from=build /app/build /usr/share/caddy
+
+EXPOSE 80
+
