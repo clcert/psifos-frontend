@@ -2,11 +2,11 @@ FROM node:lts as build
 
 RUN apt install -y git
 
-COPY ./app /app
+COPY ./ /
 
-WORKDIR /app
+WORKDIR /
 
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH /node_modules/.bin:$PATH
 
 RUN npm install
 
@@ -20,16 +20,13 @@ ENV APP_BACKEND_HOST=$APP_BACKEND_HOST
 ENV APP_BACKEND_HELIOS_HOST=$APP_BACKEND_HELIOS_HOST
 ENV APP_FRONTEND_HOST=$APP_FRONTEND_HOST
 
-RUN sed -i '0,/APP_BACKEND_HOST/s//'$APP_BACKEND_HOST'/' /app/src/server.js
-RUN sed -i '0,/APP_FRONTEND_HOST/s//'$APP_FRONTEND_HOST'/' /app/src/server.js
-
-RUN cat /app/src/server.js
+RUN sed -i '0,/APP_BACKEND_HOST/s//'$APP_BACKEND_HOST'/' /src/server.js
+RUN sed -i '0,/APP_FRONTEND_HOST/s//'$APP_FRONTEND_HOST'/' /src/server.js
 
 RUN npm run build
 
 FROM caddy:alpine as app
 
-COPY --from=build /app/build /usr/share/caddy
+COPY --from=build /build /usr/share/caddy
 
 EXPOSE 80
-
