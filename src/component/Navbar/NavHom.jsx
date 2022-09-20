@@ -1,4 +1,4 @@
-import logo from "../../static/new_home_assets/SVG/icono Participa.svg";
+import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
 
 function NavHome(props) {
@@ -8,8 +8,17 @@ function NavHome(props) {
     <div className="columns is-flex is-vcentered">
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://participa.uchile.cl">
-            <img src={logo} width="20" height="20" alt="Logo participa UCHILE" />
+          <a
+            className="navbar-item image-navbar-burger"
+            href="https://participa.uchile.cl"
+          >
+            <img
+              src={logo}
+              id="image-navbar"
+              alt="Logo participa UCHILE"
+              width={500}
+              height={500}
+            />
           </a>
 
           <a

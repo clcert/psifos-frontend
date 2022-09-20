@@ -6775,6 +6775,14 @@ body.has-navbar-fixed-bottom {
   overflow-y: hidden;
 }
 
+.image-navbar-burger{
+  display: flex !important;
+}
+#image-navbar{
+  max-height: none;
+  width: 77vw
+}
+
 .navbar-burger {
   color: #4a4a4a;
   cursor: pointer;
@@ -7029,6 +7037,10 @@ a.navbar-item.is-active,
 
   .navbar-burger {
     display: none;
+  }
+
+  .image-navbar-burger{
+    display: none !important;
   }
 
   .navbar-item,
@@ -12183,6 +12195,9 @@ a.has-text-danger-dark:focus {
   .hero-buttons .button:not(:last-child) {
     margin-bottom: 0.75rem;
   }
+  .question-content{
+    width: 100% !important;
+  }
 }
 @media screen and (min-width: 769px), print {
   .hero-buttons {
@@ -12231,6 +12246,7 @@ body::-webkit-scrollbar-thumb {
   .section.is-large {
     padding: 18rem 1.5rem;
   }
+
 }
 
 .footer {
