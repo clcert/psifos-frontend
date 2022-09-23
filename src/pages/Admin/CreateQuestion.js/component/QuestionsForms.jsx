@@ -109,15 +109,40 @@ function QuestionsForms(props) {
             props.changeQuestion(question, answers);
           }}
         />
-        <select
-          disabled={props.disabledEdit}
-          className="mr-2"
-          onChange={changeQuestion}
-          value={typeQuestion}
-        >
-          <option value="open_question">Pregunta abierta</option>
-          <option value="closed_question">Pregunta cerrada</option>
-        </select>
+      </div>
+      <div className="columns">
+        <div className="column">
+          <div className="field">
+            <label className="label">Tipo de pregunta</label>
+            <div className="control">
+              <select
+                disabled={props.disabledEdit}
+                className="mr-2"
+                onChange={changeQuestion}
+                value={typeQuestion}
+              >
+                {/* <option value="open_question">Pregunta abierta</option> */}
+                <option value="closed_question">Pregunta cerrada</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        {/* <div className="column">
+          <div className="field">
+            <label className="label">Cantidad maximas respuestas</label>
+            <div className="control">
+              <select
+                disabled={props.disabledEdit}
+                className="mr-2"
+                onChange={changeQuestion}
+                value={typeQuestion}
+              >
+                <option value="closed_question">Pregunta cerrada</option>
+                <option value="open_question">Pregunta abierta</option>
+              </select>
+            </div>
+          </div>
+        </div> */}
       </div>
       <OptionQuestions
         disabledEdit={props.disabledEdit}

@@ -48,7 +48,7 @@ function CreateQuestion(props) {
      */
     let questionAux = question.concat({
       key: questionCantidad,
-      q_type: "open_question",
+      q_type: "closed_question",
       q_text: "",
       q_description: "",
       total_options: 0,
@@ -73,7 +73,7 @@ function CreateQuestion(props) {
     let questionAux = questions;
     questions.map((question, index) => {
       question.key = index;
-      question.q_type = question.q_type ? question.q_type : "open_question";
+      question.q_type = question.q_type ? question.q_type : "closed_question";
       question.q_text = question.q_text ? question.q_text : "";
       question.q_description = question.q_description
         ? question.q_description
