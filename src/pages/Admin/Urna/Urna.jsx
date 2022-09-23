@@ -9,6 +9,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import UploadModal from "./components/UploadModal";
 import DeleteModal from "./components/DeleteModal";
 import { getElection } from "../../../services/election";
+import DeleteVoterModal from "./components/DeleteVoterModal";
 
 function Urna() {
   /**
@@ -29,6 +30,14 @@ function Urna() {
 
   /** @state {bool} delete modal state */
   const [deleteModal, setDeleteModal] = useState(false);
+
+  /** @state {bool} delete modal state */
+  const [deleteVoterModal, setDeleteVoterModal] = useState(false);
+
+  const [voterForDelete, setVoterForDelete] = useState({
+    voter_name: "",
+    uuid: "",
+  });
 
   /** @urlParam {uuid} election uuid */
   const { uuid } = useParams();
@@ -104,7 +113,14 @@ function Urna() {
               )}
             </div>
 
-            <VotersTable uuid={uuid} election={election} />
+            <VotersTable
+              uuid={uuid}
+              election={election}
+              deleteVoter={(voter_name, voter_uuid) => {
+                setVoterForDelete({ voter_name: voter_name, uuid: voter_uuid });
+                setDeleteVoterModal(true);
+              }}
+            />
           </div>
         ) : (
           <div className="spinner-animation"></div>
@@ -117,6 +133,12 @@ function Urna() {
         uuid={uuid}
       />
       <DeleteModal show={deleteModal} onHide={() => setDeleteModal(false)} />
+      <DeleteVoterModal
+        show={deleteVoterModal}
+        onHide={() => setDeleteVoterModal(false)}
+        voterUuid={voterForDelete.uuid}
+        voterName={voterForDelete.voter_name}
+      />
     </div>
   );
 }

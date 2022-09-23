@@ -243,22 +243,14 @@ function VotersTable(props) {
                       style={{ whiteSpace: "nowrap" }}
                       className="has-text-centered"
                     >
-                      <ButtonAlert
-                        classStyle="button progress-previous has-text-white has-text-weight-bold"
-                        title="Eliminar"
-                        message={
-                          "Are you sure you want to remove " + voter.name + "?"
-                        }
-                        action={() => {
-                          window.location.href =
-                            backendHeliosIP +
-                            "/app/elections/" +
-                            props.uuid +
-                            "/voters/" +
-                            voter.uuid +
-                            "/delete";
-                        }}
-                      ></ButtonAlert>
+                      <div className="buttons-action-voter">
+                        <div className="button-edit-voter ml-2 mr-2">
+                          <i className="fa-solid fa-pen-to-square"></i>
+                        </div>
+                        <div onClick={() => {props.deleteVoter(voter.voter_name, voter.uuid)}} className="button-delete-voter ml-2 mr-2">
+                          <i className="fa-solid fa-trash"></i>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
