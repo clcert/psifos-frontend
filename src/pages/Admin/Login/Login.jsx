@@ -59,10 +59,9 @@ function Login() {
       setAlertMessage("Inicio exitoso!");
       setUser(username);
       setToken(data);
-    } else if (resp.status === 401) {
-      const data = await resp.json();
+    } else {
       setColorAlert("red");
-      setAlertMessage(data["message"]);
+      setAlertMessage("Usuario o contraseña incorrectos!");
     }
   }
 
