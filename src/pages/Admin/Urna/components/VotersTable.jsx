@@ -3,6 +3,7 @@ import { backendIP, backendHeliosIP } from "../../../../server";
 import ButtonAlert from "../../../../component/Alerts/ButtonAlert";
 import IconAlert from "../../../../component/Alerts/IconAlert";
 import { Button } from "react-bulma-components";
+import { getStats } from "../../../../services/election";
 
 function VotersTable(props) {
   const [voters, setVoters] = useState([]);
@@ -15,6 +16,7 @@ function VotersTable(props) {
   const [nextDisabled, setNextDisabled] = useState(false);
   const [auxArrayVoters, setAuxArrayVoters] = useState([]);
   const [page, setPage] = useState(0);
+  const [electionStatus, setElectionStatus] = useState("");
 
   useEffect(function effectFunction() {
     async function getVoters() {
@@ -41,7 +43,11 @@ function VotersTable(props) {
       }
     }
     getVoters();
-  }, []);
+    getStats(props.uuid).then((data) => {
+      const { jsonResponse } = data;
+      setElectionStatus(jsonResponse.status);
+    });
+  }, [props.voter]);
 
   function buttonAction(value, votersArray = auxArrayVoters) {
     /**
@@ -244,12 +250,29 @@ function VotersTable(props) {
                       className="has-text-centered"
                     >
                       <div className="buttons-action-voter">
-                        <div className="button-edit-voter ml-2 mr-2">
+                        <div
+                          onClick={() => {
+                            props.editVoter(
+                              voter.voter_name,
+                              voter.uuid,
+                              voter.voter_login_id,
+                              voter.voter_weight
+                            );
+                          }}
+                          className="button-edit-voter ml-2 mr-2"
+                        >
                           <i className="fa-solid fa-pen-to-square"></i>
                         </div>
-                        <div onClick={() => {props.deleteVoter(voter.voter_name, voter.uuid)}} className="button-delete-voter ml-2 mr-2">
-                          <i className="fa-solid fa-trash"></i>
-                        </div>
+                        {electionStatus === "Setting up" && (
+                          <div
+                            onClick={() => {
+                              props.deleteVoter(voter.voter_name, voter.uuid);
+                            }}
+                            className="button-delete-voter ml-2 mr-2"
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>

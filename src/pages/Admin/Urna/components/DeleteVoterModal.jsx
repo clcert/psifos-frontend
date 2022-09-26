@@ -1,6 +1,7 @@
 import { backendIP } from "../../../../server";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function DeleteVoterModal(props) {
   /**
@@ -27,12 +28,15 @@ function DeleteVoterModal(props) {
     try {
       setDeleteState(true);
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + uuid + "/voter/" + props.voterUuid +  "/delete", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const resp = await fetch(
+        backendIP + "/" + uuid + "/voter/" + props.voter.uuid + "/delete",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       setDeleteState(false);
       setFinishedDelete(true);
       if (resp.status == 200) {
@@ -45,6 +49,10 @@ function DeleteVoterModal(props) {
       setErrorDelete(true);
     }
   }
+  useEffect(() => {
+    setDeleteState(false);
+    setFinishedDelete(false);
+  }, []);
   if (!finishedDelete) {
     return (
       <div
@@ -55,7 +63,9 @@ function DeleteVoterModal(props) {
         {deleteState ? (
           <div className="modal-card">
             <section className="modal-card-body">
-              <h1 className="title">El votante {props.VoterName} esta siendo eliminado...</h1>
+              <h1 className="title">
+                El votante {props.voter.voter_name} esta siendo eliminado...
+              </h1>
               <div className="field">
                 <label className="label label-form-election">
                   Espere un momento...
@@ -66,8 +76,12 @@ function DeleteVoterModal(props) {
         ) : (
           <div className="modal-card">
             <section className="modal-card-body">
-              <h1 className="title">Eliminar Votante {props.voterName}</h1>
-              <div className="">El votante {props.voterName} sera eliminado</div>
+              <h1 className="title">
+                Eliminar Votante {props.voter.voter_name}
+              </h1>
+              <div className="">
+                El votante {props.voter.voter_name} sera eliminado
+              </div>
             </section>
             <footer className="modal-card-foot">
               <div className="container level">
@@ -104,7 +118,8 @@ function DeleteVoterModal(props) {
               <h1 className="title">Proceso terminado con exito</h1>
               <div className="field">
                 <label className="label label-form-election">
-                  El votante {props.voterName} ha sido eliminado con exito!
+                  El votante {props.voter.voter_name} ha sido eliminado con
+                  exito!
                 </label>
               </div>
             </section>
@@ -113,7 +128,8 @@ function DeleteVoterModal(props) {
               <h1 className="title">Ha ocurrido un error</h1>
               <div className="field">
                 <label className="label label-form-election">
-                  El votante {props.voterName} no ha podido ser eliminado, intente nuevamente...
+                  El votante {props.voter.voter_name} no ha podido ser
+                  eliminado, intente nuevamente...
                 </label>
               </div>
             </section>
@@ -123,7 +139,11 @@ function DeleteVoterModal(props) {
             <div className="d-flex justify-content-center">
               <button
                 className="button review-buttons previous-button has-text-white has-text-weight-bold"
-                onClick={() => window.location.reload()}
+                onClick={() => {
+                  setFinishedDelete(false);
+                  props.update();
+                  props.onHide();
+                }}
               >
                 <span>VOLVER ATRÁS</span>
               </button>

@@ -10,6 +10,7 @@ import UploadModal from "./components/UploadModal";
 import DeleteModal from "./components/DeleteModal";
 import { getElection } from "../../../services/election";
 import DeleteVoterModal from "./components/DeleteVoterModal";
+import EditVoterModal from "./components/EditVoterModal";
 
 function Urna() {
   /**
@@ -31,12 +32,17 @@ function Urna() {
   /** @state {bool} delete modal state */
   const [deleteModal, setDeleteModal] = useState(false);
 
-  /** @state {bool} delete modal state */
+  /** @state {bool} delete voter modal state */
   const [deleteVoterModal, setDeleteVoterModal] = useState(false);
 
-  const [voterForDelete, setVoterForDelete] = useState({
+  /** @state {bool} delete voter modal state */
+  const [editVoterModal, setEditVoterModal] = useState(false);
+
+  const [voterSelect, setVoterSelect] = useState({
     voter_name: "",
     uuid: "",
+    voter_login_id: "",
+    voter_weight: "",
   });
 
   /** @urlParam {uuid} election uuid */
@@ -114,11 +120,27 @@ function Urna() {
             </div>
 
             <VotersTable
+              voter={voterSelect}
               uuid={uuid}
               election={election}
               deleteVoter={(voter_name, voter_uuid) => {
-                setVoterForDelete({ voter_name: voter_name, uuid: voter_uuid });
+                setVoterSelect({ voter_name: voter_name, uuid: voter_uuid });
                 setDeleteVoterModal(true);
+              }}
+              editVoter={(
+                voter_name,
+                voter_uuid,
+                voter_login_id,
+                voter_weight
+              ) => {
+                setVoterSelect({
+                  voter_name: voter_name,
+                  uuid: voter_uuid,
+                  voter_login_id: voter_login_id,
+                  voter_weight: voter_weight,
+                });
+
+                setEditVoterModal(true);
               }}
             />
           </div>
@@ -136,8 +158,18 @@ function Urna() {
       <DeleteVoterModal
         show={deleteVoterModal}
         onHide={() => setDeleteVoterModal(false)}
-        voterUuid={voterForDelete.uuid}
-        voterName={voterForDelete.voter_name}
+        voter={voterSelect}
+        update={() => {
+          setVoterSelect({ voter_name: "" });
+        }}
+      />
+      <EditVoterModal
+        show={editVoterModal}
+        onHide={() => setEditVoterModal(false)}
+        voter={voterSelect}
+        update={() => {
+          setVoterSelect({ voter_name: "" });
+        }}
       />
     </div>
   );
