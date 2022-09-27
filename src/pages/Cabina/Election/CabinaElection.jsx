@@ -11,7 +11,7 @@ import EncryptingCharging from "../components/EncryptingCharging";
 import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import BoothPsifos from "../BoothPsifos";
 
 function CabinaElection(props) {
@@ -146,7 +146,7 @@ function CabinaElection(props) {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendIP + "/vote/" + uuid + "/logout"}
+            linkExit={backendOpIP + "/vote/" + uuid + "/logout"}
             linkInit=""
           />
           <Title

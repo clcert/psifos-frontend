@@ -3,7 +3,7 @@ import InfoConsult from "./components/InfoConsult";
 import TitleConsult from "./components/TitleConsult";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { useEffect, useState } from "react";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { useParams } from "react-router-dom";
 import QuestionConsult from "./ConsultQuestions/QuestionConsult";
 import BoothPsifos from "../BoothPsifos";
@@ -34,7 +34,7 @@ function Consult(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendIP + "/vote/" + uuid + "/logout"}
+            linkExit={backendOpIP + "/vote/" + uuid + "/logout"}
             linkInit=""
           />
           <Title namePage="Consulta" />
@@ -63,7 +63,7 @@ function Consult(props) {
               />
             </div>
           )}
-          {actualPhase === 2 && <EndConsult consultData = {props.consultData} />}
+          {actualPhase === 2 && <EndConsult consultData={props.consultData} />}
         </section>
       </div>
     </div>

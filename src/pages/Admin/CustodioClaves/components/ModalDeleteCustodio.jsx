@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ModalDeleteCustodio(props) {
   /**
@@ -22,7 +22,7 @@ function ModalDeleteCustodio(props) {
 
     try {
       const url =
-        backendIP + "/" + props.uuid + "/delete-trustee/" + props.uuidTrustee;
+        backendOpIP + "/" + props.uuid + "/delete-trustee/" + props.uuidTrustee;
       const token = sessionStorage.getItem("token");
       const resp = await fetch(url, {
         method: "POST",

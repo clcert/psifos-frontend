@@ -1,4 +1,4 @@
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ function DeleteModal(props) {
     try {
       setDeleteState(true);
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + uuid + "/delete-voters", {
+      const resp = await fetch(backendOpIP + "/" + uuid + "/delete-voters", {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,

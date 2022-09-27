@@ -1,8 +1,8 @@
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ModalTally(props) {
   async function computeTally() {
-    const url = backendIP + "/" + props.uuid + "/compute-tally";
+    const url = backendOpIP + "/" + props.uuid + "/compute-tally";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -13,11 +13,17 @@ function ModalTally(props) {
     });
     const data = await response.json();
     if (response.status === 200) {
-      props.feedback("El tally encriptado ha sido computado con exito!", "is-success");
+      props.feedback(
+        "El tally encriptado ha sido computado con exito!",
+        "is-success"
+      );
       props.tallyChange(true);
       props.onHide();
     } else {
-      props.feedback("Ha ocurrido un problema al intentar computar el tally", "is-danger");
+      props.feedback(
+        "Ha ocurrido un problema al intentar computar el tally",
+        "is-danger"
+      );
       props.onHide();
     }
   }

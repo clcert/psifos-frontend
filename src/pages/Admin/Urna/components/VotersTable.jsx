@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { backendIP, backendHeliosIP } from "../../../../server";
+import { backendOpIP, backendHeliosIP } from "../../../../server";
 import ButtonAlert from "../../../../component/Alerts/ButtonAlert";
 import IconAlert from "../../../../component/Alerts/IconAlert";
 import { Button } from "react-bulma-components";
@@ -18,36 +18,45 @@ function VotersTable(props) {
   const [page, setPage] = useState(0);
   const [electionStatus, setElectionStatus] = useState("");
 
-  useEffect(function effectFunction() {
-    async function getVoters() {
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/" + props.uuid + "/get-voters", {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
+  useEffect(
+    function effectFunction() {
+      async function getVoters() {
+        const token = sessionStorage.getItem("token");
+        const resp = await fetch(
+          backendOpIP + "/" + props.uuid + "/get-voters",
+          {
+            method: "GET",
+            headers: {
+              Authorization: "Bearer " + token,
 
-          "Content-Type": "application/json",
-        },
-      });
-
-      const jsonResponse = await resp.json();
-      if (resp.status === 200) {
-        setTotalVoters(jsonResponse.length);
-        //setTotalVotes(jsonResponse.info_votes.votes_cast);
-        setVoters(jsonResponse);
-        setAuxArrayVoters(jsonResponse);
-        setVoterForPage(
-          jsonResponse.slice(maxForPage * page, maxForPage * page + maxForPage)
+              "Content-Type": "application/json",
+            },
+          }
         );
-      } else {
+
+        const jsonResponse = await resp.json();
+        if (resp.status === 200) {
+          setTotalVoters(jsonResponse.length);
+          //setTotalVotes(jsonResponse.info_votes.votes_cast);
+          setVoters(jsonResponse);
+          setAuxArrayVoters(jsonResponse);
+          setVoterForPage(
+            jsonResponse.slice(
+              maxForPage * page,
+              maxForPage * page + maxForPage
+            )
+          );
+        } else {
+        }
       }
-    }
-    getVoters();
-    getStats(props.uuid).then((data) => {
-      const { jsonResponse } = data;
-      setElectionStatus(jsonResponse.status);
-    });
-  }, [props.voter]);
+      getVoters();
+      getStats(props.uuid).then((data) => {
+        const { jsonResponse } = data;
+        setElectionStatus(jsonResponse.status);
+      });
+    },
+    [props.voter]
+  );
 
   function buttonAction(value, votersArray = auxArrayVoters) {
     /**

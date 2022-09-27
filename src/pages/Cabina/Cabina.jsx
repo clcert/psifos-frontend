@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { backendIP } from "../../server";
+import { backendOpIP } from "../../server";
 import CabinaElection from "./Election/CabinaElection";
 import Consult from "./Consult/Consult";
 import NoAuth from "./NoAuth";
@@ -32,7 +32,7 @@ function Cabina(props) {
 
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
-      window.location.href = backendIP + "/vote/" + uuid;
+      window.location.href = backendOpIP + "/vote/" + uuid;
     } else if (props.preview) {
       getElectionQuestionsPreview();
     } else {
@@ -45,7 +45,7 @@ function Cabina(props) {
        * check if voter can vote in election
        */
 
-      const url = backendIP + "/get-election/" + uuid;
+      const url = backendOpIP + "/get-election/" + uuid;
       const token = sessionStorage.getItem("token");
       const resp = await fetch(url, {
         method: "GET",
@@ -70,7 +70,7 @@ function Cabina(props) {
        * check if voter can vote in election
        */
 
-      const url = backendIP + "/" + uuid + "/questions";
+      const url = backendOpIP + "/" + uuid + "/questions";
       const resp = await fetch(url, {
         method: "GET",
         credentials: "include",
@@ -97,13 +97,13 @@ function Cabina(props) {
   }, []);
 
   if (!load) {
-    return <LoadPage/>;
+    return <LoadPage />;
   } else if (!auth) {
     return (
       <NoAuth
         title={"Cabina de votación"}
         message={noAuthMessage}
-        adressLogout={backendIP + "/vote/" + uuid + "/logout"}
+        adressLogout={backendOpIP + "/vote/" + uuid + "/logout"}
       ></NoAuth>
     );
   } else if (load) {

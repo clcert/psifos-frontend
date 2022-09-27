@@ -4,7 +4,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
 import { getElection } from "../../../services/election";
 
@@ -76,7 +76,7 @@ function CreateElection(props) {
      */
     if (checkData()) {
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + url, {
+      const resp = await fetch(backendOpIP + url, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,

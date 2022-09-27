@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
 import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
@@ -30,7 +30,13 @@ function DecryptProve(props) {
   const { uuid, uuidTrustee } = useParams();
 
   async function getDescrypt() {
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
+    const url =
+      backendOpIP +
+      "/" +
+      uuid +
+      "/trustee/" +
+      uuidTrustee +
+      "/decrypt-and-prove";
     const response = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -44,7 +50,13 @@ function DecryptProve(props) {
 
   async function sendDescrypt() {
     setFeedbackMessage("Enviando información...");
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/decrypt-and-prove";
+    const url =
+      backendOpIP +
+      "/" +
+      uuid +
+      "/trustee/" +
+      uuidTrustee +
+      "/decrypt-and-prove";
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",
@@ -262,7 +274,7 @@ function DecryptProve(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title

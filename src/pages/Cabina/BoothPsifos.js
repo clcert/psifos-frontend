@@ -3,7 +3,7 @@ import { BigInt } from "../../static/cabina/js/jscrypto/bigint";
 import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
 import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
-import { backendIP } from "../../server";
+import { backendOpIP } from "../../server";
 
 class BoothPsifos {
   /** Class in charge of handling the Helios BOOTH */
@@ -61,7 +61,7 @@ class BoothPsifos {
      * Send encryp answers to the server
      */
 
-    const url = backendIP + "/" + uuid + "/cast-vote";
+    const url = backendOpIP + "/" + uuid + "/cast-vote";
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",

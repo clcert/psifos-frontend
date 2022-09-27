@@ -6,7 +6,7 @@ import SubNavbar from "../component/SubNavbar";
 import { Button } from "react-bulma-components";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { useNavigate } from "react-router-dom";
 
 function CreateCustodio() {
@@ -36,7 +36,7 @@ function CreateCustodio() {
      * fetch POST create a new custodio
      */
     const token = sessionStorage.getItem("token");
-    const url = backendIP + "/" + uuid + "/create-trustee";
+    const url = backendOpIP + "/" + uuid + "/create-trustee";
     const resp = await fetch(url, {
       method: "POST",
       headers: {

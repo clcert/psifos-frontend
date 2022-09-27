@@ -1,8 +1,8 @@
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ModalCombineTally(props) {
   async function combine() {
-    const url = backendIP + "/" + props.uuid + "/combine-decryptions";
+    const url = backendOpIP + "/" + props.uuid + "/combine-decryptions";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -13,10 +13,16 @@ function ModalCombineTally(props) {
     });
     const data = await response.json();
     if (response.status === 200) {
-      props.feedback("Se han realizado las combinación de las desencriptaciones con exito! ", "is-success");
+      props.feedback(
+        "Se han realizado las combinación de las desencriptaciones con exito! ",
+        "is-success"
+      );
       props.combineChange(true);
     } else {
-      props.feedback("Ha ocurrido un problema al combinar las desencriptaciones parciales", "is-danger");
+      props.feedback(
+        "Ha ocurrido un problema al combinar las desencriptaciones parciales",
+        "is-danger"
+      );
     }
     props.onHide();
   }

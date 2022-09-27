@@ -1,5 +1,5 @@
 import { Button } from "react-bulma-components";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function SettingsUrna(props) {
   let openReg = props.reg;
@@ -16,7 +16,7 @@ function SettingsUrna(props) {
 
   async function updateRegElection() {
     const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendIP + "/" + props.uuid + "/openreg", {
+    const resp = await fetch(backendOpIP + "/" + props.uuid + "/openreg", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,

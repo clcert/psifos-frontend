@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
 import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
 import { getCheckSk, getEgParams } from "../../../services/crypto";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-
 
 function CheckSk(props) {
   /** @state {string} secret key for check */
@@ -58,7 +57,7 @@ function CheckSk(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title

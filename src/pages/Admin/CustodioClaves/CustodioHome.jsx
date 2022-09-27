@@ -5,7 +5,7 @@ import ImageFooter from "../../../component/Footers/ImageFooter";
 import LoadPage from "../../../component/Loading/LoadPage";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import NoAuth from "../../Cabina/NoAuth";
@@ -42,7 +42,7 @@ function CustodioHome(props) {
 
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
-      window.location.href = backendIP + "/" + uuid + "/trustee/login";
+      window.location.href = backendOpIP + "/" + uuid + "/trustee/login";
     }
     getTrusteeHome(uuid, uuidTrustee).then((data) => {
       try {
@@ -76,7 +76,7 @@ function CustodioHome(props) {
       <NoAuth
         title={"Custodio de Claves"}
         message={noAuthMessage}
-        adressLogout={backendIP + "/" + uuid + "/trustee" + "/logout"}
+        adressLogout={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
       ></NoAuth>
     );
   } else {
@@ -85,7 +85,7 @@ function CustodioHome(props) {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
-              linkExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+              linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
               linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
             <Title

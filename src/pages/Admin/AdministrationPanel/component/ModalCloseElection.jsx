@@ -1,8 +1,8 @@
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ModalCloseElection(props) {
   async function closeElection() {
-    const url = backendIP + "/" + props.uuid + "/end-election";
+    const url = backendOpIP + "/" + props.uuid + "/end-election";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -16,7 +16,10 @@ function ModalCloseElection(props) {
       props.feedback("La elección ha sido cerrada con exito!", "is-success");
       props.endChange();
     } else {
-      props.feedback("Ha ocurrido un problema al cerrar la elección", "is-danger");
+      props.feedback(
+        "Ha ocurrido un problema al cerrar la elección",
+        "is-danger"
+      );
     }
     props.onHide();
   }

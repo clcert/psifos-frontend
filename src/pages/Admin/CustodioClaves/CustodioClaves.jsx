@@ -3,7 +3,7 @@ import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
-import { backendHeliosIP, backendIP } from "../../../server";
+import { backendHeliosIP, backendOpIP } from "../../../server";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
@@ -102,9 +102,9 @@ function CustodioClaves(props) {
             <a
               target="_blank"
               style={{ color: "rgb(0, 182, 254)" }}
-              href={backendIP + "/" + uuid + "/trustee/login"}
+              href={backendOpIP + "/" + uuid + "/trustee/login"}
             >
-              {backendIP + "/" + uuid + "/trustee/login"}
+              {backendOpIP + "/" + uuid + "/trustee/login"}
             </a>
           </div>
           <TrusteesList

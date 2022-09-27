@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function EditVoterModal(props) {
   const [loginVoter, setLoginVoter] = useState("");
@@ -14,7 +14,7 @@ function EditVoterModal(props) {
   async function editVoter() {
     const token = sessionStorage.getItem("token");
     const resp = await fetch(
-      backendIP + "/" + uuid + "/voters/" + props.voter.uuid + "/edit",
+      backendOpIP + "/" + uuid + "/voters/" + props.voter.uuid + "/edit",
       {
         method: "POST",
         headers: {

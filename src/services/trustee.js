@@ -1,4 +1,4 @@
-import { backendIP } from "../server";
+import { backendOpIP } from "../server";
 
 async function getTrustee(uuidTrustee) {
   /**
@@ -6,7 +6,7 @@ async function getTrustee(uuidTrustee) {
    * set the trustee in the state (params)
    * @returns {object} trustee
    */
-  const resp = await fetch(backendIP + "/" + uuidTrustee + "/get-trustee", {
+  const resp = await fetch(backendOpIP + "/" + uuidTrustee + "/get-trustee", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +22,7 @@ async function getTrustees(uuid) {
    * set the trustees list
    */
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendIP + "/" + uuid + "/get-trustees", {
+  const resp = await fetch(backendOpIP + "/" + uuid + "/get-trustees", {
     method: "GET",
     headers: {
       Authorization: "Bearer " + token,
@@ -35,7 +35,7 @@ async function getTrustees(uuid) {
 }
 
 async function getTrusteeHome(uuid, uuidTrustee) {
-  const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/home";
+  const url = backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/home";
   const resp = await fetch(url, {
     method: "GET",
     credentials: "include",

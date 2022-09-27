@@ -8,7 +8,7 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import { Link, useParams } from "react-router-dom";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../services/trustee";
@@ -84,7 +84,7 @@ function Keygenerator(props) {
      * @returns {int} randomness
      */
 
-    const resp = await fetch(backendIP + "/" + uuid + "/get-randomness", {
+    const resp = await fetch(backendOpIP + "/" + uuid + "/get-randomness", {
       method: "GET",
       credentials: "include",
     });
@@ -102,7 +102,8 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
+    const url =
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -131,7 +132,8 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
+    const url =
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
 
     const resp = await fetch(url, {
       method: "GET",
@@ -148,7 +150,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
     const url =
-      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get-step";
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get-step";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -348,7 +350,8 @@ function Keygenerator(props) {
   }
 
   async function send_public_key() {
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
+    const url =
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
 
     const resp = await fetch(url, {
       method: "POST",
@@ -513,7 +516,7 @@ function Keygenerator(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
+            linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title

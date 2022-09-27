@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { backendIP, backendHeliosIP } from "../../../../server";
+import { backendOpIP, backendHeliosIP } from "../../../../server";
 import TextAlert from "../../../../component/Alerts/TextAlert";
 import { getTrustees } from "../../../../services/trustee";
 import InfoTrustee from "./InfoTrustee";
@@ -91,9 +91,7 @@ function TrusteesList(props) {
                   <p className="mt-4">Custodio aún no sube su clave pública.</p>
                 )}
 
-                {props.election.encrypted_tally && (
-                  <InfoTrustee trustee={t}/>
-                )}
+                {props.election.encrypted_tally && <InfoTrustee trustee={t} />}
               </div>
             );
           })}

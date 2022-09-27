@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function CardSettings(props) {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
@@ -48,7 +48,7 @@ function CardSettings(props) {
         <div className="content-card-admin">
           <i className="fa-solid fa-check-to-slot mr-2"></i>
           <CopyToClipboard
-            text={backendIP + "/vote/" + uuid}
+            text={backendOpIP + "/vote/" + uuid}
             onCopy={() => setShowCopyMessage(true)}
           >
             <span>

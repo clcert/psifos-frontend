@@ -1,4 +1,4 @@
-import { backendIP } from "../server";
+import { backendOpIP } from "../server";
 import { logout } from "../utils/utils";
 
 async function getElection(uuid) {
@@ -7,10 +7,10 @@ async function getElection(uuid) {
    */
 
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendIP + "/get-election/" + uuid, {
+  const resp = await fetch(backendOpIP + "/get-election/" + uuid, {
     method: "GET",
     headers: {
-      "Authorization": "Bearer " + token,
+      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   });
@@ -28,10 +28,10 @@ async function getElections() {
    */
 
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendIP + "/get-elections", {
+  const resp = await fetch(backendOpIP + "/get-elections", {
     method: "GET",
     headers: {
-      "Authorization": "Bearer " + token,
+      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   });
@@ -46,10 +46,10 @@ async function getElections() {
 
 async function getStats(uuid) {
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendIP + "/get-election-stats/" + uuid, {
+  const resp = await fetch(backendOpIP + "/get-election-stats/" + uuid, {
     method: "GET",
     headers: {
-      "Authorization": "Bearer " + token,
+      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   });

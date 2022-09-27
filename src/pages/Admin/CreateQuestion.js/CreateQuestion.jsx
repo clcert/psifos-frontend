@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { getElection } from "../../../services/election";
 import SubNavbar from "../component/SubNavbar";
 import QuestionsForms from "./component/QuestionsForms";
@@ -176,7 +176,7 @@ function CreateQuestion(props) {
 
     if (checkQuestions()) {
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/create-questions/" + uuid, {
+      const resp = await fetch(backendOpIP + "/create-questions/" + uuid, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
