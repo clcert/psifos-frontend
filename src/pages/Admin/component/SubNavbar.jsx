@@ -58,7 +58,7 @@ function SubNavbar(props) {
                 to={"/admin/" + uuid + "/urna"}
               >
                 <i className="fa-solid fa-check-to-slot mr-2"></i>
-                <span>Urna</span>
+                <span>Padron</span>
               </Link>
             </div>
             <div className="content-subnavbar">

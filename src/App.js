@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
-import Urna from "./pages/Admin/Urna/Urna";
+import Urna from "./pages/Admin/Padron/Padron";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
 import Resultados from "./pages/Admin/Results/Resultados";
 import Home from "./pages/Home/Home";
@@ -23,6 +23,7 @@ import Cabina from "./pages/Cabina/Cabina";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
 import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
+import CastVoteView from "./pages/Cabina/CastVoteView";
 
 function App() {
   function getToken() {
@@ -158,6 +159,7 @@ function App() {
       <Route path="/cabina">
         <Route path=":uuid" element={<Cabina />} />
         <Route path="consult" element={<Consult />} />
+        <Route path=":uuid/urna" element={<CastVoteView/>} />
       </Route>
 
       {/** Routes for trustee */}

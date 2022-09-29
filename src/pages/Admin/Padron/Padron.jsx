@@ -62,7 +62,7 @@ function Urna() {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Urna Electronica" nameElection={election.name} />
+          <Title namePage="Padron" nameElection={election.name} />
         </div>
       </section>
 
