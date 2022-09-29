@@ -1,6 +1,10 @@
+import { useParams } from "react-router-dom";
+import { frontIP } from "../../../server";
 import sendImage from "../../../static/cabina/svg/send-img.svg";
 
 function CastDone(props) {
+  const { uuid } = useParams();
+
   return (
     <section className="section pb-0" id="send-section">
       <div className="container has-text-centered is-max-desktop">
@@ -33,8 +37,20 @@ function CastDone(props) {
         </p>
 
         <p className="subtitle is-5 pb-3">
-          Puedes <a href="">verificar aquí</a> que tu código de papeleta está
-          presente en la urna electrónica y será contabilizada.
+          Puedes{" "}
+          <a
+            href={
+              frontIP +
+              "/cabina/" +
+              uuid +
+              "/urna?hash=" +
+              encodeURIComponent(props.voteHash)
+            }
+          >
+            verificar aquí
+          </a>{" "}
+          que tu código de papeleta está presente en la urna electrónica y será
+          contabilizada.
         </p>
         <a href="https://participa.uchile.cl/">
           <button className="button is-medium my-4" id="back-vote-button">
