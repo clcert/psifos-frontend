@@ -71,7 +71,7 @@ function HomeAdmin() {
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
                   className="link-button"
-                  to="/admin/general"
+                  to="/psifos/admin/general"
                 >
                   <Button className="button-custom ml-3 home-admin-button level-item">
                     Panel general
@@ -81,7 +81,7 @@ function HomeAdmin() {
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
                   className="link-button"
-                  to="/admin/create-election"
+                  to="/psifos/admin/create-election"
                 >
                   <Button className="button-custom ml-3 home-admin-button level-item">
                     Crear Votación

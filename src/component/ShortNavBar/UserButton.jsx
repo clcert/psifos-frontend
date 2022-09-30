@@ -5,7 +5,7 @@ function UserButton(props) {
 
   function logOut() {
     sessionStorage.removeItem("token");
-    window.location.href = "/admin/login";
+    window.location.href = "/psifos/admin/login";
   }
   return (
     <div
@@ -25,11 +25,7 @@ function UserButton(props) {
         <span>{sessionStorage.getItem("user")}</span>
       </a>
       {display && (
-        <div
-          className="dropdown-menu"
-          id="dropdown-menu4"
-          role="menu"
-        >
+        <div className="dropdown-menu" id="dropdown-menu4" role="menu">
           <div className="dropdown-item">
             <a
               onClick={logOut}

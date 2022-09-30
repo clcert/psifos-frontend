@@ -1,6 +1,6 @@
 function logout() {
   sessionStorage.removeItem("token");
-  window.location.href = "/admin/login";
+  window.location.href = "/psifos/admin/login";
 }
 
 function translateStep(step) {

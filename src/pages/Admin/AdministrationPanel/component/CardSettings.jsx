@@ -18,7 +18,7 @@ function CardSettings(props) {
           <i className="fa-solid fa-pen-to-square pr-1 mr-2"></i>
           <Link
             className="link-without-line"
-            to={"/admin/" + uuid + "/edit-election/"}
+            to={"/psifos/admin/" + uuid + "/edit-election/"}
           >
             Editar elección
           </Link>
@@ -27,7 +27,7 @@ function CardSettings(props) {
           <i className="fa-solid fa-circle-question pr-2 mr-1"></i>
           <Link
             className="link-without-line"
-            to={"/admin/" + uuid + "/create-question/"}
+            to={"/psifos/admin/" + uuid + "/create-question/"}
           >
             Ver preguntas
           </Link>
@@ -38,7 +38,7 @@ function CardSettings(props) {
             <i className="fa-solid fa-person-booth mr-2"></i>
             <Link
               className="link-without-line"
-              to={"/admin/" + uuid + "/cabina"}
+              to={"/psifos/admin/" + uuid + "/cabina"}
             >
               Ver previsualización
             </Link>

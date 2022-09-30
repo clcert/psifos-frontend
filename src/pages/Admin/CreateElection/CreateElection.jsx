@@ -101,7 +101,7 @@ function CreateElection(props) {
         }
       }
       if (resp.status === 201) {
-        window.location.href = "/admin/" + jsonResponse.uuid + "/panel";
+        window.location.href = "/psifos/admin/" + jsonResponse.uuid + "/panel";
       }
     } else {
       window.scrollTo({
@@ -331,7 +331,9 @@ function CreateElection(props) {
             <Link
               className="link-button"
               style={{ color: "white" }}
-              to={props.edit ? "/admin/" + uuid + "/panel" : "/admin/home"}
+              to={
+                props.edit ? "/psifos/admin/" + uuid + "/panel" : "/admin/home"
+              }
             >
               <Button className="button-custom mr-2 ml-2 level-left">
                 Atras

@@ -23,7 +23,7 @@ function Status(props) {
           <span className="panel-text-sect">
             <Link
               className="link-without-line"
-              to={"/admin/" + props.uuid + "/create-question/"}
+              to={"/psifos/admin/" + props.uuid + "/create-question/"}
             >
               Añadir preguntas
             </Link>
@@ -35,7 +35,7 @@ function Status(props) {
           <span className="panel-text-sect">
             <Link
               className="link-without-line"
-              to={"/admin/" + props.uuid + "/trustee"}
+              to={"/psifos/admin/" + props.uuid + "/trustee"}
             >
               Añadir custodios
             </Link>
@@ -80,7 +80,7 @@ function Status(props) {
           <span className="panel-text-sect">
             <Link
               className="link-without-line"
-              to={"/admin/" + props.uuid + "/trustee"}
+              to={"/psifos/admin/" + props.uuid + "/trustee"}
             >
               Esperando desencriptaciones parciales
             </Link>
@@ -106,7 +106,7 @@ function Status(props) {
             className="panel-text-sect"
           >
             <Link
-              to={"/admin/" + props.uuid + "/resultado"}
+              to={"/psifos/admin/" + props.uuid + "/resultado"}
               className="link-without-line"
             >
               Ver resultados

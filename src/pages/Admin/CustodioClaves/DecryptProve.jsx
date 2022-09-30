@@ -315,7 +315,7 @@ function DecryptProve(props) {
               <button className="button mr-2">
                 <Link
                   style={{ textDecoration: "None", color: "black" }}
-                  to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+                  to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
                 >
                   Volver atras
                 </Link>

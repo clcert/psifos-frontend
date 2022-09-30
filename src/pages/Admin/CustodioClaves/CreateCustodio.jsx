@@ -51,7 +51,7 @@ function CreateCustodio() {
     });
     const data = await resp.json();
     if (resp.status === 200) {
-      navigate("/admin/" + uuid + "/trustee", {
+      navigate("/psifos/admin/" + uuid + "/trustee", {
         state: {
           message: "Custodio creado con exito!",
         },
@@ -138,7 +138,10 @@ function CreateCustodio() {
           </div>
           <div className="level">
             <Button className="button-custom mr-2 ml-2 level-left">
-              <Link className="link-button" to={"/admin/" + uuid + "/trustee"}>
+              <Link
+                className="link-button"
+                to={"/psifos/admin/" + uuid + "/trustee"}
+              >
                 Atras
               </Link>
             </Button>

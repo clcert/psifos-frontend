@@ -597,7 +597,7 @@ function Keygenerator(props) {
           <button id="button-init" className="button mr-5">
             <Link
               style={{ textDecoration: "None", color: "black" }}
-              to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             >
               Volver atrás
             </Link>
@@ -606,7 +606,7 @@ function Keygenerator(props) {
             <button id="button-init" className="button mr-5">
               <Link
                 style={{ textDecoration: "None", color: "black" }}
-                to={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
+                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
               >
                 Verificar clave privada
               </Link>

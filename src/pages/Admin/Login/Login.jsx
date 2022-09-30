@@ -27,7 +27,7 @@ function Login() {
      */
 
     sessionStorage.setItem("token", userToken["token"]);
-    window.location.href = "/admin/home";
+    window.location.href = "/psifos/admin/home";
   }
 
   function setUser(user) {

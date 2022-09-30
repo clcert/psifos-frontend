@@ -59,7 +59,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/panel"}
+                      to={"/psifos/admin/" + props.election.uuid + "/panel"}
                       className="accordion-link"
                     >
                       Panel administración
@@ -68,7 +68,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/resumen"}
+                      to={"/psifos/admin/" + props.election.uuid + "/resumen"}
                       className="accordion-link"
                     >
                       Resumen
@@ -77,10 +77,10 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/urna"}
+                      to={"/psifos/admin/" + props.election.uuid + "/urna"}
                       className="accordion-link"
                     >
-                      Urna
+                      Padron
                     </Link>{" "}
                   </div>
                 </div>
@@ -88,7 +88,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/trustee"}
+                      to={"/psifos/admin/" + props.election.uuid + "/trustee"}
                       className="accordion-link"
                     >
                       Custodio de claves
@@ -97,7 +97,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/resultado"}
+                      to={"/psifos/admin/" + props.election.uuid + "/resultado"}
                       className="accordion-link"
                     >
                       Resultados
@@ -105,7 +105,7 @@ function Accordion(props) {
                   </div>
                   <div className="row-accordion is-full">
                     <Link
-                      to={"/admin/" + props.election.uuid + "/panel"}
+                      to={"/psifos/admin/" + props.election.uuid + "/create-question"}
                       className="accordion-link"
                     >
                       Preguntas

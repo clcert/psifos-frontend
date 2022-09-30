@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { backendOpIP, backendHeliosIP } from "../../../../server";
 import TextAlert from "../../../../component/Alerts/TextAlert";
 import { getTrustees } from "../../../../services/trustee";
 import InfoTrustee from "./InfoTrustee";
@@ -68,13 +67,7 @@ function TrusteesList(props) {
                             "Are you sure you want to send this trustee his/her admin URL?"
                           }
                           action={() => {
-                            window.location.href =
-                              backendHeliosIP +
-                              "/app/elections/" +
-                              props.uuid +
-                              "/trustees/" +
-                              t.uuid +
-                              "/sendurl";
+                            
                           }}
                         />
                         ]

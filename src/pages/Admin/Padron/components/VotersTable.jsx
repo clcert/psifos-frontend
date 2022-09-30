@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { backendOpIP, backendHeliosIP } from "../../../../server";
-import ButtonAlert from "../../../../component/Alerts/ButtonAlert";
+import { backendOpIP } from "../../../../server";
 import IconAlert from "../../../../component/Alerts/IconAlert";
 import { Button } from "react-bulma-components";
 import { getStats } from "../../../../services/election";
@@ -244,12 +243,7 @@ function VotersTable(props) {
                         <IconAlert
                           icon="fa-solid fa-pen-to-square"
                           action={() => {
-                            window.location.href =
-                              backendHeliosIP +
-                              "/app/elections/" +
-                              props.uuid +
-                              "/voters/weight?voter_id=" +
-                              voter.voter_login_id;
+                            
                           }}
                         />
                       )}

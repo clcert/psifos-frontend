@@ -16,7 +16,7 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to="/admin/home"
+                to="/psifos/admin/home"
               >
                 <i className="fa fa-home mr-2"></i>
                 <span>Votaciones</span>
@@ -29,7 +29,7 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to={"/admin/" + uuid + "/panel"}
+                to={"/psifos/admin/" + uuid + "/panel"}
               >
                 <i className="fa-solid fa-screwdriver-wrench mr-2"></i>
                 <span>Panel</span>
@@ -42,7 +42,7 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to={"/admin/" + uuid + "/resumen"}
+                to={"/psifos/admin/" + uuid + "/resumen"}
               >
                 <i className="fa fa-list-alt mr-2"></i>
                 <span>Resumen</span>
@@ -55,7 +55,7 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to={"/admin/" + uuid + "/urna"}
+                to={"/psifos/admin/" + uuid + "/urna"}
               >
                 <i className="fa-solid fa-check-to-slot mr-2"></i>
                 <span>Padron</span>
@@ -68,7 +68,7 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to={"/admin/" + uuid + "/trustee"}
+                to={"/psifos/admin/" + uuid + "/trustee"}
               >
                 <i className="fa-solid fa-user-check mr-2"></i>
                 <span>Custodio de Claves</span>
@@ -81,7 +81,7 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to={"/admin/" + uuid + "/resultado"}
+                to={"/psifos/admin/" + uuid + "/resultado"}
               >
                 <i className="fa-solid fa-square-poll-vertical mr-2"></i>
                 <span>Resultados</span>

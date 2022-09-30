@@ -55,21 +55,21 @@ function AccordionAudit(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+                      to="/psifos/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
                       className="accordion-link"
                     >
                       Ballot Tracking Center
                     </Link>{" "}
-                    <span style={{color: "black"}}>&nbsp;|&nbsp;&nbsp;</span>
+                    <span style={{ color: "black" }}>&nbsp;|&nbsp;&nbsp;</span>
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+                      to="/psifos/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
                       className="accordion-link"
                     >
                       Votos Auditados
                     </Link>{" "}
-                    <span style={{color: "black"}}>&nbsp;|&nbsp;&nbsp;</span>
+                    <span style={{ color: "black" }}>&nbsp;|&nbsp;&nbsp;</span>
                     <Link
-                      to={"/admin/" + uuid + "/cabina"}
+                      to={"/psifos/admin/" + uuid + "/cabina"}
                       className="accordion-link"
                     >
                       Vista previa

@@ -34,7 +34,7 @@ function CardElection(props) {
     });
 
     setElectionStatus(props.electionStatus);
-    setHaveQuestions(props.election.questions !== "");
+    setHaveQuestions(props.election.questions !== null);
     setHaveVoters(props.election.voters.length > 0);
     setHaveTrustee(props.election.trustees.length > 0);
   }, []);
@@ -47,7 +47,7 @@ function CardElection(props) {
         <span className="is-size-6">
           <Link
             className="link-without-line"
-            to={"/admin/" + props.election.uuid + "/panel"}
+            to={"/psifos/admin/" + props.election.uuid + "/panel"}
           >
             Ver Panel
           </Link>
@@ -56,7 +56,9 @@ function CardElection(props) {
 
       <hr />
       <div className="content-card-admin">
-        <span className="panel-text-sect">Estado: {translateStep(electionStatus)}</span>
+        <span className="panel-text-sect">
+          Estado: {translateStep(electionStatus)}
+        </span>
       </div>
       <div className="content-card-admin">
         <span className="panel-text-sect">

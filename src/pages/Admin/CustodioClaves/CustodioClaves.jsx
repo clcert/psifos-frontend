@@ -3,7 +3,7 @@ import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
-import { backendHeliosIP, backendOpIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
@@ -30,7 +30,6 @@ function CustodioClaves(props) {
   const location = useLocation();
 
   const { uuid } = useParams();
-  const ipHeliosElection = backendHeliosIP + "/app/elections/" + uuid;
 
   useEffect(function effectFunction() {
     getElection(uuid).then((election) => {
@@ -87,7 +86,7 @@ function CustodioClaves(props) {
                     [
                     <a
                       id="trustees-link"
-                      href={ipHeliosElection + "/trustees/add-helios"}
+                      href=""
                     >
                       agregar al servidor como custodio de clave
                     </a>

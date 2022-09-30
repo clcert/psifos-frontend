@@ -89,7 +89,7 @@ function GeneralAdmin() {
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
                     className="link-button"
-                    to="/admin/home"
+                    to="/psifos/admin/home"
                   >
                     Volver Atras
                   </Link>

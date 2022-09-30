@@ -25,7 +25,7 @@ function NavbarAdmin(props) {
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
                   <Link
-                    to="/admin/home"
+                    to="/psifos/admin/home"
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"

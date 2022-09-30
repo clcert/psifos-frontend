@@ -109,7 +109,7 @@ function CustodioHome(props) {
                       disabled={disabledButton1}
                       text="Generar llaves."
                       linkTo={
-                        "/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
+                        "/psifos/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
                       }
                     />
                     <StepButton
@@ -117,7 +117,7 @@ function CustodioHome(props) {
                       disabled={disabledButton2}
                       text="Verifica tu Clave Privada"
                       linkTo={
-                        "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"
+                        "/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"
                       }
                     />
                     <StepButton
@@ -125,7 +125,7 @@ function CustodioHome(props) {
                       disabled={disabledButton3}
                       text="Desencriptar resultado final"
                       linkTo={
-                        "/" +
+                        "/psifos/" +
                         uuid +
                         "/trustee/" +
                         uuidTrustee +
