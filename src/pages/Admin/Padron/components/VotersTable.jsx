@@ -9,46 +9,37 @@ function VotersTable(props) {
   const [election, setElection] = useState([]);
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
-  const [maxForPage, setMaxForPage] = useState(4);
-  const [voterForPage, setVoterForPage] = useState([]);
+  const [maxForPage, setMaxForPage] = useState(2);
   const [previousDisabled, setPreviousDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
-  const [auxArrayVoters, setAuxArrayVoters] = useState([]);
-  const [page, setPage] = useState(0);
+  const [actualPage, setPage] = useState(0);
   const [electionStatus, setElectionStatus] = useState("");
+
+  async function getVoters(page) {
+    const token = sessionStorage.getItem("token");
+    const resp = await fetch(backendOpIP + "/" + props.uuid + "/get-voters", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        page: page,
+        page_size: maxForPage,
+      }),
+    });
+
+    const jsonResponse = await resp.json();
+    return jsonResponse;
+  }
 
   useEffect(
     function effectFunction() {
-      async function getVoters() {
-        const token = sessionStorage.getItem("token");
-        const resp = await fetch(
-          backendOpIP + "/" + props.uuid + "/get-voters",
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + token,
-
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const jsonResponse = await resp.json();
-        if (resp.status === 200) {
-          setTotalVoters(jsonResponse.length);
-          //setTotalVotes(jsonResponse.info_votes.votes_cast);
-          setVoters(jsonResponse);
-          setAuxArrayVoters(jsonResponse);
-          setVoterForPage(
-            jsonResponse.slice(
-              maxForPage * page,
-              maxForPage * page + maxForPage
-            )
-          );
-        } else {
-        }
-      }
-      getVoters();
+      getVoters(actualPage).then((dataVoters) => {
+        setTotalVoters(dataVoters.length);
+        setVoters(dataVoters);
+      });
       getStats(props.uuid).then((data) => {
         const { jsonResponse } = data;
         setElectionStatus(jsonResponse.status);
@@ -57,30 +48,31 @@ function VotersTable(props) {
     [props.voter]
   );
 
-  function buttonAction(value, votersArray = auxArrayVoters) {
+  function buttonAction(value) {
     /**
      * set button disabled or enabled
      * @param {string} value
-     * @param {array} votersArray
      */
-    const newPage = page + value;
-    setPage(newPage);
-    if (newPage > 0 || newPage * maxForPage + maxForPage > votersArray.length) {
-      setPreviousDisabled(false);
-    }
-    if (newPage === 0) {
+    const newPage = actualPage + value;
+
+    if (newPage === 0){
       setPreviousDisabled(true);
     }
-    if (newPage * maxForPage + maxForPage >= votersArray.length) {
-      setNextDisabled(true);
-    }
-    if (newPage * maxForPage + maxForPage < votersArray.length) {
-      setNextDisabled(false);
-    }
 
-    setVoterForPage(
-      votersArray.slice(maxForPage * newPage, maxForPage * newPage + maxForPage)
-    );
+    if (newPage >= 0) {
+      getVoters(newPage).then((dataVoters) => {
+        if (dataVoters.length !== 0) {
+          setNextDisabled(false)
+          setPreviousDisabled(false);
+          setTotalVoters(dataVoters.length);
+          setVoters(dataVoters);
+          setPage(newPage);
+        }
+        else{
+          setNextDisabled(true);
+        }
+      });
+    }
   }
 
   function search(event) {
@@ -96,7 +88,6 @@ function VotersTable(props) {
         auxArray.push(voters[i]);
       }
     }
-    setAuxArrayVoters(auxArray);
     buttonAction(0, auxArray);
   }
 
@@ -171,8 +162,8 @@ function VotersTable(props) {
           </Button>
 
           <ul className="pagination-list">
-            Papeletas {page * maxForPage + 1} -{" "}
-            {page * maxForPage + voterForPage.length} (de {totalVoters}
+            Papeletas {actualPage * maxForPage + 1} -{" "}
+            {actualPage * maxForPage + voters.length} (de {totalVoters}
             )&nbsp;&nbsp;
             {/* {% comment %}
                 <li><a className="pagination-link" href="{% url "election@voters@list-pretty" election.uuid %}?page=1&limit={{limit}}" aria-label="Goto page 1">1</a></li>
@@ -209,7 +200,7 @@ function VotersTable(props) {
                 <th className="has-text-centered">Actions</th>
               </tr>
             </thead>
-            {voterForPage.map((voter, index) => {
+            {voters.map((voter, index) => {
               return (
                 <tbody key={index}>
                   <tr>
@@ -242,9 +233,7 @@ function VotersTable(props) {
                       {election.voting_stopped && (
                         <IconAlert
                           icon="fa-solid fa-pen-to-square"
-                          action={() => {
-                            
-                          }}
+                          action={() => {}}
                         />
                       )}
                     </td>
