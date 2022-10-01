@@ -332,7 +332,7 @@ function CreateElection(props) {
               className="link-button"
               style={{ color: "white" }}
               to={
-                props.edit ? "/psifos/admin/" + uuid + "/panel" : "/admin/home"
+                props.edit ? "/psifos/admin/" + uuid + "/panel" : "/psifos/admin/home"
               }
             >
               <Button className="button-custom mr-2 ml-2 level-left">
