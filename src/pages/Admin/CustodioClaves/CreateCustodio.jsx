@@ -8,6 +8,8 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { backendOpIP } from "../../../server";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getStats } from "../../../services/election";
 
 function CreateCustodio() {
   /**
@@ -25,6 +27,9 @@ function CreateCustodio() {
 
   /** @state {string} feedback message for trustee creation  */
   const [message, setMessage] = useState("");
+
+  /** @state {string} election name */
+  const [nameElection, setNameElection] = useState("");
 
   const navigate = useNavigate();
 
@@ -78,12 +83,19 @@ function CreateCustodio() {
     }
   };
 
+  useEffect(() => {
+    getStats(uuid).then((data) => {
+      const { jsonResponse } = data;
+      setNameElection(jsonResponse.name);
+    });
+  }, []);
+
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Custodio de Claves" nameElection={"nameElection"} />
+          <Title namePage="Custodio de Claves" nameElection={nameElection} />
         </div>
       </section>
 
@@ -157,7 +169,6 @@ function CreateCustodio() {
       </section>
 
       <div>
-        <ImageFooter imagePath={"imageTrustees"} />
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
       </div>
     </div>
