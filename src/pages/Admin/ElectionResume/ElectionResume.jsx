@@ -9,6 +9,7 @@ import { backendOpIP } from "../../../server";
 import { useEffect, useState } from "react";
 import SubNavbar from "../component/SubNavbar";
 import { logout } from "../../../utils/utils";
+import { getStats } from "../../../services/election";
 
 function ElectionResume() {
   /**
@@ -56,6 +57,10 @@ function ElectionResume() {
       }
     }
     getElectionResume();
+    getStats(uuid).then((data) => {
+      const { jsonResponse } = data;
+      setNameElection(jsonResponse.name);
+    });
   }, []);
 
   return (

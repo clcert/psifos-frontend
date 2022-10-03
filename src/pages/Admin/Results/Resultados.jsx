@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import SubNavbar from "../component/SubNavbar";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { getElection } from "../../../services/election";
+import ResultTable from "./components/ResultTable";
 
 function Resultados() {
   /**
@@ -20,10 +21,13 @@ function Resultados() {
   /** @state {array} election questions */
   const [questions, setQuestions] = useState([]);
 
+  /** @state {bool} state of load info */
+  const [load, setLoad] = useState(false);
+
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  useEffect(() => {
+  async function getElectionResult() {
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
@@ -33,7 +37,12 @@ function Resultados() {
           setResults(JSON.parse(jsonResponse.result));
         }
       }
+      setLoad(true);
     });
+  }
+
+  useEffect(() => {
+    getElectionResult();
   }, []);
   return (
     <div id="content-results">
@@ -54,7 +63,8 @@ function Resultados() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        {results.length > 0 ? (
+        {!load && <div className="spinner-animation"></div>}
+        {results.length > 0 && load && (
           <>
             {questions.map((question, index) => {
               return (
@@ -69,43 +79,26 @@ function Resultados() {
                     <br />
                   </div>
                   <div className="disable-text-selection row justify-content-md-center">
-                    <table className="pretty table is-hoverable voters-table">
-                      <thead>
-                        <tr>
-                          <th className="has-text-centered">Respuesta</th>
-                          <th className="has-text-centered pl-4 pr-4">
-                            Resultado
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {results[index].ans_results.map((result, index) => {
-                          return (
-                            <tr className="has-text-centered" key={index}>
-                              <td>
-                                <b className="p-4">
-                                  {question.closed_options[index]}
-                                </b>
-                              </td>
-                              <td>
-                                <b className="p-4">{result}</b>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                    <ResultTable result={results[index]} question={question} />
                   </div>
                 </div>
               );
             })}
           </>
-        ) : (
-          <div className="box" id="not-results-box">
-            <p className="is-size-3 has-text-weight-bold">
-              Resultados aún no calculados. Vuelve más tarde.
-            </p>
-          </div>
+        )}
+        {results.length === 0 && load && (
+          <>
+            <span className="ml-3 is-size-6 mb-2" onClick={() => {getElectionResult()}}>
+              <Link className="link-without-line" to="">
+                <i className="fa-solid fa-arrows-rotate"></i> Actualizar
+              </Link>
+            </span>
+            <div className="box" id="not-results-box">
+              <p className="is-size-3 has-text-weight-bold">
+                Resultados aún no calculados. Vuelve más tarde.
+              </p>
+            </div>
+          </>
         )}
       </section>
 
