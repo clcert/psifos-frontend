@@ -6,7 +6,6 @@ import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
 import Resultados from "./pages/Admin/Results/Resultados";
 import Home from "./pages/Home/Home";
 import "bulma/css/bulma.min.css";
-import CabinaElection from "./pages/Cabina/Election/CabinaElection";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 import Login from "./pages/Admin/Login/Login";
@@ -17,7 +16,6 @@ import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
 import { Navigate } from "react-router-dom";
 import RequireAuth from "./pages/Auth/RequireAuth";
-import AutchCas from "./pages/Auth/AuthCas";
 import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 import Cabina from "./pages/Cabina/Cabina";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
@@ -40,9 +38,9 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/psifos">
         {/** Route for home page */}
-        <Route path="home" element={<Home />} />
 
         {/** init route for login */}
         {token ? (
