@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { frontIP } from "../../../server";
-import sendImage from "../../../static/cabina/svg/send-img.svg";
+import sendImage from "../../../static/booth/svg/send-img.svg";
 
 function CastDone(props) {
   const { uuid } = useParams();
@@ -41,9 +41,9 @@ function CastDone(props) {
           <a
             href={
               frontIP +
-              "/cabina/" +
+              "/booth/" +
               uuid +
-              "/urna?hash=" +
+              "/ballot-box?hash=" +
               encodeURIComponent(props.voteHash)
             }
           >

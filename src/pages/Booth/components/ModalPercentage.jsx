@@ -1,16 +1,15 @@
 import PercentageBar from "./PercentageBar";
 import _ from "lodash";
 import { useState } from "react";
-import EncryptedVote from "../../../static/cabina/js/jscrypto/encrypted-vote";
+import EncryptedVote from "../../../static/booth/js/jscrypto/encrypted-vote";
 
 function ModalPercentage(props) {
-
   /** @state {int} total percentage of encryp process */
   const [percentage, setPercentage] = useState(0);
 
   /** @state {boolean}  */
   const [initialize, setInitialize] = useState(false);
-  
+
   function waitEncryp() {
     let answers_done = _.reject(props.booth.encrypted_answers, _.isNull);
     let percentage_done = Math.round(

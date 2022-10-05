@@ -1,12 +1,11 @@
-import seleccionar from "../../../../static/cabina/img/seleccionar.jpg";
-import revisar from "../../../../static/cabina/img/revisar.jpg";
-import enviar from "../../../../static/cabina/img/enviar.jpg";
+import seleccionar from "../../../../static/booth/img/seleccionar.jpg";
+import revisar from "../../../../static/booth/img/revisar.jpg";
+import enviar from "../../../../static/booth/img/enviar.jpg";
 import CardInfo from "./CardInfo";
-import seleccionarIcono from "../../../../static/cabina/svg/seleccionar-ico-color.svg";
-import revisarIcono from "../../../../static/cabina/svg/revisar-ico-color.svg";
+import seleccionarIcono from "../../../../static/booth/svg/seleccionar-ico-color.svg";
+import revisarIcono from "../../../../static/booth/svg/revisar-ico-color.svg";
 
 function InstructionsSection(props) {
-
   return (
     <section className="section" id="instructions">
       <div className="container has-text-centered steps-container">

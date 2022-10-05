@@ -8,7 +8,7 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { backendOpIP } from "../../../server";
 import { getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees1.svg";
-import NoAuth from "../../Cabina/NoAuth";
+import NoAuth from "../../Booth/NoAuth";
 import StepButton from "./components/StepButton";
 
 function CustodioHome(props) {
@@ -109,7 +109,11 @@ function CustodioHome(props) {
                       disabled={disabledButton1}
                       text="Generar llaves."
                       linkTo={
-                        "/psifos/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/keygenerator"
                       }
                     />
                     <StepButton
@@ -117,7 +121,11 @@ function CustodioHome(props) {
                       disabled={disabledButton2}
                       text="Verifica tu Clave Privada"
                       linkTo={
-                        "/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/check-sk"
                       }
                     />
                     <StepButton

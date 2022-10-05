@@ -1,7 +1,7 @@
-import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
-import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
-import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
+import { sjcl } from "../../../static/booth/js/jscrypto/sjcl";
+import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";

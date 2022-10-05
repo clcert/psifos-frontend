@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
-import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
+import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import { backendOpIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-import Tally from "../../../static/cabina/js/jscrypto/tally";
+import Tally from "../../../static/booth/js/jscrypto/tally";
 
 function DecryptProve(props) {
   const [trustee, setTrustee] = useState("");

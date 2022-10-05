@@ -6,8 +6,8 @@ import Consult from "./Consult/Consult";
 import NoAuth from "./NoAuth";
 import LoadPage from "../../component/Loading/LoadPage";
 
-function Cabina(props) {
-  /** View for cabina */
+function Booth(props) {
+  /** View for booth */
 
   /** @state {string} type of election */
   const [type, setType] = useState("");
@@ -118,4 +118,4 @@ function Cabina(props) {
   }
 }
 
-export default Cabina;
+export default Booth;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import selectImg from "../../../../static/cabina/svg/select-img.svg";
+import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
 import InputCheckbox from "./Questions/InputCheckbox";
 import InputRadio from "./Questions/InputRadio";
@@ -102,7 +102,8 @@ function QuestionElection(props) {
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center">
               <div className="control control-box">
                 <div id="">
-                  {question.min_answers === "1" && question.max_answers === "1" ? (
+                  {question.min_answers === "1" &&
+                  question.max_answers === "1" ? (
                     <InputRadio
                       index={index}
                       addAnswer={addAnswer}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import auditImage from "../../../../static/cabina/svg/audit-img.svg";
+import auditImage from "../../../../static/booth/svg/audit-img.svg";
 
 function AuditSection(props) {
   const [pane1, setPane1] = useState(true);
@@ -75,10 +75,7 @@ function AuditSection(props) {
               verificadores disponibles:
               <ol>
                 <li>
-                  <a
-                    target="_blank"
-                    href=""
-                  >
+                  <a target="_blank" href="">
                     Verificador Participa UChile
                   </a>
                 </li>
@@ -117,7 +114,7 @@ function AuditSection(props) {
             </div>
             <div className="column pb-0">
               <figure className="image select-img-wrapper is-hidden-mobile">
-                <img id="audit-final-img" src={auditImage} alt=""/>
+                <img id="audit-final-img" src={auditImage} alt="" />
               </figure>
             </div>
             <div className="column">

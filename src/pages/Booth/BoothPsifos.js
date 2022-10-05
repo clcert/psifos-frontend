@@ -1,8 +1,8 @@
-import { BOOTH } from "../../static/cabina/js/booth";
-import { BigInt } from "../../static/cabina/js/jscrypto/bigint";
-import { USE_SJCL } from "../../static/cabina/js/jscrypto/bigint";
-import { sjcl } from "../../static/cabina/js/jscrypto/sjcl";
-import { BigIntDummy } from "../../static/cabina/js/jscrypto/bigintDummy.js";
+import { BOOTH } from "../../static/booth/js/booth";
+import { BigInt } from "../../static/booth/js/jscrypto/bigint";
+import { USE_SJCL } from "../../static/booth/js/jscrypto/bigint";
+import { sjcl } from "../../static/booth/js/jscrypto/sjcl";
+import { BigIntDummy } from "../../static/booth/js/jscrypto/bigintDummy.js";
 import { backendOpIP } from "../../server";
 
 class BoothPsifos {

@@ -1,9 +1,9 @@
-import fase1 from "../../../static/cabina/svg/menu1-1.svg";
-import fase2 from "../../../static/cabina/svg/menu2-1.svg";
-import fase3 from "../../../static/cabina/svg/menu3-1.svg";
-import fase1On from "../../../static/cabina/svg/menu1-2.svg";
-import fase2On from "../../../static/cabina/svg/menu2-2.svg";
-import fase3On from "../../../static/cabina/svg/menu3-2.svg";
+import fase1 from "../../../static/booth/svg/menu1-1.svg";
+import fase2 from "../../../static/booth/svg/menu2-1.svg";
+import fase3 from "../../../static/booth/svg/menu3-1.svg";
+import fase1On from "../../../static/booth/svg/menu1-2.svg";
+import fase2On from "../../../static/booth/svg/menu2-2.svg";
+import fase3On from "../../../static/booth/svg/menu3-2.svg";
 import React from "react";
 
 function ProgressBar(props) {

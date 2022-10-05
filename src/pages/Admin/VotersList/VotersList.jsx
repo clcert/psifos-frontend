@@ -12,9 +12,9 @@ import { getElection } from "../../../services/election";
 import DeleteVoterModal from "./components/DeleteVoterModal";
 import EditVoterModal from "./components/EditVoterModal";
 
-function Urna() {
+function VotersList() {
   /**
-   * View of the urna
+   * View of the VotersList
    */
 
   /** @state {bool} open election state */
@@ -62,7 +62,7 @@ function Urna() {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Padron" nameElection={election.name} />
+          <Title namePage="Padrón" nameElection={election.name} />
         </div>
       </section>
 
@@ -175,4 +175,4 @@ function Urna() {
   );
 }
 
-export default Urna;
+export default VotersList;

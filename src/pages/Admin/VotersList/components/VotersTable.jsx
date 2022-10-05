@@ -9,7 +9,7 @@ function VotersTable(props) {
   const [election, setElection] = useState([]);
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
-  const [maxForPage, setMaxForPage] = useState(2);
+  const [maxForPage, setMaxForPage] = useState(9);
   const [previousDisabled, setPreviousDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
   const [actualPage, setPage] = useState(0);

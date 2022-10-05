@@ -13,7 +13,7 @@ import ModalCombineTally from "./component/ModalCombineTally";
 import CardInfo from "./component/CardInfo";
 import CardSettings from "./component/CardSettings";
 import CardSteps from "./component/CardSteps";
-import UploadModal from "../Padron/components/UploadModal";
+import UploadModal from "../VotersList/components/UploadModal";
 import { logout } from "../../../utils/utils";
 
 /**

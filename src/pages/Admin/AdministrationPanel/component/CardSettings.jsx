@@ -38,12 +38,23 @@ function CardSettings(props) {
             <i className="fa-solid fa-person-booth mr-2"></i>
             <Link
               className="link-without-line"
-              to={"/psifos/admin/" + uuid + "/cabina"}
+              to={"/psifos/admin/" + uuid + "/booth"}
             >
               Ver previsualización
             </Link>
           </div>
         )}
+
+        <div className="content-card-admin">
+          <i class="fa-solid fa-square-poll-horizontal pr-2 "></i>{" "}
+          <Link
+            target="_blank"
+            className="link-without-line"
+            to={"/psifos/booth/" + uuid + "/ballot-box/"}
+          >
+            Ver urna electronica
+          </Link>
+        </div>
 
         <div className="content-card-admin">
           <i className="fa-solid fa-check-to-slot mr-2"></i>

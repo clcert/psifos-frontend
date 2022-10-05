@@ -1,9 +1,5 @@
-
-import sobre from "../../../../static/cabina/svg/sobre.svg";
-import instruccionesUser from "../../../../static/cabina/svg/instrucciones-user.svg";
-
-
-
+import sobre from "../../../../static/booth/svg/sobre.svg";
+import instruccionesUser from "../../../../static/booth/svg/instrucciones-user.svg";
 
 function MediaSection(props) {
   return (
@@ -32,7 +28,11 @@ function MediaSection(props) {
             </div>
 
             <figure className="image img-wrapper is-hidden-mobile is-align-self-auto mt-auto">
-              <img id="instructions-text-img-cabina" src={instruccionesUser} alt=""/>
+              <img
+                id="instructions-text-img-cabina"
+                src={instruccionesUser}
+                alt=""
+              />
             </figure>
           </div>
           <div className="column has-text-centered video-column py-6">

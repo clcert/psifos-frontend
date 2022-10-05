@@ -55,10 +55,10 @@ function SubNavbar(props) {
                     ? "text-subnavbar"
                     : "text-subnavbar-active"
                 }
-                to={"/psifos/admin/" + uuid + "/urna"}
+                to={"/psifos/admin/" + uuid + "/voters-list"}
               >
                 <i className="fa-solid fa-check-to-slot mr-2"></i>
-                <span>Padron</span>
+                <span>Padrón</span>
               </Link>
             </div>
             <div className="content-subnavbar">

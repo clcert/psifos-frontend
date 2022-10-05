@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
-import Urna from "./pages/Admin/Padron/Padron";
+import VotersList from "./pages/Admin/VotersList/VotersList";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
 import Resultados from "./pages/Admin/Results/Resultados";
 import Home from "./pages/Home/Home";
@@ -11,17 +11,17 @@ import AdministrationPanel from "./pages/Admin/AdministrationPanel/Administratio
 import Login from "./pages/Admin/Login/Login";
 import CreateElection from "./pages/Admin/CreateElection/CreateElection";
 import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
-import Consult from "./pages/Cabina/Consult/Consult";
+import Consult from "./pages/Booth/Consult/Consult";
 import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
 import { Navigate } from "react-router-dom";
 import RequireAuth from "./pages/Auth/RequireAuth";
 import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
-import Cabina from "./pages/Cabina/Cabina";
+import Booth from "./pages/Booth/Booth";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
 import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
-import CastVoteView from "./pages/Cabina/CastVoteView";
+import CastVoteView from "./pages/Booth/CastVoteView";
 
 function App() {
   function getToken() {
@@ -108,10 +108,10 @@ function App() {
             }
           />
           <Route
-            path=":uuid/urna"
+            path=":uuid/voters-list"
             element={
               <RequireAuth>
-                <Urna />
+                <VotersList />
               </RequireAuth>
             }
           />
@@ -151,17 +151,17 @@ function App() {
             path=":uuid/cabina"
             element={
               <RequireAuth>
-                <Cabina preview={true} />
+                <Booth preview={true} />
               </RequireAuth>
             }
           />
         </Route>
 
         {/** Routes for cabina (voters) */}
-        <Route path="cabina">
-          <Route path=":uuid" element={<Cabina />} />
+        <Route path="booth">
+          <Route path=":uuid" element={<Booth />} />
           <Route path="consult" element={<Consult />} />
-          <Route path=":uuid/urna" element={<CastVoteView />} />
+          <Route path=":uuid/ballot-box" element={<CastVoteView />} />
         </Route>
 
         {/** Routes for trustee */}

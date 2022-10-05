@@ -11,7 +11,7 @@ import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
 import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
 import ModalTally from "../AdministrationPanel/component/ModalTally";
 import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTally";
-import UploadModal from "../Padron/components/UploadModal";
+import UploadModal from "../VotersList/components/UploadModal";
 
 function GeneralAdmin() {
   const [elections, setElections] = useState([]);

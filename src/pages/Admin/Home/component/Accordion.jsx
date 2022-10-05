@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
-import "../../../../static/cabina/css/booth.scss";
+import "../../../../static/booth/css/booth.scss";
 import { Link } from "react-router-dom";
 
 function Accordion(props) {
@@ -77,10 +77,12 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.uuid + "/urna"}
+                      to={
+                        "/psifos/admin/" + props.election.uuid + "/voters-list"
+                      }
                       className="accordion-link"
                     >
-                      Padron
+                      Padrón
                     </Link>{" "}
                   </div>
                 </div>
@@ -105,7 +107,11 @@ function Accordion(props) {
                   </div>
                   <div className="row-accordion is-full">
                     <Link
-                      to={"/psifos/admin/" + props.election.uuid + "/create-question"}
+                      to={
+                        "/psifos/admin/" +
+                        props.election.uuid +
+                        "/create-question"
+                      }
                       className="accordion-link"
                     >
                       Preguntas

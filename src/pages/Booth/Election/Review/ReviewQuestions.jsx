@@ -1,9 +1,8 @@
-import reviewImage from "../../../../static/cabina/svg/review-img.svg";
+import reviewImage from "../../../../static/booth/svg/review-img.svg";
 import AuditModal from "./AuditModal";
 import React, { useState } from "react";
 
 function ReviewQuestions(props) {
-
   const [showModal, setShowModal] = useState(false);
   return (
     <section className="section pb-0" id="review-section">
@@ -26,9 +25,7 @@ function ReviewQuestions(props) {
                         return (
                           <React.Fragment key={index}>
                             <span key={index}>
-                              {"[ ✓ ] " +
-                                value.closed_options[key] +
-                                " "}
+                              {"[ ✓ ] " + value.closed_options[key] + " "}
                             </span>
                             <br />
                           </React.Fragment>
@@ -87,7 +84,6 @@ function ReviewQuestions(props) {
                 className="button is-medium review-buttons"
                 id="proceed_button"
                 onClick={props.sendVote}
-                
               >
                 <span className="icon">
                   <i className="fas fa-paper-plane"></i>

@@ -18,12 +18,12 @@ function CastVoteView() {
     actualPage: 0,
   });
 
-  const [lengthPage, setLengthPage] = useState(5);
+  const [lengthPage, setLengthPage] = useState(50);
   const { uuid } = useParams();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const hashUrl = searchParams.get("hash");
+  const hashUrl = searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
 
   useEffect(() => {
     getVotesInfo(uuid, electionData.actualPage * lengthPage, lengthPage, hashUrl).then(
