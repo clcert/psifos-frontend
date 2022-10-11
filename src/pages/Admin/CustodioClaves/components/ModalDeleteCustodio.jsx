@@ -71,7 +71,6 @@ function ModalDeleteCustodio(props) {
                   onClick={() => {
                     props.onHide();
                     navigate("/psifos/admin/" + props.uuid + "/trustee");
-                    window.location.reload();
                   }}
                 >
                   <span>CERRAR</span>
