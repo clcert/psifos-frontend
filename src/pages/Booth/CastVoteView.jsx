@@ -43,7 +43,6 @@ function CastVoteView() {
 
   function changePage(number) {
     const newPage = electionData.actualPage + number;
-    console.log(newPage);
     if (newPage >= 0) {
       getVotesInfo(uuid, newPage * lengthPage, lengthPage, "").then((dataVotes) => {
         if (dataVotes.cast_vote.length !== 0) {

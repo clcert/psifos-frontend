@@ -13,6 +13,7 @@ import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
 import { backendOpIP } from "../../../server";
 import BoothPsifos from "../BoothPsifos";
+import VerifyVote from "../components/VerifyVote";
 
 function CabinaElection(props) {
   /** @state {int} election phase */
@@ -34,6 +35,8 @@ function CabinaElection(props) {
 
   /** @state {string} vote hash  */
   const [voteHash, setVoteHash] = useState("");
+
+  const [voteVerificated, setVoteVerificates] = useState(null);
 
   /** @urlParam {uuid} election uuid  */
   const { uuid } = useParams();
@@ -62,20 +65,6 @@ function CabinaElection(props) {
   );
 
   const phases = {
-    // 1: {
-    //   sectionClass: "parallax-01",
-    //   stage: 1,
-    //   component: (
-    //     <>
-    //       <MediaSection />
-    //       <InstructionsSection
-    //         beginAction={() => {
-    //           setActualPhase(2);
-    //         }}
-    //       />{" "}
-    //     </>
-    //   ),
-    // },
     1: {
       sectionClass: "parallax-02",
       stage: 1,
@@ -121,14 +110,29 @@ function CabinaElection(props) {
       stage: 3,
       component: (
         <>
-          <ProgressBar phase={3} />
-          <CastDone voteHash={voteHash}></CastDone>
+          <VerifyVote
+            afterVerify={() => {
+              setActualPhase(5);
+            }}
+            setVoteVerificates={setVoteVerificates}
+            voteHash={voteHash}
+          />
         </>
       ),
     },
     5: {
       sectionClass: "parallax-03",
-      stage: 3,
+      stage: 4,
+      component: (
+        <>
+          <ProgressBar phase={3} />
+          <CastDone voteVerificated={voteVerificated}  voteHash={voteHash}></CastDone>
+        </>
+      ),
+    },
+    6: {
+      sectionClass: "parallax-03",
+      stage: 5,
       component: (
         <>
           <AuditSection
