@@ -148,7 +148,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/cabina"
+            path=":uuid/booth"
             element={
               <RequireAuth>
                 <Booth preview={true} />
