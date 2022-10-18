@@ -28,9 +28,14 @@ function VerifyVote(props) {
   }
 
   useEffect(() => {
+    let intervalTotal = setInterval(() => {
+      props.afterVerify();
+    }, 15000);
+
     let interval = setInterval(getVote, 1000);
     return () => {
       clearInterval(interval);
+      clearInterval(intervalTotal);
     };
   }, []);
 

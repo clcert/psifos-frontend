@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import { getElection, getElections } from "../../../services/election";
+import { getElections } from "../../../services/election";
 import CardElection from "./components/CardElection";
 import { Link } from "react-router-dom";
 import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";

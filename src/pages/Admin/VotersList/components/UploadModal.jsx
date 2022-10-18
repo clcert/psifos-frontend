@@ -16,12 +16,6 @@ function UploadModal(props) {
   /** @state {string} status to see if an error occurred */
   const [errorUpload, setErrorUpload] = useState(false);
 
-  /** @state {string} message for finish state */
-  const [messageFinish, setMessageFinish] = useState("");
-
-  /** @urlParam {string} uuid for election */
-  const { uuid } = useParams();
-
   async function sendVoter() {
     /**
      * async function to send the voters to the server
@@ -45,18 +39,13 @@ function UploadModal(props) {
       );
       setUploadState(false);
       setFinishedUpload(true);
-      const jsonResponse = await resp.json();
-      if (resp.status == 200) {
-        setMessageFinish("Votantes subidos con exito");
-      } else {
+      if (resp.status !== 200) {
         setErrorUpload(true);
-        setMessageFinish("Ha ocurrido un error");
       }
     } catch (error) {
       setUploadState(false);
       setFinishedUpload(true);
       setErrorUpload(true);
-      setMessageFinish("Ha ocurrido un error");
     }
   }
   if (!finishedUpload) {

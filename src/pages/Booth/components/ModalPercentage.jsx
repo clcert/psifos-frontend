@@ -37,7 +37,7 @@ function ModalPercentage(props) {
   }
   return (
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
-      <div className="modal-background" onClick={props.onHide}></div>
+      <div className="modal-background"></div>
       <div className="modal-card">
         <section className="modal-card-body">
           <h1 className="title">Encriptando</h1>

@@ -40,7 +40,7 @@ function CreateQuestion(props) {
       }
       setDisabledEdit(resp.jsonResponse.election_status !== "Setting up");
     });
-  }, []);
+  }, [uuid]);
 
   function addQuestion() {
     /**

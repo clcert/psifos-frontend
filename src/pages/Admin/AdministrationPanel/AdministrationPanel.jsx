@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import Title from "../../../component/OthersComponents/Title";
@@ -27,8 +27,6 @@ function AdministrationPanel(props) {
   /** @state {bool} election have questions */
   const [haveQuestions, setHaveQuestions] = useState(true);
 
-  /** @state {bool} election have public keys */
-  const [initElection, setInitElection] = useState(true);
 
   /** @state {bool} election have voters */
   const [haveVoters, setHaveVoters] = useState(true);
@@ -83,7 +81,7 @@ function AdministrationPanel(props) {
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  function updateInfo() {
+  const updateInfo = useCallback(()=>{
     /**
      * Get election and trustee info
      */
@@ -93,7 +91,6 @@ function AdministrationPanel(props) {
         setElectionStatus(jsonResponse.election_status);
         setTitleElection(jsonResponse.name);
         setHaveQuestions(jsonResponse.questions !== null);
-        setInitElection(jsonResponse.public_key !== "");
         setHaveVoters(jsonResponse.voters.length > 0);
         setHaveTrustee(jsonResponse.trustees.length > 0);
         setTrustees(jsonResponse.trustees);
@@ -111,11 +108,11 @@ function AdministrationPanel(props) {
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
-  }
+  }, []);
 
   useEffect(() => {
     updateInfo();
-  }, []);
+  }, [updateInfo]);
 
   return (
     <>

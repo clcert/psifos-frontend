@@ -28,7 +28,7 @@ function CardElection(props) {
 
   useEffect(() => {
     getStats(props.election.uuid).then((res) => {
-      const { resp, jsonResponse } = res;
+      const { jsonResponse } = res;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });

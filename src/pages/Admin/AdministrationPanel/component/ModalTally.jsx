@@ -11,7 +11,6 @@ function ModalTally(props) {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
     if (response.status === 200) {
       props.feedback(
         "El tally encriptado ha sido computado con exito!",

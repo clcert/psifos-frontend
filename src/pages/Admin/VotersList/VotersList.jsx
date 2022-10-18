@@ -50,7 +50,7 @@ function VotersList() {
 
   useEffect(function effectFunction() {
     getElection(uuid).then((election) => {
-      const { resp, jsonResponse } = election;
+      const { jsonResponse } = election;
       setElection(jsonResponse);
       setElectionOpenReg(jsonResponse.openreg);
       setLoad(true);

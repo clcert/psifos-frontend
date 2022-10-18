@@ -68,7 +68,7 @@ function CreateElection(props) {
         }
       });
     }
-  }, []);
+  }, [props.edit, uuid]);
 
   async function sendElection(url) {
     /**

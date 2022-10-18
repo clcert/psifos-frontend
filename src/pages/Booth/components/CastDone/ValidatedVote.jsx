@@ -1,9 +1,33 @@
 import { useParams } from "react-router-dom";
-import { frontIP } from "../../../../server";
+import { backendOpIP, frontIP } from "../../../../server";
 
 function ValidatedVote(props) {
-
-    const { uuid } = useParams();
+  const { uuid } = useParams();
+  async function downloadFile() {
+    const url = backendOpIP + "/" + uuid + "/get-certificate";
+    const resp = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        hash_vote: props.voteHash,
+      }),
+    });
+    if (resp.status === 200) {
+      const fname = "reporte" + ".pdf";
+      const blob_resp = await resp.blob();
+      const objURL = window.URL.createObjectURL(blob_resp);
+      let lnk = document.createElement("a");
+      lnk.href = objURL;
+      lnk.download = fname;
+      lnk.click();
+      setTimeout(() => {
+        window.URL.revokeObjectURL(objURL);
+      }, 250);
+    }
+  }
 
   return (
     <>
@@ -50,6 +74,14 @@ function ValidatedVote(props) {
         </a>{" "}
         que tu código de papeleta está presente en la urna electrónica y será
         contabilizada.
+      </p>
+
+      <p className="subtitle is-5 pb-3">
+        Puedes{" "}
+        <span className="download-button" onClick={downloadFile}>
+          descargar
+        </span>{" "}
+        un certificado que acredita tu voto.
       </p>
       <a href="https://participa.uchile.cl/">
         <button className="button is-medium my-4" id="back-vote-button">

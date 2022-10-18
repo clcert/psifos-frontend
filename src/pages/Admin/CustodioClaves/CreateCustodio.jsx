@@ -1,5 +1,4 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import ImageFooter from "../../../component/Footers/ImageFooter";
 import Title from "../../../component/OthersComponents/Title";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
@@ -54,7 +53,6 @@ function CreateCustodio() {
         email: email,
       }),
     });
-    const data = await resp.json();
     if (resp.status === 200) {
       navigate("/psifos/admin/" + uuid + "/trustee", {
         state: {
@@ -88,7 +86,7 @@ function CreateCustodio() {
       const { jsonResponse } = data;
       setNameElection(jsonResponse.name);
     });
-  }, []);
+  }, [uuid]);
 
   return (
     <div id="content-trustees">

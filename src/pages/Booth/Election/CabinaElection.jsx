@@ -2,8 +2,6 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import Title from "../../../component/OthersComponents/Title";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
-import InstructionsSection from "./InstructionsSection/InstructionsSection";
-import MediaSection from "./InstructionsSection/MediaSection";
 import QuestionElection from "./QuestionSection/QuestionElection";
 import ProgressBar from "../components/ProgressBar";
 import React, { useState, useEffect } from "react";
@@ -24,9 +22,6 @@ function CabinaElection(props) {
 
   /** @state {int} actual voter question  */
   const [actualQuestion, setActualQuestion] = useState(0);
-
-  /** @state {array} election data (questions, key..)  */
-  const [electionData, setElectionData] = useState([]);
 
   const [nameElection, setNameElection] = useState("");
 
@@ -49,7 +44,6 @@ function CabinaElection(props) {
   }, [actualPhase]);
 
   useEffect(() => {
-    setElectionData(props.electionData);
     if (props.electionData.questions) {
       setQuestions(JSON.parse(props.electionData.questions));
       setNameElection(props.electionData.name);

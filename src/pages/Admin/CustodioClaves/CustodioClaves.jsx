@@ -35,7 +35,7 @@ function CustodioClaves(props) {
     getElection(uuid).then((election) => {
       setElection(election.jsonResponse);
     });
-  }, []);
+  }, [uuid]);
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">

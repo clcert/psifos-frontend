@@ -27,7 +27,6 @@ function SettingsUrna(props) {
       }),
     });
     props.changeReg(openReg);
-    const data = await resp.json();
   }
 
   return (

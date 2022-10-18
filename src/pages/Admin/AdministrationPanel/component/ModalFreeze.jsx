@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { backendOpIP } from "../../../../server";
 
 function ModalFreeze(props) {
@@ -13,7 +11,6 @@ function ModalFreeze(props) {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
     if (response.status === 200) {
       props.feedback("La elección ha sido iniciada con exito!", "is-success");
       props.freezeChange();

@@ -6,7 +6,6 @@ import ModalHelp from "./ModalHelp";
 import { Link } from "react-router-dom";
 
 function NavbarAdmin(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   return (

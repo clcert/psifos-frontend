@@ -11,7 +11,6 @@ function ModalCombineTally(props) {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
     if (response.status === 200) {
       props.feedback(
         "Se han realizado las combinación de las desencriptaciones con exito! ",

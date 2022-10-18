@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
 import "../../../../static/booth/css/booth.scss";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ function Accordion(props) {
   const [show, setShow] = useState(false);
   const [stateElection, setStateElection] = useState("");
 
-  function state() {
+  const state = useCallback(() => {
     if (props.election.election_status === "Setting up") {
       setStateElection("En configuración");
     } else if (props.election.election_status === "Started") {
@@ -16,14 +16,14 @@ function Accordion(props) {
     } else {
       setStateElection("Finalizada");
     }
-  }
+  }, []);
 
   useEffect(() => {
     bulmaCollapsible.attach(".is-collapsible", {
       container: collapsiblesRef.current,
     });
     state();
-  }, []);
+  }, [state]);
 
   return (
     <div ref={collapsiblesRef} id="accordion_first">

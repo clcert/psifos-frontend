@@ -13,7 +13,6 @@ import Tally from "../../../static/booth/js/jscrypto/tally";
 
 function DecryptProve(props) {
   const [trustee, setTrustee] = useState("");
-  const [election, setElection] = useState("");
   const [params, setParams] = useState({});
   const [secretKey, setSecretKey] = useState("");
   const [certificates, setCertificates] = useState({});
@@ -89,7 +88,6 @@ function DecryptProve(props) {
       setParams(params_aux);
       setCertificates(certificates_aux);
       setPoints(points_aux);
-      setElection(election_aux);
       setTrustee(trustee_aux);
 
       BigInt.setup(function () {

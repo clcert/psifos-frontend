@@ -12887,3 +12887,8 @@ Consult
 .hash-selected{
   background-color: #00b7ff !important;
 }
+
+.download-button{
+  color: #0d6efd;
+  cursor: pointer;
+}

@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import sendImage from "../../../static/booth/svg/send-img.svg";
 import InvalidatedVote from "./CastDone/InvalidatedVote";
 import PendingVote from "./CastDone/PendingVote";

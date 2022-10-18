@@ -11,7 +11,6 @@ function ModalCloseElection(props) {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
     if (response.status === 200) {
       props.feedback("La elección ha sido cerrada con exito!", "is-success");
       props.endChange();
