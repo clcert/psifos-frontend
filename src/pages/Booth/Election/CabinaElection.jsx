@@ -149,7 +149,7 @@ function CabinaElection(props) {
           />
           <Title
             namePage={
-              props.preview ? "Previsualización de votación" : "Cabina votación"
+              props.preview ? "Previsualización de votación" : "Cabina de Votación"
             }
             nameElection={nameElection}
           />
@@ -162,7 +162,7 @@ function CabinaElection(props) {
         }}
       >
         <ProgressBar phase={phases[actualPhase].stage} />
-        <section className="section pb-0" id="question-section">
+        <section className="section pb-1" id="question-section">
           <div className="container has-text-centered is-max-desktop">
             <QuestionElection
               questions={questions}

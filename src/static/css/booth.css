@@ -260,7 +260,6 @@
 .menu-text-admin {
   text-decoration: none;
   color: #004c94;
-  font-size: 0.9em !important;
   text-decoration: none !important;
   font-weight: 600 !important;
 }
@@ -271,27 +270,28 @@
 
 #text-button {
   text-align: left !important;
-  margin: 0 15px;
+  margin-right: 15px;
   width: 60px;
-  padding-bottom: 10px;
   position: relative;
   text-decoration: none;
+  font-size: 0.85rem;
 }
 
 #text-button:after {
   content: "";
   position: absolute;
-  background: #004c94;
-  bottom: 3px;
+  background: #6dcaf3;
+  bottom: -1px;
   left: 0;
-  width: 110%;
+  width: 100%;
   height: 2px;
   transition: 0.3s;
 }
 
 #text-button:hover:after {
   width: 50%;
-  background: #6dcaf3
+  background: #004c94;
+  transition: 0.3s;
 }
 
 /* Progress Bar */
@@ -455,7 +455,6 @@
 /* 02: Select Question */
 #question-section {
   background-color: rgba(0, 76, 148, 0.15);
-  min-height: 50rem;
 }
 
 .question-box {

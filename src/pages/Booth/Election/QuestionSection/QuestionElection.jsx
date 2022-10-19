@@ -99,7 +99,7 @@ function QuestionElection(props) {
               questions={question}
             />
 
-            <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center">
+            <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
               <div className="control control-box">
                 <div id="">
                   {question.min_answers === "1" &&

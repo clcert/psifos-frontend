@@ -11,7 +11,7 @@ function InputRadio(props) {
             <label
               id=""
               className={
-                "radio question-answer p-2 " +
+                "radio question-answer pl-3 pr-2 py-2 " +
                 (answer.includes(index) ? "answer-selected" : "")
               }
             >
@@ -26,23 +26,7 @@ function InputRadio(props) {
                   props.addAnswer([parseInt(e.target.value)], props.index);
                 }}
               />
-              <span className="is-size-4">{key}</span>
-              &nbsp;&nbsp;
-              {key !== "" ? (
-                <span style={{ fontSize: "12pt" }}>
-                  [
-                  <a
-                    target="_blank"
-                    href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
-                    rel="noopener noreferrer"
-                  >
-                    more info
-                  </a>
-                  ]
-                </span>
-              ) : (
-                <></>
-              )}
+              <span className="is-size-5">{key}</span>
             </label>
           </div>
         );

@@ -16,7 +16,7 @@ function ProgressBar(props) {
       <div className="container has-text-centered progress-container">
         <div className="columns progress-bar-items is-variable">
           <div className="column">
-            <figure className="image is-3by1">
+            <figure className="image is-3by1 mb-0">
               <Image
                 id="progress-1"
                 src={props.phase === 1 ? fase1On : fase1}
@@ -24,7 +24,7 @@ function ProgressBar(props) {
             </figure>
           </div>
           <div className="column">
-            <figure className="image is-3by1">
+            <figure className="image is-3by1 mb-0">
               <Image
                 id="progress-2"
                 src={props.phase === 2 ? fase2On : fase2}
@@ -32,7 +32,7 @@ function ProgressBar(props) {
             </figure>
           </div>
           <div className="column">
-            <figure className="image is-3by1">
+            <figure className="image is-3by1 mb-0">
               <Image
                 id="progress-3"
                 src={props.phase === 3 ? fase3On : fase3}

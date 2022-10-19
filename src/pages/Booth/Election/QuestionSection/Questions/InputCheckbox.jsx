@@ -24,7 +24,7 @@ function InputCheckbox(props) {
             <label
               id=""
               className={
-                "checkbox question-answer p-2 " +
+                "checkbox question-answer pl-3 p-2 " +
                 (answers.includes(index) ? "answer-selected" : "")
               }
             >
@@ -39,23 +39,7 @@ function InputCheckbox(props) {
                   props.addAnswer(ans, props.index);
                 }}
               />
-              <span className="is-size-4">{key}</span>
-              &nbsp;&nbsp;
-              {key !== "" ? (
-                <span style={{ fontSize: "12pt" }}>
-                  [
-                  <a
-                    target="_blank"
-                    href="{$T.question.answer_urls[$T.answer_ordering[$T.answer$index]]}"
-                    rel="noopener noreferrer"
-                  >
-                    more info
-                  </a>
-                  ]
-                </span>
-              ) : (
-                <></>
-              )}
+              <span className="is-size-5">{key}</span>
             </label>
           </div>
         );

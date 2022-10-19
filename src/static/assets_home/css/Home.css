@@ -112,7 +112,7 @@ div#preload {
   margin-top: 0.5rem;
   margin-left: -0.5rem;
   height: 55px;
-  border-left: solid 2px gainsboro;
+  border-left: solid 2px #4d81b3;
 }
 
 #load-image {

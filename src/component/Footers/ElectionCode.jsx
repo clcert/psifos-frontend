@@ -7,17 +7,12 @@ function ElectionCode(props) {
           style={{ marginTop: "0.5rem" }}
         >
           <div className="columns is-centered" style={{ marginBottom: "0" }}>
-            <p>CÓDIGO DE LA ELECCIÓN</p>
-          </div>
-          <div className="columns is-centered">
-            <p className="is-family-monospace" style={{ marginBottom: "0" }}>
-              {props.uuid}
-            </p>
+            <p className="mb-0">Participa UChile es un proyecto de la Universidad de Chile - 2022</p>
           </div>
         </div>
       </footer>
-      <section className="hero">
-        <div className="hero-body bottom-hero"></div>
+      <section className="hero py-4">
+        
       </section>
     </div>
   );

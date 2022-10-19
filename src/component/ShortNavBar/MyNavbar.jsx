@@ -57,7 +57,7 @@ function MyNavbar(props) {
                   </a>
                   <a
                     href={props.linkExit}
-                    className="menu-text-admin"
+                    className="menu-text-admin mr-0"
                     id="text-button"
                   >
                     SALIR
