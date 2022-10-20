@@ -115,7 +115,7 @@ function CabinaElection(props) {
       ),
     },
     5: {
-      sectionClass: "parallax-03",
+      sectionClass: "parallax-05",
       stage: 4,
       component: (
         <>

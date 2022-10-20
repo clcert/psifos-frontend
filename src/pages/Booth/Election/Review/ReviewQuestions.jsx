@@ -5,7 +5,7 @@ import React, { useState } from "react";
 function ReviewQuestions(props) {
   const [showModal, setShowModal] = useState(false);
   return (
-    <section className="section pb-0" id="review-section">
+    <section className="section py-0" id="review-section">
       <div className="container has-text-centered is-max-desktop">
         <h1 className="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
         <p className="subtitle">
@@ -18,7 +18,7 @@ function ReviewQuestions(props) {
                 {value.q_text}
               </p>
               <div className="box has-text-left pl-6 review-answer">
-                <p className="subtitle is-5 has-text-white answer-text">
+                <p className="subtitle is-5 has-text-white answer-text mb-0">
                   {props.answers[index] === []
                     ? "[ ] Ninguna opción seleccionada"
                     : props.answers[index].map((key, index) => {
@@ -31,7 +31,6 @@ function ReviewQuestions(props) {
                           </React.Fragment>
                         );
                       })}
-
                   <br />
                   <a onClick={() => props.changeAnswer(index)}>
                     <span className="icon has-text-white">
@@ -50,7 +49,7 @@ function ReviewQuestions(props) {
         <div className="container has-text-centered mt-6">
           <div className="columns pb-0 is-align-items-center review-buttons-container">
             <div className="column is-hidden-mobile">
-              <div className="container">
+              {/* <div className="container">
                 <button
                   className="button is-medium review-buttons"
                   id="audit-button"
@@ -72,7 +71,7 @@ function ReviewQuestions(props) {
                 data-tooltip="Verificación avanzada de correcta encriptación de las preferencias."
               >
                 <i className="far fa-question-circle"></i>
-              </span>
+              </span> */}
             </div>
             <div className="column pb-0 is-hidden-mobile">
               <figure className="image select-img-wrapper">

@@ -32,10 +32,10 @@ function ValidatedVote(props) {
   return (
     <>
       <p className="subtitle is-3 has-text-black mb-1">
-        HEMOS RECIBIDO TU VOTO EXITOSAMENTE
+        HEMOS RECIBIDO TU VOTO
       </p>
       <p className="subtitle has-text-black send-text">
-        Si tu papeleta no es objetada, será incorporada al conteo final.
+        Tu voto ha sido validado exitosamente
       </p>
       <p className="subtitle has-text-black mb-0">
         Código de Papeleta:
@@ -46,7 +46,7 @@ function ValidatedVote(props) {
           <i className="far fa-question-circle"></i>
         </span>
       </p>
-      <p className="subtitle py-1 mb-5" id="vote-code">
+      <p className="subtitle py-1 mb-3" id="vote-code">
         {props.voteHash}
         <a
           id="vote-fingerprint-anchor"
@@ -72,8 +72,7 @@ function ValidatedVote(props) {
         >
           verificar aquí
         </a>{" "}
-        que tu código de papeleta está presente en la urna electrónica y será
-        contabilizada.
+        que tu código de papeleta está presente en la urna electrónica, y por lo tanto, tu voto será contabilizado.
       </p>
 
       <p className="subtitle is-5 pb-3">
@@ -83,12 +82,16 @@ function ValidatedVote(props) {
         </span>{" "}
         un certificado que acredita tu voto.
       </p>
+      <p className="subtitle is-5 pb-2">
+        Si lo deseas, puedes volver a votar durante el tiempo que la votación esté abierta. 
+        Si lo haces, el nuevo voto reemplazará al existente, y sólo se contará el último voto emitido.
+      </p>
       <a href="https://participa.uchile.cl/">
         <button className="button is-medium my-4" id="back-vote-button">
           <span className="icon is-small">
             <i className="fas fa-2x fa-caret-left"></i>
           </span>
-          <span>IR A PÁGINA PRINCIPAL</span>
+          <span>SALIR</span>
         </button>
       </a>
     </>
