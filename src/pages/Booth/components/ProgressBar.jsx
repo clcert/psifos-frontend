@@ -15,7 +15,7 @@ function ProgressBar(props) {
       <div className="line-1 is-hidden-touch" id="progress-line"></div>
       <div className="container has-text-centered progress-container">
         <div className="columns progress-bar-items is-variable">
-          <div className="column">
+          <div className={"column " + (props.phase !== 1 ? "column hide-mobile" : "")}>
             <figure className="image is-3by1 mb-0">
               <Image
                 id="progress-1"
@@ -23,7 +23,7 @@ function ProgressBar(props) {
               />
             </figure>
           </div>
-          <div className="column">
+          <div className={"column " + (props.phase !== 2 ? "column hide-mobile" : "")}>
             <figure className="image is-3by1 mb-0">
               <Image
                 id="progress-2"
@@ -31,7 +31,7 @@ function ProgressBar(props) {
               />
             </figure>
           </div>
-          <div className="column">
+          <div className={"column " + (props.phase !== 3 ? "column hide-mobile" : "")}>
             <figure className="image is-3by1 mb-0">
               <Image
                 id="progress-3"

@@ -208,7 +208,7 @@ $navbar-item-img-max-height: 3.5rem;
 
 /* Progress Bar */
 .line-1 {
-  top: 19.97rem; // TODO: Review this (try not to put measures so specific)
+  top: 19rem; // TODO: Review this (try not to put measures so specific)
   background: $blue-uch;
   position: absolute;
   height: 2px;
@@ -255,6 +255,12 @@ $navbar-item-img-max-height: 3.5rem;
 
 .progress-bar-items {
   --columnGap: 1.8rem !important;
+}
+
+.hide-mobile {
+	@media screen and (max-width: 768px) {
+		display: none !important;
+	}
 }
 
 /* 01: Instructions Middle */
