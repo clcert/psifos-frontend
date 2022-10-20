@@ -2,6 +2,7 @@ import PercentageBar from "./PercentageBar";
 import _ from "lodash";
 import { useState } from "react";
 import EncryptedVote from "../../../static/booth/js/jscrypto/encrypted-vote";
+import encryptingGIF from "../../../static/img/encrypting.gif";
 
 function ModalPercentage(props) {
   /** @state {int} total percentage of encryp process */
@@ -40,11 +41,12 @@ function ModalPercentage(props) {
       <div className="modal-background"></div>
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">Encriptando</h1>
-          <p className="has-text-weight-bold">
-            Estamos encriptando la elección
+          <p className="has-text-weight-bold is-size-5">
+            ENCRIPTANDO TU VOTO <br/>
+            POR FAVOR ESPERA UN MOMENTO
           </p>
-          <PercentageBar percentage={percentage} booth={props.booth} />
+          <img class="mt-2" src={encryptingGIF} />
+          {/* <PercentageBar percentage={percentage} booth={props.booth} /> */}
         </section>
       </div>
     </div>
