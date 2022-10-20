@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { frontIP } from "../../../../server";
 
 function PendingVote(props) {
-    const { uuid } = useParams();
+  const { uuid } = useParams();
 
   return (
     <>
@@ -27,6 +27,7 @@ function PendingVote(props) {
           id="vote-fingerprint-anchor"
           className="has-tooltip-arrow has-tooltip-bottom has-tooltip-info"
           data-tooltip="Copiar"
+          href={() => false}
         >
           <strong>
             <tt className="has-text-white py-3" id="vote-fingerprint"></tt>

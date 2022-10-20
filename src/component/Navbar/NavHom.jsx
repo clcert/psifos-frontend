@@ -22,6 +22,7 @@ function NavHome(props) {
           </a>
 
           <a
+            href={() => false}
             role="button"
             className={"navbar-burger " + (showNavbarBurger ? "is-active" : "")}
             aria-label="menu"
@@ -57,7 +58,7 @@ function NavHome(props) {
             <a className="navbar-item" href="#video" id="navbar-button-home">
               MATERIAL EXPLICATIVO
             </a>
-            <a className="navbar-item" href="" id="navbar-button-home">
+            <a className="navbar-item" href="/#" id="navbar-button-home">
               CABINA DE VOTACIÓN
             </a>
             <a className="navbar-item" href="#faq" id="navbar-button-home">
@@ -69,7 +70,7 @@ function NavHome(props) {
             <a className="navbar-item" href="#noticias" id="navbar-button-home">
               NOTICIAS
             </a>
-            <a className="navbar-item" href="#" id="navbar-button-home">
+            <a className="navbar-item" href="/#" id="navbar-button-home">
               SOFTWARE
             </a>
             <a className="navbar-item" href="#equipo" id="navbar-button-home">

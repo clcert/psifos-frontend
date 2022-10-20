@@ -9,7 +9,7 @@ import Title from "../../../component/OthersComponents/Title";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../services/trustee";
 import { getEgParams } from "../../../services/crypto";
@@ -45,6 +45,22 @@ function Keygenerator(props) {
   /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
 
+  const getRandomness = useCallback(async () => {
+    /**
+     * async function to get the randomness
+     * @returns {int} randomness
+     */
+
+    const resp = await fetch(backendOpIP + "/" + uuid + "/get-randomness", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (resp.status === 200) {
+      const jsonResponse = await resp.json();
+      return jsonResponse.randomness;
+    }
+  }, [uuid]);
+
   useEffect(() => {
     sjcl.random.startCollectors();
     /** Get trustee info */
@@ -76,23 +92,7 @@ function Keygenerator(props) {
         });
       });
     });
-  }, []);
-
-  async function getRandomness() {
-    /**
-     * async function to get the randomness
-     * @returns {int} randomness
-     */
-
-    const resp = await fetch(backendOpIP + "/" + uuid + "/get-randomness", {
-      method: "GET",
-      credentials: "include",
-    });
-    if (resp.status === 200) {
-      const jsonResponse = await resp.json();
-      return jsonResponse.randomness;
-    }
-  }
+  }, [uuid, uuidTrustee, getRandomness]);
 
   async function send_step(step, data) {
     /**
@@ -365,12 +365,12 @@ function Keygenerator(props) {
         public_key_json: JSON.stringify(CERTIFICATE),
       }),
     });
-
-    const jsonResponse = await resp.json();
-    TRUSTEE_STEP = 1;
-    setActualStep(1);
-    EXECUTE = false;
-    set_step_init(TRUSTEE_STEP);
+    if (resp.status === 200) {
+      TRUSTEE_STEP = 1;
+      setActualStep(1);
+      EXECUTE = false;
+      set_step_init(TRUSTEE_STEP);
+    }
   }
 
   function set_step_init(step) {
@@ -516,7 +516,7 @@ function Keygenerator(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
+            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title

@@ -35,8 +35,7 @@ function DeleteModal(props) {
       });
       setDeleteState(false);
       setFinishedDelete(true);
-      const jsonResponse = await resp.json();
-      if (resp.status == 200) {
+      if (resp.status === 200) {
       } else {
         setErrorDelete(true);
       }

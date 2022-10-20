@@ -6,7 +6,6 @@ function MultipleSelection(props) {
 
   function handleChange(e) {
     const { value } = e.target;
-    const { name } = e.target;
     const { checked } = e.target;
     let questionsSelectedAux = [...questionsSelected];
     if (checked) {

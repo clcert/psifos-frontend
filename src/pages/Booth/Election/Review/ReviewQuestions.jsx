@@ -1,6 +1,7 @@
 import reviewImage from "../../../../static/booth/svg/review-img.svg";
 import AuditModal from "./AuditModal";
 import React, { useState } from "react";
+import VerifyVoteModal from "../../components/VerifyVoteModal";
 
 function ReviewQuestions(props) {
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +33,10 @@ function ReviewQuestions(props) {
                         );
                       })}
                   <br />
-                  <a onClick={() => props.changeAnswer(index)}>
+                  <a
+                    onClick={() => props.changeAnswer(index)}
+                    href={() => false}
+                  >
                     <span className="icon has-text-white">
                       <i className="far fa-edit"></i>
                     </span>
@@ -95,11 +99,19 @@ function ReviewQuestions(props) {
       </div>
       <AuditModal
         showModal={showModal}
+        auditBack={props.auditBack}
+        audit={props.audit}
         onHide={() => {
           setShowModal(false);
         }}
-        auditBack={props.auditBack}
-        audit={props.audit}
+      />
+      <VerifyVoteModal
+        show={props.modalVerify}
+        setVoteVerificates={props.setVoteVerificates}
+        voteHash={props.voteHash}
+        afterVerify={() => {
+          props.afterVerify();
+        }}
       />
     </section>
   );

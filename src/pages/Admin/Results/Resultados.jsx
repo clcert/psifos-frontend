@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import SubNavbar from "../component/SubNavbar";
@@ -27,7 +27,7 @@ function Resultados() {
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  async function getElectionResult() {
+  const getElectionResult = useCallback(async () => {
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
@@ -39,11 +39,11 @@ function Resultados() {
       }
       setLoad(true);
     });
-  }
+  }, [uuid]);
 
   useEffect(() => {
     getElectionResult();
-  }, []);
+  }, [getElectionResult]);
   return (
     <div id="content-results">
       <section id="header-section" className="parallax hero is-medium">
@@ -88,7 +88,12 @@ function Resultados() {
         )}
         {results.length === 0 && load && (
           <>
-            <span className="ml-3 is-size-6 mb-2" onClick={() => {getElectionResult()}}>
+            <span
+              className="ml-3 is-size-6 mb-2"
+              onClick={() => {
+                getElectionResult();
+              }}
+            >
               <Link className="link-without-line" to="">
                 <i className="fa-solid fa-arrows-rotate"></i> Actualizar
               </Link>

@@ -111,6 +111,7 @@ function Home() {
                   interrogantes y riesgos significativos. La{" "}
                   <a
                     href="https://www.nationalacademies.org/our-work/the-future-of-voting-accessible-reliable-verifiable-technology"
+                    rel="noreferrer"
                     target="_blank"
                   >
                     recomendación de la comunidad experta internacional
@@ -129,6 +130,7 @@ function Home() {
                   Participa UChile es una adaptación del sistema{" "}
                   <a
                     href="https://www.usenix.org/legacy/event/sec08/tech/full_papers/adida/adida.pdf"
+                    rel="noreferrer"
                     target="_blank"
                   >
                     Helios Voting, propuesto por Ben Adida (2008)

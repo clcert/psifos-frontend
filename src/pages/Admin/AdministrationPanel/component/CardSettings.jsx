@@ -46,7 +46,7 @@ function CardSettings(props) {
         )}
 
         <div className="content-card-admin">
-          <i class="fa-solid fa-square-poll-horizontal pr-2 "></i>{" "}
+          <i className="fa-solid fa-square-poll-horizontal pr-2 "></i>{" "}
           <Link
             target="_blank"
             className="link-without-line"

@@ -11,7 +11,7 @@ import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
 import { backendOpIP } from "../../../server";
 import BoothPsifos from "../BoothPsifos";
-import VerifyVote from "../components/VerifyVote";
+import VerifyVote from "../components/VerifyVoteModal";
 
 function CabinaElection(props) {
   /** @state {int} election phase */
@@ -32,6 +32,8 @@ function CabinaElection(props) {
   const [voteHash, setVoteHash] = useState("");
 
   const [voteVerificated, setVoteVerificates] = useState(null);
+
+  const [modalVerify, setModalVerify] = useState(false);
 
   /** @urlParam {uuid} election uuid  */
   const { uuid } = useParams();
@@ -67,11 +69,7 @@ function CabinaElection(props) {
     2: {
       sectionClass: "parallax-03",
       stage: 2,
-      component: (
-        <>
-          <EncryptingCharging />
-        </>
-      ),
+      component: <EncryptingCharging />,
     },
     3: {
       sectionClass: "parallax-03",
@@ -85,6 +83,9 @@ function CabinaElection(props) {
             }}
             answers={answers}
             questions={questions}
+            setVoteVerificates={setVoteVerificates}
+            voteHash={voteHash}
+            modalVerify={modalVerify}
             changeAnswer={(question) => {
               setActualQuestion(question);
               setActualPhase(1);
@@ -92,49 +93,40 @@ function CabinaElection(props) {
             sendVote={() => {
               BOOTH_PSIFOS.sendJson(uuid).then((res) => {
                 setVoteHash(res);
-                setActualPhase(4);
+                setModalVerify(true);
               });
+            }}
+            afterVerify={() => {
+              setModalVerify(false);
+              setActualPhase(4);
             }}
           />
         </>
       ),
     },
+
     4: {
-      sectionClass: "parallax-03",
+      sectionClass: "parallax-05",
       stage: 3,
       component: (
         <>
-          <VerifyVote
-            afterVerify={() => {
-              setActualPhase(5);
-            }}
-            setVoteVerificates={setVoteVerificates}
+          <ProgressBar phase={3} />
+          <CastDone
+            voteVerificated={voteVerificated}
             voteHash={voteHash}
-          />
+          ></CastDone>
         </>
       ),
     },
     5: {
-      sectionClass: "parallax-05",
+      sectionClass: "parallax-03",
       stage: 4,
       component: (
-        <>
-          <ProgressBar phase={3} />
-          <CastDone voteVerificated={voteVerificated}  voteHash={voteHash}></CastDone>
-        </>
-      ),
-    },
-    6: {
-      sectionClass: "parallax-03",
-      stage: 5,
-      component: (
-        <>
-          <AuditSection
-            auditBack={() => {
-              setActualPhase(1);
-            }}
-          />
-        </>
+        <AuditSection
+          auditBack={() => {
+            setActualPhase(1);
+          }}
+        />
       ),
     },
   };
@@ -149,7 +141,9 @@ function CabinaElection(props) {
           />
           <Title
             namePage={
-              props.preview ? "Previsualización de votación" : "Cabina de Votación"
+              props.preview
+                ? "Previsualización de votación"
+                : "Cabina de Votación"
             }
             nameElection={nameElection}
           />

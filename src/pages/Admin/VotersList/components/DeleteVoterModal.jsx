@@ -39,7 +39,7 @@ function DeleteVoterModal(props) {
       );
       setDeleteState(false);
       setFinishedDelete(true);
-      if (resp.status == 200) {
+      if (resp.status === 200) {
       } else {
         setErrorDelete(true);
       }

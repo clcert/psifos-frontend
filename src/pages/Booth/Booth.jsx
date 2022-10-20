@@ -25,7 +25,7 @@ function Booth(props) {
   const [noAuthMessage, setNoAuthMessage] = useState("");
 
   /** @state {bool}  */
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   /** @state {string} uuid of election */
   const { uuid } = useParams();
@@ -94,7 +94,7 @@ function Booth(props) {
         );
       }
     }
-  }, []);
+  }, [props.preview, searchParams, uuid]);
 
   if (!load) {
     return <LoadPage />;

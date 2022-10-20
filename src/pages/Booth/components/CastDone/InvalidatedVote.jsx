@@ -10,30 +10,30 @@ function InvalidatedVote(props) {
         ayuda:
       </p>
       <ul
-        class="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-center"
+        className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-center"
         id="help-desk-list"
       >
-        <li class="py-1">
-          <span class="icon has-text-success">
-            <i class="fab fa-whatsapp"></i>
+        <li className="py-1">
+          <span className="icon has-text-success">
+            <i className="fab fa-whatsapp"></i>
           </span>
           <span>(+56) 9 7473 2599</span>
         </li>
-        <li class="py-1">
-          <span class="icon has-text-grey">
-            <i class="fas fa-envelope"></i>
+        <li className="py-1">
+          <span className="icon has-text-grey">
+            <i className="fas fa-envelope"></i>
           </span>
           <span>ayuda.participa@uchile.cl</span>
         </li>
-        <li class="py-1">
-          <span class="icon has-text-info">
-            <i class="fab fa-telegram"></i>
+        <li className="py-1">
+          <span className="icon has-text-info">
+            <i className="fab fa-telegram"></i>
           </span>
           <span>@participaUChile</span>
         </li>
-        <li class="py-1">
-          <span class="icon has-text-info">
-            <i class="fab fa-twitter"></i>
+        <li className="py-1">
+          <span className="icon has-text-info">
+            <i className="fab fa-twitter"></i>
           </span>
           <span>@participaUChile</span>
         </li>

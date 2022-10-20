@@ -61,7 +61,7 @@ function ElectionResume() {
       const { jsonResponse } = data;
       setNameElection(jsonResponse.name);
     });
-  }, []);
+  }, [uuid]);
 
   return (
     <div id="content-voters">

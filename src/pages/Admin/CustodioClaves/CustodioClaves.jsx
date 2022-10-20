@@ -31,11 +31,14 @@ function CustodioClaves(props) {
 
   const { uuid } = useParams();
 
-  useEffect(function effectFunction() {
-    getElection(uuid).then((election) => {
-      setElection(election.jsonResponse);
-    });
-  }, [uuid]);
+  useEffect(
+    function effectFunction() {
+      getElection(uuid).then((election) => {
+        setElection(election.jsonResponse);
+      });
+    },
+    [uuid]
+  );
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
@@ -84,10 +87,7 @@ function CustodioClaves(props) {
                 {!election.has_helios_trustee && (
                   <p className="has-text-white mb-4">
                     [
-                    <a
-                      id="trustees-link"
-                      href=""
-                    >
+                    <a id="trustees-link" href={() => false}>
                       agregar al servidor como custodio de clave
                     </a>
                     ]
@@ -99,6 +99,7 @@ function CustodioClaves(props) {
           <div className="box" id="trustee-box">
             Link de conexión custodio:{" "}
             <a
+              rel="noreferrer"
               target="_blank"
               style={{ color: "rgb(0, 182, 254)" }}
               href={backendOpIP + "/" + uuid + "/trustee/login"}

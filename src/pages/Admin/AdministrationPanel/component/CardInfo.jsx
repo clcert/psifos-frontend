@@ -18,7 +18,7 @@ function CardInfo(props) {
       }
     });
     setDecryptionNumber(number_decryptions);
-  }, [props.trustees]);
+  }, [props.trustees, props.electionStatus]);
 
   return (
     <div className="box ">

@@ -48,7 +48,7 @@ function QuestionElection(props) {
       answersAux.push([]);
     }
     setAnswers(answersAux);
-  }, []);
+  }, [props.questions.length]);
 
   function createMessageAlert(min, max) {
     /**

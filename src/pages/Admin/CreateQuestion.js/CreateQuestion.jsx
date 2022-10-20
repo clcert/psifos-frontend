@@ -71,7 +71,7 @@ function CreateQuestion(props) {
      * @returns {object} question with keys
      */
     let questionAux = questions;
-    questions.map((question, index) => {
+    questions.forEach((question, index) => {
       question.key = index;
       question.q_type = question.q_type ? question.q_type : "closed_question";
       question.q_text = question.q_text ? question.q_text : "";

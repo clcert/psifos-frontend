@@ -104,11 +104,11 @@ function AdministrationPanel(props) {
       }
     });
     getStats(uuid).then((res) => {
-      const { resp, jsonResponse } = res;
+      const { jsonResponse } = res;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
-  }, []);
+  }, [uuid]);
 
   useEffect(() => {
     updateInfo();

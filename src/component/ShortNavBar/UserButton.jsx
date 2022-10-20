@@ -21,13 +21,14 @@ function UserButton(props) {
         setDisplay(false);
       }}
     >
-      <a>
+      <a href={() => false}>
         <span>{sessionStorage.getItem("user")}</span>
       </a>
       {display && (
         <div className="dropdown-menu" id="dropdown-menu4" role="menu">
           <div className="dropdown-item">
             <a
+              href={() => false}
               onClick={logOut}
               style={{ textDecoration: "None", color: "black" }}
             >

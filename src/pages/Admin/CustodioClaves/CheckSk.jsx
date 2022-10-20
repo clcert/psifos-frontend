@@ -33,7 +33,7 @@ function CheckSk(props) {
     getEgParams(uuid).then((data) => {
       setElGamalParams(JSON.parse(data));
     });
-  }, []);
+  }, [uuid, uuidTrustee]);
 
   function check_sk() {
     let params = ElGamal.Params.fromJSONObject(ElGamalParams);
@@ -57,7 +57,7 @@ function CheckSk(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
+            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <Title

@@ -32,6 +32,7 @@ function NavbarAdmin(props) {
                     INICIO
                   </Link>
                   <a
+                    href={() => false}
                     onClick={() => {
                       setShowInfo(true);
                     }}
@@ -41,6 +42,7 @@ function NavbarAdmin(props) {
                     INFO
                   </a>
                   <a
+                    href={() => false}
                     onClick={() => {
                       setShowHelp(true);
                     }}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { backendOpIP } from "../../../../server";
-import IconAlert from "../../../../component/Alerts/IconAlert";
 import { Button } from "react-bulma-components";
 import { getStats } from "../../../../services/election";
 
@@ -228,13 +227,6 @@ function VotersTable(props) {
                         </>
                       ) : (
                         <>{voter.voter_weight} </>
-                      )}
-
-                      {election.voting_stopped && (
-                        <IconAlert
-                          icon="fa-solid fa-pen-to-square"
-                          action={() => {}}
-                        />
                       )}
                     </td>
                     <td

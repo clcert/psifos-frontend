@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { backendOpIP, frontIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ValidatedVote(props) {
   const { uuid } = useParams();
@@ -16,7 +16,7 @@ function ValidatedVote(props) {
       }),
     });
     if (resp.status === 200) {
-      const fname = "reporte" + ".pdf";
+      const fname = "reporte.pdf";
       const blob_resp = await resp.blob();
       const objURL = window.URL.createObjectURL(blob_resp);
       let lnk = document.createElement("a");
@@ -86,7 +86,7 @@ function ValidatedVote(props) {
 
       <button className="button" onClick={downloadFile} id="back-vote-button">
         <span className="icon is-small">
-          <i class="fa-solid fa-file-arrow-down"></i>
+          <i className="fa-solid fa-file-arrow-down"></i>
         </span>
         <span>DESCARGAR CERTIFICADO DE VOTO</span>
       </button>

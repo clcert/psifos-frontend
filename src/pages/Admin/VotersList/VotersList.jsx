@@ -55,7 +55,7 @@ function VotersList() {
       setElectionOpenReg(jsonResponse.openreg);
       setLoad(true);
     });
-  }, []);
+  }, [uuid]);
 
   return (
     <div id="content-voters">

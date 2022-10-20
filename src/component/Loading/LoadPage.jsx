@@ -1,4 +1,3 @@
-import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
 
 function LoadPage(props) {
   return (

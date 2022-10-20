@@ -75,7 +75,7 @@ function AuditSection(props) {
               verificadores disponibles:
               <ol>
                 <li>
-                  <a target="_blank" href="">
+                  <a target="_blank" href="/">
                     Verificador Participa UChile
                   </a>
                 </li>

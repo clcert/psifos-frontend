@@ -19,7 +19,7 @@ function CustodioHome(props) {
   const [noAuthMessage, setNoAuthMessage] = useState("");
 
   /** @state {bool}  */
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const { uuid, uuidTrustee } = useParams();
 
@@ -65,7 +65,7 @@ function CustodioHome(props) {
         );
       }
     });
-  }, []);
+  }, [searchParams, uuid, uuidTrustee]);
 
   if (!load) {
     return <LoadPage />;
@@ -76,7 +76,7 @@ function CustodioHome(props) {
       <NoAuth
         title={"Custodio de Claves"}
         message={noAuthMessage}
-        adressLogout={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
+        adressLogout={`${backendOpIP}/${uuid}/trustee/logout`}
       ></NoAuth>
     );
   } else {
@@ -85,7 +85,7 @@ function CustodioHome(props) {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
-              linkExit={backendOpIP + "/" + uuid + "/trustee" + "/logout"}
+              linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
               linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
             <Title

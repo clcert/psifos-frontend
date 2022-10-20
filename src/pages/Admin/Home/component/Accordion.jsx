@@ -16,7 +16,7 @@ function Accordion(props) {
     } else {
       setStateElection("Finalizada");
     }
-  }, []);
+  }, [props.election.election_status]);
 
   useEffect(() => {
     bulmaCollapsible.attach(".is-collapsible", {
