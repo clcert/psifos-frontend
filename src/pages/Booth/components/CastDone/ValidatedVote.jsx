@@ -35,9 +35,10 @@ function ValidatedVote(props) {
         HEMOS RECIBIDO TU VOTO
       </p>
       <p className="subtitle has-text-black send-text">
-        Tu voto ha sido validado exitosamente
+        Tu voto ha sido recibido y validado exitosamente
       </p>
-      <p className="subtitle has-text-black mb-0">
+      
+      {/* <p className="subtitle has-text-black mb-0">
         Código de Papeleta:
         <span
           className="icon question-audit has-tooltip-arrow has-tooltip-right has-tooltip-left-mobile has-tooltip-multiline has-tooltip-info"
@@ -81,8 +82,16 @@ function ValidatedVote(props) {
           descargar
         </span>{" "}
         un certificado que acredita tu voto.
-      </p>
-      <p className="subtitle is-5 pb-2">
+      </p> */}
+
+      <button className="button" onClick={downloadFile} id="back-vote-button">
+        <span className="icon is-small">
+          <i class="fa-solid fa-file-arrow-down"></i>
+        </span>
+        <span>DESCARGAR CERTIFICADO DE VOTO</span>
+      </button>
+
+      <p className="subtitle is-5 pb-2 mt-4">
         Si lo deseas, puedes volver a votar durante el tiempo que la votación esté abierta. 
         Si lo haces, el nuevo voto reemplazará al existente, y sólo se contará el último voto emitido.
       </p>
