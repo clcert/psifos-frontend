@@ -82,6 +82,8 @@ function Booth(props) {
           setElectionData(jsonResponse);
           setType(jsonResponse.election_type);
           setAuth(true);
+        } else if (jsonResponse.detail === "Election status check failed") {
+          setNoAuthMessage("La elección se encuentra cerrada");
         } else {
           setNoAuthMessage(
             "La elección no existe o no estas habilitado para votar en ella"
