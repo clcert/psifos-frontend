@@ -8,10 +8,9 @@ function CastDone(props) {
   return (
     <section className="section pb-0" id="send-section">
       <div className="container has-text-centered is-max-desktop">
-        <PendingVote voteHash={props.voteHash} />
-        {/* {props.voteVerificated && <ValidatedVote voteHash={props.voteHash} />}
+        {props.voteVerificated && <ValidatedVote voteHash={props.voteHash} />}
         {!props.voteVerificated && <InvalidatedVote />}
-        {props.voteVerificated === null && <PendingVote voteHash={props.voteHash} />} */}
+        {props.voteVerificated === null && <PendingVote voteHash={props.voteHash} />}
       </div>
 
       <figure className="image send-img-wrapper pt-4">

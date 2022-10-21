@@ -29,6 +29,12 @@
 
 a.nounderline {text-decoration: none; }
 
+.castdone-box {
+  border: 2px solid #00b7ff;
+  display: flex;
+  flex-direction: column;
+}
+
 $family-primary: "Arial", sans-serif;
 $red-uch: #e43427;
 $blue-uch: #004c94;

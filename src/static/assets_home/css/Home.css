@@ -1082,8 +1082,14 @@ input[type="radio"] {
 
 #back-vote-button {
   background-color: #004c94 !important;
+  border-color: #004c94 !important;
   color: white !important;
   border-radius: 10px !important;
+}
+
+#back-vote-button:hover {
+  background-color: #00b7ff !important;
+  border-color: #00b7ff !important;
 }
 
 .send-img-wrapper {

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { backendOpIP } from "../../../../server";
+import { backendOpIP, frontIP } from "../../../../server";
 
 function ValidatedVote(props) {
   const { uuid } = useParams();
@@ -27,6 +27,9 @@ function ValidatedVote(props) {
         window.URL.revokeObjectURL(objURL);
       }, 250);
     }
+  }
+  function openBallotBox() {
+    window.location.href = frontIP + "/booth/" + uuid + "/ballot-box";
   }
 
   return (
@@ -84,12 +87,34 @@ function ValidatedVote(props) {
         un certificado que acredita tu voto.
       </p> */}
 
-      <button className="button" onClick={downloadFile} id="back-vote-button">
-        <span className="icon is-small">
-          <i className="fa-solid fa-file-arrow-down"></i>
-        </span>
-        <span>DESCARGAR CERTIFICADO DE VOTO</span>
-      </button>
+      <div className="columns">
+        <div className="column castdone-box mr-1 mb-0">
+          <button className="button" onClick={downloadFile} id="back-vote-button">
+            <span className="icon is-small">
+              <i className="fa-solid fa-file-arrow-down"></i>
+            </span>
+            <span>DESCARGAR CERTIFICADO DE VOTO</span>
+          </button>
+          <p className="subtitle is-6 mt-3">
+            El Certificado de Voto no permite conocer como votaste, 
+            sino que solamente acredita que tu voto fue realizado correctamente 
+            y será contabilizado en el escrutinio final.
+          </p>
+        </div>
+
+        <div className="column castdone-box ml-1">
+          <button className="button" onClick={openBallotBox} id="back-vote-button">
+            <span className="icon is-small">
+              <i class="fa-solid fa-box-archive"></i>
+            </span>
+            <span>VER URNA ELECTRÓNICA</span>
+          </button>
+          <p className="subtitle is-6 mt-3">
+            La Urna Electrónica contiene todos los votos cifrados enviados hasta ese momento.
+          </p>
+        </div>
+
+      </div>
 
       <p className="subtitle is-5 pb-2 mt-4">
         Si lo deseas, puedes volver a votar durante el tiempo que la votación esté abierta. 
