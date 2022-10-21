@@ -18,10 +18,10 @@ function CastVoteView() {
     actualPage: 0,
   });
 
-  const [lengthPage, setLengthPage] = useState(50);
+  const [lengthPage] = useState(50);
   const { uuid } = useParams();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const hashUrl = searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
 

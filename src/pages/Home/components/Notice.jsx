@@ -33,6 +33,7 @@ function Notice(props) {
             <p>{props.shortInfo}</p>
             <div className="pt-4 more-notice-box">
               <a
+                href={() => false}
                 onClick={() => {
                   $("#info-notice" + String(props.index)).addClass("is-active");
                 }}

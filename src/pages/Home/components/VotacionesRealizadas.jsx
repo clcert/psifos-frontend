@@ -5,7 +5,7 @@ function VotacionesRealizadas(props) {
   const data = require("../../../static/dummyData/eleccionesData.json");
   const myRef = useRef();
   const [showAnimation, setShowAnimation] = React.useState(false);
-  const { inViewport, enterCount, leaveCount } = useInViewport(myRef);
+  const { inViewport } = useInViewport(myRef);
   if (inViewport && !showAnimation) {
     setShowAnimation(true);
   }
