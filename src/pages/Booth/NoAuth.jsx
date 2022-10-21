@@ -22,7 +22,7 @@ function NoAuth(props) {
 
         <div className="d-flex justify-content-center pb-3">
           <button className="button review-buttons previous-button has-text-white has-text-weight-bold">
-            <Link style={{ textDecoration: "none", color: "white" }} to="/home">
+            <Link style={{ textDecoration: "none", color: "white" }} to="/">
               <span>Ir al inicio</span>
             </Link>
           </button>
