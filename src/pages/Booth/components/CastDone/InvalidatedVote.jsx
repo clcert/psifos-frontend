@@ -2,40 +2,40 @@ function InvalidatedVote(props) {
   return (
     <>
       <p className="subtitle is-3 has-text-black mb-1">
-        SU VOTO NO HA SIDO VALIDADO CORRECTAMENTE
+        TU VOTO NO HA SIDO VALIDADO CORRECTAMENTE
       </p>
       <p className="subtitle has-text-black send-text">
-        Ha surgido un problema. El voto recibido no es válido. Intente votar
-        nuevamente, y si el problema persiste, por favor contactar a la mesa de
+        Ha surgido un problema. El voto recibido no es válido. Intenta votar
+        nuevamente, y si el problema persiste, por favor contacta a la mesa de
         ayuda:
       </p>
       <ul
-        className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-center"
+        className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-flex-start"
         id="help-desk-list"
       >
         <li className="py-1">
           <span className="icon has-text-success">
             <i className="fab fa-whatsapp"></i>
-          </span>
-          <span>(+56) 9 7473 2599</span>
+          </span>&nbsp;
+          <a href="https://api.whatsapp.com/send/?phone=56974732599" target="_blank" className="nounderline">(+56) 9 7473 2599</a>
         </li>
         <li className="py-1">
           <span className="icon has-text-grey">
             <i className="fas fa-envelope"></i>
-          </span>
-          <span>ayuda.participa@uchile.cl</span>
+          </span>&nbsp;
+          <a href="mailto:ayuda.participa@uchile.cl" target="_blank" className="nounderline">ayuda.participa@uchile.cl</a>
         </li>
         <li className="py-1">
           <span className="icon has-text-info">
             <i className="fab fa-telegram"></i>
-          </span>
-          <span>@participaUChile</span>
+          </span>&nbsp;
+          <a href="https://t.me/participauchile" target="_blank" className="nounderline">@participaUChile</a>
         </li>
         <li className="py-1">
           <span className="icon has-text-info">
             <i className="fab fa-twitter"></i>
-          </span>
-          <span>@participaUChile</span>
+          </span>&nbsp;
+          <a href="https://twitter.com/participauchile" target="_blank" className="nounderline">@participaUChile</a>
         </li>
       </ul>
 
@@ -44,7 +44,7 @@ function InvalidatedVote(props) {
           <span className="icon is-small">
             <i className="fas fa-2x fa-caret-left"></i>
           </span>
-          <span>IR A PÁGINA PRINCIPAL</span>
+          <span>SALIR</span>
         </button>
       </a>
     </>

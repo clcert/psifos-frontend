@@ -7,12 +7,46 @@ function PendingVote(props) {
   return (
     <>
       <p className="subtitle is-3 has-text-black mb-1">
-        HEMOS RECIBIDO TU VOTO PERO AUN NO HA SIDO VALIDADO
+        TU VOTO AÚN NO HA SIDO VALIDADO
       </p>
       <p className="subtitle has-text-black send-text">
-        Si tu papeleta no es objetada, será incorporada al conteo final.
+        El servidor ha recibido tu voto, pero el proceso de validación está tomando más tiempo de lo normal.
       </p>
-      <p className="subtitle has-text-black mb-0">
+      <p className="subtitle has-text-black send-text">
+        Para asegurarte de que tu voto ha sido validado, por favor contactar a la mesa de ayuda:
+      </p>
+
+      <ul
+        className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-flex-start"
+        id="help-desk-list"
+      >
+        <li className="py-1">
+          <span className="icon has-text-success">
+            <i className="fab fa-whatsapp"></i>
+          </span>&nbsp;
+          <a href="https://api.whatsapp.com/send/?phone=56974732599" target="_blank" className="nounderline">(+56) 9 7473 2599</a>
+        </li>
+        <li className="py-1">
+          <span className="icon has-text-grey">
+            <i className="fas fa-envelope"></i>
+          </span>&nbsp;
+          <a href="mailto:ayuda.participa@uchile.cl" target="_blank" className="nounderline">ayuda.participa@uchile.cl</a>
+        </li>
+        <li className="py-1">
+          <span className="icon has-text-info">
+            <i className="fab fa-telegram"></i>
+          </span>&nbsp;
+          <a href="https://t.me/participauchile" target="_blank" className="nounderline">@participaUChile</a>
+        </li>
+        <li className="py-1">
+          <span className="icon has-text-info">
+            <i className="fab fa-twitter"></i>
+          </span>&nbsp;
+          <a href="https://twitter.com/participauchile" target="_blank" className="nounderline">@participaUChile</a>
+        </li>
+      </ul>
+
+      {/* <p className="subtitle has-text-black mb-0">
         Código de Papeleta:
         <span
           className="icon question-audit has-tooltip-arrow has-tooltip-right has-tooltip-left-mobile has-tooltip-multiline has-tooltip-info"
@@ -50,13 +84,14 @@ function PendingVote(props) {
         </a>{" "}
         que tu código de papeleta está presente en la urna electrónica y será
         contabilizada.
-      </p>
+      </p> */}
+      
       <a href="https://participa.uchile.cl/">
         <button className="button is-medium my-4" id="back-vote-button">
           <span className="icon is-small">
             <i className="fas fa-2x fa-caret-left"></i>
           </span>
-          <span>IR A PÁGINA PRINCIPAL</span>
+          <span>SALIR</span>
         </button>
       </a>
     </>

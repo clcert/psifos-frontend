@@ -27,6 +27,8 @@
   src: url("../fonts/Arial Italic.ttf");
 }
 
+a.nounderline {text-decoration: none; }
+
 $family-primary: "Arial", sans-serif;
 $red-uch: #e43427;
 $blue-uch: #004c94;
