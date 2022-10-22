@@ -7,19 +7,18 @@ function VerifyVoteModal(props) {
   const { uuid } = useParams();
 
   async function getVote() {
-    const url = backendInfoIp + "/election/" + uuid + "/cast-vote/";
+    const voteHashEncode = encodeURIComponent(props.voteHash);
+    const url =
+      backendInfoIp + "/election/" + uuid + "/cast-vote/" + voteHashEncode;
     const resp = await fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        hash_vote: props.voteHash,
-      }),
     });
 
     const jsonResponse = await resp.json();
-    if (jsonResponse.cast_at !== null) {
+    if (jsonResponse.cast_at !== null && resp.status === 200) {
       props.setVoteVerificates(true);
       props.afterVerify();
     } else if (jsonResponse.invalidated_at !== null) {

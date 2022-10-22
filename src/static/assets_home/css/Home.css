@@ -12883,6 +12883,15 @@ Consult
   cursor: pointer;
 }
 
+.button-redirect-vote {
+  color: #004c94;
+}
+
+.button-redirect-vote:hover {
+  color: #6dcaf3;
+  cursor: pointer;
+}
+
 .button-delete-voter {
   color: #e43427;
 }

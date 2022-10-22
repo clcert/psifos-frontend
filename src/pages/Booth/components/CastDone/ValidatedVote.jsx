@@ -29,7 +29,12 @@ function ValidatedVote(props) {
     }
   }
   function openBallotBox() {
-    window.location.href = frontIP + "/booth/" + uuid + "/ballot-box";
+    window.location.href =
+      frontIP +
+      "/booth/" +
+      uuid +
+      "/ballot-box/?hash=" +
+      encodeURIComponent(props.voteHash);
   }
 
   return (
@@ -40,7 +45,7 @@ function ValidatedVote(props) {
       <p className="subtitle has-text-black send-text">
         Tu voto ha sido recibido y validado exitosamente
       </p>
-      
+
       {/* <p className="subtitle has-text-black mb-0">
         Código de Papeleta:
         <span
@@ -89,36 +94,45 @@ function ValidatedVote(props) {
 
       <div className="columns">
         <div className="column castdone-box mr-1 mb-0">
-          <button className="button" onClick={downloadFile} id="back-vote-button">
+          <button
+            className="button"
+            onClick={downloadFile}
+            id="back-vote-button"
+          >
             <span className="icon is-small">
               <i className="fa-solid fa-file-arrow-down"></i>
             </span>
             <span>DESCARGAR CERTIFICADO DE VOTO</span>
           </button>
           <p className="subtitle is-6 mt-3">
-            El Certificado de Voto no permite conocer como votaste, 
-            sino que solamente acredita que tu voto fue realizado correctamente 
-            y será contabilizado en el escrutinio final.
+            El Certificado de Voto no permite conocer como votaste, sino que
+            solamente acredita que tu voto fue realizado correctamente y será
+            contabilizado en el escrutinio final.
           </p>
         </div>
 
         <div className="column castdone-box ml-1">
-          <button className="button" onClick={openBallotBox} id="back-vote-button">
+          <button
+            className="button"
+            onClick={openBallotBox}
+            id="back-vote-button"
+          >
             <span className="icon is-small">
               <i class="fa-solid fa-box-archive"></i>
             </span>
             <span>VER URNA ELECTRÓNICA</span>
           </button>
           <p className="subtitle is-6 mt-3">
-            La Urna Electrónica contiene todos los votos cifrados enviados hasta ese momento.
+            La Urna Electrónica contiene todos los votos cifrados enviados hasta
+            ese momento.
           </p>
         </div>
-
       </div>
 
       <p className="subtitle is-5 pb-2 mt-4">
-        Si lo deseas, puedes volver a votar durante el tiempo que la votación esté abierta. 
-        Si lo haces, el nuevo voto reemplazará al existente, y sólo se contará el último voto emitido.
+        Si lo deseas, puedes volver a votar durante el tiempo que la votación
+        esté abierta. Si lo haces, el nuevo voto reemplazará al existente, y
+        sólo se contará el último voto emitido.
       </p>
       <a href="https://participa.uchile.cl/">
         <button className="button is-medium my-4" id="back-vote-button">
