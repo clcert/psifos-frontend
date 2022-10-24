@@ -6,14 +6,11 @@ function ValidatedVote(props) {
   async function downloadFile() {
     const url = backendOpIP + "/" + uuid + "/get-certificate";
     const resp = await fetch(url, {
-      method: "POST",
+      method: "GET",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        hash_vote: props.voteHash,
-      }),
     });
     if (resp.status === 200) {
       const fname = "reporte.pdf";
