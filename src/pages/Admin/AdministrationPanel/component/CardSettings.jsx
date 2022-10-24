@@ -59,7 +59,7 @@ function CardSettings(props) {
         <div className="content-card-admin">
           <i className="fa-solid fa-check-to-slot mr-2"></i>
           <CopyToClipboard
-            text={backendOpIP + "/vote/" + uuid}
+            text={backendOpIP + "/" + uuid + "/vote"}
             onCopy={() => setShowCopyMessage(true)}
           >
             <span>

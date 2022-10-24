@@ -49,7 +49,7 @@ function AccordionAudit(props) {
                   <div className="row-accordion is-full mb-3">
                     <p className="accordion-panel-title mb-0">URL Elección:</p>
                     <a className="accordion-panel-a">
-                      {backendOpIP + "/vote/" + uuid}
+                      {backendOpIP + "/" + uuid + "/vote"}
                     </a>
                   </div>
                   <div className="row-accordion is-full">
