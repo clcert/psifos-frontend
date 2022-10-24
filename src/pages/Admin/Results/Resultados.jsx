@@ -45,7 +45,7 @@ function Resultados() {
     getElectionResult();
   }, [getElectionResult]);
   return (
-    <div id="content-results">
+    <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />

@@ -64,7 +64,7 @@ function ElectionResume() {
   }, [uuid]);
 
   return (
-    <div id="content-voters">
+    <div id="content-home-admin">
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
