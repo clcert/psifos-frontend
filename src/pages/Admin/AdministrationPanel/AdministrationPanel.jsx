@@ -15,6 +15,7 @@ import CardSettings from "./component/CardSettings";
 import CardSteps from "./component/CardSteps";
 import UploadModal from "../VotersList/components/UploadModal";
 import { logout } from "../../../utils/utils";
+import ModalDeleteElection from "./component/ModalDeleteElection";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -26,7 +27,6 @@ function AdministrationPanel(props) {
 
   /** @state {bool} election have questions */
   const [haveQuestions, setHaveQuestions] = useState(true);
-
 
   /** @state {bool} election have voters */
   const [haveVoters, setHaveVoters] = useState(true);
@@ -64,6 +64,8 @@ function AdministrationPanel(props) {
 
   const [combineTallyModal, setCombineTallyModal] = useState(false);
 
+  const [deleteElectionModal, setDeleteElectionModal] = useState(false);
+
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const [typeFeedback, setTypeFeedback] = useState("");
@@ -74,14 +76,13 @@ function AdministrationPanel(props) {
 
   const [load, setLoad] = useState(false);
 
-
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  const updateInfo = useCallback(()=>{
+  const updateInfo = useCallback(() => {
     /**
      * Get election and trustee info
      */
@@ -150,7 +151,10 @@ function AdministrationPanel(props) {
               <hr />
               <div className="columns">
                 <div className="column">
-                  <CardSettings haveQuestions={haveQuestions} />
+                  <CardSettings
+                    setDeleteElectionModal={setDeleteElectionModal}
+                    haveQuestions={haveQuestions}
+                  />
                   <CardSteps
                     uuid={uuid}
                     electionStatus={electionStatus}
@@ -235,6 +239,11 @@ function AdministrationPanel(props) {
         <UploadModal
           show={uploadModal}
           onHide={() => setUploadModal(false)}
+          uuid={uuid}
+        />
+        <ModalDeleteElection
+          show={deleteElectionModal}
+          onHide={() => setDeleteElectionModal(false)}
           uuid={uuid}
         />
       </div>

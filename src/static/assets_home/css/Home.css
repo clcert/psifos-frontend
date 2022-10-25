@@ -12641,6 +12641,16 @@ Panel administración
   color: #6dcaf3;
 }
 
+.link-without-line-red {
+  text-decoration: none;
+  color: #e43427;
+}
+
+.link-without-line-red:hover {
+  text-decoration: none;
+  color: #d16565;
+}
+
 .panel-info {
   margin-bottom: 10 !important;
 }
@@ -12896,16 +12906,16 @@ Consult
   color: #e43427;
 }
 
-.button-delete-voter:hover{
+.button-delete-voter:hover {
   color: #d3571b;
   cursor: pointer;
 }
 
-.hash-selected{
+.hash-selected {
   background-color: #00b7ff !important;
 }
 
-.download-button{
+.download-button {
   color: #0d6efd;
   cursor: pointer;
 }

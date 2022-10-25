@@ -72,6 +72,18 @@ function CardSettings(props) {
             </span>
           </CopyToClipboard>
         </div>
+        <div className="content-card-admin">
+          <i className="fa-solid fa-trash pr-2 mr-1"></i>
+          <Link
+            className="link-without-line-red"
+            to=""
+            onClick={() => {
+              props.setDeleteElectionModal(true);
+            }}
+          >
+            Eliminar elección
+          </Link>
+        </div>
       </div>
     </div>
   );
