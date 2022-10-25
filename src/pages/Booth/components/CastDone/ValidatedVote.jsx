@@ -90,16 +90,16 @@ function ValidatedVote(props) {
       </p> */}
 
       <div className="columns">
-        <div className="column castdone-box mr-1 mb-0">
+        <div className="column castdone-box mb-0 is-5">
           <button
             className="button"
             onClick={downloadFile}
             id="back-vote-button"
           >
-            <span className="icon is-small">
+            <span className="icon is-small is-size-7-touch">
               <i className="fa-solid fa-file-arrow-down"></i>
             </span>
-            <span>DESCARGAR CERTIFICADO DE VOTO</span>
+            <span className="is-size-7-touch">DESCARGAR CERTIFICADO DE VOTO</span>
           </button>
           <p className="subtitle is-6 mt-3">
             El Certificado de Voto no permite conocer como votaste, sino que
@@ -108,7 +108,9 @@ function ValidatedVote(props) {
           </p>
         </div>
 
-        <div className="column castdone-box ml-1">
+        <div className="column is-2"></div>
+
+        <div className="column castdone-box is-5">
           <button
             className="button"
             onClick={openBallotBox}

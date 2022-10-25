@@ -84,7 +84,7 @@ function ReviewQuestions(props) {
             </div>
             <div className="column right-button-column has-text-centered-mobile is-flex">
               <button
-                className="button is-medium review-buttons"
+                className="button is-medium question-button proceed-button"
                 id="proceed_button"
                 onClick={props.sendVote}
               >
