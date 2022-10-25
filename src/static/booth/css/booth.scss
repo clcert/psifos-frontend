@@ -216,7 +216,7 @@ $navbar-item-img-max-height: 3.5rem;
 
 /* Progress Bar */
 .line-1 {
-  top: 19rem; // TODO: Review this (try not to put measures so specific)
+  top: 18.5rem; // TODO: Review this (try not to put measures so specific)
   background: $blue-uch;
   position: absolute;
   height: 2px;
@@ -673,6 +673,10 @@ input[type="radio"] {
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+.progress-step {
+  padding-top: 28% !important;
 }
 
 #back-button {
