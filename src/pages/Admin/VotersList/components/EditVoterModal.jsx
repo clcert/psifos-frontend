@@ -1,10 +1,16 @@
+import { event } from "jquery";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendOpIP } from "../../../../server";
 
 function EditVoterModal(props) {
-  const [loginVoter, setLoginVoter] = useState("");
-  const [weightVoter, setWeightVoter] = useState("");
+  const initialStateVoter = {
+    login: "",
+    weight: "",
+  };
+
+  const [infoVoter, setInfoVoter] = useState(initialStateVoter);
+
   const [feecbackMessage, setFeedbackMessage] = useState("");
   const [typeAlert, setTypeAlert] = useState("is-success");
 
@@ -23,8 +29,8 @@ function EditVoterModal(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          voter_login_id: loginVoter,
-          voter_weight: weightVoter,
+          voter_login_id: infoVoter.login,
+          voter_weight: infoVoter.weight,
         }),
       }
     );
@@ -38,9 +44,22 @@ function EditVoterModal(props) {
   }
 
   useEffect(() => {
-    setLoginVoter(props.voter.voter_login_id);
-    setWeightVoter(props.voter.voter_weight);
+    setInfoVoter({
+      ...infoVoter,
+      login: props.voter.voter_login_id,
+      weight: props.voter.voter_weight,
+    });
   }, [props.voter]);
+
+  function handleChange(e) {
+    // create the new state and set it
+    const { value } = e.target;
+    setInfoVoter((prevState) => ({
+      ...prevState,
+      [e.target.name]: value,
+    }));
+    e.preventDefault();
+  }
 
   return (
     <div
@@ -63,11 +82,10 @@ function EditVoterModal(props) {
               <div className="control">
                 <input
                   className="input mr-2"
+                  name="login"
                   type="text"
-                  value={loginVoter}
-                  onChange={(e) => {
-                    setLoginVoter(e.target.value);
-                  }}
+                  value={infoVoter.login}
+                  onChange={handleChange}
                 ></input>
               </div>
             </div>
@@ -78,11 +96,10 @@ function EditVoterModal(props) {
               <div className="control">
                 <input
                   className="input mr-2"
+                  name="weight"
                   type="number"
-                  value={weightVoter}
-                  onChange={(e) => {
-                    setWeightVoter(e.target.value);
-                  }}
+                  value={infoVoter.weight}
+                  onChange={handleChange}
                 ></input>
               </div>
             </div>
@@ -94,7 +111,10 @@ function EditVoterModal(props) {
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-left"
               onClick={() => {
                 setFeedbackMessage("");
-                props.update();
+                props.setVoterSelect((prevState) => ({
+                  ...prevState,
+                  voter_name: "",
+                }));
                 props.onHide();
               }}
             >

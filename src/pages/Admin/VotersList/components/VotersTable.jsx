@@ -54,20 +54,19 @@ function VotersTable(props) {
      */
     const newPage = actualPage + value;
 
-    if (newPage === 0){
+    if (newPage === 0) {
       setPreviousDisabled(true);
     }
 
     if (newPage >= 0) {
       getVoters(newPage).then((dataVoters) => {
         if (dataVoters.length !== 0) {
-          setNextDisabled(false)
+          setNextDisabled(false);
           setPreviousDisabled(false);
           setTotalVoters(dataVoters.length);
           setVoters(dataVoters);
           setPage(newPage);
-        }
-        else{
+        } else {
           setNextDisabled(true);
         }
       });
@@ -236,12 +235,14 @@ function VotersTable(props) {
                       <div className="buttons-action-voter">
                         <div
                           onClick={() => {
-                            props.editVoter(
-                              voter.voter_name,
-                              voter.uuid,
-                              voter.voter_login_id,
-                              voter.voter_weight
-                            );
+                            props.setVoterSelect((prevState) => ({
+                              ...prevState,
+                              voter_name: voter.voter_name,
+                              uuid: voter.uuid,
+                              voter_login_id: voter.voter_login_id,
+                              voter_weight: voter.voter_weight,
+                            }));
+                            props.setEditVoterModal(true);
                           }}
                           className="button-edit-voter ml-2 mr-2"
                         >
@@ -250,7 +251,12 @@ function VotersTable(props) {
                         {electionStatus === "Setting up" && (
                           <div
                             onClick={() => {
-                              props.deleteVoter(voter.voter_name, voter.uuid);
+                              props.setVoterSelect((prevState) => ({
+                                ...prevState,
+                                voter_name: voter.voter_name,
+                                uuid: voter.uuid,
+                              }));
+                              props.setDeleteVoterModal(true);
                             }}
                             className="button-delete-voter ml-2 mr-2"
                           >

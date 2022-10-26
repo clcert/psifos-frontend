@@ -141,7 +141,10 @@ function DeleteVoterModal(props) {
                 className="button review-buttons previous-button has-text-white has-text-weight-bold"
                 onClick={() => {
                   setFinishedDelete(false);
-                  props.update();
+                  props.setVoterSelect((prevState) => ({
+                    ...prevState,
+                    voter_name: "",
+                  }));
                   props.onHide();
                 }}
               >

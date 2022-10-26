@@ -48,14 +48,17 @@ function VotersList() {
   /** @urlParam {uuid} election uuid */
   const { uuid } = useParams();
 
-  useEffect(function effectFunction() {
-    getElection(uuid).then((election) => {
-      const { jsonResponse } = election;
-      setElection(jsonResponse);
-      setElectionOpenReg(jsonResponse.openreg);
-      setLoad(true);
-    });
-  }, [uuid]);
+  useEffect(
+    function effectFunction() {
+      getElection(uuid).then((election) => {
+        const { jsonResponse } = election;
+        setElection(jsonResponse);
+        setElectionOpenReg(jsonResponse.openreg);
+        setLoad(true);
+      });
+    },
+    [uuid]
+  );
 
   return (
     <div id="content-home-admin">
@@ -71,32 +74,8 @@ function VotersList() {
       <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
         {load ? (
           <div>
-            {/* {!election.frozen_at && (
-              <SettingsUrna
-                reg={election.openreg}
-                uuid={uuid}
-                changeReg={(newState) => {
-                  setElectionOpenReg(newState);
-                }}
-              />
-            )} */}
             <br />
             <div className="d-flex justify-content-center">
-              {/* {election.frozen_at && (
-                <Button
-                  className="button-custom"
-                  onClick={() => {
-                    window.location.href =
-                      backendHeliosIP +
-                      "/app/elections/" +
-                      uuid +
-                      "/voters/email";
-                  }}
-                >
-                  <span>Email voters</span>{" "}
-                </Button>
-              )} */}
-
               {!electionOpenReg && (
                 <>
                   <Button
@@ -107,14 +86,16 @@ function VotersList() {
                   >
                     <span>Subir votantes</span>
                   </Button>
-                  <Button
-                    className="button progress-previous has-text-white has-text-weight-bold ml-3"
-                    onClick={() => {
-                      setDeleteModal(true);
-                    }}
-                  >
-                    <span>Eliminar Votantes</span>
-                  </Button>
+                  {election.election_status == "Setting up" && (
+                    <Button
+                      className="button progress-previous has-text-white has-text-weight-bold ml-3"
+                      onClick={() => {
+                        setDeleteModal(true);
+                      }}
+                    >
+                      <span>Eliminar Votantes</span>
+                    </Button>
+                  )}
                 </>
               )}
             </div>
@@ -123,25 +104,9 @@ function VotersList() {
               voter={voterSelect}
               uuid={uuid}
               election={election}
-              deleteVoter={(voter_name, voter_uuid) => {
-                setVoterSelect({ voter_name: voter_name, uuid: voter_uuid });
-                setDeleteVoterModal(true);
-              }}
-              editVoter={(
-                voter_name,
-                voter_uuid,
-                voter_login_id,
-                voter_weight
-              ) => {
-                setVoterSelect({
-                  voter_name: voter_name,
-                  uuid: voter_uuid,
-                  voter_login_id: voter_login_id,
-                  voter_weight: voter_weight,
-                });
-
-                setEditVoterModal(true);
-              }}
+              setVoterSelect={setVoterSelect}
+              setDeleteVoterModal={setDeleteVoterModal}
+              setEditVoterModal={setEditVoterModal}
             />
           </div>
         ) : (
@@ -159,17 +124,13 @@ function VotersList() {
         show={deleteVoterModal}
         onHide={() => setDeleteVoterModal(false)}
         voter={voterSelect}
-        update={() => {
-          setVoterSelect({ voter_name: "" });
-        }}
+        setVoterSelect={setVoterSelect}
       />
       <EditVoterModal
         show={editVoterModal}
         onHide={() => setEditVoterModal(false)}
         voter={voterSelect}
-        update={() => {
-          setVoterSelect({ voter_name: "" });
-        }}
+        setVoterSelect={setVoterSelect}
       />
     </div>
   );
