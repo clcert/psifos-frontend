@@ -22,6 +22,7 @@ import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
 import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
 import CastVoteView from "./pages/Booth/CastVoteView";
+import Statistics from "./pages/Admin/Statistics/Statistics";
 
 function App() {
   function getToken() {
@@ -136,6 +137,14 @@ function App() {
             element={
               <RequireAuth>
                 <Resultados />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path=":uuid/statistics"
+            element={
+              <RequireAuth>
+                <Statistics />
               </RequireAuth>
             }
           />
