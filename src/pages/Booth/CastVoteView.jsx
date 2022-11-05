@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Button } from "react-bulma-components";
 import { useParams, useSearchParams } from "react-router-dom";
 import FooterParticipa from "../../component/Footers/FooterParticipa";
-import Title from "../../component/OthersComponents/Title";
+import TitlePsifos from "../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { backendInfoIp } from "../../server";
 import { getElectionInfo, getVotesInfo } from "../../services/info";
@@ -44,11 +44,9 @@ function CastVoteView() {
   }, []);
 
   function changePage(number) {
-
     /**
      * Change the page getting the corresponding votes
      */
-
 
     const newPage = electionData.actualPage + number;
     if (newPage >= 0) {
@@ -72,7 +70,7 @@ function CastVoteView() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar linkExit="" linkInit="" />
-          <Title
+          <TitlePsifos
             namePage="Urna Electronica"
             nameElection={electionData.election.name}
           />
@@ -81,7 +79,7 @@ function CastVoteView() {
 
       <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
         {loadData ? (
-          <div>
+          <div style={{ maxWidth: "100%" }}>
             <nav
               className="pagination is-centered pt-6"
               role="navigation"
@@ -100,71 +98,79 @@ function CastVoteView() {
                 onClick={() => {
                   changePage(1);
                 }}
-                className="button-custom pagination-next"
+                className="button-custom"
               >
                 Siguiente
               </Button>
             </nav>
             {electionData.electionVotes !== [] &&
             electionData.election !== [] ? (
-              <table
-                id="voters-table"
-                className="pretty table is-bordered is-hoverable voters-table"
-              >
-                <thead>
-                  <tr>
-                    <th className="has-text-centered">Ponderador</th>
-                    <th className="has-text-centered">Codigo de papeleta</th>
-                    <th className="has-text-centered">Ver voto</th>
-                  </tr>
-                </thead>
-                {electionData.electionVotes.map((vote, index) => {
-                  return (
-                    <tbody key={index}>
-                      <tr>
-                        <td
-                          className={
-                            "align-middle has-text-centered " +
-                            (hashUrl === vote.vote_hash ? "hash-selected" : "")
-                          }
-                        >
-                          {electionData.electionVoters[index].voter_weight}
-                        </td>
-                        <td
-                          className={
-                            "align-middle has-text-centered " +
-                            (hashUrl === vote.vote_hash ? "hash-selected" : "")
-                          }
-                        >
-                          {vote.vote_hash ? vote.vote_hash : "-"}
-                        </td>
-                        <td
-                          className={
-                            "align-middle has-text-centered " +
-                            (hashUrl === vote.vote_hash ? "hash-selected" : "")
-                          }
-                        >
-                          {vote.vote_hash ? (
-                            <div
-                              onClick={() => {
-                                window.location.href = `${backendInfoIp}/election/${uuid}/cast-vote/${encodeURIComponent(
-                                  vote.vote_hash
-                                )}`;
-                              }}
-                              className="button-redirect-vote ml-2 mr-2"
-                            >
-                              <i class="fa-solid fa-check-to-slot mr-1"></i>
-                              Ver voto
-                            </div>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-              </table>
+              <div style={{ overflowX: "auto" }}>
+                <table
+                  id="voters-table"
+                  className="pretty table is-bordered is-hoverable voters-table"
+                >
+                  <thead>
+                    <tr>
+                      <th className="has-text-centered">Ponderador</th>
+                      <th className="has-text-centered">Codigo de papeleta</th>
+                      <th className="has-text-centered">Ver voto</th>
+                    </tr>
+                  </thead>
+                  {electionData.electionVotes.map((vote, index) => {
+                    return (
+                      <tbody key={index}>
+                        <tr>
+                          <td
+                            className={
+                              "align-middle has-text-centered " +
+                              (hashUrl === vote.vote_hash
+                                ? "hash-selected"
+                                : "")
+                            }
+                          >
+                            {electionData.electionVoters[index].voter_weight}
+                          </td>
+                          <td
+                            className={
+                              "align-middle has-text-centered " +
+                              (hashUrl === vote.vote_hash
+                                ? "hash-selected"
+                                : "")
+                            }
+                          >
+                            {vote.vote_hash ? vote.vote_hash : "-"}
+                          </td>
+                          <td
+                            className={
+                              "align-middle has-text-centered " +
+                              (hashUrl === vote.vote_hash
+                                ? "hash-selected"
+                                : "")
+                            }
+                          >
+                            {vote.vote_hash ? (
+                              <div
+                                onClick={() => {
+                                  window.location.href = `${backendInfoIp}/election/${uuid}/cast-vote/${encodeURIComponent(
+                                    vote.vote_hash
+                                  )}`;
+                                }}
+                                className="button-redirect-vote ml-2 mr-2"
+                              >
+                                <i class="fa-solid fa-check-to-slot mr-1"></i>
+                                Ver voto
+                              </div>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </table>
+              </div>
             ) : (
               <div>Aun no existen votos.</div>
             )}
