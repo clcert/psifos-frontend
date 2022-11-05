@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { backendOpIP } from "../../../server";
+import { getStats } from "../../../services/election";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import { backendOpIP } from "../../../server";
-import { getStats } from "../../../services/election";
 import SubNavbar from "../component/SubNavbar";
 import LinePsifosGraph from "./Graphs/LinePsifosGraph";
 
@@ -70,7 +70,7 @@ function Statistics() {
           Cantidad de votos por tiempo
         </div>
         {Object.keys(votesForTime).length !== 0 ? (
-          <div class="chart-container" style={{ width: "60vw" }}>
+          <div className="chart-container" style={{ overflowX: "auto" }}>
             <label for="pet-select">Variación de tiempo:</label>
 
             <select

@@ -40,7 +40,6 @@ function LinePsifosGraph(props) {
       ],
     };
     const options = {
-      responsive: true,
       plugins: {
         title: {
           display: true,
@@ -54,10 +53,11 @@ function LinePsifosGraph(props) {
 
   return (
     <>
-      {Object.keys(data).length !== 0 &&
-        Object.keys(props.data).length !== 0 && (
+      {Object.keys(data).length !== 0 && Object.keys(props.data).length !== 0 && (
+        <div className="canvas-graph">
           <Line data={data} options={options} />
-        )}
+        </div>
+      )}
     </>
   );
 }

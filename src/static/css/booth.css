@@ -11917,3 +11917,24 @@ a.has-text-danger-dark:focus {
   font-weight: bold;
 
 }
+
+.chart-container{
+  width: 60vw;
+}
+
+.canvas-graph{
+  width: 100%;
+}
+
+@media screen and (max-width: 992px) {
+  .chart-container{
+    width: 80vw;
+  }
+  .canvas-graph{
+    width: 250%;
+  }
+}
+
+canvas{
+  height: 100% !important;
+}
