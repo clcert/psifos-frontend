@@ -1,7 +1,7 @@
 import { Button } from "react-bulma-components";
 import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
 import { backendOpIP } from "../../../server";
@@ -133,7 +133,7 @@ function CreateElection(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Creación de Elección" />
+          <TitlePsifos namePage="Creación de Elección" />
         </div>
       </section>
 
@@ -332,7 +332,9 @@ function CreateElection(props) {
               className="link-button"
               style={{ color: "white" }}
               to={
-                props.edit ? "/psifos/admin/" + uuid + "/panel" : "/psifos/admin/home"
+                props.edit
+                  ? "/psifos/admin/" + uuid + "/panel"
+                  : "/psifos/admin/home"
               }
             >
               <Button className="button-custom mr-2 ml-2 level-left">

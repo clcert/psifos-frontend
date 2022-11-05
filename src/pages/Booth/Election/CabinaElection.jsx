@@ -1,5 +1,5 @@
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import QuestionElection from "./QuestionSection/QuestionElection";
@@ -139,7 +139,7 @@ function CabinaElection(props) {
             linkExit={backendOpIP + "/vote/" + uuid + "/logout"}
             linkInit=""
           />
-          <Title
+          <TitlePsifos
             namePage={
               props.preview
                 ? "Previsualización de votación"

@@ -5,7 +5,7 @@ import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
@@ -519,7 +519,7 @@ function Keygenerator(props) {
             linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
-          <Title
+          <TitlePsifos
             namePage="Custodio de Claves"
             nameElection={"Etapa 1: Generación de Claves " + trustee.name}
           />

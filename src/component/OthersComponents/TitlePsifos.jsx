@@ -1,4 +1,4 @@
-function Title(props) {
+function TitlePsifos(props) {
   return (
     <div className="has-text-centered" id="election-title-background-admin">
       <h1 className="title has-text-black is-size-4-mobile mb-0" id="election-title">
@@ -10,4 +10,4 @@ function Title(props) {
   );
 }
 
-export default Title;
+export default TitlePsifos;

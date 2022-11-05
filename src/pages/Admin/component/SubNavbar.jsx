@@ -87,6 +87,19 @@ function SubNavbar(props) {
                 <span>Resultados</span>
               </Link>
             </div>
+            <div className="content-subnavbar">
+              <Link
+                className={
+                  props.active !== 6
+                    ? "text-subnavbar"
+                    : "text-subnavbar-active"
+                }
+                to={"/psifos/admin/" + uuid + "/statistics"}
+              >
+                <i className="fa-solid fa-chart-line mr-2"></i>
+                <span>Estadísticas</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

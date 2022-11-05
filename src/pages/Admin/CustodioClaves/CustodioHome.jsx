@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import LoadPage from "../../../component/Loading/LoadPage";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { backendOpIP } from "../../../server";
 import { getTrusteeHome } from "../../../services/trustee";
@@ -88,7 +88,7 @@ function CustodioHome(props) {
               linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
               linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
-            <Title
+            <TitlePsifos
               namePage="Custodio de Claves"
               nameElection={"Pagina privada de Vocal"}
             />

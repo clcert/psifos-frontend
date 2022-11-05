@@ -1,5 +1,5 @@
 import imageTrustees from "../../../static/svg/trustees-list.svg";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import InfoElection from "./components/InfoElection";
 import ElectionCode from "../../../component/Footers/ElectionCode";
@@ -29,46 +29,52 @@ function ElectionResume() {
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
 
-  useEffect(function effectFunction() {
-    async function getElectionResume() {
-      /**
-       * async function to get the election data
-       */
+  useEffect(
+    function effectFunction() {
+      async function getElectionResume() {
+        /**
+         * async function to get the election data
+         */
 
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendOpIP + "/" + uuid + "/resume", {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
+        const token = sessionStorage.getItem("token");
+        const resp = await fetch(backendOpIP + "/" + uuid + "/resume", {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        });
 
-      if (resp.status === 200) {
-        const jsonResponse = await resp.json();
+        if (resp.status === 200) {
+          const jsonResponse = await resp.json();
 
-        setWeightsInit(JSON.parse(jsonResponse.weights_init));
-        setWeightsEnd(JSON.parse(jsonResponse.weights_end));
+          setWeightsInit(JSON.parse(jsonResponse.weights_init));
+          setWeightsEnd(JSON.parse(jsonResponse.weights_end));
 
-        setLoad(true);
-        return jsonResponse;
-      } else if (resp.status === 401) {
-        logout();
+          setLoad(true);
+          return jsonResponse;
+        } else if (resp.status === 401) {
+          logout();
+        }
       }
-    }
-    getElectionResume();
-    getStats(uuid).then((data) => {
-      const { jsonResponse } = data;
-      setNameElection(jsonResponse.name);
-    });
-  }, [uuid]);
+      getElectionResume();
+      getStats(uuid).then((data) => {
+        const { jsonResponse } = data;
+        setNameElection(jsonResponse.name);
+      });
+    },
+    [uuid]
+  );
 
   return (
     <div id="content-home-admin">
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Resumen de Elección" nameElection={nameElection} />
+          <TitlePsifos
+            namePage="Resumen de Elección"
+            nameElection={nameElection}
+          />
         </div>
       </section>
 

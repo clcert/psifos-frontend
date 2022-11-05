@@ -6,7 +6,7 @@ import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import { backendOpIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
 import Tally from "../../../static/booth/js/jscrypto/tally";
@@ -177,7 +177,7 @@ function DecryptProve(props) {
             linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
             linkInit={`/${uuid}/trustee/${uuidTrustee}/home`}
           />
-          <Title
+          <TitlePsifos
             namePage="Custodio de Claves"
             nameElection={"Etapa 3: Verificación clave privada"}
           />

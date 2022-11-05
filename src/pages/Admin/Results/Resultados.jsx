@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import SubNavbar from "../component/SubNavbar";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { getElection } from "../../../services/election";
 import ResultTable from "./components/ResultTable";
@@ -50,7 +50,7 @@ function Resultados() {
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
 
-          <Title
+          <TitlePsifos
             namePage="Resultados Preliminares"
             nameElection={election.name}
           />

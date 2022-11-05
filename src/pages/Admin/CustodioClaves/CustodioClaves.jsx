@@ -1,5 +1,5 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
@@ -44,7 +44,10 @@ function CustodioClaves(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Custodio de Claves" nameElection={election.name} />
+          <TitlePsifos
+            namePage="Custodio de Claves"
+            nameElection={election.name}
+          />
         </div>
       </section>
 

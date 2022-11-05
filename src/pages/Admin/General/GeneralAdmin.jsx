@@ -2,7 +2,7 @@ import { Button } from "react-bulma-components";
 import { useState } from "react";
 import { useEffect } from "react";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { getElections } from "../../../services/election";
 import CardElection from "./components/CardElection";
@@ -68,7 +68,7 @@ function GeneralAdmin() {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <Title namePage="Panel de administración" nameElection={""} />
+            <TitlePsifos namePage="Panel de administración" nameElection={""} />
           </div>
         </section>
 

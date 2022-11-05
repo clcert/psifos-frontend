@@ -1,4 +1,4 @@
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import Accordion from "./component/Accordion";
 import { Button } from "react-bulma-components";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
@@ -48,7 +48,7 @@ function HomeAdmin() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Bienvenido a Participa Uchile DEV" />
+          <TitlePsifos namePage="Bienvenido a Participa Uchile DEV" />
         </div>
       </section>
 

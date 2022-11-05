@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import VotersTable from "./components/VotersTable";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import { Button } from "react-bulma-components";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
@@ -65,7 +65,7 @@ function VotersList() {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Padrón" nameElection={election.name} />
+          <TitlePsifos namePage="Padrón" nameElection={election.name} />
         </div>
       </section>
 

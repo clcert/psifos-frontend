@@ -1,5 +1,5 @@
 import ElectionCode from "../../component/Footers/ElectionCode";
-import Title from "../../component/OthersComponents/Title";
+import TitlePsifos from "../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { Link, useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function NoAuth(props) {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar linkExit={props.adressLogout} linkInit="" />
-          <Title namePage={props.title} />
+          <TitlePsifos namePage={props.title} />
         </div>
       </section>
 

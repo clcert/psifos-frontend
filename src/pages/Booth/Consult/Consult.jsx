@@ -1,4 +1,4 @@
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import InfoConsult from "./components/InfoConsult";
 import TitleConsult from "./components/TitleConsult";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
@@ -37,7 +37,7 @@ function Consult(props) {
             linkExit={backendOpIP + "/vote/" + uuid + "/logout"}
             linkInit=""
           />
-          <Title namePage="Consulta" />
+          <TitlePsifos namePage="Consulta" />
         </div>
       </section>
       <div className="columns is-flex is-centered">

@@ -1,5 +1,5 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import { Button } from "react-bulma-components";
@@ -93,7 +93,10 @@ function CreateCustodio() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Custodio de Claves" nameElection={nameElection} />
+          <TitlePsifos
+            namePage="Custodio de Claves"
+            nameElection={nameElection}
+          />
         </div>
       </section>
 
