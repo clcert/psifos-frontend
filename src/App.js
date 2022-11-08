@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
 import VotersList from "./pages/Admin/VotersList/VotersList";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
-import Resultados from "./pages/Admin/Results/Resultados";
+import Resultados from "./pages/Admin/Results/ResultsView";
 import Home from "./pages/Home/Home";
 import "bulma/css/bulma.min.css";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
@@ -21,8 +21,8 @@ import Booth from "./pages/Booth/Booth";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
 import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
-import CastVoteView from "./pages/Booth/CastVoteView";
 import Statistics from "./pages/Admin/Statistics/Statistics";
+import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 
 function App() {
   function getToken() {
@@ -170,7 +170,7 @@ function App() {
         <Route path="booth">
           <Route path=":uuid" element={<Booth />} />
           <Route path="consult" element={<Consult />} />
-          <Route path=":uuid/ballot-box" element={<CastVoteView />} />
+          <Route path=":uuid/public-info" element={<InfoBoothView />} />
         </Route>
 
         {/** Routes for trustee */}

@@ -50,7 +50,7 @@ function CardSettings(props) {
           <Link
             target="_blank"
             className="link-without-line"
-            to={"/psifos/booth/" + uuid + "/ballot-box/"}
+            to={"/psifos/booth/" + uuid + "/public-info"}
           >
             Ver urna electronica
           </Link>

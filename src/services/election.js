@@ -1,4 +1,4 @@
-import { backendOpIP } from "../server";
+import { backendInfoIp, backendOpIP } from "../server";
 import { logout } from "../utils/utils";
 
 async function getElection(uuid) {
@@ -19,6 +19,22 @@ async function getElection(uuid) {
     return { resp: resp, jsonResponse: jsonResponse };
   } else if (resp.status === 403) {
     logout();
+  }
+}
+async function getElectionPublic(uuid) {
+  /**
+   * async function to get the election data
+   */
+
+  const resp = await fetch(backendInfoIp + "/election/" + uuid, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
   }
 }
 
@@ -61,4 +77,4 @@ async function getStats(uuid) {
   }
 }
 
-export { getElection, getElections, getStats };
+export { getElection, getElectionPublic, getElections, getStats };
