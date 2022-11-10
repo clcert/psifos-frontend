@@ -10,6 +10,8 @@ const events = {
   voting_started: "Votación iniciada",
   voting_stopped: "Votación finalizada",
   tally_computed: "Tally computado",
+  decryptions_combined: "Desencriptaciones combinadas",
+  electoral_roll_modified: "Se modifico el padrón"
 };
 
 function Logs() {
@@ -45,7 +47,10 @@ function Logs() {
 
   function generateText(logs) {
     let event_text = events[logs.event];
-    if (logs.event === "trustee_created") {
+    if (
+      logs.event === "trustee_created" ||
+      logs.event === "public_key_uploaded"
+    ) {
       const event_params = JSON.parse(logs.event_params);
       event_text = event_text.concat(" ", event_params.trustee_login_id);
     }

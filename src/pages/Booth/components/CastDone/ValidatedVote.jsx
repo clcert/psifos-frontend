@@ -30,7 +30,7 @@ function ValidatedVote(props) {
       frontIP +
       "/booth/" +
       uuid +
-      "/ballot-box/?hash=" +
+      "/public-info?hash=" +
       encodeURIComponent(props.voteHash);
   }
 
