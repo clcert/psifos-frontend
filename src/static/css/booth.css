@@ -482,7 +482,6 @@ input[type="radio"] {
 /* 03: Review */
 #review-section {
   background-color: rgba(2, 125, 71, 0.1);
-
 }
 
 .review-answer {
@@ -713,8 +712,7 @@ input[type="radio"] {
   border: 5px solid #fdd245;
 }
 
-#decryption-finish{
-
+#decryption-finish {
   margin-top: 2rem;
   background-color: white;
   border-radius: 10px;
@@ -1291,6 +1289,29 @@ table th {
   color: #4a4a4a;
   display: block;
   padding: 1.25rem;
+}
+
+@keyframes logs {
+  from {
+    left: 1000px;
+  }
+
+  to {
+    left: 0px;
+  }
+}
+
+.logs-box {
+  position: relative;
+  width: 73vw !important;
+  animation-name: logs;
+  animation-duration: 0.5s;
+}
+
+@media screen and (min-width: 992px) {
+  .logs-box {
+    max-width: 50%;
+  }
 }
 
 a.box:hover,
@@ -11911,30 +11932,28 @@ a.has-text-danger-dark:focus {
 
 /*# sourceMappingURL=booth.css.map */
 
-.create-title{
-
+.create-title {
   font-size: 1.5rem;
   font-weight: bold;
-
 }
 
-.chart-container{
+.chart-container {
   width: 60vw;
 }
 
-.canvas-graph{
+.canvas-graph {
   width: 100%;
 }
 
 @media screen and (max-width: 992px) {
-  .chart-container{
+  .chart-container {
     width: 80vw;
   }
-  .canvas-graph{
+  .canvas-graph {
     width: 250%;
   }
 }
 
-canvas{
+canvas {
   height: 100% !important;
 }

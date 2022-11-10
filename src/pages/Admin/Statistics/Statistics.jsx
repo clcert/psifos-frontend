@@ -1,51 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { backendOpIP } from "../../../server";
 import { getStats } from "../../../services/election";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
-import LinePsifosGraph from "./Graphs/LinePsifosGraph";
+import VotesByTime from "./Sections/VotesByTime";
 
 function Statistics() {
-  const { uuid } = useParams();
+  /** @state {string} election name */
   const [electionName, setElectionName] = useState("");
-  const [votesForTime, setVotesForTime] = useState({});
-  const [deltaTime, setDeltaTime] = useState(60);
 
-  async function getCountDates() {
-    const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + uuid + "/count-dates", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        minutes: deltaTime,
-      }),
-    });
-    if (resp.status === 200) {
-      const jsonResponse = await resp.json();
-      setVotesForTime(jsonResponse);
-    }
-  }
+  /** @urlParam {string} uuid of election */
+  const { uuid } = useParams();
 
   useEffect(() => {
     getStats(uuid).then((data) => {
-      setElectionName(data.short_name);
+      const { jsonResponse } = data;
+      setElectionName(jsonResponse.name);
     });
-    getCountDates();
   }, []);
-
-  useEffect(() => {
-    getCountDates();
-  }, [deltaTime]);
-
-  function handleChange(event) {
-    setDeltaTime(parseInt(event.target.value));
-  }
 
   return (
     <div id="content-home-admin">
@@ -69,28 +43,7 @@ function Statistics() {
         <div className="has-text-centered title is-size-4-mobile">
           Cantidad de votos por tiempo
         </div>
-        {Object.keys(votesForTime).length !== 0 ? (
-          <div className="chart-container" style={{ overflowX: "auto" }}>
-            <label for="pet-select">Variación de tiempo:</label>
-
-            <select
-              onChange={handleChange}
-              name="delta-time"
-              id="time"
-              value={deltaTime}
-            >
-              <option value="">--Eliga una opción--</option>
-              <option value="30">30 Minutos</option>
-              <option value="60">60 Minutos</option>
-              <option value="120">2 Horas</option>
-              <option value="240">4 Horas</option>
-              <option value="1440">1 Día</option>
-            </select>
-            <LinePsifosGraph data={votesForTime} />
-          </div>
-        ) : (
-          <div className="spinner-animation"></div>
-        )}
+        <VotesByTime />
       </section>
 
       <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />

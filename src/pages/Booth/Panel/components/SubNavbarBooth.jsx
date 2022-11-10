@@ -68,7 +68,7 @@ function SubNavbarBooth(props) {
                   props.changeActive(3, "Verificación");
                 }}
               >
-                <i className="fa fa-list-alt mr-2"></i>
+                <i className="fa fa-square-check mr-2"></i>
                 <span>Verificación</span>
               </Link>
             </div>
@@ -84,7 +84,7 @@ function SubNavbarBooth(props) {
                   props.changeActive(4, "Registro");
                 }}
               >
-                <i className="fa fa-list-alt mr-2"></i>
+                <i className="fa fa-list-check mr-2"></i>
                 <span>Registro</span>
               </Link>
             </div>

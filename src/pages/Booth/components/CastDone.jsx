@@ -9,7 +9,7 @@ function CastDone(props) {
     <section className="section pb-0" id="send-section">
       <div className="container has-text-centered is-max-desktop">
         {props.voteVerificated && <ValidatedVote voteHash={props.voteHash} />}
-        {!props.voteVerificated && <InvalidatedVote />}
+        {props.voteVerificated === false && <InvalidatedVote />}
         {props.voteVerificated === null && <PendingVote voteHash={props.voteHash} />}
       </div>
 
