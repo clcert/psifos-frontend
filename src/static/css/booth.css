@@ -11942,7 +11942,7 @@ a.has-text-danger-dark:focus {
 }
 
 .canvas-graph {
-  width: 100%;
+  width: 80%;
 }
 
 @media screen and (max-width: 992px) {

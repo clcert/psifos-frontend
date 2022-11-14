@@ -6,6 +6,8 @@ import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import VotesByTime from "./Sections/VotesByTime";
+import InvalidLogginByTime from "./Sections/InvalidLogginByTime";
+import LogginByTime from "./Sections/LogginByTime";
 
 function Statistics() {
   /** @state {string} election name */
@@ -40,10 +42,26 @@ function Statistics() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        <div className="has-text-centered title is-size-4-mobile">
-          Cantidad de votos por tiempo
+        <div className="box is-flex is-align-items-center is-flex-direction-column">
+          <div className="has-text-centered title is-size-4-mobile">
+            Cantidad de votos por tiempo
+          </div>
+          <VotesByTime />
         </div>
-        <VotesByTime />
+        <hr />
+        <div className="box is-flex is-align-items-center is-flex-direction-column">
+          <div className="has-text-centered title is-size-4-mobile">
+            Cantidad de ingresos por tiempo
+          </div>
+          <LogginByTime />
+        </div>
+        <hr />
+        <div className="box is-flex is-align-items-center is-flex-direction-column">
+          <div className="has-text-centered title is-size-4-mobile">
+            Cantidad de ingresos fallidos por tiempo
+          </div>
+          <InvalidLogginByTime />
+        </div>
       </section>
 
       <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />

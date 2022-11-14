@@ -32,7 +32,7 @@ function LinePsifosGraph(props) {
       labels,
       datasets: [
         {
-          label: "Cantidad de votos",
+          label: props.label,
           data: Object.values(props.data),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -44,6 +44,13 @@ function LinePsifosGraph(props) {
         title: {
           display: true,
           text: props.title,
+        },
+      },
+      scales: {
+        y: {
+          ticks: {
+            stepSize: 1,
+          },
         },
       },
     };

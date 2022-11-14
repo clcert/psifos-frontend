@@ -4,14 +4,17 @@ import { useParams } from "react-router-dom";
 import { backendOpIP } from "../../../../server";
 import LinePsifosGraph from "../Graphs/LinePsifosGraph";
 
-function VotesByTime(props) {
-  /** Section dedicated to graphing the number of votes by time */
+function LogginByTime(props) {
+  /** Section dedicated to graphing the number of voter logging by time */
 
   /** @state {number} delta time for count votes */
   const [deltaTime, setDeltaTime] = useState(60);
 
-  /** @state {json} count votes of election */
-  const [votesForTime, setVotesForTime] = useState({});
+  /** @state {json} count voter logging of election */
+  const [logginForTime, setLogginForTime] = useState({});
+
+  /** @state {json} count voter logging of election */
+  const [totalLoggin, setTotalLoggin] = useState(0);
 
   /** @state {bool} load state fetch */
   const [load, setLoad] = useState(false);
@@ -21,7 +24,7 @@ function VotesByTime(props) {
 
   async function getCountDates() {
     const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + uuid + "/count-dates", {
+    const resp = await fetch(backendOpIP + "/" + uuid + "/count-logs", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
@@ -29,11 +32,15 @@ function VotesByTime(props) {
       },
       body: JSON.stringify({
         minutes: deltaTime,
+        type_log: "voter_login",
       }),
     });
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
-      setVotesForTime(jsonResponse);
+      if (Object.keys(jsonResponse).length !== 0) {
+        setLogginForTime(jsonResponse.count_logs);
+        setTotalLoggin(jsonResponse.total_logs);
+      }
       setLoad(true);
     }
   }
@@ -48,9 +55,10 @@ function VotesByTime(props) {
 
   return (
     <>
-      {Object.keys(votesForTime).length !== 0 ? (
+      {Object.keys(logginForTime).length !== 0 ? (
         <div className="chart-container" style={{ overflowX: "auto" }}>
-          <label for="pet-select">Variación de tiempo:</label>
+          <span className="is-size-5">Variación de tiempo</span>
+          <span className="is-size-5 ml-5">Total: {totalLoggin}</span>
           <div className="control">
             <div className="select">
               <select
@@ -68,13 +76,13 @@ function VotesByTime(props) {
             </div>
           </div>
           <div className="is-flex is-align-items-center is-flex-direction-column">
-            <LinePsifosGraph data={votesForTime} label="Cantidad de votos" />
+            <LinePsifosGraph data={logginForTime} label="Ingresos validos" />
           </div>
         </div>
       ) : load ? (
         <div className="box" id="not-results-box">
           <p className="is-size-3 has-text-weight-bold">
-            Aun no existen votos registrados
+            Aun no existen ingresos registrados
           </p>
         </div>
       ) : (
@@ -84,4 +92,4 @@ function VotesByTime(props) {
   );
 }
 
-export default VotesByTime;
+export default LogginByTime;
