@@ -214,7 +214,7 @@ function VotersTable(props) {
                     {election.use_voter_aliases && <td>{voter.alias}</td>}
                     <td>
                       <tt className="align-middle has-text-centered">
-                        {voter.cast_vote.vote_hash}
+                        {voter.cast_vote === null ? "" : voter.cast_vote.vote_hash}
                       </tt>
                     </td>
                     <td className="align-middle has-text-centered">
