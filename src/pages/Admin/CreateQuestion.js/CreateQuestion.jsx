@@ -20,6 +20,8 @@ function CreateQuestion(props) {
   /** @state {array} array containing the questions */
   const [question, setQuestion] = useState([]);
 
+  const [election, setElection] = useState({});
+
   /** @state {string} alert message for state of creation */
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -70,7 +72,6 @@ function CreateQuestion(props) {
      * @param {object} question
      * @returns {object} question with keys
      */
-    let questionAux = questions;
     questions.forEach((question, index) => {
       question.key = index;
       question.q_type = question.q_type ? question.q_type : "closed_question";
@@ -96,7 +97,7 @@ function CreateQuestion(props) {
       question.min_answers = question.min_answers ? question.min_answers : 1;
       question.max_answers = question.max_answers ? question.max_answers : 1;
     });
-    setQuestion(questionAux);
+    setQuestion(questions);
   }
 
   function removeQuestion(key) {
@@ -113,45 +114,21 @@ function CreateQuestion(props) {
     setQuestion(newQuestion);
   }
 
-  function editAnswers(key, newName, newValue) {
-    /**
-     * edit the answers of a question
+  function updateQuestions(key, newValue) {
+    /* * edit the answers of a question
      * @param {number} key number of answer
-     * @param {string} newName new name for the answer
      * @param {string} newValue new value for the answer
      */
 
+    newValue.total_closed_options = newValue.closed_options.length;
+    newValue.total_options = newValue.closed_options.length;
     let auxQuestion = [...question];
     for (let i = 0; i < auxQuestion.length; i++) {
       if (auxQuestion[i].key === key) {
-        auxQuestion[i].q_text = newName;
-        auxQuestion[i].closed_options = [];
-        auxQuestion[i].total_closed_options = newValue.length;
-        auxQuestion[i].total_options = newValue.length;
-        for (let j = 0; j < newValue.length; j++) {
-          auxQuestion[i].closed_options[j] = newValue[j].value;
-        }
+        auxQuestion[i] = newValue;
       }
+      setQuestion(auxQuestion);
     }
-    setQuestion(auxQuestion);
-  }
-
-  function editType(key, newType) {
-    /**
-     * edit the type of a question
-     * @param {number} key number of question
-     *
-     * @param {string} newType new type for the question
-     * @returns {void}
-     */
-
-    let auxQuestion = [...question];
-    for (let i = 0; i < auxQuestion.length; i++) {
-      if (auxQuestion[i].key === key) {
-        auxQuestion[i].q_type = newType;
-      }
-    }
-    setQuestion(auxQuestion);
   }
 
   function checkQuestions() {
@@ -199,34 +176,6 @@ function CreateQuestion(props) {
       setColorAlert("is-danger");
     }
   }
-  function setOptionsQuestions(
-    key,
-    description,
-    openSize,
-    openOptions,
-    minAnswers,
-    maxAnswers
-  ) {
-    /**
-     * set the options of a question
-     * @param {number} key number of question
-     * @param {string} description description of the question
-     * @param {number} openSize max size of the open question
-     * @param {array} openOptions options of the open question
-     */
-
-    let auxQuestion = [...question];
-    for (let i = 0; i < auxQuestion.length; i++) {
-      if (auxQuestion[i].key === key) {
-        auxQuestion[i].q_description = description;
-        auxQuestion[i].open_option_max_size = openSize;
-        auxQuestion[i].total_open_options = openOptions;
-        auxQuestion[i].min_answers = minAnswers;
-        auxQuestion[i].max_answers = maxAnswers;
-      }
-    }
-    setQuestion(auxQuestion);
-  }
 
   return (
     <div id="content-home-admin">
@@ -256,33 +205,13 @@ function CreateQuestion(props) {
           {question.map((item, index) => {
             return (
               <QuestionsForms
+                key={index}
                 disabledEdit={disabledEdit}
-                key={item.key}
+                questionId={item.key}
                 question={item}
-                changeQuestion={(name, question) =>
-                  editAnswers(item.key, name, question)
-                }
-                changeOptions={(
-                  description,
-                  openSize,
-                  openOptions,
-                  minAnswers,
-                  maxAnswers
-                ) => {
-                  setOptionsQuestions(
-                    item.key,
-                    description,
-                    openSize,
-                    openOptions,
-                    minAnswers,
-                    maxAnswers
-                  );
-                }}
+                updateQuestions={updateQuestions}
                 remove={() => {
                   removeQuestion(item.key);
-                }}
-                editType={(newType) => {
-                  editType(item.key, newType);
                 }}
                 checkOptions={(state) => {
                   setOptionsChecked(state);

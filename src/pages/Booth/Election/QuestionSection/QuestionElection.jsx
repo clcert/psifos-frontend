@@ -8,6 +8,7 @@ import PreviousButton from "../../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
+import InputDropdown from "./Questions/InputDropdown";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -101,24 +102,27 @@ function QuestionElection(props) {
 
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
               <div className="control control-box">
-                <div id="">
-                  {question.min_answers === "1" &&
-                  question.max_answers === "1" ? (
-                    <InputRadio
-                      index={index}
-                      addAnswer={addAnswer}
-                      value={String(index)}
-                      answers={question}
-                    />
-                  ) : (
-                    <InputCheckbox
-                      index={index}
-                      addAnswer={addAnswer}
-                      value={String(index)}
-                      answers={question}
-                    />
-                  )}
-                </div>
+                {question.q_type === "closed_question" && (
+                  <div id="">
+                    {question.min_answers === "1" &&
+                    question.max_answers === "1" ? (
+                      <InputRadio
+                        index={index}
+                        addAnswer={addAnswer}
+                        value={String(index)}
+                        answers={question}
+                      />
+                    ) : (
+                      <InputCheckbox
+                        index={index}
+                        addAnswer={addAnswer}
+                        value={String(index)}
+                        answers={question}
+                      />
+                    )}
+                  </div>
+                )}
+                {question.q_type === "mixnet_question" && <InputDropdown answers={question}/>}
               </div>
             </div>
           </div>
