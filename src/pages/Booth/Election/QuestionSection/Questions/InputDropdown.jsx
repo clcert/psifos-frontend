@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 
 function InputDropdown(props) {
-
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
 
@@ -18,6 +17,9 @@ function InputDropdown(props) {
 
   /** @state {boolean} answers text */
   const [whiteButton, setWhiteButton] = useState(false);
+
+  /** @state {string} placeholder for input select */
+  const [placeHolder, setPlaceHolder] = useState("Seleccione una opción");
 
   useEffect(() => {
     let auxOptions = props.answers.closed_options.map((close_option, index) => {
@@ -80,6 +82,7 @@ function InputDropdown(props) {
     setOptions(auxOptions);
     setNullButton(false);
     setWhiteButton(false);
+    setPlaceHolder("Seleccione una opción");
   }
 
   function deleteOptions() {
@@ -119,7 +122,7 @@ function InputDropdown(props) {
             <AsyncSelect
               defaultOptions={options}
               loadOptions={loadOptions}
-              placeholder={"Seleccione una opción"}
+              placeholder={placeHolder}
               value={answersSelected[index] ? answersSelected[index] : ""}
               onChange={(event) => {
                 selectAnswers(event, index);
@@ -140,6 +143,9 @@ function InputDropdown(props) {
             onChange={(event) => {
               setNullButton(event.target.checked);
               setWhiteButton(false);
+              setPlaceHolder(
+                "===========================/==========================="
+              );
               nullVote(event);
             }}
           />
@@ -157,6 +163,7 @@ function InputDropdown(props) {
             onChange={(event) => {
               setWhiteButton(event.target.checked);
               setNullButton(false);
+              setPlaceHolder("Seleccione una opción");
               nullVote(event);
             }}
           />
