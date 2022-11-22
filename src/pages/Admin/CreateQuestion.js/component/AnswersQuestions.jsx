@@ -96,16 +96,18 @@ function AnswersQuestions(props) {
                     respuestas registradas.
                   </span>
                 </div>
-                <div>
-                  <Button
-                    className="button-custom"
-                    onClick={() => {
-                      downloadFile();
-                    }}
-                  >
-                    <span>Descargar archivo</span>
-                  </Button>
-                </div>
+                {props.question.closed_options.length !== 0 && (
+                  <div>
+                    <Button
+                      className="button-custom"
+                      onClick={() => {
+                        downloadFile();
+                      }}
+                    >
+                      <span>Descargar archivo</span>
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
           </div>
