@@ -1,38 +1,43 @@
 import { Button } from "react-bulma-components";
 import { useState } from "react";
 import { useEffect } from "react";
+import { getElections } from "../../../services/election";
+import { Link } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import { getElections } from "../../../services/election";
-import CardElection from "./components/CardElection";
-import { Link } from "react-router-dom";
 import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
 import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
 import ModalTally from "../AdministrationPanel/component/ModalTally";
 import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTally";
 import UploadModal from "../VotersList/components/UploadModal";
+import CardElection from "./components/CardElection";
 
 function GeneralAdmin() {
   const [elections, setElections] = useState([]);
 
-  /** @state {bool} state modal freeze */
+  /** @state {json} state modal freeze */
   const [freezeModal, setFreezeModal] = useState({ state: false, uuid: "" });
 
-  /** @state {bool} state modal close election */
+  /** @state {json} state modal close election */
   const [closeModal, setCloseModal] = useState({ state: false, uuid: "" });
 
+  /** @state {json} tally modal close election */
   const [tallyModal, setTallyModal] = useState({ state: false, uuid: "" });
 
+  /** @state {json} state modal combine tally election */
   const [combineTallyModal, setCombineTallyModal] = useState({
     state: false,
     uuid: "",
   });
 
+  /** @state {string} message with feeback for admin */
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
+  /** @state {string} feeback type for admin */
   const [typeFeedback, setTypeFeedback] = useState("");
 
+  /** @state {bool} state for load information from backend */
   const [load, setLoad] = useState(false);
 
   /** @state {bool} upload modal state */
@@ -95,9 +100,10 @@ function GeneralAdmin() {
                   </Link>
                 </Button>
               </div>
-              {elections.map((election) => {
+              {elections.map((election, index) => {
                 return (
                   <CardElection
+                    key={index}
                     election={election}
                     electionStatus={election.election_status}
                     freezeModal={() => {

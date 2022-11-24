@@ -8,18 +8,10 @@ function CardElection(props) {
   /** @state {num} total election votes */
   const [totalVotes, setTotalVotes] = useState(0);
 
-  /** @state {bool} election have questions */
-  const [haveQuestions, setHaveQuestions] = useState(true);
-
-  /** @state {bool} election have voters */
-  const [haveVoters, setHaveVoters] = useState(true);
-
-  /** @state {bool} election have audit */
+  /** @state {num} election have audit */
   const [totalVoters, setTotalVoters] = useState(0);
 
-  /** @state {bool} election have trustee */
-  const [haveTrustee, setHaveTrustee] = useState(true);
-
+  /** @state {string} election status */
   const [electionStatus, setElectionStatus] = useState("");
 
   useEffect(() => {
@@ -34,9 +26,6 @@ function CardElection(props) {
     });
 
     setElectionStatus(props.electionStatus);
-    setHaveQuestions(props.election.questions !== null);
-    setHaveVoters(props.election.voters.length > 0);
-    setHaveTrustee(props.election.trustees.length > 0);
   }, []);
 
   return (
@@ -72,11 +61,8 @@ function CardElection(props) {
       <div>
         <span className="panel-text-sect">Proximos pasos:</span>
         <Status
-          uuid={props.election.uuid}
-          haveVoters={haveVoters}
+          election={props.election}
           electionStatus={electionStatus}
-          haveQuestions={haveQuestions}
-          haveTrustee={haveTrustee}
           freezeModal={props.freezeModal}
           closeModal={props.closeModal}
           tallyModal={props.tallyModal}

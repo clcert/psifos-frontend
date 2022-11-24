@@ -4,6 +4,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { backendOpIP } from "../../../../server";
 
 function CardSettings(props) {
+
+  /** @state {bool} state for show infor message about copy */
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
   const { uuid } = useParams();
@@ -33,7 +35,7 @@ function CardSettings(props) {
           </Link>
         </div>
 
-        {props.haveQuestions && (
+        {props.election.questions !== null && (
           <div className="content-card-admin">
             <i className="fa-solid fa-person-booth mr-2"></i>
             <Link

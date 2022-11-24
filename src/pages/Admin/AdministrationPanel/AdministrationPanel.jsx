@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { logout } from "../../../utils/utils";
+import { getElection, getStats } from "../../../services/election";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
@@ -7,14 +9,12 @@ import SubNavbar from "../component/SubNavbar";
 import ExtendElection from "./component/ExtendElection";
 import ModalFreeze from "./component/ModalFreeze";
 import ModalCloseElection from "./component/ModalCloseElection";
-import { getElection, getStats } from "../../../services/election";
 import ModalTally from "./component/ModalTally";
 import ModalCombineTally from "./component/ModalCombineTally";
 import CardInfo from "./component/CardInfo";
 import CardSettings from "./component/CardSettings";
 import CardSteps from "./component/CardSteps";
 import UploadModal from "../VotersList/components/UploadModal";
-import { logout } from "../../../utils/utils";
 import ModalDeleteElection from "./component/ModalDeleteElection";
 
 /**
@@ -22,14 +22,10 @@ import ModalDeleteElection from "./component/ModalDeleteElection";
  */
 
 function AdministrationPanel(props) {
+  const [election, setElection] = useState([]);
+
   /** @state {bool} modal state to extend voting */
   const [extendElectionModal, setExtendElectionModal] = useState(false);
-
-  /** @state {bool} election have questions */
-  const [haveQuestions, setHaveQuestions] = useState(true);
-
-  /** @state {bool} election have voters */
-  const [haveVoters, setHaveVoters] = useState(true);
 
   /** @state {bool} election have obscure state */
   const [obscureVoter, setObscureVoter] = useState(true);
@@ -45,12 +41,6 @@ function AdministrationPanel(props) {
   /** @state {bool} election have audit */
   const [randomizeAnswers, setRandomizeAnswers] = useState(true);
 
-  /** @state {bool} election have trustee */
-  const [haveTrustee, setHaveTrustee] = useState(true);
-
-  /** @state {string} title of election */
-  const [titleElection, setTitleElection] = useState("");
-
   /** @state {string} election type */
   const [typeElection, setTypeElection] = useState("");
 
@@ -60,20 +50,28 @@ function AdministrationPanel(props) {
   /** @state {bool} state modal close election */
   const [closeModal, setCloseModal] = useState(false);
 
+  /** @state {bool} state modal tally election */
   const [tallyModal, setTallyModal] = useState(false);
 
+  /** @state {bool} state modal combine tally election */
   const [combineTallyModal, setCombineTallyModal] = useState(false);
 
+  /** @state {bool} state modal delete election */
   const [deleteElectionModal, setDeleteElectionModal] = useState(false);
 
+  /** @state {string} feedback message for admin */
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
+  /** @state {string} type feedback for admin */
   const [typeFeedback, setTypeFeedback] = useState("");
 
+  /** @state {string} election status */
   const [electionStatus, setElectionStatus] = useState("");
 
+  /** @state {array} array with all trustees */
   const [trustees, setTrustees] = useState([]);
 
+  /** @state {bool} state load  */
   const [load, setLoad] = useState(false);
 
   /** @state {bool} upload modal state */
@@ -89,11 +87,8 @@ function AdministrationPanel(props) {
     getElection(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
+        setElection(jsonResponse);
         setElectionStatus(jsonResponse.election_status);
-        setTitleElection(jsonResponse.name);
-        setHaveQuestions(jsonResponse.questions !== null);
-        setHaveVoters(jsonResponse.voters.length > 0);
-        setHaveTrustee(jsonResponse.trustees.length > 0);
         setTrustees(jsonResponse.trustees);
         setObscureVoter(jsonResponse.obscure_voter_names);
         setPrivateElection(jsonResponse.private_p);
@@ -123,7 +118,7 @@ function AdministrationPanel(props) {
             <NavbarAdmin />
             <TitlePsifos
               namePage="Panel de administración"
-              nameElection={titleElection}
+              nameElection={election.name}
             />
           </div>
         </section>
@@ -146,21 +141,18 @@ function AdministrationPanel(props) {
                 </div>
               )}
               <div className="has-text-centered title is-size-4-mobile">
-                {titleElection}
+                {election.name}
               </div>
               <hr />
               <div className="columns">
                 <div className="column">
                   <CardSettings
+                    election={election}
                     setDeleteElectionModal={setDeleteElectionModal}
-                    haveQuestions={haveQuestions}
                   />
                   <CardSteps
-                    uuid={uuid}
+                    election={election}
                     electionStatus={electionStatus}
-                    haveVoters={haveVoters}
-                    haveQuestions={haveQuestions}
-                    haveTrustee={haveTrustee}
                     freezeModal={() => setFreezeModal(true)}
                     closeModal={() => setCloseModal(true)}
                     tallyModal={() => setTallyModal(true)}

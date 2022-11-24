@@ -30,7 +30,6 @@ function HomeAdmin() {
       }
     });
   }, []);
-
   function searchElection(e) {
     /**
      * Search for elections by name
@@ -60,23 +59,27 @@ function HomeAdmin() {
           <div className="home-admin-principal">
             <div className="header-accordion mb-4 level">
               <div className="level-left">
-                <input
-                  className="home-admin-search level-item"
-                  type="text"
-                  placeholder="Buscar"
-                  onChange={searchElection}
-                />
+                {elections.length !== 0 && (
+                  <input
+                    className="home-admin-search level-item"
+                    type="text"
+                    placeholder="Buscar"
+                    onChange={searchElection}
+                  />
+                )}
               </div>
               <div className="level-right">
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  className="link-button"
-                  to="/psifos/admin/general"
-                >
-                  <Button className="button-custom ml-3 home-admin-button level-item">
-                    Panel general
-                  </Button>
-                </Link>
+                {elections.length !== 0 && (
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    className="link-button"
+                    to="/psifos/admin/general"
+                  >
+                    <Button className="button-custom ml-3 home-admin-button level-item">
+                      Panel general
+                    </Button>
+                  </Link>
+                )}
 
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
@@ -90,9 +93,21 @@ function HomeAdmin() {
               </div>
             </div>
             <div className="home-admin-accordion-section">
-              {Object.keys(electionsSearch).map((key) => {
-                return <Accordion key={key} election={electionsSearch[key]} />;
-              })}
+              {elections.length !== 0 ? (
+                <>
+                  {Object.keys(electionsSearch).map((key) => {
+                    return (
+                      <Accordion key={key} election={electionsSearch[key]} />
+                    );
+                  })}
+                </>
+              ) : (
+                <div className="box has-text-centered" id="not-results-box">
+                  <p className="is-size-3 has-text-weight-bold">
+                    Aun no existen elecciones registradas.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         ) : (

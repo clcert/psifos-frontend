@@ -8,11 +8,8 @@ function CardSteps(props) {
       <hr />
 
       <Status
-        uuid={props.uuid}
+        election={props.election}
         electionStatus={props.electionStatus}
-        haveVoters={props.haveVoters}
-        haveQuestions={props.haveQuestions}
-        haveTrustee={props.haveTrustee}
         freezeModal={props.freezeModal}
         closeModal={props.closeModal}
         tallyModal={props.tallyModal}

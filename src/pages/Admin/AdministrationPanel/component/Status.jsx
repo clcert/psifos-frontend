@@ -4,47 +4,53 @@ function Status(props) {
   return (
     <>
       {" "}
-      {!props.haveVoters && props.electionStatus === "Setting up" && (
-        <div className="content-card-admin">
-          <span
-            onClick={() => {
-              props.uploadModalonClick(true);
-            }}
-            className="panel-text-sect"
-          >
-            <Link className="link-without-line" to="">
-              Añadir votantes
-            </Link>
-          </span>
-        </div>
-      )}
-      {!props.haveQuestions && props.electionStatus === "Setting up" && (
-        <div className="content-card-admin">
-          <span className="panel-text-sect">
-            <Link
-              className="link-without-line"
-              to={"/psifos/admin/" + props.uuid + "/create-question/"}
+      {!props.election.voters.length > 0 &&
+        props.election.private_p &&
+        props.electionStatus === "Setting up" && (
+          <div className="content-card-admin">
+            <span
+              onClick={() => {
+                props.uploadModalonClick(true);
+              }}
+              className="panel-text-sect"
             >
-              Añadir preguntas
-            </Link>
-          </span>
-        </div>
-      )}
-      {!props.haveTrustee && props.electionStatus === "Setting up" && (
-        <div className="content-card-admin">
-          <span className="panel-text-sect">
-            <Link
-              className="link-without-line"
-              to={"/psifos/admin/" + props.uuid + "/trustee"}
-            >
-              Añadir custodios
-            </Link>
-          </span>
-        </div>
-      )}
-      {props.haveVoters &&
-        props.haveQuestions &&
-        props.haveTrustee &&
+              <Link className="link-without-line" to="">
+                Añadir votantes
+              </Link>
+            </span>
+          </div>
+        )}
+      {props.election.questions === null &&
+        props.electionStatus === "Setting up" && (
+          <div className="content-card-admin">
+            <span className="panel-text-sect">
+              <Link
+                className="link-without-line"
+                to={
+                  "/psifos/admin/" + props.election.uuid + "/create-question/"
+                }
+              >
+                Añadir preguntas
+              </Link>
+            </span>
+          </div>
+        )}
+      {props.election.trustees.length === 0 &&
+        props.electionStatus === "Setting up" && (
+          <div className="content-card-admin">
+            <span className="panel-text-sect">
+              <Link
+                className="link-without-line"
+                to={"/psifos/admin/" + props.election.uuid + "/trustee"}
+              >
+                Añadir custodios
+              </Link>
+            </span>
+          </div>
+        )}
+      {(props.election.voters.length > 0 || !props.election.private_p) &&
+        props.election.questions !== null &&
+        props.election.trustees.length !== 0 &&
         props.electionStatus === "Setting up" && (
           <div className="content-card-admin">
             <span
@@ -80,7 +86,7 @@ function Status(props) {
           <span className="panel-text-sect">
             <Link
               className="link-without-line"
-              to={"/psifos/admin/" + props.uuid + "/trustee"}
+              to={"/psifos/admin/" + props.election.uuid + "/trustee"}
             >
               Esperando desencriptaciones parciales
             </Link>
@@ -106,7 +112,7 @@ function Status(props) {
             className="panel-text-sect"
           >
             <Link
-              to={"/psifos/admin/" + props.uuid + "/resultado"}
+              to={"/psifos/admin/" + props.election.uuid + "/resultado"}
               className="link-without-line"
             >
               Ver resultados
