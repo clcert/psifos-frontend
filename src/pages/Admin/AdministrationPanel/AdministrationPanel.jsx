@@ -27,22 +27,11 @@ function AdministrationPanel(props) {
   /** @state {bool} modal state to extend voting */
   const [extendElectionModal, setExtendElectionModal] = useState(false);
 
-  /** @state {bool} election have obscure state */
-  const [obscureVoter, setObscureVoter] = useState(true);
-
-  /** @state {bool} election private */
-  const [privateElection, setPrivateElection] = useState(true);
-
-  /** @state {bool} election have audit */
+  /** @state {num} total voters */
   const [totalVoters, setTotalVoters] = useState(0);
 
+  /** @state {num} total votes */
   const [totalVotes, setTotalVotes] = useState(0);
-
-  /** @state {bool} election have audit */
-  const [randomizeAnswers, setRandomizeAnswers] = useState(true);
-
-  /** @state {string} election type */
-  const [typeElection, setTypeElection] = useState("");
 
   /** @state {bool} state modal freeze */
   const [freezeModal, setFreezeModal] = useState(false);
@@ -90,10 +79,7 @@ function AdministrationPanel(props) {
         setElection(jsonResponse);
         setElectionStatus(jsonResponse.election_status);
         setTrustees(jsonResponse.trustees);
-        setObscureVoter(jsonResponse.obscure_voter_names);
-        setPrivateElection(jsonResponse.private_p);
-        setRandomizeAnswers(jsonResponse.randomize_answer_order);
-        setTypeElection(jsonResponse.election_type);
+
         setLoad(true);
       } else if (resp.status === 401) {
         logout();
@@ -164,14 +150,11 @@ function AdministrationPanel(props) {
                 </div>
                 <div className="column">
                   <CardInfo
+                    election={election}
                     electionStatus={electionStatus}
                     updateInfo={updateInfo}
-                    typeElection={typeElection}
                     totalVoters={totalVoters}
                     totalVotes={totalVotes}
-                    obscureVoter={obscureVoter}
-                    privateElection={privateElection}
-                    randomizeAnswers={randomizeAnswers}
                     trustees={trustees}
                   />
                 </div>
