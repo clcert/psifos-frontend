@@ -30,8 +30,7 @@ function Notice({post, index}) {
           ></img>
 
           <div className="p-5 text-notice-box">
-            {/* <p>{post.shortInfo}</p> */}
-            <p>uwuwuwuwuwuwuwuwu</p>
+            <p>{post.content}</p>
             <div className="pt-4 more-notice-box">
               <a
                 href={() => false}
