@@ -14,9 +14,10 @@ import "../../static/assets_home/css/Home.css";
 import mono from "../../static/new_home_assets/SVG/monito.svg";
 import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
 import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
+import Posts from "./components/Posts";
 
 function Home() {
-  const dataNotice = require("../../static/dummyData/noticeData.json");
+  // const dataNotice = require("../../static/dummyData/noticeData.json");
   return (
     <div id="content">
       <div className="navbar-div">
@@ -228,7 +229,8 @@ function Home() {
             </h1>
             <div className="container steps-container">
               <div className="columns is-variable">
-                {Object.keys(dataNotice).map((key, index) => {
+                <Posts fromFile='notices.json' />
+                {/* {Object.keys(dataNotice).map((key, index) => {
                   return (
                     <div className="column" key={index}>
                       <Notice
@@ -236,7 +238,6 @@ function Home() {
                         image={dataNotice[key].image}
                         date={dataNotice[key].date}
                         shortInfo={dataNotice[key].shortInfo}
-                        image={dataNotice[key].image}
                         index={index}
                       />
                       <ModalNotice
@@ -246,7 +247,7 @@ function Home() {
                       />
                     </div>
                   );
-                })}
+                })} */}
               </div>
             </div>
           </div>

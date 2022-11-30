@@ -1,0 +1,11 @@
+{
+    "posts": [
+        {
+            "title": "My first post",
+            "date": "2019-01-01",
+            "img": "/Fotos/posts/1.jpg",
+            "summary": "notices/example_summary.md",
+            "full_content": "notices/example_full.md"
+        }
+    ]
+}
