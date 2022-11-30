@@ -179,6 +179,9 @@ function VotersTable(props) {
               </Tr>
             </Thead>
             {voters.map((voter, index) => {
+              const voterHash = voter.cast_vote
+                ? voter.cast_vote.vote_hash
+                : "-";
               return (
                 <Tbody key={index}>
                   <Tr>
@@ -189,12 +192,8 @@ function VotersTable(props) {
                     <Td className="align-middle has-text-centered">
                       {voter.voter_name}
                     </Td>
-                    <Td>
-                      <tt className="align-middle has-text-centered">
-                        {voter.cast_vote === null
-                          ? "-"
-                          : voter.cast_vote.vote_hash}
-                      </tt>
+                    <Td className="align-middle has-text-centered">
+                      <span className="urna-voter-hash">{voterHash}</span>
                     </Td>
                     <Td className="align-middle has-text-centered">
                       {election.normalization ? (
