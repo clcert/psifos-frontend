@@ -45,7 +45,21 @@ function Posts ({fromFile}) {
         <p>Cargando ...</p>
         :
         items.map( (item, index) => 
-          <Notice key={index} post={item} index={index} />
+          <div className="column" key={index}>
+            <Notice post={item} index={index} />
+            {/* <Notice
+              title={dataNotice[key].title}
+              image={dataNotice[key].image}
+              date={dataNotice[key].date}
+              shortInfo={dataNotice[key].shortInfo}
+              index={index}
+            />
+            <ModalNotice
+              index={index}
+              title={dataNotice[key].title}
+              info={dataNotice[key].info}
+            /> */}
+          </div>
         )      
       }
     </>
