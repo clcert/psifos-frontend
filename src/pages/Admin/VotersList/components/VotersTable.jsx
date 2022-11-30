@@ -3,6 +3,9 @@ import { backendOpIP } from "../../../../server";
 import { Button } from "react-bulma-components";
 import { getStats } from "../../../../services/election";
 
+import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+
 function VotersTable(props) {
   const [voters, setVoters] = useState([]);
   const [election, setElection] = useState([]);
@@ -161,63 +164,39 @@ function VotersTable(props) {
 
           <ul className="pagination-list">
             Papeletas {actualPage * maxForPage + 1} -{" "}
-            {actualPage * maxForPage + voters.length} (de {totalVoters}
-            )&nbsp;&nbsp;
-            {/* {% comment %}
-                <li><a className="pagination-link" href="{% url "election@voters@list-pretty" election.uuid %}?page=1&limit={{limit}}" aria-label="Goto page 1">1</a></li>
-                <li><span className="pagination-ellipsis">&hellip;</span></li>
-                <li><a className="pagination-link" aria-label="Goto page 45">45</a></li>
-                <li><a className="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-                <li><a className="pagination-link" aria-label="Goto page 47">47</a></li>
-                <li><span className="pagination-ellipsis">&hellip;</span></li>
-                <li><a className="pagination-link" aria-label="Goto page 86">86</a></li>
-                {% endcomment %} */}
+            {actualPage * maxForPage + voters.length} (de {totalVoters})
           </ul>
         </nav>
         <div>
-          <table
-            id="voters-table"
-            className="pretty table is-bordered is-hoverable voters-table"
-          >
-            <thead>
-              <tr>
-                {!election.use_voter_aliases && (
-                  <>
-                    <th className="has-text-centered">Login</th>
-                    {!election.openreg && (
-                      <>
-                        <th className="has-text-centered">VOTANTE</th>
-                      </>
-                    )}
-                  </>
-                )}
-
-                {election.use_voter_aliases && <th>Alias</th>}
-                <th className="has-text-centered">CÓDIGO DE PAPELETA</th>
-                <th className="has-text-centered">Ponderador</th>
-                <th className="has-text-centered">Actions</th>
-              </tr>
-            </thead>
+          <Table className="pretty table is-bordered is-hoverable voters-table">
+            <Thead>
+              <Tr>
+                <Th className="has-text-centered">Login</Th>
+                <Th className="has-text-centered">Votante</Th>
+                <Th className="has-text-centered">Código de papeleta</Th>
+                <Th className="has-text-centered">Ponderador</Th>
+                <Th className="has-text-centered">Actions</Th>
+              </Tr>
+            </Thead>
             {voters.map((voter, index) => {
               return (
-                <tbody key={index}>
-                  <tr>
-                    <td className="align-middle has-text-centered">
+                <Tbody key={index}>
+                  <Tr>
+                    <Td className="align-middle has-text-centered">
                       {voter.voter_login_id}
-                    </td>
-                    {!election.openreg && (
-                      <td className="align-middle has-text-centered">
-                        {voter.voter_name}
-                      </td>
-                    )}
+                    </Td>
 
-                    {election.use_voter_aliases && <td>{voter.alias}</td>}
-                    <td>
+                    <Td className="align-middle has-text-centered">
+                      {voter.voter_name}
+                    </Td>
+                    <Td>
                       <tt className="align-middle has-text-centered">
-                        {voter.cast_vote === null ? "" : voter.cast_vote.vote_hash}
+                        {voter.cast_vote === null
+                          ? "-"
+                          : voter.cast_vote.vote_hash}
                       </tt>
-                    </td>
-                    <td className="align-middle has-text-centered">
+                    </Td>
+                    <Td className="align-middle has-text-centered">
                       {election.normalization ? (
                         <>
                           {/* {% load tag %}
@@ -227,8 +206,8 @@ function VotersTable(props) {
                       ) : (
                         <>{voter.voter_weight} </>
                       )}
-                    </td>
-                    <td
+                    </Td>
+                    <Td
                       style={{ whiteSpace: "nowrap" }}
                       className="has-text-centered"
                     >
@@ -264,12 +243,12 @@ function VotersTable(props) {
                           </div>
                         )}
                       </div>
-                    </td>
-                  </tr>
-                </tbody>
+                    </Td>
+                  </Tr>
+                </Tbody>
               );
             })}
-          </table>{" "}
+          </Table>{" "}
         </div>
       </>
     );

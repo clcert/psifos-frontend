@@ -27,6 +27,7 @@
     "react-select": "^5.6.1",
     "react-simple-timefield": "^3.2.5",
     "react-transition-group": "^4.4.2",
+    "react-super-responsive-table": "^5.2.1",
     "sass": "^1.49.8",
     "underscore": "^1.13.2",
     "web-vitals": "^2.1.4",

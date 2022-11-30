@@ -112,6 +112,7 @@
   border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .voters-table td {
@@ -629,6 +630,9 @@ input[type="radio"] {
   #vote-code {
     margin-left: auto;
     margin-right: auto;
+  }
+  #logo-header{
+    width: 35vh;
   }
 }
 
@@ -11951,6 +11955,12 @@ a.has-text-danger-dark:focus {
   }
   .canvas-graph {
     width: 250%;
+  }
+  .urna-table{
+    width: 88%;
+  }
+  .urna-voter-hash{
+    font-size: 10px;
   }
 }
 
