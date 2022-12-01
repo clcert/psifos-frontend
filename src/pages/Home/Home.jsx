@@ -5,8 +5,6 @@ import PreguntasFrecuentes from "./components/PreguntasFrecuentes";
 import TeamComponent from "./components/TeamComponent";
 import Video from "./components/Video";
 import FooterParticipa from "../../component/Footers/FooterParticipa";
-import Notice from "./components/Notice";
-import ModalNotice from "./components/ModalNotice";
 import ScrollButton from "./components/ScrollButton";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
 import ticket from "../../static/new_home_assets/SVG/ticket.svg";
@@ -230,24 +228,6 @@ function Home() {
             <div className="container steps-container">
               <div className="columns is-variable">
                 <Posts fromFile='notices.json' />
-                {/* {Object.keys(dataNotice).map((key, index) => {
-                  return (
-                    <div className="column" key={index}>
-                      <Notice
-                        title={dataNotice[key].title}
-                        image={dataNotice[key].image}
-                        date={dataNotice[key].date}
-                        shortInfo={dataNotice[key].shortInfo}
-                        index={index}
-                      />
-                      <ModalNotice
-                        index={index}
-                        title={dataNotice[key].title}
-                        info={dataNotice[key].info}
-                      />
-                    </div>
-                  );
-                })} */}
               </div>
             </div>
           </div>
@@ -318,7 +298,6 @@ function Home() {
       <section className="hero">
         <div className="hero-body bottom-hero"></div>
       </section>
-      <ModalNotice />
     </div>
   );
 }

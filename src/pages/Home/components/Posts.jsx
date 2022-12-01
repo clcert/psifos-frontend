@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Notice from './Notice';
+import ModalNotice from './ModalNotice';
 
 
 function Posts ({fromFile}) {
@@ -12,13 +13,16 @@ function Posts ({fromFile}) {
     let listPosts = []
 
     for (let i = 0; i < posts.length; i++) {
-      console.log(`../../../static/posts/${posts[i].summary}`)
-      const filePath = require(`../../../static/posts/${posts[i].summary}`);
-      const text = await fetch(filePath).then( response => response.text() );
+      const sumFilePath = require(`../../../static/posts/${posts[i].summary}`);
+      const summary = await fetch(sumFilePath).then( response => response.text() );
+
+      const fullFilePath = require(`../../../static/posts/${posts[i].full_content}`);
+      const content = await fetch(fullFilePath).then( response => response.text() );
       
       listPosts.push({
-        'content': text,
-        ...posts[i]
+        ...posts[i],
+        'summary': summary,
+        'content': content,
       })
     }
     return listPosts.sort((a, b) => (a.date < b.date));
@@ -47,18 +51,7 @@ function Posts ({fromFile}) {
         items.map( (item, index) => 
           <div className="column" key={index}>
             <Notice post={item} index={index} />
-            {/* <Notice
-              title={dataNotice[key].title}
-              image={dataNotice[key].image}
-              date={dataNotice[key].date}
-              shortInfo={dataNotice[key].shortInfo}
-              index={index}
-            />
-            <ModalNotice
-              index={index}
-              title={dataNotice[key].title}
-              info={dataNotice[key].info}
-            /> */}
+            <ModalNotice post={item} index={index} /> 
           </div>
         )      
       }
