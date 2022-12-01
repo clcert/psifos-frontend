@@ -1,6 +1,13 @@
 {
     "posts": [
         {
+            "title": "Exitosa elección del Centro de Alumnos del Departamento de Ciencias de la Computación (CaDCC)",
+            "date": "2022-10-29",
+            "img": "/Fotos/posts/eleccion_cadcc_2023.png",
+            "summary": "notices/summary/eleccion_cadcc_2023.md",
+            "full_content": "notices/full/eleccion_cadcc_2023.md"
+        },
+        {
             "title": "Participa UChile realiza su primera elección de Centros de Estudiantes",
             "date": "2022-10-26",
             "img": "/Fotos/posts/centro_estudiantes.png",
