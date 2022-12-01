@@ -15,7 +15,7 @@ import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
 import Posts from "./components/Posts";
 
 function Home() {
-  // const dataNotice = require("../../static/dummyData/noticeData.json");
+  
   return (
     <div id="content">
       <div className="navbar-div">

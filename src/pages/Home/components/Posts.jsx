@@ -43,19 +43,19 @@ function Posts ({fromFile}) {
   }, [getPosts])
 
   return (
-    <> 
-      { 
+    <div className="news-container">
+      {
         loading ? 
         <p>Cargando ...</p>
         :
-        items.map( (item, index) => 
-          <div className="column" key={index}>
+        items.map( (item, index) => (
+          <div className="news-item" key={index}>
             <Notice post={item} index={index} />
             <ModalNotice post={item} index={index} /> 
           </div>
-        )      
+        ))     
       }
-    </>
+    </div>
   );
 }
 

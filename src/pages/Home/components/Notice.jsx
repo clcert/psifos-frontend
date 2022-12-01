@@ -12,18 +12,25 @@ function Notice({post, index}) {
   if (inViewport && !showAnimation) {
     setShowAnimation(true);
   }
+  const postDateStr = new Date(`${post.date} 00:00`).toLocaleDateString("es-ES", { 
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric' 
+  });
+
   return (
     <>
       <div
         className={
-          "card " + (showAnimation ? "opacity-activate" : "opacity-enter")
+          "notice-card " + (showAnimation ? "opacity-activate" : "opacity-enter")
         }
         ref={myRef}
       >
-        <div className="card-content">
-          <div className="title-notice-box pt-1 pb-2">
-            <p>{post.date}</p>
-            <p>{post.title}</p>
+        <div>
+          <div>
+            <p className="notice-date">{postDateStr}</p>
+            <p className="notice-title">{post.title}</p>
           </div>
           <img
             width={1000}
@@ -32,7 +39,7 @@ function Notice({post, index}) {
             alt=""
           ></img>
 
-          <div className="p-5 text-notice-box">
+          <div className="p-4 text-notice-box has-text-justified">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
             <div className="pt-4 more-notice-box">
               <a
