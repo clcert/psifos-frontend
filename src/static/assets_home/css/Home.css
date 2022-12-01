@@ -12956,6 +12956,33 @@ Consult
   margin: 0;
 }
 
+.news-item .modal-text-notice h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: bolder;
+  color: #004c94;
+  padding: 40px 20px;
+  margin: 0;
+}
+
+.news-item .modal-text-notice h2 {
+  font-size: 1.3rem;
+  text-align: left;
+  font-weight: bolder;
+  color: #004c94;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.news-item .modal-text-notice h3 {
+  font-size: 1.2rem;
+  text-align: left;
+  font-weight: bolder;
+  color: #004c94;
+  padding: 10px 0;
+  margin: 0;
+}
+
 @media screen and (max-width: 985px) {
   .news-item {
     max-width: 100%;
