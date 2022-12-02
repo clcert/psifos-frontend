@@ -12919,3 +12919,72 @@ Consult
   color: #0d6efd;
   cursor: pointer;
 }
+
+.news-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.news-item {
+  max-width: 30%;
+  margin: 10px 20px;
+}
+
+.news-item .notice-card {
+  width: 100%;
+  background-color: #004c94;
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-item .notice-date {
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+}
+
+.news-item .notice-title {
+  font-size: 1.3rem;
+  text-align: center;
+  font-weight: bolder;
+  padding: 10px;
+  margin: 0;
+}
+
+.news-item .modal-text-notice h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: bolder;
+  color: #004c94;
+  padding: 40px 20px;
+  margin: 0;
+}
+
+.news-item .modal-text-notice h2 {
+  font-size: 1.3rem;
+  text-align: left;
+  font-weight: bolder;
+  color: #004c94;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.news-item .modal-text-notice h3 {
+  font-size: 1.2rem;
+  text-align: left;
+  font-weight: bolder;
+  color: #004c94;
+  padding: 10px 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 985px) {
+  .news-item {
+    max-width: 100%;
+  }
+}

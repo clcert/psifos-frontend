@@ -1,0 +1,1 @@
+El jueves 11 y viernes 12 de agosto se realizaron las elecciones y la ceremonia de escrutinio de los Senadores/as Universitarios/as del estamento estudiantil y al representante de los Institutos de Rectoría. 
