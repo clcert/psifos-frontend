@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-function ModalNotice({post, index}) {
+function NewsModal({post, index}) {
   return (
     <div className="modal" id={"info-notice" + String(index)}>
       <div
@@ -34,4 +34,4 @@ function ModalNotice({post, index}) {
   );
 }
 
-export default ModalNotice;
+export default NewsModal;

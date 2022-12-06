@@ -227,7 +227,7 @@ function Home() {
             </h1>
             <div className="container steps-container">
               <div className="columns is-variable">
-                <Posts fromFile='notices.json' />
+                <Posts fromFile='news.json' />
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Notice from './Notice';
-import ModalNotice from './ModalNotice';
+import News from './News';
+import NewsModal from './NewsModal';
 
 
 function Posts ({fromFile}) {
@@ -50,8 +50,8 @@ function Posts ({fromFile}) {
         :
         items.map( (item, index) => (
           <div className="news-item" key={index}>
-            <Notice post={item} index={index} />
-            <ModalNotice post={item} index={index} /> 
+            <News post={item} index={index} />
+            <NewsModal post={item} index={index} /> 
           </div>
         ))     
       }

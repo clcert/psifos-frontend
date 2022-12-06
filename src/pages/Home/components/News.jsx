@@ -5,7 +5,7 @@ import React, { useRef } from "react";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-function Notice({post, index}) {
+function News({post, index}) {
   const myRef = useRef();
   const [showAnimation, setShowAnimation] = React.useState(false);
   const { inViewport } = useInViewport(myRef);
@@ -58,4 +58,4 @@ function Notice({post, index}) {
     </>
   );
 }
-export default Notice;
+export default News;
