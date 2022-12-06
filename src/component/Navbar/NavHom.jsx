@@ -58,21 +58,21 @@ function NavHome(props) {
             <a className="navbar-item" href="#video" id="navbar-button-home">
               MATERIAL EXPLICATIVO
             </a>
-            <a className="navbar-item" href="/#" id="navbar-button-home">
+            {/* <a className="navbar-item" href="/#" id="navbar-button-home">
               CABINA DE VOTACIÓN
-            </a>
+            </a> */}
             <a className="navbar-item" href="#faq" id="navbar-button-home">
               FAQ
             </a>
-            <a className="navbar-item" href="#prensa" id="navbar-button-home">
+            {/* <a className="navbar-item" href="#prensa" id="navbar-button-home">
               PRENSA
-            </a>
+            </a> */}
             <a className="navbar-item" href="#noticias" id="navbar-button-home">
               NOTICIAS
             </a>
-            <a className="navbar-item" href="/#" id="navbar-button-home">
+            {/* <a className="navbar-item" href="/#" id="navbar-button-home">
               SOFTWARE
-            </a>
+            </a> */}
             <a className="navbar-item" href="#equipo" id="navbar-button-home">
               EQUIPO
             </a>
