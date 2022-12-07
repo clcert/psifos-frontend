@@ -2,7 +2,8 @@ import { useInViewport } from "react-in-viewport";
 import React, { useRef } from "react";
 
 function VotacionesRealizadas(props) {
-  const data = require("../../../static/dummyData/eleccionesData.json");
+  const elections = require("../../../static/posts/elections.json");
+
   const myRef = useRef();
   const [showAnimation, setShowAnimation] = React.useState(false);
   const { inViewport } = useInViewport(myRef);
@@ -29,17 +30,25 @@ function VotacionesRealizadas(props) {
               </p>
             </div>
             <div className="content-past-elections pl-5">
-              {Object.keys(data).map((key, index) => {
-                return (
-                  <p className="past-election" key={index}>
-                    {data[key].Fecha}{" "}
+              {
+                elections.data.map((election, index) =>
+                  <div className="past-election" key={index}>
+                    <span className="date-container">
+                    { 
+                      new Date(`${election.date} 00:00`).toLocaleDateString("es-ES", { 
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric' 
+                      })
+                    }
+                    </span>
                     <span className={"bullet-" + String((index % 2) + 1)}>
-                      ●
-                    </span>{" "}
-                    {data[key].eleccion}
-                  </p>
-                );
-              })}
+                      { " ● " }
+                    </span>
+                    { election.unit }
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>

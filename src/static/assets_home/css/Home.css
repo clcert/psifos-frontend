@@ -12998,3 +12998,9 @@ Consult
   display: flex;
   justify-content: center;
 }
+
+.past-election .date-container {
+  display: inline-block;
+  width: 120px;
+  text-align: right;
+}
