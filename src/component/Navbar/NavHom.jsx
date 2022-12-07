@@ -1,9 +1,18 @@
 import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
 
-function NavHome(props) {
+function NavHome() {
   const [showNavbarBurger, setShowNavbarBurger] = useState(false);
   const [showNavbarMenu, setShowNavbarMenu] = useState(false);
+
+  const sections = [
+    { name: "EN CURSO", href: "#curso" },
+    { name: "ELECCIONES", href: "#realizada" },
+    { name: "COMO VOTAR", href: "#video" },
+    { name: "FAQ", href: "#faq" },
+    { name: "NOTICIAS", href: "#noticias" },
+    { name: "EQUIPO", href: "#equipo" },
+  ]
   return (
     <div className="is-flex is-justify-content-center">
       <nav className="transparent-bg navbar" role="navigation" aria-label="main navigation">
@@ -45,37 +54,11 @@ function NavHome(props) {
           style={{ position: "relative" }}
         >
           <div className="navbar-start">
-            <a className="navbar-item" href="#curso" id="navbar-button-home">
-              EN CURSO
-            </a>
-            <a
-              className="navbar-item"
-              href="#realizada"
-              id="navbar-button-home"
-            >
-              ELECCIONES
-            </a>
-            <a className="navbar-item" href="#video" id="navbar-button-home">
-              COMO VOTAR
-            </a>
-            {/* <a className="navbar-item" href="/#" id="navbar-button-home">
-              CABINA DE VOTACIÓN
-            </a> */}
-            <a className="navbar-item" href="#faq" id="navbar-button-home">
-              FAQ
-            </a>
-            {/* <a className="navbar-item" href="#prensa" id="navbar-button-home">
-              PRENSA
-            </a> */}
-            <a className="navbar-item" href="#noticias" id="navbar-button-home">
-              NOTICIAS
-            </a>
-            {/* <a className="navbar-item" href="/#" id="navbar-button-home">
-              SOFTWARE
-            </a> */}
-            <a className="navbar-item" href="#equipo" id="navbar-button-home">
-              EQUIPO
-            </a>
+            {sections.map((section, index) => (
+              <a className="navbar-item" href={section.href} id="navbar-button-home" key={index}>
+                {section.name}
+              </a>
+            ))}
             <div className="mt-2 nav-icons">
               <div className="icon ml-2 mr-4">
                 <i className="icon-twitter"></i>
