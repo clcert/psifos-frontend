@@ -5,8 +5,8 @@ function NavHome(props) {
   const [showNavbarBurger, setShowNavbarBurger] = useState(false);
   const [showNavbarMenu, setShowNavbarMenu] = useState(false);
   return (
-    <div className="columns is-flex is-vcentered">
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+    <div className="is-flex is-justify-content-center">
+      <nav className="transparent-bg navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a
             className="navbar-item image-navbar-burger"
@@ -53,10 +53,10 @@ function NavHome(props) {
               href="#realizada"
               id="navbar-button-home"
             >
-              REALIZADAS
+              ELECCIONES
             </a>
             <a className="navbar-item" href="#video" id="navbar-button-home">
-              MATERIAL EXPLICATIVO
+              COMO VOTAR
             </a>
             {/* <a className="navbar-item" href="/#" id="navbar-button-home">
               CABINA DE VOTACIÓN
@@ -76,13 +76,13 @@ function NavHome(props) {
             <a className="navbar-item" href="#equipo" id="navbar-button-home">
               EQUIPO
             </a>
-            <div className="mt-2">
-              <span className="icon ml-2 mr-4">
+            <div className="mt-2 nav-icons">
+              <div className="icon ml-2 mr-4">
                 <i className="icon-twitter"></i>
-              </span>
-              <span className="icon">
+              </div>
+              <div className="icon">
                 <i className="icon-mail"></i>
-              </span>
+              </div>
             </div>
           </div>
         </div>

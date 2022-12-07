@@ -12988,3 +12988,13 @@ Consult
     max-width: 100%;
   }
 }
+
+.transparent-bg {
+  background-color: transparent !important;
+}
+
+.nav-icons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
