@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import React from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function AccordionAudit(props) {
   let collapsiblesRef = useRef(null);
@@ -49,27 +49,27 @@ function AccordionAudit(props) {
                   <div className="row-accordion is-full mb-3">
                     <p className="accordion-panel-title mb-0">URL Elección:</p>
                     <a className="accordion-panel-a">
-                      {backendIP + "/vote/" + uuid}
+                      {backendOpIP + "/" + uuid + "/vote"}
                     </a>
                   </div>
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+                      to="/psifos/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/ballot-box"
                       className="accordion-link"
                     >
                       Ballot Tracking Center
                     </Link>{" "}
-                    <span style={{color: "black"}}>&nbsp;|&nbsp;&nbsp;</span>
+                    <span style={{ color: "black" }}>&nbsp;|&nbsp;&nbsp;</span>
                     <Link
-                      to="/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/urna"
+                      to="/psifos/admin/a492ea80-8391-11ec-95c8-dcfb4829069d/ballot-box"
                       className="accordion-link"
                     >
                       Votos Auditados
                     </Link>{" "}
-                    <span style={{color: "black"}}>&nbsp;|&nbsp;&nbsp;</span>
+                    <span style={{ color: "black" }}>&nbsp;|&nbsp;&nbsp;</span>
                     <Link
-                      to={"/admin/" + uuid + "/cabina"}
+                      to={"/psifos/admin/" + uuid + "/booth"}
                       className="accordion-link"
                     >
                       Vista previa

@@ -1,0 +1,1 @@
+El Senado Universitario renovó a parte de sus integrantes a través de las elecciones realizadas este 3 y 4 de agosto (académicos/as y personal de colaboración). Estos comicios se realizaron a través de Participa UChile. 

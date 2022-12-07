@@ -33,7 +33,7 @@ function ModalCreateCustodio(props) {
             >
               <span>VOLVER ATRÁS</span>
             </button>
-            <Link to={"/admin/" + props.uuid + "/create-trustee"}>
+            <Link to={"/psifos/admin/" + props.uuid + "/create-trustee"}>
               <button
                 className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
                 onClick={props.onHide}

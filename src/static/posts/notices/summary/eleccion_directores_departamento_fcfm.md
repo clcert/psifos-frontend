@@ -1,0 +1,1 @@
+El jueves 8 de junio de 2022 se realizaron las elecciones y la ceremonia de escrutinio de las elecciones de director o directora para todos los departamentos de la Facultad de Ciencias Físicas y Matemáticas (FCFM) de la Universidad de Chile con excepción del Departamento de Ingeniería Industrial (DII). 

@@ -6,7 +6,6 @@ import ModalHelp from "./ModalHelp";
 import { Link } from "react-router-dom";
 
 function NavbarAdmin(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   return (
@@ -25,7 +24,7 @@ function NavbarAdmin(props) {
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
                   <Link
-                    to="/admin/home"
+                    to="/psifos/admin/home"
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"
@@ -33,6 +32,7 @@ function NavbarAdmin(props) {
                     INICIO
                   </Link>
                   <a
+                    href={() => false}
                     onClick={() => {
                       setShowInfo(true);
                     }}
@@ -42,6 +42,7 @@ function NavbarAdmin(props) {
                     INFO
                   </a>
                   <a
+                    href={() => false}
                     onClick={() => {
                       setShowHelp(true);
                     }}

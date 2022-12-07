@@ -1,35 +1,42 @@
-import { Button } from "react-bulma-components";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function UserButton(props) {
+  const [display, setDisplay] = useState(false);
+
   function logOut() {
     sessionStorage.removeItem("token");
-    window.location.href = "/admin/login";
+    window.location.href = "/psifos/admin/login";
   }
   return (
-    <div className="dropdown is-hoverable mb-2">
-      <div className="dropdown-trigger">
-        <a
-          className="navbar-admin-button"
-          aria-haspopup="true"
-          aria-controls="dropdown-menu4"
-        >
-          <span>{sessionStorage.getItem("user")}</span>
-          <span className="icon is-small">
-            <i className="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </a>
-      </div>
-      <div className="dropdown-menu" id="dropdown-menu4" role="menu">
-        <div className="dropdown-item">
-          <a
-            onClick={logOut}
-            style={{ textDecoration: "None", color: "black" }}
-          >
-            Log out
-          </a>
+    <div
+      id="text-button"
+      className="menu-text-admin"
+      onClick={(e) => {
+        setDisplay(!display);
+      }}
+      onMouseEnter={(e) => {
+        setDisplay(true);
+      }}
+      onMouseLeave={(e) => {
+        setDisplay(false);
+      }}
+    >
+      <a href={() => false}>
+        <span>{sessionStorage.getItem("user")}</span>
+      </a>
+      {display && (
+        <div className="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div className="dropdown-item">
+            <a
+              href={() => false}
+              onClick={logOut}
+              style={{ textDecoration: "None", color: "black" }}
+            >
+              Cerrar sesión
+            </a>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

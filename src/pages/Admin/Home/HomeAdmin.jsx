@@ -1,12 +1,11 @@
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import Accordion from "./component/Accordion";
 import { Button } from "react-bulma-components";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { backendIP } from "../../../server";
-import logout from "../../../utils/utils";
+import { getElections } from "../../../services/election";
 
 function HomeAdmin() {
   /**
@@ -19,32 +18,18 @@ function HomeAdmin() {
   /** @state {array} choices filtered by the search engine  */
   const [electionsSearch, setElectionsSearch] = useState([]);
 
+  const [load, setLoad] = useState(false);
+
   useEffect(() => {
-    async function getElections() {
-      /**
-       * Get all elections for the current admin
-       */
-
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + "/get-elections", {
-        method: "GET",
-        headers: {
-          "x-access-tokens": token,
-          "Content-Type": "application/json",
-        },
-      });
-
+    getElections().then((res) => {
+      const { resp, jsonResponse } = res;
       if (resp.status === 200) {
-        const jsonResponse = await resp.json();
         setElections(jsonResponse);
         setElectionsSearch(jsonResponse);
-      } else if (resp.status === 401) {
-        logout();
+        setLoad(true);
       }
-    }
-    getElections();
+    });
   }, []);
-
   function searchElection(e) {
     /**
      * Search for elections by name
@@ -62,7 +47,7 @@ function HomeAdmin() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Bienvenido a Participa Uchile DEV" />
+          <TitlePsifos namePage="Bienvenido a Participa Uchile DEV" />
         </div>
       </section>
 
@@ -70,39 +55,64 @@ function HomeAdmin() {
         className="section columns is-flex is-vcentered is-centered mt-5 mb-0"
         id="accordion-section"
       >
-        <div className="home-admin-principal">
-          <div className="header-accordion mb-4 level">
-            <div className="level-left">
-              <input
-                className="home-admin-search level-item"
-                type="text"
-                placeholder="Buscar"
-                onChange={searchElection}
-              />
-            </div>
-            <div className="level-right">
-              <Button className="button-custom ml-3 home-admin-button level-item">
+        {load ? (
+          <div className="home-admin-principal">
+            <div className="header-accordion mb-4 level">
+              <div className="level-left">
+                {elections.length !== 0 && (
+                  <input
+                    className="home-admin-search level-item"
+                    type="text"
+                    placeholder="Buscar"
+                    onChange={searchElection}
+                  />
+                )}
+              </div>
+              <div className="level-right">
+                {elections.length !== 0 && (
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    className="link-button"
+                    to="/psifos/admin/general"
+                  >
+                    <Button className="button-custom ml-3 home-admin-button level-item">
+                      Panel general
+                    </Button>
+                  </Link>
+                )}
+
                 <Link
                   style={{ textDecoration: "none", color: "white" }}
                   className="link-button"
-                  to="/admin/create-election"
+                  to="/psifos/admin/create-election"
                 >
-                  Crear Votación
+                  <Button className="button-custom ml-3 home-admin-button level-item">
+                    Crear Votación
+                  </Button>
                 </Link>
-              </Button>
+              </div>
+            </div>
+            <div className="home-admin-accordion-section">
+              {elections.length !== 0 ? (
+                <>
+                  {Object.keys(electionsSearch).map((key) => {
+                    return (
+                      <Accordion key={key} election={electionsSearch[key]} />
+                    );
+                  })}
+                </>
+              ) : (
+                <div className="box has-text-centered" id="not-results-box">
+                  <p className="is-size-3 has-text-weight-bold">
+                    Aun no existen elecciones registradas.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          <div className="home-admin-accordion-section">
-            {Object.keys(electionsSearch).map((key) => {
-              return (
-                <Accordion
-                  key={key}
-                  election = {electionsSearch[key]}
-                />
-              );
-            })}
-          </div>
-        </div>
+        ) : (
+          <div className="spinner-animation"></div>
+        )}
       </section>
       <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
     </div>

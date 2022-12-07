@@ -1,9 +1,9 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import imageTrustees from "../../../static/svg/trustees-list.svg";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TrusteesList from "./components/TrusteesList";
-import { backendHeliosIP, backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import "../../../static/css/booth.css";
 import SubNavbar from "../component/SubNavbar";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
@@ -30,19 +30,24 @@ function CustodioClaves(props) {
   const location = useLocation();
 
   const { uuid } = useParams();
-  const ipHeliosElection = backendHeliosIP + "/app/elections/" + uuid;
 
-  useEffect(function effectFunction() {
-    getElection(uuid).then((election) => {
-      setElection(election.jsonResponse);
-    });
-  }, []);
+  useEffect(
+    function effectFunction() {
+      getElection(uuid).then((election) => {
+        setElection(election.jsonResponse);
+      });
+    },
+    [uuid]
+  );
   return (
-    <div id="content-trustees">
+    <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Custodio de Claves" nameElection={election.name} />
+          <TitlePsifos
+            namePage="Custodio de Claves"
+            nameElection={election.name}
+          />
         </div>
       </section>
 
@@ -85,10 +90,7 @@ function CustodioClaves(props) {
                 {!election.has_helios_trustee && (
                   <p className="has-text-white mb-4">
                     [
-                    <a
-                      id="trustees-link"
-                      href={ipHeliosElection + "/trustees/add-helios"}
-                    >
+                    <a id="trustees-link" href={() => false}>
                       agregar al servidor como custodio de clave
                     </a>
                     ]
@@ -100,11 +102,12 @@ function CustodioClaves(props) {
           <div className="box" id="trustee-box">
             Link de conexión custodio:{" "}
             <a
+              rel="noreferrer"
               target="_blank"
               style={{ color: "rgb(0, 182, 254)" }}
-              href={backendIP + "/" + uuid + "/trustee/login"}
+              href={backendOpIP + "/" + uuid + "/trustee/login"}
             >
-              {backendIP + "/" + uuid + "/trustee/login"}
+              {backendOpIP + "/" + uuid + "/trustee/login"}
             </a>
           </div>
           <TrusteesList

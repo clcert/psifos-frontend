@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 function TeamComponent(props) {
   const myRef = useRef();
   const [showAnimation, setShowAnimation] = React.useState(false);
-  const { inViewport, enterCount, leaveCount } = useInViewport(myRef);
+  const { inViewport } = useInViewport(myRef);
   if (inViewport && !showAnimation) {
     setShowAnimation(true);
   }

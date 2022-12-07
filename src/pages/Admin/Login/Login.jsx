@@ -1,6 +1,7 @@
 import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
 import { Buffer } from "buffer";
+import { backendOpIP } from "../../../server";
 
 function Login() {
   /**
@@ -26,7 +27,7 @@ function Login() {
      */
 
     sessionStorage.setItem("token", userToken["token"]);
-    window.location.href = "/admin/home";
+    window.location.href = "/psifos/admin/home";
   }
 
   function setUser(user) {
@@ -42,7 +43,7 @@ function Login() {
      * async function for login admin
      */
 
-    let url = "http://127.0.0.1:5000/login";
+    let url = backendOpIP + "/login";
     let encoded = Buffer.from(username + ":" + password);
     const resp = await fetch(url, {
       method: "POST",
@@ -52,16 +53,15 @@ function Login() {
       },
     });
 
-    if (resp.status === 200) {
+    if (resp.status === 201) {
       const data = await resp.json();
       setColorAlert("green");
       setAlertMessage("Inicio exitoso!");
       setUser(username);
       setToken(data);
-    } else if (resp.status === 401) {
-      const data = await resp.json();
+    } else {
       setColorAlert("red");
-      setAlertMessage(data["message"]);
+      setAlertMessage("Usuario o contraseña incorrectos!");
     }
   }
 
@@ -113,16 +113,15 @@ function Login() {
                 {/* .control */}
               </div>{" "}
               {/* .field */}
-              <div className="footer-login is-flex pt-2 ">
-                <div className="footer-register-login mr-3 pl-5 pr-5">
-                  <p className="footer-register-text mb-0">
-                    si aun no tienes cuenta
-                  </p>
-                  <p className="footer-register-text pt-0">
-                    Registrate <a className="footer-register-link">AQUÍ</a>
-                  </p>
+              <div className="footer-login level is-flex pt-2 ">
+                <div className="footer-register-login level-left mr-3 pl-5 pr-5">
+                  {/* <div>
+                    <p className="footer-register-text pt-0">
+                      Registrate <a className="footer-register-link">AQUÍ</a>
+                    </p>
+                  </div> */}
                 </div>
-                <div className="field ml-5">
+                <div className="field leve-right ml-5">
                   <div className="control">
                     <button
                       onClick={login}

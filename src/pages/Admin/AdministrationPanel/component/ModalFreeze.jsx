@@ -1,25 +1,25 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ModalFreeze(props) {
   async function freeze() {
-    const url = backendIP + "/" + props.uuid + "/start-election";
+    const url = backendOpIP + "/" + props.uuid + "/start-election";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "x-access-tokens": token,
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
     if (response.status === 200) {
-      props.feedback(data.message, "is-success");
+      props.feedback("La elección ha sido iniciada con exito!", "is-success");
       props.freezeChange();
       props.onHide();
     } else {
-      props.feedback(data.message, "is-danger");
+      props.feedback(
+        "Ha ocurrido un problema al iniciar la elección",
+        "is-danger"
+      );
     }
   }
 

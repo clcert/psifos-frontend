@@ -1,0 +1,33 @@
+FROM node:lts as build
+
+RUN apt install -y git
+
+COPY ./ /
+
+WORKDIR /
+
+ENV PATH /node_modules/.bin:$PATH
+
+RUN npm install
+
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
+ARG APP_BACKEND_OP_URL
+ARG APP_BACKEND_INFO_URL
+ARG APP_FRONTEND_URL
+
+ENV APP_BACKEND_OP_URL=$APP_BACKEND_OP_URL
+ENV APP_BACKEND_INFO_URL=$APP_BACKEND_INFO_URL
+ENV APP_FRONTEND_URL=$APP_FRONTEND_URL
+
+RUN sed -i '0,/APP_BACKEND_OP_URL/s//'$APP_BACKEND_OP_URL'/' /src/server.js
+RUN sed -i '0,/APP_BACKEND_INFO_URL/s//'$APP_BACKEND_INFO_URL'/' /src/server.js
+RUN sed -i '0,/APP_FRONTEND_URL/s//'$APP_FRONTEND_URL'/' /src/server.js
+
+RUN npm run build
+
+FROM caddy:alpine as app
+
+COPY --from=build /build /usr/share/caddy
+
+EXPOSE 80

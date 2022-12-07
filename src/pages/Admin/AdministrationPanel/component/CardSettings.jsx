@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function CardSettings(props) {
+
+  /** @state {bool} state for show infor message about copy */
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
   const { uuid } = useParams();
@@ -18,7 +20,7 @@ function CardSettings(props) {
           <i className="fa-solid fa-pen-to-square pr-1 mr-2"></i>
           <Link
             className="link-without-line"
-            to={"/admin/" + uuid + "/edit-election/"}
+            to={"/psifos/admin/" + uuid + "/edit-election/"}
           >
             Editar elección
           </Link>
@@ -27,18 +29,18 @@ function CardSettings(props) {
           <i className="fa-solid fa-circle-question pr-2 mr-1"></i>
           <Link
             className="link-without-line"
-            to={"/admin/" + uuid + "/create-question/"}
+            to={"/psifos/admin/" + uuid + "/create-question/"}
           >
             Ver preguntas
           </Link>
         </div>
 
-        {props.haveQuestions && (
+        {props.election.questions !== null && (
           <div className="content-card-admin">
             <i className="fa-solid fa-person-booth mr-2"></i>
             <Link
               className="link-without-line"
-              to={"/admin/" + uuid + "/cabina"}
+              to={"/psifos/admin/" + uuid + "/booth"}
             >
               Ver previsualización
             </Link>
@@ -46,9 +48,20 @@ function CardSettings(props) {
         )}
 
         <div className="content-card-admin">
+          <i className="fa-solid fa-square-poll-horizontal pr-2 "></i>{" "}
+          <Link
+            target="_blank"
+            className="link-without-line"
+            to={"/psifos/booth/" + uuid + "/public-info"}
+          >
+            Ver urna electronica
+          </Link>
+        </div>
+
+        <div className="content-card-admin">
           <i className="fa-solid fa-check-to-slot mr-2"></i>
           <CopyToClipboard
-            text={backendIP + "/vote/" + uuid}
+            text={backendOpIP + "/" + uuid + "/vote"}
             onCopy={() => setShowCopyMessage(true)}
           >
             <span>
@@ -60,6 +73,18 @@ function CardSettings(props) {
               )}
             </span>
           </CopyToClipboard>
+        </div>
+        <div className="content-card-admin">
+          <i className="fa-solid fa-trash pr-2 mr-1"></i>
+          <Link
+            className="link-without-line-red"
+            to=""
+            onClick={() => {
+              props.setDeleteElectionModal(true);
+            }}
+          >
+            Eliminar elección
+          </Link>
         </div>
       </div>
     </div>

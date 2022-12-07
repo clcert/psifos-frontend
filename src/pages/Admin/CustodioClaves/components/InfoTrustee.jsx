@@ -1,4 +1,4 @@
-import loading from "../../../../static/cabina/loading.gif"
+import loading from "../../../../static/booth/loading.gif";
 
 function InfoTrustee(props) {
   return (
@@ -21,6 +21,7 @@ function InfoTrustee(props) {
           <img
             className="is-align-self-center loading-trustee"
             src={loading}
+            alt=""
           />
         </p>
       )}

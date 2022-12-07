@@ -1,4 +1,4 @@
-import logo from "../../static/new_home_assets/SVG/ícono Participa.svg";
+import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
 
 function NavHome(props) {
@@ -8,11 +8,21 @@ function NavHome(props) {
     <div className="columns is-flex is-vcentered">
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://participa.uchile.cl">
-            <img src={logo} width="20" height="20" alt="Logo participa UCHILE" />
+          <a
+            className="navbar-item image-navbar-burger"
+            href="https://participa.uchile.cl"
+          >
+            <img
+              src={logo}
+              id="image-navbar"
+              alt="Logo participa UCHILE"
+              width={500}
+              height={500}
+            />
           </a>
 
           <a
+            href={() => false}
             role="button"
             className={"navbar-burger " + (showNavbarBurger ? "is-active" : "")}
             aria-label="menu"
@@ -48,7 +58,7 @@ function NavHome(props) {
             <a className="navbar-item" href="#video" id="navbar-button-home">
               MATERIAL EXPLICATIVO
             </a>
-            <a className="navbar-item" href="" id="navbar-button-home">
+            <a className="navbar-item" href="/#" id="navbar-button-home">
               CABINA DE VOTACIÓN
             </a>
             <a className="navbar-item" href="#faq" id="navbar-button-home">
@@ -60,7 +70,7 @@ function NavHome(props) {
             <a className="navbar-item" href="#noticias" id="navbar-button-home">
               NOTICIAS
             </a>
-            <a className="navbar-item" href="#" id="navbar-button-home">
+            <a className="navbar-item" href="/#" id="navbar-button-home">
               SOFTWARE
             </a>
             <a className="navbar-item" href="#equipo" id="navbar-button-home">

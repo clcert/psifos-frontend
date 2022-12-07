@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
-import Title from "../../../component/OthersComponents/Title";
+import LoadPage from "../../../component/Loading/LoadPage";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees1.svg";
-import NoAuth from "../../Cabina/NoAuth";
+import NoAuth from "../../Booth/NoAuth";
 import StepButton from "./components/StepButton";
 
 function CustodioHome(props) {
@@ -18,7 +19,7 @@ function CustodioHome(props) {
   const [noAuthMessage, setNoAuthMessage] = useState("");
 
   /** @state {bool}  */
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const { uuid, uuidTrustee } = useParams();
 
@@ -29,22 +30,19 @@ function CustodioHome(props) {
       : true
   );
 
-  const disabledButton2 = Boolean(
-    trustee.public_key  ? false : true
-  );
+  const disabledButton2 = Boolean(trustee.public_key ? false : true);
 
   const disabledButton3 = Boolean(
     trustee.current_step === 4 &&
-      election.encrypted_tally !== "" &&
-      trustee.decryptions === ""
+      election.encrypted_tally !== null &&
+      trustee.decryptions === null
       ? false
       : true
   );
 
-
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
-      window.location.href = backendIP + "/" + uuid + "/trustee/login";
+      window.location.href = backendOpIP + "/" + uuid + "/trustee/login";
     }
     getTrusteeHome(uuid, uuidTrustee).then((data) => {
       try {
@@ -55,7 +53,7 @@ function CustodioHome(props) {
           setAuth(true);
           setTrustee(jsonResponse.trustee);
           setElection(jsonResponse.election);
-        } else if (resp.status === 401) {
+        } else {
           setNoAuthMessage(
             "La elección no existe o no estas habilitado para generar llaves en ella"
           );
@@ -67,27 +65,30 @@ function CustodioHome(props) {
         );
       }
     });
-  }, []);
+  }, [searchParams, uuid, uuidTrustee]);
 
   if (!load) {
-    return <>LOAD</>;
-  } else if (!auth) {
+    return <LoadPage />;
+  }
+
+  if (!auth) {
     return (
       <NoAuth
+        title={"Custodio de Claves"}
         message={noAuthMessage}
-        adressLogout={backendIP + "/" + uuid + "/trustee" + "/logout"}
+        adressLogout={`${backendOpIP}/${uuid}/trustee/logout`}
       ></NoAuth>
     );
-  } else if (load) {
+  } else {
     return (
       <div id="content-trustees">
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
-              addressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
-              addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
+              linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
-            <Title
+            <TitlePsifos
               namePage="Custodio de Claves"
               nameElection={"Pagina privada de Vocal"}
             />
@@ -100,55 +101,73 @@ function CustodioHome(props) {
               PASOS A SEGUIR
             </h1>
             <div className="is-flex is-align-items-center is-flex-direction-column">
-              <div className="is-flex is-flex-direction-column">
-                <StepButton
-                  step={1}
-                  disabled={disabledButton1}
-                  text="Generar llaves."
-                  linkTo={
-                    "/" + uuid + "/trustee/" + uuidTrustee + "/keygenerator"
-                  }
-                />
-                <StepButton
-                  step={2}
-                  disabled={disabledButton2}
-                  text="Verifica tu Clave Privada"
-                  linkTo={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
-                />
-                <StepButton
-                  step={3}
-                  disabled={disabledButton3}
-                  text="Desencriptar resultado final"
-                  linkTo={
-                    "/" +
-                    uuid +
-                    "/trustee/" +
-                    uuidTrustee +
-                    "/decrypt-and-prove"
-                  }
-                />
-              </div>
-              {!election.encrypted_tally && (
-                <p className="has-text-white pt-5">
-                  * Una vez realizado el precómputo, debes volver aquí para
-                  entregar tu clave privada y desencriptar el resultado final *
-                </p>
-              )}
+              {load ? (
+                <>
+                  <div className="is-flex is-flex-direction-column">
+                    <StepButton
+                      step={1}
+                      disabled={disabledButton1}
+                      text="Generar llaves."
+                      linkTo={
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/keygenerator"
+                      }
+                    />
+                    <StepButton
+                      step={2}
+                      disabled={disabledButton2}
+                      text="Verifica tu Clave Privada"
+                      linkTo={
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/check-sk"
+                      }
+                    />
+                    <StepButton
+                      step={3}
+                      disabled={disabledButton3}
+                      text="Desencriptar resultado final"
+                      linkTo={
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/decrypt-and-prove"
+                      }
+                    />
+                  </div>
+                  {!election.encrypted_tally && (
+                    <p className="has-text-white pt-5">
+                      * Una vez realizado el precómputo, debes volver aquí para
+                      entregar tu clave privada y desencriptar el resultado
+                      final *
+                    </p>
+                  )}
 
-              {trustee.decryptions ? (
-                <p className="has-text-white">
-                  Ya has completado exitosamente todos los pasos como vocal de
-                  la elección. Muchas gracias por tu participación.
-                </p>
+                  {trustee.decryptions ? (
+                    <p className="has-text-white">
+                      Ya has completado exitosamente todos los pasos como vocal
+                      de la elección. Muchas gracias por tu participación.
+                    </p>
+                  ) : (
+                    <p className="has-text-white">
+                      Guarda el correo electrónico con el enlace de tu página
+                      privada de vocal, para volver más adelante.
+                    </p>
+                  )}
+                </>
               ) : (
-                <p className="has-text-white">
-                  Guarda el correo electrónico con el enlace de tu página
-                  privada de vocal, para volver más adelante.
-                </p>
+                <div className="spinner-animation-white"></div>
               )}
             </div>
           </div>
         </section>
+
         <div>
           <ImageFooter imagePath={imageTrustees} />
           <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />

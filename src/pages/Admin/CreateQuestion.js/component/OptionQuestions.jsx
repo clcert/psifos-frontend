@@ -33,7 +33,7 @@ function OptionQuestions(props) {
     setMaxAnswers(props.question.max_answers);
     setTotalOpenOptions(props.question.total_open_options);
     setOpenOptionsSize(props.question.open_option_max_size);
-  }, [props.questions]);
+  }, []);
 
   useEffect(() => {
     changeOptions();
@@ -44,13 +44,14 @@ function OptionQuestions(props) {
      * change options for question
      *
      */
-    props.changeOptions(
-      description,
-      openOptionsSize,
-      totalOpenOptions,
-      minAnswers,
-      maxAnswers
-    );
+
+    let auxQuestion = props.question;
+    auxQuestion.q_description = description;
+    auxQuestion.open_option_max_size = openOptionsSize;
+    auxQuestion.total_open_options = totalOpenOptions;
+    auxQuestion.min_answers = minAnswers;
+    auxQuestion.max_answers = maxAnswers;
+    props.updateQuestions(props.questionId, auxQuestion);
   }
 
   function checkOptions() {
@@ -73,7 +74,7 @@ function OptionQuestions(props) {
       final_state = false;
     }
 
-    if (minAnswers > props.answers.length) {
+    if (minAnswers > props.question.closed_options.length) {
       setTextMinAnswers(
         "Debe introducir un número menor a la cantidad de respuestas"
       );
@@ -81,7 +82,7 @@ function OptionQuestions(props) {
       final_state = false;
     }
     setCheckMaxAnswers(true);
-    if (maxAnswers > props.answers.length) {
+    if (maxAnswers > props.question.closed_options.length) {
       setTextMaxAnswers(
         "Debe introducir un número menor a la cantidad de respuestas"
       );
@@ -125,7 +126,7 @@ function OptionQuestions(props) {
     maxAnswers,
     totalOpenOptions,
     openOptionsSize,
-    props.answers,
+    props.question.closed_options,
   ]);
 
   return (
@@ -145,7 +146,9 @@ function OptionQuestions(props) {
             }}
           ></textarea>
         </div>
-        {!checkDescription && <p className="help is-danger">{textDescription}</p>}
+        {!checkDescription && (
+          <p className="help is-danger">{textDescription}</p>
+        )}
       </div>
       <div className="columns">
         <div className="column">
@@ -163,7 +166,9 @@ function OptionQuestions(props) {
                 }}
               />
             </div>
-            {!checkMinAnswers && <p className="help is-danger">{textMinAnswers}</p>}
+            {!checkMinAnswers && (
+              <p className="help is-danger">{textMinAnswers}</p>
+            )}
           </div>
         </div>
         <div className="column">
@@ -182,7 +187,9 @@ function OptionQuestions(props) {
               />
             </div>
           </div>
-          {!checkMaxAnswers && <p className="help is-danger">{textMaxAnswers}</p>}
+          {!checkMaxAnswers && (
+            <p className="help is-danger">{textMaxAnswers}</p>
+          )}
         </div>
       </div>
       {props.q_type === "open_question" && (

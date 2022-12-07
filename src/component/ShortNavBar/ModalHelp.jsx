@@ -22,6 +22,7 @@ function ModalHelp(props) {
               <span>
                 <a
                   href="https://api.whatsapp.com/send?phone=+56974732599"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   whatsapp: (+56) 9 7473 2599
@@ -32,7 +33,11 @@ function ModalHelp(props) {
               <span className="icon">
                 <i className="fab fa-telegram"></i>
               </span>
-              <a href="https://t.me/participaUChile" target="_blank">
+              <a
+                href="https://t.me/participaUChile"
+                rel="noreferrer"
+                target="_blank"
+              >
                 telegram: @participaUChile
               </a>
             </li>
@@ -43,6 +48,7 @@ function ModalHelp(props) {
               <span>
                 <a
                   href="https://www.twitter.com/participaUChile"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   twitter: @participaUChile
@@ -54,7 +60,11 @@ function ModalHelp(props) {
                 <i className="fas fa-envelope"></i>
               </span>
               <span>
-                <a href="mailto:ayuda.participa@uchile.cl" target="_blank">
+                <a
+                  href="mailto:ayuda.participa@uchile.cl"
+                  rel="noreferrer"
+                  target="_blank"
+                >
                   correo: ayuda.participa@uchile.cl
                 </a>
               </span>

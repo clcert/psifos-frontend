@@ -1,10 +1,10 @@
 import { Button } from "react-bulma-components";
 import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
 import { getElection } from "../../../services/election";
 
@@ -68,7 +68,7 @@ function CreateElection(props) {
         }
       });
     }
-  }, []);
+  }, [props.edit, uuid]);
 
   async function sendElection(url) {
     /**
@@ -76,10 +76,10 @@ function CreateElection(props) {
      */
     if (checkData()) {
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendIP + url, {
+      const resp = await fetch(backendOpIP + url, {
         method: "POST",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -100,8 +100,8 @@ function CreateElection(props) {
           setAlertMessage(jsonResponse.message["short_name"][0]);
         }
       }
-      if (resp.status === 200) {
-        window.location.href = "/admin/" + jsonResponse.uuid + "/panel";
+      if (resp.status === 201) {
+        window.location.href = "/psifos/admin/" + jsonResponse.uuid + "/panel";
       }
     } else {
       window.scrollTo({
@@ -133,11 +133,11 @@ function CreateElection(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Creación de Elección" />
+          <TitlePsifos namePage="Creación de Elección" />
         </div>
       </section>
 
-      <SubNavbar active={1} />
+      {props.edit && <SubNavbar active={1} />}
 
       <section
         className="section columns is-flex is-vcentered is-centered mb-0 mt-3"
@@ -331,7 +331,11 @@ function CreateElection(props) {
             <Link
               className="link-button"
               style={{ color: "white" }}
-              to={props.edit ? "/admin/" + uuid + "/panel" : "/admin/home"}
+              to={
+                props.edit
+                  ? "/psifos/admin/" + uuid + "/panel"
+                  : "/psifos/admin/home"
+              }
             >
               <Button className="button-custom mr-2 ml-2 level-left">
                 Atras

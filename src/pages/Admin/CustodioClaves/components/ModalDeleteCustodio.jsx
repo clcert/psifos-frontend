@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { backendIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 
 function ModalDeleteCustodio(props) {
   /**
@@ -21,23 +21,20 @@ function ModalDeleteCustodio(props) {
      */
 
     try {
-      const url = backendIP + "/" + props.uuid + "/delete-trustee";
+      const url =
+        backendOpIP + "/" + props.uuid + "/delete-trustee/" + props.uuidTrustee;
       const token = sessionStorage.getItem("token");
       const resp = await fetch(url, {
         method: "POST",
         headers: {
-          "x-access-tokens": token,
+          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          uuid: props.uuidTrustee,
-        }),
       });
 
-      const jsonResponse = await resp.json();
       if (resp.status === 200) {
         setFinishDelete(true);
-        setMessageFinished(jsonResponse["message"]);
+        setMessageFinished("El custodio ha sido eliminado con exito!");
       }
     } catch {
       setFinishDelete(true);
@@ -72,8 +69,7 @@ function ModalDeleteCustodio(props) {
                   className="button review-buttons previous-button has-text-white has-text-weight-bold"
                   onClick={() => {
                     props.onHide();
-                    navigate("/admin/" + props.uuid + "/trustee");
-                    window.location.reload();
+                    navigate("/psifos/admin/" + props.uuid + "/trustee");
                   }}
                 >
                   <span>CERRAR</span>

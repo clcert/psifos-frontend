@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { translateStep } from "../../../../utils/utils";
 
 function CardInfo(props) {
 
+  /** @state {num} number of decryptions */
   const [decryptionNumber, setDecryptionNumber] = useState(0);
 
+  /** @state {string} election status */
+  const [electionStatus, setElectionStatus] = useState("");
+
   useEffect(() => {
+    setElectionStatus(translateStep(props.electionStatus));
     let number_decryptions = 0;
     props.trustees.forEach((trustee) => {
       if (trustee.decryptions !== "") {
@@ -14,7 +20,7 @@ function CardInfo(props) {
       }
     });
     setDecryptionNumber(number_decryptions);
-  }, [props.trustees]);
+  }, [props.trustees, props.electionStatus]);
 
   return (
     <div className="box ">
@@ -28,12 +34,12 @@ function CardInfo(props) {
       <hr />
       <div className="is-size-5">
         <div className="content-card-admin">
-          <span className="panel-text-sect">Estado</span>: Activa
+          <span className="panel-text-sect">Estado</span>: {electionStatus}
         </div>
 
         <div className="content-card-admin">
           <span className="panel-text-sect">Tipo de votación</span>:{" "}
-          {props.typeElection === "Election" ? "Elección" : "Consulta"}
+          {props.election.election_type === "Election" ? "Elección" : "Consulta"}
         </div>
 
         <div className="content-card-admin">
@@ -43,7 +49,7 @@ function CardInfo(props) {
 
         <div className="content-card-admin">
           <span className="panel-text-sect">Votos recibidos</span>:{" "}
-          {props.totalVoters}
+          {props.totalVotes}
         </div>
 
         <div className="content-card-admin">
@@ -65,7 +71,7 @@ function CardInfo(props) {
           <span className="panel-text-sect">
             Esconder nombre de los votantes:{" "}
           </span>
-          {props.obscureVoter ? (
+          {props.election.obscure_voter_names ? (
             <i className="fa-solid fa-check" />
           ) : (
             <i className="fa-solid fa-x" />
@@ -74,7 +80,7 @@ function CardInfo(props) {
 
         <div className="content-card-admin">
           <span className="panel-text-sect">Elección privada</span>:{" "}
-          {props.privateElection ? (
+          {props.election.private_p ? (
             <i className="fa-solid fa-check" />
           ) : (
             <i className="fa-solid fa-x" />
@@ -83,7 +89,7 @@ function CardInfo(props) {
 
         <div className="content-card-admin">
           <span className="panel-text-sect">Aleatorizar respuestas</span>:{" "}
-          {props.randomizeAnswers ? (
+          {props.election.randomize_answer_order ? (
             <i className="fa-solid fa-check" />
           ) : (
             <i className="fa-solid fa-x" />

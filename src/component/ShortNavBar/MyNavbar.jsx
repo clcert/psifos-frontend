@@ -12,7 +12,6 @@ function MyNavbar(props) {
   /** @state {bool} state for help modal */
   const [showHelp, setShowHelp] = useState(false);
 
-
   return (
     <div className="container">
       <div className="container disable-text-selection">
@@ -29,7 +28,7 @@ function MyNavbar(props) {
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
                   <Link
-                    to={props.addressInit}
+                    to={props.linkInit}
                     style={{ textAlign: "left" }}
                     className="menu-text-admin"
                     id="text-button"
@@ -38,6 +37,7 @@ function MyNavbar(props) {
                   </Link>
 
                   <a
+                    href={() => false}
                     onClick={() => {
                       setShowInfo(true);
                     }}
@@ -47,6 +47,7 @@ function MyNavbar(props) {
                     INFO
                   </a>
                   <a
+                    href={() => false}
                     onClick={() => {
                       setShowHelp(true);
                     }}
@@ -56,8 +57,8 @@ function MyNavbar(props) {
                     AYUDA
                   </a>
                   <a
-                    href={props.addressExit}
-                    className="menu-text-admin"
+                    href={props.linkExit}
+                    className="menu-text-admin mr-0"
                     id="text-button"
                   >
                     SALIR

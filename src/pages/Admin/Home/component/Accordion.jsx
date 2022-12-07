@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
-import "../../../../static/cabina/css/booth.scss";
+import "../../../../static/booth/css/booth.scss";
 import { Link } from "react-router-dom";
 
 function Accordion(props) {
@@ -8,7 +8,7 @@ function Accordion(props) {
   const [show, setShow] = useState(false);
   const [stateElection, setStateElection] = useState("");
 
-  function state() {
+  const state = useCallback(() => {
     if (props.election.election_status === "Setting up") {
       setStateElection("En configuración");
     } else if (props.election.election_status === "Started") {
@@ -16,14 +16,14 @@ function Accordion(props) {
     } else {
       setStateElection("Finalizada");
     }
-  }
+  }, [props.election.election_status]);
 
   useEffect(() => {
     bulmaCollapsible.attach(".is-collapsible", {
       container: collapsiblesRef.current,
     });
     state();
-  }, []);
+  }, [state]);
 
   return (
     <div ref={collapsiblesRef} id="accordion_first">
@@ -59,7 +59,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/panel"}
+                      to={"/psifos/admin/" + props.election.uuid + "/panel"}
                       className="accordion-link"
                     >
                       Panel administración
@@ -68,7 +68,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/resumen"}
+                      to={"/psifos/admin/" + props.election.uuid + "/resumen"}
                       className="accordion-link"
                     >
                       Resumen
@@ -77,10 +77,12 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/urna"}
+                      to={
+                        "/psifos/admin/" + props.election.uuid + "/voters-list"
+                      }
                       className="accordion-link"
                     >
-                      Urna
+                      Padrón
                     </Link>{" "}
                   </div>
                 </div>
@@ -88,7 +90,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/trustee"}
+                      to={"/psifos/admin/" + props.election.uuid + "/trustee"}
                       className="accordion-link"
                     >
                       Custodio de claves
@@ -97,7 +99,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/admin/" + props.election.uuid + "/resultado"}
+                      to={"/psifos/admin/" + props.election.uuid + "/resultado"}
                       className="accordion-link"
                     >
                       Resultados
@@ -105,7 +107,11 @@ function Accordion(props) {
                   </div>
                   <div className="row-accordion is-full">
                     <Link
-                      to={"/admin/" + props.election.uuid + "/panel"}
+                      to={
+                        "/psifos/admin/" +
+                        props.election.uuid +
+                        "/create-question"
+                      }
                       className="accordion-link"
                     >
                       Preguntas

@@ -1,13 +1,14 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import ImageFooter from "../../../component/Footers/ImageFooter";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import SubNavbar from "../component/SubNavbar";
 import { Button } from "react-bulma-components";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getStats } from "../../../services/election";
 
 function CreateCustodio() {
   /**
@@ -26,6 +27,9 @@ function CreateCustodio() {
   /** @state {string} feedback message for trustee creation  */
   const [message, setMessage] = useState("");
 
+  /** @state {string} election name */
+  const [nameElection, setNameElection] = useState("");
+
   const navigate = useNavigate();
 
   /** @urlParams uuid of election */
@@ -36,11 +40,11 @@ function CreateCustodio() {
      * fetch POST create a new custodio
      */
     const token = sessionStorage.getItem("token");
-    const url = backendIP + "/" + uuid + "/create-trustee";
+    const url = backendOpIP + "/" + uuid + "/create-trustee";
     const resp = await fetch(url, {
       method: "POST",
       headers: {
-        "x-access-tokens": token,
+        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -49,9 +53,8 @@ function CreateCustodio() {
         email: email,
       }),
     });
-    const data = await resp.json();
     if (resp.status === 200) {
-      navigate("/admin/" + uuid + "/trustee", {
+      navigate("/psifos/admin/" + uuid + "/trustee", {
         state: {
           message: "Custodio creado con exito!",
         },
@@ -78,12 +81,22 @@ function CreateCustodio() {
     }
   };
 
+  useEffect(() => {
+    getStats(uuid).then((data) => {
+      const { jsonResponse } = data;
+      setNameElection(jsonResponse.name);
+    });
+  }, [uuid]);
+
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <Title namePage="Custodio de Claves" nameElection={"nameElection"} />
+          <TitlePsifos
+            namePage="Custodio de Claves"
+            nameElection={nameElection}
+          />
         </div>
       </section>
 
@@ -138,7 +151,10 @@ function CreateCustodio() {
           </div>
           <div className="level">
             <Button className="button-custom mr-2 ml-2 level-left">
-              <Link className="link-button" to={"/admin/" + uuid + "/trustee"}>
+              <Link
+                className="link-button"
+                to={"/psifos/admin/" + uuid + "/trustee"}
+              >
                 Atras
               </Link>
             </Button>
@@ -154,7 +170,6 @@ function CreateCustodio() {
       </section>
 
       <div>
-        <ImageFooter imagePath={"imageTrustees"} />
         <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
       </div>
     </div>

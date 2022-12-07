@@ -1,34 +1,33 @@
-import { backendIP } from "../server";
+import { backendOpIP } from "../server";
 
 async function getEgParams(uuid) {
-    /**
-     * async function to get the eg params
-     * @returns {object} data response
-     */
-    const url = backendIP + "/" + uuid + "/get-eg-params";
+  /**
+   * async function to get the eg params
+   * @returns {object} data response
+   */
+  const url = backendOpIP + "/" + uuid + "/get-eg-params";
 
-    const resp = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-    });
+  const resp = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
 
-    const jsonResponse = await resp.json();
-    return jsonResponse;
-  }
+  const jsonResponse = await resp.json();
+  return jsonResponse;
+}
 
-  async function getCheckSk(uuid, uuidTrustee) {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
-    const response = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return data;
-  }
+async function getCheckSk(uuid, uuidTrustee) {
+  const url =
+    backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/check-sk";
+  const response = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data;
+}
 
-export { getEgParams, getCheckSk }  
-
-
+export { getEgParams, getCheckSk };

@@ -1,15 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import { getCheckSk, getEgParams } from "../../../services/crypto";
-import { backendIP } from "../../../server";
+import { backendOpIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-
 
 function CheckSk(props) {
   /** @state {string} secret key for check */
@@ -32,9 +31,9 @@ function CheckSk(props) {
       setCertificates(data);
     });
     getEgParams(uuid).then((data) => {
-      setElGamalParams(data);
+      setElGamalParams(JSON.parse(data));
     });
-  }, []);
+  }, [uuid, uuidTrustee]);
 
   function check_sk() {
     let params = ElGamal.Params.fromJSONObject(ElGamalParams);
@@ -58,10 +57,10 @@ function CheckSk(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
-            addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
+            linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
-          <Title
+          <TitlePsifos
             namePage="Custodio de Claves"
             nameElection={"Etapa 2: Verificación clave privada"}
           />
@@ -82,7 +81,7 @@ function CheckSk(props) {
           <button id="button-init" className="button mr-5">
             <Link
               style={{ textDecoration: "None", color: "black" }}
-              to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             >
               Volver atrás
             </Link>

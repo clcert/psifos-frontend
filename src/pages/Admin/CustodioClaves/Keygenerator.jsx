@@ -1,15 +1,15 @@
-import { BigInt } from "../../../static/cabina/js/jscrypto/bigint";
-import { sjcl } from "../../../static/cabina/js/jscrypto/sjcl";
-import { ElGamal } from "../../../static/cabina/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/cabina/js/jscrypto/heliosc-trustee";
+import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
+import { sjcl } from "../../../static/booth/js/jscrypto/sjcl";
+import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import Title from "../../../component/OthersComponents/Title";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import { Link, useParams } from "react-router-dom";
-import { backendIP } from "../../../server";
-import { useEffect, useState } from "react";
+import { backendOpIP } from "../../../server";
+import { useCallback, useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../services/trustee";
 import { getEgParams } from "../../../services/crypto";
@@ -45,6 +45,22 @@ function Keygenerator(props) {
   /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
 
+  const getRandomness = useCallback(async () => {
+    /**
+     * async function to get the randomness
+     * @returns {int} randomness
+     */
+
+    const resp = await fetch(backendOpIP + "/" + uuid + "/get-randomness", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (resp.status === 200) {
+      const jsonResponse = await resp.json();
+      return jsonResponse.randomness;
+    }
+  }, [uuid]);
+
   useEffect(() => {
     sjcl.random.startCollectors();
     /** Get trustee info */
@@ -55,7 +71,7 @@ function Keygenerator(props) {
       /** Set actual step for trustee */
       let eg_params_json = "";
       getEgParams(uuid).then((data) => {
-        eg_params_json = data;
+        eg_params_json = JSON.parse(data);
 
         /** Set initial params */
         getRandomness().then((data) => {
@@ -76,23 +92,7 @@ function Keygenerator(props) {
         });
       });
     });
-  }, []);
-
-  async function getRandomness() {
-    /**
-     * async function to get the randomness
-     * @returns {int} randomness
-     */
-
-    const resp = await fetch(backendIP + "/" + uuid + "/get-randomness", {
-      method: "GET",
-      credentials: "include",
-    });
-    if (resp.status === 200) {
-      const jsonResponse = await resp.json();
-      return jsonResponse.randomness;
-    }
-  }
+  }, [uuid, uuidTrustee, getRandomness]);
 
   async function send_step(step, data) {
     /**
@@ -102,7 +102,8 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
+    const url =
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -131,7 +132,8 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url = backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
+    const url =
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
 
     const resp = await fetch(url, {
       method: "GET",
@@ -148,7 +150,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
     const url =
-      backendIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get-step";
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get-step";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -207,7 +209,7 @@ function Keygenerator(props) {
      */
 
     generate_keypair();
-    download_sk_to_file("trustee_key.txt");
+    download_sk_to_file("trustee_key_" + trustee.email + ".txt");
     send_public_key();
     setProcessFeedback("Proceso de generación de clave privada completado");
   }
@@ -348,7 +350,8 @@ function Keygenerator(props) {
   }
 
   async function send_public_key() {
-    const url = "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
+    const url =
+      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
 
     const resp = await fetch(url, {
       method: "POST",
@@ -362,12 +365,12 @@ function Keygenerator(props) {
         public_key_json: JSON.stringify(CERTIFICATE),
       }),
     });
-
-    const jsonResponse = await resp.json();
-    TRUSTEE_STEP = 1;
-    setActualStep(1);
-    EXECUTE = false;
-    set_step_init(TRUSTEE_STEP);
+    if (resp.status === 200) {
+      TRUSTEE_STEP = 1;
+      setActualStep(1);
+      EXECUTE = false;
+      set_step_init(TRUSTEE_STEP);
+    }
   }
 
   function set_step_init(step) {
@@ -513,10 +516,10 @@ function Keygenerator(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            adressExit={backendIP + "/" + uuid + "/trustee" + "/logout"}
-            addressInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
+            linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
-          <Title
+          <TitlePsifos
             namePage="Custodio de Claves"
             nameElection={"Etapa 1: Generación de Claves " + trustee.name}
           />
@@ -594,7 +597,7 @@ function Keygenerator(props) {
           <button id="button-init" className="button mr-5">
             <Link
               style={{ textDecoration: "None", color: "black" }}
-              to={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             >
               Volver atrás
             </Link>
@@ -603,7 +606,7 @@ function Keygenerator(props) {
             <button id="button-init" className="button mr-5">
               <Link
                 style={{ textDecoration: "None", color: "black" }}
-                to={"/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
+                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
               >
                 Verificar clave privada
               </Link>
