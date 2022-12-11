@@ -8,19 +8,19 @@ function Posts ({fromFile}) {
   const [ loading, setLoading ] = useState(true);
 
   const getPosts = useCallback( async () => {
-    const { posts } = require('../../../static/posts/' + fromFile);
+    const { data } = require('../../../static/data/' + fromFile);
 
     let listPosts = []
 
-    for (let i = 0; i < posts.length; i++) {
-      const sumFilePath = require(`../../../static/posts/${posts[i].summary}`);
+    for (let i = 0; i < data.length; i++) {
+      const sumFilePath = require(`../../../static/data/${data[i].summary}`);
       const summary = await fetch(sumFilePath).then( response => response.text() );
 
-      const fullFilePath = require(`../../../static/posts/${posts[i].full_content}`);
+      const fullFilePath = require(`../../../static/data/${data[i].full_content}`);
       const content = await fetch(fullFilePath).then( response => response.text() );
       
       listPosts.push({
-        ...posts[i],
+        ...data[i],
         'summary': summary,
         'content': content,
       })
@@ -31,8 +31,8 @@ function Posts ({fromFile}) {
   useEffect( () => {
     setLoading(true);
     setTimeout( async () => {
-      getPosts().then( (posts) => {
-        setItems(posts);
+      getPosts().then( (data) => {
+        setItems(data);
       }).catch( () => {
         setItems([]);
       }).finally( () => {
