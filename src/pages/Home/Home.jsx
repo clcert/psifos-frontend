@@ -7,7 +7,6 @@ import Video from "./components/Video";
 import FooterParticipa from "../../component/Footers/FooterParticipa";
 import ScrollButton from "./components/ScrollButton";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
-import ticket from "../../static/new_home_assets/SVG/ticket.svg";
 import "../../static/assets_home/css/Home.css";
 import mono from "../../static/new_home_assets/SVG/monito.svg";
 import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
@@ -15,6 +14,8 @@ import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
 import Posts from "./components/Posts";
 
 function Home() {
+
+  const elections = require("../../static/data/currentElections.json");
   
   return (
     <div id="content">
@@ -60,16 +61,15 @@ function Home() {
             className="columns is-centered m-auto election-section"
             id="curso"
           >
-            <InfoVotacion
-              image={sobre}
-              nameButton="INGRESAR A LA CABINA DE VOTACIÓN"
-            />
-            <InfoVotacion image={ticket} nameButton="INGRESAR PARA RESPONDER" />
+            {
+              elections.data.map((election, index) => (
+                <InfoVotacion image={sobre} electionData={election} key={index} />
+              ))
+            }
           </div>
 
           <div id="realizada">
             <VotacionesRealizadas image={sobre} title="ELECCIONES REALIZADAS" />
-            <VotacionesRealizadas image={ticket} title="CONSULTAS REALIZADAS" />
           </div>
 
           <Video

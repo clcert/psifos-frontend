@@ -332,6 +332,7 @@ div#preload {
   color: black;
   margin-left: auto;
   margin-right: auto;
+  max-width: 35vw;
 
   padding-left: 3rem !important;
   padding-right: 3rem !important;
@@ -13003,4 +13004,11 @@ Consult
   display: inline-block;
   width: 120px;
   text-align: right;
+}
+
+.multiple-elections-hr {
+  background-color: #93d5f6;
+  margin: 0;
+  flex-grow: 1;
+  height: 1px;
 }
