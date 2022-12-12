@@ -11,7 +11,7 @@ import "../../static/assets_home/css/Home.css";
 import mono from "../../static/new_home_assets/SVG/monito.svg";
 import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
 import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
-import Posts from "./components/Posts";
+
 
 function Home() {
 
@@ -216,20 +216,6 @@ function Home() {
                 </div>
               }
             />
-          </div>
-        </div>
-      </section>
-      <section className="section notice-section" id="noticias">
-        <div className="color-notice">
-          <div className="container">
-            <h1 className="title pt-4" id="election-current">
-              NOTICIAS
-            </h1>
-            <div className="container steps-container">
-              <div className="columns is-variable">
-                <Posts fromFile='news.json' />
-              </div>
-            </div>
           </div>
         </div>
       </section>

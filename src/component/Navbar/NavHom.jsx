@@ -1,17 +1,18 @@
 import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
+import { HashLink } from 'react-router-hash-link';
 
 function NavHome() {
   const [showNavbarBurger, setShowNavbarBurger] = useState(false);
   const [showNavbarMenu, setShowNavbarMenu] = useState(false);
 
   const sections = [
-    { name: "EN CURSO", href: "#curso" },
-    { name: "ELECCIONES", href: "#realizada" },
-    { name: "COMO VOTAR", href: "#video" },
-    { name: "FAQ", href: "#faq" },
-    { name: "NOTICIAS", href: "#noticias" },
-    { name: "EQUIPO", href: "#equipo" },
+    { name: "EN CURSO", href: { pathname: "/", hash: "#curso"} },
+    { name: "ELECCIONES", href: { pathname: "/", hash: "#realizada"} },
+    { name: "COMO VOTAR", href: { pathname: "/", hash: "#video"} },
+    { name: "FAQ", href: { pathname: "/", hash: "#faq"} },
+    { name: "NOTICIAS", href: { pathname: "/noticias"} },
+    { name: "EQUIPO", href: { pathname: "/", hash: "#equipo"} },
   ]
   return (
     <div className="is-flex is-justify-content-center">
@@ -55,9 +56,9 @@ function NavHome() {
         >
           <div className="navbar-start">
             {sections.map((section, index) => (
-              <a className="navbar-item" href={section.href} id="navbar-button-home" key={index}>
+              <HashLink className="navbar-item" to={section.href} id="navbar-button-home" key={index}>
                 {section.name}
-              </a>
+              </HashLink>
             ))}
             <div className="mt-2 nav-icons">
               <div className="icon ml-2 mr-4">
