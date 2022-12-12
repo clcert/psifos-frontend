@@ -28,9 +28,7 @@ function News () {
           </div>
           <div className="column is-align-self-center">
             <p className="has-text-weight-bold text-title">
-              <span className="big-text-title">BIENVENIDO</span>
-              <br />
-              AL SISTEMA DE VOTACIÓN
+              NOTICIAS Y PRENSA
             </p>
           </div>
           <div className="column is-align-self-center">
