@@ -13012,3 +13012,12 @@ Consult
   flex-grow: 1;
   height: 1px;
 }
+
+.unit-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.unit-logo img {
+  margin-bottom: 20px;
+}

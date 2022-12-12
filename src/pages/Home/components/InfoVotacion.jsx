@@ -29,7 +29,7 @@ function InfoVotacion({image, electionData}) {
           </p>
         </div>
         <div className="unit-logo">
-          <img width={100} height={100} src={`/Fotos/units/${electionData.unit}.svg`} alt="Logo de Unidad Académica"/>
+          <img width={250} src={`/Fotos/${electionData.picture}`} alt="Logo de Unidad Académica"/>
         </div>
         <div className="election-date">
           <b>FECHA</b>: {electionDate}
@@ -42,7 +42,7 @@ function InfoVotacion({image, electionData}) {
                 <li key={index} className="is-size-6 mb-1 is-flex is-justify-content-space-between is-align-items-center">
                   <span>{ election }</span>
                   <hr className="multiple-elections-hr" />
-                  <a href="#" className="button is-primary is-small">Votar</a>
+                  <a href="/#" className="button is-primary is-small">Votar</a>
                 </li>
               ))
             }
