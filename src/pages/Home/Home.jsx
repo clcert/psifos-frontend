@@ -1,5 +1,4 @@
 import InfoVotacion from "./components/InfoVotacion";
-import VotacionesRealizadas from "./components/VotacionesRealizadas";
 import PreguntasFrecuentes from "./components/PreguntasFrecuentes";
 import TeamComponent from "./components/TeamComponent";
 import Video from "./components/Video";
