@@ -26,7 +26,7 @@ function Home() {
       </div>
       <ScrollButton></ScrollButton>
       <section className="section top-section pt-3 is-hidden-touch">
-        <div className="columns container " style={{ height: "157px" }}>
+        <div className="columns container" style={{ height: "157px" }}>
           <div className="column is-align-self-center  pl-6">
             <figure
               className="image"
@@ -58,7 +58,7 @@ function Home() {
       <section className="election-section pt-0 pb-0">
         <div className="election-sect">
           <div
-            className="columns is-centered m-auto election-section"
+            className="current-elections-section is-centered m-auto"
             id="curso"
           >
             {

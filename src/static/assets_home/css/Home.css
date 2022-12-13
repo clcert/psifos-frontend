@@ -328,20 +328,24 @@ div#preload {
 .election-box {
   background-color: white !important;
   border: 1px solid #004990 !important;
-  border-radius: 6px;
+  border-radius: 10px;
   color: black;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 35vw;
+  margin: 20px auto;
+  width: 60vw;
+  max-width: 1024px;
+  padding: 0 3rem 2rem 3rem !important;
+}
 
-  padding-left: 3rem !important;
-  padding-right: 3rem !important;
+.unit-logo img {
+  max-width: 500px;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
   .election-box {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+    width: 90vw;
   }
 }
 
@@ -13018,6 +13022,43 @@ Consult
   justify-content: center;
   align-items: center;
 }
+
 .unit-logo img {
   margin-bottom: 20px;
+}
+
+.elections-list li {
+  list-style: circle !important;
+}
+
+.election-bullet {
+  margin-right: 5px;
+}
+
+.election-button {
+  color: white !important;
+  border-radius: 10px !important;
+  text-decoration: none;
+  padding: 5px;
+  width: 70px;
+  font-size: .8rem !important;
+  border: none !important;
+}
+
+.election-button-1 {
+  background-color: #004c94 !important;
+}
+
+.election-button-2 {
+  background-color: #1493e7 !important;
+}
+
+.election-closed {
+  color: #f14668;
+  text-align: center;
+}
+
+.current-elections-section {
+  display: flex;
+  flex-direction: column;
 }
