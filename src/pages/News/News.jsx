@@ -1,6 +1,6 @@
 import React from "react";
 import UpperBanner from "../../component/Banner/UpperBanner";
-import Posts from "../Home/components/Posts";
+import Posts from "./components/Posts";
 
 function News () {
   return (

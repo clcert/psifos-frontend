@@ -1,11 +1,9 @@
 import InfoVotacion from "./components/InfoVotacion";
-import NavHome from "../../component/Navbar/NavHom";
 import VotacionesRealizadas from "./components/VotacionesRealizadas";
 import PreguntasFrecuentes from "./components/PreguntasFrecuentes";
 import TeamComponent from "./components/TeamComponent";
 import Video from "./components/Video";
 import FooterParticipa from "../../component/Footers/FooterParticipa";
-import ScrollButton from "./components/ScrollButton";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
 import "../../static/assets_home/css/Home.css";
 import UpperBanner from "../../component/Banner/UpperBanner";

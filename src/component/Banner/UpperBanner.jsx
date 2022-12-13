@@ -1,7 +1,7 @@
 import React from 'react';
 
 import NavHome from "../Navbar/NavHom";
-import ScrollButton from "../../pages/Home/components/ScrollButton";
+import ScrollButton from "./ScrollButton";
 
 import mono from "../../static/new_home_assets/SVG/monito.svg";
 import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
