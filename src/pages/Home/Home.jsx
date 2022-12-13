@@ -8,9 +8,7 @@ import FooterParticipa from "../../component/Footers/FooterParticipa";
 import ScrollButton from "./components/ScrollButton";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
 import "../../static/assets_home/css/Home.css";
-import mono from "../../static/new_home_assets/SVG/monito.svg";
-import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
-import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
+import UpperBanner from "../../component/Banner/UpperBanner";
 
 
 function Home() {
@@ -19,42 +17,7 @@ function Home() {
   
   return (
     <div id="content">
-      <div className="navbar-div">
-        <div className="container">
-          <NavHome logo={logoParticipa} />
-        </div>
-      </div>
-      <ScrollButton></ScrollButton>
-      <section className="section top-section pt-3 is-hidden-touch">
-        <div className="columns container" style={{ height: "157px" }}>
-          <div className="column is-align-self-center  pl-6">
-            <figure
-              className="image"
-              style={{ width: "316px", height: "374px" }}
-            >
-              <img src={mono} alt="" />
-            </figure>
-          </div>
-          <div className="column is-align-self-center">
-            <p className="has-text-weight-bold text-title">
-              <span className="big-text-title">BIENVENIDO</span>
-              <br />
-              AL SISTEMA DE VOTACIÓN
-            </p>
-          </div>
-          <div className="column is-align-self-center">
-            <figure className="image" style={{ width: "400px" }}>
-              <img src={logoParticipa} alt="Logo participa" />
-            </figure>
-          </div>
-          <div className="barra-menu"></div>
-          <div className="column is-align-self-center">
-            <figure className="image" style={{ width: "70px" }}>
-              <img src={logoUchile} alt="Logo Uchile" />
-            </figure>
-          </div>
-        </div>
-      </section>{" "}
+      <UpperBanner title="BIENVENIDO" subtitle="AL SISTEMA DE VOTACIÓN" />
       <section className="election-section pt-0 pb-0">
         <div className="election-sect">
           <div

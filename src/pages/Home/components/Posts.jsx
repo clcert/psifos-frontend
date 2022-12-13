@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import News from './News';
+import NewsPost from './NewsPost';
 import NewsModal from './NewsModal';
 
 
@@ -50,7 +50,7 @@ function Posts ({fromFile}) {
         :
         items.map( (item, index) => (
           <div className="news-item" key={index}>
-            <News post={item} index={index} />
+            <NewsPost post={item} index={index} />
             <NewsModal post={item} index={index} /> 
           </div>
         ))     
