@@ -1,18 +1,18 @@
-import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
 import { HashLink } from 'react-router-hash-link';
+import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 
 function NavHome() {
   const [showNavbarBurger, setShowNavbarBurger] = useState(false);
   const [showNavbarMenu, setShowNavbarMenu] = useState(false);
 
   const sections = [
-    { name: "EN CURSO", href: { pathname: "/", hash: "#curso"} },
-    { name: "ELECCIONES", href: { pathname: "/", hash: "#realizada"} },
-    { name: "COMO VOTAR", href: { pathname: "/", hash: "#video"} },
-    { name: "FAQ", href: { pathname: "/", hash: "#faq"} },
-    { name: "NOTICIAS", href: { pathname: "/noticias"} },
-    { name: "EQUIPO", href: { pathname: "/", hash: "#equipo"} },
+    { name: "EN CURSO", href: { pathname: "/", hash: "#curso" } },
+    { name: "ELECCIONES", href: { pathname: "/elecciones" } },
+    { name: "COMO VOTAR", href: { pathname: "/", hash: "#video" } },
+    { name: "FAQ", href: { pathname: "/", hash: "#faq" } },
+    { name: "NOTICIAS", href: { pathname: "/noticias" } },
+    { name: "EQUIPO", href: { pathname: "/", hash: "#equipo" } },
   ]
   return (
     <div className="is-flex is-justify-content-center">

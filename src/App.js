@@ -24,6 +24,7 @@ import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
 import Statistics from "./pages/Admin/Statistics/Statistics";
 import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
+import Elections from "./pages/Elections/Elections";
 
 function App() {
   function getToken() {
@@ -40,11 +41,9 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route
-        path="/noticias"
-        element={<News />}
-      />
+      <Route path="/" element={ <Home /> } />
+      <Route path="/noticias" element={ <News /> } />
+      <Route path="/elecciones" element={ <Elections /> } />
       <Route path="/psifos">
         {/** Route for home page */}
 

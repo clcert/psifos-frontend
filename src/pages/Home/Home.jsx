@@ -29,10 +29,6 @@ function Home() {
             }
           </div>
 
-          <div id="realizada">
-            <VotacionesRealizadas image={sobre} title="ELECCIONES REALIZADAS" />
-          </div>
-
           <Video
             title="¿CÓMO VOTAR UTILIZANDO PARTICIPA UCHILE?"
             info="Revisa el vídeo a continuación para aprender a votar utilizando
