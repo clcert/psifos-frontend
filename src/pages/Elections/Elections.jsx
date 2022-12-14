@@ -2,6 +2,7 @@ import { useInViewport } from "react-in-viewport";
 import React, { useRef } from "react";
 import UpperBanner from "../../component/Banner/UpperBanner";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
+import PastElection from "./components/PastElection";
 
 function Elections () {
 
@@ -25,7 +26,7 @@ function Elections () {
           }
          
         >
-          <div className="past-elections-box  pb-2">
+          <div className="past-elections-box pb-2">
             <div className="is-flex mt-2">
               <img width={40} height={40} src={sobre} alt=""/>
               <p className="election-info mb-2 mx-2">
@@ -37,21 +38,7 @@ function Elections () {
             <div className="content-past-elections pl-5">
               {
                 elections.data.map((election, index) =>
-                  <div className="past-election" key={index}>
-                    <span className="date-container">
-                    { 
-                      new Date(`${election.date} 00:00`).toLocaleDateString("es-ES", { 
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric' 
-                      })
-                    }
-                    </span>
-                    <span className={"bullet-" + String((index % 2) + 1)}>
-                      { " ● " }
-                    </span>
-                    { election.unit }
-                  </div>
+                  <PastElection election={election} key={index} index={index} colorCode={(index%2)+1} />
                 )
               }
             </div>

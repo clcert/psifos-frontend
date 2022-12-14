@@ -356,8 +356,8 @@ div#preload {
   color: black;
   margin-left: auto;
   margin-right: auto;
-  max-width: 700px;
-  max-height: 500px;
+  width: 60vw;
+  max-width: 1024px;
   padding-left: 2rem !important;
   padding-right: 3rem !important;
 }
@@ -365,9 +365,6 @@ div#preload {
 .content-past-elections {
   margin-left: auto;
   margin-right: auto;
-  max-width: 600px;
-  max-height: 400px;
-  overflow: auto;
 }
 
 .imagen-realizado {
@@ -378,10 +375,11 @@ div#preload {
   left: 120px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .past-elections-box {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+    width: 90vw;
   }
 }
 
@@ -437,10 +435,34 @@ div#preload {
 }
 
 .past-election {
+  color: rgb(38, 38, 38) !important;
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  margin-left: 0.5rem;
+  padding: 0.5rem;
+  margin: 20px 2rem;
+  border-radius: 5px;
+}
+
+.past-election.color-1 {
+  border: solid 2px #004c94 !important;
+}
+
+.past-election.color-2 {
+  border: solid 2px #1493e7 !important;
+}
+
+.past-election.color-1 ul {
+  list-style: disc;
+  color: #004c94;
+}
+
+.past-election.color-2 ul {
+  list-style: disc;
+  color: #1493e7;
+}
+
+.past-election p {
+  color: rgb(38, 38, 38);
+  margin: 0;
 }
 
 .bullet-1 {
