@@ -12952,6 +12952,8 @@ Consult
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  min-height: 70vh;
 }
 
 .news-item {
@@ -13083,4 +13085,15 @@ Consult
 .current-elections-section {
   display: flex;
   flex-direction: column;
+}
+
+.loading-news {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-news img{
+  max-width: 80px;
 }

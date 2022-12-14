@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import NewsPost from './NewsPost';
 import NewsModal from './NewsModal';
 
+import loadingGif from "../../../static/booth/loading.gif";
+
 
 function Posts ({fromFile}) {
   const [ items, setItems ] = useState([]);
@@ -46,7 +48,9 @@ function Posts ({fromFile}) {
     <div className="news-container">
       {
         loading ? 
-        <p>Cargando ...</p>
+        <div className="loading-news">
+          <img src={loadingGif} alt="Cargando..." />
+        </div>
         :
         items.map( (item, index) => (
           <div className="news-item" key={index}>
