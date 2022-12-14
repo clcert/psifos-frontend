@@ -7,6 +7,7 @@ import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
+import InputSelection from "./InputSelection";
 
 function QuestionElection(props) {
   /** Component for election questions */
