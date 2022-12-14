@@ -11,7 +11,7 @@ import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
 import { backendOpIP } from "../../../server";
 import BoothPsifos from "../BoothPsifos";
-import VerifyVote from "../components/VerifyVoteModal";
+import DescriptionModal from "../components/DescriptionModal";
 
 function CabinaElection(props) {
   /** @state {int} election phase */
@@ -35,6 +35,8 @@ function CabinaElection(props) {
 
   const [modalVerify, setModalVerify] = useState(false);
 
+  const [modalDescription, setModalDescription] = useState(false);
+
   /** @urlParam {uuid} election uuid  */
   const { uuid } = useParams();
 
@@ -51,6 +53,10 @@ function CabinaElection(props) {
       setNameElection(props.electionData.name);
     }
   }, [props.electionData]);
+
+  useEffect(() => {
+    if (props.electionData.description) setModalDescription(true);
+  }, [props.electionData.description]);
 
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
 
@@ -180,6 +186,11 @@ function CabinaElection(props) {
 
       <ElectionCode uuid={uuid} />
       <div id="bottom"></div>
+      <DescriptionModal
+        election={props.electionData}
+        show={modalDescription}
+        onHide={() => setModalDescription(false)}
+      />
     </div>
   );
 }
