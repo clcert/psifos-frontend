@@ -15,6 +15,8 @@ class EncryptedAnswerFactory {
       return new EncryptedOpenAnswer(question, answer, pk, progress);
     } else if (type === "closed_question") {
       return new EncryptedCloseAnswer(question, answer, pk, progress);
+    } else if (type === "mixnet_question") {
+      return new EncryptedMixnetAnswer(question, answer, pk, progress);
     }
   }
 }
@@ -247,6 +249,17 @@ class EncryptedCloseAnswer extends EncryptedAnswer {
   constructor(question, answer, pk, progress, type) {
     super(question, answer, pk, progress, type);
     this.enc_ans_type = "encrypted_closed_answer";
+  }
+}
+
+class EncryptedMixnetAnswer extends EncryptedAnswer {
+  /**
+   * class to encrypt a mixnet question
+   */
+
+  constructor(question, answer, pk, progress, type) {
+    super(question, answer, pk, progress, type);
+    this.enc_ans_type = "encrypted_mixnet_answer";
   }
 }
 

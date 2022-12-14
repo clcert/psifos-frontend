@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
-import InputCheckbox from "./Questions/InputCheckbox";
-import InputRadio from "./Questions/InputRadio";
 import NextButton from "../../components/Buttons/NextButton";
 import PreviousButton from "../../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
-import InputDropdown from "./Questions/InputDropdown";
+import MixnetSelection from "./MixnetSelection";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -103,26 +101,19 @@ function QuestionElection(props) {
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
               <div className="control control-box">
                 {question.q_type === "closed_question" && (
-                  <div id="">
-                    {question.min_answers === "1" &&
-                    question.max_answers === "1" ? (
-                      <InputRadio
-                        index={index}
-                        addAnswer={addAnswer}
-                        value={String(index)}
-                        answers={question}
-                      />
-                    ) : (
-                      <InputCheckbox
-                        index={index}
-                        addAnswer={addAnswer}
-                        value={String(index)}
-                        answers={question}
-                      />
-                    )}
-                  </div>
+                  <InputSelection
+                    index={index}
+                    addAnswer={addAnswer}
+                    question={question}
+                  />
                 )}
-                {question.q_type === "mixnet_question" && <InputDropdown answers={question}/>}
+                {question.q_type === "mixnet_question" && (
+                  <MixnetSelection
+                    index={index}
+                    addAnswer={addAnswer}
+                    answers={question}
+                  />
+                )}
               </div>
             </div>
           </div>

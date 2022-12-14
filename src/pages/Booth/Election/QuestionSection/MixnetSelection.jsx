@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useCallback } from "react";
 import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 
-function InputDropdown(props) {
+function MixnetSelection(props) {
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
 
@@ -10,7 +11,7 @@ function InputDropdown(props) {
   const [answersSelected, setAnswersSelected] = useState([]);
 
   /** @state {array} answers text */
-  const [answersForEncryp, setAnswersForEncryp] = useState([]);
+  const [answersForEncrypt, setAnswersForEncrypt] = useState([]);
 
   /** @state {boolean} answers text */
   const [nullButton, setNullButton] = useState(false);
@@ -21,7 +22,25 @@ function InputDropdown(props) {
   /** @state {string} placeholder for input select */
   const [placeHolder, setPlaceHolder] = useState("Seleccione una opción");
 
+  const changeAllEncrypted = useCallback(
+    (number) => {
+      let auxAnswersForEncrypt = [];
+      for (let i = 0; i < props.answers.max_answers; i++) {
+        auxAnswersForEncrypt.push(number);
+      }
+      setAnswersForEncrypt(auxAnswersForEncrypt);
+      props.addAnswer(auxAnswersForEncrypt, props.index);
+      return auxAnswersForEncrypt;
+    },
+    [answersForEncrypt]
+  );
+
   useEffect(() => {
+    console.log(answersForEncrypt);
+  }, [answersForEncrypt]);
+
+  useEffect(() => {
+    const auxAnswersForEncrypt = changeAllEncrypted(0);
     let auxOptions = props.answers.closed_options.map((close_option, index) => {
       return {
         value: close_option,
@@ -30,24 +49,17 @@ function InputDropdown(props) {
       };
     });
     setOptions(auxOptions);
+    props.addAnswer(auxAnswersForEncrypt, props.index);
   }, []);
 
-  useEffect(() => {
-    let auxAnswersForEncryp = [];
-    answersSelected.forEach((answers) => {
-      if (answers) {
-        auxAnswersForEncryp.concat(answers.value);
-      }
-    });
-
-    setAnswersForEncryp(auxAnswersForEncryp);
-  }, [answersSelected]);
-
-  const filterOptions = (inputValue) => {
-    return options.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
+  const filterOptions = useCallback(
+    (inputValue) => {
+      return options.filter((i) =>
+        i.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+    },
+    [options]
+  );
 
   const loadOptions = (inputValue, callback) => {
     setTimeout(() => {
@@ -55,35 +67,46 @@ function InputDropdown(props) {
     }, 1000);
   };
 
-  function selectAnswers(event, index) {
-    /**
-     * Select answers disabling the option
-     * Eneabling previous option
-     * @param {event} event of selector
-     * @param {index} index answers
-     */
+  const selectAnswers = useCallback(
+    (event, index) => {
+      /**
+       * Select answers disabling the option
+       * Eneabling previous option
+       * @param {event} event of selector
+       * @param {index} index answers
+       */
 
-    let auxOptions = [...options];
-    let auxAnswersSelected = [...answersSelected];
+      let auxOptions = [...options];
+      let auxAnswersSelected = [...answersSelected];
+      let auxAnswersForEncrypt = [...answersForEncrypt];
 
-    let previousSelected = answersSelected[index];
-    let actualSelected = event;
+      let previousSelected = answersSelected[index];
+      let actualSelected = event;
 
-    auxAnswersSelected[index] = event;
+      if (nullButton || whiteButton) {
+        setNullButton(false);
+        setWhiteButton(false);
+        changeAllEncrypted(0);
+      }
 
-    if (previousSelected) {
-      previousSelected.isDisabled = false;
-      auxOptions[previousSelected.key] = previousSelected;
-    }
-    actualSelected.isDisabled = true;
-    auxOptions[actualSelected.key] = actualSelected;
+      auxAnswersSelected[index] = event;
+      auxAnswersForEncrypt[index] = actualSelected.key + 2;
 
-    setAnswersSelected(auxAnswersSelected);
-    setOptions(auxOptions);
-    setNullButton(false);
-    setWhiteButton(false);
-    setPlaceHolder("Seleccione una opción");
-  }
+      if (previousSelected) {
+        previousSelected.isDisabled = false;
+        auxOptions[previousSelected.key] = previousSelected;
+      }
+      actualSelected.isDisabled = true;
+      auxOptions[actualSelected.key] = actualSelected;
+
+      setAnswersSelected(auxAnswersSelected);
+      setAnswersForEncrypt(auxAnswersForEncrypt);
+      props.addAnswer(auxAnswersForEncrypt, props.index);
+      setOptions(auxOptions);
+      setPlaceHolder("Seleccione una opción");
+    },
+    [nullButton, whiteButton, options, answersSelected, answersForEncrypt]
+  );
 
   function deleteOptions() {
     /**
@@ -104,7 +127,21 @@ function InputDropdown(props) {
     setOptions(auxOptions);
   }
 
+  function whiteVote(event) {
+    setWhiteButton(event.target.checked);
+    setNullButton(false);
+    changeAllEncrypted(0);
+    setPlaceHolder("Seleccione una opción");
+    if (event.target.checked) {
+      deleteOptions();
+    }
+  }
+
   function nullVote(event) {
+    setNullButton(event.target.checked);
+    setWhiteButton(false);
+    changeAllEncrypted(1);
+    setPlaceHolder("===========================/===========================");
     if (event.target.checked) {
       deleteOptions();
     }
@@ -141,11 +178,6 @@ function InputDropdown(props) {
             name="vote_null"
             checked={nullButton}
             onChange={(event) => {
-              setNullButton(event.target.checked);
-              setWhiteButton(false);
-              setPlaceHolder(
-                "===========================/==========================="
-              );
               nullVote(event);
             }}
           />
@@ -161,10 +193,7 @@ function InputDropdown(props) {
             name="vote_null"
             checked={whiteButton}
             onChange={(event) => {
-              setWhiteButton(event.target.checked);
-              setNullButton(false);
-              setPlaceHolder("Seleccione una opción");
-              nullVote(event);
+              whiteVote(event);
             }}
           />
           <span className="is-size-5">Voto Blanco</span>
@@ -174,4 +203,4 @@ function InputDropdown(props) {
   );
 }
 
-export default InputDropdown;
+export default MixnetSelection;

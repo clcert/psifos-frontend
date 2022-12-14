@@ -89,7 +89,7 @@ class BoothPsifos {
           // don't screw up votes.
           if (event.data.id === this.answer_timestamps[event.data.q_num]) {
             this.encrypted_answers[event.data.q_num] =
-            EncryptedAnswerFactory.fromJSONObject(event.data, this.election);
+              EncryptedAnswerFactory.fromJSONObject(event.data, this.election);
             this.log("got encrypted answer " + event.data.q_num);
           } else {
             this.log("no way jose");

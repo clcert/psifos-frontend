@@ -18,7 +18,7 @@ function InputCheckbox(props) {
 
   return (
     <div>
-      {props.answers.closed_options.map((key, index) => {
+      {props.closed_options.map((key, index) => {
         return (
           <div key={index}>
             <label
