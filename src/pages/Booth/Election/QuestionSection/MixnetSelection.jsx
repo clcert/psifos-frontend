@@ -36,11 +36,7 @@ function MixnetSelection(props) {
   );
 
   useEffect(() => {
-    console.log(answersForEncrypt);
-  }, [answersForEncrypt]);
-
-  useEffect(() => {
-    const auxAnswersForEncrypt = changeAllEncrypted(0);
+    const auxAnswersForEncrypt = changeAllEncrypted(1);
     let auxOptions = props.answers.closed_options.map((close_option, index) => {
       return {
         value: close_option,
@@ -86,11 +82,11 @@ function MixnetSelection(props) {
       if (nullButton || whiteButton) {
         setNullButton(false);
         setWhiteButton(false);
-        changeAllEncrypted(0);
+        auxAnswersForEncrypt = changeAllEncrypted(0);
       }
 
       auxAnswersSelected[index] = event;
-      auxAnswersForEncrypt[index] = actualSelected.key + 2;
+      auxAnswersForEncrypt[index] = actualSelected.key + 3;
 
       if (previousSelected) {
         previousSelected.isDisabled = false;
@@ -130,7 +126,7 @@ function MixnetSelection(props) {
   function whiteVote(event) {
     setWhiteButton(event.target.checked);
     setNullButton(false);
-    changeAllEncrypted(0);
+    changeAllEncrypted(1);
     setPlaceHolder("Seleccione una opción");
     if (event.target.checked) {
       deleteOptions();
@@ -140,7 +136,7 @@ function MixnetSelection(props) {
   function nullVote(event) {
     setNullButton(event.target.checked);
     setWhiteButton(false);
-    changeAllEncrypted(1);
+    changeAllEncrypted(2);
     setPlaceHolder("===========================/===========================");
     if (event.target.checked) {
       deleteOptions();
@@ -169,36 +165,41 @@ function MixnetSelection(props) {
         );
       })}
 
-      <div>
-        <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
-          <input
-            className="custom-answer"
-            type="radio"
-            id="null"
-            name="vote_null"
-            checked={nullButton}
-            onChange={(event) => {
-              nullVote(event);
-            }}
-          />
-          <span className="is-size-5">Voto Nulo</span>
-        </label>
-      </div>
-      <div>
-        <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
-          <input
-            className="custom-answer"
-            type="radio"
-            id="white"
-            name="vote_null"
-            checked={whiteButton}
-            onChange={(event) => {
-              whiteVote(event);
-            }}
-          />
-          <span className="is-size-5">Voto Blanco</span>
-        </label>
-      </div>
+      {props.election.include_blank_null_vote && (
+        <>
+          {" "}
+          <div>
+            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+              <input
+                className="custom-answer"
+                type="radio"
+                id="null"
+                name="vote_null"
+                checked={nullButton}
+                onChange={(event) => {
+                  nullVote(event);
+                }}
+              />
+              <span className="is-size-5">Voto Nulo</span>
+            </label>
+          </div>
+          <div>
+            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+              <input
+                className="custom-answer"
+                type="radio"
+                id="white"
+                name="vote_null"
+                checked={whiteButton}
+                onChange={(event) => {
+                  whiteVote(event);
+                }}
+              />
+              <span className="is-size-5">Voto Blanco</span>
+            </label>
+          </div>
+        </>
+      )}
     </>
   );
 }

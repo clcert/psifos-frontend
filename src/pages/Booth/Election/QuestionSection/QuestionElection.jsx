@@ -113,6 +113,7 @@ function QuestionElection(props) {
                     index={index}
                     addAnswer={addAnswer}
                     answers={question}
+                    election={props.election}
                   />
                 )}
               </div>

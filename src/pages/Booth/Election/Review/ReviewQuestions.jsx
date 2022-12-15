@@ -2,6 +2,7 @@ import reviewImage from "../../../../static/booth/svg/review-img.svg";
 import AuditModal from "./AuditModal";
 import React, { useState } from "react";
 import VerifyVoteModal from "../../components/VerifyVoteModal";
+import TextSelected from "./TextSelected";
 
 function ReviewQuestions(props) {
   const [showModal, setShowModal] = useState(false);
@@ -19,19 +20,13 @@ function ReviewQuestions(props) {
                 {value.q_text}
               </p>
               <div className="box has-text-left pl-6 review-answer">
-                <p className="subtitle is-5 has-text-white answer-text mb-0">
-                  {props.answers[index] === []
-                    ? "[ ] Ninguna opción seleccionada"
-                    : props.answers[index].map((key, index) => {
-                        return (
-                          <React.Fragment key={index}>
-                            <span key={index}>
-                              {"[ ✓ ] " + value.closed_options[key] + " "}
-                            </span>
-                            <br />
-                          </React.Fragment>
-                        );
-                      })}
+                <div className="subtitle is-5 has-text-white answer-text mb-0">
+                  <TextSelected
+                    answers={props.answers}
+                    index={index}
+                    blankNullVote={props.blankNullVote}
+                    value={value}
+                  />
                   <br />
                   <a
                     onClick={() => props.changeAnswer(index)}
@@ -44,7 +39,7 @@ function ReviewQuestions(props) {
                       Editar Respuesta (opcional)
                     </span>
                   </a>
-                </p>
+                </div>
               </div>
             </div>
           );

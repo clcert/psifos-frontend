@@ -87,6 +87,7 @@ function CabinaElection(props) {
             audit={() => {
               setActualPhase(5);
             }}
+            blankNullVote={props.electionData.include_blank_null_vote}
             answers={answers}
             questions={questions}
             setVoteVerificates={setVoteVerificates}
@@ -165,6 +166,7 @@ function CabinaElection(props) {
         <section className="section pb-1" id="question-section">
           <div className="container has-text-centered is-max-desktop">
             <QuestionElection
+              election={props.electionData}
               questions={questions}
               afterEncrypt={(answersQuestions) => {
                 setAnswers(answersQuestions);
