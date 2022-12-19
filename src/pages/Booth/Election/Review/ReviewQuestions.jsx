@@ -13,19 +13,19 @@ function ReviewQuestions(props) {
         <p className="subtitle">
           A continuación podrás revisar tu papeleta de votación.
         </p>
-        {props.questions.map((value, index) => {
+        {props.questions.map((question, index) => {
           return (
             <div key={index}>
               <p className="subtitle is-4 mt-6 mb-2 has-text-black">
-                {value.q_text}
+                {question.q_text}
               </p>
               <div className="box has-text-left pl-6 review-answer">
                 <div className="subtitle is-5 has-text-white answer-text mb-0">
                   <TextSelected
+                    election={props.election}
                     answers={props.answers}
                     index={index}
-                    blankNullVote={props.blankNullVote}
-                    value={value}
+                    question={question}
                   />
                   <br />
                   <a

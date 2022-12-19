@@ -49,7 +49,10 @@ function CabinaElection(props) {
 
   useEffect(() => {
     if (props.electionData.questions) {
-      setQuestions(JSON.parse(props.electionData.questions));
+      const questionsFetch = JSON.parse(props.electionData.questions);
+      questionsFetch.include_blank_null =
+        questionsFetch.include_blank_null === "True" ? true : false;
+      setQuestions(questionsFetch);
       setNameElection(props.electionData.name);
     }
   }, [props.electionData]);
@@ -84,10 +87,7 @@ function CabinaElection(props) {
         <>
           <ProgressBar phase={2} />
           <ReviewQuestions
-            audit={() => {
-              setActualPhase(5);
-            }}
-            blankNullVote={props.electionData.include_blank_null_vote}
+            election={props.electionData}
             answers={answers}
             questions={questions}
             setVoteVerificates={setVoteVerificates}
@@ -106,6 +106,9 @@ function CabinaElection(props) {
             afterVerify={() => {
               setModalVerify(false);
               setActualPhase(4);
+            }}
+            audit={() => {
+              setActualPhase(5);
             }}
           />
         </>

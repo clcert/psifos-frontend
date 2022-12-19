@@ -5,28 +5,36 @@ function TextSelected(props) {
     return <p>[ ] Ninguna opción seleccionada</p>;
   } else if (
     props.answers[props.index].every((element) => {
-      return element === 1;
+      return element === props.question.closed_options.length;
     }) &&
-    props.blankNullVote
+    props.question.include_blank_null &&
+    props.question.q_type === "mixnet_question"
   ) {
     return <p>Respuesta en blanco</p>;
   } else if (
     props.answers[props.index].every((element) => {
-      return element === 2;
+      return element === props.question.closed_options.length + 1;
     }) &&
-    props.blankNullVote
+    props.question.include_blank_null &&
+    props.question.q_type === "mixnet_question"
   ) {
     return <p>Respuesta nula</p>;
   } else {
     return (
       <p>
         {props.answers[props.index].map((key, index) => {
-          const indexAnswer = props.blankNullVote ? key - 3 : key;
+          const indexAnswer =
+            props.question.include_blank_null &&
+            props.question.q_type === "mixnet_question"
+              ? key - 1
+              : key;
           return (
-            (!props.blankNullVote || indexAnswer >= 0) && (
+            ((!props.question.include_blank_null &&
+              !props.question.q_type === "mixnet_question") ||
+              indexAnswer >= 0) && (
               <React.Fragment key={index}>
                 <span key={index}>
-                  {"[ ✓ ] " + props.value.closed_options[indexAnswer] + " "}
+                  {"[ ✓ ] " + props.question.closed_options[indexAnswer] + " "}
                 </span>
                 <br />
               </React.Fragment>

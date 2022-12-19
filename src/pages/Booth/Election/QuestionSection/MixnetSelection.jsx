@@ -17,7 +17,7 @@ function MixnetSelection(props) {
   const [nullButton, setNullButton] = useState(false);
 
   /** @state {boolean} answers text */
-  const [whiteButton, setWhiteButton] = useState(false);
+  const [blankButton, setBlankButton] = useState(false);
 
   /** @state {string} placeholder for input select */
   const [placeHolder, setPlaceHolder] = useState("Seleccione una opción");
@@ -25,7 +25,7 @@ function MixnetSelection(props) {
   const changeAllEncrypted = useCallback(
     (number) => {
       let auxAnswersForEncrypt = [];
-      for (let i = 0; i < props.answers.max_answers; i++) {
+      for (let i = 0; i < props.question.max_answers; i++) {
         auxAnswersForEncrypt.push(number);
       }
       setAnswersForEncrypt(auxAnswersForEncrypt);
@@ -36,14 +36,18 @@ function MixnetSelection(props) {
   );
 
   useEffect(() => {
-    const auxAnswersForEncrypt = changeAllEncrypted(1);
-    let auxOptions = props.answers.closed_options.map((close_option, index) => {
-      return {
-        value: close_option,
-        label: close_option,
-        key: index,
-      };
-    });
+    const auxAnswersForEncrypt = changeAllEncrypted(
+      props.question.closed_options.length
+    );
+    let auxOptions = props.question.closed_options.map(
+      (close_option, index) => {
+        return {
+          value: close_option,
+          label: close_option,
+          key: index,
+        };
+      }
+    );
     setOptions(auxOptions);
     props.addAnswer(auxAnswersForEncrypt, props.index);
   }, []);
@@ -79,14 +83,16 @@ function MixnetSelection(props) {
       let previousSelected = answersSelected[index];
       let actualSelected = event;
 
-      if (nullButton || whiteButton) {
+      if (nullButton || blankButton) {
         setNullButton(false);
-        setWhiteButton(false);
-        auxAnswersForEncrypt = changeAllEncrypted(0);
+        setBlankButton(false);
+        auxAnswersForEncrypt = changeAllEncrypted(
+          props.question.closed_options.length
+        );
       }
 
       auxAnswersSelected[index] = event;
-      auxAnswersForEncrypt[index] = actualSelected.key + 3;
+      auxAnswersForEncrypt[index] = actualSelected.key + 1;
 
       if (previousSelected) {
         previousSelected.isDisabled = false;
@@ -101,7 +107,7 @@ function MixnetSelection(props) {
       setOptions(auxOptions);
       setPlaceHolder("Seleccione una opción");
     },
-    [nullButton, whiteButton, options, answersSelected, answersForEncrypt]
+    [nullButton, blankButton, options, answersSelected, answersForEncrypt]
   );
 
   function deleteOptions() {
@@ -123,10 +129,10 @@ function MixnetSelection(props) {
     setOptions(auxOptions);
   }
 
-  function whiteVote(event) {
-    setWhiteButton(event.target.checked);
+  function blankVote(event) {
+    setBlankButton(event.target.checked);
     setNullButton(false);
-    changeAllEncrypted(1);
+    changeAllEncrypted(props.question.closed_options.length);
     setPlaceHolder("Seleccione una opción");
     if (event.target.checked) {
       deleteOptions();
@@ -135,8 +141,8 @@ function MixnetSelection(props) {
 
   function nullVote(event) {
     setNullButton(event.target.checked);
-    setWhiteButton(false);
-    changeAllEncrypted(2);
+    setBlankButton(false);
+    changeAllEncrypted(props.question.closed_options.length + 1);
     setPlaceHolder("===========================/===========================");
     if (event.target.checked) {
       deleteOptions();
@@ -145,7 +151,7 @@ function MixnetSelection(props) {
 
   return (
     <>
-      {[...Array(parseInt(props.answers.max_answers)).keys()].map((index) => {
+      {[...Array(parseInt(props.question.max_answers)).keys()].map((index) => {
         return (
           <div key={index} className="has-text-black mb-4">
             <div className="mb-2">
@@ -165,9 +171,24 @@ function MixnetSelection(props) {
         );
       })}
 
-      {props.election.include_blank_null_vote && (
+      {props.question.include_blank_null && (
         <>
           {" "}
+          <div>
+            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+              <input
+                className="custom-answer"
+                type="radio"
+                id="white"
+                name="vote_null"
+                checked={blankButton}
+                onChange={(event) => {
+                  blankVote(event);
+                }}
+              />
+              <span className="is-size-5">Voto Blanco</span>
+            </label>
+          </div>
           <div>
             <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
               <input
@@ -181,21 +202,6 @@ function MixnetSelection(props) {
                 }}
               />
               <span className="is-size-5">Voto Nulo</span>
-            </label>
-          </div>
-          <div>
-            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
-              <input
-                className="custom-answer"
-                type="radio"
-                id="white"
-                name="vote_null"
-                checked={whiteButton}
-                onChange={(event) => {
-                  whiteVote(event);
-                }}
-              />
-              <span className="is-size-5">Voto Blanco</span>
             </label>
           </div>
         </>

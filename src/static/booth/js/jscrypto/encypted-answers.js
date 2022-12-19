@@ -285,35 +285,8 @@ class EncryptedMixnetAnswer extends EncryptedAnswer {
 
       if (progress) progress.tick();
     }
-    console.log("4")
-
-    // generate new randomness?
-
-    if (generate_new_randomness && question.max_answers != null) {
-      // we also need proof that the whole thing sums up to the right number
-      // only if max is non-null, otherwise it's full approval voting
-
-      // compute the homomorphic sum of all the options
-      var hom_sum = choices[0];
-      var rand_sum = randomness[0];
-      for (var i = 1; i < answer.length; i++) {
-        hom_sum = hom_sum.multiply(choices[i]);
-        rand_sum = rand_sum.add(randomness[i]).mod(pk.q);
-      }
-
-      // prove that the sum is 0 or 1 (can be "blank vote" for this answer)
-      // num_selected_answers is 0 or 1, which is the index into the plaintext that is actually encoded
-      //
-      // now that "plaintexts" only contains the array of plaintexts that are possible starting with min
-      // and going to max, the num_selected_answers needs to be reduced by min to be the proper index
-      var overall_plaintext_index = num_selected_answers;
-      if (question.min_answers) overall_plaintext_index -= question.min_answers;
 
 
-      if (progress) {
-        for (var i = 0; i < question.max_answers; i++) progress.tick();
-      }
-    }
     return {
       choices: choices,
       randomness: randomness,

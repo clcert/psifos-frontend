@@ -8,6 +8,7 @@ import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import InputSelection from "./InputSelection";
+import { useCallback } from "react";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -45,10 +46,17 @@ function QuestionElection(props) {
      */
     let answersAux = [];
     for (let i = 0; i < props.questions.length; i++) {
-      answersAux.push([]);
+      let auxArray = [];
+      const actualQuestion = props.questions[i];
+      if (actualQuestion.include_blank_null === "True") {
+        for (let j = 0; j < parseInt(actualQuestion.max_answers); i++) {
+          auxArray.push(1);
+        }
+        answersAux[i] = auxArray;
+      }
     }
     setAnswers(answersAux);
-  }, [props.questions.length]);
+  }, []);
 
   function createMessageAlert(min, max) {
     /**
@@ -65,22 +73,25 @@ function QuestionElection(props) {
     }
   }
 
-  function checkAnswers(index) {
-    /**
-     * @param {number} index - question index
-     * Check if the number of answers is correct
-     * If not, show the alert
-     */
-    const min = props.questions[index].min_answers;
-    const max = props.questions[index].max_answers;
-    if (answers[index].length < min || answers[index].length > max) {
-      setShowAlert(true);
-      createMessageAlert(min, max);
-      return false;
-    }
-    setShowAlert(false);
-    return true;
-  }
+  const checkAnswers = useCallback(
+    (index) => {
+      /**
+       * @param {number} index - question index
+       * Check if the number of answers is correct
+       * If not, show the alert
+       */
+      const min = props.questions[index].min_answers;
+      const max = props.questions[index].max_answers;
+      if (answers[index].length < min || answers[index].length > max) {
+        setShowAlert(true);
+        createMessageAlert(min, max);
+        return false;
+      }
+      setShowAlert(false);
+      return true;
+    },
+    [answers]
+  );
 
   return (
     <div>
@@ -106,13 +117,14 @@ function QuestionElection(props) {
                     index={index}
                     addAnswer={addAnswer}
                     question={question}
+                    election={props.election}
                   />
                 )}
                 {question.q_type === "mixnet_question" && (
                   <MixnetSelection
                     index={index}
                     addAnswer={addAnswer}
-                    answers={question}
+                    question={question}
                     election={props.election}
                   />
                 )}

@@ -40,9 +40,6 @@ function CreateElection(props) {
   /** @state {boolean} indicates if normalize the election  */
   const [normalization, setNormalization] = useState(false);
 
-  /** @state {boolean} indicates if blank and null activate in the election  */
-  const [blankNullVote, setBlankNullVote] = useState(true);
-
   /** @state {string} alert message  */
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -66,7 +63,6 @@ function CreateElection(props) {
           setRandomizeAnswer(jsonResponse.randomize_answer_order);
           setPrivateElection(jsonResponse.private_p);
           setNormalization(jsonResponse.normalization);
-          setBlankNullVote(jsonResponse.include_blank_null_vote);
         } else {
           setAlertMessage(jsonResponse.message);
         }
@@ -96,7 +92,6 @@ function CreateElection(props) {
           randomize_answer_order: randomizeAnswer,
           private_p: privateElection,
           normalization: normalization,
-          include_blank_null_vote: blankNullVote,
         }),
       });
       const jsonResponse = await resp.json();
@@ -330,25 +325,6 @@ function CreateElection(props) {
             <p className="help">
               Los números de resultados que se muestran se dividen por el peso
               máximo de votantes
-            </p>
-          </div>
-          <div className="field">
-            <div className="control">
-              <label className="checkbox">
-                <input
-                  disabled={disabledEdit}
-                  onChange={(e) => {
-                    setBlankNullVote(e.target.checked);
-                  }}
-                  checked={blankNullVote}
-                  type="checkbox"
-                  className="mr-2"
-                />
-                Incluir voto nulo o blanco
-              </label>
-            </div>
-            <p className="help">
-              Se incluira la opción para votar nulo o blanco.
             </p>
           </div>
           <div className="level">

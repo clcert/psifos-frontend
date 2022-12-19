@@ -1,3 +1,4 @@
+import { values } from "lodash";
 import { useEffect, useState } from "react";
 import { Button } from "react-bulma-components";
 import { Link, useParams } from "react-router-dom";
@@ -37,7 +38,8 @@ function CreateQuestion(props) {
 
   useEffect(() => {
     getElection(uuid).then((resp) => {
-      if (resp.jsonResponse.questions !== "") {
+      setElection(resp.jsonResponse);
+      if (resp.jsonResponse.questions !== null) {
         setQuestions(JSON.parse(resp.jsonResponse.questions));
       }
       setDisabledEdit(resp.jsonResponse.election_status !== "Setting up");
@@ -60,6 +62,7 @@ function CreateQuestion(props) {
       total_open_options: 0,
       min_answers: 1,
       max_answers: 1,
+      include_blank_null: true,
     });
 
     setQuestion(questionAux);
@@ -96,6 +99,8 @@ function CreateQuestion(props) {
         : 1;
       question.min_answers = question.min_answers ? question.min_answers : 1;
       question.max_answers = question.max_answers ? question.max_answers : 1;
+      question.include_blank_null =
+        question.include_blank_null === "True" ? true : false;
     });
     setQuestion(questions);
   }
@@ -150,7 +155,26 @@ function CreateQuestion(props) {
       top: 0,
       behavior: "smooth",
     });
+    const auxQuestion = [...question];
+    auxQuestion.forEach((value) => {
+      if (
+        value.include_blank_null &&
+        value.closed_options[value.closed_options.length - 1] !== "Voto Nulo" &&
+        value.closed_options[value.closed_options.length - 2] !== "Voto Blanco"
+      ) {
+        const answerBlankNull = ["Voto Blanco", "Voto Nulo"];
+        value.closed_options = [...value.closed_options, ...answerBlankNull];
+      } else if (
+        !value.include_blank_null &&
+        value.closed_options[value.closed_options.length - 1] === "Voto Nulo" &&
+        value.closed_options[value.closed_options.length - 2] === "Voto Blanco"
+      ) {
+        value.closed_options.splice(value.closed_options.length - 2, 2);
+      }
+      value.total_closed_options = value.closed_options.length;
+    });
 
+    setQuestion(auxQuestion);
     if (checkQuestions()) {
       const token = sessionStorage.getItem("token");
       const resp = await fetch(backendOpIP + "/create-questions/" + uuid, {
@@ -160,7 +184,7 @@ function CreateQuestion(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          question: question,
+          question: auxQuestion,
         }),
       });
       if (resp.status === 200) {
@@ -206,6 +230,7 @@ function CreateQuestion(props) {
             return (
               <QuestionsForms
                 key={index}
+                election={election}
                 disabledEdit={disabledEdit}
                 questionId={item.key}
                 question={item}
