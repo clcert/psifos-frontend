@@ -13,7 +13,7 @@ async function getEgParams(uuid) {
   });
 
   const jsonResponse = await resp.json();
-  return jsonResponse;
+  return jsonResponse["mixnet_params"];
 }
 
 async function getCheckSk(uuid, uuidTrustee) {
