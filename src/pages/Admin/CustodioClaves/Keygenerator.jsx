@@ -218,31 +218,30 @@ function Keygenerator(props) {
     /**
      * Step 1: generate the certificate
      */
+    getEgParams(uuid).then((params) => {
+      get_data_step("step-1").then((data_step) => {
+        if ("error" in data_step) {
+          EXECUTE = false;
+          setProcessFeedback(data_step["error"]);
+          return;
+        }
 
-    get_data_step("step-1").then((data_step) => {
-      if ("error" in data_step) {
-        EXECUTE = false;
-        setProcessFeedback(data_step["error"]);
-        return;
-      }
+        getRandomness().then((data_randomnes) => {
+          const randomness = data_randomnes;
+          sjcl.random.addEntropy(randomness);
 
-      getRandomness().then((data_randomnes) => {
-        const randomness = data_randomnes;
-        sjcl.random.addEntropy(randomness);
+          BigInt.setup(function () {
+            helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
+            helios_c.params.trustee_id = trustee.trustee_id;
+            helios_c.certificates = JSON.parse(data_step.certificates);
+          });
 
-        BigInt.setup(function () {
-          helios_c.params = ElGamal.Params.fromJSONObject(
-            JSON.parse(data_step.params)
-          );
-          helios_c.params.trustee_id = trustee.trustee_id;
-          helios_c.certificates = JSON.parse(data_step.certificates);
+          helios_c.ui_validator_start();
+          const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
+          helios_c.trustee = loadKey.trustee;
+          helios_c.secret_key = loadKey.key;
+          derivator.start();
         });
-
-        helios_c.ui_validator_start();
-        const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
-        helios_c.trustee = loadKey.trustee;
-        helios_c.secret_key = loadKey.key;
-        derivator.start();
       });
     });
   }
@@ -251,31 +250,30 @@ function Keygenerator(props) {
     /**
      * Step 2: generate the coefficients
      */
-
-    get_data_step("step-2").then((data_step) => {
-      if ("error" in data_step) {
-        EXECUTE = false;
-        setProcessFeedback(data_step["error"]);
-        return;
-      }
-      // get some more server-side randomness for keygen
-      getRandomness().then((data_randomnes) => {
-        const randomness = data_randomnes;
-        sjcl.random.addEntropy(randomness);
-        BigInt.setup(function () {
-          helios_c.params = ElGamal.Params.fromJSONObject(
-            JSON.parse(data_step.params)
-          );
-          helios_c.params.trustee_id = trustee.trustee_id;
-          helios_c.certificates = JSON.parse(data_step.certificates);
-          COEFFICIENTS = JSON.parse(data_step.coefficients);
-          helios_c.points = JSON.parse(data_step.points);
+    getEgParams(uuid).then((params) => {
+      get_data_step("step-2").then((data_step) => {
+        if ("error" in data_step) {
+          EXECUTE = false;
+          setProcessFeedback(data_step["error"]);
+          return;
+        }
+        // get some more server-side randomness for keygen
+        getRandomness().then((data_randomnes) => {
+          const randomness = data_randomnes;
+          sjcl.random.addEntropy(randomness);
+          BigInt.setup(function () {
+            helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
+            helios_c.params.trustee_id = trustee.trustee_id;
+            helios_c.certificates = JSON.parse(data_step.certificates);
+            COEFFICIENTS = JSON.parse(data_step.coefficients);
+            helios_c.points = JSON.parse(data_step.points);
+          });
+          helios_c.ui_validator_start();
+          const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
+          helios_c.trustee = loadKey.trustee;
+          helios_c.secret_key = loadKey.key;
+          acknowledger.start();
         });
-        helios_c.ui_validator_start();
-        const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
-        helios_c.trustee = loadKey.trustee;
-        helios_c.secret_key = loadKey.key;
-        acknowledger.start();
       });
     });
   }
@@ -284,37 +282,38 @@ function Keygenerator(props) {
     /**
      * Step 3: generate the points
      */
+    getEgParams(uuid).then((params) => {
+      get_data_step("step-3").then((data_step) => {
+        if ("error" in data_step) {
+          EXECUTE = false;
+          setProcessFeedback(data_step["error"]);
+          return;
+        }
+        // get some more server-side randomness for keygen
+        getRandomness().then((data_randomnes) => {
+          const randomness = data_randomnes;
+          sjcl.random.addEntropy(randomness);
+          BigInt.setup(function () {
+            helios_c.params = ElGamal.Params.fromJSONObject(
+              JSON.parse(params)
+            );
+            helios_c.params.trustee_id = trustee.trustee_id;
+            helios_c.certificates = JSON.parse(data_step.certificates);
+            COEFFICIENTS = JSON.parse(data_step.coefficents);
+            helios_c.points = JSON.parse(data_step.points);
+            SENT = JSON.parse(data_step.points_sent);
+            ACKS2 = JSON.parse(data_step.acks);
+          });
+          helios_c.ui_validator_start();
 
-    get_data_step("step-3").then((data_step) => {
-      if ("error" in data_step) {
-        EXECUTE = false;
-        setProcessFeedback(data_step["error"]);
-        return;
-      }
-      // get some more server-side randomness for keygen
-      getRandomness().then((data_randomnes) => {
-        const randomness = data_randomnes;
-        sjcl.random.addEntropy(randomness);
-        BigInt.setup(function () {
-          helios_c.params = ElGamal.Params.fromJSONObject(
-            JSON.parse(data_step.params)
-          );
-          helios_c.params.trustee_id = trustee.trustee_id;
-          helios_c.certificates = JSON.parse(data_step.certificates);
-          COEFFICIENTS = JSON.parse(data_step.coefficents);
-          helios_c.points = JSON.parse(data_step.points);
-          SENT = JSON.parse(data_step.points_sent);
-          ACKS2 = JSON.parse(data_step.acks);
+          const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
+
+          helios_c.trustee = loadKey.trustee;
+          helios_c.secret_key = loadKey.key;
+          check_acks.start();
+
+          helios_c.ui_share_start(prepare_upload);
         });
-        helios_c.ui_validator_start();
-
-        const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
-
-        helios_c.trustee = loadKey.trustee;
-        helios_c.secret_key = loadKey.key;
-        check_acks.start();
-
-        helios_c.ui_share_start(prepare_upload);
       });
     });
   }
