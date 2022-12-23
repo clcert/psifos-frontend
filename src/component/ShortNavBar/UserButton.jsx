@@ -21,19 +21,18 @@ function UserButton(props) {
         setDisplay(false);
       }}
     >
-      <a href={() => false}>
+      <span>
         <span>{sessionStorage.getItem("user")}</span>
-      </a>
+      </span>
       {display && (
         <div className="dropdown-menu" id="dropdown-menu4" role="menu">
           <div className="dropdown-item">
-            <a
-              href={() => false}
+            <span
               onClick={logOut}
               style={{ textDecoration: "None", color: "black" }}
             >
               Cerrar sesión
-            </a>
+            </span>
           </div>
         </div>
       )}
