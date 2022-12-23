@@ -640,7 +640,16 @@ ElGamal.encrypt = function (pk, plaintext, r) {
 };
 
 ElGamal.encryptMixnet = function (pk, m, r) {
-  const BigIntM = new BigInt(String(m))
+  
+  let BigIntM = new BigInt(String(m))
+  var y = BigIntM.add(BigInt.ONE);
+  var test = y.modPow(pk.q, pk.p);
+  if (test.equals(BigInt.ONE)) {
+    BigIntM = y;
+  } else {
+    BigIntM = y.negate().mod(pk.p);
+  }
+
   if (BigIntM.compareTo(BigInt.ZERO) === 0)
     throw "Can't encrypt 0 with El Gamal";
 
