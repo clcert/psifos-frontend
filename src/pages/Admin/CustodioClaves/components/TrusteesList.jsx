@@ -6,20 +6,22 @@ function TrusteesList(props) {
   /** @state {array} trustees list */
   const [trustees, setTrustees] = useState([]);
 
-  useEffect(function effectFunction() {
+  useEffect(() => {
     getTrustees(props.uuid).then((trustees) => {
       setTrustees(trustees.jsonResponse);
     });
+  }, []);
 
+  useEffect(function effectFunction() {
     let interval = setInterval(() => {
       getTrustees(props.uuid).then((trustees) => {
         setTrustees(trustees.jsonResponse);
       });
-    }, 1000);
+    }, 500);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [trustees]);
 
   return (
     <div className="mx-auto">
