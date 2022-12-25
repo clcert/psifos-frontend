@@ -48,18 +48,21 @@ function AnswersQuestions(props) {
             <div id="create-questions">
               {props.answersWithKey.map((item, index) => {
                 return (
-                  <InputQuestion
-                    disabledEdit={props.disabledEdit}
-                    key={item.key}
-                    value={item.value}
-                    numberQuestion={item.key}
-                    delete={() => {
-                      props.handleRemoveItem(item.key);
-                    }}
-                    onChange={(key, value) => {
-                      props.editAnswer(key, value);
-                    }}
-                  ></InputQuestion>
+                  item.value !== "Voto Blanco" &&
+                  item.value !== "Voto Nulo" && (
+                    <InputQuestion
+                      disabledEdit={props.disabledEdit}
+                      key={item.key}
+                      value={item.value}
+                      numberQuestion={item.key}
+                      delete={() => {
+                        props.handleRemoveItem(item.key);
+                      }}
+                      onChange={(key, value) => {
+                        props.editAnswer(key, value);
+                      }}
+                    ></InputQuestion>
+                  )
                 );
               })}
             </div>

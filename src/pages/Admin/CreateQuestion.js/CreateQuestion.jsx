@@ -156,20 +156,15 @@ function CreateQuestion(props) {
       behavior: "smooth",
     });
     const auxQuestion = [...question];
+
     auxQuestion.forEach((value) => {
-      if (
-        value.include_blank_null &&
-        value.closed_options[value.closed_options.length - 1] !== "Voto Nulo" &&
-        value.closed_options[value.closed_options.length - 2] !== "Voto Blanco"
-      ) {
+      value.closed_options = value.closed_options.filter((option) => {
+        return !["Voto Blanco", "Voto Nulo"].includes(option);
+      });
+
+      if (value.include_blank_null) {
         const answerBlankNull = ["Voto Blanco", "Voto Nulo"];
         value.closed_options = [...value.closed_options, ...answerBlankNull];
-      } else if (
-        !value.include_blank_null &&
-        value.closed_options[value.closed_options.length - 1] === "Voto Nulo" &&
-        value.closed_options[value.closed_options.length - 2] === "Voto Blanco"
-      ) {
-        value.closed_options.splice(value.closed_options.length - 2, 2);
       }
       value.total_closed_options = value.closed_options.length;
     });
