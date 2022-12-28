@@ -16,6 +16,14 @@ class TallyFactory {
         question,
         raw_tally
       );
+    } else if (tally_type === "mixnet") {
+      return new MixnetTally(
+        computed,
+        num_tallied,
+        public_key,
+        question,
+        raw_tally
+      );
     }
   }
 }
@@ -36,51 +44,6 @@ class Tally {
     this.public_key = public_key;
     this.question = question;
     this.tally = raw_tally;
-  }
-
-  doDecrypt(public_key, secret_key) {
-    /**
-     * Decrypts the tally.
-     * @param {PublicKey} public_key - election public key
-     * @param {SecretKey} secret_key - trustee secret key
-     * @return {Tally}
-     */
-
-    // we need to keep track of the values of g^{voter_num} for decryption
-    // var DISCRETE_LOGS = {};
-    // var CURRENT_EXP = 0;
-    // var CURRENT_RESULT = BigInt.ONE;
-    // DISCRETE_LOGS[CURRENT_RESULT.toString()] = CURRENT_EXP;
-
-    // // go through the num_tallied
-    // while (CURRENT_EXP < tally.num_tallied) {
-    //   CURRENT_EXP += 1;
-    //   CURRENT_RESULT = CURRENT_RESULT.multiply(public_key.g).mod(public_key.p);
-    //   DISCRETE_LOGS[CURRENT_RESULT.toString()] = CURRENT_EXP;
-    // }
-
-    // initialize the arrays
-    var decryption_factors = [];
-    var decryption_proofs = [];
-
-    // decrypt the tallies
-
-    this.tally.forEach(function (choice_tally, choice_num) {
-      var one_choice_result = secret_key.decryptionFactorAndProof(
-        choice_tally,
-        ElGamal.fiatshamir_challenge_generator
-      );
-
-      decryption_factors[choice_num] = one_choice_result.decryption_factor.toString();
-      decryption_proofs[choice_num] =
-        one_choice_result.decryption_proof.toJSONObject();
-    });
-
-    return {
-      tally_type: this.tally_type,
-      decryption_factors: decryption_factors,
-      decryption_proofs: decryption_proofs,
-    };
   }
 
   toJSONObject() {
@@ -107,9 +70,104 @@ class HomomorphicTally extends Tally {
    * Class for homomorphic tallies.
    */
 
-  constructor(computed, num_tallied, public_key, question, raw_tally) {
-    super(computed, num_tallied, public_key, question, raw_tally);
+  constructor(computed, num_tallied, public_key, question, tally) {
+    let tally_object = tally.map(function (one_q) {
+      return ElGamal.Ciphertext.fromJSONObject(one_q, public_key);
+    });
+
+    super(computed, num_tallied, public_key, question, tally_object);
     this.tally_type = "homomorphic";
+  }
+
+  doDecrypt(public_key, secret_key) {
+    /**
+     * Decrypts the tally.
+     * @param {PublicKey} public_key - election public key
+     * @param {SecretKey} secret_key - trustee secret key
+     * @return {Tally}
+     */
+
+    // initialize the arrays
+    var decryption_factors = [];
+    var decryption_proofs = [];
+
+    // decrypt the tallies
+
+    this.tally.forEach(function (choice_tally, choice_num) {
+      var one_choice_result = secret_key.decryptionFactorAndProof(
+        choice_tally,
+        ElGamal.fiatshamir_challenge_generator
+      );
+
+      decryption_factors[choice_num] =
+        one_choice_result.decryption_factor.toString();
+      decryption_proofs[choice_num] =
+        one_choice_result.decryption_proof.toJSONObject();
+    });
+
+    return {
+      tally_type: this.tally_type,
+      decryption_factors: decryption_factors,
+      decryption_proofs: decryption_proofs,
+    };
+  }
+}
+
+class MixnetTally extends Tally {
+  /**
+   * Class for homomorphic tallies.
+   */
+
+  constructor(computed, num_tallied, public_key, question, tally) {
+    let tally_object = tally.map((q_answer) => {
+      return q_answer.map((one_q) => {
+        return ElGamal.Ciphertext.fromJSONObject(one_q, public_key);
+      });
+    });
+
+
+    super(computed, num_tallied, public_key, question, tally_object);
+    this.tally_type = "mixnet";
+  }
+  doDecrypt(public_key, secret_key) {
+    /**
+     * Decrypts the tally.
+     * @param {PublicKey} public_key - election public key
+     * @param {SecretKey} secret_key - trustee secret key
+     * @return {Tally}
+     */
+
+    // initialize the arrays
+    var decryption_factors = [];
+    var decryption_proofs = [];
+
+  
+    this.tally.forEach((one_tally, vote_numer) => {
+      let one_factor = [];
+      let one_proof = [];
+
+      // decrypt the tallie of vote
+      one_tally.forEach(function (choice_tally, choice_num) {
+        var one_choice_result = secret_key.decryptionFactorAndProof(
+          choice_tally,
+          ElGamal.fiatshamir_challenge_generator
+        );
+
+        one_factor[choice_num] = one_choice_result.decryption_factor.toString();
+        one_proof[choice_num] =
+          one_choice_result.decryption_proof.toJSONObject();
+      });
+
+      // add factor and proof of vote to the final array
+      decryption_factors[vote_numer] = one_factor;
+      decryption_proofs[vote_numer] = one_proof;
+    });
+
+    return {
+      tally_type: this.tally_type,
+      decryption_factors: decryption_factors,
+      decryption_proofs: decryption_proofs,
+    };
   }
 }
 
@@ -120,18 +178,13 @@ Tally.fromJSONObject = function (json_tallies, public_key) {
    * @param {PublicKey} public_key - election public key
    */
 
-  var raw_tally = json_tallies.tally.map(function (one_q) {
-    var new_val = ElGamal.Ciphertext.fromJSONObject(one_q, public_key);
-    return new_val;
-  });
-
   return new TallyFactory().create(
     json_tallies.tally_type,
     json_tallies.computed,
     json_tallies.num_tallied,
     json_tallies.public_key,
     json_tallies.question,
-    raw_tally
+    json_tallies.tally
   );
 };
 
