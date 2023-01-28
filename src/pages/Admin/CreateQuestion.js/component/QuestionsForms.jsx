@@ -145,6 +145,27 @@ function QuestionsForms(props) {
               </div>
             </div>
           </div>
+          <div className="field">
+            <div className="control">
+              <label className="checkbox">
+                <input
+                  disabled={props.disabledEdit}
+                  onChange={(e) => {
+                    let auxQuestion = props.question;
+                    auxQuestion.include_blank_null = e.target.checked;
+                    props.updateQuestions(props.questionId, auxQuestion);
+                  }}
+                  checked={props.question.include_blank_null}
+                  type="checkbox"
+                  className="mr-2"
+                />
+                Incluir voto nulo o blanco
+              </label>
+            </div>
+            <p className="help">
+              Se incluira la opción para votar nulo o blanco.
+            </p>
+          </div>
         </div>
       </div>
       <OptionQuestions

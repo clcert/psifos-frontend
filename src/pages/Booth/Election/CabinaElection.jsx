@@ -11,7 +11,7 @@ import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
 import { backendOpIP } from "../../../server";
 import BoothPsifos from "../BoothPsifos";
-import VerifyVote from "../components/VerifyVoteModal";
+import DescriptionModal from "../components/DescriptionModal";
 
 function CabinaElection(props) {
   /** @state {int} election phase */
@@ -35,6 +35,8 @@ function CabinaElection(props) {
 
   const [modalVerify, setModalVerify] = useState(false);
 
+  const [modalDescription, setModalDescription] = useState(false);
+
   /** @urlParam {uuid} election uuid  */
   const { uuid } = useParams();
 
@@ -47,10 +49,17 @@ function CabinaElection(props) {
 
   useEffect(() => {
     if (props.electionData.questions) {
-      setQuestions(JSON.parse(props.electionData.questions));
+      const questionsFetch = JSON.parse(props.electionData.questions);
+      questionsFetch.include_blank_null =
+        questionsFetch.include_blank_null === "True" ? true : false;
+      setQuestions(questionsFetch);
       setNameElection(props.electionData.name);
     }
   }, [props.electionData]);
+
+  useEffect(() => {
+    if (props.electionData.description) setModalDescription(true);
+  }, [props.electionData.description]);
 
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
 
@@ -78,9 +87,7 @@ function CabinaElection(props) {
         <>
           <ProgressBar phase={2} />
           <ReviewQuestions
-            audit={() => {
-              setActualPhase(5);
-            }}
+            election={props.electionData}
             answers={answers}
             questions={questions}
             setVoteVerificates={setVoteVerificates}
@@ -99,6 +106,9 @@ function CabinaElection(props) {
             afterVerify={() => {
               setModalVerify(false);
               setActualPhase(4);
+            }}
+            audit={() => {
+              setActualPhase(5);
             }}
           />
         </>
@@ -159,6 +169,7 @@ function CabinaElection(props) {
         <section className="section pb-1" id="question-section">
           <div className="container has-text-centered is-max-desktop">
             <QuestionElection
+              election={props.electionData}
               questions={questions}
               afterEncrypt={(answersQuestions) => {
                 setAnswers(answersQuestions);
@@ -180,6 +191,11 @@ function CabinaElection(props) {
 
       <ElectionCode uuid={uuid} />
       <div id="bottom"></div>
+      <DescriptionModal
+        election={props.electionData}
+        show={modalDescription}
+        onHide={() => setModalDescription(false)}
+      />
     </div>
   );
 }

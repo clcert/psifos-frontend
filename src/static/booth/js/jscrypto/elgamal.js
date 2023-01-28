@@ -639,6 +639,27 @@ ElGamal.encrypt = function (pk, plaintext, r) {
   return new Ciphertext(alpha, beta, pk);
 };
 
+ElGamal.encryptMixnet = function (pk, m, r) {
+  
+  let BigIntM = new BigInt(String(m))
+  var y = BigIntM.add(BigInt.ONE);
+  var test = y.modPow(pk.q, pk.p);
+  if (test.equals(BigInt.ONE)) {
+    BigIntM = y;
+  } else {
+    BigIntM = y.negate().mod(pk.p);
+  }
+
+  if (BigIntM.compareTo(BigInt.ZERO) === 0)
+    throw "Can't encrypt 0 with El Gamal";
+
+  if (!r) r = Random.getRandomInteger(pk.q);
+  var alpha = pk.g.modPow(r, pk.p);
+  var beta = pk.y.modPow(r, pk.p).multiply(BigIntM).mod(pk.p);
+
+  return new Ciphertext(alpha, beta, pk);
+};
+
 //
 // DLog Proof
 //

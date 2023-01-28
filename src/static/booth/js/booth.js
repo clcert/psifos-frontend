@@ -89,7 +89,7 @@ class BoothPsifos {
           // don't screw up votes.
           if (event.data.id === this.answer_timestamps[event.data.q_num]) {
             this.encrypted_answers[event.data.q_num] =
-            EncryptedAnswerFactory.fromJSONObject(event.data, this.election);
+              EncryptedAnswerFactory.fromJSONObject(event.data, this.election);
             this.log("got encrypted answer " + event.data.q_num);
           } else {
             this.log("no way jose");
@@ -119,7 +119,7 @@ class BoothPsifos {
     // async?
     this.setup_workers(raw_json);
 
-    document.title += " - " + this.election.name;
+    document.title = "Participa Uchile - " + this.election.name;
 
     // escape election fields
     // let escaped_array = ["description", "name"]

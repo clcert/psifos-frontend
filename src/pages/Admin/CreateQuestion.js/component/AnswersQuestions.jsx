@@ -19,7 +19,7 @@ function AnswersQuestions(props) {
      */
     const textToSave = arrayToString();
     let hiddenElement = document.createElement("a");
-    hiddenElement.download = "string.txt";
+    hiddenElement.download = `answers.txt`;
     const blob = new Blob([textToSave], {
       type: "text/plain",
     });
@@ -48,18 +48,21 @@ function AnswersQuestions(props) {
             <div id="create-questions">
               {props.answersWithKey.map((item, index) => {
                 return (
-                  <InputQuestion
-                    disabledEdit={props.disabledEdit}
-                    key={item.key}
-                    value={item.value}
-                    numberQuestion={item.key}
-                    delete={() => {
-                      props.handleRemoveItem(item.key);
-                    }}
-                    onChange={(key, value) => {
-                      props.editAnswer(key, value);
-                    }}
-                  ></InputQuestion>
+                  item.value !== "Voto Blanco" &&
+                  item.value !== "Voto Nulo" && (
+                    <InputQuestion
+                      disabledEdit={props.disabledEdit}
+                      key={item.key}
+                      value={item.value}
+                      numberQuestion={item.key}
+                      delete={() => {
+                        props.handleRemoveItem(item.key);
+                      }}
+                      onChange={(key, value) => {
+                        props.editAnswer(key, value);
+                      }}
+                    ></InputQuestion>
+                  )
                 );
               })}
             </div>
@@ -86,7 +89,12 @@ function AnswersQuestions(props) {
           <div className="column">
             <div className="field">
               <label className="label">Archivo de preguntas</label>{" "}
-              <input id="fileinput" type="file" onChange={filesToString} />{" "}
+              <input
+                disabled={props.disabledEdit}
+                id="fileinput"
+                type="file"
+                onChange={filesToString}
+              />{" "}
             </div>
             {props.question.closed_options && (
               <div>

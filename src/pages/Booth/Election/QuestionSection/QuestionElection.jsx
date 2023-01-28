@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
-import InputCheckbox from "./Questions/InputCheckbox";
-import InputRadio from "./Questions/InputRadio";
 import NextButton from "../../components/Buttons/NextButton";
 import PreviousButton from "../../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
-import InputDropdown from "./Questions/InputDropdown";
+import MixnetSelection from "./MixnetSelection";
+import InputSelection from "./InputSelection";
+import { useCallback } from "react";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -46,10 +46,17 @@ function QuestionElection(props) {
      */
     let answersAux = [];
     for (let i = 0; i < props.questions.length; i++) {
-      answersAux.push([]);
+      let auxArray = [];
+      const actualQuestion = props.questions[i];
+      if (actualQuestion.include_blank_null === "True") {
+        for (let j = 0; j < parseInt(actualQuestion.max_answers); i++) {
+          auxArray.push(1);
+        }
+        answersAux[i] = auxArray;
+      }
     }
     setAnswers(answersAux);
-  }, [props.questions.length]);
+  }, []);
 
   function createMessageAlert(min, max) {
     /**
@@ -66,22 +73,25 @@ function QuestionElection(props) {
     }
   }
 
-  function checkAnswers(index) {
-    /**
-     * @param {number} index - question index
-     * Check if the number of answers is correct
-     * If not, show the alert
-     */
-    const min = props.questions[index].min_answers;
-    const max = props.questions[index].max_answers;
-    if (answers[index].length < min || answers[index].length > max) {
-      setShowAlert(true);
-      createMessageAlert(min, max);
-      return false;
-    }
-    setShowAlert(false);
-    return true;
-  }
+  const checkAnswers = useCallback(
+    (index) => {
+      /**
+       * @param {number} index - question index
+       * Check if the number of answers is correct
+       * If not, show the alert
+       */
+      const min = props.questions[index].min_answers;
+      const max = props.questions[index].max_answers;
+      if (answers[index].length < min || answers[index].length > max) {
+        setShowAlert(true);
+        createMessageAlert(min, max);
+        return false;
+      }
+      setShowAlert(false);
+      return true;
+    },
+    [answers]
+  );
 
   return (
     <div>
@@ -103,26 +113,21 @@ function QuestionElection(props) {
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
               <div className="control control-box">
                 {question.q_type === "closed_question" && (
-                  <div id="">
-                    {question.min_answers === "1" &&
-                    question.max_answers === "1" ? (
-                      <InputRadio
-                        index={index}
-                        addAnswer={addAnswer}
-                        value={String(index)}
-                        answers={question}
-                      />
-                    ) : (
-                      <InputCheckbox
-                        index={index}
-                        addAnswer={addAnswer}
-                        value={String(index)}
-                        answers={question}
-                      />
-                    )}
-                  </div>
+                  <InputSelection
+                    index={index}
+                    addAnswer={addAnswer}
+                    question={question}
+                    election={props.election}
+                  />
                 )}
-                {question.q_type === "mixnet_question" && <InputDropdown answers={question}/>}
+                {question.q_type === "mixnet_question" && (
+                  <MixnetSelection
+                    index={index}
+                    addAnswer={addAnswer}
+                    question={question}
+                    election={props.election}
+                  />
+                )}
               </div>
             </div>
           </div>

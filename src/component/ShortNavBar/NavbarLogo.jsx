@@ -15,7 +15,7 @@ function NavbarLogo(props) {
       </div>
 
       <a
-        href={() => false}
+        href="#"
         role="button"
         className="navbar-burger"
         aria-label="menu"

@@ -90,9 +90,9 @@ function CustodioClaves(props) {
                 {!election.has_helios_trustee && (
                   <p className="has-text-white mb-4">
                     [
-                    <a id="trustees-link" href={() => false}>
+                    <span id="trustees-link">
                       agregar al servidor como custodio de clave
-                    </a>
+                    </span>
                     ]
                   </p>
                 )}

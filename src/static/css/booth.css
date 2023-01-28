@@ -267,6 +267,7 @@
 
 .menu-text-admin:hover {
   color: #6dcaf3;
+  cursor: pointer;
 }
 
 #text-button {

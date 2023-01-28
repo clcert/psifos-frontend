@@ -15,6 +15,8 @@ class EncryptedAnswerFactory {
       return new EncryptedOpenAnswer(question, answer, pk, progress);
     } else if (type === "closed_question") {
       return new EncryptedCloseAnswer(question, answer, pk, progress);
+    } else if (type === "mixnet_question") {
+      return new EncryptedMixnetAnswer(question, answer, pk, progress);
     }
   }
 }
@@ -248,6 +250,67 @@ class EncryptedCloseAnswer extends EncryptedAnswer {
     super(question, answer, pk, progress, type);
     this.enc_ans_type = "encrypted_closed_answer";
   }
+}
+
+class EncryptedMixnetAnswer extends EncryptedAnswer {
+  /**
+   * class to encrypt a mixnet question
+   */
+
+  constructor(question, answer, pk, progress, type) {
+    super(question, answer, pk, progress, type);
+    this.enc_ans_type = "encrypted_mixnet_answer";
+  }
+
+  doEncryption(question, answer, pk, randomness, progress) {
+    var choices = [];
+
+    // keep track of whether we need to generate new randomness
+    var generate_new_randomness = false;
+    if (!randomness) {
+      randomness = [];
+      generate_new_randomness = true;
+    }
+
+    // keep track of number of options selected.
+    var num_selected_answers = 0;
+    // go through each possible answer and encrypt either a g^0 or a g^1.
+    for (var i = 0; i < answer.length; i++) {
+      // generate randomness?
+      if (generate_new_randomness) {
+        randomness[i] = Random.getRandomInteger(pk.q);
+      }
+
+      choices[i] = ElGamal.encryptMixnet(pk, answer[i], randomness[i]);
+
+      if (progress) progress.tick();
+    }
+
+
+    return {
+      choices: choices,
+      randomness: randomness,
+    };
+  }
+
+  toJSONObject(include_plaintext) {
+    var return_obj = {
+      enc_ans_type: this.enc_ans_type,
+      choices: _(this.choices).map(function (choice) {
+        return choice.toJSONObject();
+      }),
+    };
+    if (include_plaintext) {
+      return_obj.answer = this.answer;
+      return_obj.randomness = _(this.randomness).map(function (r) {
+        return r.toJSONObject();
+      });
+    }
+
+    return return_obj;
+  }
+
+  
 }
 
 export default EncryptedAnswerFactory;

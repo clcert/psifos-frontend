@@ -10,6 +10,7 @@ import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
 import Tally from "../../../static/booth/js/jscrypto/tally";
+import { getEgParams } from "../../../services/crypto";
 
 function DecryptProve(props) {
   const [trustee, setTrustee] = useState("");
@@ -85,13 +86,15 @@ function DecryptProve(props) {
     return new ElGamal.SecretKey(sk.x, sk.public_key);
   }, [certificates, params, points, secretKey]);
 
-  const do_tally = useCallback(async () => {
+  const do_tally = useCallback(() => {
     var secret_key = get_secret_key();
 
     // ENCRYPTED TALLY :
     let tally_factors_and_proof = tally.map(function (q_tally) {
       return q_tally.doDecrypt(electionPk, secret_key);
     });
+
+    console.log(tally_factors_and_proof)
 
     let final_json = {
       decryptions: tally_factors_and_proof,
@@ -104,34 +107,36 @@ function DecryptProve(props) {
   useEffect(() => {
     let params_aux, certificates_aux, points_aux, election_aux, trustee_aux;
 
-    getDescrypt().then((data) => {
-      params_aux = JSON.parse(data.params);
-      certificates_aux = JSON.parse(data.certificates);
-      points_aux = JSON.parse(data.points);
-      election_aux = data.election;
-      trustee_aux = data.trustee;
+    getEgParams(uuid).then((eg_params) => {
+      getDescrypt().then((data) => {
+        params_aux = JSON.parse(eg_params);
+        certificates_aux = JSON.parse(data.certificates);
+        points_aux = JSON.parse(data.points);
+        election_aux = data.election;
+        trustee_aux = data.trustee;
 
-      setParams(params_aux);
-      setCertificates(certificates_aux);
-      setPoints(points_aux);
-      setTrustee(trustee_aux);
+        setParams(params_aux);
+        setCertificates(certificates_aux);
+        setPoints(points_aux);
+        setTrustee(trustee_aux);
 
-      BigInt.setup(function () {
-        let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
-        PARAMS.trustee_id = trustee_aux.trustee_id;
-        setParams(PARAMS);
-        let ELECTION_JSON = election_aux;
-        let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
-          ELECTION_JSON["public_key"]
-        );
-        setElectionPk(ELECTION_PK);
-        let TALLY = Tally.createAllTally(
-          JSON.parse(ELECTION_JSON.encrypted_tally),
-          ELECTION_PK
-        );
-        setTally(TALLY);
+        BigInt.setup(function () {
+          let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
+          PARAMS.trustee_id = trustee_aux.trustee_id;
+          setParams(PARAMS);
+          let ELECTION_JSON = election_aux;
+          let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
+            ELECTION_JSON["public_key"]
+          );
+          setElectionPk(ELECTION_PK);
+          let TALLY = Tally.createAllTally(
+            JSON.parse(ELECTION_JSON.encrypted_tally),
+            ELECTION_PK
+          );
+          setTally(TALLY);
+        });
+        setFeedbackMessage("Listo para generar desencriptado parcial");
       });
-      setFeedbackMessage("Listo para generar desencriptado parcial");
     });
   }, [getDescrypt]);
 
