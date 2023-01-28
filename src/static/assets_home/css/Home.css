@@ -328,19 +328,24 @@ div#preload {
 .election-box {
   background-color: white !important;
   border: 1px solid #004990 !important;
-  border-radius: 6px;
+  border-radius: 10px;
   color: black;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 3rem auto;
+  width: 60vw;
+  max-width: 1024px;
+  padding: 0 3rem 2rem 3rem !important;
+}
 
-  padding-left: 3rem !important;
-  padding-right: 3rem !important;
+.unit-logo img {
+  max-width: 500px;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
   .election-box {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+    width: 90vw;
   }
 }
 
@@ -351,8 +356,8 @@ div#preload {
   color: black;
   margin-left: auto;
   margin-right: auto;
-  max-width: 700px;
-  max-height: 500px;
+  width: 60vw;
+  max-width: 1024px;
   padding-left: 2rem !important;
   padding-right: 3rem !important;
 }
@@ -360,9 +365,6 @@ div#preload {
 .content-past-elections {
   margin-left: auto;
   margin-right: auto;
-  max-width: 600px;
-  max-height: 400px;
-  overflow: auto;
 }
 
 .imagen-realizado {
@@ -373,10 +375,11 @@ div#preload {
   left: 120px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .past-elections-box {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+    width: 90vw;
   }
 }
 
@@ -432,10 +435,34 @@ div#preload {
 }
 
 .past-election {
+  color: rgb(38, 38, 38) !important;
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  padding-left: 0.5rem;
-  margin-left: 0.5rem;
+  padding: 0.5rem;
+  margin: 20px 2rem;
+  border-radius: 5px;
+}
+
+.past-election.color-1 {
+  border: solid 2px #004c94 !important;
+}
+
+.past-election.color-2 {
+  border: solid 2px #1493e7 !important;
+}
+
+.past-election.color-1 ul {
+  list-style: disc;
+  color: #004c94;
+}
+
+.past-election.color-2 ul {
+  list-style: disc;
+  color: #1493e7;
+}
+
+.past-election p {
+  color: rgb(38, 38, 38);
+  margin: 0;
 }
 
 .bullet-1 {
@@ -12925,6 +12952,8 @@ Consult
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  min-height: 70vh;
 }
 
 .news-item {
@@ -12987,4 +13016,84 @@ Consult
   .news-item {
     max-width: 100%;
   }
+}
+
+.transparent-bg {
+  background-color: transparent !important;
+}
+
+.nav-icons {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.past-election .date-container {
+  display: inline-block;
+  width: 120px;
+  text-align: right;
+}
+
+.multiple-elections-hr {
+  background-color: #93d5f6;
+  margin: 0;
+  flex-grow: 1;
+  height: 1px;
+}
+
+.unit-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unit-logo img {
+  margin-bottom: 20px;
+}
+
+.elections-list li {
+  list-style: circle !important;
+}
+
+.election-bullet {
+  margin-right: 5px;
+}
+
+.election-button {
+  color: white !important;
+  border-radius: 10px !important;
+  text-decoration: none;
+  padding: 5px;
+  width: 70px;
+  font-size: .8rem !important;
+  border: none !important;
+}
+
+.election-button-1 {
+  background-color: #004c94 !important;
+}
+
+.election-button-2 {
+  background-color: #1493e7 !important;
+}
+
+.election-closed {
+  color: #f14668;
+  text-align: center;
+}
+
+.current-elections-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.loading-news {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-news img{
+  max-width: 80px;
 }

@@ -1,75 +1,31 @@
 import InfoVotacion from "./components/InfoVotacion";
-import NavHome from "../../component/Navbar/NavHom";
-import VotacionesRealizadas from "./components/VotacionesRealizadas";
 import PreguntasFrecuentes from "./components/PreguntasFrecuentes";
 import TeamComponent from "./components/TeamComponent";
 import Video from "./components/Video";
 import FooterParticipa from "../../component/Footers/FooterParticipa";
-import ScrollButton from "./components/ScrollButton";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
-import ticket from "../../static/new_home_assets/SVG/ticket.svg";
 import "../../static/assets_home/css/Home.css";
-import mono from "../../static/new_home_assets/SVG/monito.svg";
-import logoParticipa from "../../static/new_home_assets/SVG/logo participa.svg";
-import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
-import Posts from "./components/Posts";
+import UpperBanner from "../../component/Banner/UpperBanner";
+
 
 function Home() {
+
+  const elections = require("../../static/data/currentElections.json");
   
   return (
     <div id="content">
-      <div className="navbar-div">
-        <div className="container">
-          <NavHome logo={logoParticipa} />
-        </div>
-      </div>
-      <ScrollButton></ScrollButton>
-      <section className="section top-section pt-3 is-hidden-touch">
-        <div className="columns container " style={{ height: "157px" }}>
-          <div className="column is-align-self-center  pl-6">
-            <figure
-              className="image"
-              style={{ width: "316px", height: "374px" }}
-            >
-              <img src={mono} alt="" />
-            </figure>
-          </div>
-          <div className="column is-align-self-center">
-            <p className="has-text-weight-bold text-title">
-              <span className="big-text-title">BIENVENIDO</span>
-              <br />
-              AL SISTEMA DE VOTACIÓN
-            </p>
-          </div>
-          <div className="column is-align-self-center">
-            <figure className="image" style={{ width: "400px" }}>
-              <img src={logoParticipa} alt="Logo participa" />
-            </figure>
-          </div>
-          <div className="barra-menu"></div>
-          <div className="column is-align-self-center">
-            <figure className="image" style={{ width: "70px" }}>
-              <img src={logoUchile} alt="Logo Uchile" />
-            </figure>
-          </div>
-        </div>
-      </section>{" "}
+      <UpperBanner title="BIENVENIDO" subtitle="AL SISTEMA DE VOTACIÓN" />
       <section className="election-section pt-0 pb-0">
         <div className="election-sect">
           <div
-            className="columns is-centered m-auto election-section"
+            className="current-elections-section is-centered m-auto"
             id="curso"
           >
-            <InfoVotacion
-              image={sobre}
-              nameButton="INGRESAR A LA CABINA DE VOTACIÓN"
-            />
-            <InfoVotacion image={ticket} nameButton="INGRESAR PARA RESPONDER" />
-          </div>
-
-          <div id="realizada">
-            <VotacionesRealizadas image={sobre} title="ELECCIONES REALIZADAS" />
-            <VotacionesRealizadas image={ticket} title="CONSULTAS REALIZADAS" />
+            {
+              elections.data.map((election, index) => (
+                <InfoVotacion image={sobre} electionData={election} key={index} />
+              ))
+            }
           </div>
 
           <Video
@@ -216,20 +172,6 @@ function Home() {
                 </div>
               }
             />
-          </div>
-        </div>
-      </section>
-      <section className="section notice-section" id="noticias">
-        <div className="color-notice">
-          <div className="container">
-            <h1 className="title pt-4" id="election-current">
-              NOTICIAS
-            </h1>
-            <div className="container steps-container">
-              <div className="columns is-variable">
-                <Posts fromFile='notices.json' />
-              </div>
-            </div>
           </div>
         </div>
       </section>
