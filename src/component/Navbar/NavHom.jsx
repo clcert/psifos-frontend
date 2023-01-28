@@ -1,12 +1,22 @@
-import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
+import { HashLink } from 'react-router-hash-link';
+import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 
-function NavHome(props) {
+function NavHome() {
   const [showNavbarBurger, setShowNavbarBurger] = useState(false);
   const [showNavbarMenu, setShowNavbarMenu] = useState(false);
+
+  const sections = [
+    { name: "EN CURSO", href: { pathname: "/", hash: "#curso" } },
+    { name: "ELECCIONES", href: { pathname: "/elecciones" } },
+    { name: "COMO VOTAR", href: { pathname: "/", hash: "#video" } },
+    { name: "FAQ", href: { pathname: "/", hash: "#faq" } },
+    { name: "NOTICIAS", href: { pathname: "/noticias" } },
+    { name: "EQUIPO", href: { pathname: "/", hash: "#equipo" } },
+  ]
   return (
-    <div className="columns is-flex is-vcentered">
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+    <div className="is-flex is-justify-content-center">
+      <nav className="transparent-bg navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a
             className="navbar-item image-navbar-burger"
@@ -45,44 +55,18 @@ function NavHome(props) {
           style={{ position: "relative" }}
         >
           <div className="navbar-start">
-            <a className="navbar-item" href="#curso" id="navbar-button-home">
-              EN CURSO
-            </a>
-            <a
-              className="navbar-item"
-              href="#realizada"
-              id="navbar-button-home"
-            >
-              REALIZADAS
-            </a>
-            <a className="navbar-item" href="#video" id="navbar-button-home">
-              MATERIAL EXPLICATIVO
-            </a>
-            <a className="navbar-item" href="/#" id="navbar-button-home">
-              CABINA DE VOTACIÓN
-            </a>
-            <a className="navbar-item" href="#faq" id="navbar-button-home">
-              FAQ
-            </a>
-            <a className="navbar-item" href="#prensa" id="navbar-button-home">
-              PRENSA
-            </a>
-            <a className="navbar-item" href="#noticias" id="navbar-button-home">
-              NOTICIAS
-            </a>
-            <a className="navbar-item" href="/#" id="navbar-button-home">
-              SOFTWARE
-            </a>
-            <a className="navbar-item" href="#equipo" id="navbar-button-home">
-              EQUIPO
-            </a>
-            <div className="mt-2">
-              <span className="icon ml-2 mr-4">
+            {sections.map((section, index) => (
+              <HashLink className="navbar-item" to={section.href} id="navbar-button-home" key={index}>
+                {section.name}
+              </HashLink>
+            ))}
+            <div className="mt-2 nav-icons">
+              <div className="icon ml-2 mr-4">
                 <i className="icon-twitter"></i>
-              </span>
-              <span className="icon">
+              </div>
+              <div className="icon">
                 <i className="icon-mail"></i>
-              </span>
+              </div>
             </div>
           </div>
         </div>

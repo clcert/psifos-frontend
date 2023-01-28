@@ -1,0 +1,74 @@
+{
+    "data": [
+        {
+            "title": "Exitosa elección del Centro de Alumnos del Departamento de Ciencias de la Computación (CaDCC)",
+            "date": "2022-11-29",
+            "img": "/Fotos/news/eleccion_cadcc_2023.png",
+            "summary": "news/summary/eleccion_cadcc_2023.md",
+            "full_content": "news/full/eleccion_cadcc_2023.md"
+        },
+        {
+            "title": "Participa UChile realiza su primera elección de Centros de Estudiantes",
+            "date": "2022-10-26",
+            "img": "/Fotos/news/centro_estudiantes.png",
+            "summary": "news/summary/centro_estudiantes.md",
+            "full_content": "news/full/centro_estudiantes.md"
+        },
+        {
+            "title": "Ceremonia de Escrutinio Elecciones Senado Universitario 2022",
+            "date": "2022-08-16",
+            "img": "/Fotos/news/senado_universitario_ceremonia.png",
+            "summary": "news/summary/senado_universitario_ceremonia.md",
+            "full_content": "news/full/senado_universitario_ceremonia.md"
+        },
+        {
+            "title": "Senado Universitario eligió sus representantes a través de Participa UChile",
+            "date": "2022-08-08",
+            "img": "/Fotos/news/senado_universitario.jpg",
+            "summary": "news/summary/senado_universitario.md",
+            "full_content": "news/full/senado_universitario.md"
+        },
+        {
+            "title": "Participa UChile en Nano Charlas de UChile TV",
+            "date": "2022-07-08",
+            "img": "/Fotos/news/uchile_tv.png",
+            "summary": "news/summary/uchile_tv.md",
+            "full_content": "news/full/uchile_tv.md"
+        },
+        {
+            "title": "Charla: 'Votación electrónica: desafíos, futuro y realidades'",
+            "date": "2022-06-17",
+            "img": "/Fotos/news/charla_votacion_electronica.jpeg",
+            "summary": "news/summary/charla_votacion_electronica.md",
+            "full_content": "news/full/charla_votacion_electronica.md"
+        },
+        {
+            "title": "Elecciones y Ceremonia de Escrutinio Directores de Departamento FCFM",
+            "date": "2022-06-09",
+            "img": "/Fotos/news/eleccion_directores_departamento_fcfm.png",
+            "summary": "news/summary/eleccion_directores_departamento_fcfm.md",
+            "full_content": "news/full/eleccion_directores_departamento_fcfm.md"
+        },
+        {
+            "title": "Exitosa Ceremonia de escrutinio - Elecciones Decano/Decana 2022",
+            "date": "2022-06-02",
+            "img": "/Fotos/news/eleccion_decano_fcfm.png",
+            "summary": "news/summary/eleccion_decano_fcfm.md",
+            "full_content": "news/full/eleccion_decano_fcfm.md"
+        },
+        {
+            "title": "Participa UChile en edición número 22 de Revista Bits de Ciencia",
+            "date": "2022-06-01",
+            "img": "/Fotos/news/bits_ciencia_22.jpeg",
+            "summary": "news/summary/bits_ciencia_22.md",
+            "full_content": "news/full/bits_ciencia_22.md"
+        },
+        {
+            "title": "Exitosa votación del Comité Paritario de Higiene y Seguridad de DEMRE",
+            "date": "2022-04-12",
+            "img": "/Fotos/news/comite_demre.png",
+            "summary": "news/summary/comite_demre.md",
+            "full_content": "news/full/comite_demre.md"
+        }
+    ]
+}

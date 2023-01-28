@@ -1,0 +1,1 @@
+El Centro de Alumnos del Departamento de Ciencias de la Computación (CaDCC) eligió su directiva para el 2023 a través del sistema Participa UChile. Las elecciones se desarrollaron desde el jueves 24 de noviembre hasta el viernes 25 con total normalidad. 

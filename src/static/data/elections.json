@@ -1,0 +1,447 @@
+{
+  "data": [
+    {
+      "date": "2022-11-09",
+      "unit": "Facultad de Ciencias Agronómicas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Consejeros(as) de Facultad",
+        "Representantes Académicos ante el Consejo de Departamento de Agroindustria y Enología",
+        "Representantes Académicos ante el Consejo de Departamento de Ciencias Ambientales y RENARE",
+        "Representantes Académicos ante el Consejo de Departamento de Gestión e Innovación Rural",
+        "Representantes Académicos ante el Consejo de Departamento de Ingeniería y Suelos",
+        "Representantes Académicos ante el Consejo de Departamento de Producción Agrícola",
+        "Representantes Académicos ante el Consejo de Departamento de Producción Animal",
+        "Representantes Académicos ante el Consejo de Departamento de Sanidad Vegetal"
+      ]
+    },
+    {
+      "date": "2022-11-07",
+      "unit": "Facultad de Odontología",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Comité Académico Programa de Patología Bucomáxilo Facial"
+      ]
+    },
+    {
+      "date": "2022-11-03",
+      "unit": "Facultad de Ciencias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Estudiantiles ante el Consejo de Escuela de Postgrado",
+        "Representante Académico(a) ante el Consejo de Departamento de Matemáticas"
+      ]
+    },
+    {
+      "date": "2022-10-26",
+      "unit": "Facultad de Odontología",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Consejero(a) del Departamento de Cirugía y Traumatología Bucal y Máxilo Facial",
+        "Consejero(a) del Departamento del Niño y Ortopedia Dentomaxilar",
+        "Consejero(a) del Departamento de Odontología Restauradora",
+        "Consejero(a) del Departamento de Patología y Medicina Oral",
+        "Consejero(a) del Instituto de Investigación en Ciencias Odontológicas"
+      ]
+    },
+    {
+      "date": "2022-10-24",
+      "unit": "Facultad de Ciencias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Académicos ante el Consejo de Facultad",
+        "Representantes Estudiantiles ante el Consejo de Escuela de Ciencias Ambientales y Biotecnología",
+        "Representantes Estudiantiles ante el Consejo de Escuela de Ciencias"
+      ]
+    },
+    {
+      "date": "2022-10-18",
+      "unit": "Facultad de Odontología",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Consejeros(as) de Facultad"
+      ]
+    },
+    {
+      "date": "2022-10-18",
+      "unit": "Facultad de Ciencias Veterinarias y Pecuarias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Consejeros(as) de Facultad"
+      ]
+    },
+    {
+      "date": "2022-10-13",
+      "unit": "Facultad de Odontología",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Centro de Estudiantes de Odontología"
+      ]
+    },
+    {
+      "date": "2022-10-11",
+      "unit": "Facultad de Arquitectura y Urbanismo",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) Departamento de Arquitectura",
+        "Consejeros(as) Departamento de Arquitectura",
+        "Consejeros(as) Departamento de Diseño",
+        "Director(a) Departamento de Geografía",
+        "Consejeros(as) Departamento de Geografía",
+        "Director(a) Departamento de Urbanismo",
+        "Consejeros(as) Departamento de Urbanismo",
+        "Director(a) Instituto de la Vivienda",
+        "Consejeros(as) Instituto de la Vivienda",
+        "Director(a) Instituto de Historia y Patrimonio",
+        "Consejeros(as) Instituto de Historia y Patrimonio",
+        "Consejeros(as) de Facultad"
+      ]
+    },
+    {
+      "date": "2022-09-30",
+      "unit": "Instituto de Estudios Internacionales",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Director(a) del Instituto de Estudios Internacionales"
+      ]
+    },
+    {
+      "date": "2022-09-28",
+      "unit": "Facultad de Odontología",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento del Niño y Ortopedia Dentomaxilar",
+        "Director(a) de Departamento de Odontología Restauradora",
+        "Director(a) de Departamento de Patología y Medicina Oral",
+        "Consejero(a) ante el Consejo de Facultad"
+      ]
+    },
+    {
+      "date": "2022-09-26",
+      "unit": "Facultad de Ciencias Forestales y de la Conservación de la Naturaleza",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Silvicultura y Conservación de la Naturaleza"
+      ]
+    },
+    {
+      "date": "2022-09-22",
+      "unit": "Facultad de Medicina",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) Departamento de Obstetricia y Ginecología Occidente",
+        "Director(a) Departamento de Otorrinolaringología",
+        "Director(a) Departamento de Promoción de la Salud de la Mujer y el Recién Nacido",
+        "Director(a) Departamento de Medicina Interna Occidente",
+        "Consejeros(as) Académicos(as) de Libre Elección Departamento de Medicina Interna Occidente",
+        "Consejeros(as) Académicos(as) de Libre Elección Departamento de Pediatría y Cirugía Infantil Centro",
+        "Consejeros(as) estudiantiles de libre elección Escuela de Fonoaudiología",
+        "Consejeros(as) estudiantiles de libre elección Escuela de Medicina",
+        "Consejeros(as) estudiantiles de libre elección Escuela de Postgrado"
+      ]
+    },
+    {
+      "date": "2022-09-21",
+      "unit": "Instituto de Nutrición y Tecnología de los Alimentos",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Integrante Transversal Académico Consejo de Instituto"
+      ]
+    },
+    {
+      "date": "2022-09-21",
+      "unit": "Instituto de Estudios Avanzados en Educación",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Director(a) del Instituto de Estudios Avanzados en Educación"
+      ]
+    },
+    {
+      "date": "2022-09-09",
+      "unit": "Facultad de Ciencias Físicas y Matemáticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Estudiantiles de Postgrado ante el Consejo de la Escuela de Postgrado y Educacion Continua"
+      ]
+    },
+    {
+      "date": "2022-09-07",
+      "unit": "Facultad de Economía y Negocios",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Administración",
+        "Director(a) de Departamento de Control de Gestión y Sistemas de Información",
+        "Representantes Académicos(as) al Consejo de Facultad"
+      ]
+    },
+    {
+      "date": "2022-09-06",
+      "unit": "Facultad de Ciencias Agronómicas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Agroindustria y Enología",
+        "Director(a) de Departamento de Ciencias Ambientales y Recursos Naturales",
+        "Director(a) de Departamento de Gestión e Innovación Rural",
+        "Director(a) de Departamento de Ingeniería y Suelos",
+        "Director(a) de Departamento de Producción Agrícola",
+        "Director(a) de Departamento de Producción Animal",
+        "Director(a) de Departamento de Sanidad Vegetal"
+      ]
+    },
+    {
+      "date": "2022-09-05",
+      "unit": "Facultad de Filosofía y Humanidades",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Estudiantiles para el Consejo de la Escuela de Pregrado",
+        "Representantes Estudiantiles para el Consejo de la Escuela de Postgrado"
+      ]
+    },
+    {
+      "date": "2022-08-25",
+      "unit": "Facultad de Ciencias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Estudiantiles ante el Consejo de la Escuela de Pedagogías Científicas",
+        "Director(a) de Departamento de Biología",
+        "Director(a) de Departamento de Ciencias Ecológicas",
+        "Director(a) de Departamento de Física",
+        "Director(a) de Departamento de Matemáticas",
+        "Director(a) de Departamento de Química"
+      ]
+    },
+    {
+      "date": "2022-08-24",
+      "unit": "Facultad de Ciencias Físicas y Matemáticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Académicos(as) ante el Consejo Departamental de Astronomía",
+        "Representantes Académicos(as) ante el Consejo Departamental de Ciencias de la Computación",
+        "Representantes Académicos(as) ante el Consejo Departamental de Física",
+        "Representantes Académicos(as) ante el Consejo Departamental de Geofísica",
+        "Representantes Académicos(as) ante el Consejo Departamental de Geología",
+        "Representantes Académicos(as) ante el Consejo Departamental de Ingeniería Civil",
+        "Representantes Académicos(as) ante el Consejo Departamental de Ingeniería Matemática",
+        "Representantes Académicos(as) ante el Consejo Departamental de Ingeniería Mecánica",
+        "Representantes Académicos(as) ante el Consejo Departamental de Ingeniería de Minas",
+        "Representantes Académicos(as) ante el Consejo Departamental de Ingeniería Química, Biotecnología y Materiales"
+      ]
+    },
+    {
+      "date": "2022-08-17",
+      "unit": "Distintas Facultades",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Comisión Central de Recursos Humanos"
+      ]
+    },
+    {
+      "date": "2022-08-10",
+      "unit": "Facultad de Ciencias Físicas y Matemáticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Académicos(as) al Consejo de Facultad"
+      ]
+    },
+    {
+      "date": "2022-08-03",
+      "unit": "Distintas Facultades",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Senado Universitario (Académicos/as, Estudiantes y Funcionarios/as)"
+      ]
+    },
+    {
+      "date": "2022-07-18",
+      "unit": "Facultad de Derecho",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Estudiantiles ante el Consejo de Escuela de Pregrado"
+      ]
+    },
+    {
+      "date": "2022-07-07",
+      "unit": "Facultad de Ciencias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representante de Personal de Colaboración al Consejo de Facultad"
+      ]
+    },
+    {
+      "date": "2022-06-08",
+      "unit": "Facultad de Ciencias Físicas y Matemáticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Astronomía",
+        "Director(a) de Departamento de Ciencias de la Computación",
+        "Director(a) de Departamento de Física",
+        "Director(a) de Departamento de Geofísica",
+        "Director(a) de Departamento de Geología",
+        "Director(a) de Departamento de Ingeniería Civil",
+        "Director(a) de Departamento de Ingeniería de Minas",
+        "Director(a) de Departamento de Ingeniería Eléctrica",
+        "Director(a) de Departamento de Ingeniería Matemática",
+        "Director(a) de Departamento de Ingeniería Mecánica",
+        "Director(a) de Departamento de Ingeniería Química, Biotecnología y Materiales"
+      ]
+    },
+    {
+      "date": "2022-06-02",
+      "unit": "Distintas Facultades",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Decano/Decana Facultad de Arquitectura y Urbanismo",
+        "Decano/Decana Facultad de Ciencias",
+        "Decano/Decana Facultad de Ciencias Agronómicas",
+        "Decano/Decana Facultad de Ciencias Físicas y Matemáticas",
+        "Decano/Decana Facultad de Ciencias Forestales y de la Conservación de la Naturaleza",
+        "Decano/Decana Facultad de Ciencias Sociales",
+        "Decano/Decana Facultad de Ciencias Veterinarias y Pecuarias",
+        "Decano/Decana Facultad de Filosofía y Humanidades",
+        "Decano/Decana Facultad de Medicina",
+        "Decano/Decana Facultad de Odontología"
+      ]
+    },
+    {
+      "date": "2022-05-05",
+      "unit": "Instituto de Asuntos Públicos (INAP)",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Director(a) de Instituto"
+      ]
+    },
+    {
+      "date": "2022-04-08",
+      "unit": "Departamento de Evaluación, Medición y Registro Educacional (DEMRE)",
+      "typeUnit": "Unidad",
+      "elections": [
+        "Comité Paritario de Higiene y Seguridad DEMRE"
+      ]
+    },
+    {
+      "date": "2021-12-14",
+      "unit": "Facultad de Ciencias Físicas y Matemáticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Académicos(as) al Consejo del Departamento de Ingeniería Industrial"
+      ]
+    },
+    {
+      "date": "2021-12-03",
+      "unit": "Facultad de Economía y Negocios",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Economía"
+      ]
+    },
+    {
+      "date": "2021-11-17",
+      "unit": "Instituto de Estudios Internacionales",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Representantes Académicos(as) al Consejo de Instituto"
+      ]
+    },
+    {
+      "date": "2021-11-11",
+      "unit": "Asociación de Funcionarios Servicios Centrales",
+      "typeUnit": "Asociación",
+      "elections": [
+        "Directiva AFUCh Servicios Centrales"
+      ]
+    },
+    {
+      "date": "2021-11-09",
+      "unit": "Facultad de Ciencias Químicas y Farmacéuticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Ciencias y Tecnología Farmacéutica",
+        "Representantes Académicos(as) al Consejo del Departamento de Ciencias y Tecnología Farmacéutica",
+        "Director(a) de Departamento de Química Farmacológica y Toxicológica",
+        "Representantes Académicos(as) al Consejo del Departamento de Química Farmacológica y Toxicológica"
+      ]
+    },
+    {
+      "date": "2021-11-09",
+      "unit": "Facultad de Ciencias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Representantes Estudiantiles al Consejo de Escuela de Postgrado"
+      ]
+    },
+    {
+      "date": "2021-11-02",
+      "unit": "Facultad de Arquitectura y Urbanismo",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Diseño"
+      ]
+    },
+    {
+      "date": "2021-10-20",
+      "unit": "Instituto de Estudios Avanzados en Educación",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Representantes Académicos(as) al Consejo de Instituto",
+        "Representantes Académicos(as) al Consejo de Escuela de Postgrado"
+      ]
+    },
+    {
+      "date": "2021-10-05",
+      "unit": "Facultad de Ciencias Veterinarias y Pecuarias",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Ciencias Biológicas Animales",
+        "Director(a) de Departamento de Ciencias Clínicas",
+        "Director(a) de Departamento de Fomento de la Producción Animal",
+        "Director(a) de Departamento de Medicina Preventiva Animal",
+        "Director(a) de Departamento de Patología Animal",
+        "Representantes Académicos(as) al Consejo de Facultad"
+      ]
+    },
+    {
+      "date": "2021-09-27",
+      "unit": "Instituto de Asuntos Públicos",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Representantes Académicos(as) al Consejo de Instituto"
+      ]
+    },
+    {
+      "date": "2021-08-27",
+      "unit": "Facultad de Economía y Negocios",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Control de Gestión y Sistemas de Información"
+      ]
+    },
+    {
+      "date": "2021-08-25",
+      "unit": "Facultad de Ciencias Físicas y Matemáticas",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Ingeniería Industrial",
+        "Representantes Académicos(as) al Consejo de Departamento de Ingeniería Industrial"
+      ]
+    },
+    {
+      "date": "2021-07-26",
+      "unit": "Facultad de Ciencias Sociales",
+      "typeUnit": "Facultad",
+      "elections": [
+        "Director(a) de Departamento de Trabajo Social",
+        "Representantes Académicos(as) al Consejo de Departamento de Trabajo Social"
+      ]
+    },
+    {
+      "date": "2021-07-14",
+      "unit": "Instituto de Estudios Internacionales",
+      "typeUnit": "Instituto",
+      "elections": [
+        "Director(a) de Unidad Académica de Relaciones Jurídicas y Económicas Internacionales",
+        "Director(a) de Unidad Académica de Relaciones Internacionales y Políticas Públicas",
+        "Representantes Académicos(as) al Consejo de Instituto"
+      ]
+    }
+  ]
+}
