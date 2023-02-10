@@ -3,7 +3,7 @@ function QuestionHeader(props) {
     const questions = props.questions;
     let textAux = "(seleccionar ";
     if (questions.min_answers === questions.max_answers) {
-      if (questions.min_answers === 1) {
+      if (questions.min_answers === "1") {
         textAux = textAux + "solo " + questions.min_answers + " opción)";
       } else {
         textAux = textAux + "solo " + questions.min_answers + " opciones)";
