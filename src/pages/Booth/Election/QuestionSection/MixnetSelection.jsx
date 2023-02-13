@@ -159,6 +159,7 @@ function MixnetSelection(props) {
             </div>
 
             <AsyncSelect
+              name={`select-${index}`}
               defaultOptions={options}
               loadOptions={loadOptions}
               placeholder={placeHolder}

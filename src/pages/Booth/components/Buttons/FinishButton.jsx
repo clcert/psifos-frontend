@@ -8,6 +8,7 @@ function FinishButton(props) {
         props.action();
       }}
       className="button is-medium question-button proceed-button"
+      name="button-finish"
     >
       <span>FINALIZAR</span>
       <span className="icon is-small">
