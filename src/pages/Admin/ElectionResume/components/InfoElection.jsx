@@ -1,30 +1,9 @@
-import { useState, useEffect } from "react";
+import ResumeTable from "./ResumeTable";
 
 function InfoElection(props) {
   /**
    * Component containing the election information
    */
-
-  /** @state {int} number of voters in the election  */
-  const [totalVoters, setTotalVoters] = useState(0);
-
-  /** @state {int} number of votes in the election  */
-  const [totalVotes, setTotalVotes] = useState(0);
-
-  useEffect(() => {
-    if (props.weightsEnd && props.weightsInit) {
-      let aux_totalVoters = 0;
-      let aux_totalVotes = 0;
-
-      Object.keys(props.weightsInit).forEach((key) => {
-        aux_totalVoters += props.weightsInit[key];
-        aux_totalVotes += props.weightsEnd[key];
-      });
-
-      setTotalVoters(aux_totalVoters);
-      setTotalVotes(aux_totalVotes);
-    }
-  }, [props.weightsInit, props.weightsEnd]);
 
   if (props.totalVoters !== 0) {
     return (
@@ -37,30 +16,7 @@ function InfoElection(props) {
                 <div>
                   <h1 className="title is-size-4">Apertura de Urna</h1>
                 </div>
-
-                <div className="disable-text-selection row justify-content-md-center">
-                  <table
-                    id="resume-table"
-                    className="mt-2 table is-bordered is-hoverable voters-table"
-                  >
-                    <tbody>
-                      <tr>
-                        <td>Votos Recibidos</td>
-                        <td className="has-text-centered">{totalVotes}</td>
-                      </tr>
-                      <tr>
-                        <td>Total Padrón</td>
-                        <td className="has-text-centered">{totalVoters}</td>
-                      </tr>
-                      <tr>
-                        <td>Participación</td>
-                        <td className="has-text-centered">
-                          {((totalVotes / totalVoters) * 100).toFixed(2)}%
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <ResumeTable />
                 <div>
                   <h1 className="title is-size-4 pt-4">
                     Número de votantes por ponderación
