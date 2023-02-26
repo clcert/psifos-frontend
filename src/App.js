@@ -5,7 +5,6 @@ import VotersList from "./pages/Admin/VotersList/VotersList";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
 import Resultados from "./pages/Admin/Results/ResultsView";
 import Home from "./pages/Home/Home";
-import "bulma/css/bulma.min.css";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 import Login from "./pages/Admin/Login/Login";

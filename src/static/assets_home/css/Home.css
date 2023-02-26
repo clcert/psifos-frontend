@@ -720,6 +720,12 @@ div#preload {
   background-color: #d9e4ef;
 }
 
+/* Body */
+
+.body-content{
+  width: 50%;
+}
+
 /* 01: Instructions & Steps */
 .card-header-icon {
   padding-left: 0 !important;
@@ -909,7 +915,7 @@ input[type="radio"] {
     font-size: 3vw !important;
     margin-top: 0 !important;
   }
-  .form-election {
+  .body-content {
     width: 100% !important;
   }
   .navbar-menu {
@@ -1162,11 +1168,6 @@ input[type="radio"] {
   position: relative;
   vertical-align: top;
 }
-.link-button {
-  text-decoration: none;
-  color: white;
-}
-
 .pagination-previous:focus,
 .pagination-next:focus,
 .pagination-link:focus,
@@ -1545,7 +1546,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: "Arial", sans-serif !important;
+  font-family: Arial, sans-serif !important;
 }
 
 code,
@@ -6146,6 +6147,7 @@ button.dropdown-item.is-active {
   flex-shrink: 1;
   overflow: auto;
   padding: 20px;
+  border: 5px solid #00b6fe;
 }
 
 .navbar {
@@ -6809,14 +6811,6 @@ body.has-navbar-fixed-bottom {
   overflow-y: hidden;
 }
 
-.image-navbar-burger {
-  display: flex !important;
-}
-#image-navbar {
-  max-height: none;
-  width: 77vw;
-}
-
 .navbar-burger {
   color: #4a4a4a;
   cursor: pointer;
@@ -7071,10 +7065,6 @@ a.navbar-item.is-active,
 
   .navbar-burger {
     display: none;
-  }
-
-  .image-navbar-burger {
-    display: none !important;
   }
 
   .navbar-item,
@@ -12258,21 +12248,6 @@ a.has-text-danger-dark:focus {
 .section {
   padding: 3rem 1.5rem;
 }
-
-body::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
-}
-
-body::-webkit-scrollbar-track {
-  background: orange; /* color of the tracking area */
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: blue; /* color of the scroll thumb */
-  border-radius: 20px; /* roundness of the scroll thumb */
-  border: 3px solid orange; /* creates padding around scroll thumb */
-}
-
 @media screen and (min-width: 992px) {
   .section.is-medium {
     padding: 9rem 1.5rem;
@@ -13096,4 +13071,30 @@ Consult
 
 .loading-news img{
   max-width: 80px;
+}
+
+.button-undesigned{
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.link-button {
+  text-decoration: none;
+  color: white;
+}
+
+.image-navbar-burger {
+  display: flex !important;
+}
+#image-navbar {
+  max-height: none;
+  width: 77vw;
+}
+
+.image-navbar-burger {
+  display: none !important;
 }

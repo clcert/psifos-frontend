@@ -36,7 +36,7 @@ function Accordion(props) {
           data-action="collapse"
           className="card-header-icon is-hidden-fullscreen pt-0 pr-0 pb-0 accordion-a"
         >
-          <header className="card-header accordion-header">
+          <header className="card-header accordion-header p-2">
             <p className="card-header-title accordion-title mb-0">
               {props.election.short_name}
             </p>

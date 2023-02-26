@@ -99,7 +99,9 @@ function ValidatedVote(props) {
             <span className="icon is-small is-size-7-touch">
               <i className="fa-solid fa-file-arrow-down"></i>
             </span>
-            <span className="is-size-7-touch">DESCARGAR CERTIFICADO DE VOTO</span>
+            <span className="is-size-7-touch">
+              DESCARGAR CERTIFICADO DE VOTO
+            </span>
           </button>
           <p className="subtitle is-6 mt-3">
             El Certificado de Voto no permite conocer como votaste, sino que
@@ -117,7 +119,7 @@ function ValidatedVote(props) {
             id="back-vote-button"
           >
             <span className="icon is-small">
-              <i class="fa-solid fa-box-archive"></i>
+              <i className="fa-solid fa-box-archive"></i>
             </span>
             <span>VER URNA ELECTRÓNICA</span>
           </button>

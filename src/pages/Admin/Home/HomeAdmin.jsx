@@ -56,9 +56,9 @@ function HomeAdmin() {
         id="accordion-section"
       >
         {load ? (
-          <div className="home-admin-principal">
-            <div className="header-accordion mb-4 level">
-              <div className="level-left">
+          <div className="body-content home-admin-principal">
+            <div className="header-accordion mb-4">
+              <div className="d-flex">
                 {elections.length !== 0 && (
                   <input
                     className="home-admin-search level-item"
@@ -68,28 +68,31 @@ function HomeAdmin() {
                   />
                 )}
               </div>
-              <div className="level-right">
+              <div className="row mt-4">
                 {elections.length !== 0 && (
+                  <div className="col-sm d-flex justify-content-center mt-2">
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      className="link-button"
+                      to="/psifos/admin/general"
+                    >
+                      <Button className="button-custom ml-3 home-admin-button btn-fixed">
+                        Panel general
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+                <div className="col-sm d-flex justify-content-center mt-2">
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
                     className="link-button"
-                    to="/psifos/admin/general"
+                    to="/psifos/admin/create-election"
                   >
-                    <Button className="button-custom ml-3 home-admin-button level-item">
-                      Panel general
+                    <Button className="button-custom ml-3 home-admin-button btn-fixed">
+                      Crear Votación
                     </Button>
                   </Link>
-                )}
-
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  className="link-button"
-                  to="/psifos/admin/create-election"
-                >
-                  <Button className="button-custom ml-3 home-admin-button level-item">
-                    Crear Votación
-                  </Button>
-                </Link>
+                </div>
               </div>
             </div>
             <div className="home-admin-accordion-section">

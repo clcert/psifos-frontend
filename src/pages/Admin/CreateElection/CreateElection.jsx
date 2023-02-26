@@ -143,7 +143,7 @@ function CreateElection(props) {
         className="section columns is-flex is-vcentered is-centered mb-0 mt-3"
         id="create-election-section"
       >
-        <div className="form-election">
+        <div className="body-content">
           {alertMessage.length > 0 && (
             <div className="notification is-danger is-light">
               <button

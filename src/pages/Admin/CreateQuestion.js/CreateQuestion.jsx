@@ -240,30 +240,35 @@ function CreateQuestion(props) {
             );
           })}
 
-          <div className="columns is-centered mt-5 level">
-            <Button className="level-left mr-6">
-              <Link
-                style={{ textDecoration: "none", color: "#363636" }}
-                to={"/admin/" + uuid + "/panel"}
+          <div className="row is-centered mt-5">
+            <div className="col-sm d-flex justify-content-center mt-3">
+              <Button className="btn-fixed">
+                <Link
+                  style={{ textDecoration: "none", color: "#363636" }}
+                  to={"/admin/" + uuid + "/panel"}
+                >
+                  Volver inicio
+                </Link>
+              </Button>
+            </div>
+            <div className="col-sm d-flex justify-content-center mt-3">
+              <Button
+                disabled={disabledEdit}
+                className="btn-fixed"
+                onClick={() => addQuestion()}
               >
-                Volver inicio
-              </Link>
-            </Button>
-            <Button
-              disabled={disabledEdit}
-              className="level-center mr-6"
-              onClick={() => addQuestion()}
-            >
-              Añadir pregunta
-            </Button>
-
-            <Button
-              disabled={disabledEdit}
-              className="level-right"
-              onClick={() => sendQuestions()}
-            >
-              Guardar Preguntas
-            </Button>
+                Añadir pregunta
+              </Button>
+            </div>
+            <div className="col-sm d-flex justify-content-center mt-3">
+              <Button
+                disabled={disabledEdit}
+                className="btn-fixed"
+                onClick={() => sendQuestions()}
+              >
+                Guardar Preguntas
+              </Button>
+            </div>
           </div>
         </div>
       </section>
