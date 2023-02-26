@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getElectionPublic } from "../../../../services/election";
-import ResultTable from "./ResultTable";
+import ResumeTable from "../../ElectionResume/components/ResumeTable";
+import PsifosTable from "./PsifosTable";
 
 function Results(props) {
   /** @state {array} election results (resume) */
@@ -13,7 +14,6 @@ function Results(props) {
   const [questions, setQuestions] = useState([]);
 
   /** @state {bool} state of load info */
-
   const [load, setLoad] = useState(false);
 
   /** @urlParam {string} uuid of election */
@@ -24,13 +24,30 @@ function Results(props) {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
         if (jsonResponse.election_status === "Decryptions combined") {
-          setQuestions(JSON.parse(jsonResponse.questions));
-          setResults(JSON.parse(jsonResponse.result));
+          const questionsObject = JSON.parse(jsonResponse.questions);
+          const resultObject = JSON.parse(jsonResponse.result);
+          createResults(questionsObject, resultObject);
         }
       }
       setLoad(true);
     });
   }, [uuid]);
+
+  const createResults = (questionsObject, resultObject) => {
+    let result = [];
+    questionsObject.forEach((element, q_num) => {
+      let q_result = [];
+      element.closed_options.forEach((answer, index) => {
+        q_result.push({
+          Respuesta: answer,
+          Resultado: resultObject[q_num].ans_results[index],
+        });
+      });
+      result.push(q_result);
+    });
+    setResults(result);
+    setQuestions(questionsObject);
+  };
 
   useEffect(() => {
     getElectionResult();
@@ -39,7 +56,14 @@ function Results(props) {
     <>
       {!load && <div className="spinner-animation"></div>}
       {results.length > 0 && load && (
-        <>
+        <div>
+          <div class="d-flex justify-content-center">
+            <h1 className="title is-size-3">Resumen elección</h1>
+          </div>
+          <ResumeTable className="pt-4" />
+          <div class="d-flex justify-content-center py-4">
+            <h2 className="title is-size-4">Resultados por pregunta</h2>
+          </div>
           {questions.map((question, index) => {
             return (
               <div key={index}>
@@ -52,13 +76,28 @@ function Results(props) {
                   </b>
                   <br />
                 </div>
-                <div className="disable-text-selection row justify-content-md-center">
-                  <ResultTable result={results[index]} question={question} />
+                <div className="disable-text-selection justify-content-md-center">
+                  <div className="columns">
+                    <div className="column justify-content-center">
+                      <PsifosTable
+                        data={
+                          questions[index].include_blank_null === "True"
+                            ? results[index].slice(0, -2)
+                            : results[index]
+                        }
+                      />
+                    </div>
+                    {questions[index].include_blank_null === "True" && (
+                      <div className="column justify-content-center">
+                        <PsifosTable data={results[index].slice(-2)} />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
           })}
-        </>
+        </div>
       )}
       {results.length === 0 && load && (
         <>
