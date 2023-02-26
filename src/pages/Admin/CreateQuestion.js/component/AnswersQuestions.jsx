@@ -31,7 +31,10 @@ function AnswersQuestions(props) {
     const input = document.getElementById("fileinput");
     var reader = new FileReader();
     reader.onload = function () {
-      const newAns = reader.result.split("\n");
+      let newAns = reader.result.split("\n");
+      newAns = newAns.filter((element) => {
+        return element !== "";
+      });
       let auxQuestion = props.question;
       auxQuestion.closed_options = newAns;
       props.updateQuestions(props.questionId, auxQuestion);
