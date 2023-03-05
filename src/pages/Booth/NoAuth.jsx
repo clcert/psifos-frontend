@@ -21,7 +21,7 @@ function NoAuth(props) {
         </div>
 
         <div className="d-flex justify-content-center pb-3">
-          <button className="button review-buttons previous-button has-text-white has-text-weight-bold">
+          <button className="btn-fixed button review-buttons previous-button has-text-white has-text-weight-bold">
             <Link style={{ textDecoration: "none", color: "white" }} to="/">
               <span>Ir al inicio</span>
             </Link>
@@ -30,7 +30,7 @@ function NoAuth(props) {
             onClick={() => {
               window.location.href = props.adressLogout;
             }}
-            className="button review-buttons previous-button has-text-white has-text-weight-bold ml-3"
+            className="btn-fixed button review-buttons previous-button has-text-white has-text-weight-bold ml-3"
           >
             <span>Cerrar Sesión</span>
           </button>

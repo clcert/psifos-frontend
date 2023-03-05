@@ -8,7 +8,7 @@ function SubNavbar(props) {
     <section className="subnavbar-section mb-3">
       <div className="subnavbar columns is-flex is-centered">
         <div className="subnavbar-inner pt-2">
-          <div className="container subnavbar-items columns is-centered pb-2 pt-2">
+          <div className="container subnavbar-items columns is-centered pt-2">
             <ItemNavbar
               active={props.active !== 0}
               to={"/psifos/admin/home"}

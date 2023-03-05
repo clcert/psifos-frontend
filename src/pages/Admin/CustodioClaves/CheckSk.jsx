@@ -69,7 +69,7 @@ function CheckSk(props) {
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
-          <p className="has-text-white">Inserte su clave privada aquí</p>
+          <h4 className="has-text-white">Inserte su clave privada aquí</h4>
 
           <textarea
             className="textarea mb-3"
@@ -78,7 +78,7 @@ function CheckSk(props) {
             onChange={(e) => setSecretKey(e.target.value)}
           ></textarea>
           <p className="has-text-white">{feedbackMessage}</p>
-          <button id="button-init" className="button mr-5">
+          <button id="button-init" className="btn-fixed button mr-5">
             <Link
               style={{ textDecoration: "None", color: "black" }}
               to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
@@ -88,7 +88,7 @@ function CheckSk(props) {
           </button>
           <button
             id="button-init"
-            className="button mr-5"
+            className="btn-fixed button mr-5"
             onClick={() => check_sk()}
           >
             Verificar

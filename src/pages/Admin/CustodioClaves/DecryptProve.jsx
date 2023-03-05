@@ -94,8 +94,6 @@ function DecryptProve(props) {
       return q_tally.doDecrypt(electionPk, secret_key);
     });
 
-    console.log(tally_factors_and_proof)
-
     let final_json = {
       decryptions: tally_factors_and_proof,
     };
@@ -145,34 +143,6 @@ function DecryptProve(props) {
       do_tally();
     }
   }, [generateDecrypt, do_tally]);
-
-  // function decrypt_open_answers(mixnet_open_answers, public_key, secret_key) {
-  //   let open_answers = JSON.parse(mixnet_open_answers)["open_answers"];
-  //   let decryption_factors = [];
-  //   let decryption_proofs = [];
-  //   open_answers.forEach(function (q_open_answers, q_num) {
-  //     decryption_factors[q_num] = [];
-  //     decryption_proofs[q_num] = [];
-
-  //     q_open_answers["answers"].forEach(function (enc_ans, ans_num) {
-  //       let enc_ans_ciphertext = ElGamal.Ciphertext.fromJSONObject(
-  //         enc_ans,
-  //         public_key
-  //       );
-  //       let ans_result = secret_key.decryptionFactorAndProof(
-  //         enc_ans_ciphertext,
-  //         ElGamal.fiatshamir_challenge_generator
-  //       );
-  //       decryption_factors[q_num][ans_num] = ans_result.decryption_factor;
-  //       decryption_proofs[q_num][ans_num] =
-  //         ans_result.decryption_proof.toJSONObject();
-  //     });
-  //   });
-  //   return {
-  //     decryption_factors: decryption_factors,
-  //     decryption_proofs: decryption_proofs,
-  //   };
-  // }
 
   return (
     <div id="content-trustees">
@@ -234,11 +204,11 @@ function DecryptProve(props) {
                     setFeedbackMessage("Generando desencriptado parcial...");
                   }}
                 >
-                  Generar desencriptado parcial
+                  Generar desencriptación
                 </button>
               ) : (
                 <button
-                  className="button mr-2"
+                  className="btn-fixed button mr-2"
                   onClick={() => {
                     sendDescrypt();
                   }}

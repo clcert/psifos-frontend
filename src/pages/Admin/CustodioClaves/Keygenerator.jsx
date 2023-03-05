@@ -294,9 +294,7 @@ function Keygenerator(props) {
           const randomness = data_randomnes;
           sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
-            helios_c.params = ElGamal.Params.fromJSONObject(
-              JSON.parse(params)
-            );
+            helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
             helios_c.params.trustee_id = trustee.trustee_id;
             helios_c.certificates = JSON.parse(data_step.certificates);
             COEFFICIENTS = JSON.parse(data_step.coefficents);
@@ -373,14 +371,12 @@ function Keygenerator(props) {
   }
 
   function set_step_init(step) {
-    if (step >= 0) {
-      if (step === 4) {
-        setEnabledButtonInit(false);
-        setProcessFeedback("Proceso terminado!");
-      } else {
-        setTextButtonInit("Continuar proceso");
-        setProcessFeedback(`Actualmente se esta en el paso ${step}`);
-      }
+    if (step === 4) {
+      setEnabledButtonInit(false);
+      setProcessFeedback("Proceso terminado!");
+    } else if (step < 4) {
+      if (step !== 0) setTextButtonInit("Continuar proceso");
+      setProcessFeedback(`Actualmente se esta en el paso ${step}`);
     }
   }
 
@@ -593,7 +589,7 @@ function Keygenerator(props) {
             {processFeedback}
           </div>
           <br />
-          <button id="button-init" className="button mr-5">
+          <button id="button-init" className="btn-fixed button mr-5">
             <Link
               style={{ textDecoration: "None", color: "black" }}
               to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
@@ -602,12 +598,12 @@ function Keygenerator(props) {
             </Link>
           </button>
           {actualStep === 4 ? (
-            <button id="button-init" className="button mr-5">
+            <button id="button-init" className="btn-fixed button mr-5">
               <Link
                 style={{ textDecoration: "None", color: "black" }}
                 to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
               >
-                Verificar clave privada
+                Verificar clave
               </Link>
             </button>
           ) : (
