@@ -231,7 +231,7 @@ function CreateElection(props) {
 
           <div className="field">
             <label className="label label-form-election">
-              Peso maximo de los votantes
+              Peso máximo de los votantes
             </label>
             <div className="control">
               <input
@@ -327,40 +327,42 @@ function CreateElection(props) {
               máximo de votantes
             </p>
           </div>
-          <div className="level">
-            <Link
-              className="link-button"
-              style={{ color: "white" }}
-              to={
-                props.edit
-                  ? "/psifos/admin/" + uuid + "/panel"
-                  : "/psifos/admin/home"
-              }
-            >
-              <Button className="button-custom mr-2 ml-2 level-left">
-                Atras
-              </Button>
-            </Link>
-            {props.edit ? (
-              <Button
-                disabled={disabledEdit}
-                onClick={() => {
-                  sendElection("/edit-election/" + uuid);
-                }}
-                className="button-custom mr-2 ml-2 level-right"
+          <div className="row">
+            <div className="col-6 d-inline-flex justify-content-start">
+              <Link
+                className="link-button"
+                style={{ color: "white" }}
+                to={
+                  props.edit
+                    ? "/psifos/admin/" + uuid + "/panel"
+                    : "/psifos/admin/home"
+                }
               >
-                Editar Elección
-              </Button>
-            ) : (
-              <Button
-                onClick={() => {
-                  sendElection("/create-election");
-                }}
-                className="button-custom mr-2 ml-2 level-right"
-              >
-                Crear elección
-              </Button>
-            )}
+                <Button className="btn-fixed button-custom">Volver</Button>
+              </Link>
+            </div>
+            <div className="col-6 d-inline-flex justify-content-end">
+              {props.edit ? (
+                <Button
+                  disabled={disabledEdit}
+                  onClick={() => {
+                    sendElection("/edit-election/" + uuid);
+                  }}
+                  className="btn-fixed button-custom"
+                >
+                  Editar Elección
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    sendElection("/create-election");
+                  }}
+                  className="btn-fixed button-custom"
+                >
+                  Crear elección
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </section>

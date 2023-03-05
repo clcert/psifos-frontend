@@ -11,10 +11,16 @@ function UrnaTable(props) {
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
   const { uuid } = useParams();
 
+  const openWindowVote = (voteHash) => {
+    window.open(
+      `${backendInfoIp}/election/${uuid}/cast-vote/${encodeURIComponent(
+        voteHash
+      )}`,
+      "_blank"
+    );
+  };
   return (
-    <Table
-      className="pretty table is-bordered is-hoverable voters-table"
-    >
+    <Table className="pretty table is-bordered is-hoverable voters-table">
       <Thead>
         <Tr>
           <Th className="has-text-centered">Ponderador</Th>
@@ -52,14 +58,12 @@ function UrnaTable(props) {
                 {voterHash !== "-" ? (
                   <div
                     onClick={() => {
-                      window.location.href = `${backendInfoIp}/election/${uuid}/cast-vote/${encodeURIComponent(
-                        voter.cast_vote.vote_hash
-                      )}`;
+                      openWindowVote(voter.cast_vote.vote_hash);
                     }}
                     className="button-redirect-vote ml-2 mr-2"
                   >
                     <i className="fa-solid fa-check-to-slot mr-1"></i>
-                    Ver voto
+                    Ver Voto Encriptado
                   </div>
                 ) : (
                   "-"

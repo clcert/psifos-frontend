@@ -918,9 +918,7 @@ input[type="radio"] {
   .body-content {
     width: 100% !important;
   }
-  .navbar-menu {
-    width: 90vw;
-  }
+
 }
 
 .left-button-column {
@@ -6971,7 +6969,7 @@ a.navbar-item.is-active,
 
   .navbar-menu {
     background-color: white;
-    box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+    box-shadow: none !important;
     padding: 0.5rem 0;
   }
   .navbar-menu.is-active {

@@ -18,8 +18,9 @@ function InputRadio(props) {
           return (
             <div key={index}>
               <label
+                key={index}
                 className={
-                  "radio question-answer pl-3 pr-2 py-2 " +
+                  "d-inline-flex align-items-center radio question-answer px-3 py-2 " +
                   (props.answers.includes(index) ? "answer-selected" : "")
                 }
               >

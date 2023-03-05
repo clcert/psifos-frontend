@@ -70,7 +70,7 @@ function HomeAdmin() {
               </div>
               <div className="row mt-4">
                 {elections.length !== 0 && (
-                  <div className="col-sm d-flex justify-content-center mt-2">
+                  <div className="col-6 d-inline-flex justify-content-start mt-2">
                     <Link
                       style={{ textDecoration: "none", color: "white" }}
                       className="link-button"
@@ -82,7 +82,7 @@ function HomeAdmin() {
                     </Link>
                   </div>
                 )}
-                <div className="col-sm d-flex justify-content-center mt-2">
+                <div className="col-6 d-inline-flex justify-content-end mt-2">
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
                     className="link-button"

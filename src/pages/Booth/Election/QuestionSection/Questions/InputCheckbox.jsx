@@ -1,4 +1,11 @@
 function InputCheckbox(props) {
+  const disabledCondition = (index) => {
+    return (
+      parseInt(props.question.max_answers) === props.answers.length &&
+      !props.answers.includes(index)
+    );
+  };
+
   function addAnswer(event, index) {
     let value = parseInt(event.target.value);
     let answersAux = [...props.answers];
@@ -34,19 +41,20 @@ function InputCheckbox(props) {
             <div key={index}>
               <label
                 className={
-                  "checkbox question-answer pl-3 p-2 " +
+                  "d-inline-flex align-items-center checkbox question-answer px-3 py-2 " +
                   (props.answers.includes(index) ? "answer-selected" : "")
                 }
               >
                 <input
                   type="checkbox"
-                  className="ballot_answer custom-answer"
+                  className="custom-answer"
                   value={index}
                   checked={props.answers.includes(index) || false}
                   onChange={(e) => {
                     let ans = addAnswer(e, props.index);
                     props.addAnswer(ans, props.index);
                   }}
+                  disabled={disabledCondition(index)}
                 />
                 <span className="is-size-5">{key}</span>
               </label>

@@ -10,10 +10,13 @@ function InputSelection(props) {
   const [blankButton, setBlankButton] = useState(false);
 
   const [answers, setAnswers] = useState([]);
+  const isMultipleSelection =
+    props.question.min_answers === "1" && props.question.max_answers === "1";
 
   function nullVote(event) {
     if (event.target.checked) {
       setNullButton(true);
+      setBlankButton(false);
       setAnswers([props.question.closed_options.length - 1]);
       props.addAnswer([props.question.closed_options.length - 1], props.index);
     }
@@ -22,6 +25,7 @@ function InputSelection(props) {
   function blankVote(event) {
     if (event.target.checked) {
       setBlankButton(true);
+      setNullButton(false);
       setAnswers([props.question.closed_options.length - 2]);
       props.addAnswer([props.question.closed_options.length - 2], props.index);
     }
@@ -30,8 +34,7 @@ function InputSelection(props) {
   return (
     <div>
       <div>
-        {props.question.min_answers === "1" &&
-        props.question.max_answers === "1" ? (
+        {isMultipleSelection ? (
           <InputRadio
             index={props.index}
             election={props.election}
@@ -62,10 +65,15 @@ function InputSelection(props) {
         <>
           {" "}
           <div>
-            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+            <label
+              className={
+                "d-inline-flex align-items-center radio question-answer px-3 py-2 " +
+                (blankButton ? "answer-selected" : "")
+              }
+            >
               <input
                 className="custom-answer"
-                type="radio"
+                type={isMultipleSelection ? "radio" : "checkbox"}
                 id="white"
                 name={"answer_" + props.index}
                 checked={blankButton}
@@ -77,10 +85,15 @@ function InputSelection(props) {
             </label>
           </div>
           <div>
-            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+            <label
+              className={
+                "d-inline-flex align-items-center radio question-answer px-3 py-2 " +
+                (nullButton ? "answer-selected" : "")
+              }
+            >
               <input
                 className="custom-answer"
-                type="radio"
+                type={isMultipleSelection ? "radio" : "checkbox"}
                 id="null"
                 name={"answer_" + props.index}
                 checked={nullButton}

@@ -48,7 +48,7 @@ function ModalDeleteElection(props) {
               onClick={
                 electionDelete
                   ? () => {
-                      window.location.href = frontIP + "/admin/home";
+                      window.location.href = frontIP + "psifos/admin/home";
                     }
                   : props.onHide
               }

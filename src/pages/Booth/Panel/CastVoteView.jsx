@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Button } from "react-bulma-components";
 import { useParams, useSearchParams } from "react-router-dom";
-import { backendInfoIp } from "../../../server";
 import { getElectionInfo, getVotesInfo } from "../../../services/info";
 import UrnaTable from "./components/UrnaTable";
 
@@ -13,14 +12,18 @@ function CastVoteView() {
     actualPage: 0,
   });
   const [loadData, setLoadData] = useState(false);
-  const [lengthPage] = useState(50);
+  const [disabledNext, setDisabledNext] = useState(false);
+  const [disabledPrevious, setDisabledPrevious] = useState(true);
+
   const [searchParams] = useSearchParams();
   const { uuid } = useParams();
+
+  const lengthPage = 50;
 
   const hashUrl =
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
 
-  useEffect(() => {
+  function getDataVotes() {
     getVotesInfo(
       uuid,
       electionData.actualPage * lengthPage,
@@ -28,15 +31,22 @@ function CastVoteView() {
       hashUrl
     ).then((dataVotes) => {
       getElectionInfo(uuid).then((dataElection) => {
+        const page = Math.floor(dataVotes.position / lengthPage);
+        setDisabledPrevious(page === 0 ? true : false);
+
         setElectionData({
           ...electionData,
           election: dataElection,
           electionVoters: dataVotes.voters,
-          actualPage: Math.floor(dataVotes.position / lengthPage),
+          actualPage: page,
         });
         setLoadData(true);
       });
     });
+  }
+
+  useEffect(() => {
+    getDataVotes();
   }, []);
 
   function changePage(number) {
@@ -46,15 +56,21 @@ function CastVoteView() {
 
     const newPage = electionData.actualPage + number;
     if (newPage >= 0) {
-      (uuid, newPage * lengthPage, lengthPage, "").then((dataVotes) => {
-        if (dataVotes.cast_vote.length !== 0) {
-          setElectionData({
-            ...electionData,
-            electionVoters: dataVotes.voters,
-            actualPage: newPage,
-          });
+      getVotesInfo(uuid, newPage * lengthPage, lengthPage, "").then(
+        (dataVotes) => {
+          if (dataVotes.voters.length !== 0) {
+            setDisabledNext(false);
+            setDisabledPrevious(newPage === 0 ? true : false);
+            setElectionData({
+              ...electionData,
+              electionVoters: dataVotes.voters,
+              actualPage: newPage,
+            });
+          } else {
+            setDisabledNext(true);
+          }
         }
-      });
+      );
     }
   }
 
@@ -64,31 +80,31 @@ function CastVoteView() {
         <>
           {electionData.electionVoters.length !== 0 ? (
             <div className="urna-table" style={{ maxWidth: "100%" }}>
-              <nav
-                className="pagination is-centered pt-6"
-                role="navigation"
-                aria-label="pagination"
-              >
-                <Button
-                  onClick={() => {
-                    changePage(-1);
-                  }}
-                  className="button-custom"
-                >
-                  Previo
-                </Button>
-
-                <Button
-                  onClick={() => {
-                    changePage(1);
-                  }}
-                  className="button-custom"
-                >
-                  Siguiente
-                </Button>
-              </nav>
-
-              <div >
+              <div class="row">
+                <div class="col-6 d-flex align-self-start">
+                  <Button
+                    onClick={() => {
+                      changePage(-1);
+                    }}
+                    className="button-custom btn-fixed"
+                    disabled={disabledPrevious}
+                  >
+                    Previo
+                  </Button>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                  <Button
+                    onClick={() => {
+                      changePage(1);
+                    }}
+                    className="button-custom btn-fixed"
+                    disabled={disabledNext}
+                  >
+                    Siguiente
+                  </Button>
+                </div>
+              </div>
+              <div>
                 <UrnaTable electionData={electionData} />
               </div>
             </div>

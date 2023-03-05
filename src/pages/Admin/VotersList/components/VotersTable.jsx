@@ -132,41 +132,35 @@ function VotersTable(props) {
             </>
           )}
         </p>
+        <div className="row mt-4">
+          <div className="col-6">
+            <Button
+              className="btn-fixed button-custom"
+              disabled={previousDisabled}
+              onClick={() => {
+                if (!previousDisabled) {
+                  buttonAction(-1);
+                }
+              }}
+            >
+              Previo
+            </Button>
+          </div>
+          <div className="col-6 d-inline-flex justify-content-end">
+            <Button
+              className="btn-fixed button-custom"
+              disabled={nextDisabled}
+              onClick={() => {
+                if (!nextDisabled) {
+                  buttonAction(1);
+                }
+              }}
+            >
+              Siguiente
+            </Button>
+          </div>
+        </div>
 
-        <nav
-          className="pagination is-centered pt-6"
-          role="navigation"
-          aria-label="pagination"
-        >
-          <Button
-            className="button-custom"
-            disabled={previousDisabled}
-            onClick={() => {
-              if (!previousDisabled) {
-                buttonAction(-1);
-              }
-            }}
-          >
-            Previo
-          </Button>
-
-          <Button
-            className="button-custom pagination-next"
-            disabled={nextDisabled}
-            onClick={() => {
-              if (!nextDisabled) {
-                buttonAction(1);
-              }
-            }}
-          >
-            Siguiente
-          </Button>
-
-          <ul className="pagination-list">
-            Papeletas {actualPage * maxForPage + 1} -{" "}
-            {actualPage * maxForPage + voters.length} (de {totalVoters})
-          </ul>
-        </nav>
         <div>
           <Table className="pretty table is-bordered is-hoverable voters-table">
             <Thead>

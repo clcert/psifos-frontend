@@ -45,18 +45,12 @@ function QuestionElection(props) {
      * Empty arrays are included in each response
      */
     let answersAux = [];
-    for (let i = 0; i < props.questions.length; i++) {
+    props.questions.forEach((actualQuestion, index) => {
       let auxArray = [];
-      const actualQuestion = props.questions[i];
-      if (actualQuestion.include_blank_null === "True") {
-        for (let j = 0; j < parseInt(actualQuestion.max_answers); i++) {
-          auxArray.push(1);
-        }
-        answersAux[i] = auxArray;
-      }
-    }
+      answersAux[index] = auxArray;
+    });
     setAnswers(answersAux);
-  }, []);
+  }, [props.questions]);
 
   function createMessageAlert(min, max) {
     /**

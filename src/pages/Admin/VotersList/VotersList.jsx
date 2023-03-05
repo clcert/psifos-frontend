@@ -79,7 +79,7 @@ function VotersList() {
               {!electionOpenReg && (
                 <>
                   <Button
-                    className="button-custom ml-3"
+                    className="btn-fixed button-custom ml-3"
                     onClick={() => {
                       setUploadModal(true);
                     }}
