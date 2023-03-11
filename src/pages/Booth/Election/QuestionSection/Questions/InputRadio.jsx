@@ -16,7 +16,7 @@ function InputRadio(props) {
           index < props.question.closed_options.length - 2
         )
           return (
-            <div key={index}>
+            <div key={index} className="mt-2">
               <label
                 key={index}
                 className={

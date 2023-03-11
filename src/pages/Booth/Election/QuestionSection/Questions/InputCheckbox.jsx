@@ -38,7 +38,7 @@ function InputCheckbox(props) {
           index < props.question.closed_options.length - 2
         ) {
           return (
-            <div key={index}>
+            <div key={index} className="mt-2">
               <label
                 className={
                   "d-inline-flex align-items-center checkbox question-answer px-3 py-2 " +
