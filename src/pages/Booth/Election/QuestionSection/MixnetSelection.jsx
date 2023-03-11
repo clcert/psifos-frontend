@@ -158,6 +158,7 @@ function MixnetSelection(props) {
             </div>
 
             <AsyncSelect
+              isDisabled={answersSelected.length < index}
               name={`select-${index}`}
               defaultOptions={options}
               loadOptions={loadOptions}
