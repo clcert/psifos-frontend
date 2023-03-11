@@ -4,13 +4,11 @@ function DescriptionModal(props) {
       <div className="modal-background" onClick={props.onHide}></div>
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">{props.election.short_name}</h1>
+          <h1 className="title">{props.election.name}</h1>
           <p className="has-text-weight-bold">
             Bienvenido a la elección {props.election.short_name}
           </p>
-          <p>
-            {props.election.description}
-          </p>
+          <p>{props.election.description}</p>
           <div className="py-1">
             <span className="icon">
               <i className="fab fa-whatsapp"></i>
