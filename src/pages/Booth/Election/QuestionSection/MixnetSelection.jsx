@@ -156,18 +156,21 @@ function MixnetSelection(props) {
             <div className="mb-2">
               <span className="has-text-white">Opción {index + 1}:</span>
             </div>
-
-            <AsyncSelect
-              isDisabled={answersSelected.length < index}
-              name={`select-${index}`}
-              defaultOptions={options}
-              loadOptions={loadOptions}
-              placeholder={placeHolder}
-              value={answersSelected[index] ? answersSelected[index] : ""}
-              onChange={(event) => {
-                selectAnswers(event, index);
-              }}
-            />
+            <div
+              className={answersSelected.length < index ? "not-clickable" : ""}
+            >
+              <AsyncSelect
+                isDisabled={answersSelected.length < index}
+                name={`select-${index}`}
+                defaultOptions={options}
+                loadOptions={loadOptions}
+                placeholder={placeHolder}
+                value={answersSelected[index] ? answersSelected[index] : ""}
+                onChange={(event) => {
+                  selectAnswers(event, index);
+                }}
+              />
+            </div>
           </div>
         );
       })}
