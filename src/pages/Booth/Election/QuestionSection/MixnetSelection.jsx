@@ -143,7 +143,6 @@ function MixnetSelection(props) {
     setNullButton(event.target.checked);
     setBlankButton(false);
     changeAllEncrypted(props.question.closed_options.length + 1);
-    setPlaceHolder("===========================/===========================");
     if (event.target.checked) {
       deleteOptions();
     }
@@ -157,17 +156,21 @@ function MixnetSelection(props) {
             <div className="mb-2">
               <span className="has-text-white">Opción {index + 1}:</span>
             </div>
-
-            <AsyncSelect
-              name={`select-${index}`}
-              defaultOptions={options}
-              loadOptions={loadOptions}
-              placeholder={placeHolder}
-              value={answersSelected[index] ? answersSelected[index] : ""}
-              onChange={(event) => {
-                selectAnswers(event, index);
-              }}
-            />
+            <div
+              className={answersSelected.length < index ? "not-clickable" : ""}
+            >
+              <AsyncSelect
+                isDisabled={answersSelected.length < index}
+                name={`select-${index}`}
+                defaultOptions={options}
+                loadOptions={loadOptions}
+                placeholder={placeHolder}
+                value={answersSelected[index] ? answersSelected[index] : ""}
+                onChange={(event) => {
+                  selectAnswers(event, index);
+                }}
+              />
+            </div>
           </div>
         );
       })}
@@ -176,7 +179,13 @@ function MixnetSelection(props) {
         <>
           {" "}
           <div>
-            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+            <label
+              id=""
+              className={
+                "d-inline-flex align-items-center radio question-answer px-3 py-2  " +
+                (blankButton ? "answer-selected" : "")
+              }
+            >
               <input
                 className="custom-answer"
                 type="radio"
@@ -191,7 +200,13 @@ function MixnetSelection(props) {
             </label>
           </div>
           <div>
-            <label id="" className={"radio question-answer pl-3 pr-2 py-2 "}>
+            <label
+              id=""
+              className={
+                "d-inline-flex align-items-center radio question-answer px-3 py-2  " +
+                (nullButton ? "answer-selected" : "")
+              }
+            >
               <input
                 className="custom-answer"
                 type="radio"

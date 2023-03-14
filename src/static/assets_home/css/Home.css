@@ -10109,6 +10109,10 @@ a.has-text-danger-dark:focus {
   pointer-events: all !important;
 }
 
+.not-clickable{
+  cursor: not-allowed !important;
+}
+
 .is-clipped {
   overflow: hidden !important;
 }

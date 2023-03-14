@@ -81,7 +81,7 @@ function CabinaElection(props) {
       component: <EncryptingCharging />,
     },
     3: {
-      sectionClass: "parallax-03",
+      sectionClass: "parallax-02",
       stage: 2,
       component: (
         <>
@@ -116,7 +116,7 @@ function CabinaElection(props) {
     },
 
     4: {
-      sectionClass: "parallax-05",
+      sectionClass: "parallax-02",
       stage: 3,
       component: (
         <>
@@ -129,7 +129,7 @@ function CabinaElection(props) {
       ),
     },
     5: {
-      sectionClass: "parallax-03",
+      sectionClass: "parallax-02",
       stage: 4,
       component: (
         <AuditSection

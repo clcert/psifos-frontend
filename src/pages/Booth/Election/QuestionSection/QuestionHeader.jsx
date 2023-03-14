@@ -8,27 +8,33 @@ function QuestionHeader(props) {
       } else {
         textAux = textAux + "solo " + questions.min_answers + " opciones)";
       }
-    }
-    else{
-      textAux = textAux + "entre " + questions.min_answers + " y " + questions.max_answers + " opciones)";
+    } else {
+      textAux =
+        textAux +
+        "entre " +
+        questions.min_answers +
+        " y " +
+        questions.max_answers +
+        " opciones)";
     }
 
     return textAux;
   };
 
   return (
-    <>
+    <div>
       <p className="subtitle is-italic mb-0">
         {"Pregunta " +
           (props.actualQuestion + 1) +
           " de " +
           props.totalQuestions}
       </p>
-      <p className="title is-4 has-text-black pt-6">
-        {props.questions.q_text}
-      </p>
+      <p className="title is-4 has-text-black pt-6">{props.questions.q_text}</p>
       <p className="subtitle is-italic">{generateText()}</p>
-    </>
+      {props.questions.q_description && (
+        <p className="subtitle is-italic">{props.questions.q_description}</p>
+      )}
+    </div>
   );
 }
 
