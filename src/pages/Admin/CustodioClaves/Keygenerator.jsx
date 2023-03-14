@@ -589,35 +589,38 @@ function Keygenerator(props) {
             {processFeedback}
           </div>
           <br />
-          <button id="button-init" className="btn-fixed button mr-5">
-            <Link
-              style={{ textDecoration: "None", color: "black" }}
-              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
-            >
-              Volver atrás
-            </Link>
-          </button>
-          {actualStep === 4 ? (
-            <button id="button-init" className="btn-fixed button mr-5">
+          <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
+            <button id="button-init" className="button mr-5 mt-2">
               <Link
                 style={{ textDecoration: "None", color: "black" }}
-                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
+                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
               >
-                Verificar clave
+                Volver atrás
               </Link>
             </button>
-          ) : (
-            <button
-              className="button mr-5"
-              disabled={!enabledButtonInit}
-              onClick={() => {
-                init_process();
-              }}
-            >
-              {textButtonInit}
-            </button>
-          )}
-          {/* <button
+            {actualStep === 4 ? (
+              <button id="button-init" className="button mr-5 mt-2">
+                <Link
+                  style={{ textDecoration: "None", color: "black" }}
+                  to={
+                    "/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"
+                  }
+                >
+                  Verifica tu Clave Privada
+                </Link>
+              </button>
+            ) : (
+              <button
+                className="button mr-5 mt-2"
+                disabled={!enabledButtonInit}
+                onClick={() => {
+                  init_process();
+                }}
+              >
+                {textButtonInit}
+              </button>
+            )}
+            {/* <button
             className="button mr-5"
             disabled={!enabledButtonInit}
             onClick={() => {
@@ -626,6 +629,7 @@ function Keygenerator(props) {
           >
             {textButtonInit}
           </button> */}
+          </div>
         </div>
       </section>
       <div>

@@ -66,7 +66,7 @@ function DecryptProve(props) {
       body: descriptions,
     });
     if (response.status === 200) {
-      setFeedbackMessage("Información enviada");
+      setFeedbackMessage("Desencriptación Parcial enviada Exitosamente");
       const jsonResponse = await response.json();
       return jsonResponse;
     } else {
@@ -144,6 +144,16 @@ function DecryptProve(props) {
     }
   }, [generateDecrypt, do_tally]);
 
+  function filesToString() {
+    const input = document.getElementById("fileinput");
+    var reader = new FileReader();
+    reader.onload = function () {
+      let secretKey = reader.result;
+      setSecretKey(secretKey);
+    };
+    reader.readAsText(input.files[0]);
+  }
+
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
@@ -176,18 +186,20 @@ function DecryptProve(props) {
 
           <div id="sk_section">
             <h3>Sube su clave secreta</h3>
-            <textarea
-              onChange={(e) => {
-                setSecretKey(e.target.value);
-              }}
-              className="textarea"
+            <input
+              onChange={(e) => setSecretKey(e.target.value)}
+              value={secretKey}
+              className="input mb-2"
               placeholder="Clave secreta"
               disabled={generateDecrypt}
-            ></textarea>
+            />
+            <div className="d-flex has-text-white mt-2">
+              <input id="fileinput" type="file" onChange={filesToString} />
+            </div>
             <div className="mt-2">{feedbackMessage}</div>
 
-            <div className="mt-4">
-              <button className="button mr-2">
+            <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
+              <button className="button mr-2 mt-2">
                 <Link
                   style={{ textDecoration: "None", color: "black" }}
                   to={`/psifos/${uuid}/trustee/${uuidTrustee}/home`}
@@ -197,7 +209,7 @@ function DecryptProve(props) {
               </button>
               {!tallyReady ? (
                 <button
-                  className="button mr-2"
+                  className="button mr-2 mt-2"
                   disabled={generateDecrypt}
                   onClick={() => {
                     setGenerateDecrypt(true);
@@ -208,7 +220,7 @@ function DecryptProve(props) {
                 </button>
               ) : (
                 <button
-                  className="btn-fixed button mr-2"
+                  className="button mr-2 mt-2"
                   onClick={() => {
                     sendDescrypt();
                   }}

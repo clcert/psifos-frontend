@@ -26,6 +26,8 @@ function CheckSk(props) {
   /** @state {string} trustee certificates */
   const [certificates, setCertificates] = useState({});
 
+  const [keyVerificated, setKeyVerificated] = useState(false);
+
   useEffect(() => {
     getCheckSk(uuid, uuidTrustee).then((data) => {
       setCertificates(data);
@@ -46,10 +48,21 @@ function CheckSk(props) {
       key_ok_p = true;
     }
     if (key_ok_p) {
-      setFeedbackMessage("¡Tu clave privada está correcta!");
+      setKeyVerificated(true);
+      setFeedbackMessage("Clave Verificada Exitosamente");
     } else {
       setFeedbackMessage("Tu clave privada está incorrecta.");
     }
+  }
+
+  function filesToString() {
+    const input = document.getElementById("fileinput");
+    var reader = new FileReader();
+    reader.onload = function () {
+      let secretKey = reader.result;
+      setSecretKey(secretKey);
+    };
+    reader.readAsText(input.files[0]);
   }
 
   return (
@@ -71,28 +84,36 @@ function CheckSk(props) {
         <div className="container has-text-centered is-max-desktop">
           <h4 className="has-text-white">Inserte su clave privada aquí</h4>
 
-          <textarea
-            className="textarea mb-3"
+          <input
+            type="text"
+            className="input mb-3"
             placeholder="Clave privada.."
             value={secretKey}
             onChange={(e) => setSecretKey(e.target.value)}
-          ></textarea>
+          />
+          <div className="d-flex has-text-white">
+            <input id="fileinput" type="file" onChange={filesToString} />
+          </div>
           <p className="has-text-white">{feedbackMessage}</p>
-          <button id="button-init" className="btn-fixed button mr-5">
-            <Link
-              style={{ textDecoration: "None", color: "black" }}
-              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
-            >
-              Volver atrás
-            </Link>
-          </button>
-          <button
-            id="button-init"
-            className="btn-fixed button mr-5"
-            onClick={() => check_sk()}
-          >
-            Verificar
-          </button>
+          <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
+            <button id="button-init" className="button mr-5 mt-2">
+              <Link
+                style={{ textDecoration: "None", color: "black" }}
+                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              >
+                Volver atrás
+              </Link>
+            </button>
+            {!keyVerificated && (
+              <button
+                id="button-init"
+                className="button mr-5 mt-2"
+                onClick={() => check_sk()}
+              >
+                Verificar
+              </button>
+            )}
+          </div>
         </div>
       </section>
       <div>

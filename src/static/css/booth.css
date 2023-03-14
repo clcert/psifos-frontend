@@ -632,7 +632,7 @@ input[type="radio"] {
     margin-left: auto;
     margin-right: auto;
   }
-  #logo-header{
+  #logo-header {
     width: 35vh;
   }
 }
@@ -685,8 +685,7 @@ input[type="radio"] {
   background-color: transparent !important;
   border: 2px solid white !important;
   border-radius: 10px !important;
-  width: 100%;
-  justify-content: left !important;
+  max-width: 350px;
 }
 
 .inactive-button {
@@ -786,7 +785,7 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-.btn-fixed{
+.btn-fixed {
   width: 150px;
 }
 
@@ -822,10 +821,10 @@ input[type="radio"] {
   .canvas-graph {
     width: 250%;
   }
-  .urna-table{
+  .urna-table {
     width: 88%;
   }
-  .urna-voter-hash{
+  .urna-voter-hash {
     font-size: 10px;
   }
 }

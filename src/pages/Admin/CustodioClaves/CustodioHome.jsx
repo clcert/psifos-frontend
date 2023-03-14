@@ -100,46 +100,49 @@ function CustodioHome(props) {
             <h1 className="pb-2 title has-text-white steps-title">
               PASOS A SEGUIR
             </h1>
-            <div className="is-flex is-align-items-center is-flex-direction-column">
+            <div>
               {load ? (
                 <>
-                  <div className="is-flex is-flex-direction-column">
-                    <StepButton
-                      step={1}
-                      disabled={disabledButton1}
-                      text="Generar llaves."
-                      linkTo={
-                        "/psifos/" +
-                        uuid +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/keygenerator"
-                      }
-                    />
-                    <StepButton
-                      step={2}
-                      disabled={disabledButton2}
-                      text="Verifica tu Clave Privada"
-                      linkTo={
-                        "/psifos/" +
-                        uuid +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/check-sk"
-                      }
-                    />
-                    <StepButton
-                      step={3}
-                      disabled={disabledButton3}
-                      text="Desencriptar resultado final"
-                      linkTo={
-                        "/psifos/" +
-                        uuid +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/decrypt-and-prove"
-                      }
-                    />
+                  <div className="d-inline-flex justify-content-center flex-column">
+                    {!disabledButton1 && (
+                      <StepButton
+                        step={1}
+                        text="Iniciar Generación de Claves"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/keygenerator"
+                        }
+                      />
+                    )}
+                    {!disabledButton2 && (
+                      <StepButton
+                        step={2}
+                        text="Verifica tu Clave Privada"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/check-sk"
+                        }
+                      />
+                    )}
+                    {!disabledButton3 && (
+                      <StepButton
+                        step={3}
+                        text="Envía tu Desencriptación Parcial"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/decrypt-and-prove"
+                        }
+                      />
+                    )}
                   </div>
                   {!election.encrypted_tally && (
                     <p className="has-text-white pt-5">
