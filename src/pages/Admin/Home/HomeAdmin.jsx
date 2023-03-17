@@ -47,7 +47,7 @@ function HomeAdmin() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Bienvenido a Participa Uchile DEV" />
+          <TitlePsifos namePage="Bienvenido a Participa UChile DEV" />
         </div>
       </section>
 

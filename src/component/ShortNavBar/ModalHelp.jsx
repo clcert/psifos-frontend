@@ -7,25 +7,24 @@ function ModalHelp(props) {
       <div className="modal-card">
         <section className="modal-card-body">
           <h1 className="title">MESA DE AYUDA</h1>
-          <p className="has-text-weight-bold">
-            ¿Tienes dudas o problemas con tu elección?
-          </p>
-          <p>
+          <p className="mb-2">
+            <span className="has-text-weight-bold">¿Tienes dudas o problemas con tu elección?</span><br/>
             Puedes utilizar cualquiera de los siguientes canales para que
             podamos ayudarte:
           </p>
-          <ul className="pt-4">
+          <ul className="pt-1">
             <li className="py-1">
               <span className="icon">
                 <i className="fab fa-whatsapp"></i>
               </span>
+              whatsapp:&nbsp; 
               <span>
                 <a
                   href="https://api.whatsapp.com/send?phone=+56974732599"
                   rel="noreferrer"
                   target="_blank"
                 >
-                  whatsapp: (+56) 9 7473 2599
+                  (+56) 9 7473 2599
                 </a>
               </span>
             </li>
@@ -33,25 +32,27 @@ function ModalHelp(props) {
               <span className="icon">
                 <i className="fab fa-telegram"></i>
               </span>
+              telegram:&nbsp;
               <a
                 href="https://t.me/participaUChile"
                 rel="noreferrer"
                 target="_blank"
               >
-                telegram: @participaUChile
+                @participaUChile
               </a>
             </li>
             <li className="py-1">
               <span className="icon">
                 <i className="fab fa-twitter"></i>
               </span>
+              twitter:&nbsp;
               <span>
                 <a
                   href="https://www.twitter.com/participaUChile"
                   rel="noreferrer"
                   target="_blank"
                 >
-                  twitter: @participaUChile
+                  @participaUChile
                 </a>
               </span>
             </li>
@@ -59,13 +60,14 @@ function ModalHelp(props) {
               <span className="icon">
                 <i className="fas fa-envelope"></i>
               </span>
+              correo:&nbsp;
               <span>
                 <a
                   href="mailto:ayuda.participa@uchile.cl"
                   rel="noreferrer"
                   target="_blank"
                 >
-                  correo: ayuda.participa@uchile.cl
+                  ayuda.participa@uchile.cl
                 </a>
               </span>
             </li>

@@ -40,7 +40,7 @@ function ModalPercentage(props) {
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
       <div className="modal-background"></div>
       <div className="modal-card">
-        <section className="modal-card-body">
+        <section className="modal-card-body single-card">
           <p className="has-text-weight-bold is-size-5">
             ENCRIPTANDO TU VOTO <br/>
             POR FAVOR ESPERA UN MOMENTO

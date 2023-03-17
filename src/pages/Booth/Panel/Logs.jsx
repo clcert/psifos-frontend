@@ -65,7 +65,7 @@ function Logs() {
             return (
               <div key={index} className="box logs-box">
                 <div className="is-size-5">
-                  <span>{logs.created_at}</span>:{" "}
+                  <span>[{logs.created_at}]</span>{" "}
                   <span>{generateText(logs)}</span>
                 </div>
               </div>
