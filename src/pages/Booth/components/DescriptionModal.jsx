@@ -5,14 +5,16 @@ function DescriptionModal(props) {
       <div className="modal-card">
         <section className="modal-card-body">
           <h1 className="title">{props.election.name}</h1>
-          <p className="has-text-weight-bold">
-            Bienvenido a la elección {props.election.short_name}
+          <p className="subtitle">
+            Te damos la bienvenida a Participa UChile
           </p>
           <p>{props.election.description}</p>
+          <p>Si tienes alguna duda, te invitamos a contactar a nuestra mesa de ayuda a través de cualquiera de los siguientes canales:</p>
           <div className="py-1">
             <span className="icon">
               <i className="fab fa-whatsapp"></i>
             </span>
+            whatsapp:&nbsp; 
             <span>
               <a
                 href="https://api.whatsapp.com/send?phone=+56974732599"
@@ -27,6 +29,7 @@ function DescriptionModal(props) {
             <span className="icon">
               <i className="fab fa-telegram"></i>
             </span>
+            telegram:&nbsp;
             <a
               href="https://t.me/participaUChile"
               rel="noreferrer"
@@ -39,6 +42,7 @@ function DescriptionModal(props) {
             <span className="icon">
               <i className="fab fa-twitter"></i>
             </span>
+            twitter:&nbsp;
             <span>
               <a
                 href="https://www.twitter.com/participaUChile"
@@ -53,6 +57,7 @@ function DescriptionModal(props) {
             <span className="icon">
               <i className="fas fa-envelope"></i>
             </span>
+            correo:&nbsp;
             <span>
               <a
                 href="mailto:ayuda.participa@uchile.cl"
@@ -70,7 +75,7 @@ function DescriptionModal(props) {
               onClick={props.onHide}
               className="button review-buttons previous-button has-text-white has-text-weight-bold is-pulled-right"
             >
-              <span>VOTAR</span>
+              <span>COMENZAR</span>
             </button>
           </div>
         </footer>

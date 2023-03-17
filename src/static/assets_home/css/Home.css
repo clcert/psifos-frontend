@@ -6145,6 +6145,9 @@ button.dropdown-item.is-active {
   flex-shrink: 1;
   overflow: auto;
   padding: 20px;
+}
+
+.single-card {
   border: 5px solid #00b6fe;
 }
 

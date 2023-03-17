@@ -23,9 +23,9 @@ function UrnaTable(props) {
     <Table className="pretty table is-bordered is-hoverable voters-table">
       <Thead>
         <Tr>
+          <Th className="has-text-centered">Código de Papeleta</Th>
           <Th className="has-text-centered">Ponderador</Th>
-          <Th className="has-text-centered">Código de papeleta</Th>
-          <Th className="has-text-centered">Ver voto</Th>
+          <Th className="has-text-centered">Voto Encriptado</Th>
         </Tr>
       </Thead>
       {props.electionData.electionVoters.map((voter, index) => {
@@ -39,7 +39,7 @@ function UrnaTable(props) {
                   (hashUrl === voterHash ? "hash-selected" : "")
                 }
               >
-                {voter.voter_weight}
+                <span className="urna-voter-hash">{voterHash}</span>
               </Td>
               <Td
                 className={
@@ -47,7 +47,7 @@ function UrnaTable(props) {
                   (hashUrl === voterHash ? "hash-selected" : "")
                 }
               >
-                <span className="urna-voter-hash">{voterHash}</span>
+                {voter.voter_weight}
               </Td>
               <Td
                 className={
@@ -63,7 +63,6 @@ function UrnaTable(props) {
                     className="button-redirect-vote ml-2 mr-2"
                   >
                     <i className="fa-solid fa-check-to-slot mr-1"></i>
-                    Ver Voto Encriptado
                   </div>
                 ) : (
                   "-"

@@ -119,7 +119,7 @@ class BoothPsifos {
     // async?
     this.setup_workers(raw_json);
 
-    document.title = "Participa Uchile - " + this.election.name;
+    document.title = "Participa UChile - " + this.election.name;
 
     // escape election fields
     // let escaped_array = ["description", "name"]

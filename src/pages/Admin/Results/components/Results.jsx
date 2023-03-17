@@ -113,7 +113,7 @@ function Results(props) {
             </Link>
           </span>
           <div className="box" id="not-results-box">
-            <p className="is-size-3 has-text-weight-bold">
+            <p className="is-size-3 has-text-weight-bold mb-0">
               Resultados aún no calculados. Vuelve más tarde.
             </p>
           </div>

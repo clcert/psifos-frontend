@@ -215,7 +215,7 @@ $navbar-item-img-max-height: 3.5rem;
 
 /* Progress Bar */
 .line-1 {
-  top: 18.5rem; // TODO: Review this (try not to put measures so specific)
+  top: 19.25rem; // TODO: Review this (try not to put measures so specific)
   background: $blue-uch;
   position: absolute;
   height: 2px;
@@ -262,6 +262,7 @@ $navbar-item-img-max-height: 3.5rem;
 
 .progress-bar-items {
   --columnGap: 1.8rem !important;
+  margin-top: 0 !important;
 }
 
 .hide-mobile {
@@ -661,7 +662,7 @@ input[type="radio"] {
 }
 
 .send-text {
-  line-height: 1.8 !important;
+  line-height: 1 !important;
 }
 
 #vote-code {
