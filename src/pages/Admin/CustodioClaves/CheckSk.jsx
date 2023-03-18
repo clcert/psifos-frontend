@@ -9,6 +9,7 @@ import ImageFooter from "../../../component/Footers/ImageFooter";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
+import DropFile from "./components/DropFile";
 
 function CheckSk(props) {
   /** @state {string} secret key for check */
@@ -55,16 +56,6 @@ function CheckSk(props) {
     }
   }
 
-  function filesToString() {
-    const input = document.getElementById("fileinput");
-    var reader = new FileReader();
-    reader.onload = function () {
-      let secretKey = reader.result;
-      setSecretKey(secretKey);
-    };
-    reader.readAsText(input.files[0]);
-  }
-
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
@@ -83,20 +74,17 @@ function CheckSk(props) {
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
           <h4 className="has-text-white">Inserte su clave privada aquí</h4>
-
+          <DropFile setText={setSecretKey} />
           <input
             type="text"
-            className="input mb-3"
+            disabled
+            className="input mb-3 mt-4"
             placeholder="Clave privada.."
             value={secretKey}
-            onChange={(e) => setSecretKey(e.target.value)}
           />
-          <div className="d-flex has-text-white">
-            <input id="fileinput" type="file" onChange={filesToString} />
-          </div>
           <p className="has-text-white">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-            <button id="button-init" className="button mr-5 mt-2">
+            <button id="button-init" className="button mx-sm-2 mt-2">
               <Link
                 style={{ textDecoration: "None", color: "black" }}
                 to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
@@ -107,7 +95,7 @@ function CheckSk(props) {
             {!keyVerificated && (
               <button
                 id="button-init"
-                className="button mr-5 mt-2"
+                className="button mt-2 mx-sm-2"
                 onClick={() => check_sk()}
               >
                 Verificar

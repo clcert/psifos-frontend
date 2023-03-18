@@ -11,6 +11,7 @@ import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
 import Tally from "../../../static/booth/js/jscrypto/tally";
 import { getEgParams } from "../../../services/crypto";
+import DropFile from "./components/DropFile";
 
 function DecryptProve(props) {
   const [trustee, setTrustee] = useState("");
@@ -140,19 +141,15 @@ function DecryptProve(props) {
 
   useEffect(() => {
     if (generateDecrypt) {
-      do_tally();
+      try {
+        setFeedbackMessage("Generando desencriptado parcial...");
+        do_tally();
+      } catch {
+        setGenerateDecrypt(false);
+        setFeedbackMessage("Ha ocurrido un error");
+      }
     }
   }, [generateDecrypt, do_tally]);
-
-  function filesToString() {
-    const input = document.getElementById("fileinput");
-    var reader = new FileReader();
-    reader.onload = function () {
-      let secretKey = reader.result;
-      setSecretKey(secretKey);
-    };
-    reader.readAsText(input.files[0]);
-  }
 
   return (
     <div id="content-trustees">
@@ -186,16 +183,13 @@ function DecryptProve(props) {
 
           <div id="sk_section">
             <h3>Sube su clave secreta</h3>
+            <DropFile setText={setSecretKey} />
             <input
-              onChange={(e) => setSecretKey(e.target.value)}
               value={secretKey}
-              className="input mb-2"
+              className="input mb-2 mt-4"
               placeholder="Clave secreta"
-              disabled={generateDecrypt}
+              disabled
             />
-            <div className="d-flex has-text-white mt-2">
-              <input id="fileinput" type="file" onChange={filesToString} />
-            </div>
             <div className="mt-2">{feedbackMessage}</div>
 
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
@@ -213,7 +207,6 @@ function DecryptProve(props) {
                   disabled={generateDecrypt}
                   onClick={() => {
                     setGenerateDecrypt(true);
-                    setFeedbackMessage("Generando desencriptado parcial...");
                   }}
                 >
                   Generar desencriptación
