@@ -11,9 +11,8 @@ function ReviewQuestions(props) {
       <div className="container has-text-centered is-max-desktop">
         <h1 className="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
         <p className="subtitle">
-            A continuación podrás revisar tu(s) preferencia(s) seleccionada(s)<br/><br/>
-            Si observas algún error, puedes editar tu(s) respuesta(s)<br/>
-            Si estás conforme, aprieta ENVIAR VOTO
+            Revisa aquí tu(s) preferencia(s) seleccionada(s)<br/>
+            Si necesitas cambiar tu respuesta en alguna pregunta, puedes hacerlo
         </p>
         {props.questions.map((question, index) => {
           return (
@@ -29,7 +28,7 @@ function ReviewQuestions(props) {
                     index={index}
                     question={question}
                   />
-                  <br />
+                    <div className="is-flex is-justify-content-end">
                   <a
                     onClick={() => props.changeAnswer(index)}
                     href={() => false}
@@ -37,10 +36,8 @@ function ReviewQuestions(props) {
                     <span className="icon has-text-white">
                       <i className="far fa-edit"></i>
                     </span>
-                    <span className="has-text-white is-size-6">
-                      Editar Respuesta (opcional)
-                    </span>
                   </a>
+                    </div>
                 </div>
               </div>
             </div>
