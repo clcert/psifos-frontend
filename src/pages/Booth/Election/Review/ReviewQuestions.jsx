@@ -11,7 +11,9 @@ function ReviewQuestions(props) {
       <div className="container has-text-centered is-max-desktop">
         <h1 className="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
         <p className="subtitle">
-          A continuación podrás revisar tu(s) preferencia(s) seleccionada(s)
+            A continuación podrás revisar tu(s) preferencia(s) seleccionada(s)<br/><br/>
+            Si observas algún error, puedes editar tu(s) respuesta(s)<br/>
+            Si estás conforme, aprieta ENVIAR VOTO
         </p>
         {props.questions.map((question, index) => {
           return (

@@ -272,7 +272,7 @@ function CreateQuestion(props) {
           </div>
         </div>
       </section>
-      <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+      <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
     </div>
   );
 }
