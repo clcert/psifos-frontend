@@ -17,11 +17,11 @@ function SubNavbarBooth(props) {
                 }
                 to=""
                 onClick={() => {
-                  props.changeActive(0, "Urna electronica");
+                  props.changeActive(0, "Urna electrónica");
                 }}
               >
                 <i className="fa fa-check-to-slot mr-2"></i>
-                <span>Urna electronica</span>
+                <span>Urna electrónica</span>
               </Link>
             </div>
             <div className="content-subnavbar">
@@ -85,7 +85,7 @@ function SubNavbarBooth(props) {
                 }}
               >
                 <i className="fa fa-list-check mr-2"></i>
-                <span>Registro</span>
+                <span>Eventos</span>
               </Link>
             </div>
           </div>
