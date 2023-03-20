@@ -9,8 +9,7 @@ function FooterParticipa(props) {
         </div>
       </footer>
 
-      <section className="hero">
-        <div className="hero-body bottom-hero"></div>
+      <section className="hero py-2">
       </section>
     </div>
   );
