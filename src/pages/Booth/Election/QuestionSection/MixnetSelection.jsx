@@ -169,6 +169,13 @@ function MixnetSelection(props) {
                 onChange={(event) => {
                   selectAnswers(event, index);
                 }}
+                styles={{
+                  control: (baseStyles) => ({
+                    ...baseStyles,
+                    backgroundColor:
+                      answersSelected.length < index ? "#bbc1c6" : "white",
+                  }),
+                }}
               />
             </div>
           </div>
