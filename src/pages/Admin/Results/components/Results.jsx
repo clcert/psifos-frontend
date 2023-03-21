@@ -20,6 +20,7 @@ function Results(props) {
   const { uuid } = useParams();
 
   const getElectionResult = useCallback(async () => {
+    setLoad(false);
     getElectionPublic(uuid).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
