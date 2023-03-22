@@ -98,9 +98,9 @@ function CabinaElection(props) {
               setActualPhase(1);
             }}
             sendVote={() => {
+              setModalVerify(true);
               BOOTH_PSIFOS.sendJson(uuid).then((res) => {
                 setVoteHash(res);
-                setModalVerify(true);
               });
             }}
             afterVerify={() => {
