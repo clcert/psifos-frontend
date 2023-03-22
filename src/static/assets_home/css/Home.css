@@ -894,6 +894,24 @@ input[type="radio"] {
   }
 }
 
+.change-answer-button {
+  padding: 5px;
+  border: 2px solid white;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .change-answer-button {
+    margin-top: 20px !important;
+  }
+}
+
+.change-answer-button:hover {
+  color: white;
+}
+
 .review-buttons {
   border-radius: 10px !important;
 }
@@ -6145,6 +6163,9 @@ button.dropdown-item.is-active {
   flex-shrink: 1;
   overflow: auto;
   padding: 20px;
+}
+
+.single-card {
   border: 5px solid #00b6fe;
 }
 

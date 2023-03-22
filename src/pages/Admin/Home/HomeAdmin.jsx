@@ -47,7 +47,7 @@ function HomeAdmin() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Bienvenido a Participa Uchile DEV" />
+          <TitlePsifos namePage="Bienvenido a Participa UChile DEV" />
         </div>
       </section>
 
@@ -117,7 +117,7 @@ function HomeAdmin() {
           <div className="spinner-animation"></div>
         )}
       </section>
-      <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+      <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
     </div>
   );
 }

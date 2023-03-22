@@ -43,10 +43,10 @@ function ValidatedVote(props) {
   return (
     <>
       <p className="subtitle is-3 has-text-black mb-1">
-        HEMOS RECIBIDO TU VOTO
+        HEMOS RECIBIDO TU VOTO ENCRIPTADO
       </p>
       <p className="subtitle has-text-black send-text">
-        Tu voto ha sido recibido y validado exitosamente
+        Tu voto encriptado ha sido recibido y validado exitosamente
       </p>
 
       <div className="columns">
@@ -64,7 +64,7 @@ function ValidatedVote(props) {
             </span>
           </button>
           <p className="subtitle is-6 mt-3">
-            El Certificado de Voto no permite conocer como votaste, sino que
+            El certificado de voto no permite conocer como votaste, sino que
             solamente acredita que tu voto fue realizado correctamente y será
             contabilizado en el escrutinio final.
           </p>
@@ -84,16 +84,16 @@ function ValidatedVote(props) {
             <span>VER URNA ELECTRÓNICA</span>
           </button>
           <p className="subtitle is-6 mt-3">
-            La Urna Electrónica contiene todos los votos cifrados enviados hasta
-            ese momento.
+            La urna electrónica contiene todos los votos encriptados enviados hasta
+            el momento.
           </p>
         </div>
       </div>
 
       <p className="subtitle is-5 pb-2 mt-4">
         Si lo deseas, puedes volver a votar durante el tiempo que la votación
-        esté abierta. Si lo haces, el nuevo voto reemplazará al existente, y
-        sólo se contará el último voto emitido.
+        esté abierta. Si lo haces, el nuevo voto encriptado reemplazará al existente, y
+        sólo se contabilizará el último voto encriptado emitido.
       </p>
       <button
         onClick={exit}

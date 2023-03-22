@@ -45,12 +45,13 @@ function VerifyVoteModal(props) {
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
       <div className="modal-background"></div>
       <div className="modal-card has-text-centered">
-        <section className="modal-card-body">
+        <section className="modal-card-body single-card">
           <p className="has-text-weight-bold is-size-5">
             VALIDANDO TU VOTO <br />
             POR FAVOR ESPERA UN MOMENTO
           </p>
           <img className="mt-2" src={encryptingGIF} />
+          <p className="subtitle mt-4">Se está verificando que el voto se realizó correctamente</p>
         </section>
       </div>
     </div>

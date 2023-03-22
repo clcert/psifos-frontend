@@ -23,7 +23,7 @@ function InfoBoothView() {
   useEffect(() => {
     getElectionPublic(uuid).then((data) => {
       const { jsonResponse } = data;
-      setElectionName(jsonResponse.short_name);
+      setElectionName(jsonResponse.name);
     });
   });
 
@@ -33,7 +33,7 @@ function InfoBoothView() {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar linkExit="" linkInit="" />
 
-          <TitlePsifos namePage={activeName} nameElection={electionName} />
+          <TitlePsifos namePage="Portal de Información" nameElection={electionName} />
         </div>
       </section>
 
@@ -56,7 +56,7 @@ function InfoBoothView() {
         {activeNumber === 4 && <LoggerBoth />}
       </section>
 
-      <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+      <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
     </div>
   );
 }
