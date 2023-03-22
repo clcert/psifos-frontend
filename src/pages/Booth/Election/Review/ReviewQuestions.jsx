@@ -12,7 +12,6 @@ function ReviewQuestions(props) {
         <h1 className="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
         <p className="subtitle">
             Revisa aquí tu(s) preferencia(s) seleccionada(s)<br/>
-            Si necesitas cambiar tu respuesta en alguna pregunta, puedes hacerlo
         </p>
         {props.questions.map((question, index) => {
           return (
@@ -32,10 +31,12 @@ function ReviewQuestions(props) {
                   <a
                     onClick={() => props.changeAnswer(index)}
                     href={() => false}
+                    className="change-answer-button"
                   >
                     <span className="icon has-text-white">
                       <i className="far fa-edit"></i>
                     </span>
+                    <span className="is-size-6">Cambiar Respuesta</span>
                   </a>
                     </div>
                 </div>

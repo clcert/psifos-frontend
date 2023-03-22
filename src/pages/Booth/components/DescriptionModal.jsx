@@ -6,7 +6,7 @@ function DescriptionModal(props) {
         <section className="modal-card-body">
           <h1 className="title">{props.election.name}</h1>
           <p className="subtitle">
-            Te damos la bienvenida a Participa UChile
+            Participa UChile - Sistema de Votación Electrónica
           </p>
           <p>{props.election.description}</p>
           <p>Si tienes alguna duda, te invitamos a contactar a nuestra mesa de ayuda a través de cualquiera de los siguientes canales:</p>

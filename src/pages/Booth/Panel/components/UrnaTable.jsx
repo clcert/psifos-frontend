@@ -24,7 +24,9 @@ function UrnaTable(props) {
       <Thead>
         <Tr>
           <Th className="has-text-centered">Código de Papeleta</Th>
-          <Th className="has-text-centered">Ponderador</Th>
+          {props.electionData.election.max_weight > 1 && 
+            <Th className="has-text-centered">Ponderador</Th>
+          }
           <Th className="has-text-centered">Voto Encriptado</Th>
         </Tr>
       </Thead>
@@ -41,14 +43,16 @@ function UrnaTable(props) {
               >
                 <span className="urna-voter-hash">{voterHash}</span>
               </Td>
-              <Td
-                className={
-                  "align-middle has-text-centered " +
-                  (hashUrl === voterHash ? "hash-selected" : "")
-                }
-              >
-                {voter.voter_weight}
-              </Td>
+              {props.electionData.election.max_weight > 1 &&
+                <Td
+                  className={
+                    "align-middle has-text-centered " +
+                    (hashUrl === voterHash ? "hash-selected" : "")
+                  }
+                >
+                  {voter.voter_weight}
+                </Td>
+              }
               <Td
                 className={
                   "align-middle has-text-centered " +

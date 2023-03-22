@@ -103,7 +103,7 @@ function AdministrationPanel(props) {
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
             <TitlePsifos
-              namePage="Panel de administración"
+              namePage="Panel de Administración"
               nameElection={election.name}
             />
           </div>

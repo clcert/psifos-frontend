@@ -73,7 +73,7 @@ function GeneralAdmin() {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <TitlePsifos namePage="Panel de administración" nameElection={""} />
+            <TitlePsifos namePage="Panel de Administración" nameElection={""} />
           </div>
         </section>
 

@@ -33,7 +33,7 @@ function InfoBoothView() {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar linkExit="" linkInit="" />
 
-          <TitlePsifos namePage={activeName} nameElection={electionName} />
+          <TitlePsifos namePage="Portal de Información" nameElection={electionName} />
         </div>
       </section>
 

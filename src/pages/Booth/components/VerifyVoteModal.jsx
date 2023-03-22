@@ -51,6 +51,7 @@ function VerifyVoteModal(props) {
             POR FAVOR ESPERA UN MOMENTO
           </p>
           <img className="mt-2" src={encryptingGIF} />
+          <p className="subtitle mt-4">Se está verificando que el voto se realizó correctamente</p>
         </section>
       </div>
     </div>

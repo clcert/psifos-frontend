@@ -21,7 +21,7 @@ function TextSelected(props) {
     return <p>Respuesta nula</p>;
   } else {
     return (
-      <p>
+      <p className="mb-0">
         {props.answers[props.index].map((key, index) => {
           const indexAnswer =
             props.question.q_type === "mixnet_question" ? key - 1 : key;

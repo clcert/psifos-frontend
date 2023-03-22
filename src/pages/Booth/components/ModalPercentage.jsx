@@ -46,6 +46,7 @@ function ModalPercentage(props) {
             POR FAVOR ESPERA UN MOMENTO
           </p>
           <img className="mt-2" src={encryptingGIF} />
+          <p className="subtitle mt-4">Tu voto se está transformando para mantenerlo en secreto</p>
           {/* <PercentageBar percentage={percentage} booth={props.booth} /> */}
         </section>
       </div>

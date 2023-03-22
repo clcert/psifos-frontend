@@ -4,14 +4,14 @@ import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../server";
 
 const events = {
-  trustee_created: "Creación de Custodio(a) de Clave",
-  public_key_uploaded: "Creación de Llave Pública",
-  voter_file_uploaded: "Carga de Padrón al sistema",
-  voting_started: "Inicio de Elección",
-  voting_stopped: "Termino de Elección",
-  tally_computed: "Cálculo de Precómputo",
-  decryptions_combined: "Combinación de Desencriptaciones Parciales",
-  electoral_roll_modified: "Modificación al Padrón"
+  trustee_created: "Creación de custodio(a) de clave",
+  public_key_uploaded: "Creación de llave pública",
+  voter_file_uploaded: "Carga de padrón al sistema",
+  voting_started: "Inicio de elección",
+  voting_stopped: "Termino de elección",
+  tally_computed: "Cálculo de precómputo",
+  decryptions_combined: "Combinación de desencriptaciones parciales",
+  electoral_roll_modified: "Modificación al padrón"
 };
 
 function Logs() {
