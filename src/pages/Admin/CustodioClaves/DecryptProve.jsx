@@ -13,21 +13,17 @@ import Tally from "../../../static/booth/js/jscrypto/tally";
 import { getEgParams } from "../../../services/crypto";
 import DropFile from "./components/DropFile";
 
-function DecryptProve(props) {
+function DecryptProve() {
   const [trustee, setTrustee] = useState("");
   const [params, setParams] = useState({});
   const [secretKey, setSecretKey] = useState("");
   const [certificates, setCertificates] = useState({});
   const [points, setPoints] = useState({});
   const [tally, setTally] = useState({});
-  const [descriptions, setDescriptions] = useState({});
   const [electionPk, setElectionPk] = useState("");
-  const [tallyReady, setTallyReady] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState(
     "Cargando información..."
   );
-  const [generateDecrypt, setGenerateDecrypt] = useState(false);
-  const [isTotalProcess, setIsTotalProcess] = useState(false);
 
   const { uuid, uuidTrustee } = useParams();
 
@@ -50,7 +46,7 @@ function DecryptProve(props) {
     return jsonResponse;
   }, [uuid, uuidTrustee]);
 
-  async function sendDescrypt() {
+  async function sendDescrypt(descriptions) {
     setFeedbackMessage("Enviando información...");
     const url =
       backendOpIP +
@@ -68,47 +64,49 @@ function DecryptProve(props) {
       body: descriptions,
     });
     if (response.status === 200) {
-      setIsTotalProcess(true);
       setFeedbackMessage("Desencriptación Parcial enviada Exitosamente");
       const jsonResponse = await response.json();
       return jsonResponse;
     } else {
       setFeedbackMessage("Error al enviar información, intente nuevamente");
-      setGenerateDecrypt(false);
-      setTallyReady(false);
     }
   }
 
-  const get_secret_key = useCallback(() => {
-    helios_c.trustee = helios_c.trustee_create(params, secretKey);
-    helios_c.params = params;
-    helios_c.certificates = certificates;
-    helios_c.points = points;
-    // TODO: check key
-    var sk = helios_c.ui_share_get_direct();
-    return new ElGamal.SecretKey(sk.x, sk.public_key);
-  }, [certificates, params, points, secretKey]);
+  const getSecretKey = useCallback(
+    (sk) => {
+      helios_c.trustee = helios_c.trustee_create(params, sk);
+      helios_c.params = params;
+      helios_c.certificates = certificates;
+      helios_c.points = points;
+      // TODO: check key
+      var sk = helios_c.ui_share_get_direct();
+      return new ElGamal.SecretKey(sk.x, sk.public_key);
+    },
+    [certificates, params, points]
+  );
 
-  const do_tally = useCallback(() => {
-    if (!secretKey) {
-      setFeedbackMessage("Formato de archivo incorrecto");
-      setGenerateDecrypt(false);
-      return;
-    }
-    var secret_key = get_secret_key();
+  const doTally = useCallback(
+    (sk) => {
+      if (!sk) {
+        setFeedbackMessage("Formato de archivo incorrecto");
+        return;
+      }
+      var secret_key = getSecretKey(sk);
 
-    // ENCRYPTED TALLY :
-    let tally_factors_and_proof = tally.map(function (q_tally) {
-      return q_tally.doDecrypt(electionPk, secret_key);
-    });
+      // ENCRYPTED TALLY :
+      let tally_factors_and_proof = tally.map(function (q_tally) {
+        return q_tally.doDecrypt(electionPk, secret_key);
+      });
 
-    let final_json = {
-      decryptions: tally_factors_and_proof,
-    };
-    setDescriptions(JSON.stringify(final_json));
-    setFeedbackMessage("Listo para enviar el desencriptado parcial");
-    setTallyReady(true);
-  }, [electionPk, get_secret_key, tally]);
+      let final_json = {
+        decryptions: tally_factors_and_proof,
+      };
+      const descriptions = JSON.stringify(final_json);
+      setFeedbackMessage("Listo para enviar el desencriptado parcial");
+      sendDescrypt(descriptions);
+    },
+    [electionPk, getSecretKey, tally]
+  );
 
   useEffect(() => {
     let params_aux, certificates_aux, points_aux, election_aux, trustee_aux;
@@ -146,17 +144,15 @@ function DecryptProve(props) {
     });
   }, [getDescrypt]);
 
-  useEffect(() => {
-    if (generateDecrypt) {
-      try {
-        setFeedbackMessage("Generando desencriptado parcial...");
-        do_tally();
-      } catch {
-        setGenerateDecrypt(false);
-        setFeedbackMessage("Clave incorrecta");
-      }
+  const decrypt = (sk) => {
+    try {
+      setSecretKey(sk);
+      setFeedbackMessage("Generando desencriptado parcial...");
+      doTally(sk);
+    } catch {
+      setFeedbackMessage("Clave incorrecta");
     }
-  }, [generateDecrypt, do_tally]);
+  };
 
   return (
     <div id="content-trustees">
@@ -190,7 +186,7 @@ function DecryptProve(props) {
 
           <div id="sk_section">
             <h3>Sube su clave secreta</h3>
-            <DropFile setText={setSecretKey} />
+            <DropFile setText={decrypt} />
             <input
               value={secretKey}
               className="input mb-2 mt-4"
@@ -208,28 +204,6 @@ function DecryptProve(props) {
                   Volver atras
                 </Link>
               </button>
-              {!tallyReady ? (
-                <button
-                  className="button mr-2 mt-2"
-                  disabled={generateDecrypt}
-                  onClick={() => {
-                    setGenerateDecrypt(true);
-                  }}
-                >
-                  Generar desencriptación
-                </button>
-              ) : (
-                !isTotalProcess && (
-                  <button
-                    className="button mr-2 mt-2"
-                    onClick={() => {
-                      sendDescrypt();
-                    }}
-                  >
-                    Enviar
-                  </button>
-                )
-              )}
             </div>
             <div className="mt-4"></div>
           </div>
