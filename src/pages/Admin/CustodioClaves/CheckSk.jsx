@@ -38,9 +38,14 @@ function CheckSk(props) {
     });
   }, [uuid, uuidTrustee]);
 
-  function check_sk() {
+  function check_sk(sk) {
+    if (!sk) {
+      setFeedbackMessage("Archivo de formato incorrecto.");
+      return;
+    }
+    setSecretKey(sk);
     let params = ElGamal.Params.fromJSONObject(ElGamalParams);
-    let trustee_aux = helios_c.trustee_create(params, secretKey);
+    let trustee_aux = helios_c.trustee_create(params, sk);
     let key_ok_p = false;
     if (!trustee_aux.check_certificate(certificates)) {
       console.log("Not the right key!");
@@ -74,7 +79,7 @@ function CheckSk(props) {
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
           <h4 className="has-text-white">Inserte su clave privada aquí</h4>
-          <DropFile setText={setSecretKey} />
+          <DropFile setText={check_sk} />
           <input
             type="text"
             disabled
@@ -92,15 +97,6 @@ function CheckSk(props) {
                 Volver atrás
               </Link>
             </button>
-            {!keyVerificated && (
-              <button
-                id="button-init"
-                className="button mt-2 mx-sm-2"
-                onClick={() => check_sk()}
-              >
-                Verificar
-              </button>
-            )}
           </div>
         </div>
       </section>

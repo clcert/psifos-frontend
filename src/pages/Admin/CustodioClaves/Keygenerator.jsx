@@ -7,6 +7,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import imageTrustees from "../../../static/svg/trustees1.svg";
+import DropFile from "./components/DropFile";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
 import { useCallback, useEffect, useState } from "react";
@@ -47,6 +48,8 @@ function Keygenerator(props) {
   const [secretKey, setSecretKey] = useState(null);
 
   const [certificateCache, setCertificateCache] = useState(null);
+
+  const [checkedSecretKey, setCheckedSecretKey] = useState("");
 
   /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
@@ -342,9 +345,13 @@ function Keygenerator(props) {
 
   function download_sk_to_file(filename) {
     var element = document.createElement("a");
+    const fileContent = {
+      trustee: trustee.name,
+      private_key: helios_c.secret_key,
+    };
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," + helios_c.secret_key
+      "data:text/plain;charset=utf-8," + JSON.stringify(fileContent)
     );
     element.setAttribute("download", filename);
     element.style.display = "none";
@@ -523,27 +530,17 @@ function Keygenerator(props) {
     },
   };
 
-  const uploadKey = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = (event) => {
-      console.log(CERTIFICATE);
-      if (event.target.result === helios_c.secret_key) {
-        send_public_key();
-      } else {
-        setProcessFeedback("Archivo incorrecto, inténtelo nuevamente");
-      }
-    };
-  };
-
-  const buttonUploadKey = () => {
-    const fileInput = document.getElementById("file-input");
-    fileInput.click();
-  };
-
   const downloadKey = () => {
     download_sk_to_file("trustee_key_" + trustee.email + ".txt");
+  };
+
+  const checkSk = (key) => {
+    if (key === helios_c.secret_key) {
+      send_public_key();
+      init_process();
+    } else {
+      setProcessFeedback("Archivo incorrecto, inténtelo nuevamente");
+    }
   };
 
   return (
@@ -638,6 +635,7 @@ function Keygenerator(props) {
           </div>
           <br />
           <p className="has-text-white font-caption">{processFeedback}</p>
+          {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
           <div>
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
               <button id="button-init" className="button mx-sm-2 mr-0 mt-2">
@@ -657,15 +655,6 @@ function Keygenerator(props) {
                   }}
                 >
                   Generar clave
-                </button>
-              )}
-              <input type="file" id="file-input" hidden onChange={uploadKey} />
-              {secretKey && actualPhase === 1 && (
-                <button
-                  className="button mx-sm-2 mt-2"
-                  onClick={buttonUploadKey}
-                >
-                  Subir clave
                 </button>
               )}
               {actualPhase === 2 && actualStep !== 4 && (
@@ -704,7 +693,7 @@ function Keygenerator(props) {
                     downloadKey();
                   }}
                 >
-                  Descargar llave
+                  Descargar clave
                 </button>
               )}
             </div>

@@ -1,11 +1,25 @@
-import { useState } from "react";
-
 export default function DropFile(props) {
+  const checkFile = (text) => {
+    try {
+      const content = JSON.parse(text);
+      if (
+        content.hasOwnProperty("trustee") &&
+        content.hasOwnProperty("private_key")
+      ) {
+        return content.private_key;
+      } else {
+        return "";
+      }
+    } catch (err) {
+      return "";
+    }
+  };
+
   const filesToString = (file) => {
     var reader = new FileReader();
     reader.onload = function () {
-      let secretKey = reader.result;
-      props.setText(secretKey);
+      let fileContent = reader.result;
+      props.setText(checkFile(fileContent));
     };
     reader.readAsText(file);
   };

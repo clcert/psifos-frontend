@@ -27,6 +27,7 @@ function DecryptProve(props) {
     "Cargando información..."
   );
   const [generateDecrypt, setGenerateDecrypt] = useState(false);
+  const [isTotalProcess, setIsTotalProcess] = useState(false);
 
   const { uuid, uuidTrustee } = useParams();
 
@@ -67,6 +68,7 @@ function DecryptProve(props) {
       body: descriptions,
     });
     if (response.status === 200) {
+      setIsTotalProcess(true);
       setFeedbackMessage("Desencriptación Parcial enviada Exitosamente");
       const jsonResponse = await response.json();
       return jsonResponse;
@@ -88,6 +90,11 @@ function DecryptProve(props) {
   }, [certificates, params, points, secretKey]);
 
   const do_tally = useCallback(() => {
+    if (!secretKey) {
+      setFeedbackMessage("Formato de archivo incorrecto");
+      setGenerateDecrypt(false);
+      return;
+    }
     var secret_key = get_secret_key();
 
     // ENCRYPTED TALLY :
@@ -146,7 +153,7 @@ function DecryptProve(props) {
         do_tally();
       } catch {
         setGenerateDecrypt(false);
-        setFeedbackMessage("Ha ocurrido un error");
+        setFeedbackMessage("Clave incorrecta");
       }
     }
   }, [generateDecrypt, do_tally]);
@@ -212,14 +219,16 @@ function DecryptProve(props) {
                   Generar desencriptación
                 </button>
               ) : (
-                <button
-                  className="button mr-2 mt-2"
-                  onClick={() => {
-                    sendDescrypt();
-                  }}
-                >
-                  Enviar
-                </button>
+                !isTotalProcess && (
+                  <button
+                    className="button mr-2 mt-2"
+                    onClick={() => {
+                      sendDescrypt();
+                    }}
+                  >
+                    Enviar
+                  </button>
+                )
               )}
             </div>
             <div className="mt-4"></div>
