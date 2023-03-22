@@ -73,7 +73,7 @@ function GeneralAdmin() {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <TitlePsifos namePage="Panel de administración" nameElection={""} />
+            <TitlePsifos namePage="Panel de Administración" nameElection={""} />
           </div>
         </section>
 
@@ -132,7 +132,7 @@ function GeneralAdmin() {
             <div className="spinner-animation"></div>
           )}
         </section>
-        <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+        <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
         <ModalFreeze
           show={freezeModal.state}
           onHide={() => setFreezeModal(false)}

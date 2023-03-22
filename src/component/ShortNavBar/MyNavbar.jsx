@@ -67,7 +67,7 @@ function MyNavbar(props) {
           </div>
         </nav>
       </div>
-      <ModalInfo show={showInfo} onHide={() => setShowInfo(false)} />
+      <ModalInfo show={showInfo} onHide={() => setShowInfo(false)} description={""} />
       <ModalHelp show={showHelp} onHide={() => setShowHelp(false)} />
     </div>
   );

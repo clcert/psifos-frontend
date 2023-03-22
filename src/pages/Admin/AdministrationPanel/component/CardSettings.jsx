@@ -54,7 +54,7 @@ function CardSettings(props) {
             className="link-without-line"
             to={"/psifos/booth/" + uuid + "/public-info"}
           >
-            Ver urna electronica
+            Ver portal de información
           </Link>
         </div>
 

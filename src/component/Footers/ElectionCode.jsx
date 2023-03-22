@@ -7,11 +7,11 @@ function ElectionCode(props) {
           style={{ marginTop: "0.5rem" }}
         >
           <div className="columns is-centered" style={{ marginBottom: "0" }}>
-            <p className="mb-0">Participa UChile es un proyecto de la Universidad de Chile - 2022</p>
+            <p className="mb-0">Participa UChile es un proyecto de CLCERT - Universidad de Chile</p>
           </div>
         </div>
       </footer>
-      <section className="hero py-4">
+      <section className="hero py-2">
         
       </section>
     </div>

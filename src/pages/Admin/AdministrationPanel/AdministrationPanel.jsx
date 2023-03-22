@@ -103,7 +103,7 @@ function AdministrationPanel(props) {
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
             <TitlePsifos
-              namePage="Panel de administración"
+              namePage="Panel de Administración"
               nameElection={election.name}
             />
           </div>
@@ -164,7 +164,7 @@ function AdministrationPanel(props) {
             <div className="spinner-animation"></div>
           )}
         </section>
-        <FooterParticipa message="PARTICIPA.UCHILE es un proyecto de la Universidad de Chile - 2021" />
+        <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
         <ExtendElection
           show={extendElectionModal}
           onHide={() => setExtendElectionModal(false)}
