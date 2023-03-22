@@ -28,7 +28,7 @@ function VerifyVoteModal(props) {
   }
 
   useEffect(() => {
-    if (props.show) {
+    if (props.show && props.voteHash) {
       let intervalTotal = setInterval(() => {
         props.afterVerify();
       }, 15000);
@@ -39,7 +39,7 @@ function VerifyVoteModal(props) {
         clearInterval(intervalTotal);
       };
     }
-  }, [props.show]);
+  }, [props.show, props.voteHash]);
 
   return (
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
@@ -51,7 +51,9 @@ function VerifyVoteModal(props) {
             POR FAVOR ESPERA UN MOMENTO
           </p>
           <img className="mt-2" src={encryptingGIF} />
-          <p className="subtitle mt-4">Se está verificando que el voto se realizó correctamente</p>
+          <p className="subtitle mt-4">
+            Se está verificando que el voto se realizó correctamente
+          </p>
         </section>
       </div>
     </div>
