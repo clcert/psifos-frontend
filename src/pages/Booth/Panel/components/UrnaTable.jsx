@@ -21,11 +21,13 @@ function UrnaTable(props) {
   };
   const isShowWeightColumn = props.electionData.election.max_weight > 1;
   return (
-    <Table className="pretty table is-bordered is-hoverable voters-table">
+    <Table className="pretty table is-bordered is-hoverable voters-table mt-2">
       <Thead>
         <Tr>
           <Th className="has-text-centered">Código de Papeleta</Th>
-          {isShowWeightColumn && <Th className="has-text-centered">Ponderador</Th>}
+          {isShowWeightColumn && (
+            <Th className="has-text-centered">Ponderador</Th>
+          )}
           <Th className="has-text-centered">Voto Encriptado</Th>
         </Tr>
       </Thead>
@@ -42,7 +44,7 @@ function UrnaTable(props) {
               >
                 <span className="urna-voter-hash">{voterHash}</span>
               </Td>
-              {isShowWeightColumn &&
+              {isShowWeightColumn && (
                 <Td
                   className={
                     "align-middle has-text-centered " +
@@ -51,7 +53,7 @@ function UrnaTable(props) {
                 >
                   {voter.voter_weight}
                 </Td>
-              }
+              )}
               <Td
                 className={
                   "align-middle has-text-centered " +
