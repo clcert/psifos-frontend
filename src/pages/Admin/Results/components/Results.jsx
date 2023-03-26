@@ -58,11 +58,11 @@ function Results(props) {
       {!load && <div className="spinner-animation"></div>}
       {results.length > 0 && load && (
         <div>
-          <div class="d-flex justify-content-center">
+          <div className="d-flex justify-content-center">
             <h1 className="title is-size-3">Resumen elección</h1>
           </div>
           <ResumeTable className="pt-4" />
-          <div class="d-flex justify-content-center py-4">
+          <div className="d-flex justify-content-center py-4">
             <h2 className="title is-size-4">Resultados por pregunta</h2>
           </div>
           {questions.map((question, index) => {
