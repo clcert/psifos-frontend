@@ -15,7 +15,6 @@ import VerifyElection from "./VerifyElection";
 function InfoBoothView() {
   const [electionName, setElectionName] = useState("");
   const [activeNumber, setActiveNumber] = useState(0);
-  const [activeName, setActiveName] = useState("Urna electronica");
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
@@ -33,7 +32,10 @@ function InfoBoothView() {
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar linkExit="" linkInit="" />
 
-          <TitlePsifos namePage="Portal de Información" nameElection={electionName} />
+          <TitlePsifos
+            namePage="Portal de Información"
+            nameElection={electionName}
+          />
         </div>
       </section>
 
@@ -41,7 +43,6 @@ function InfoBoothView() {
         active={activeNumber}
         changeActive={(number, name) => {
           setActiveNumber(number);
-          setActiveName(name);
         }}
       />
 
