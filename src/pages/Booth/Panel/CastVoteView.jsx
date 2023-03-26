@@ -10,15 +10,16 @@ function CastVoteView() {
     election: {},
     electionVoters: [],
     actualPage: 0,
+    totalVotes: 0,
   });
   const [loadData, setLoadData] = useState(false);
-  const [disabledNext, setDisabledNext] = useState(false);
+  const [disabledNext, setDisabledNext] = useState(true);
   const [disabledPrevious, setDisabledPrevious] = useState(true);
 
   const [searchParams] = useSearchParams();
   const { uuid } = useParams();
 
-  const lengthPage = 50;
+  const lengthPage = 1;
 
   const hashUrl =
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
@@ -33,12 +34,14 @@ function CastVoteView() {
       getElectionInfo(uuid).then((dataElection) => {
         const page = Math.floor(dataVotes.position / lengthPage);
         setDisabledPrevious(page === 0 ? true : false);
+        setDisabledNext(!dataVotes.more_votes);
 
         setElectionData({
           ...electionData,
           election: dataElection,
           electionVoters: dataVotes.voters,
           actualPage: page,
+          totalVotes: dataVotes.total_votes,
         });
         setLoadData(true);
       });
@@ -61,6 +64,7 @@ function CastVoteView() {
           if (dataVotes.voters.length !== 0) {
             setDisabledNext(false);
             setDisabledPrevious(newPage === 0 ? true : false);
+            setDisabledNext(!dataVotes.more_votes);
             setElectionData({
               ...electionData,
               electionVoters: dataVotes.voters,
@@ -74,14 +78,16 @@ function CastVoteView() {
     }
   }
 
+  const totalPages = Math.ceil(electionData.totalVotes / lengthPage);
+
   return (
     <>
       {loadData ? (
         <>
           {electionData.electionVoters.length !== 0 ? (
             <div className="urna-table" style={{ maxWidth: "100%" }}>
-              <div class="row">
-                <div class="col-6 d-flex align-self-start">
+              <div className="row">
+                <div className="col-6 d-flex align-self-start">
                   <Button
                     onClick={() => {
                       changePage(-1);
@@ -92,7 +98,7 @@ function CastVoteView() {
                     Previo
                   </Button>
                 </div>
-                <div class="col-6 d-flex justify-content-end">
+                <div className="col-6 d-flex justify-content-end">
                   <Button
                     onClick={() => {
                       changePage(1);
@@ -104,7 +110,14 @@ function CastVoteView() {
                   </Button>
                 </div>
               </div>
-              <div>
+              <div className="d-flex justify-content-center mt-2">
+                <span>
+                  Página {electionData.actualPage + 1} de {totalPages}{" "}
+                  (Mostrando 1-{lengthPage} de {electionData.totalVotes}{" "}
+                  resultados)
+                </span>
+              </div>
+              <div className="mt-1">
                 <UrnaTable electionData={electionData} />
               </div>
             </div>
