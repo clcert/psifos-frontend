@@ -63,6 +63,7 @@ function CreateQuestion(props) {
       min_answers: 1,
       max_answers: 1,
       include_blank_null: true,
+      group_votes: false,
     });
 
     setQuestion(questionAux);
