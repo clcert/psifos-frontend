@@ -166,6 +166,29 @@ function QuestionsForms(props) {
               Se incluira la opción para votar nulo o blanco.
             </p>
           </div>
+          {props.question.q_type === "mixnet_question" && (
+            <div className="field">
+              <div className="control">
+                <label className="checkbox">
+                  <input
+                    disabled={props.disabledEdit}
+                    onChange={(e) => {
+                      let auxQuestion = props.question;
+                      auxQuestion.group_votes = e.target.checked;
+                      props.updateQuestions(props.questionId, auxQuestion);
+                    }}
+                    checked={props.question.group_votes}
+                    type="checkbox"
+                    className="mr-2"
+                  />
+                  Agrupar candidaturas
+                </label>
+              </div>
+              <p className="help">
+                Se agruparan los distintos votos por grupo.
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <OptionQuestions

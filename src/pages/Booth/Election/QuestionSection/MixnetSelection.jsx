@@ -1,9 +1,12 @@
+import { indexOf } from "lodash";
 import { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 
 function MixnetSelection(props) {
+  const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
+
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
 
@@ -20,7 +23,7 @@ function MixnetSelection(props) {
   const [blankButton, setBlankButton] = useState(false);
 
   /** @state {string} placeholder for input select */
-  const [placeHolder, setPlaceHolder] = useState("Seleccione una opción");
+  const [placeHolder, setPlaceHolder] = useState(defaultPlaceHolder);
 
   const changeAllEncrypted = useCallback(
     (number) => {
@@ -39,24 +42,53 @@ function MixnetSelection(props) {
     const auxAnswersForEncrypt = changeAllEncrypted(
       props.question.closed_options.length
     );
-    let auxOptions = props.question.closed_options.map(
-      (close_option, index) => {
-        return {
+    const auxOptions = [];
+    props.question.closed_options.forEach((close_option, index) => {
+      if (props.question.group_votes !== "True") {
+        const optionValue = {
           value: close_option,
           label: close_option,
           key: index,
         };
+        auxOptions.push(optionValue);
+      } else {
+        const optionSplit = close_option.split(",");
+        const value = optionSplit[0];
+        const group = optionSplit[1] ? optionSplit[1] : "Otras Candidaturas";
+        const optionValue = {
+          value: value,
+          label: value,
+          key: index,
+        };
+        const indexGroup = auxOptions.find((object) => object.label === group);
+        if (!indexGroup) {
+          auxOptions.push({
+            label: group,
+            options: [optionValue],
+          });
+        } else {
+          indexGroup.options.push(optionValue);
+        }
       }
-    );
+    });
     setOptions(auxOptions);
     props.addAnswer(auxAnswersForEncrypt, props.index);
   }, []);
 
   const filterOptions = useCallback(
     (inputValue) => {
-      return options.filter((i) =>
-        i.label.toLowerCase().includes(inputValue.toLowerCase())
-      );
+      if (props.question.group_votes !== "True") {
+        return options.filter((i) =>
+          i.label.toLowerCase().includes(inputValue.toLowerCase())
+        );
+      }
+      const auxOptions = JSON.parse(JSON.stringify(options));
+      auxOptions.map((option) => {
+        option.options = option.options.filter((i) =>
+          i.label.toLowerCase().includes(inputValue.toLowerCase())
+        );
+      });
+      return auxOptions;
     },
     [options]
   );
@@ -105,7 +137,7 @@ function MixnetSelection(props) {
       setAnswersForEncrypt(auxAnswersForEncrypt);
       props.addAnswer(auxAnswersForEncrypt, props.index);
       setOptions(auxOptions);
-      setPlaceHolder("Seleccione una opción");
+      setPlaceHolder(defaultPlaceHolder);
     },
     [nullButton, blankButton, options, answersSelected, answersForEncrypt]
   );
@@ -133,7 +165,7 @@ function MixnetSelection(props) {
     setBlankButton(event.target.checked);
     setNullButton(false);
     changeAllEncrypted(props.question.closed_options.length);
-    setPlaceHolder("Seleccione una opción");
+    setPlaceHolder(defaultPlaceHolder);
     if (event.target.checked) {
       deleteOptions();
     }
