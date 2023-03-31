@@ -39,6 +39,8 @@ function Keygenerator(props) {
 
   const [trustee, setTrustee] = useState("");
 
+  const [election, setElection] = useState([]);
+
   const [interval, setInterval] = useState(null);
 
   const [ElGamalParams, setElGamalParams] = useState("");
@@ -201,7 +203,7 @@ function Keygenerator(props) {
           step_3();
         } else if (TRUSTEE_STEP === 4) {
           window.clearInterval(interval);
-          setProcessFeedback("Proceso completado!");
+          setProcessFeedback("Generación de claves completado con éxito");
         }
       } else {
         setProcessFeedback("Los otros trustee aun no completan la etapa");
@@ -215,11 +217,12 @@ function Keygenerator(props) {
      *
      */
 
+    document.getElementById("process_step").style.display = 'none';
     generate_keypair();
     download_sk_to_file("trustee_key_" + trustee.email + ".txt");
     setSecretKey(helios_c.secret_key);
     setProcessFeedback(
-      "Clave generada. Ahora debemos asegurarnos que posees esta en tu computadora, por favor sube el archivo"
+      "Debes descargar el archivo y respaldarlo adecuadamente. Para continuar, debes subir el archivo recién descargado para verificar que lo tienes almacenado en tu computador"
     );
   }
 
@@ -395,11 +398,11 @@ function Keygenerator(props) {
     } else if (step < 4) {
       if (step !== 0) {
         setActualPhase(2);
-        setProcessFeedback("El proceso de pasos aun no ha terminado!");
+        setProcessFeedback("Esperando que se complete el proceso");
         setTextButtonInit("Continuar proceso");
       } else {
         setActualPhase(1);
-        setProcessFeedback("Aun no se ha generado la clave");
+        setProcessFeedback("Clave aun no generada");
       }
     }
   }
@@ -552,8 +555,8 @@ function Keygenerator(props) {
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
-            namePage="Custodio de Claves"
-            nameElection={"Etapa 1: Generación de Claves " + trustee.name}
+            namePage="Portal de Custodio de Clave: Generación"
+            nameElection={election.name} // TODO: Retrieve this value
           />
         </div>
       </section>
@@ -564,7 +567,7 @@ function Keygenerator(props) {
             <div className="level-item has-text-centered">
               <div>
                 <p className="pb-2 title has-text-white">
-                  Generación claves{" "}
+                  Generación de Claves{" "}
                   <i
                     id="step_0"
                     className={
@@ -578,7 +581,21 @@ function Keygenerator(props) {
             </div>
           )}
           {actualPhase === 2 && (
-            <div className="level">
+            <div>
+              <p className="title has-text-white pb-2">
+                Sincronizando con los otros custodios de claves{" "}
+                <i
+                  id="step_1"
+                  className={
+                  actualStep >= 4 
+                    ? "fa-solid fa-circle-check"
+                    : "fa-solid fa-spinner fa-spin"
+                  }
+                ></i>
+              </p>
+            </div>
+
+/*          <div className="level">
               <div className="level-item has-text-centered">
                 <div>
                   <p className="pb-2 title has-text-white">
@@ -588,7 +605,7 @@ function Keygenerator(props) {
                       className={
                         actualStep >= 2
                           ? "fa-solid fa-circle-check"
-                          : "fa-solid fa-circle-xmark"
+                          : "fa-solid fa-spinner fa-spin"
                       }
                     ></i>
                   </p>
@@ -603,7 +620,7 @@ function Keygenerator(props) {
                       className={
                         actualStep >= 3
                           ? "fa-solid fa-circle-check"
-                          : "fa-solid fa-circle-xmark"
+                          : "fa-solid fa-spinner fa-spin"
                       }
                     ></i>
                   </p>
@@ -618,43 +635,36 @@ function Keygenerator(props) {
                       className={
                         actualStep >= 4
                           ? "fa-solid fa-circle-check"
-                          : "fa-solid fa-circle-xmark"
+                          : "fa-solid fa-spinner fa-spin"
                       }
                     ></i>
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */
           )}
-          <div id="process_step" className="has-text-white font-caption">
-            <span>
-              Es muy importante que una vez que descargues la clave y la
-              almacenes.
-            </span>{" "}
-            <p>Sin esta el proceso de votación no se podrá llevar a cabo</p>
+          <div id="process_step" className="mt-3 has-text-black is-size-5 px-6 box">
+            <span>&nbsp;
+              <i class="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN<br/>
+              Una vez que descargues la clave, debes almacenarla en tu computador, además 
+              de hacer un respaldo del archivo descargado. <br/> 
+              Para hacer este respaldo puedes guardar el archivo en un pendrive.
+            </span>
           </div>
           <br />
-          <p className="has-text-white font-caption">{processFeedback}</p>
+          <p className="has-text-white is-size-5">{processFeedback}</p>
           {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
-          <div>
-            <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-              <button id="button-init" className="button mx-sm-2 mr-0 mt-2">
-                <Link
-                  style={{ textDecoration: "None", color: "black" }}
-                  to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
-                >
-                  Volver atrás
-                </Link>
-              </button>
+
+            <div className="d-flex flex-sm-column mt-4 is-align-items-center">
               {!secretKey && actualPhase === 1 && (
                 <button
-                  className="button mx-sm-2 mt-2"
+                  className="button is-large step-button"
                   disabled={!enabledButtonInit}
                   onClick={() => {
                     step_0();
                   }}
                 >
-                  Generar clave
+                  Generar y descargar clave
                 </button>
               )}
               {actualPhase === 2 && actualStep !== 4 && (
@@ -669,35 +679,48 @@ function Keygenerator(props) {
                 </button>
               )}
               {actualStep === 4 && (
-                <button id="button-init" className="button mr-5 mt-2">
-                  <Link
-                    style={{ textDecoration: "None", color: "black" }}
-                    to={
-                      "/psifos/" +
-                      uuid +
-                      "/trustee/" +
-                      uuidTrustee +
-                      "/check-sk"
-                    }
-                  >
-                    Verifica tu Clave Privada
-                  </Link>
-                </button>
+                <div>
+                  <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p>
+                  <button id="button-init" className="button mr-5 mt-0">
+                    <Link
+                      style={{ textDecoration: "None", color: "black" }}
+                      to={
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/check-sk"
+                      }
+                    >
+                      Verifica tu Clave Privada
+                    </Link>
+                  </button>
+                </div>
               )}
             </div>
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
               {secretKey && actualPhase === 1 && (
-                <button
-                  className="button mt-2"
-                  onClick={() => {
-                    downloadKey();
-                  }}
-                >
-                  Descargar clave
-                </button>
+                <div>
+                  <p className="has-text-white is-size-5 mb-1">Si no encuentras el archivo, puedes descargar nuevamente tu clave privada</p>
+                  <button
+                    className="button mt-0"
+                    onClick={() => {
+                      downloadKey();
+                    }}
+                  >
+                    Descargar clave
+                  </button>
+                </div>
               )}
             </div>
-          </div>
+            <button id="button-init" className="button mx-sm-2 mr-0 mt-5">
+                <Link
+                  style={{ textDecoration: "None", color: "black" }}
+                  to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+                >
+                  Volver atrás
+                </Link>
+            </button>
         </div>
       </section>
       <div>

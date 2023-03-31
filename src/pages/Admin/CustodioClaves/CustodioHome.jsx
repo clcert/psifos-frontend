@@ -89,24 +89,20 @@ function CustodioHome(props) {
               linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
             <TitlePsifos
-              namePage="Custodio de Claves"
-              nameElection={"Pagina privada de Vocal"}
+              namePage="Portal de Custodio de Clave"
+              nameElection={election.name}
             />
           </div>
         </section>
 
         <section className="section" id="medium-section">
           <div className="container has-text-centered is-max-desktop">
-            <h1 className="pb-2 title has-text-white steps-title">
-              PASOS A SEGUIR
-            </h1>
             <div>
               {load ? (
                 <>
                   <div className="d-inline-flex justify-content-center flex-column">
                     {!disabledButton1 && (
                       <StepButton
-                        step={1}
                         text="Iniciar Generación de Claves"
                         linkTo={
                           "/psifos/" +
@@ -119,8 +115,7 @@ function CustodioHome(props) {
                     )}
                     {!disabledButton2 && (
                       <StepButton
-                        step={2}
-                        text="Verifica tu Clave Privada"
+                        text="Verificar Clave Privada"
                         linkTo={
                           "/psifos/" +
                           uuid +
@@ -132,8 +127,7 @@ function CustodioHome(props) {
                     )}
                     {!disabledButton3 && (
                       <StepButton
-                        step={3}
-                        text="Envía tu Desencriptación Parcial"
+                        text="Enviar Desencriptación Parcial"
                         linkTo={
                           "/psifos/" +
                           uuid +
@@ -145,22 +139,9 @@ function CustodioHome(props) {
                     )}
                   </div>
                   {!election.encrypted_tally && (
-                    <p className="has-text-white pt-5">
-                      * Una vez realizado el precómputo, debes volver aquí para
-                      entregar tu clave privada y desencriptar el resultado
-                      final *
-                    </p>
-                  )}
-
-                  {trustee.decryptions ? (
-                    <p className="has-text-white">
-                      Ya has completado exitosamente todos los pasos como vocal
-                      de la elección. Muchas gracias por tu participación.
-                    </p>
-                  ) : (
-                    <p className="has-text-white">
-                      Guarda el correo electrónico con el enlace de tu página
-                      privada de vocal, para volver más adelante.
+                    <p className="has-text-white pt-5 px-5 is-size-5">
+                      Cuando termine la elección, debes volver a este sitio para que puedas 
+                      enviar tu desencriptación parcial
                     </p>
                   )}
                 </>

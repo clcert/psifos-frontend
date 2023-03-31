@@ -686,11 +686,16 @@ input[type="radio"] {
 }
 
 .step-button {
-  color: white !important;
-  background-color: transparent !important;
-  border: 2px solid white !important;
-  border-radius: 10px !important;
-  max-width: 350px;
+	color: #004c94cc !important;
+	border: 2px solid white !important;
+	border-radius: 5px !important;
+	justify-content: center !important;
+  text-transform: uppercase;
+}
+
+.step-button:hover {
+	color: white !important;
+	background-color: #004c94 !important;
 }
 
 .inactive-button {

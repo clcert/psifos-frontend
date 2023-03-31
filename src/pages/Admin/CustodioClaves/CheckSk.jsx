@@ -10,6 +10,7 @@ import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
 import DropFile from "./components/DropFile";
+import ElectionCode from "../../../component/Footers/ElectionCode";
 
 function CheckSk(props) {
   /** @state {string} secret key for check */
@@ -17,6 +18,8 @@ function CheckSk(props) {
 
   /** @state {string} trustee uuid */
   const { uuid, uuidTrustee } = useParams();
+
+  const [election, setElection] = useState([]);
 
   /** @state {string} message with check result */
   const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -55,7 +58,7 @@ function CheckSk(props) {
     }
     if (key_ok_p) {
       setKeyVerificated(true);
-      setFeedbackMessage("Clave Verificada Exitosamente");
+      setFeedbackMessage("Clave verificada exitosamente");
     } else {
       setFeedbackMessage("Tu clave privada está incorrecta.");
     }
@@ -70,8 +73,8 @@ function CheckSk(props) {
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
-            namePage="Custodio de Claves"
-            nameElection={"Etapa 2: Verificación clave privada"}
+            namePage="Portal de Custodio de Clave: Verificación"
+            nameElection={election.name} // TODO: Retrieve this value
           />
         </div>
       </section>
@@ -83,11 +86,11 @@ function CheckSk(props) {
           <input
             type="text"
             disabled
-            className="input mb-3 mt-4"
-            placeholder="Clave privada.."
+            className="input mb-3 mt-4 is-family-monospace has-text-centered"
+            placeholder="Clave privada..."
             value={secretKey}
           />
-          <p className="has-text-white">{feedbackMessage}</p>
+          <p className="has-text-white is-size-4">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
             <button id="button-init" className="button mx-sm-2 mt-2">
               <Link
