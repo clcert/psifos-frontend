@@ -61,19 +61,15 @@ async function getElections() {
 }
 
 async function getStats(uuid) {
-  const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendOpIP + "/get-election-stats/" + uuid, {
+  const resp = await fetch(backendInfoIp + "/get-election-stats/" + uuid, {
     method: "GET",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
   });
   if (resp.status === 200) {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 403) {
-    logout();
   }
 }
 
