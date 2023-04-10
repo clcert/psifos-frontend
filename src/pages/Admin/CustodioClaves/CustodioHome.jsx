@@ -89,75 +89,59 @@ function CustodioHome(props) {
               linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
             />
             <TitlePsifos
-              namePage="Custodio de Claves"
-              nameElection={"Pagina privada de Vocal"}
+              namePage="Portal de Custodio de Clave"
+              nameElection={election.name}
             />
           </div>
         </section>
 
         <section className="section" id="medium-section">
           <div className="container has-text-centered is-max-desktop">
-            <h1 className="pb-2 title has-text-white steps-title">
-              PASOS A SEGUIR
-            </h1>
-            <div className="is-flex is-align-items-center is-flex-direction-column">
+            <div>
               {load ? (
                 <>
-                  <div className="is-flex is-flex-direction-column">
-                    <StepButton
-                      step={1}
-                      disabled={disabledButton1}
-                      text="Generar llaves."
-                      linkTo={
-                        "/psifos/" +
-                        uuid +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/keygenerator"
-                      }
-                    />
-                    <StepButton
-                      step={2}
-                      disabled={disabledButton2}
-                      text="Verifica tu Clave Privada"
-                      linkTo={
-                        "/psifos/" +
-                        uuid +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/check-sk"
-                      }
-                    />
-                    <StepButton
-                      step={3}
-                      disabled={disabledButton3}
-                      text="Desencriptar resultado final"
-                      linkTo={
-                        "/psifos/" +
-                        uuid +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/decrypt-and-prove"
-                      }
-                    />
+                  <div className="d-flex justify-content-center">
+                    {!disabledButton1 && (
+                      <StepButton
+                        text="Iniciar Generación de Claves"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/keygenerator"
+                        }
+                      />
+                    )}
+                    {!disabledButton2 && (
+                      <StepButton
+                        text="Verificar Clave Privada"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/check-sk"
+                        }
+                      />
+                    )}
+                    {!disabledButton3 && (
+                      <StepButton
+                        text="Enviar Desencriptación Parcial"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/decrypt-and-prove"
+                        }
+                      />
+                    )}
                   </div>
                   {!election.encrypted_tally && (
-                    <p className="has-text-white pt-5">
-                      * Una vez realizado el precómputo, debes volver aquí para
-                      entregar tu clave privada y desencriptar el resultado
-                      final *
-                    </p>
-                  )}
-
-                  {trustee.decryptions ? (
-                    <p className="has-text-white">
-                      Ya has completado exitosamente todos los pasos como vocal
-                      de la elección. Muchas gracias por tu participación.
-                    </p>
-                  ) : (
-                    <p className="has-text-white">
-                      Guarda el correo electrónico con el enlace de tu página
-                      privada de vocal, para volver más adelante.
+                    <p className="has-text-white pt-5 px-5 is-size-5">
+                      Cuando termine la elección, debes volver a este sitio para que puedas 
+                      enviar tu desencriptación parcial
                     </p>
                   )}
                 </>

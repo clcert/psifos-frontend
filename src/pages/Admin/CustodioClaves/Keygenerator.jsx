@@ -7,6 +7,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import imageTrustees from "../../../static/svg/trustees1.svg";
+import DropFile from "./components/DropFile";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
 import { useCallback, useEffect, useState } from "react";
@@ -38,9 +39,19 @@ function Keygenerator(props) {
 
   const [trustee, setTrustee] = useState("");
 
+  const [election, setElection] = useState([]);
+
   const [interval, setInterval] = useState(null);
 
   const [ElGamalParams, setElGamalParams] = useState("");
+
+  const [actualPhase, setActualPhase] = useState(null);
+
+  const [secretKey, setSecretKey] = useState(null);
+
+  const [certificateCache, setCertificateCache] = useState(null);
+
+  const [checkedSecretKey, setCheckedSecretKey] = useState("");
 
   /** @urlParam {uuid} election uuid */
   const { uuid, uuidTrustee } = useParams();
@@ -174,13 +185,11 @@ function Keygenerator(props) {
 
   function total_process() {
     get_step().then((data) => {
+      console.log(TRUSTEE_STEP, data.status);
       if (TRUSTEE_STEP === data.status) {
         setActualStep(TRUSTEE_STEP);
-        if (TRUSTEE_STEP === 0 && !EXECUTE) {
-          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
-          EXECUTE = true;
-          step_0();
-        } else if (TRUSTEE_STEP === 1 && !EXECUTE) {
+
+        if (TRUSTEE_STEP === 1 && !EXECUTE) {
           setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_1();
@@ -194,7 +203,7 @@ function Keygenerator(props) {
           step_3();
         } else if (TRUSTEE_STEP === 4) {
           window.clearInterval(interval);
-          setProcessFeedback("Proceso completado!");
+          setProcessFeedback("Generación de claves completado con éxito");
         }
       } else {
         setProcessFeedback("Los otros trustee aun no completan la etapa");
@@ -208,10 +217,13 @@ function Keygenerator(props) {
      *
      */
 
+    document.getElementById("process_step").style.display = 'none';
     generate_keypair();
     download_sk_to_file("trustee_key_" + trustee.email + ".txt");
-    send_public_key();
-    setProcessFeedback("Proceso de generación de clave privada completado");
+    setSecretKey(helios_c.secret_key);
+    setProcessFeedback(
+      "Debes descargar el archivo y respaldarlo adecuadamente. Para continuar, debes subir el archivo recién descargado para verificar que lo tienes almacenado en tu computador"
+    );
   }
 
   function step_1() {
@@ -329,15 +341,20 @@ function Keygenerator(props) {
 
   function setup_public_key_and_proof() {
     CERTIFICATE = helios_c.trustee.generate_certificate();
+    setCertificateCache(CERTIFICATE);
     helios_c.secret_key = helios_c.trustee.get_secret_key();
     //this.storage.setItem('key', SECRET_KEY);
   }
 
   function download_sk_to_file(filename) {
     var element = document.createElement("a");
+    const fileContent = {
+      trustee: trustee.name,
+      private_key: helios_c.secret_key,
+    };
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," + helios_c.secret_key
+      "data:text/plain;charset=utf-8," + JSON.stringify(fileContent)
     );
     element.setAttribute("download", filename);
     element.style.display = "none";
@@ -359,24 +376,34 @@ function Keygenerator(props) {
       },
 
       body: JSON.stringify({
-        public_key_json: JSON.stringify(CERTIFICATE),
+        public_key_json: JSON.stringify(certificateCache),
       }),
     });
     if (resp.status === 200) {
       TRUSTEE_STEP = 1;
+      trustee.current_step = 1;
       setActualStep(1);
+      setActualPhase(2);
       EXECUTE = false;
       set_step_init(TRUSTEE_STEP);
     }
   }
 
   function set_step_init(step) {
+    setActualStep(step);
     if (step === 4) {
+      setActualPhase(2);
       setEnabledButtonInit(false);
-      setProcessFeedback("Proceso terminado!");
+      setProcessFeedback("¡Sincronización terminada!");
     } else if (step < 4) {
-      if (step !== 0) setTextButtonInit("Continuar proceso");
-      setProcessFeedback(`Actualmente se esta en el paso ${step}`);
+      if (step !== 0) {
+        setActualPhase(2);
+        setProcessFeedback("Esperando que se complete el proceso");
+        setTextButtonInit("Continuar proceso");
+      } else {
+        setActualPhase(1);
+        setProcessFeedback("Clave aun no generada");
+      }
     }
   }
 
@@ -506,6 +533,19 @@ function Keygenerator(props) {
     },
   };
 
+  const downloadKey = () => {
+    download_sk_to_file("trustee_key_" + trustee.email + ".txt");
+  };
+
+  const checkSk = (key) => {
+    if (key === helios_c.secret_key) {
+      send_public_key();
+      init_process();
+    } else {
+      setProcessFeedback("Archivo incorrecto, inténtelo nuevamente");
+    }
+  };
+
   return (
     <div id="content-trustees">
       <section id="header-section" className="parallax hero is-medium">
@@ -515,19 +555,19 @@ function Keygenerator(props) {
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
-            namePage="Custodio de Claves"
-            nameElection={"Etapa 1: Generación de Claves " + trustee.name}
+            namePage="Portal de Custodio de Clave: Generación"
+            nameElection={election.name} // TODO: Retrieve this value
           />
         </div>
       </section>
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
-          <div className="level">
+          {actualPhase === 1 && (
             <div className="level-item has-text-centered">
               <div>
                 <p className="pb-2 title has-text-white">
-                  Generación claves{" "}
+                  Generación de Claves{" "}
                   <i
                     id="step_0"
                     className={
@@ -539,93 +579,151 @@ function Keygenerator(props) {
                 </p>
               </div>
             </div>
-            <div className="level-item has-text-centered">
-              <div>
-                <p className="pb-2 title has-text-white">
-                  Paso 1{" "}
-                  <i
-                    id="step_1"
-                    className={
-                      actualStep >= 2
-                        ? "fa-solid fa-circle-check"
-                        : "fa-solid fa-circle-xmark"
-                    }
-                  ></i>
-                </p>
-              </div>
+          )}
+          {actualPhase === 2 && (
+            <div>
+              <p className="title has-text-white pb-2">
+                Sincronizando con los otros custodios de claves{" "}
+                <i
+                  id="step_1"
+                  className={
+                  actualStep >= 4 
+                    ? "fa-solid fa-circle-check"
+                    : "fa-solid fa-spinner fa-spin"
+                  }
+                ></i>
+              </p>
             </div>
-            <div className="level-item has-text-centered">
-              <div>
-                <p className="pb-2 title has-text-white">
-                  Paso 2{" "}
-                  <i
-                    id="step_2"
-                    className={
-                      actualStep >= 3
-                        ? "fa-solid fa-circle-check"
-                        : "fa-solid fa-circle-xmark"
-                    }
-                  ></i>
-                </p>
+
+/*          <div className="level">
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="pb-2 title has-text-white">
+                    Paso 1{" "}
+                    <i
+                      id="step_1"
+                      className={
+                        actualStep >= 2
+                          ? "fa-solid fa-circle-check"
+                          : "fa-solid fa-spinner fa-spin"
+                      }
+                    ></i>
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="level-item has-text-centered">
-              <div>
-                <p className="pb-2 title has-text-white">
-                  Paso 3{" "}
-                  <i
-                    id="step_3"
-                    className={
-                      actualStep >= 4
-                        ? "fa-solid fa-circle-check"
-                        : "fa-solid fa-circle-xmark"
-                    }
-                  ></i>
-                </p>
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="pb-2 title has-text-white">
+                    Paso 2{" "}
+                    <i
+                      id="step_2"
+                      className={
+                        actualStep >= 3
+                          ? "fa-solid fa-circle-check"
+                          : "fa-solid fa-spinner fa-spin"
+                      }
+                    ></i>
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>
-          <div id="process_step" className="has-text-white">
-            {processFeedback}
+              <div className="level-item has-text-centered">
+                <div>
+                  <p className="pb-2 title has-text-white">
+                    Paso 3{" "}
+                    <i
+                      id="step_3"
+                      className={
+                        actualStep >= 4
+                          ? "fa-solid fa-circle-check"
+                          : "fa-solid fa-spinner fa-spin"
+                      }
+                    ></i>
+                  </p>
+                </div>
+              </div>
+            </div> */
+          )}
+          <div id="process_step" className="mt-3 has-text-black is-size-5 px-6 box">
+            <span>&nbsp;
+              <i class="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN<br/>
+              Una vez que descargues la clave, debes almacenarla en tu computador, además 
+              de hacer un respaldo del archivo descargado. <br/> 
+              Para hacer este respaldo puedes guardar el archivo en un pendrive.
+            </span>
           </div>
           <br />
-          <button id="button-init" className="btn-fixed button mr-5">
-            <Link
-              style={{ textDecoration: "None", color: "black" }}
-              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
-            >
-              Volver atrás
-            </Link>
-          </button>
-          {actualStep === 4 ? (
-            <button id="button-init" className="btn-fixed button mr-5">
-              <Link
-                style={{ textDecoration: "None", color: "black" }}
-                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/check-sk"}
-              >
-                Verificar clave
-              </Link>
+          <p className="has-text-white is-size-5">{processFeedback}</p>
+          {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
+
+            <div className="d-flex flex-sm-column mt-4 is-align-items-center">
+              {!secretKey && actualPhase === 1 && (
+                <button
+                  className="is-large button is-info is-light is-outlined"
+                  style={{ textDecoration: "None", textTransform: "uppercase", whiteSpace: "normal", height: "3em" }}
+                  disabled={!enabledButtonInit}
+                  onClick={() => {
+                    step_0();
+                  }}
+                >
+                  Generar y descargar clave
+                </button>
+              )}
+              {actualPhase === 2 && actualStep !== 4 && (
+                <button
+                  className="button mx-sm-2 mt-2"
+                  disabled={!enabledButtonInit}
+                  onClick={() => {
+                    init_process();
+                  }}
+                >
+                  {textButtonInit}
+                </button>
+              )}
+              {actualStep === 4 && (
+                <div>
+                  {/* <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p> */}
+                  <button id="button-init" className="button is-link mr-5 mt-0">
+                    <Link
+                      style={{ textDecoration: "None", color: "white" }}
+                      to={
+                        "/psifos/" +
+                        uuid +
+                        "/trustee/" +
+                        uuidTrustee +
+                        "/home"
+                      }
+                    >
+                      Ir al Home
+                    </Link>
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
+              {secretKey && actualPhase === 1 && (
+                <div>
+                  <p className="has-text-white is-size-5 mb-1 mt-4">Si no encuentras el archivo, puedes descargar nuevamente tu clave privada</p>
+                  <button
+                    className="button is-primary mt-0"
+                    onClick={() => {
+                      downloadKey();
+                    }}
+                  >
+                    Descargar clave
+                  </button>
+                </div>
+              )}
+            </div>
+            {actualStep !== 4 && (
+            <button className="button is-normal is-link mt-5">
+                <Link
+                  style={{ textDecoration: "None" , color: "white" }}
+                  to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+                >
+                  Volver atrás
+                </Link>
             </button>
-          ) : (
-            <button
-              className="button mr-5"
-              disabled={!enabledButtonInit}
-              onClick={() => {
-                init_process();
-              }}
-            >
-              {textButtonInit}
-            </button>
-          )}
-          {/* <button
-            className="button mr-5"
-            disabled={!enabledButtonInit}
-            onClick={() => {
-              init_process();
-            }}
-          >
-            {textButtonInit}
-          </button> */}
+            )}
         </div>
       </section>
       <div>

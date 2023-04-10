@@ -68,27 +68,27 @@ function HomeAdmin() {
                   />
                 )}
               </div>
-              <div className="row mt-4">
+              <div className="d-flex justify-content-between mt-4">
                 {elections.length !== 0 && (
-                  <div className="col-6 d-inline-flex justify-content-start mt-2">
+                  <div className="d-flex mt-2">
                     <Link
                       style={{ textDecoration: "none", color: "white" }}
                       className="link-button"
                       to="/psifos/admin/general"
                     >
-                      <Button className="button-custom ml-3 home-admin-button btn-fixed">
+                      <Button className="button-custom home-admin-button btn-fixed">
                         Panel general
                       </Button>
                     </Link>
                   </div>
                 )}
-                <div className="col-6 d-inline-flex justify-content-end mt-2">
+                <div className="d-flex mt-2">
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
                     className="link-button"
                     to="/psifos/admin/create-election"
                   >
-                    <Button className="button-custom ml-3 home-admin-button btn-fixed">
+                    <Button className="button-custom home-admin-button btn-fixed">
                       Crear Votación
                     </Button>
                   </Link>

@@ -102,6 +102,11 @@
   outline: none;
 }
 
+.font-caption{
+  font-weight: 700 !important;
+  font-size: 16px;
+}
+
 .search-button {
   cursor: pointer;
   color: #004c94;
@@ -632,7 +637,7 @@ input[type="radio"] {
     margin-left: auto;
     margin-right: auto;
   }
-  #logo-header{
+  #logo-header {
     width: 35vh;
   }
 }
@@ -673,20 +678,24 @@ input[type="radio"] {
 }
 
 #medium-section {
-  background-color: rgba(0, 76, 148, 0.8) !important;
+  background-color: rgba(0, 76, 148, 0.6) !important;
 }
 
 #keygen-section {
-  background-color: rgba(0, 76, 148, 0.8) !important;
+  background-color: rgba(0, 76, 148, 0.6) !important;
 }
 
 .step-button {
-  color: white !important;
-  background-color: transparent !important;
-  border: 2px solid white !important;
-  border-radius: 10px !important;
-  width: 100%;
-  justify-content: left !important;
+	color: #004c94cc !important;
+	border: 2px solid white !important;
+	border-radius: 5px !important;
+	justify-content: center !important;
+  text-transform: uppercase;
+}
+
+.step-button:hover {
+	color: white !important;
+	background-color: #004c94 !important;
 }
 
 .inactive-button {
@@ -786,7 +795,7 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-.btn-fixed{
+.btn-fixed {
   width: 150px;
 }
 
@@ -826,10 +835,10 @@ input[type="radio"] {
   .canvas-graph {
     width: 250%;
   }
-  .urna-table{
+  .urna-table {
     width: 88%;
   }
-  .urna-voter-hash{
+  .urna-voter-hash {
     font-size: 10px;
   }
 }

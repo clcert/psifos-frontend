@@ -701,20 +701,19 @@ $pagination-hover-border-color: $blue-uch;
 }
 
 #medium-section {
-	background-color: rgba(0, 76, 148, 0.8) !important;
+	background-color: #00b7ff88 !important;
 }
 
 #keygen-section {
-	background-color: rgba(0, 76, 148, 0.8) !important;
+	background-color: #004c94cc !important;
 }
 
 .step-button {
-	color: white !important;
-	background-color: transparent !important;
+	color: #004c94cc !important;
 	border: 2px solid white !important;
-	border-radius: 10px !important;
+	border-radius: 5px !important;
 	width: 100%;
-	justify-content: left !important;
+	justify-content: center !important;
 }
 
 .inactive-button {

@@ -9,6 +9,8 @@ import ImageFooter from "../../../component/Footers/ImageFooter";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
+import DropFile from "./components/DropFile";
+import ElectionCode from "../../../component/Footers/ElectionCode";
 
 function CheckSk(props) {
   /** @state {string} secret key for check */
@@ -16,6 +18,8 @@ function CheckSk(props) {
 
   /** @state {string} trustee uuid */
   const { uuid, uuidTrustee } = useParams();
+
+  const [election, setElection] = useState([]);
 
   /** @state {string} message with check result */
   const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -26,6 +30,8 @@ function CheckSk(props) {
   /** @state {string} trustee certificates */
   const [certificates, setCertificates] = useState({});
 
+  const [keyVerificated, setKeyVerificated] = useState(false);
+
   useEffect(() => {
     getCheckSk(uuid, uuidTrustee).then((data) => {
       setCertificates(data);
@@ -35,9 +41,14 @@ function CheckSk(props) {
     });
   }, [uuid, uuidTrustee]);
 
-  function check_sk() {
+  function check_sk(sk) {
+    if (!sk) {
+      setFeedbackMessage("Archivo de formato incorrecto.");
+      return;
+    }
+    setSecretKey(sk);
     let params = ElGamal.Params.fromJSONObject(ElGamalParams);
-    let trustee_aux = helios_c.trustee_create(params, secretKey);
+    let trustee_aux = helios_c.trustee_create(params, sk);
     let key_ok_p = false;
     if (!trustee_aux.check_certificate(certificates)) {
       console.log("Not the right key!");
@@ -46,7 +57,8 @@ function CheckSk(props) {
       key_ok_p = true;
     }
     if (key_ok_p) {
-      setFeedbackMessage("¡Tu clave privada está correcta!");
+      setKeyVerificated(true);
+      setFeedbackMessage("Clave verificada exitosamente ✔");
     } else {
       setFeedbackMessage("Tu clave privada está incorrecta.");
     }
@@ -61,8 +73,8 @@ function CheckSk(props) {
             linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
-            namePage="Custodio de Claves"
-            nameElection={"Etapa 2: Verificación clave privada"}
+            namePage="Portal de Custodio de Clave: Verificación"
+            nameElection={election.name} // TODO: Retrieve this value
           />
         </div>
       </section>
@@ -70,29 +82,25 @@ function CheckSk(props) {
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
           <h4 className="has-text-white">Inserte su clave privada aquí</h4>
-
-          <textarea
-            className="textarea mb-3"
-            placeholder="Clave privada.."
+          <DropFile setText={check_sk} />
+          <input
+            type="text"
+            disabled
+            className="input mb-3 mt-4 is-family-monospace has-text-centered"
+            placeholder="Clave privada..."
             value={secretKey}
-            onChange={(e) => setSecretKey(e.target.value)}
-          ></textarea>
-          <p className="has-text-white">{feedbackMessage}</p>
-          <button id="button-init" className="btn-fixed button mr-5">
-            <Link
-              style={{ textDecoration: "None", color: "black" }}
-              to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
-            >
-              Volver atrás
-            </Link>
-          </button>
-          <button
-            id="button-init"
-            className="btn-fixed button mr-5"
-            onClick={() => check_sk()}
-          >
-            Verificar
-          </button>
+          />
+          <p className="has-text-white is-size-4">{feedbackMessage}</p>
+          <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
+            <button id="button-init" className="button is-link mx-sm-2 mt-2">
+              <Link
+                style={{ textDecoration: "None", color: "white" }}
+                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              >
+                Volver atrás
+              </Link>
+            </button>
+          </div>
         </div>
       </section>
       <div>
