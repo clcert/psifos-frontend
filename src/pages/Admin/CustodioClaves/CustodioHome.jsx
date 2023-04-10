@@ -100,7 +100,7 @@ function CustodioHome(props) {
             <div>
               {load ? (
                 <>
-                  <div className="d-inline-flex justify-content-center flex-column">
+                  <div className="d-flex justify-content-center">
                     {!disabledButton1 && (
                       <StepButton
                         text="Iniciar Generación de Claves"

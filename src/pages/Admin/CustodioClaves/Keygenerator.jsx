@@ -658,7 +658,8 @@ function Keygenerator(props) {
             <div className="d-flex flex-sm-column mt-4 is-align-items-center">
               {!secretKey && actualPhase === 1 && (
                 <button
-                  className="button is-large step-button"
+                  className="is-large button is-info is-light is-outlined"
+                  style={{ textDecoration: "None", textTransform: "uppercase", whiteSpace: "normal", height: "3em" }}
                   disabled={!enabledButtonInit}
                   onClick={() => {
                     step_0();
@@ -713,7 +714,7 @@ function Keygenerator(props) {
                 </div>
               )}
             </div>
-            <button id="button-init" className="button mx-sm-2 mr-0 mt-5">
+            <button className="button is-normal is-light mt-5">
                 <Link
                   style={{ textDecoration: "None", color: "black" }}
                   to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}

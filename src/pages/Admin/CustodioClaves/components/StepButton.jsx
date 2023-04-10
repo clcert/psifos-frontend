@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 function StepButton(props) {
   return (
     <Link
-      className="is-large button step-button my-2 p-3"
-      style={{ textDecoration: "None" }}
+      className="is-large button is-info is-light is-outlined py-2"
+      style={{ textDecoration: "None", textTransform: "uppercase", whiteSpace: "normal", height: "3em" }}
       to={props.linkTo}
     >
-      <div className="d-flex">
-        {props.text}
-      </div>
+        {props.text} 
     </Link>
   );
 }
