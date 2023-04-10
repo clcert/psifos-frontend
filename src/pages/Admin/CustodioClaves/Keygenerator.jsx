@@ -394,7 +394,7 @@ function Keygenerator(props) {
     if (step === 4) {
       setActualPhase(2);
       setEnabledButtonInit(false);
-      setProcessFeedback("Proceso terminado!");
+      setProcessFeedback("¡Sincronización terminada!");
     } else if (step < 4) {
       if (step !== 0) {
         setActualPhase(2);
@@ -681,19 +681,19 @@ function Keygenerator(props) {
               )}
               {actualStep === 4 && (
                 <div>
-                  <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p>
-                  <button id="button-init" className="button mr-5 mt-0">
+                  {/* <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p> */}
+                  <button id="button-init" className="button is-link mr-5 mt-0">
                     <Link
-                      style={{ textDecoration: "None", color: "black" }}
+                      style={{ textDecoration: "None", color: "white" }}
                       to={
                         "/psifos/" +
                         uuid +
                         "/trustee/" +
                         uuidTrustee +
-                        "/check-sk"
+                        "/home"
                       }
                     >
-                      Verifica tu Clave Privada
+                      Ir al Home
                     </Link>
                   </button>
                 </div>
@@ -702,9 +702,9 @@ function Keygenerator(props) {
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
               {secretKey && actualPhase === 1 && (
                 <div>
-                  <p className="has-text-white is-size-5 mb-1">Si no encuentras el archivo, puedes descargar nuevamente tu clave privada</p>
+                  <p className="has-text-white is-size-5 mb-1 mt-4">Si no encuentras el archivo, puedes descargar nuevamente tu clave privada</p>
                   <button
-                    className="button mt-0"
+                    className="button is-primary mt-0"
                     onClick={() => {
                       downloadKey();
                     }}
@@ -714,14 +714,16 @@ function Keygenerator(props) {
                 </div>
               )}
             </div>
-            <button className="button is-normal is-light mt-5">
+            {actualStep !== 4 && (
+            <button className="button is-normal is-link mt-5">
                 <Link
-                  style={{ textDecoration: "None", color: "black" }}
+                  style={{ textDecoration: "None" , color: "white" }}
                   to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
                 >
                   Volver atrás
                 </Link>
             </button>
+            )}
         </div>
       </section>
       <div>

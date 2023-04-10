@@ -678,11 +678,11 @@ input[type="radio"] {
 }
 
 #medium-section {
-  background-color: rgba(0, 76, 148, 0.8) !important;
+  background-color: rgba(0, 76, 148, 0.6) !important;
 }
 
 #keygen-section {
-  background-color: rgba(0, 76, 148, 0.8) !important;
+  background-color: rgba(0, 76, 148, 0.6) !important;
 }
 
 .step-button {

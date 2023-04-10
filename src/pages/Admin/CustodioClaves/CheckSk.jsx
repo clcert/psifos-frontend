@@ -58,7 +58,7 @@ function CheckSk(props) {
     }
     if (key_ok_p) {
       setKeyVerificated(true);
-      setFeedbackMessage("Clave verificada exitosamente");
+      setFeedbackMessage("Clave verificada exitosamente ✔");
     } else {
       setFeedbackMessage("Tu clave privada está incorrecta.");
     }
@@ -92,9 +92,9 @@ function CheckSk(props) {
           />
           <p className="has-text-white is-size-4">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-            <button id="button-init" className="button mx-sm-2 mt-2">
+            <button id="button-init" className="button is-link mx-sm-2 mt-2">
               <Link
-                style={{ textDecoration: "None", color: "black" }}
+                style={{ textDecoration: "None", color: "white" }}
                 to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
               >
                 Volver atrás
