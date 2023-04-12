@@ -8,6 +8,7 @@ import SubNavbar from "../component/SubNavbar";
 import VotesByTime from "./Sections/VotesByTime";
 import InvalidLogginByTime from "./Sections/InvalidLogginByTime";
 import LogginByTime from "./Sections/LogginByTime";
+import Tabs from "../component/Tabs";
 
 function Statistics() {
   /** @state {string} election name */
@@ -15,6 +16,10 @@ function Statistics() {
 
   /** @urlParam {string} uuid of election */
   const { uuid } = useParams();
+
+  const [actualTab, setActualTab] = useState(0);
+
+  const tabs = ["Votos recibidos", "Ingresos recibidos", "Ingresos fallidos"];
 
   useEffect(() => {
     getStats(uuid).then((data) => {
@@ -42,25 +47,17 @@ function Statistics() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        <div className="box is-flex is-align-items-center is-flex-direction-column">
-          <div className="has-text-centered title is-size-4-mobile">
-            Cantidad de votos por tiempo
+        <div className="chart-container">
+          <Tabs actualTab={actualTab} setActualTab={setActualTab} tabs={tabs} />
+          <div className={actualTab !== 0 ? "d-none" : ""}>
+            <VotesByTime />
           </div>
-          <VotesByTime />
-        </div>
-        <hr />
-        <div className="box is-flex is-align-items-center is-flex-direction-column">
-          <div className="has-text-centered title is-size-4-mobile">
-            Cantidad de ingresos por tiempo
+          <div className={actualTab !== 1 ? "d-none" : ""}>
+            <LogginByTime />
           </div>
-          <LogginByTime />
-        </div>
-        <hr />
-        <div className="box is-flex is-align-items-center is-flex-direction-column">
-          <div className="has-text-centered title is-size-4-mobile">
-            Cantidad de ingresos fallidos por tiempo
+          <div className={actualTab !== 2 ? "d-none" : ""}>
+            <InvalidLogginByTime />
           </div>
-          <InvalidLogginByTime />
         </div>
       </section>
 

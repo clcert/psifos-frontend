@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { backendOpIP } from "../../../../server";
+import { backendInfoIp } from "../../../../server";
 import LinePsifosGraph from "../Graphs/LinePsifosGraph";
 
 function VotesByTime(props) {
@@ -20,11 +20,9 @@ function VotesByTime(props) {
   const { uuid } = useParams();
 
   async function getCountDates() {
-    const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + uuid + "/count-dates", {
+    const resp = await fetch(backendInfoIp + "/" + uuid + "/count-dates", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -59,6 +57,7 @@ function VotesByTime(props) {
                 id="time"
                 value={deltaTime}
               >
+                <option value="1">1 Minuto</option>
                 <option value="30">30 Minutos</option>
                 <option value="60">60 Minutos</option>
                 <option value="120">2 Horas</option>
@@ -78,7 +77,7 @@ function VotesByTime(props) {
           </p>
         </div>
       ) : (
-        <div className="spinner-animation"></div>
+        <div className="spinner-animation d-flex justify-content-center"></div>
       )}
     </>
   );
