@@ -1,12 +1,12 @@
 export default function Tabs(props) {
   return (
-    <ul class="nav nav-tabs mb-4">
+    <ul className="nav nav-tabs mb-4">
       {props.tabs.map((tab, index) => {
         return (
-          <li class="nav-item">
+          <li className="nav-item" key={index}>
             <button
               type="button"
-              class={"nav-link " + (props.actualTab === index ? "active" : "")}
+              className={"nav-link " + (props.actualTab === index ? "active" : "")}
               onClick={() => props.setActualTab(index)}
             >
               {tab}

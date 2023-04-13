@@ -48,7 +48,7 @@ function VotesByTime(props) {
     <>
       {Object.keys(votesForTime).length !== 0 ? (
         <div className="chart-container" style={{ overflowX: "auto" }}>
-          <label for="pet-select">Variación de tiempo:</label>
+          <label>Variación de tiempo:</label>
           <div className="control">
             <div className="select">
               <select

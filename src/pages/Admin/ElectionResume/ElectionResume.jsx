@@ -5,7 +5,7 @@ import InfoElection from "./components/InfoElection";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useParams } from "react-router";
-import { backendOpIP } from "../../../server";
+import { backendInfoIp } from "../../../server";
 import { useEffect, useState } from "react";
 import SubNavbar from "../component/SubNavbar";
 import { logout } from "../../../utils/utils";
@@ -36,11 +36,9 @@ function ElectionResume() {
          * async function to get the election data
          */
 
-        const token = sessionStorage.getItem("token");
-        const resp = await fetch(backendOpIP + "/" + uuid + "/resume", {
+        const resp = await fetch(backendInfoIp + "/" + uuid + "/resume", {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
         });
