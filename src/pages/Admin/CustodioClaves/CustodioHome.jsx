@@ -10,6 +10,7 @@ import { getTrusteeHome } from "../../../services/trustee";
 import imageTrustees from "../../../static/svg/trustees1.svg";
 import NoAuth from "../../Booth/NoAuth";
 import StepButton from "./components/StepButton";
+import SmallStepButton from "./components/SmallStepButton";
 
 function CustodioHome(props) {
   const [trustee, setTrustee] = useState([]);
@@ -100,7 +101,7 @@ function CustodioHome(props) {
             <div>
               {load ? (
                 <>
-                  <div className="d-flex justify-content-center">
+                  <div className="is-flex is-flex-direction-column is-align-items-center">
                     {!disabledButton1 && (
                       <StepButton
                         text="Iniciar Generación de Claves"
@@ -113,8 +114,20 @@ function CustodioHome(props) {
                         }
                       />
                     )}
-                    {!disabledButton2 && (
+                    {!disabledButton2 && disabledButton3 && (
                       <StepButton
+                        text="Verificar Clave Privada"
+                        linkTo={
+                          "/psifos/" +
+                          uuid +
+                          "/trustee/" +
+                          uuidTrustee +
+                          "/check-sk"
+                        }
+                      />
+                    )}
+                    {!disabledButton2 && !disabledButton3 && (
+                      <SmallStepButton
                         text="Verificar Clave Privada"
                         linkTo={
                           "/psifos/" +

@@ -64,7 +64,7 @@ function DecryptProve() {
       body: descriptions,
     });
     if (response.status === 200) {
-      setFeedbackMessage("Desencriptación Parcial enviada Exitosamente");
+      setFeedbackMessage("Desencriptación Parcial enviada exitosamente ✓");
       const jsonResponse = await response.json();
       return jsonResponse;
     } else {
@@ -139,7 +139,7 @@ function DecryptProve() {
           );
           setTally(TALLY);
         });
-        setFeedbackMessage("Listo para generar desencriptado parcial");
+        setFeedbackMessage("Esperando clave para generar desencriptado parcial");
       });
     });
   }, [getDescrypt]);
@@ -170,38 +170,31 @@ function DecryptProve() {
       </section>
 
       <section className="section" id="medium-section">
-        <div className="container has-text-centered is-max-desktop">
-          <div className="panel-info has-text-white mb-4">
-            <p className="panel-text">
-              <span className="panel-text-sect">Custodio</span>: {trustee.name}
-            </p>
-          </div>
-        </div>
         <div className="container has-text-centered has-text-white is-max-desktop">
           <p>
-            Se ha calculado el recuento cifrado de su elección.
+            Se ha calculado el recuento cifrado de la elección.
             <br />
             Ahora es el momento de calcular y enviar su desencriptado parcial.
           </p>
 
           <div id="sk_section">
-            <h3>Sube su clave secreta</h3>
+            <h3>Inserte su clave privada aquí</h3>
             <DropFile setText={decrypt} />
             <input
               value={secretKey}
-              className="input mb-2 mt-4"
-              placeholder="Clave secreta"
+              className="input mb-2 mt-4 has-text-centered is-family-monospace"
+              placeholder="Clave privada..."
               disabled
             />
             <div className="mt-2">{feedbackMessage}</div>
 
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-              <button className="button mr-2 mt-2">
+              <button className="button is-link mx-sm-2 mt-2">
                 <Link
-                  style={{ textDecoration: "None", color: "black" }}
+                  style={{ textDecoration: "None", color: "white" }}
                   to={`/psifos/${uuid}/trustee/${uuidTrustee}/home`}
                 >
-                  Volver atras
+                  Volver atrás
                 </Link>
               </button>
             </div>
