@@ -106,7 +106,7 @@ function HomeAdmin() {
                 </>
               ) : (
                 <div className="box has-text-centered" id="not-results-box">
-                  <p className="is-size-3 has-text-weight-bold">
+                  <p className="is-size-3 has-text-weight-bold mb-0">
                     Aun no existen elecciones registradas.
                   </p>
                 </div>
