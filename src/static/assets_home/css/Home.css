@@ -13127,3 +13127,8 @@ Consult
   cursor: pointer;
   flex-wrap: wrap;
 }
+
+.icon-card-admin{
+  
+  width: 20px;
+}
