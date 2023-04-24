@@ -74,6 +74,28 @@ function am3(i, x, w, j, c, n) {
   }
   return c;
 }
+
+  // This is tailored to VMs with 2-bit tagging. It makes sure
+  // that all the computations stay within the 29 bits available.
+  function am4(i, x, w, j, c, n) {
+    const thisArray = this.arr;
+    const wArray = w.arr;
+  
+    const xl = x & 0x1fff;
+    const xh = x >> 13;
+  
+    let l, h, m;
+    while (--n >= 0) {
+      l = thisArray[i] & 0x1fff;
+      h = thisArray[i++] >> 13;
+      m = xh * l + h * xl;
+      l = xl * l + ((m & 0x1fff) << 13) + wArray[j] + c;
+      c = (l >> 26) + (m >> 13) + xh * h;
+      wArray[j++] = l & 0x3ffffff;
+    }
+  
+    return c;
+  }
 if (j_lm && navigator.appName == "Microsoft Internet Explorer") {
   BigInteger.prototype.am = am2;
   dbits = 30;
@@ -82,8 +104,8 @@ if (j_lm && navigator.appName == "Microsoft Internet Explorer") {
   dbits = 26;
 } else {
   // Mozilla/Netscape seems to prefer am3
-  BigInteger.prototype.am = am3;
-  dbits = 28;
+  BigInteger.prototype.am = am4;
+  dbits = 26;
 }
 
 BigInteger.prototype.DB = dbits;
