@@ -14,30 +14,27 @@ function ProgressBar(props) {
     <section className="section px-0" id="progress-bar">
       <div className="line-1 is-hidden-touch" id="progress-line"></div>
       <div className="container has-text-centered progress-container">
-        <div className="columns progress-bar-items is-variable">
-          <div className={"column " + (props.phase !== 1 ? "column hide-mobile" : "")}>
-            <figure className="image is-3by1 progress-step mb-0">
-              <Image
-                id="progress-1"
-                src={props.phase === 1 ? fase1On : fase1}
-              />
-            </figure>
+        <div className="columns progress-bar-items">
+          <div
+            className={
+              "column " + (props.phase !== 1 ? "column hide-mobile" : "")
+            }
+          >
+            <img src={props.phase === 1 ? fase1On : fase1} className="spinner" alt="" />
           </div>
-          <div className={"column " + (props.phase !== 2 ? "column hide-mobile" : "")}>
-            <figure className="image is-3by1 progress-step mb-0">
-              <Image
-                id="progress-2"
-                src={props.phase === 2 ? fase2On : fase2}
-              />
-            </figure>
+          <div
+            className={
+              "column " + (props.phase !== 2 ? "column hide-mobile" : "")
+            }
+          >
+            <img src={props.phase === 2 ? fase2On : fase2} className="spinner" alt="" />
           </div>
-          <div className={"column " + (props.phase !== 3 ? "column hide-mobile" : "")}>
-            <figure className="image is-3by1 progress-step mb-0">
-              <Image
-                id="progress-3"
-                src={props.phase === 3 ? fase3On : fase3}
-              />
-            </figure>
+          <div
+            className={
+              "column " + (props.phase !== 3 ? "column hide-mobile" : "")
+            }
+          >
+            <img src={props.phase === 3 ? fase3On : fase3} className="spinner" alt="" />
           </div>
         </div>
       </div>

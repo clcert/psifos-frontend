@@ -230,7 +230,7 @@
   border-bottom-left-radius: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  max-height: 6rem;
+  max-height: 4rem;
 }
 
 #navbar {
@@ -638,7 +638,7 @@ input[type="radio"] {
     margin-right: auto;
   }
   #logo-header {
-    width: 35vh;
+    width: 28vh;
   }
 }
 
