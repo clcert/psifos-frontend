@@ -16,13 +16,13 @@ async function getTrustee(uuidTrustee) {
   return { resp: resp, jsonResponse: jsonResponse };
 }
 
-async function getTrustees(uuid) {
+async function getTrustees(shortName) {
   /**
    * async function to get the trustees
    * set the trustees list
    */
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendOpIP + "/" + uuid + "/get-trustees", {
+  const resp = await fetch(backendOpIP + "/" + shortName + "/get-trustees", {
     method: "GET",
     headers: {
       Authorization: "Bearer " + token,
@@ -34,8 +34,8 @@ async function getTrustees(uuid) {
   return { resp: resp, jsonResponse: jsonResponse };
 }
 
-async function getTrusteeHome(uuid, uuidTrustee) {
-  const url = backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/home";
+async function getTrusteeHome(shortName, uuidTrustee) {
+  const url = backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/home";
   const resp = await fetch(url, {
     method: "GET",
     credentials: "include",

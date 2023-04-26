@@ -25,13 +25,13 @@ function DecryptProve() {
     "Cargando información..."
   );
 
-  const { uuid, uuidTrustee } = useParams();
+  const { shortName, uuidTrustee } = useParams();
 
   const getDescrypt = useCallback(async () => {
     const url =
       backendOpIP +
       "/" +
-      uuid +
+      shortName +
       "/trustee/" +
       uuidTrustee +
       "/decrypt-and-prove";
@@ -44,14 +44,14 @@ function DecryptProve() {
     });
     const jsonResponse = await response.json();
     return jsonResponse;
-  }, [uuid, uuidTrustee]);
+  }, [shortName, uuidTrustee]);
 
   async function sendDescrypt(descriptions) {
     setFeedbackMessage("Enviando información...");
     const url =
       backendOpIP +
       "/" +
-      uuid +
+      shortName +
       "/trustee/" +
       uuidTrustee +
       "/decrypt-and-prove";
@@ -111,7 +111,7 @@ function DecryptProve() {
   useEffect(() => {
     let params_aux, certificates_aux, points_aux, election_aux, trustee_aux;
 
-    getEgParams(uuid).then((eg_params) => {
+    getEgParams(shortName).then((eg_params) => {
       getDescrypt().then((data) => {
         params_aux = JSON.parse(eg_params);
         certificates_aux = JSON.parse(data.certificates);
@@ -159,8 +159,8 @@ function DecryptProve() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
-            linkInit={`/${uuid}/trustee/${uuidTrustee}/home`}
+            linkExit={`${backendOpIP}/${shortName}/trustee/logout`}
+            linkInit={`/${shortName}/trustee/${uuidTrustee}/home`}
           />
           <TitlePsifos
             namePage="Custodio de Claves"
@@ -192,7 +192,7 @@ function DecryptProve() {
               <button className="button is-link mx-sm-2 mt-2">
                 <Link
                   style={{ textDecoration: "None", color: "white" }}
-                  to={`/psifos/${uuid}/trustee/${uuidTrustee}/home`}
+                  to={`/psifos/${shortName}/trustee/${uuidTrustee}/home`}
                 >
                   Volver atrás
                 </Link>

@@ -16,11 +16,11 @@ function InfoBoothView() {
   const [electionName, setElectionName] = useState("");
   const [activeNumber, setActiveNumber] = useState(0);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   useEffect(() => {
-    getElectionPublic(uuid).then((data) => {
+    getElectionPublic(shortName).then((data) => {
       const { jsonResponse } = data;
       setElectionName(jsonResponse.name);
     });

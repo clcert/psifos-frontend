@@ -6,7 +6,7 @@ function ModalDeleteElection(props) {
   const [electionDelete, setElectionDelete] = useState(false);
 
   async function deleteElection() {
-    const url = backendOpIP + "/delete-election/" + props.uuid;
+    const url = backendOpIP + "/delete-election/" + props.shortName;
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "GET",

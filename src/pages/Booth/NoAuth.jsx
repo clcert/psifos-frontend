@@ -4,7 +4,7 @@ import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { Link, useParams } from "react-router-dom";
 
 function NoAuth(props) {
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   return (
     <div id="content">
@@ -36,7 +36,7 @@ function NoAuth(props) {
           </button>
         </div>
       </section>
-      <ElectionCode uuid={uuid} />
+      <ElectionCode />
       <div id="bottom"></div>
     </div>
   );

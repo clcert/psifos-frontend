@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { frontIP } from "../../../../server";
 
 function PendingVote(props) {
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   return (
     <>
@@ -75,7 +75,7 @@ function PendingVote(props) {
           href={
             frontIP +
             "/booth/" +
-            uuid +
+            shortName +
             "/ballot-box?hash=" +
             encodeURIComponent(props.voteHash)
           }

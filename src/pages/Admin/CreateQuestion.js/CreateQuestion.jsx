@@ -33,18 +33,18 @@ function CreateQuestion(props) {
 
   const [optionsChecked, setOptionsChecked] = useState(true);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   useEffect(() => {
-    getElection(uuid).then((resp) => {
+    getElection(shortName).then((resp) => {
       setElection(resp.jsonResponse);
       if (resp.jsonResponse.questions !== null) {
         setQuestions(JSON.parse(resp.jsonResponse.questions));
       }
       setDisabledEdit(resp.jsonResponse.election_status !== "Setting up");
     });
-  }, [uuid]);
+  }, [shortName]);
 
   function addQuestion() {
     /**
@@ -173,7 +173,7 @@ function CreateQuestion(props) {
     setQuestion(auxQuestion);
     if (checkQuestions()) {
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendOpIP + "/create-questions/" + uuid, {
+      const resp = await fetch(backendOpIP + "/create-questions/" + shortName, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -246,7 +246,7 @@ function CreateQuestion(props) {
               <Button className="btn-fixed">
                 <Link
                   style={{ textDecoration: "none", color: "#363636" }}
-                  to={"/admin/" + uuid + "/panel"}
+                  to={"/admin/" + shortName + "/panel"}
                 >
                   Volver inicio
                 </Link>

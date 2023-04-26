@@ -9,15 +9,15 @@ export default function CardsInfoElection() {
   const [weightsInit, setWeightsInit] = useState({});
   const [weightsElection, setWEightsElection] = useState({});
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   async function getElectionResume() {
     /**
      * async function to get the election data
      */
 
-    const resp = await fetch(backendInfoIp + "/" + uuid + "/resume", {
+    const resp = await fetch(backendInfoIp + "/" + shortName + "/resume", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function CardsInfoElection() {
 
   useEffect(() => {
     getElectionResume();
-    getStats(uuid).then((data) => {
+    getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);

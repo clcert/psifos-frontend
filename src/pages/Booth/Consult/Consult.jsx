@@ -14,7 +14,7 @@ function Consult(props) {
   const [electionDescription, setElectionDescription] = useState("");
   const [actualPhase, setActualPhase] = useState(1);
 
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   useEffect(() => {
     if (props.consultData.questions) {
@@ -34,7 +34,7 @@ function Consult(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendOpIP + "/vote/" + uuid + "/logout"}
+            linkExit={backendOpIP + "/vote/" + shortName + "/logout"}
             linkInit=""
           />
           <TitlePsifos namePage="Consulta" />
@@ -56,7 +56,7 @@ function Consult(props) {
                   BOOTH_PSIFOS.sendEncryp(answersQuestions);
                 }}
                 afterEncrypt={() => {
-                  BOOTH_PSIFOS.sendJson(uuid).then((res) => {
+                  BOOTH_PSIFOS.sendJson(shortName).then((res) => {
                     setActualPhase(2);
                   });
                 }}

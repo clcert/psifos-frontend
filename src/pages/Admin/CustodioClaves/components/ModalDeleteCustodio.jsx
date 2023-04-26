@@ -22,7 +22,7 @@ function ModalDeleteCustodio(props) {
 
     try {
       const url =
-        backendOpIP + "/" + props.uuid + "/delete-trustee/" + props.uuidTrustee;
+        backendOpIP + "/" + props.shortName + "/delete-trustee/" + props.uuidTrustee;
       const token = sessionStorage.getItem("token");
       const resp = await fetch(url, {
         method: "POST",
@@ -69,7 +69,7 @@ function ModalDeleteCustodio(props) {
                   className="button review-buttons previous-button has-text-white has-text-weight-bold"
                   onClick={() => {
                     props.onHide();
-                    navigate("/psifos/admin/" + props.uuid + "/trustee");
+                    navigate("/psifos/admin/" + props.shortName + "/trustee");
                   }}
                 >
                   <span>CERRAR</span>

@@ -88,7 +88,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/create-question/"
+            path=":shortName/create-question/"
             element={
               <RequireAuth>
                 <CreateQuestion />
@@ -96,7 +96,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/panel"
+            path=":shortName/panel"
             element={
               <RequireAuth>
                 <AdministrationPanel />
@@ -104,7 +104,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/resumen"
+            path=":shortName/resumen"
             element={
               <RequireAuth>
                 <ElectionResume />
@@ -112,7 +112,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/voters-list"
+            path=":shortName/voters-list"
             element={
               <RequireAuth>
                 <VotersList />
@@ -120,7 +120,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/trustee"
+            path=":shortName/trustee"
             element={
               <RequireAuth>
                 <CustodioClaves />
@@ -128,7 +128,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/create-trustee"
+            path=":shortName/create-trustee"
             element={
               <RequireAuth>
                 <CreateCustodio />
@@ -136,7 +136,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/resultado"
+            path=":shortName/resultado"
             element={
               <RequireAuth>
                 <Resultados />
@@ -144,7 +144,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/statistics"
+            path=":shortName/statistics"
             element={
               <RequireAuth>
                 <Statistics />
@@ -152,7 +152,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/edit-election/"
+            path=":shortName/edit-election/"
             element={
               <RequireAuth>
                 <CreateElection edit={true} />
@@ -160,7 +160,7 @@ function App() {
             }
           />
           <Route
-            path=":uuid/booth"
+            path=":shortName/booth"
             element={
               <RequireAuth>
                 <Booth preview={true} />
@@ -171,28 +171,28 @@ function App() {
 
         {/** Routes for cabina (voters) */}
         <Route path="booth">
-          <Route path=":uuid" element={<Booth />} />
+          <Route path=":shortName" element={<Booth />} />
           <Route path="consult" element={<Consult />} />
-          <Route path=":uuid/public-info" element={<InfoBoothView />} />
+          <Route path=":shortName/public-info" element={<InfoBoothView />} />
         </Route>
 
         {/** Routes for trustee */}
         <Route
-          path=":uuid/trustee/:uuidTrustee/home"
+          path=":shortName/trustee/:uuidTrustee/home"
           element={<CustodioHome />}
         />
 
-        <Route path=":uuid/trustee/home" element={<CustodioHome />} />
+        <Route path=":shortName/trustee/home" element={<CustodioHome />} />
         <Route
-          path=":uuid/trustee/:uuidTrustee/keygenerator"
+          path=":shortName/trustee/:uuidTrustee/keygenerator"
           element={<Keygenerator />}
         />
         <Route
-          path=":uuid/trustee/:uuidTrustee/check-sk"
+          path=":shortName/trustee/:uuidTrustee/check-sk"
           element={<CheckSk />}
         />
         <Route
-          path=":uuid/trustee/:uuidTrustee/decrypt-and-prove"
+          path=":shortName/trustee/:uuidTrustee/decrypt-and-prove"
           element={<DecryptProve />}
         />
       </Route>

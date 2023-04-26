@@ -32,15 +32,15 @@ function CreateCustodio() {
 
   const navigate = useNavigate();
 
-  /** @urlParams uuid of election */
-  const { uuid } = useParams();
+  /** @urlParams shortName of election */
+  const { shortName } = useParams();
 
   async function createCustodio() {
     /**
      * fetch POST create a new custodio
      */
     const token = sessionStorage.getItem("token");
-    const url = backendOpIP + "/" + uuid + "/create-trustee";
+    const url = backendOpIP + "/" + shortName + "/create-trustee";
     const resp = await fetch(url, {
       method: "POST",
       headers: {
@@ -54,7 +54,7 @@ function CreateCustodio() {
       }),
     });
     if (resp.status === 200) {
-      navigate("/psifos/admin/" + uuid + "/trustee", {
+      navigate("/psifos/admin/" + shortName + "/trustee", {
         state: {
           message: "Custodio creado con exito!",
         },
@@ -82,11 +82,11 @@ function CreateCustodio() {
   };
 
   useEffect(() => {
-    getStats(uuid).then((data) => {
+    getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setNameElection(jsonResponse.name);
     });
-  }, [uuid]);
+  }, [shortName]);
 
   return (
     <div id="content-trustees">
@@ -153,7 +153,7 @@ function CreateCustodio() {
             <Button className="button-custom mr-2 ml-2 level-left">
               <Link
                 className="link-button"
-                to={"/psifos/admin/" + uuid + "/trustee"}
+                to={"/psifos/admin/" + shortName + "/trustee"}
               >
                 Atras
               </Link>

@@ -22,7 +22,7 @@ function CustodioHome(props) {
   /** @state {bool}  */
   const [searchParams] = useSearchParams();
 
-  const { uuid, uuidTrustee } = useParams();
+  const { shortName, uuidTrustee } = useParams();
 
   const disabledButton1 = Boolean(
     !trustee.public_key ||
@@ -43,9 +43,9 @@ function CustodioHome(props) {
 
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
-      window.location.href = backendOpIP + "/" + uuid + "/trustee/login";
+      window.location.href = backendOpIP + "/" + shortName + "/trustee/login";
     }
-    getTrusteeHome(uuid, uuidTrustee).then((data) => {
+    getTrusteeHome(shortName, uuidTrustee).then((data) => {
       try {
         const { resp, jsonResponse } = data;
 
@@ -66,7 +66,7 @@ function CustodioHome(props) {
         );
       }
     });
-  }, [searchParams, uuid, uuidTrustee]);
+  }, [searchParams, shortName, uuidTrustee]);
 
   if (!load) {
     return <LoadPage />;
@@ -77,7 +77,7 @@ function CustodioHome(props) {
       <NoAuth
         title={"Custodio de Claves"}
         message={noAuthMessage}
-        adressLogout={`${backendOpIP}/${uuid}/trustee/logout`}
+        adressLogout={`${backendOpIP}/${shortName}/trustee/logout`}
       ></NoAuth>
     );
   } else {
@@ -86,8 +86,8 @@ function CustodioHome(props) {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
-              linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
-              linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+              linkExit={`${backendOpIP}/${shortName}/trustee/logout`}
+              linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
             />
             <TitlePsifos
               namePage="Portal de Custodio de Clave"
@@ -107,7 +107,7 @@ function CustodioHome(props) {
                         text="Iniciar Generación de Claves"
                         linkTo={
                           "/psifos/" +
-                          uuid +
+                          shortName +
                           "/trustee/" +
                           uuidTrustee +
                           "/keygenerator"
@@ -119,7 +119,7 @@ function CustodioHome(props) {
                         text="Verificar Clave Privada"
                         linkTo={
                           "/psifos/" +
-                          uuid +
+                          shortName +
                           "/trustee/" +
                           uuidTrustee +
                           "/check-sk"
@@ -131,7 +131,7 @@ function CustodioHome(props) {
                         text="Verificar Clave Privada"
                         linkTo={
                           "/psifos/" +
-                          uuid +
+                          shortName +
                           "/trustee/" +
                           uuidTrustee +
                           "/check-sk"
@@ -143,7 +143,7 @@ function CustodioHome(props) {
                         text="Enviar Desencriptación Parcial"
                         linkTo={
                           "/psifos/" +
-                          uuid +
+                          shortName +
                           "/trustee/" +
                           uuidTrustee +
                           "/decrypt-and-prove"

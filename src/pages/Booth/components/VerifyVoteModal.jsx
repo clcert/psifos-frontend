@@ -4,12 +4,12 @@ import { backendInfoIp } from "../../../server";
 import encryptingGIF from "../../../static/img/encrypting.gif";
 
 function VerifyVoteModal(props) {
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   async function getVote() {
     const voteHashEncode = encodeURIComponent(props.voteHash);
     const url =
-      backendInfoIp + "/election/" + uuid + "/cast-vote/" + voteHashEncode;
+      backendInfoIp + "/election/" + shortName + "/cast-vote/" + voteHashEncode;
     const resp = await fetch(url, {
       method: "GET",
       headers: {

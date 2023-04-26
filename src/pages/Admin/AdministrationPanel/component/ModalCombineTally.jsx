@@ -2,7 +2,7 @@ import { backendOpIP } from "../../../../server";
 
 function ModalCombineTally(props) {
   async function combine() {
-    const url = backendOpIP + "/" + props.uuid + "/combine-decryptions";
+    const url = backendOpIP + "/" + props.shortName + "/combine-decryptions";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",

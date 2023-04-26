@@ -59,7 +59,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.uuid + "/panel"}
+                      to={"/psifos/admin/" + props.election.short_name + "/panel"}
                       className="accordion-link"
                     >
                       Panel administración
@@ -68,7 +68,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.uuid + "/resumen"}
+                      to={"/psifos/admin/" + props.election.short_name + "/resumen"}
                       className="accordion-link"
                     >
                       Resumen
@@ -78,7 +78,7 @@ function Accordion(props) {
                     {" "}
                     <Link
                       to={
-                        "/psifos/admin/" + props.election.uuid + "/voters-list"
+                        "/psifos/admin/" + props.election.short_name + "/voters-list"
                       }
                       className="accordion-link"
                     >
@@ -90,7 +90,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.uuid + "/trustee"}
+                      to={"/psifos/admin/" + props.election.short_name + "/trustee"}
                       className="accordion-link"
                     >
                       Custodio de claves
@@ -99,7 +99,7 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.uuid + "/resultado"}
+                      to={"/psifos/admin/" + props.election.short_name + "/resultado"}
                       className="accordion-link"
                     >
                       Resultados
@@ -109,7 +109,7 @@ function Accordion(props) {
                     <Link
                       to={
                         "/psifos/admin/" +
-                        props.election.uuid +
+                        props.election.short_name +
                         "/create-question"
                       }
                       className="accordion-link"

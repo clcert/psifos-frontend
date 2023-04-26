@@ -37,8 +37,8 @@ function CabinaElection(props) {
 
   const [modalDescription, setModalDescription] = useState(false);
 
-  /** @urlParam {uuid} election uuid  */
-  const { uuid } = useParams();
+  /** @urlParam {shortName} election shortName  */
+  const { shortName } = useParams();
 
   useEffect(() => {
     window.scrollTo({
@@ -99,7 +99,7 @@ function CabinaElection(props) {
             }}
             sendVote={() => {
               setModalVerify(true);
-              BOOTH_PSIFOS.sendJson(uuid).then((res) => {
+              BOOTH_PSIFOS.sendJson(shortName).then((res) => {
                 setVoteHash(res);
               });
             }}
@@ -146,7 +146,7 @@ function CabinaElection(props) {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={backendOpIP + "/vote/" + uuid + "/logout"}
+            linkExit={backendOpIP + "/vote/" + shortName + "/logout"}
             linkInit=""
           />
           <TitlePsifos
@@ -189,7 +189,7 @@ function CabinaElection(props) {
       </div>
       {phases[actualPhase].component}
 
-      <ElectionCode uuid={uuid} />
+      <ElectionCode />
       <div id="bottom"></div>
       <DescriptionModal
         election={props.electionData}

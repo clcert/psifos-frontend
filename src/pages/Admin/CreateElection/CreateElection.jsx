@@ -14,7 +14,7 @@ function CreateElection(props) {
    */
 
   /** @state {string} short name for election */
-  const [shortName, setShortName] = useState("");
+  const [shortNameElection, setShortName] = useState("");
 
   /** @state {string} title of election */
   const [name, setName] = useState("");
@@ -45,12 +45,12 @@ function CreateElection(props) {
 
   const [disabledEdit, setDisabledEdit] = useState("");
 
-  /** @urlParam {string} uuid of election  */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election  */
+  const { shortName } = useParams();
 
   useEffect(() => {
     if (props.edit) {
-      getElection(uuid).then((election) => {
+      getElection(shortName).then((election) => {
         const { resp, jsonResponse } = election;
         if (resp.status === 200) {
           setDisabledEdit(jsonResponse.election_status !== "Setting up");
@@ -68,7 +68,7 @@ function CreateElection(props) {
         }
       });
     }
-  }, [props.edit, uuid]);
+  }, [props.edit, shortName]);
 
   async function sendElection(url) {
     /**
@@ -101,7 +101,7 @@ function CreateElection(props) {
         }
       }
       if (resp.status === 201) {
-        window.location.href = "/psifos/admin/" + jsonResponse.uuid + "/panel";
+        window.location.href = "/psifos/admin/" + jsonResponse.shortName + "/panel";
       }
     } else {
       window.scrollTo({
@@ -164,7 +164,7 @@ function CreateElection(props) {
                 className="input"
                 type="text"
                 placeholder="Nombre corto"
-                value={shortName}
+                value={shortNameElection}
                 onChange={(e) => {
                   setShortName(e.target.value);
                 }}
@@ -334,7 +334,7 @@ function CreateElection(props) {
                 style={{ color: "white" }}
                 to={
                   props.edit
-                    ? "/psifos/admin/" + uuid + "/panel"
+                    ? "/psifos/admin/" + shortName + "/panel"
                     : "/psifos/admin/home"
                 }
               >
@@ -346,7 +346,7 @@ function CreateElection(props) {
                 <Button
                   disabled={disabledEdit}
                   onClick={() => {
-                    sendElection("/edit-election/" + uuid);
+                    sendElection("/edit-election/" + shortName);
                   }}
                   className="btn-fixed button-custom"
                 >

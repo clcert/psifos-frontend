@@ -2,7 +2,7 @@ import { backendOpIP } from "../../../../server";
 
 function ModalFreeze(props) {
   async function freeze() {
-    const url = backendOpIP + "/" + props.uuid + "/start-election";
+    const url = backendOpIP + "/" + props.shortName + "/start-election";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",

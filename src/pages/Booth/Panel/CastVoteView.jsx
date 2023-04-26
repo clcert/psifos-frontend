@@ -17,7 +17,7 @@ function CastVoteView() {
   const [disabledPrevious, setDisabledPrevious] = useState(true);
 
   const [searchParams] = useSearchParams();
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   const lengthPage = 50;
 
@@ -26,12 +26,12 @@ function CastVoteView() {
 
   function getDataVotes() {
     getVotesInfo(
-      uuid,
+      shortName,
       electionData.actualPage * lengthPage,
       lengthPage,
       hashUrl
     ).then((dataVotes) => {
-      getElectionInfo(uuid).then((dataElection) => {
+      getElectionInfo(shortName).then((dataElection) => {
         const page = Math.floor(dataVotes.position / lengthPage);
         setDisabledPrevious(page === 0 ? true : false);
         setDisabledNext(!dataVotes.more_votes);
@@ -59,7 +59,7 @@ function CastVoteView() {
 
     const newPage = electionData.actualPage + number;
     if (newPage >= 0) {
-      getVotesInfo(uuid, newPage * lengthPage, lengthPage, "").then(
+      getVotesInfo(shortName, newPage * lengthPage, lengthPage, "").then(
         (dataVotes) => {
           if (dataVotes.voters.length !== 0) {
             setDisabledNext(false);

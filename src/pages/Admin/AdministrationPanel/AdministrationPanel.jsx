@@ -66,14 +66,14 @@ function AdministrationPanel(props) {
   /** @state {bool} upload modal state */
   const [uploadModal, setUploadModal] = useState(false);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   const updateInfo = useCallback(() => {
     /**
      * Get election and trustee info
      */
-    getElection(uuid).then((election) => {
+    getElection(shortName).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
         setElection(jsonResponse);
@@ -85,12 +85,12 @@ function AdministrationPanel(props) {
         logout();
       }
     });
-    getStats(uuid).then((res) => {
+    getStats(shortName).then((res) => {
       const { jsonResponse } = res;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
-  }, [uuid]);
+  }, [shortName]);
 
   useEffect(() => {
     updateInfo();
@@ -177,7 +177,7 @@ function AdministrationPanel(props) {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={uuid}
+          shortName={shortName}
         />
         <ModalCloseElection
           show={closeModal}
@@ -187,7 +187,7 @@ function AdministrationPanel(props) {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={uuid}
+          shortName={shortName}
         />
 
         <ModalTally
@@ -198,7 +198,7 @@ function AdministrationPanel(props) {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={uuid}
+          shortName={shortName}
         />
 
         <ModalCombineTally
@@ -209,17 +209,17 @@ function AdministrationPanel(props) {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={uuid}
+          shortName={shortName}
         />
         <UploadModal
           show={uploadModal}
           onHide={() => setUploadModal(false)}
-          uuid={uuid}
+          shortName={shortName}
         />
         <ModalDeleteElection
           show={deleteElectionModal}
           onHide={() => setDeleteElectionModal(false)}
-          uuid={uuid}
+          shortName={shortName}
         />
       </div>
     </>

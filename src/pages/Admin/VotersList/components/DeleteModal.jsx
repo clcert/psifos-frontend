@@ -16,8 +16,8 @@ function DeleteModal(props) {
   /** @state {string} status to see if an error occurred */
   const [errorDelete, setErrorDelete] = useState(false);
 
-  /** @urlParam {string} uuid for election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName for election */
+  const { shortName } = useParams();
 
   async function deleteVoters() {
     /**
@@ -27,7 +27,7 @@ function DeleteModal(props) {
     try {
       setDeleteState(true);
       const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendOpIP + "/" + uuid + "/delete-voters", {
+      const resp = await fetch(backendOpIP + "/" + shortName + "/delete-voters", {
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,

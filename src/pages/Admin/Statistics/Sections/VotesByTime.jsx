@@ -16,11 +16,11 @@ function VotesByTime(props) {
   /** @state {bool} load state fetch */
   const [load, setLoad] = useState(false);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   async function getCountDates() {
-    const resp = await fetch(backendInfoIp + "/" + uuid + "/count-dates", {
+    const resp = await fetch(backendInfoIp + "/" + shortName + "/count-dates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

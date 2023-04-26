@@ -24,20 +24,20 @@ function CustodioClaves(props) {
   /** @state {boolean} state of model with delete trustee info  */
   const [modalDelete, setModalDelete] = useState(false);
 
-  /** @state {string} uuid trustee  */
+  /** @state {string} shortName trustee  */
   const [uuidTrustee, setUuidTrustee] = useState("");
 
   const location = useLocation();
 
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   useEffect(
     function effectFunction() {
-      getElection(uuid).then((election) => {
+      getElection(shortName).then((election) => {
         setElection(election.jsonResponse);
       });
     },
-    [uuid]
+    [shortName]
   );
   return (
     <div id="content-home-admin">
@@ -105,9 +105,9 @@ function CustodioClaves(props) {
               rel="noreferrer"
               target="_blank"
               style={{ color: "rgb(0, 182, 254)" }}
-              href={backendOpIP + "/" + uuid + "/trustee/login"}
+              href={backendOpIP + "/" + shortName + "/trustee/login"}
             >
-              {backendOpIP + "/" + uuid + "/trustee/login"}
+              {backendOpIP + "/" + shortName + "/trustee/login"}
             </a>
           </div>
           <TrusteesList
@@ -115,7 +115,6 @@ function CustodioClaves(props) {
               setUuidTrustee(uuid);
               setModalDelete(true);
             }}
-            uuid={uuid}
             election={election}
           />
         </div>
@@ -127,12 +126,12 @@ function CustodioClaves(props) {
       <ModalCreateCustodio
         show={modalCustodio}
         onHide={() => setModalCustodio(false)}
-        uuid={uuid}
+        shortName={shortName}
       />
       <ModalDeleteCustodio
         show={modalDelete}
         onHide={() => setModalDelete(false)}
-        uuid={uuid}
+        shortName={shortName}
         uuidTrustee={uuidTrustee}
       />
     </div>

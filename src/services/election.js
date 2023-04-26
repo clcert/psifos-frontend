@@ -1,13 +1,13 @@
 import { backendInfoIp, backendOpIP } from "../server";
 import { logout } from "../utils/utils";
 
-async function getElection(uuid) {
+async function getElection(shortName) {
   /**
    * async function to get the election data
    */
 
   const token = sessionStorage.getItem("token");
-  const resp = await fetch(backendOpIP + "/get-election/" + uuid, {
+  const resp = await fetch(backendOpIP + "/get-election/" + shortName, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + token,
@@ -21,12 +21,12 @@ async function getElection(uuid) {
     logout();
   }
 }
-async function getElectionPublic(uuid) {
+async function getElectionPublic(shortName) {
   /**
    * async function to get the election data
    */
 
-  const resp = await fetch(backendInfoIp + "/election/" + uuid, {
+  const resp = await fetch(backendInfoIp + "/election/" + shortName, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -60,8 +60,8 @@ async function getElections() {
   }
 }
 
-async function getStats(uuid) {
-  const resp = await fetch(backendInfoIp + "/get-election-stats/" + uuid, {
+async function getStats(shortName) {
+  const resp = await fetch(backendInfoIp + "/get-election-stats/" + shortName, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

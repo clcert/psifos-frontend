@@ -8,7 +8,7 @@ function AccordionAudit(props) {
   let collapsiblesRef = useRef(null);
   const [show, setShow] = React.useState(false);
 
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   useEffect(() => {
     bulmaCollapsible.attach(".is-collapsible", {
@@ -49,7 +49,7 @@ function AccordionAudit(props) {
                   <div className="row-accordion is-full mb-3">
                     <p className="accordion-panel-title mb-0">URL Elección:</p>
                     <a className="accordion-panel-a">
-                      {backendOpIP + "/" + uuid + "/vote"}
+                      {backendOpIP + "/" + shortName + "/vote"}
                     </a>
                   </div>
                   <div className="row-accordion is-full">
@@ -69,7 +69,7 @@ function AccordionAudit(props) {
                     </Link>{" "}
                     <span style={{ color: "black" }}>&nbsp;|&nbsp;&nbsp;</span>
                     <Link
-                      to={"/psifos/admin/" + uuid + "/booth"}
+                      to={"/psifos/admin/" + shortName + "/booth"}
                       className="accordion-link"
                     >
                       Vista previa

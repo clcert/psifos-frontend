@@ -18,7 +18,7 @@ function DeleteVoterModal(props) {
   const [errorDelete, setErrorDelete] = useState(false);
 
   /** @urlParam {string} uuid for election */
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   async function deleteVoter() {
     /**
@@ -29,7 +29,7 @@ function DeleteVoterModal(props) {
       setDeleteState(true);
       const token = sessionStorage.getItem("token");
       const resp = await fetch(
-        backendOpIP + "/" + uuid + "/voter/" + props.voter.uuid + "/delete",
+        backendOpIP + "/" + shortName + "/voter/" + props.voter.uuid + "/delete",
         {
           method: "POST",
           headers: {

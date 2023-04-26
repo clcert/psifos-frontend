@@ -15,14 +15,14 @@ function Statistics() {
   const [electionName, setElectionName] = useState("");
 
   /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   const [actualTab, setActualTab] = useState(0);
 
   const tabs = ["Votos recibidos", "Ingresos recibidos", "Ingresos fallidos"];
 
   useEffect(() => {
-    getStats(uuid).then((data) => {
+    getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setElectionName(jsonResponse.name);
     });

@@ -27,7 +27,7 @@ function Status(props) {
               <Link
                 className="link-without-line"
                 to={
-                  "/psifos/admin/" + props.election.uuid + "/create-question/"
+                  "/psifos/admin/" + props.election.short_name + "/create-question/"
                 }
               >
                 Añadir preguntas
@@ -41,7 +41,7 @@ function Status(props) {
             <span className="panel-text-sect">
               <Link
                 className="link-without-line"
-                to={"/psifos/admin/" + props.election.uuid + "/trustee"}
+                to={"/psifos/admin/" + props.election.short_name + "/trustee"}
               >
                 Añadir custodios
               </Link>
@@ -86,7 +86,7 @@ function Status(props) {
           <span className="panel-text-sect">
             <Link
               className="link-without-line"
-              to={"/psifos/admin/" + props.election.uuid + "/trustee"}
+              to={"/psifos/admin/" + props.election.short_name + "/trustee"}
             >
               Esperando desencriptaciones parciales
             </Link>
@@ -112,7 +112,7 @@ function Status(props) {
             className="panel-text-sect"
           >
             <Link
-              to={"/psifos/admin/" + props.election.uuid + "/resultado"}
+              to={"/psifos/admin/" + props.election.short_name + "/resultado"}
               className="link-without-line"
             >
               Ver resultados

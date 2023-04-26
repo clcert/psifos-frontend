@@ -2,7 +2,7 @@ import { backendOpIP } from "../../../../server";
 
 function ModalCloseElection(props) {
   async function closeElection() {
-    const url = backendOpIP + "/" + props.uuid + "/end-election";
+    const url = backendOpIP + "/" + props.shortName + "/end-election";
     const token = sessionStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",

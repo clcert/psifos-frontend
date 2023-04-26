@@ -45,19 +45,19 @@ function VotersList() {
     voter_weight: "",
   });
 
-  /** @urlParam {uuid} election uuid */
-  const { uuid } = useParams();
+  /** @urlParam {shortName} election shortName */
+  const { shortName } = useParams();
 
   useEffect(
     function effectFunction() {
-      getElection(uuid).then((election) => {
+      getElection(shortName).then((election) => {
         const { jsonResponse } = election;
         setElection(jsonResponse);
         setElectionOpenReg(jsonResponse.openreg);
         setLoad(true);
       });
     },
-    [uuid]
+    [shortName]
   );
 
   return (
@@ -102,7 +102,6 @@ function VotersList() {
 
             <VotersTable
               voter={voterSelect}
-              uuid={uuid}
               election={election}
               setVoterSelect={setVoterSelect}
               setDeleteVoterModal={setDeleteVoterModal}
@@ -113,11 +112,11 @@ function VotersList() {
           <div className="spinner-animation"></div>
         )}
       </section>
-      <ElectionCode uuid={uuid} />
+      <ElectionCode />
       <UploadModal
         show={uploadModal}
         onHide={() => setUploadModal(false)}
-        uuid={uuid}
+        shortName={shortName}
       />
       <DeleteModal show={deleteModal} onHide={() => setDeleteModal(false)} />
       <DeleteVoterModal

@@ -27,12 +27,12 @@ function Booth(props) {
   /** @state {bool}  */
   const [searchParams] = useSearchParams();
 
-  /** @state {string} uuid of election */
-  const { uuid } = useParams();
+  /** @state {string} shortName of election */
+  const { shortName } = useParams();
 
   useEffect(() => {
     if (searchParams.get("logout") === "true") {
-      window.location.href = backendOpIP + "/vote/" + uuid;
+      window.location.href = backendOpIP + "/vote/" + shortName;
     } else if (props.preview) {
       getElectionQuestionsPreview();
     } else {
@@ -45,7 +45,7 @@ function Booth(props) {
        * check if voter can vote in election
        */
 
-      const url = backendOpIP + "/get-election/" + uuid;
+      const url = backendOpIP + "/get-election/" + shortName;
       const token = sessionStorage.getItem("token");
       const resp = await fetch(url, {
         method: "GET",
@@ -70,7 +70,7 @@ function Booth(props) {
        * check if voter can vote in election
        */
 
-      const url = backendOpIP + "/" + uuid + "/questions";
+      const url = backendOpIP + "/" + shortName + "/questions";
       const resp = await fetch(url, {
         method: "GET",
         credentials: "include",
@@ -96,7 +96,7 @@ function Booth(props) {
         );
       }
     }
-  }, [props.preview, searchParams, uuid]);
+  }, [props.preview, searchParams, shortName]);
 
   if (!load) {
     return <LoadPage />;
@@ -105,7 +105,7 @@ function Booth(props) {
       <NoAuth
         title={"Cabina de votación"}
         message={noAuthMessage}
-        adressLogout={backendOpIP + "/vote/" + uuid + "/logout"}
+        adressLogout={backendOpIP + "/vote/" + shortName + "/logout"}
       ></NoAuth>
     );
   } else if (load) {

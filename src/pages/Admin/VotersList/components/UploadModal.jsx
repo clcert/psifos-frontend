@@ -27,7 +27,7 @@ function UploadModal(props) {
       data.append("file", input.files[0]);
       const token = sessionStorage.getItem("token");
       const resp = await fetch(
-        backendOpIP + "/" + props.uuid + "/upload-voters",
+        backendOpIP + "/" + props.shortName + "/upload-voters",
         {
           method: "POST",
           headers: {

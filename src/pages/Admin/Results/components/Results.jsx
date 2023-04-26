@@ -16,12 +16,12 @@ function Results(props) {
   /** @state {bool} state of load info */
   const [load, setLoad] = useState(false);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   const getElectionResult = useCallback(async () => {
     setLoad(false);
-    getElectionPublic(uuid).then((election) => {
+    getElectionPublic(shortName).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
         if (jsonResponse.election_status === "Decryptions combined") {
@@ -32,7 +32,7 @@ function Results(props) {
       }
       setLoad(true);
     });
-  }, [uuid]);
+  }, [shortName]);
 
   const createResults = (questionsObject, resultObject) => {
     let result = [];

@@ -16,7 +16,7 @@ function SettingsUrna(props) {
 
   async function updateRegElection() {
     const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + props.uuid + "/openreg", {
+    const resp = await fetch(backendOpIP + "/" + props.shortName + "/openreg", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,

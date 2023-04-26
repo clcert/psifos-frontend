@@ -17,10 +17,10 @@ const events = {
 function Logs() {
   const [electionLogs, setElectionLogs] = useState([]);
   const [load, setLoad] = useState(false);
-  const { uuid } = useParams();
+  const { shortName } = useParams();
   async function getLogs() {
     const resp = await fetch(
-      backendInfoIp + "/election/" + uuid + "/election-logs",
+      backendInfoIp + "/election/" + shortName + "/election-logs",
       {
         method: "GET",
         headers: {

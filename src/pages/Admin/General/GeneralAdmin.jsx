@@ -17,18 +17,18 @@ function GeneralAdmin() {
   const [elections, setElections] = useState([]);
 
   /** @state {json} state modal freeze */
-  const [freezeModal, setFreezeModal] = useState({ state: false, uuid: "" });
+  const [freezeModal, setFreezeModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} state modal close election */
-  const [closeModal, setCloseModal] = useState({ state: false, uuid: "" });
+  const [closeModal, setCloseModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} tally modal close election */
-  const [tallyModal, setTallyModal] = useState({ state: false, uuid: "" });
+  const [tallyModal, setTallyModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} state modal combine tally election */
   const [combineTallyModal, setCombineTallyModal] = useState({
     state: false,
-    uuid: "",
+    shortName: "",
   });
 
   /** @state {string} message with feeback for admin */
@@ -41,12 +41,12 @@ function GeneralAdmin() {
   const [load, setLoad] = useState(false);
 
   /** @state {bool} upload modal state */
-  const [uploadModal, setUploadModal] = useState({ state: false, uuid: "" });
+  const [uploadModal, setUploadModal] = useState({ state: false, shortName: "" });
 
-  function updateElectionStatus(uuid, status) {
+  function updateElectionStatus(shortName, status) {
     let auxElections = elections;
     for (let i = 0; i < auxElections.length; i++) {
-      if (auxElections[i].uuid === uuid) {
+      if (auxElections[i].short_name === shortName) {
         auxElections[i].election_status = status;
       }
     }
@@ -107,22 +107,22 @@ function GeneralAdmin() {
                     election={election}
                     electionStatus={election.election_status}
                     freezeModal={() => {
-                      setFreezeModal({ state: true, uuid: election.uuid });
+                      setFreezeModal({ state: true, shortName: election.short_name });
                     }}
                     closeModal={() => {
-                      setCloseModal({ state: true, uuid: election.uuid });
+                      setCloseModal({ state: true, shortName: election.short_name });
                     }}
                     tallyModal={() => {
-                      setTallyModal({ state: true, uuid: election.uuid });
+                      setTallyModal({ state: true, shortName: election.short_name });
                     }}
                     combineTallyModal={() => {
                       setCombineTallyModal({
                         state: true,
-                        uuid: election.uuid,
+                        shortName: election.short_name,
                       });
                     }}
                     uploadModalonClick={(value) => {
-                      setUploadModal({ state: true, uuid: election.uuid });
+                      setUploadModal({ state: true, shortName: election.short_name });
                     }}
                   />
                 );
@@ -136,53 +136,53 @@ function GeneralAdmin() {
         <ModalFreeze
           show={freezeModal.state}
           onHide={() => setFreezeModal(false)}
-          freezeChange={() => updateElectionStatus(freezeModal.uuid, "Started")}
+          freezeChange={() => updateElectionStatus(freezeModal.shortName, "Started")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={freezeModal.uuid}
+          shortName={freezeModal.shortName}
         />
         <ModalCloseElection
           show={closeModal.state}
           onHide={() => setCloseModal(false)}
-          endChange={() => updateElectionStatus(closeModal.uuid, "Ended")}
+          endChange={() => updateElectionStatus(closeModal.shortName, "Ended")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={closeModal.uuid}
+          shortName={closeModal.shortName}
         />
 
         <ModalTally
           show={tallyModal.state}
           onHide={() => setTallyModal(false)}
           tallyChange={() =>
-            updateElectionStatus(tallyModal.uuid, "Tally computed")
+            updateElectionStatus(tallyModal.shortName, "Tally computed")
           }
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={tallyModal.uuid}
+          shortName={tallyModal.shortName}
         />
 
         <ModalCombineTally
           show={combineTallyModal.state}
           onHide={() => setCombineTallyModal(false)}
           combineChange={() =>
-            updateElectionStatus(combineTallyModal.uuid, "Decryptions combined")
+            updateElectionStatus(combineTallyModal.shortName, "Decryptions combined")
           }
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
           }}
-          uuid={combineTallyModal.uuid}
+          shortName={combineTallyModal.shortName}
         />
         <UploadModal
           show={uploadModal.state}
           onHide={() => setUploadModal(false)}
-          uuid={uploadModal.uuid}
+          shortName={uploadModal.shortName}
         />
       </div>
     </>

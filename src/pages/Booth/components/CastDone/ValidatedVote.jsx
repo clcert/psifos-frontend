@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { backendOpIP, frontIP } from "../../../../server";
 
 function ValidatedVote(props) {
-  const { uuid } = useParams();
+  const { shortName } = useParams();
   async function downloadFile() {
-    const url = backendOpIP + "/" + uuid + "/get-certificate";
+    const url = backendOpIP + "/" + shortName + "/get-certificate";
     const resp = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -29,7 +29,7 @@ function ValidatedVote(props) {
     window.open(
       frontIP +
         "psifos/booth/" +
-        uuid +
+        shortName +
         "/public-info?hash=" +
         encodeURIComponent(props.voteHash),
       "_blank"

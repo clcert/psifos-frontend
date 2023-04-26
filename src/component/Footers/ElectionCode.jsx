@@ -1,4 +1,4 @@
-function ElectionCode(props) {
+function ElectionCode() {
   return (
     <div>
       <footer className="footer">

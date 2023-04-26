@@ -53,8 +53,8 @@ function Keygenerator(props) {
 
   const [checkedSecretKey, setCheckedSecretKey] = useState("");
 
-  /** @urlParam {uuid} election uuid */
-  const { uuid, uuidTrustee } = useParams();
+  /** @urlParam {shortName} election shortName */
+  const { shortName, uuidTrustee } = useParams();
 
   const getRandomness = useCallback(async () => {
     /**
@@ -62,7 +62,7 @@ function Keygenerator(props) {
      * @returns {int} randomness
      */
 
-    const resp = await fetch(backendOpIP + "/" + uuid + "/get-randomness", {
+    const resp = await fetch(backendOpIP + "/" + shortName + "/get-randomness", {
       method: "GET",
       credentials: "include",
     });
@@ -70,18 +70,18 @@ function Keygenerator(props) {
       const jsonResponse = await resp.json();
       return jsonResponse.randomness;
     }
-  }, [uuid]);
+  }, [shortName]);
 
   useEffect(() => {
     sjcl.random.startCollectors();
     /** Get trustee info */
-    getTrusteeHome(uuid, uuidTrustee).then((data) => {
+    getTrusteeHome(shortName, uuidTrustee).then((data) => {
       const trustee_aux = data.jsonResponse.trustee;
       setActualStep(trustee_aux.current_step);
       setTrustee(trustee_aux);
       /** Set actual step for trustee */
       let eg_params_json = "";
-      getEgParams(uuid).then((data) => {
+      getEgParams(shortName).then((data) => {
         eg_params_json = JSON.parse(data);
 
         /** Set initial params */
@@ -103,7 +103,7 @@ function Keygenerator(props) {
         });
       });
     });
-  }, [uuid, uuidTrustee, getRandomness]);
+  }, [shortName, uuidTrustee, getRandomness]);
 
   async function send_step(step, data) {
     /**
@@ -114,7 +114,7 @@ function Keygenerator(props) {
      */
 
     const url =
-      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/step-" + step;
+      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/step-" + step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -144,7 +144,7 @@ function Keygenerator(props) {
      */
 
     const url =
-      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/" + step;
+      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/" + step;
 
     const resp = await fetch(url, {
       method: "GET",
@@ -161,7 +161,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
     const url =
-      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/get-step";
+      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/get-step";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -230,7 +230,7 @@ function Keygenerator(props) {
     /**
      * Step 1: generate the certificate
      */
-    getEgParams(uuid).then((params) => {
+    getEgParams(shortName).then((params) => {
       get_data_step("step-1").then((data_step) => {
         if ("error" in data_step) {
           EXECUTE = false;
@@ -262,7 +262,7 @@ function Keygenerator(props) {
     /**
      * Step 2: generate the coefficients
      */
-    getEgParams(uuid).then((params) => {
+    getEgParams(shortName).then((params) => {
       get_data_step("step-2").then((data_step) => {
         if ("error" in data_step) {
           EXECUTE = false;
@@ -294,7 +294,7 @@ function Keygenerator(props) {
     /**
      * Step 3: generate the points
      */
-    getEgParams(uuid).then((params) => {
+    getEgParams(shortName).then((params) => {
       get_data_step("step-3").then((data_step) => {
         if ("error" in data_step) {
           EXECUTE = false;
@@ -365,7 +365,7 @@ function Keygenerator(props) {
 
   async function send_public_key() {
     const url =
-      backendOpIP + "/" + uuid + "/trustee/" + uuidTrustee + "/upload-pk";
+      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/upload-pk";
 
     const resp = await fetch(url, {
       method: "POST",
@@ -551,8 +551,8 @@ function Keygenerator(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
-            linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+            linkExit={`${backendOpIP}/${shortName}/trustee/logout`}
+            linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
             namePage="Portal de Custodio de Clave: Generación"
@@ -687,7 +687,7 @@ function Keygenerator(props) {
                       style={{ textDecoration: "None", color: "white" }}
                       to={
                         "/psifos/" +
-                        uuid +
+                        shortName +
                         "/trustee/" +
                         uuidTrustee +
                         "/home"
@@ -718,7 +718,7 @@ function Keygenerator(props) {
             <button className="button is-normal is-link mt-5">
                 <Link
                   style={{ textDecoration: "None" , color: "white" }}
-                  to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+                  to={"/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"}
                 >
                   Volver atrás
                 </Link>

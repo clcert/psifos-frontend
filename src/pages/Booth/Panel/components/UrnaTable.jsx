@@ -9,11 +9,11 @@ function UrnaTable(props) {
 
   const hashUrl =
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   const openWindowVote = (voteHash) => {
     window.open(
-      `${backendInfoIp}/election/${uuid}/cast-vote/${encodeURIComponent(
+      `${backendInfoIp}/election/${shortName}/cast-vote/${encodeURIComponent(
         voteHash
       )}`,
       "_blank"

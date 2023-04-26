@@ -19,12 +19,12 @@ function InvalidLogginByTime(props) {
   /** @state {bool} load state fetch */
   const [load, setLoad] = useState(false);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   async function getCountDates() {
     const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + uuid + "/count-logs", {
+    const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,

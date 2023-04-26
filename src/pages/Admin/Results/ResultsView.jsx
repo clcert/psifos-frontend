@@ -15,11 +15,11 @@ function Resultados() {
   /** @state {string} name election */
   const [electionName, setElectionName] = useState("");
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   useEffect(() => {
-    getStats(uuid).then((data) => {
+    getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setElectionName(jsonResponse.name);
     });

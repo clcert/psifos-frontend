@@ -10,10 +10,10 @@ export default function ResumeTable() {
   const [totalVotes, setTotalVotes] = useState(0);
 
   /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  const { shortName } = useParams();
 
   useEffect(() => {
-    getStats(uuid).then((data) => {
+    getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);

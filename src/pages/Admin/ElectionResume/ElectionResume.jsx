@@ -26,8 +26,8 @@ function ElectionResume() {
   /** @state {string} state of loading data */
   const [load, setLoad] = useState(false);
 
-  /** @urlParam {string} uuid of election */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
 
   useEffect(
     function effectFunction() {
@@ -36,7 +36,7 @@ function ElectionResume() {
          * async function to get the election data
          */
 
-        const resp = await fetch(backendInfoIp + "/" + uuid + "/resume", {
+        const resp = await fetch(backendInfoIp + "/" + shortName + "/resume", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -56,12 +56,12 @@ function ElectionResume() {
         }
       }
       getElectionResume();
-      getStats(uuid).then((data) => {
+      getStats(shortName).then((data) => {
         const { jsonResponse } = data;
         setNameElection(jsonResponse.name);
       });
     },
-    [uuid]
+    [shortName]
   );
 
   return (
@@ -85,7 +85,7 @@ function ElectionResume() {
       />
 
       <ImageFooter imagePath={imageTrustees} />
-      <ElectionCode uuid={uuid} />
+      <ElectionCode />
     </div>
   );
 }

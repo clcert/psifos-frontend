@@ -19,18 +19,21 @@ function VotersTable(props) {
 
   async function getVoters(page) {
     const token = sessionStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + props.uuid + "/get-voters", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
+    const resp = await fetch(
+      backendOpIP + "/" + props.election.short_name + "/get-voters",
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
 
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        page: page,
-        page_size: maxForPage,
-      }),
-    });
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          page: page,
+          page_size: maxForPage,
+        }),
+      }
+    );
 
     const jsonResponse = await resp.json();
     return jsonResponse;
@@ -42,7 +45,7 @@ function VotersTable(props) {
         setTotalVoters(dataVoters.length);
         setVoters(dataVoters);
       });
-      getStats(props.uuid).then((data) => {
+      getStats(props.election.short_name).then((data) => {
         const { jsonResponse } = data;
         setElectionStatus(jsonResponse.status);
       });

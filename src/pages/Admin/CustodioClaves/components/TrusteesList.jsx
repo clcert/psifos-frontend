@@ -1,27 +1,33 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { getTrustees } from "../../../../services/trustee";
 import InfoTrustee from "./InfoTrustee";
 function TrusteesList(props) {
   /** @state {array} trustees list */
   const [trustees, setTrustees] = useState([]);
 
+  const { shortName } = useParams();
+
   useEffect(() => {
-    getTrustees(props.uuid).then((trustees) => {
+    getTrustees(shortName).then((trustees) => {
       setTrustees(trustees.jsonResponse);
     });
-  }, []);
+  }, [shortName]);
 
-  useEffect(function effectFunction() {
-    let interval = setInterval(() => {
-      getTrustees(props.uuid).then((trustees) => {
-        setTrustees(trustees.jsonResponse);
-      });
-    }, 500);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [trustees]);
+  useEffect(
+    function effectFunction() {
+      let interval = setInterval(() => {
+        getTrustees(shortName).then((trustees) => {
+          setTrustees(trustees.jsonResponse);
+        });
+      }, 500);
+      return () => {
+        clearInterval(interval);
+      };
+    },
+    [trustees, shortName]
+  );
 
   return (
     <div className="mx-auto">

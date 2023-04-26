@@ -7,11 +7,11 @@ function CardSettings(props) {
   /** @state {bool} state for show infor message about copy */
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
-  /** @urlParam {string} uuid of election  */
-  const { uuid } = useParams();
+  /** @urlParam {string} shortName of election  */
+  const { shortName } = useParams();
 
   const bundleDownload = async () => {
-    const url = backendInfoIp + "/election/" + uuid + "/bundle-file";
+    const url = backendInfoIp + "/election/" + shortName + "/bundle-file";
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -44,7 +44,7 @@ function CardSettings(props) {
           </div>
           <Link
             className="link-without-line"
-            to={"/psifos/admin/" + uuid + "/edit-election/"}
+            to={"/psifos/admin/" + shortName + "/edit-election/"}
           >
             Editar elección
           </Link>
@@ -55,7 +55,7 @@ function CardSettings(props) {
           </div>
           <Link
             className="link-without-line"
-            to={"/psifos/admin/" + uuid + "/create-question/"}
+            to={"/psifos/admin/" + shortName + "/create-question/"}
           >
             Ver preguntas
           </Link>
@@ -68,7 +68,7 @@ function CardSettings(props) {
             </div>
             <Link
               className="link-without-line"
-              to={"/psifos/admin/" + uuid + "/booth"}
+              to={"/psifos/admin/" + shortName + "/booth"}
             >
               Ver previsualización
             </Link>
@@ -82,7 +82,7 @@ function CardSettings(props) {
           <Link
             target="_blank"
             className="link-without-line"
-            to={"/psifos/booth/" + uuid + "/public-info"}
+            to={"/psifos/booth/" + shortName + "/public-info"}
           >
             Ver portal de información
           </Link>
@@ -93,7 +93,7 @@ function CardSettings(props) {
             <i class="fa-solid fa-copy"></i>{" "}
           </div>
           <CopyToClipboard
-            text={backendOpIP + "/" + uuid + "/vote"}
+            text={backendOpIP + "/" + shortName + "/vote"}
             onCopy={() => setShowCopyMessage(true)}
           >
             <span>

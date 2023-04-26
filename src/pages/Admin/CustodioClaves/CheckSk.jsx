@@ -16,8 +16,8 @@ function CheckSk(props) {
   /** @state {string} secret key for check */
   const [secretKey, setSecretKey] = useState("");
 
-  /** @state {string} trustee uuid */
-  const { uuid, uuidTrustee } = useParams();
+  /** @state {string} trustee shortName */
+  const { shortName, uuidTrustee } = useParams();
 
   const [election, setElection] = useState([]);
 
@@ -33,13 +33,13 @@ function CheckSk(props) {
   const [keyVerificated, setKeyVerificated] = useState(false);
 
   useEffect(() => {
-    getCheckSk(uuid, uuidTrustee).then((data) => {
+    getCheckSk(shortName, uuidTrustee).then((data) => {
       setCertificates(data);
     });
-    getEgParams(uuid).then((data) => {
+    getEgParams(shortName).then((data) => {
       setElGamalParams(JSON.parse(data));
     });
-  }, [uuid, uuidTrustee]);
+  }, [shortName, uuidTrustee]);
 
   function check_sk(sk) {
     if (!sk) {
@@ -69,8 +69,8 @@ function CheckSk(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
-            linkExit={`${backendOpIP}/${uuid}/trustee/logout`}
-            linkInit={"/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+            linkExit={`${backendOpIP}/${shortName}/trustee/logout`}
+            linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
             namePage="Portal de Custodio de Clave: Verificación"
@@ -95,7 +95,7 @@ function CheckSk(props) {
             <button id="button-init" className="button is-link mx-sm-2 mt-2">
               <Link
                 style={{ textDecoration: "None", color: "white" }}
-                to={"/psifos/" + uuid + "/trustee/" + uuidTrustee + "/home"}
+                to={"/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"}
               >
                 Volver atrás
               </Link>

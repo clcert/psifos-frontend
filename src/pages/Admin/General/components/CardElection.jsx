@@ -19,7 +19,7 @@ function CardElection(props) {
   }, [props.electionStatus]);
 
   useEffect(() => {
-    getStats(props.election.uuid).then((res) => {
+    getStats(props.election.short_name).then((res) => {
       const { jsonResponse } = res;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
@@ -36,7 +36,7 @@ function CardElection(props) {
         <span className="is-size-6">
           <Link
             className="link-without-line"
-            to={"/psifos/admin/" + props.election.uuid + "/panel"}
+            to={"/psifos/admin/" + props.election.short_name + "/panel"}
           >
             Ver Panel
           </Link>
