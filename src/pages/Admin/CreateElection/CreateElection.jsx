@@ -83,7 +83,7 @@ function CreateElection(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          short_name: shortName,
+          short_name: shortNameElection,
           name: name,
           description: description,
           election_type: electionType,
@@ -101,7 +101,7 @@ function CreateElection(props) {
         }
       }
       if (resp.status === 201) {
-        window.location.href = "/psifos/admin/" + jsonResponse.shortName + "/panel";
+        window.location.href = "/psifos/admin/" + shortNameElection + "/panel";
       }
     } else {
       window.scrollTo({
@@ -116,7 +116,7 @@ function CreateElection(props) {
      * function to check if the jsonResponse is correct
      */
 
-    if (shortName.length === 0 || shortName.length > 100) {
+    if (shortNameElection.length === 0 || shortNameElection.length > 100) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;
     } else if (name.length === 0 || name.length > 250) {
