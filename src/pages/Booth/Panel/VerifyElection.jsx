@@ -2,7 +2,7 @@ import Step1Descript from "./VerifyInstructions/Step1Descript"
 import Step2Descript from "./VerifyInstructions/Step2Descript"
 import Step3Descript from "./VerifyInstructions/Step3Descript"
 
-function EnabledVerification() {
+function EnabledVerification({linkResumen="https://www.google.com.ar/"}) {
 
   return (
       <>
@@ -11,7 +11,7 @@ function EnabledVerification() {
           </div>
           <hr />
           
-          <Step1Descript />
+          <Step1Descript linkResumen={linkResumen}/>
           <Step2Descript />
           <Step3Descript />
       </>

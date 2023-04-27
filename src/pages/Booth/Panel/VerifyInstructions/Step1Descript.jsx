@@ -1,6 +1,6 @@
 import CardInstruction from './CardInstruction'
 
-function Description({nombreEleccion='Elección Mascotas', linkResumen="https://www.google.com.ar/"}) {
+function Description({linkResumen}) {
     return (
         <div className="verify-instruction-descript">
             {
@@ -10,7 +10,6 @@ function Description({nombreEleccion='Elección Mascotas', linkResumen="https://
                 <a href={linkResumen} target="_blank" rel="noreferrer" className="href-button">
                     <button
                         className="button review-buttons previous-button has-text-white has-text-weight-bold level-left"
-                        onClick={linkResumen}
                     >
                         <div>
                             Descargar resumen matemático de la elección
@@ -22,11 +21,11 @@ function Description({nombreEleccion='Elección Mascotas', linkResumen="https://
     )
 }
 
-function StepDescript() {
+function StepDescript({linkResumen}) {
     return (
         <CardInstruction
-            title={'1. Descargar el resumen matemático'}
-            description={<Description/>}
+            title={'Paso 1: Descargar el resumen matemático'}
+            description={<Description linkResumen={linkResumen}/>}
         />
     )
 }
