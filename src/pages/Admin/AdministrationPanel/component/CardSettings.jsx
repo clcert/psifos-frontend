@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, json, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { backendInfoIp, backendOpIP } from "../../../../server";
 
@@ -37,12 +37,12 @@ function CardSettings(props) {
 
   const parseBundleFile = (bundleJson) => {
     /**
-     * Parse file to b64 without spaces and \n
+     * Parse file to b64 without newlines
      */
 
     Object.keys(bundleJson).forEach((key) => {
       bundleJson[key] = btoa(
-        JSON.stringify(bundleJson[key]).replace(/[\n\r\s]+/g, "")
+        JSON.stringify(bundleJson[key]).replace(/[\n\r]+/g, "")
       );
     });
     return bundleJson;
