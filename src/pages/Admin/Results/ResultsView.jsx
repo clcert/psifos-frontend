@@ -23,7 +23,7 @@ function Resultados() {
       const { jsonResponse } = data;
       setElectionName(jsonResponse.name);
     });
-  });
+  }, [shortName]);
 
   return (
     <div id="content-home-admin">

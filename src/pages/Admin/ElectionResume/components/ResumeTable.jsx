@@ -18,7 +18,7 @@ export default function ResumeTable() {
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
-  });
+  }, [shortName]);
 
   const tableStyle = {
     width: "220px",

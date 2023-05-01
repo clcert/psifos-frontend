@@ -5,11 +5,9 @@ import InfoElection from "./components/InfoElection";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useParams } from "react-router";
-import { backendInfoIp } from "../../../server";
 import { useEffect, useState } from "react";
 import SubNavbar from "../component/SubNavbar";
-import { logout } from "../../../utils/utils";
-import { getStats } from "../../../services/election";
+import { getElectionResume, getStats } from "../../../services/election";
 
 function ElectionResume() {
   /**
@@ -31,31 +29,12 @@ function ElectionResume() {
 
   useEffect(
     function effectFunction() {
-      async function getElectionResume() {
-        /**
-         * async function to get the election data
-         */
-
-        const resp = await fetch(backendInfoIp + "/" + shortName + "/resume", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (resp.status === 200) {
-          const jsonResponse = await resp.json();
-
-          setWeightsInit(JSON.parse(jsonResponse.weights_init));
-          setWeightsEnd(JSON.parse(jsonResponse.weights_end));
-
-          setLoad(true);
-          return jsonResponse;
-        } else if (resp.status === 401) {
-          logout();
-        }
-      }
-      getElectionResume();
+      getElectionResume(shortName).then((data) => {
+        const { jsonResponse } = data;
+        setWeightsInit(JSON.parse(jsonResponse.weights_init));
+        setWeightsEnd(JSON.parse(jsonResponse.weights_end));
+        setLoad(true);
+      });
       getStats(shortName).then((data) => {
         const { jsonResponse } = data;
         setNameElection(jsonResponse.name);

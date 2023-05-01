@@ -73,4 +73,24 @@ async function getStats(shortName) {
   }
 }
 
-export { getElection, getElectionPublic, getElections, getStats };
+async function getElectionResume(shortName) {
+  /**
+   * async function to get the election data
+   */
+
+  const resp = await fetch(backendInfoIp + "/" + shortName + "/resume", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  } else if (resp.status === 401) {
+    logout();
+  }
+}
+
+export { getElection, getElectionPublic, getElections, getStats, getElectionResume };
