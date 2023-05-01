@@ -95,20 +95,28 @@ function CreateElection(props) {
         }),
       });
       const jsonResponse = await resp.json();
-      if (resp.status === 400) {
-        if (jsonResponse.message.hasOwnProperty("short_name")) {
-          setAlertMessage(jsonResponse.message["short_name"][0]);
+      if (resp.status === 404) {
+        if (jsonResponse.detail === "The election already exists.") {
+          setAlertMessage(`La elección ${shortNameElection} ya existe`);
+          upScreen();
         }
       }
       if (resp.status === 201) {
         window.location.href = "/psifos/admin/" + shortNameElection + "/panel";
       }
     } else {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      upScreen();
     }
+  }
+
+  function upScreen() {
+    /**
+     * Scroll screen to the top
+     */
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   function checkData() {
