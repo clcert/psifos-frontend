@@ -14,7 +14,7 @@ import { getEgParams } from "../../../services/crypto";
 import DropFile from "./components/DropFile";
 
 function DecryptProve() {
-  const [trustee, setTrustee] = useState("");
+  const [actualStep, setActualStep] = useState(0);
   const [params, setParams] = useState({});
   const [secretKey, setSecretKey] = useState("");
   const [certificates, setCertificates] = useState({});
@@ -65,10 +65,12 @@ function DecryptProve() {
     });
     if (response.status === 200) {
       setFeedbackMessage("Desencriptación Parcial enviada exitosamente ✓");
+      setActualStep(2);
       const jsonResponse = await response.json();
       return jsonResponse;
     } else {
       setFeedbackMessage("Error al enviar información, intente nuevamente");
+      setActualStep(0);
     }
   }
 
@@ -122,7 +124,6 @@ function DecryptProve() {
         setParams(params_aux);
         setCertificates(certificates_aux);
         setPoints(points_aux);
-        setTrustee(trustee_aux);
 
         BigInt.setup(function () {
           let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
@@ -139,7 +140,9 @@ function DecryptProve() {
           );
           setTally(TALLY);
         });
-        setFeedbackMessage("Esperando clave para generar desencriptado parcial");
+        setFeedbackMessage(
+          "Esperando clave para generar desencriptado parcial"
+        );
       });
     });
   }, [getDescrypt]);
@@ -148,6 +151,7 @@ function DecryptProve() {
     try {
       setSecretKey(sk);
       setFeedbackMessage("Generando desencriptado parcial...");
+      setActualStep(1);
       doTally(sk);
     } catch {
       setFeedbackMessage("Clave incorrecta");
@@ -186,7 +190,14 @@ function DecryptProve() {
               placeholder="Clave privada..."
               disabled
             />
-            <div className="mt-2">{feedbackMessage}</div>
+            <p className="has-text-white pt-2">
+              {feedbackMessage}
+              <i
+                className={
+                  "ml-2 " + (actualStep === 1 && "fa-solid fa-spinner fa-spin")
+                }
+              ></i>
+            </p>
 
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
               <button className="button is-link mx-sm-2 mt-2">
