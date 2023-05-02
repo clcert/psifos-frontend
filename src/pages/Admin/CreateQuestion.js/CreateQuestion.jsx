@@ -102,6 +102,8 @@ function CreateQuestion(props) {
       question.max_answers = question.max_answers ? question.max_answers : 1;
       question.include_blank_null =
         question.include_blank_null === "True" ? true : false;
+      question.group_votes =
+        question.group_votes === "True" ? true : false;
     });
     setQuestion(questions);
   }
