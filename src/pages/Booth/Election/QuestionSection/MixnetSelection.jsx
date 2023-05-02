@@ -59,6 +59,7 @@ function MixnetSelection(props) {
           value: value,
           label: value,
           key: index,
+          group: group,
         };
         const indexGroup = auxOptions.find((object) => object.label === group);
         if (!indexGroup) {
@@ -128,10 +129,24 @@ function MixnetSelection(props) {
 
       if (previousSelected) {
         previousSelected.isDisabled = false;
-        auxOptions[previousSelected.key] = previousSelected;
       }
       actualSelected.isDisabled = true;
-      auxOptions[actualSelected.key] = actualSelected;
+
+      if (props.question.group_votes === "True") {
+        auxOptions.forEach((option) => {
+          if (option.label === actualSelected.group) {
+            option.options[actualSelected.key] = actualSelected;
+          }
+          if (previousSelected && option.label === previousSelected.group) {
+            option.options[previousSelected.key] = previousSelected;
+          }
+        });
+      } else {
+        auxOptions[actualSelected.key] = actualSelected;
+        if (previousSelected) {
+          auxOptions[previousSelected.key] = previousSelected;
+        }
+      }
 
       setAnswersSelected(auxAnswersSelected);
       setAnswersForEncrypt(auxAnswersForEncrypt);
