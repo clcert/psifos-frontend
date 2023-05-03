@@ -30,7 +30,7 @@ function TextSelected(props) {
               indexAnswer < props.question.closed_options.length - 2) && (
               <React.Fragment key={index}>
                 <span key={index}>
-                  {"[ ✓ ] " + props.question.closed_options[indexAnswer] + " "}
+                  {"[ ✓ ] " + props.question.closed_options[indexAnswer].split(",")[0] + " "}
                 </span>
                 <br />
               </React.Fragment>
