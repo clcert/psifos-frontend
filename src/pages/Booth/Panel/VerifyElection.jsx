@@ -21,15 +21,15 @@ function EnabledVerification({linkResumen="https://www.google.com.ar/"}) {
 function DisabledVerification() {
   return (
       <div className="box" id="not-results-box">
-          <p className="is-size-3 has-text-weight-bold">
-              Elección aun no finaliza.
+          <p className="is-size-3 has-text-weight-bold mb-0">
+              Elección aun no finalizada
           </p>
       </div>
   )
 }
 
 function VerifyElection() {
-  const finishedElection = true;
+  const finishedElection = false;
   return (
     <div>
       {
