@@ -6,6 +6,7 @@ import AsyncSelect from "react-select/async";
 
 function MixnetSelection(props) {
   const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
+  const isMixnetGroup = props.question.group_votes === "True";
 
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
@@ -44,7 +45,7 @@ function MixnetSelection(props) {
     );
     const auxOptions = [];
     props.question.closed_options.forEach((close_option, index) => {
-      if (props.question.group_votes !== "True") {
+      if (!isMixnetGroup) {
         const optionValue = {
           value: close_option,
           label: close_option,
@@ -78,7 +79,7 @@ function MixnetSelection(props) {
 
   const filterOptions = useCallback(
     (inputValue) => {
-      if (props.question.group_votes !== "True") {
+      if (!isMixnetGroup) {
         return options.filter((i) =>
           i.label.toLowerCase().includes(inputValue.toLowerCase())
         );
@@ -132,7 +133,7 @@ function MixnetSelection(props) {
       }
       actualSelected.isDisabled = true;
 
-      if (props.question.group_votes === "True") {
+      if (isMixnetGroup) {
         auxOptions.forEach((option) => {
           if (option.label === actualSelected.group) {
             option.options[actualSelected.key] = actualSelected;
@@ -165,7 +166,7 @@ function MixnetSelection(props) {
     let auxOptions = [...options];
     let auxAnswersSelected = [...answersSelected];
     answersSelected.forEach((answerSelected) => {
-      if (props.question.group_votes === "True") {
+      if (isMixnetGroup) {
         auxOptions.forEach((option) => {
           if (option.label === answerSelected.group) {
             answerSelected.isDisabled = false;
@@ -229,6 +230,21 @@ function MixnetSelection(props) {
                     backgroundColor:
                       answersSelected.length < index ? "#bbc1c6" : "white",
                   }),
+                  groupHeading: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#8E8482",
+                    color: "black",
+                    padding: "10px 10px",
+                    display: "flex",
+                  }),
+                  group: (provided, state) => {
+                    if (state.label === "Candidaturas Oficiales") {
+                      return {
+                        ...provided,
+                        backgroundColor: "#96E8EA",
+                      };
+                    }
+                  },
                 }}
               />
             </div>
