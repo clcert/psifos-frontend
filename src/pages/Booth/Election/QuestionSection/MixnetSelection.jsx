@@ -238,19 +238,24 @@ function MixnetSelection(props) {
                   }),
                   groupHeading: (provided, state) => ({
                     ...provided,
-                    backgroundColor: "#8E8482",
-                    color: "black",
+                    backgroundColor: "#0095d4",
+                    color: "white",
                     padding: "10px 10px",
                     display: "flex",
+                    fontSize: "14px",
                   }),
                   group: (provided, state) => {
                     if (state.label === "Candidaturas Oficiales") {
                       return {
                         ...provided,
-                        backgroundColor: "#96E8EA",
+                        backgroundColor: "#DFF6FF",
                       };
                     }
                   },
+                  option: (base, { isFocused }) => ({
+                    ...base,
+                    backgroundColor: isFocused ? "#FFE8DF" : undefined,
+                  }),
                 }}
               />
             </div>
