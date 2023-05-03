@@ -45,6 +45,12 @@ function MixnetSelection(props) {
     );
     const auxOptions = [];
     props.question.closed_options.forEach((close_option, index) => {
+      const includeBlankNull = props.question.include_blank_null === "True";
+      if (
+        includeBlankNull &&
+        (close_option === "Voto Blanco" || close_option === "Voto Nulo")
+      )
+        return;
       if (!isMixnetGroup) {
         const optionValue = {
           value: close_option,
