@@ -164,11 +164,18 @@ function MixnetSelection(props) {
 
     let auxOptions = [...options];
     let auxAnswersSelected = [...answersSelected];
-    answersSelected.forEach((answer) => {
-      if (answer) {
-        let newAnswer = auxOptions[answer.key];
+    answersSelected.forEach((answerSelected) => {
+      if (props.question.group_votes === "True") {
+        auxOptions.forEach((option) => {
+          if (option.label === answerSelected.group) {
+            answerSelected.isDisabled = false;
+            option.options[answerSelected.key] = answerSelected;
+          }
+        });
+      } else {
+        let newAnswer = auxOptions[answerSelected.key];
         newAnswer.isDisabled = false;
-        auxOptions[answer.key] = newAnswer;
+        auxOptions[answerSelected.key] = newAnswer;
       }
     });
     auxAnswersSelected = [];
