@@ -70,11 +70,13 @@ function MixnetSelection(props) {
         };
         const indexGroup = auxOptions.find((object) => object.label === group);
         if (!indexGroup) {
+          optionValue.position = 0;
           auxOptions.push({
             label: group,
             options: [optionValue],
           });
         } else {
+          optionValue.position = indexGroup.options.length
           indexGroup.options.push(optionValue);
         }
       }
@@ -142,10 +144,10 @@ function MixnetSelection(props) {
       if (isMixnetGroup) {
         auxOptions.forEach((option) => {
           if (option.label === actualSelected.group) {
-            option.options[actualSelected.key] = actualSelected;
+            option.options[actualSelected.position] = actualSelected;
           }
           if (previousSelected && option.label === previousSelected.group) {
-            option.options[previousSelected.key] = previousSelected;
+            option.options[previousSelected.position] = previousSelected;
           }
         });
       } else {
@@ -176,7 +178,7 @@ function MixnetSelection(props) {
         auxOptions.forEach((option) => {
           if (option.label === answerSelected.group) {
             answerSelected.isDisabled = false;
-            option.options[answerSelected.key] = answerSelected;
+            option.options[answerSelected.position] = answerSelected;
           }
         });
       } else {

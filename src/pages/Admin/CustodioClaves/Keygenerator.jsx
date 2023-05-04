@@ -645,7 +645,7 @@ function Keygenerator(props) {
           )}
           <div id="process_step" className="mt-3 has-text-black is-size-5 px-6 box">
             <span>&nbsp;
-              <i class="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN<br/>
+              <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN<br/>
               Una vez que descargues la clave, debes almacenarla en tu computador, además 
               de hacer un respaldo del archivo descargado. <br/> 
               Para hacer este respaldo puedes guardar el archivo en un pendrive.

@@ -107,7 +107,7 @@ function CardSettings(props) {
 
         <div className="content-card-admin">
           <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
-            <i class="fa-solid fa-copy"></i>{" "}
+            <i className="fa-solid fa-copy"></i>{" "}
           </div>
           <CopyToClipboard
             text={backendOpIP + "/" + shortName + "/vote"}
@@ -126,7 +126,7 @@ function CardSettings(props) {
         {props.election.election_status === "Decryptions combined" && (
           <div onClick={bundleDownload} className="content-card-admin">
             <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
-              <i class="fa-solid fa-file-arrow-down"></i>{" "}
+              <i className="fa-solid fa-file-arrow-down"></i>{" "}
             </div>
             <Link className="link-without-line" to="">
               Descargar archivo de verificación
