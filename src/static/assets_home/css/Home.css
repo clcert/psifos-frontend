@@ -88,7 +88,7 @@ div#preload {
 
 /* Header & Navbar */
 .header-hero {
-  padding-bottom: 3.5rem !important;
+  padding-bottom: 1.5rem !important;
 }
 
 #logo-header {
@@ -152,6 +152,12 @@ div#preload {
 .custom-navbar {
   padding-left: 3rem !important;
   padding-right: 3rem !important;
+}
+
+@media screen and (max-width: 1020px) {
+  .navbar-brand-width {
+    width: 100%;
+  }
 }
 
 #navbar {
@@ -605,7 +611,7 @@ div#preload {
 
 /* Progress Bar */
 .line-1 {
-  top: 19.97rem;
+  top: 17.6rem;
   background: #004c94;
   position: absolute;
   height: 2px;
@@ -12615,6 +12621,16 @@ Subnavbar
 
 .text-subnavbar-active:hover {
   color: #6dcaf3;
+}
+
+@media screen and (max-width: 768px) {
+  .text-subnavbar-active {
+    margin: 5px 5px;
+  }
+
+  .text-subnavbar {
+    margin: 5px 5px;
+  }
 }
 
 .text-subnavbar:hover {

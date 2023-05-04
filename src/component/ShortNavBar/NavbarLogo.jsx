@@ -2,11 +2,11 @@ import logoConEscudo from "../../static/new_home_assets/SVG/logo-con-escudo.svg"
 import $ from "jquery";
 function NavbarLogo(props) {
   return (
-    <div className="navbar-brand pt-0">
-      <div id="logo-header">
+    <div className="navbar-brand pt-0 navbar-brand-width">
+      <div id="logo-header" className="is-align-items-center">
         <a href="https://participa.uchile.cl/" rel="noreferrer" target="_blank">
           <img
-            className="mt-2 px-3"
+            className="mt-0 px-3"
             src={logoConEscudo}
             alt="Logo Participa UChile"
             width="300"
@@ -17,7 +17,7 @@ function NavbarLogo(props) {
       <a
         href="#"
         role="button"
-        className="navbar-burger"
+        className="navbar-burger is-align-self-center"
         aria-label="menu"
         aria-expanded="false"
         data-target="navbarBasicExample"

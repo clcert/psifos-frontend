@@ -8,14 +8,14 @@ export default function ItemNavbar({
   actionClick,
 }) {
   return (
-    <div className="content-subnavbar d-md-flex justify-content-center">
+    <div className="content-subnavbar d-md-flex justify-content-center is-flex">
       <Link
         className={active ? "text-subnavbar" : "text-subnavbar-active"}
         to={to}
         onClick={actionClick}
       >
         <i className={icon + " d-md-flex justify-content-center"}></i>
-        <span className="">{itemText}</span>
+        <span className="">&nbsp;{itemText}</span>
       </Link>
     </div>
   );

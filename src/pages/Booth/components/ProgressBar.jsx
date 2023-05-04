@@ -20,21 +20,21 @@ function ProgressBar(props) {
               "column " + (props.phase !== 1 ? "column hide-mobile" : "")
             }
           >
-            <img src={props.phase === 1 ? fase1On : fase1} className="spinner" alt="" />
+            <img src={props.phase === 1 ? fase1On : fase1} className="spinner" alt="" style={{ maxWidth: "85%" }} />
           </div>
           <div
             className={
               "column " + (props.phase !== 2 ? "column hide-mobile" : "")
             }
           >
-            <img src={props.phase === 2 ? fase2On : fase2} className="spinner" alt="" />
+            <img src={props.phase === 2 ? fase2On : fase2} className="spinner" alt="" style={{ maxWidth: "85%" }} />
           </div>
           <div
             className={
               "column " + (props.phase !== 3 ? "column hide-mobile" : "")
             }
           >
-            <img src={props.phase === 3 ? fase3On : fase3} className="spinner" alt="" />
+            <img src={props.phase === 3 ? fase3On : fase3} className="spinner" alt="" style={{ maxWidth: "85%" }} />
           </div>
         </div>
       </div>
