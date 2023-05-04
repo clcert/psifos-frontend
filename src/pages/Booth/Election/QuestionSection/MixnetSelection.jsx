@@ -89,13 +89,13 @@ function MixnetSelection(props) {
     (inputValue) => {
       if (!isMixnetGroup) {
         return options.filter((i) =>
-          i.label.toLowerCase().includes(inputValue.toLowerCase())
+          i.label.toLowerCase().normalize("NFD").includes(inputValue.toLowerCase().normalize("NFD"))
         );
       }
       const auxOptions = JSON.parse(JSON.stringify(options));
       auxOptions.map((option) => {
         option.options = option.options.filter((i) =>
-          i.label.toLowerCase().includes(inputValue.toLowerCase())
+          i.label.toLowerCase().normalize("NFD").includes(inputValue.toLowerCase().normalize("NFD"))
         );
       });
       return auxOptions;
