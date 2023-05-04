@@ -25,12 +25,18 @@ function TextSelected(props) {
         {props.answers[props.index].map((key, index) => {
           const indexAnswer =
             props.question.q_type === "mixnet_question" ? key - 1 : key;
+          const answer = props.question.closed_options[indexAnswer];
           return (
             (!(props.question.q_type === "mixnet_question") ||
               indexAnswer < props.question.closed_options.length - 2) && (
               <React.Fragment key={index}>
                 <span key={index}>
-                  {"[ ✓ ] " + props.question.closed_options[indexAnswer].split(",")[0] + " "}
+                  {"[ ✓ ] " +
+                    (props.question.q_type === "mixnet_question"
+                      ? answer.split(",").length > 1
+                        ? answer.split(",")[0] + " - " + answer.split(",")[1]
+                        : answer
+                      : answer)}
                 </span>
                 <br />
               </React.Fragment>
