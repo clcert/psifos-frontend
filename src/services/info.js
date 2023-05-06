@@ -24,7 +24,7 @@ async function getElectionInfo(uuid) {
   return data;
 }
 
-async function getVotesInfo(uuid, page, page_size, vote_hash) {
+async function getVotesInfo(uuid, page, pageSize, {voteHash, voterName, onlyValidVotes = false} = {}) {
   const url = backendInfoIp + "/election/" + uuid + "/votes";
   const resp = await fetch(url, {
     method: "POST",
@@ -33,8 +33,10 @@ async function getVotesInfo(uuid, page, page_size, vote_hash) {
     },
     body: JSON.stringify({
       "page": page,
-      "page_size": page_size,
-      "vote_hash": vote_hash
+      "page_size": pageSize,
+      "vote_hash": voteHash,
+      "voter_name": voterName,
+      "only_with_valid_vote": onlyValidVotes
     }),
   });
   const data = await resp.json();

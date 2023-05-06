@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { Button } from "react-bulma-components";
 import { useParams, useSearchParams } from "react-router-dom";
-import { getElectionInfo, getVotesInfo } from "../../../services/info";
+import { getVotesInfo } from "../../../services/info";
 import UrnaTable from "./components/UrnaTable";
 
-function CastVoteView() {
+function CastVoteView({ election = {} }) {
   const [electionData, setElectionData] = useState({
-    election: {},
+    election: election,
     electionVoters: [],
     actualPage: 0,
     totalVotes: 0,
@@ -24,33 +24,28 @@ function CastVoteView() {
   const hashUrl =
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
 
-  function getDataVotes() {
-    getVotesInfo(
-      shortName,
-      electionData.actualPage * lengthPage,
-      lengthPage,
-      hashUrl
-    ).then((dataVotes) => {
-      getElectionInfo(shortName).then((dataElection) => {
-        const page = Math.floor(dataVotes.position / lengthPage);
-        setDisabledPrevious(page === 0 ? true : false);
-        setDisabledNext(!dataVotes.more_votes);
+  const getDataVotes = useCallback(async () => {
+    getVotesInfo(shortName, electionData.actualPage * lengthPage, lengthPage, {
+      voteHash: hashUrl,
+      onlyValidVotes: true,
+    }).then((dataVotes) => {
+      const page = Math.floor(dataVotes.position / lengthPage);
+      setDisabledPrevious(page === 0 ? true : false);
+      setDisabledNext(!dataVotes.more_votes);
 
-        setElectionData({
-          ...electionData,
-          election: dataElection,
-          electionVoters: dataVotes.voters,
-          actualPage: page,
-          totalVotes: dataVotes.total_votes,
-        });
-        setLoadData(true);
+      setLoadData(true);
+      setElectionData({
+        ...electionData,
+        electionVoters: dataVotes.voters,
+        actualPage: page,
+        totalVotes: dataVotes.total_votes,
       });
     });
-  }
+  }, [shortName, hashUrl]);
 
   useEffect(() => {
     getDataVotes();
-  }, []);
+  }, [getDataVotes]);
 
   function changePage(number) {
     /**
@@ -59,22 +54,22 @@ function CastVoteView() {
 
     const newPage = electionData.actualPage + number;
     if (newPage >= 0) {
-      getVotesInfo(shortName, newPage * lengthPage, lengthPage, "").then(
-        (dataVotes) => {
-          if (dataVotes.voters.length !== 0) {
-            setDisabledNext(false);
-            setDisabledPrevious(newPage === 0 ? true : false);
-            setDisabledNext(!dataVotes.more_votes);
-            setElectionData({
-              ...electionData,
-              electionVoters: dataVotes.voters,
-              actualPage: newPage,
-            });
-          } else {
-            setDisabledNext(true);
-          }
+      getVotesInfo(shortName, newPage * lengthPage, lengthPage, {
+        onlyValidVotes: true,
+      }).then((dataVotes) => {
+        if (dataVotes.voters.length !== 0) {
+          setDisabledNext(false);
+          setDisabledPrevious(newPage === 0 ? true : false);
+          setDisabledNext(!dataVotes.more_votes);
+          setElectionData({
+            ...electionData,
+            electionVoters: dataVotes.voters,
+            actualPage: newPage,
+          });
+        } else {
+          setDisabledNext(true);
         }
-      );
+      });
     }
   }
 

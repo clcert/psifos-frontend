@@ -1,56 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { backendOpIP } from "../../../../server";
 import { Button } from "react-bulma-components";
 import { getStats } from "../../../../services/election";
 
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { getVotesInfo } from "../../../../services/info";
 
-function VotersTable(props) {
+function VotersTable({
+  election = {},
+  setVoterSelect,
+  setDeleteVoterModal,
+  setEditVoterModal,
+}) {
   const [voters, setVoters] = useState([]);
-  const [election, setElection] = useState([]);
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
-  const [maxForPage, setMaxForPage] = useState(9);
   const [previousDisabled, setPreviousDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
   const [actualPage, setPage] = useState(0);
   const [electionStatus, setElectionStatus] = useState("");
+  const [voterToSearch, setVoterToSearch] = useState("");
 
-  async function getVoters(page) {
-    const token = sessionStorage.getItem("token");
-    const resp = await fetch(
-      backendOpIP + "/" + props.election.short_name + "/get-voters",
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
+  const maxForPage = 9;
 
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          page: page,
-          page_size: maxForPage,
-        }),
-      }
-    );
-
-    const jsonResponse = await resp.json();
-    return jsonResponse;
-  }
+  const getVoters = useCallback(
+    async (page, voterName = "") => {
+      getVotesInfo(election.short_name, page, maxForPage, {
+        voterName: voterName,
+      }).then((data) => {
+        setVoters(data.voters);
+        if (!data.more_votes) setNextDisabled(true);
+      });
+    },
+    [election]
+  );
 
   useEffect(
     function effectFunction() {
-      getVoters(actualPage).then((dataVoters) => {
-        setTotalVoters(dataVoters.length);
-        setVoters(dataVoters);
-      });
-      getStats(props.election.short_name).then((data) => {
+      getVoters(0);
+      getStats(election.short_name).then((data) => {
         const { jsonResponse } = data;
         setElectionStatus(jsonResponse.status);
+        setTotalVoters(jsonResponse.total_voters);
+        setTotalVotes(jsonResponse.num_casted_votes);
       });
     },
-    [props.voter]
+    [election, getVoters]
   );
 
   function buttonAction(value) {
@@ -65,49 +61,41 @@ function VotersTable(props) {
     }
 
     if (newPage >= 0) {
-      getVoters(newPage).then((dataVoters) => {
-        if (dataVoters.length !== 0) {
-          setNextDisabled(false);
-          setPreviousDisabled(false);
-          setTotalVoters(dataVoters.length);
-          setVoters(dataVoters);
-          setPage(newPage);
-        } else {
-          setNextDisabled(true);
-        }
-      });
+      getVoters(newPage);
     }
   }
 
-  function search(event) {
+  function search() {
     /**
      * Search for a voter by name
      * @param {event} event
      */
-    let auxArray = [];
-    for (let i = 0; i < voters.length; i++) {
-      let auxName = voters[i].name.toLowerCase();
-      let auxEvent = event.target.value.toLowerCase();
-      if (auxName.includes(auxEvent, 0)) {
-        auxArray.push(voters[i]);
-      }
-    }
-    buttonAction(0, auxArray);
+    getVoters(0, voterToSearch);
   }
 
-  if (voters.length !== 0) {
+  if (totalVoters > 0) {
     return (
       <>
-        <div className="search-box search_box p-2">
+        <div
+          className="search-box search_box p-2"
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              search();
+            }
+          }}
+        >
           <input
             type="text"
             id="ballot_searched"
             name="q"
             className="input_search"
             placeholder="Buscar Papeleta..."
-            onChange={search}
+            value={voterToSearch}
+            onChange={(e) => {
+              setVoterToSearch(e.target.value);
+            }}
           />
-          <div className="search-button">
+          <div className="search-button" onClick={search}>
             <i className="fas fa-lg fa-search"></i>
           </div>
         </div>
@@ -210,14 +198,14 @@ function VotersTable(props) {
                       <div className="buttons-action-voter">
                         <div
                           onClick={() => {
-                            props.setVoterSelect((prevState) => ({
+                            setVoterSelect((prevState) => ({
                               ...prevState,
                               voter_name: voter.voter_name,
                               uuid: voter.uuid,
                               voter_login_id: voter.voter_login_id,
                               voter_weight: voter.voter_weight,
                             }));
-                            props.setEditVoterModal(true);
+                            setEditVoterModal(true);
                           }}
                           className="button-edit-voter ml-2 mr-2"
                         >
@@ -226,12 +214,12 @@ function VotersTable(props) {
                         {electionStatus === "Setting up" && (
                           <div
                             onClick={() => {
-                              props.setVoterSelect((prevState) => ({
+                              setVoterSelect((prevState) => ({
                                 ...prevState,
                                 voter_name: voter.voter_name,
                                 uuid: voter.uuid,
                               }));
-                              props.setDeleteVoterModal(true);
+                              setDeleteVoterModal(true);
                             }}
                             className="button-delete-voter ml-2 mr-2"
                           >

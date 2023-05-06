@@ -4,7 +4,7 @@ function Status(props) {
   return (
     <>
       {" "}
-      {!props.election.voters.length > 0 &&
+      {!props.election.total_voters > 0 &&
         props.election.private_p &&
         props.electionStatus === "Setting up" && (
           <div className="content-card-admin">
@@ -27,7 +27,9 @@ function Status(props) {
               <Link
                 className="link-without-line"
                 to={
-                  "/psifos/admin/" + props.election.short_name + "/create-question/"
+                  "/psifos/admin/" +
+                  props.election.short_name +
+                  "/create-question/"
                 }
               >
                 Añadir preguntas
@@ -48,7 +50,7 @@ function Status(props) {
             </span>
           </div>
         )}
-      {(props.election.voters.length > 0 || !props.election.private_p) &&
+      {(props.election.total_voters > 0 || !props.election.private_p) &&
         props.election.questions !== null &&
         props.election.trustees.length !== 0 &&
         props.electionStatus === "Setting up" && (

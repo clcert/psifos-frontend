@@ -13,7 +13,7 @@ import StatisticsBooth from "./StatisticsBooth";
 import VerifyElection from "./VerifyElection";
 
 function InfoBoothView() {
-  const [electionName, setElectionName] = useState("");
+  const [election, setElection] = useState("");
   const [activeNumber, setActiveNumber] = useState(0);
 
   /** @urlParam {string} shortName of election */
@@ -22,9 +22,9 @@ function InfoBoothView() {
   useEffect(() => {
     getElectionPublic(shortName).then((data) => {
       const { jsonResponse } = data;
-      setElectionName(jsonResponse.name);
+      setElection(jsonResponse);
     });
-  });
+  }, [shortName]);
 
   return (
     <div id="content-home-admin">
@@ -34,7 +34,7 @@ function InfoBoothView() {
 
           <TitlePsifos
             namePage="Portal de Información"
-            nameElection={electionName}
+            nameElection={election.name}
           />
         </div>
       </section>
@@ -50,7 +50,7 @@ function InfoBoothView() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        {activeNumber === 0 && <CastVoteView />}
+        {activeNumber === 0 && <CastVoteView election={election} />}
         {activeNumber === 1 && <StatisticsBooth />}
         {activeNumber === 2 && <Results />}
         {activeNumber === 3 && <VerifyElection />}

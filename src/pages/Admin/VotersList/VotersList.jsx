@@ -79,7 +79,7 @@ function VotersList() {
               {!electionOpenReg && (
                 <>
                   <Button
-                    className="btn-fixed button-custom ml-3"
+                    className="btn-fixed button-custom"
                     onClick={() => {
                       setUploadModal(true);
                     }}
@@ -101,7 +101,6 @@ function VotersList() {
             </div>
 
             <VotersTable
-              voter={voterSelect}
               election={election}
               setVoterSelect={setVoterSelect}
               setDeleteVoterModal={setDeleteVoterModal}
