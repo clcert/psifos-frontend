@@ -21,7 +21,7 @@ export default function ResumeTable() {
   }, [shortName]);
 
   const tableStyle = {
-    width: "220px",
+    width: "400px",
   };
 
   return (
