@@ -1,9 +1,9 @@
-const links = {
+export const links = {
     windowsVerificator: 'https://github.com/clcert/pyrios/releases/download/v1.1.0/pyrios_windows-amd64',
     verificators: 'https://github.com/clcert/pyrios/releases/tag/v1.1.0',
 }
 
-const events = {
+export const events = {
     trustee_created: {
         name: "Creación de custodio(a) de clave",
         descript: "La persona indicada ha sido seleccionada como custodio de una de las claves privadas de la elección.",
@@ -42,5 +42,3 @@ const events = {
         descript: "La lista de votantes ha sido actualizada.",
     }
 }
-
-export { links, events };
