@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter } from "react-router-dom";
 import "./static/css/booth.css";
+import 'react-tooltip/dist/react-tooltip.css';
 
 ReactDOM.render(
   <BrowserRouter>

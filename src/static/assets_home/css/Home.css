@@ -13186,3 +13186,35 @@ Consult
 .table .table-header-icon {
   font-size: 15px;
 }
+
+.event-header {
+  margin-bottom: 0px !important;
+}
+
+.event-header .check-icon {
+  margin-right: 2px;
+}
+
+.event-header .title {
+  font-weight: bold;
+  margin-bottom: 0px !important;
+  font-size: 22px;
+}
+
+.event-header .more-info-icon {
+  font-size: 18px;
+  color: #004c94;
+}
+
+.event-header .react-tooltip {
+  max-width: 400px;
+  padding: 16px 16px 16px 16px !important;
+  text-align: justify;
+  background: #004c94;
+}
+
+.event-info {
+  margin-left: 30px;
+  text-align: justify;
+  font-size: 18px;
+}
