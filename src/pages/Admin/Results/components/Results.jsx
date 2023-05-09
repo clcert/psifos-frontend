@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { getElectionPublic } from "../../../../services/election";
 import ResumeTable from "../../ElectionResume/components/ResumeTable";
 import PsifosTable from "./PsifosTable";
+import { getPercentage } from "../../utils";
 
 function TitleCard({title}){
   return (
@@ -16,9 +17,7 @@ function TitleCard({title}){
 
 function ResumenElection() {
   return (<>
-    <TitleCard
-      title="Resumen elección"
-    />
+    <TitleCard title="Resumen elección"/>
     <ResumeTable className="pt-4" />
   </>)
 }
@@ -30,9 +29,7 @@ function QuestionTitle({index, text}){
         <span className="has-text-info question-number">
           Pregunta n°{index + 1}{":"}
         </span>
-        <div>
-          {text}
-        </div>
+        <div> {text} </div>
       </div>
     </>
   )
@@ -62,9 +59,7 @@ function QuestionTables({result, question}) {
 
 function ResultsPerQuestion({ questions, results }){
   return (<>
-    <TitleCard
-      title="Resultados por pregunta"
-    />
+    <TitleCard title="Resultados por pregunta"/>
     {questions.map((question, index) => {
       return (
         <div key={index} className="box question-box-results" id="question-box-results">
@@ -150,10 +145,13 @@ function Results() {
     let result = [];
     questionsObject.forEach((element, q_num) => {
       let q_result = [];
+      const ans = resultObject[q_num].ans_results;
+      const n_votes = ans.reduce((n, a) => n + parseInt(a), 0);
       element.closed_options.forEach((answer, index) => {
         q_result.push({
           Respuesta: answer,
-          Resultado: resultObject[q_num].ans_results[index],
+          Frecuencia: parseInt(ans[index]),
+          Porcentaje: getPercentage(ans[index], n_votes),
         });
       });
       result.push(q_result);

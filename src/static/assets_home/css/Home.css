@@ -13178,3 +13178,11 @@ Consult
 .question-box-results .voters-table {
   margin-top: 0px;
 }
+
+.table .table-header {
+  font-weight: bold; 
+}
+
+.table .table-header-icon {
+  font-size: 15px;
+}
