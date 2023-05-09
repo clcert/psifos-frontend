@@ -65,9 +65,19 @@ export default function ColumnPsifosTable({
     const ascendente =
       ordenamiento.column === column ? !ordenamiento.ascendente : true;
     const sortedData = [...data].sort((fila1, fila2) => {
-      if (fila1[column] < fila2[column]) {
+      let firstValue = fila1[column];
+      let secondValue = fila2[column];
+
+      // Si es un porcentaje le quitamos el formateo
+      if (typeof firstValue === "string" && firstValue.includes("%")) {
+        firstValue = parseInt(firstValue.replace(".", "").replace("%", ""));
+        secondValue = secondValue.replace(".", "").replace("%", "");
+      }
+
+      // Comparamos los valores
+      if (firstValue < secondValue) {
         return ascendente ? -1 : 1;
-      } else if (fila1[column] > fila2[column]) {
+      } else if (firstValue > secondValue) {
         return ascendente ? 1 : -1;
       } else {
         return 0;
@@ -119,29 +129,35 @@ export default function ColumnPsifosTable({
   return (
     <th ref={ref} className="has-text-centered" key={nameRow}>
       <span onClick={() => sortData()}>{nameRow}</span>
-      {hideZeros && <div className="dropdown mx-2">
-        <button className="button-undesigned" onClick={() => openButton()}>
-          {buttonActive && <i className="fa-solid fa-chevron-up table-header-icon"></i>}
-          {!buttonActive && <i className="fa-solid fa-chevron-down table-header-icon"></i>}
-        </button>
-        <ul className={"dropdown-menu " + (!buttonActive ? "d-none" : "")}>
-          <li>
-             <div className="form-check form-switch ml-4">
-              <input
-                checked={isFilterCeros}
-                onChange={(e) => {
-                  handlerFilterCeros(e.target.checked);
-                }}
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-              <label className="form-check-label">Valores cero</label>
-            </div>
-          </li>
-        </ul>
-      </div>}
+      {hideZeros && (
+        <div className="dropdown mx-2">
+          <button className="button-undesigned" onClick={() => openButton()}>
+            {buttonActive && (
+              <i className="fa-solid fa-chevron-up table-header-icon"></i>
+            )}
+            {!buttonActive && (
+              <i className="fa-solid fa-chevron-down table-header-icon"></i>
+            )}
+          </button>
+          <ul className={"dropdown-menu " + (!buttonActive ? "d-none" : "")}>
+            <li>
+              <div className="form-check form-switch ml-4">
+                <input
+                  checked={isFilterCeros}
+                  onChange={(e) => {
+                    handlerFilterCeros(e.target.checked);
+                  }}
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                />
+                <label className="form-check-label">Valores cero</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      )}
       {ordenamiento.column === nameRow && (ordenamiento.ascendente ? "▲" : "▼")}
     </th>
   );
