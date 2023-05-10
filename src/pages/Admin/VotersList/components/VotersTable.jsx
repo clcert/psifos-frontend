@@ -22,7 +22,7 @@ function VotersTable({
   const [electionStatus, setElectionStatus] = useState("");
   const [voterToSearch, setVoterToSearch] = useState("");
 
-  const maxForPage = 9;
+  const maxForPage = 50;
 
   const getVoters = useCallback(
     async (page, voterName = "") => {

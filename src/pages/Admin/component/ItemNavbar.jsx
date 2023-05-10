@@ -14,8 +14,8 @@ export default function ItemNavbar({
         to={to}
         onClick={actionClick}
       >
-        <i className={icon + " d-md-flex justify-content-center"}></i>
-        <span className="">&nbsp;{itemText}</span>
+        <i className={icon + " d-md-flex justify-content-center mx-1"}></i>
+        <span className="">{itemText}</span>
       </Link>
     </div>
   );
