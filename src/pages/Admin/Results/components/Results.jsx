@@ -150,7 +150,7 @@ function Results() {
       element.closed_options.forEach((answer, index) => {
         q_result.push({
           Respuesta: answer,
-          Frecuencia: parseInt(ans[index]),
+          Votos: parseInt(ans[index]),
           Porcentaje: getPercentage(ans[index], n_votes),
         });
       });

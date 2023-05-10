@@ -132,12 +132,7 @@ export default function ColumnPsifosTable({
       {hideZeros && (
         <div className="dropdown mx-2">
           <button className="button-undesigned" onClick={() => openButton()}>
-            {buttonActive && (
-              <i className="fa-solid fa-chevron-up table-header-icon"></i>
-            )}
-            {!buttonActive && (
-              <i className="fa-solid fa-chevron-down table-header-icon"></i>
-            )}
+            <i className="fa-solid fa-caret-down table-header-icon"/>
           </button>
           <ul className={"dropdown-menu " + (!buttonActive ? "d-none" : "")}>
             <li>
