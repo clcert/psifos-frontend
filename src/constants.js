@@ -10,7 +10,7 @@ export const events = {
         detail: "Custiodio(a): "
     },
     public_key_uploaded: {
-        name: "Creación de llave pública",
+        name: "Creación de clave pública",
         descript: "La clave pública de la elección ha sido generada y almacenada.",
     },
     voter_file_uploaded: {
@@ -27,7 +27,7 @@ export const events = {
     },
     tally_computed: {
         name: "Cálculo de precómputo",
-        descript: "El resultado ha sido calculado.",
+        descript: "El precómputo ha sido calculado, aún no estñan los resultados de la elección.",
     },
     decryptions_recieved: {
         name: "Se han recibido desencriptaciones parciales",
