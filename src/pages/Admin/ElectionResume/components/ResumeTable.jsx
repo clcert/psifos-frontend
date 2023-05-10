@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getStats } from "../../../../services/election";
+import { getPercentage } from "../../utils"
 
 export default function ResumeTable() {
   /** @state {int} number of voters in the election  */
@@ -21,7 +22,7 @@ export default function ResumeTable() {
   }, [shortName]);
 
   const tableStyle = {
-    width: "220px",
+    width: "400px",
   };
 
   return (
@@ -33,17 +34,17 @@ export default function ResumeTable() {
       >
         <tbody>
           <tr>
-            <td>Votos Recibidos</td>
+            <td className="table-header">Votos Recibidos</td>
             <td className="has-text-centered">{totalVotes}</td>
           </tr>
           <tr>
-            <td>Total Padrón</td>
+            <td className="table-header">Total Padrón</td>
             <td className="has-text-centered">{totalVoters}</td>
           </tr>
           <tr>
-            <td>Participación</td>
+            <td className="table-header">Participación</td>
             <td className="has-text-centered">
-              {((totalVotes / totalVoters) * 100).toFixed(2)}%
+              {getPercentage(totalVotes, totalVoters)}
             </td>
           </tr>
         </tbody>

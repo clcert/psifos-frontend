@@ -8,7 +8,10 @@ function PsifosTable({ data }) {
     ascendente: true,
   });
 
-  const dataKeys = Object.keys(data[0]);
+  const arbitraryEl = data[0]
+  const dataKeys = Object.keys(arbitraryEl);
+  const intDataKeys = dataKeys.filter(item => typeof arbitraryEl[item] === 'number')
+
   const boxResult = {
     width: "180px",
   };
@@ -23,7 +26,7 @@ function PsifosTable({ data }) {
               index={index}
               nameRow={row}
               data={data}
-              filteredData={tableData}
+              hideZeros={intDataKeys.includes(row)}
               setFilteredData={(table) => setTableData(table)}
               ordenamiento={ordenamiento}
               setOrdenamiento={(newOrdenamiento) =>
