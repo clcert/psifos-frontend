@@ -2,17 +2,50 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../server";
+import { Tooltip } from 'react-tooltip'
+import { events } from '../../../constants'
 
-const events = {
-  trustee_created: "Creación de custodio(a) de clave",
-  public_key_uploaded: "Creación de llave pública",
-  voter_file_uploaded: "Carga de padrón al sistema",
-  voting_started: "Inicio de elección",
-  voting_stopped: "Termino de elección",
-  tally_computed: "Cálculo de precómputo",
-  decryptions_combined: "Combinación de desencriptaciones parciales",
-  electoral_roll_modified: "Modificación al padrón"
-};
+function MoreInfo({children, descript}) {
+  return (
+    <>
+      <div
+        data-tooltip-id="my-tooltip" 
+        className="more-info-tooltip"
+        data-tooltip-content={descript}
+      >
+        {children}
+      </div>
+      <Tooltip id="my-tooltip" place="bottom"/>
+    </>
+  )
+}
+
+function EventHeader({event, descript}) {
+  return (
+    <div className="is-flex level event-header">
+      <div className="title">
+        <i className="fa-solid fa-check check-icon"/> {event} <br/>
+      </div>
+      <MoreInfo descript={descript}>
+        <i className="fa-solid fa-circle-info more-info-icon"/>
+      </MoreInfo>
+    </div>
+  )
+}
+
+function EventInfo({created_at, event_params, event_detail}) {
+  return (
+    <div className="event-info">
+      <span> {created_at}</span><br/>
+      {(
+          JSON.stringify(event_params) !== "{}" && event_params.name
+        ) && <span>
+          {event_detail}
+          {event_params.name}
+        </span>}
+    </div>
+  )
+}
 
 function Logs() {
   const [electionLogs, setElectionLogs] = useState([]);
@@ -45,21 +78,6 @@ function Logs() {
     };
   }, []);
 
-  function generateText(logs) {
-    let ret = "Evento: ";
-    ret += events[logs.event];
-    // let event_text = events[logs.event];
-    if (
-      logs.event === "trustee_created" ||
-      logs.event === "public_key_uploaded"
-    ) {
-      const event_params = JSON.parse(logs.event_params);
-      ret += "Custodio(a): " + event_params.trustee_login_id;
-      // event_text = event_text.concat(" ", event_params.trustee_login_id);
-    }
-    // return event_text;
-    return ret;
-  }
 
   return (
     <>
@@ -69,9 +87,16 @@ function Logs() {
             return (
               <div key={index} className="box logs-box">
                 <div className="is-size-5">
-                  <span>Hora: [{logs.created_at}]</span><br/>
-                  <span>Evento: {events[logs.event]}</span><br/>
-                  {JSON.stringify(JSON.parse(logs.event_params)) !== "{}" && <span>Info: {JSON.parse(logs.event_params).name}</span>}
+                  <EventHeader
+                    event={events[logs.event].name}
+                    descript={events[logs.event].descript}
+                  />
+                  <hr/>
+                  <EventInfo
+                    created_at={new Date(logs.created_at).toLocaleString()}
+                    event_params={JSON.parse(logs.event_params)}
+                    event_detail={events[logs.event].detail}
+                  />
                 </div>
               </div>
             );
