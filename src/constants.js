@@ -7,7 +7,7 @@ export const events = {
     trustee_created: {
         name: "Creación de custodio(a) de clave",
         descript: "La persona indicada ha sido seleccionada como custodio de una de las claves privadas de la elección.",
-        detail: "Custiodio(a): "
+        detail: "Custodio(a): "
     },
     public_key_uploaded: {
         name: "Creación de clave pública",
