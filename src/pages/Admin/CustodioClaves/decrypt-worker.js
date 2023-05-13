@@ -1,0 +1,86 @@
+import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
+import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
+import Tally from "../../../static/booth/js/jscrypto/tally";
+
+var console = {
+  log: function (msg) {
+    postMessage({ type: "log", msg: msg });
+  },
+};
+
+/**
+ * Create a ElGamal secretKey object with sk and params
+ *
+ * @param {*} sk
+ * @param {*} params
+ * @param {*} certificates
+ * @param {*} points
+ * @returns
+ */
+function getSecretKey(sk, params, certificates, points) {
+  helios_c.trustee = helios_c.trustee_create(params, sk);
+  helios_c.params = params;
+  helios_c.certificates = certificates;
+  helios_c.points = points;
+  // TODO: check key
+  var sk = helios_c.ui_share_get_direct();
+  return new ElGamal.SecretKey(sk.x, sk.public_key);
+}
+
+/**
+ * Decrypt Tally
+ *
+ * @param {*} sk
+ * @param {*} tally
+ * @param {*} electionPk
+ * @param {*} params
+ * @param {*} certificates
+ * @param {*} points
+ */
+function decrypt(sk, tally, electionPk, params, certificates, points) {
+  var secret_key = getSecretKey(sk, params, certificates, points);
+
+  // ENCRYPTED TALLY :
+  let tally_factors_and_proof = tally.map(function (q_tally) {
+    console.log(q_tally);
+    return q_tally.doDecrypt(electionPk, secret_key);
+  });
+
+  let final_json = {
+    decryptions: tally_factors_and_proof,
+  };
+  const descriptions = JSON.stringify(final_json);
+  let data = {
+    type: "result",
+    descriptions: descriptions,
+  };
+  postMessage(data);
+}
+
+/**
+ * Init worker setting data
+ */
+onmessage = function (event) {
+  const params = event.data.params;
+  const trustee = event.data.trustee;
+  const election = event.data.election;
+  const secretKey = event.data.secretKey;
+  const certificates = event.data.certificates;
+  const points = event.data.points;
+
+  BigInt.setup(function () {
+    let PARAMS = ElGamal.Params.fromJSONObject(params);
+    PARAMS.trustee_id = trustee.trustee_id;
+
+    let ELECTION_JSON = election;
+    let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
+      ELECTION_JSON["public_key"]
+    );
+    let TALLY = Tally.createAllTally(
+      JSON.parse(ELECTION_JSON.encrypted_tally),
+      ELECTION_PK
+    );
+    decrypt(secretKey, TALLY, ELECTION_PK, PARAMS, certificates, points);
+  });
+};

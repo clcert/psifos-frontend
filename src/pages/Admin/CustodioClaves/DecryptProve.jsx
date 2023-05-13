@@ -1,33 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
-import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import { backendOpIP } from "../../../server";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-import Tally from "../../../static/booth/js/jscrypto/tally";
 import { getEgParams } from "../../../services/crypto";
 import DropFile from "./components/DropFile";
 import ModalDecrypt from "./components/ModalDecrypt";
 
 function DecryptProve() {
   const [actualStep, setActualStep] = useState(0);
-  const [params, setParams] = useState({});
   const [secretKey, setSecretKey] = useState("");
-  const [certificates, setCertificates] = useState({});
-  const [points, setPoints] = useState({});
-  const [tally, setTally] = useState({});
-  const [electionPk, setElectionPk] = useState("");
-  const [showModalDecrypt, setShowModalDecrypt] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState(
-    "Cargando información..."
+    "Esperando clave para generar desencriptado parcial"
   );
 
   const { shortName, uuidTrustee } = useParams();
+
+  let PARAMS;
+  let CERTIFICATES;
+  let POINTS;
+  let ELECTION;
+  let TRUSTEE;
 
   const getDescrypt = useCallback(async () => {
     const url =
@@ -76,85 +72,49 @@ function DecryptProve() {
     }
   }
 
-  const getSecretKey = useCallback(
-    (sk) => {
-      helios_c.trustee = helios_c.trustee_create(params, sk);
-      helios_c.params = params;
-      helios_c.certificates = certificates;
-      helios_c.points = points;
-      // TODO: check key
-      var sk = helios_c.ui_share_get_direct();
-      return new ElGamal.SecretKey(sk.x, sk.public_key);
-    },
-    [certificates, params, points]
-  );
-
-  const doTally = useCallback(
-    (sk) => {
-      if (!sk) {
-        setFeedbackMessage("Formato de archivo incorrecto");
-        return;
-      }
-      var secret_key = getSecretKey(sk);
-
-      // ENCRYPTED TALLY :
-      let tally_factors_and_proof = tally.map(function (q_tally) {
-        return q_tally.doDecrypt(electionPk, secret_key);
-      });
-
-      let final_json = {
-        decryptions: tally_factors_and_proof,
-      };
-      const descriptions = JSON.stringify(final_json);
-      setFeedbackMessage("Listo para enviar el desencriptado parcial");
-      sendDescrypt(descriptions);
-    },
-    [electionPk, getSecretKey, tally]
-  );
-
-  useEffect(() => {
-    let params_aux, certificates_aux, points_aux, election_aux, trustee_aux;
-
+  const doTally = (sk) => {
     getEgParams(shortName).then((eg_params) => {
       getDescrypt().then((data) => {
-        params_aux = JSON.parse(eg_params);
-        certificates_aux = JSON.parse(data.certificates);
-        points_aux = JSON.parse(data.points);
-        election_aux = data.election;
-        trustee_aux = data.trustee;
+        PARAMS = JSON.parse(eg_params);
+        CERTIFICATES = JSON.parse(data.certificates);
+        POINTS = JSON.parse(data.points);
+        ELECTION = data.election;
+        TRUSTEE = data.trustee;
 
-        setParams(params_aux);
-        setCertificates(certificates_aux);
-        setPoints(points_aux);
-
-        BigInt.setup(function () {
-          let PARAMS = ElGamal.Params.fromJSONObject(params_aux);
-          PARAMS.trustee_id = trustee_aux.trustee_id;
-          setParams(PARAMS);
-          let ELECTION_JSON = election_aux;
-          let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
-            ELECTION_JSON["public_key"]
-          );
-          setElectionPk(ELECTION_PK);
-          let TALLY = Tally.createAllTally(
-            JSON.parse(ELECTION_JSON.encrypted_tally),
-            ELECTION_PK
-          );
-          setTally(TALLY);
-        });
         setFeedbackMessage(
           "Esperando clave para generar desencriptado parcial"
         );
+        if (!sk) {
+          setFeedbackMessage("Formato de archivo incorrecto");
+          return;
+        }
+        const worker = new Worker(
+          new URL("./decrypt-worker.js", import.meta.url)
+        );
+
+        worker.postMessage({
+          params: PARAMS,
+          trustee: TRUSTEE,
+          election: ELECTION,
+          secretKey: sk,
+          certificates: CERTIFICATES,
+          points: POINTS,
+        });
+
+        worker.onmessage = function (event) {
+          if (event.data.type === "log") return console.log(event.data.msg);
+          if (event.data.type === "result") {
+            sendDescrypt(event.data.descriptions);
+          }
+        };
       });
     });
-  }, [getDescrypt]);
-
+  };
   const decrypt = async (sk) => {
     try {
       setSecretKey(sk);
       setFeedbackMessage("Generando desencriptado parcial...");
       setActualStep(1);
-      setShowModalDecrypt(true);
       setTimeout(() => {
         doTally(sk);
       }, 500);
