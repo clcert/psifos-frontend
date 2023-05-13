@@ -6,14 +6,16 @@ import InfoTrustee from "./InfoTrustee";
 function TrusteesList(props) {
   /** @state {array} trustees list */
   const [trustees, setTrustees] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { shortName } = useParams();
 
   useEffect(() => {
     getTrustees(shortName).then((trustees) => {
+      setIsLoading(false);
       setTrustees(trustees.jsonResponse);
     });
-  }, [shortName]);
+  }, [shortName, isLoading]);
 
   useEffect(
     function effectFunction() {
@@ -21,13 +23,21 @@ function TrusteesList(props) {
         getTrustees(shortName).then((trustees) => {
           setTrustees(trustees.jsonResponse);
         });
-      }, 500);
+      }, 5000);
       return () => {
         clearInterval(interval);
       };
     },
     [trustees, shortName]
   );
+
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center pt-4">
+        <div className="spinner-animation-white"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto">
@@ -63,7 +73,9 @@ function TrusteesList(props) {
               <p className="mt-4">Custodio aún no sube su clave pública.</p>
             )}
 
-            {props.election.encrypted_tally && <InfoTrustee trustee={t} />}
+            {props.election.election_status === "Tally computed" && (
+              <InfoTrustee trustee={t} />
+            )}
           </div>
         );
       })}

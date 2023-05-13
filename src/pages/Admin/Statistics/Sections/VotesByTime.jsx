@@ -77,7 +77,9 @@ function VotesByTime(props) {
           </p>
         </div>
       ) : (
-        <div className="spinner-animation d-flex justify-content-center"></div>
+        <div className="d-flex justify-content-center pt-4">
+          <div className="spinner-animation"></div>
+        </div>
       )}
     </>
   );

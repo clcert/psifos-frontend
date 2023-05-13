@@ -90,7 +90,9 @@ function InvalidLogginByTime(props) {
           </p>
         </div>
       ) : (
-        <div className="spinner-animation"></div>
+        <div className="d-flex justify-content-center pt-4">
+          <div className="spinner-animation"></div>
+        </div>
       )}
     </>
   );
