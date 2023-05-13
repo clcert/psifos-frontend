@@ -35,7 +35,7 @@ function CustodioHome(props) {
 
   const disabledButton3 = Boolean(
     trustee.current_step === 4 &&
-      election.encrypted_tally !== null &&
+      election.election_status === "Tally computed" &&
       trustee.decryptions === null
       ? false
       : true
@@ -153,8 +153,8 @@ function CustodioHome(props) {
                   </div>
                   {!election.encrypted_tally && (
                     <p className="has-text-white pt-5 px-5 is-size-5">
-                      Cuando termine la elección, debes volver a este sitio para que puedas 
-                      enviar tu desencriptación parcial
+                      Cuando termine la elección, debes volver a este sitio para
+                      que puedas enviar tu desencriptación parcial
                     </p>
                   )}
                 </>

@@ -12,6 +12,7 @@ import imageTrustees from "../../../static/svg/trustees2.svg";
 import Tally from "../../../static/booth/js/jscrypto/tally";
 import { getEgParams } from "../../../services/crypto";
 import DropFile from "./components/DropFile";
+import ModalDecrypt from "./components/ModalDecrypt";
 
 function DecryptProve() {
   const [actualStep, setActualStep] = useState(0);
@@ -21,6 +22,7 @@ function DecryptProve() {
   const [points, setPoints] = useState({});
   const [tally, setTally] = useState({});
   const [electionPk, setElectionPk] = useState("");
+  const [showModalDecrypt, setShowModalDecrypt] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState(
     "Cargando información..."
   );
@@ -147,12 +149,15 @@ function DecryptProve() {
     });
   }, [getDescrypt]);
 
-  const decrypt = (sk) => {
+  const decrypt = async (sk) => {
     try {
       setSecretKey(sk);
       setFeedbackMessage("Generando desencriptado parcial...");
       setActualStep(1);
-      doTally(sk);
+      setShowModalDecrypt(true);
+      setTimeout(() => {
+        doTally(sk);
+      }, 500);
     } catch {
       setFeedbackMessage("Clave incorrecta");
     }
@@ -212,6 +217,7 @@ function DecryptProve() {
             <div className="mt-4"></div>
           </div>
         </div>
+        <ModalDecrypt show={actualStep === 1} />
       </section>
       <div>
         <ImageFooter imagePath={imageTrustees} />
