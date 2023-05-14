@@ -24,6 +24,11 @@ function DecryptProve() {
   let POINTS;
   let ELECTION;
   let TRUSTEE;
+  let DESCRIPTIONS = [];
+  let WORKERS = [];
+  let RESULT_WORKERS = [];
+  let TOTAL_WORKERS = [];
+  let TOTAL_TALLY;
 
   const getDescrypt = useCallback(async () => {
     const url =
@@ -59,7 +64,7 @@ function DecryptProve() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: descriptions,
+      body: JSON.stringify(descriptions),
     });
     if (response.status === 200) {
       setFeedbackMessage("Desencriptación Parcial enviada exitosamente ✓");
@@ -72,6 +77,62 @@ function DecryptProve() {
     }
   }
 
+  const createWorker = (bash, sk, q_num, worker_num) => {
+    const worker = new Worker(new URL("./decrypt-worker.js", import.meta.url));
+    worker.postMessage({
+      params: PARAMS,
+      trustee: TRUSTEE,
+      election: ELECTION,
+      secretKey: sk,
+      certificates: CERTIFICATES,
+      points: POINTS,
+      tally: bash,
+    });
+
+    worker.onmessage = function (event) {
+      if (event.data.type === "log") return console.log(event.data.msg);
+      if (event.data.type === "result") {
+        const tally_factors_and_proof = event.data.tally_factors_and_proof;
+
+        // Guardamos los tally de cada worker
+        RESULT_WORKERS[q_num][worker_num] = tally_factors_and_proof;
+        WORKERS[q_num] = WORKERS[q_num] + 1;
+
+        // Si es el ultimo worker, une las desencriptaciones
+        if (WORKERS[q_num] === TOTAL_WORKERS[q_num]) {
+          let factor_proofs = {
+            decryption_factors: [],
+            decryption_proofs: [],
+            tally_type: "",
+          };
+
+          // Resultados ordenados
+          RESULT_WORKERS[q_num].forEach((result) => {
+            factor_proofs.decryption_factors =
+              factor_proofs.decryption_factors.concat(
+                result.decryption_factors
+              );
+            factor_proofs.decryption_proofs =
+              factor_proofs.decryption_proofs.concat(result.decryption_proofs);
+            factor_proofs.tally_type = result.tally_type;
+          });
+          DESCRIPTIONS[q_num] = factor_proofs;
+        }
+
+        // En caso de que terminamos todas las preguntas
+        if (
+          q_num + 1 === TOTAL_TALLY &&
+          WORKERS[q_num] === TOTAL_WORKERS[q_num]
+        ) {
+          let final_json = {
+            decryptions: DESCRIPTIONS,
+          };
+          sendDescrypt(final_json);
+        }
+      }
+    };
+  };
+
   const doTally = (sk) => {
     getEgParams(shortName).then((eg_params) => {
       getDescrypt().then((data) => {
@@ -81,32 +142,45 @@ function DecryptProve() {
         ELECTION = data.election;
         TRUSTEE = data.trustee;
 
-        setFeedbackMessage(
-          "Esperando clave para generar desencriptado parcial"
-        );
         if (!sk) {
           setFeedbackMessage("Formato de archivo incorrecto");
+          setActualStep(0);
           return;
         }
-        const worker = new Worker(
-          new URL("./decrypt-worker.js", import.meta.url)
-        );
 
-        worker.postMessage({
-          params: PARAMS,
-          trustee: TRUSTEE,
-          election: ELECTION,
-          secretKey: sk,
-          certificates: CERTIFICATES,
-          points: POINTS,
-        });
+        const tally = JSON.parse(ELECTION.encrypted_tally);
+        TOTAL_TALLY = tally.length;
+        tally.forEach((t, q_num) => {
+          const size = Math.floor(t.tally.length / 4);
+          WORKERS[q_num] = 0;
 
-        worker.onmessage = function (event) {
-          if (event.data.type === "log") return console.log(event.data.msg);
-          if (event.data.type === "result") {
-            sendDescrypt(event.data.descriptions);
+          // Caso de tally pequeño, solo un hilo de ejecución
+          RESULT_WORKERS[q_num] = [];
+          if (size < 10) {
+            TOTAL_WORKERS[q_num] = 1;
+            createWorker(t, sk, q_num, 0);
+          } else {
+            // Seteamos la cantidad total de workers
+            TOTAL_WORKERS[q_num] = 4;
+
+            // Copiamos el tally y repartimos el arreglo
+            let firstBash = { ...t };
+            let secondBash = { ...t };
+            let thirdBash = { ...t };
+            let fourBash = { ...t };
+
+            firstBash.tally = t.tally.slice(0, size);
+            secondBash.tally = t.tally.slice(size, size * 2);
+            thirdBash.tally = t.tally.slice(size * 2, size * 3);
+            fourBash.tally = t.tally.slice(size * 3);
+
+            // Creamos los workers
+            createWorker(firstBash, sk, q_num, 0);
+            createWorker(secondBash, sk, q_num, 1);
+            createWorker(thirdBash, sk, q_num, 2);
+            createWorker(fourBash, sk, q_num, 3);
           }
-        };
+        });
       });
     });
   };
@@ -120,6 +194,7 @@ function DecryptProve() {
       }, 500);
     } catch {
       setFeedbackMessage("Clave incorrecta");
+      setActualStep(0);
     }
   };
 

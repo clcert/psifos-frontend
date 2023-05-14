@@ -12,11 +12,11 @@ var console = {
 /**
  * Create a ElGamal secretKey object with sk and params
  *
- * @param {*} sk
- * @param {*} params
- * @param {*} certificates
- * @param {*} points
- * @returns
+ * @param {*} sk election secret key
+ * @param {*} params election params
+ * @param {*} certificates election certificates
+ * @param {*} points election points
+ * @returns ElGamal Secret Key
  */
 function getSecretKey(sk, params, certificates, points) {
   helios_c.trustee = helios_c.trustee_create(params, sk);
@@ -31,31 +31,25 @@ function getSecretKey(sk, params, certificates, points) {
 /**
  * Decrypt Tally
  *
- * @param {*} sk
- * @param {*} tally
- * @param {*} electionPk
- * @param {*} params
- * @param {*} certificates
- * @param {*} points
+ * @param {*} sk election secret key
+ * @param {*} tally tally
+ * @param {*} electionPk election public key
+ * @param {*} params election params
+ * @param {*} certificates election certificates
+ * @param {*} points election points
  */
 function decrypt(sk, tally, electionPk, params, certificates, points) {
   var secret_key = getSecretKey(sk, params, certificates, points);
 
   // ENCRYPTED TALLY :
-  let tally_factors_and_proof = tally.map(function (q_tally) {
-    console.log(q_tally);
-    return q_tally.doDecrypt(electionPk, secret_key);
+  let tally_factors_and_proof = tally.doDecrypt(electionPk, secret_key);
+  ;
+
+  postMessage({
+    type:"result",
+    tally_factors_and_proof: tally_factors_and_proof
   });
 
-  let final_json = {
-    decryptions: tally_factors_and_proof,
-  };
-  const descriptions = JSON.stringify(final_json);
-  let data = {
-    type: "result",
-    descriptions: descriptions,
-  };
-  postMessage(data);
 }
 
 /**
@@ -68,6 +62,7 @@ onmessage = function (event) {
   const secretKey = event.data.secretKey;
   const certificates = event.data.certificates;
   const points = event.data.points;
+  const tally = event.data.tally;
 
   BigInt.setup(function () {
     let PARAMS = ElGamal.Params.fromJSONObject(params);
@@ -75,10 +70,10 @@ onmessage = function (event) {
 
     let ELECTION_JSON = election;
     let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
-      ELECTION_JSON["public_key"]
+      JSON.parse(ELECTION_JSON["public_key"])
     );
     let TALLY = Tally.createAllTally(
-      JSON.parse(ELECTION_JSON.encrypted_tally),
+      tally,
       ELECTION_PK
     );
     decrypt(secretKey, TALLY, ELECTION_PK, PARAMS, certificates, points);

@@ -194,12 +194,7 @@ Tally.createAllTally = function (array_tally, public_key) {
    * @param {Array} array_tally - an array of tallies
    * @param {PublicKey} public_key - election public key
    */
-
-  let tally = [];
-  for (let i = 0; i < array_tally.length; i++) {
-    tally.push(Tally.fromJSONObject(array_tally[i], public_key));
-  }
-  return tally;
+  return Tally.fromJSONObject(array_tally , public_key) 
 };
 
 export default Tally;
