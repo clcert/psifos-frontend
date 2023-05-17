@@ -5,7 +5,7 @@ import Posts from "./components/Posts";
 function News () {
   return (
     <div id="content">
-      <UpperBanner subtitle="NOTICIAS Y PRENSA"/>
+      <UpperBanner title="NOTICIAS Y PRENSA"/>
       <section className="section notice-section" id="noticias">
         <div className="color-notice">
           <div className="container">

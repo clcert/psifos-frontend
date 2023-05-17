@@ -17,7 +17,7 @@ function Elections () {
 
   return (
     <div id="realizada">
-      <UpperBanner subtitle="LISTADO DE VOTACIONES Y CONSULTAS" />
+      <UpperBanner title="LISTADO DE VOTACIONES Y CONSULTAS" />
       <section className="section past-section" ref={myRef}>
         <div
           className={

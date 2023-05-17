@@ -15,7 +15,7 @@ function NavHome() {
     { name: "EQUIPO", href: { pathname: "/", hash: "#equipo" } },
   ]
   return (
-    <div className="is-flex is-justify-content-center">
+    <div className="is-flex is-justify-content-right">
       <nav className="transparent-bg navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a

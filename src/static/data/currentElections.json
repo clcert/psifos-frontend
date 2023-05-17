@@ -1,26 +1,14 @@
 {
   "data": [
     {
-      "startTime": "2022-12-05 09:00",
-      "endTime": "2022-12-05 17:00",
-      "unit": "Facultad de Odontología",
-      "typeUnit": "Facultad",
-      "picture": "img/logo-odontologia.svg",
-      "open": true,
-      "elections": [
-        "Comité Salud Pública"
-      ]
-    },
-    {
-      "startTime": "2022-12-12 10:00",
-      "endTime": "2022-12-13 17:00",
-      "unit": "Facultad de Ejemplo",
-      "typeUnit": "Facultad",
-      "picture": "img/logo-fcfm.svg",
+      "startTime": "2023-05-30 09:00",
+      "endTime": "2023-05-30 17:00",
+      "unit": "Instituto de Nutrición y Tecnología de los Alimentos",
+      "typeUnit": "Instituto",
+      "picture": "img/logo-inta.svg",
       "open": false,
       "elections": [
-        "Sample Election 1",
-        "Sample Election 2"
+        "Consejo INTA (Integrantes Transversales)"
       ]
     }
   ]
