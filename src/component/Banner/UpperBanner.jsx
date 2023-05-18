@@ -10,7 +10,7 @@ import logoUchile from "../../static/new_home_assets/SVG/logo uchile.svg";
 function UpperBanner ({title= '', subtitle= ''}) {
   return (
     <>
-      <div className="navbar-div pb-3">
+      <div className="navbar-div">
         <div className="container">
           <NavHome logo={logoParticipa} />
         </div>

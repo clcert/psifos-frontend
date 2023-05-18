@@ -8,11 +8,11 @@ function NavHome() {
 
   const sections = [
     { name: "EN CURSO", href: { pathname: "/", hash: "#curso" } },
-    { name: "ELECCIONES", href: { pathname: "/elecciones" } },
     { name: "COMO VOTAR", href: { pathname: "/", hash: "#video" } },
     { name: "FAQ", href: { pathname: "/", hash: "#faq" } },
-    { name: "NOTICIAS", href: { pathname: "/noticias" } },
     { name: "EQUIPO", href: { pathname: "/", hash: "#equipo" } },
+    { name: "ELECCIONES", href: { pathname: "/elecciones" } },
+    { name: "NOTICIAS", href: { pathname: "/noticias" } },
   ]
   return (
     <div className="is-flex is-justify-content-right">

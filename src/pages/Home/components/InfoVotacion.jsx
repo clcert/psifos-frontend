@@ -6,7 +6,6 @@ const getElectionDate = (startTime, endTime) => {
   }
   const [ dateInit, timeInit ] = startTime.split(' ');
   const [ dateEnd, timeEnd ] = endTime.split(' ');
-  console.log(dateInit)
   if (dateInit === dateEnd) {
     return new Date(dateInit + " 00:00").toLocaleDateString('es-ES', dateOptions) + ', de '+ timeInit + ' a ' + timeEnd + ' hrs.';
   } else {
