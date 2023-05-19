@@ -22,7 +22,7 @@ function UserButton(props) {
       }}
     >
       <span>
-        <span>{sessionStorage.getItem("user")}</span>
+        <span> SALIR </span>
       </span>
       {display && (
         <div className="dropdown-menu" id="dropdown-menu4" role="menu">

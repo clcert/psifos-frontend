@@ -73,7 +73,7 @@ function GeneralAdmin() {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <TitlePsifos namePage="Panel de Administración" nameElection={""} />
+            <TitlePsifos namePage="Detalle votaciones" nameElection={""} />
           </div>
         </section>
 
@@ -96,7 +96,7 @@ function GeneralAdmin() {
                     className="link-button"
                     to="/psifos/admin/home"
                   >
-                    Volver Atras
+                    Volver
                   </Link>
                 </Button>
               </div>
