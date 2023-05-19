@@ -40,16 +40,18 @@ function InfoVotacion({image, electionData}) {
           {
             electionData.elections.map((election, index) => (
               <li key={index} className="is-size-6 mb-1 is-flex is-justify-content-space-between is-align-items-center">
-                <span className={"election-bullet bullet-" + String((index % 2) + 1)}>
+                <span className={"election-bullet is-hidden-mobile bullet-" + String((index % 2) + 1)}>
                   { " ● " }
                 </span>
-                <span style={{ "font-size": "16px" }}>{ election }</span>
-                <hr className={"multiple-elections-hr ml-2 bullet-" + String((index % 2) + 1)} />
+                <span style={{ "font-size": "16px", "textAlign": "center" }}>{ election.name }</span>
+                <hr className={"multiple-elections-hr is-hidden-mobile ml-2 bullet-" + String((index % 2) + 1)} />
                 {
                   electionData.open ?
-                  <button className={"button election-button election-button-"+ String((index % 2) + 1)} >VOTAR</button>
+                  <a href={ election.link } target="_blank" style={{ "textDecoration": "none" }}>
+                    <button className={"button election-button election-button-1"} >VOTAR</button>
+                  </a>
                   :
-                  <button className={"button election-button election-button-"+ String((index % 2) + 1)} disabled>VOTAR</button>
+                  <button className={"button election-button election-button-1"} disabled>VOTAR</button>
                 }
               </li>
             ))
