@@ -12452,12 +12452,13 @@ a.has-text-danger-dark:focus {
   text-align: center;
   font-weight: bold;
   font-size: 28px;
-  margin: 20px;
+  margin: 20px 20px 5px 20px;
 }
 
 .container-login-subtitle {
   text-align: center;
   padding: 0 50px;
+  min-height: 24px;
 }
 
 @media screen and (max-width: 768px) {
