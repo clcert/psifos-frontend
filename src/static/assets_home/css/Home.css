@@ -12431,6 +12431,11 @@ a.has-text-danger-dark:focus {
   height: 100%;
 }
 
+.container-login .login-logo {
+  height: auto;
+  max-width: 50%;
+}
+
 .container-content-login {
   position: relative;
   height: 100%;
@@ -12439,6 +12444,8 @@ a.has-text-danger-dark:focus {
 .container-login-title {
   text-align: center;
   font-weight: bold;
+  font-size: 28px;
+  margin: 20px;
 }
 
 .container-login-subtitle {
@@ -12497,6 +12504,9 @@ a.has-text-danger-dark:focus {
   background-color: red !important;
 }
 
+.footer-register-button:hover {
+  background-color: #ff6b6b !important;
+}
 /*
 Home admin
 */
