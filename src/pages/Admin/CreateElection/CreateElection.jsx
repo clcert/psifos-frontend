@@ -149,7 +149,7 @@ function CreateElection(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Creación de Elección" />
+          <TitlePsifos namePage="Crear votación" />
         </div>
       </section>
 
