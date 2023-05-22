@@ -12438,6 +12438,11 @@ a.has-text-danger-dark:focus {
   height: 100%;
 }
 
+.container-login .login-logo {
+  height: auto;
+  max-width: 50%;
+}
+
 .container-content-login {
   position: relative;
   height: 100%;
@@ -12446,11 +12451,14 @@ a.has-text-danger-dark:focus {
 .container-login-title {
   text-align: center;
   font-weight: bold;
+  font-size: 28px;
+  margin: 20px 20px 5px 20px;
 }
 
 .container-login-subtitle {
   text-align: center;
   padding: 0 50px;
+  min-height: 24px;
 }
 
 @media screen and (max-width: 768px) {
@@ -12504,6 +12512,9 @@ a.has-text-danger-dark:focus {
   background-color: red !important;
 }
 
+.footer-register-button:hover {
+  background-color: #ff6b6b !important;
+}
 /*
 Home admin
 */

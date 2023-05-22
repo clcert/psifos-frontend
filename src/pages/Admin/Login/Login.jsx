@@ -76,8 +76,8 @@ function Login() {
       <section className="columns is-flex is-vcentered is-centered login-section parallax hero is-medium">
         <div className="container-login">
           <div className="container-content-login">
-            <img src={logoParticipa} alt="Logo Participa" />
-            <div className="container-login-title">PANEL ADMINISTRADOR</div>
+            <img className="login-logo" src={logoParticipa} alt="Logo Participa" />
+            <div className="container-login-title">Panel de administración</div>
             <div
               style={{ color: colorAlert }}
               className="container-login-subtitle"
@@ -113,7 +113,7 @@ function Login() {
                 {/* .control */}
               </div>{" "}
               {/* .field */}
-              <div className="footer-login level is-flex pt-2 ">
+              <div className="footer-login level is-flex pt-4 ">
                 <div className="footer-register-login level-left mr-3 pl-5 pr-5">
                   {/* <div>
                     <p className="footer-register-text pt-0">
