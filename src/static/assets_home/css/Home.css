@@ -518,19 +518,11 @@ div#preload {
 }
 
 .faq-section {
-  background: url("../../img/background-not-allowed.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
+  background-color: #d9e4ef;
 }
 
 .notice-section {
-  background: url("../../../../public/Fotos/individuality.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
+  background-color: #d9e4ef;
   padding: 0 !important;
 }
 
@@ -575,7 +567,7 @@ div#preload {
 }
 
 .team-section {
-  background-color: #bfe5f4;
+  background-color: #d9e4ef;
 }
 
 .team-box {

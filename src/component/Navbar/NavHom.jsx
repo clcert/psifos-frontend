@@ -61,12 +61,16 @@ function NavHome() {
               </HashLink>
             ))}
             <div className="mt-2 nav-icons">
-              <div className="icon ml-2 mr-4">
-                <i className="icon-twitter"></i>
-              </div>
-              <div className="icon">
-                <i className="icon-mail"></i>
-              </div>
+              <a href="https://www.twitter.com/participaUChile" target="_blank">
+                <div className="icon ml-2 mr-4">
+                    <i className="icon-twitter"></i>
+                </div>
+              </a>
+              <a href="mailto:participa@uchile.cl">
+                <div className="icon">
+                  <i className="icon-mail"></i>
+                </div>
+              </a>
             </div>
           </div>
         </div>
