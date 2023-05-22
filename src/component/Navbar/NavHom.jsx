@@ -8,14 +8,14 @@ function NavHome() {
 
   const sections = [
     { name: "EN CURSO", href: { pathname: "/", hash: "#curso" } },
-    { name: "ELECCIONES", href: { pathname: "/elecciones" } },
     { name: "COMO VOTAR", href: { pathname: "/", hash: "#video" } },
     { name: "FAQ", href: { pathname: "/", hash: "#faq" } },
-    { name: "NOTICIAS", href: { pathname: "/noticias" } },
     { name: "EQUIPO", href: { pathname: "/", hash: "#equipo" } },
+    { name: "ELECCIONES", href: { pathname: "/elecciones" } },
+    { name: "NOTICIAS", href: { pathname: "/noticias" } },
   ]
   return (
-    <div className="is-flex is-justify-content-center">
+    <div className="is-flex is-justify-content-right">
       <nav className="transparent-bg navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a
@@ -61,12 +61,16 @@ function NavHome() {
               </HashLink>
             ))}
             <div className="mt-2 nav-icons">
-              <div className="icon ml-2 mr-4">
-                <i className="icon-twitter"></i>
-              </div>
-              <div className="icon">
-                <i className="icon-mail"></i>
-              </div>
+              <a href="https://www.twitter.com/participaUChile" target="_blank">
+                <div className="icon ml-2 mr-4">
+                    <i className="icon-twitter"></i>
+                </div>
+              </a>
+              <a href="mailto:participa@uchile.cl">
+                <div className="icon">
+                  <i className="icon-mail"></i>
+                </div>
+              </a>
             </div>
           </div>
         </div>

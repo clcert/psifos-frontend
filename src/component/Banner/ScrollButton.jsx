@@ -23,7 +23,7 @@ function ScrollButton() {
   if (visible) {
     return (
       <p className="icon-flotant" onClick={scrollToTop}>
-        ↑
+        ▲
       </p>
     );
   } else {

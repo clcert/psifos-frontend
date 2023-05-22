@@ -1,6 +1,147 @@
 {
   "data": [
     {
+      "date": "2023-05-09", 
+      "unit": "Facultad de Ciencias Químicas y Farmacéuticas", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Director(a) de Departamento de Química Inorgánica y Analítica - Segunda Vuelta"
+      ]
+    },
+    {
+      "date": "2023-04-18", 
+      "unit": "Facultad de Ciencias Químicas y Farmacéuticas", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Director(a) de Departamento de Quimica Orgánica y Fisicoquímica",
+        "Consejeros(as) de Departamento de Quimica Orgánica y Fisicoquímica",
+        "Director(a) de Departamento de Quimica Inorgánica y Analítica",
+        "Consejeros(as) de Departamento de Quimica Inorgánica y Analítica",
+        "Director(a) de Departamento de Ciencia de los Alimentos y Tecnología Química",
+        "Consejeros(as) de Departamento de Ciencia de los Alimentos y Tecnología Química",
+        "Consejeros(as) de Facultad"
+      ]
+    },
+    {
+      "date": "2023-04-03", 
+      "unit": "Facultad de Filosofía y Humanidades", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Consejero(a) de Facultad"
+      ]
+    },
+    {
+      "date": "2023-03-28", 
+      "unit": "Facultad de Odontología", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Comité Académico Programa Odontología Restauradora Estética"
+      ]
+    },
+    {
+      "date": "2023-01-16", 
+      "unit": "Facultad de Ciencias Sociales", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Representante Académico(a) ante el Consejo de Escuela de Pregrado del Departamento de Antropología",
+        "Representante Académico(a) ante el Consejo de Escuela de Pregrado del Departamento de Educación",
+        "Representante Académico(a) ante el Consejo de Escuela de Pregrado del Departamento de Trabajo Social"
+      ]
+    },
+    {
+      "date": "2023-01-12", 
+      "unit": "Facultad de Medicina", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Director(a) de Departamento de Bioética y Humanidades Médicas",
+        "Consejeros(as) Académicos de Libre Elección de Bioética y Humanidades Médicas",
+        "Director(a) de Departamento de Ciencias Neurológicas Oriente",
+        "Consejeros(as) Académicos de Libre Elección de Ciencias Neurológicas Oriente",
+        "Director(a) de Departamento de Cirugía Oriente",
+        "Consejeros(as) Académicos de Libre Elección de Cirugía Oriente",
+        "Director(a) de Departamento de Medicina Interna Norte",
+        "Consejeros(as) Académicos de Libre Elección de Medicina Interna Norte",
+        "Director(a) de Departamento de Medicina Interna Sur",
+        "Consejeros(as) Académicos de Libre Elección de Medicina Interna Sur",
+        "Director(a) de Departamento de Nutrición",
+        "Consejeros(as) Académicos de Libre Elección de Nutrición",
+        "Director(a) de Departamento de Obstetricia y Ginecología Centro",
+        "Consejeros(as) Académicos de Libre Elección de Obstetricia y Ginecología Centro",
+        "Director(a) de Departamento de Obstetricia y Ginecología Sur",
+        "Consejeros(as) Académicos de Libre Elección de Obstetricia y Ginecología Sur",
+        "Director(a) de Departamento de Oftalmología",
+        "Consejeros(as) Académicos de Libre Elección de Oftalmología",
+        "Director(a) de Departamento de Pediatría y Cirugía Infantil Norte",
+        "Consejeros(as) Académicos de Libre Elección de Pediatría y Cirugía Infantil Norte",
+        "Director(a) de Departamento de Cirugía Centro"
+      ]
+    },
+    {
+      "date": "2022-12-14", 
+      "unit": "Facultad de Filosofía y Humanidades", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Director(a) de Departamento de Filosofía",
+        "Consejeros(as) de Departamento de Filosofía",
+        "Director(a) de Departamento de Ciencias Históricas",
+        "Consejeros(as) de Departamento de Ciencias Históricas",
+        "Director(a) de Departamento de Literatura",
+        "Consejeros(as) de Departamento de Literatura",
+        "Director(a) de Departamento de Lingüística",
+        "Consejeros(as) de Departamento de Lingüística",
+        "Director(a) de Departamento de Estudios Pedagógicos",
+        "Consejeros(as) de Departamento de Estudios Pedagógicos",
+        "Consejeros(as) de Facultad",
+        "Consejera Académica para Carreras Profesionales"
+      ]
+    },
+    {
+      "date": "2022-12-05", 
+      "unit": "Facultad de Odontología", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Comité Académico del Programa de Salud Pública"
+      ]
+    },
+    {
+      "date": "2022-12-01", 
+      "unit": "Facultad de Medicina", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Director(a) de Departamento de Traumatología",
+        "Director(a) de Programa de Fisiopatología del ICBM",
+        "Director(a) de Programa de Virología del ICBM",
+        "Consejeros(as) Estudiantiles de libre elección Escuela de Enfermería",
+        "Consejeros(as) Estudiantiles de libre elección Escuela de Fonoaudiología",
+        "Consejeros(as) Estudiantiles de libre elección Escuela de Tecnología Médica",
+        "Consejeros(as) Estudiantiles de libre elección Escuela de Terapia Ocupacional"
+      ]
+    },
+    {
+      "date": "2022-11-24", 
+      "unit": "Facultad de Ciencias Físicas y Matemáticas", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Centro de Alumnos del Departamento de Ciencias de la Computación"
+      ]
+    },
+    {
+      "date": "2022-11-23", 
+      "unit": "Universidad de Chile", 
+      "typeUnit": "Universidad", 
+      "elections": [
+        "Junta Calificadora Central"
+      ]
+    },
+    {
+      "date": "2022-11-16", 
+      "unit": "Facultad de Ciencias Físicas y Matemáticas", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Representantes Estudiantiles de Pregrado ante el Consejo de Escuela de Ingenieria y Ciencias"
+      ]
+    },
+    {
       "date": "2022-11-09",
       "unit": "Facultad de Ciencias Agronómicas",
       "typeUnit": "Facultad",
