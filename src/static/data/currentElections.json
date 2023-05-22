@@ -6,7 +6,7 @@
       "unit": "Instituto de Nutrición y Tecnología de los Alimentos",
       "typeUnit": "Instituto",
       "picture": "img/logo-inta.svg",
-      "open": true,
+      "open": false,
       "elections": [ 
         {"name": "Consejo INTA (Integrantes Transversales)",
          "link": "#"}
