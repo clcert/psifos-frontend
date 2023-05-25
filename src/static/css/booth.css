@@ -860,3 +860,47 @@ canvas {
     max-width: 50%;
   }
 }
+
+
+/* ranking election test */
+
+.ranking__container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.ranking__idx_col {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  align-content: center;
+  width: 10%;
+}
+
+.ranking__opt_col {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  align-content: center;
+  width: 85%;
+}
+
+.ranking__idx {
+  font-size: 1.2em;
+  font-weight: 900;
+  border-radius: 2em;
+  margin: 1.35em;
+  color: white;
+}
+
+.ranking__btn {
+  padding: 1em 2em;
+  border: #84C7EF solid 2px;
+  background: white;
+  color: black;
+  font-weight: 700;
+  margin: .5em;
+  border-radius: 1em;
+  width: 100%;
+}

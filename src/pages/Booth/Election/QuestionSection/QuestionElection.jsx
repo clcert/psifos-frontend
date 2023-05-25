@@ -7,7 +7,7 @@ import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
-import InputSelection from "./InputSelection";
+// import InputSelection from "./InputSelection";
 import { answersRestrictionText } from "./utils.js";
 import { permanentOptionsList } from "../../../../constants";
 import RankingSelection from "./RankingSelection";

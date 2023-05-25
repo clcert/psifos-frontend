@@ -1,7 +1,11 @@
 import InputRanking from "./Questions/InputRanking";
+import { useState } from "react";
 
 const RankingSelection = (props) => {
-  const [answers, setAnswers] = useState([]);
+  /**
+   * answers initial state is an array with option indices.
+   */
+  const [answers, setAnswers] = useState(Array.from(props.question.closed_options.keys()));
   return (
     <div>
       <div>

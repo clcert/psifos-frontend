@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
   DndContext,
@@ -21,14 +21,19 @@ import {
   restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
 
+import { SortableItem } from "./SortableItem";
+
 /**
- * 
- * @param {*} props 
- * @returns 
+ *
+ * @param {*} props
+ * @returns
  */
 const InputRanking = (props) => {
-  /** @state */
-  const [items, setItems] = useState([1, 2, 3]);
+  // dnd-kit sortable ids start from 1.
+  let rankingOptions = props.answers.map((id) => id + 1);
+  let rankingIndices = Array.from(rankingOptions.keys()).map((id) => id + 1);
+  console.log(props.answers);
+
   /** @sensors */
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -44,27 +49,47 @@ const InputRanking = (props) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-        return arrayMove(items, oldIndex, newIndex);
+      props.setAnswers((answers) => {
+        const oldIndex = answers.indexOf(active.id - 1);
+        const newIndex = answers.indexOf(over.id - 1);
+        return arrayMove(answers, oldIndex, newIndex);
+        // TODO: modify QuestionElection answers as well for encryption.
       });
     }
   };
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
-    >
-      <SortableContext items={items} strategy={verticalListSortingStrategy}>
-        {items.map((id) => (
-          <SortableItem key={id} id={id} />
+    <div className="ranking__container">
+      <div className="ranking__idx_col">
+        {rankingIndices.map((id) => (
+          <div className="ranking__idx" key={id}>
+            {id}°
+          </div>
         ))}
-      </SortableContext>
-    </DndContext>
+      </div>
+      <div className="ranking__opt_col">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+        >
+          <SortableContext
+            items={rankingOptions}
+            strategy={verticalListSortingStrategy}
+          >
+            {rankingOptions.map((id) => (
+              <SortableItem
+                className="ranking__btn"
+                content={props.question.closed_options[id - 1]}
+                id={id}
+                key={id}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      </div>
+    </div>
   );
 };
 
