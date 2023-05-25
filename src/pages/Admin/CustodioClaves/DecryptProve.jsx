@@ -28,11 +28,11 @@ function DecryptProve() {
   let WORKERS = [];
   let RESULT_WORKERS = [];
   let WORKERS_QUESTIONS = [];
-  const TOTAL_WORKERS = 4;
+  const TOTAL_WORKERS = Math.max(navigator.hardwareConcurrency, 4);
   let QUESTIONS_COMPLETE = 0;
   let TOTAL_TALLY;
 
-  const getDescrypt = useCallback(async () => {
+  const getDecrypt = useCallback(async () => {
     const url =
       backendOpIP +
       "/" +
@@ -51,7 +51,7 @@ function DecryptProve() {
     return jsonResponse;
   }, [shortName, uuidTrustee]);
 
-  async function sendDescrypt(descriptions) {
+  async function sendDecrypt(descriptions) {
     setFeedbackMessage("Enviando información...");
     const url =
       backendOpIP +
@@ -126,7 +126,7 @@ function DecryptProve() {
           let final_json = {
             decryptions: DESCRIPTIONS,
           };
-          sendDescrypt(final_json);
+          sendDecrypt(final_json);
         }
       }
     };
@@ -134,7 +134,7 @@ function DecryptProve() {
 
   const doTally = (sk) => {
     getEgParams(shortName).then((eg_params) => {
-      getDescrypt().then((data) => {
+      getDecrypt().then((data) => {
         PARAMS = JSON.parse(eg_params);
         CERTIFICATES = JSON.parse(data.certificates);
         POINTS = JSON.parse(data.points);
