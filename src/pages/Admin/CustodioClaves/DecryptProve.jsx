@@ -27,7 +27,9 @@ function DecryptProve() {
   let DESCRIPTIONS = [];
   let WORKERS = [];
   let RESULT_WORKERS = [];
-  let TOTAL_WORKERS = [];
+  let WORKERS_QUESTIONS = [];
+  const TOTAL_WORKERS = 4;
+  let QUESTIONS_COMPLETE = 0;
   let TOTAL_TALLY;
 
   const getDescrypt = useCallback(async () => {
@@ -99,7 +101,7 @@ function DecryptProve() {
         WORKERS[q_num] = WORKERS[q_num] + 1;
 
         // Si es el ultimo worker, une las desencriptaciones
-        if (WORKERS[q_num] === TOTAL_WORKERS[q_num]) {
+        if (WORKERS[q_num] === WORKERS_QUESTIONS[q_num]) {
           let factor_proofs = {
             decryption_factors: [],
             decryption_proofs: [],
@@ -118,12 +120,9 @@ function DecryptProve() {
           });
           DESCRIPTIONS[q_num] = factor_proofs;
         }
-
+        QUESTIONS_COMPLETE = QUESTIONS_COMPLETE + 1;
         // En caso de que terminamos todas las preguntas
-        if (
-          q_num + 1 === TOTAL_TALLY &&
-          WORKERS[q_num] === TOTAL_WORKERS[q_num]
-        ) {
+        if (QUESTIONS_COMPLETE === TOTAL_TALLY) {
           let final_json = {
             decryptions: DESCRIPTIONS,
           };
@@ -157,28 +156,18 @@ function DecryptProve() {
           // Caso de tally pequeño, solo un hilo de ejecución
           RESULT_WORKERS[q_num] = [];
           if (size < 10) {
-            TOTAL_WORKERS[q_num] = 1;
+            WORKERS_QUESTIONS[q_num] = 1;
             createWorker(t, sk, q_num, 0);
           } else {
             // Seteamos la cantidad total de workers
-            TOTAL_WORKERS[q_num] = 4;
+            WORKERS_QUESTIONS[q_num] = TOTAL_WORKERS;
 
-            // Copiamos el tally y repartimos el arreglo
-            let firstBash = { ...t };
-            let secondBash = { ...t };
-            let thirdBash = { ...t };
-            let fourBash = { ...t };
-
-            firstBash.tally = t.tally.slice(0, size);
-            secondBash.tally = t.tally.slice(size, size * 2);
-            thirdBash.tally = t.tally.slice(size * 2, size * 3);
-            fourBash.tally = t.tally.slice(size * 3);
-
-            // Creamos los workers
-            createWorker(firstBash, sk, q_num, 0);
-            createWorker(secondBash, sk, q_num, 1);
-            createWorker(thirdBash, sk, q_num, 2);
-            createWorker(fourBash, sk, q_num, 3);
+            for (let i = 0; i < TOTAL_WORKERS; i++) {
+              // Copiamos el tally y repartimos el arreglo
+              let bash = { ...t };
+              bash.tally = t.tally.slice(size * i, size * (i + 1));
+              createWorker(bash, sk, q_num, i);
+            }
           }
         });
       });
