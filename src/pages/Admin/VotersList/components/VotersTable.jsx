@@ -31,7 +31,7 @@ function VotersTable({
         voterName: voterName,
       }).then((data) => {
         setVoters(data.voters);
-        if (!data.more_votes) setNextDisabled(true);
+        setNextDisabled(!data.more_votes);
       });
     },
     [election]
@@ -57,10 +57,8 @@ function VotersTable({
      * @param {string} value
      */
     const newPage = actualPage + value;
-
-    if (newPage === 0) {
-      setPreviousDisabled(true);
-    }
+    setPage(newPage);
+    setPreviousDisabled(newPage === 0);
 
     if (newPage >= 0) {
       getVoters(newPage);
