@@ -7,10 +7,10 @@ import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
-// import InputSelection from "./InputSelection";
 import { answersRestrictionText } from "./utils.js";
 import { permanentOptionsList } from "../../../../constants";
 import RankingSelection from "./RankingSelection";
+import InputSelection from "./InputSelection";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -105,7 +105,7 @@ function QuestionElection(props) {
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
               <div className="control control-box">
                 {question.q_type === "closed_question" && (
-                  <RankingSelection
+                  <InputSelection
                     index={index}
                     addAnswer={addAnswer}
                     question={question}
