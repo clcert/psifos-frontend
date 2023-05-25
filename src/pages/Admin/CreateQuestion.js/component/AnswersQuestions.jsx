@@ -74,6 +74,7 @@ function AnswersQuestions(props) {
             <div className="is-flex level">
               <div className="is-flex leve-left">
                 <Button
+                  id={`add-option-${props.questionId}`}
                   className="button-create-question"
                   onClick={() => {
                     props.addAnswer();

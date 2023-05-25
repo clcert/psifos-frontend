@@ -80,6 +80,7 @@ function CustodioClaves(props) {
             <>
               <>
                 <button
+                  id="add-trustee"
                   className="button mb-4"
                   onClick={() => {
                     setModalCustodio(true);

@@ -25,6 +25,7 @@ function Status(props) {
           <div className="content-card-admin">
             <span className="panel-text-sect">
               <Link
+                id="button-add-questions"
                 className="link-without-line"
                 to={
                   "/psifos/admin/" +
@@ -42,6 +43,7 @@ function Status(props) {
           <div className="content-card-admin">
             <span className="panel-text-sect">
               <Link
+                id="button-add-trustee"
                 className="link-without-line"
                 to={"/psifos/admin/" + props.election.short_name + "/trustee"}
               >
@@ -59,7 +61,7 @@ function Status(props) {
               onClick={() => props.freezeModal()}
               className="panel-text-sect"
             >
-              <Link className="link-without-line" to="">
+              <Link id="init-election" className="link-without-line" to="">
                 Iniciar elección
               </Link>
             </span>
@@ -68,7 +70,7 @@ function Status(props) {
       {props.electionStatus === "Started" && (
         <div className="content-card-admin">
           <span onClick={() => props.closeModal()} className="panel-text-sect">
-            <Link className="link-without-line" to="">
+            <Link id="close-election" className="link-without-line" to="">
               Cerrar elección
             </Link>
           </span>
@@ -77,7 +79,7 @@ function Status(props) {
       {props.electionStatus === "Ended" && (
         <div className="content-card-admin">
           <span onClick={() => props.tallyModal()} className="panel-text-sect">
-            <Link className="link-without-line" to="">
+            <Link id="compute-tally" className="link-without-line" to="">
               Computar Tally
             </Link>
           </span>

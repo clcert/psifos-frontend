@@ -17,11 +17,11 @@ function ModalCreateCustodio(props) {
           <h1 className="title">Agregar Custodio de clave</h1>
           <div className="field">
             <label className="">
-              Agregar su propio Custodio requiere un poco más de trabajo
-              para contar la elección. Necesitará que los Custodios
-              generen pares de claves y protejan su clave secreta. Si no está
-              seguro de lo que eso significa, le recomendamos que haga clic en
-              Cancelar y deje que Helios cuente la elección por usted.
+              Agregar su propio Custodio requiere un poco más de trabajo para
+              contar la elección. Necesitará que los Custodios generen pares de
+              claves y protejan su clave secreta. Si no está seguro de lo que
+              eso significa, le recomendamos que haga clic en Cancelar y deje
+              que Helios cuente la elección por usted.
             </label>
           </div>
         </section>
@@ -35,6 +35,7 @@ function ModalCreateCustodio(props) {
             </button>
             <Link to={"/psifos/admin/" + props.shortName + "/create-trustee"}>
               <button
+                id="next-trustee"
                 className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
                 onClick={props.onHide}
               >

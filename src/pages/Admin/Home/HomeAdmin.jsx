@@ -88,7 +88,10 @@ function HomeAdmin() {
                     className="link-button"
                     to="/psifos/admin/create-election"
                   >
-                    <Button className="button-custom home-admin-button btn-fixed">
+                    <Button
+                      id="button-create-election"
+                      className="button-custom home-admin-button btn-fixed"
+                    >
                       Crear Votación
                     </Button>
                   </Link>

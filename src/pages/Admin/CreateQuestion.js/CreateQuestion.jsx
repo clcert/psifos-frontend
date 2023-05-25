@@ -102,8 +102,7 @@ function CreateQuestion(props) {
       question.max_answers = question.max_answers ? question.max_answers : 1;
       question.include_blank_null =
         question.include_blank_null === "True" ? true : false;
-      question.group_votes =
-        question.group_votes === "True" ? true : false;
+      question.group_votes = question.group_votes === "True" ? true : false;
     });
     setQuestion(questions);
   }
@@ -248,7 +247,7 @@ function CreateQuestion(props) {
               <Button className="btn-fixed">
                 <Link
                   style={{ textDecoration: "none", color: "#363636" }}
-                  to={"/admin/" + shortName + "/panel"}
+                  to={"/psifos/admin/" + shortName + "/panel"}
                 >
                   Volver inicio
                 </Link>
@@ -256,6 +255,7 @@ function CreateQuestion(props) {
             </div>
             <div className="col-sm d-flex justify-content-center mt-3">
               <Button
+                id="add-question"
                 disabled={disabledEdit}
                 className="btn-fixed"
                 onClick={() => addQuestion()}
@@ -265,6 +265,7 @@ function CreateQuestion(props) {
             </div>
             <div className="col-sm d-flex justify-content-center mt-3">
               <Button
+                id="button-save-questions"
                 disabled={disabledEdit}
                 className="btn-fixed"
                 onClick={() => sendQuestions()}

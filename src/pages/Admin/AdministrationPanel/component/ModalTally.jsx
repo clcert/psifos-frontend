@@ -52,6 +52,7 @@ function ModalTally(props) {
             </button>
 
             <button
+              id="button-compute-tally"
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
               onClick={computeTally}
             >
