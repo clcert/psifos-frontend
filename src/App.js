@@ -32,7 +32,7 @@ function App() {
      * @returns {string} token
      */
 
-    const tokenString = sessionStorage.getItem("token");
+    const tokenString = localStorage.getItem("token");
     return tokenString;
   }
 

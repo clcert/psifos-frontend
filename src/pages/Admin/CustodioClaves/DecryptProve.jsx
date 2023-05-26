@@ -219,7 +219,7 @@ function DecryptProve() {
               placeholder="Clave privada..."
               disabled
             />
-            <p className="has-text-white pt-2">
+            <p id="feedback-message" className="has-text-white pt-2">
               {feedbackMessage}
               <i
                 className={

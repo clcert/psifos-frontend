@@ -15,7 +15,7 @@ function SettingsUrna(props) {
   }
 
   async function updateRegElection() {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const resp = await fetch(backendOpIP + "/" + props.shortName + "/openreg", {
       method: "POST",
       headers: {

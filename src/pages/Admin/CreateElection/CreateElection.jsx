@@ -83,7 +83,7 @@ function CreateElection(props) {
      * async function to send and create a election
      */
     if (checkData()) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const resp = await fetch(backendOpIP + url, {
         method: "POST",
         headers: {

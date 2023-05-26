@@ -26,7 +26,7 @@ function Login() {
      * @param {string} userToken info with token
      */
 
-    sessionStorage.setItem("token", userToken["token"]);
+    localStorage.setItem("token", userToken["token"]);
     window.location.href = "/psifos/admin/home";
   }
 
@@ -35,7 +35,7 @@ function Login() {
      * set user in localStorage
      * @param {string} user info with user
      */
-    sessionStorage.setItem("user", user);
+    localStorage.setItem("user", user);
   }
 
   async function login() {
@@ -76,7 +76,11 @@ function Login() {
       <section className="columns is-flex is-vcentered is-centered login-section parallax hero is-medium">
         <div className="container-login">
           <div className="container-content-login">
-            <img className="login-logo" src={logoParticipa} alt="Logo Participa" />
+            <img
+              className="login-logo"
+              src={logoParticipa}
+              alt="Logo Participa"
+            />
             <div className="container-login-title">Panel de administración</div>
             <div
               style={{ color: colorAlert }}

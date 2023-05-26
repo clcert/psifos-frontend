@@ -27,9 +27,14 @@ function DeleteVoterModal(props) {
 
     try {
       setDeleteState(true);
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const resp = await fetch(
-        backendOpIP + "/" + shortName + "/voter/" + props.voter.uuid + "/delete",
+        backendOpIP +
+          "/" +
+          shortName +
+          "/voter/" +
+          props.voter.uuid +
+          "/delete",
         {
           method: "POST",
           headers: {

@@ -173,7 +173,7 @@ function CreateQuestion(props) {
 
     setQuestion(auxQuestion);
     if (checkQuestions()) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const resp = await fetch(backendOpIP + "/create-questions/" + shortName, {
         method: "POST",
         headers: {
