@@ -228,7 +228,7 @@ function Keygenerator(props) {
 
     document.getElementById("process_step").style.display = "none";
     generate_keypair();
-    download_sk_to_file("trustee_key_" + trustee.email + ".txt");
+    download_sk_to_file("trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt");
     setSecretKey(helios_c.secret_key);
     setProcessFeedback(
       "Debes descargar el archivo y respaldarlo adecuadamente. Para continuar, debes subir el archivo recién descargado para verificar que lo tienes almacenado en tu computador"
@@ -543,7 +543,7 @@ function Keygenerator(props) {
   };
 
   const downloadKey = () => {
-    download_sk_to_file("trustee_key_" + trustee.email + ".txt");
+    download_sk_to_file("trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt");
   };
 
   const checkSk = (key) => {
