@@ -62,7 +62,7 @@ function Accordion(props) {
                       to={"/psifos/admin/" + props.election.short_name + "/panel"}
                       className="accordion-link"
                     >
-                      Panel
+                      Configuraciones
                     </Link>{" "}
                   </div>
                   <div className="row-accordion is-full">

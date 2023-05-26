@@ -47,7 +47,7 @@ function HomeAdmin() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Bienvenido a Participa UChile DEV" />
+          <TitlePsifos namePage="Bienvenido(a) a Participa UChile DEV" />
         </div>
       </section>
 
@@ -77,7 +77,7 @@ function HomeAdmin() {
                       to="/psifos/admin/general"
                     >
                       <Button className="button-custom home-admin-button btn-fixed">
-                        Panel general
+                        Detalle votaciones
                       </Button>
                     </Link>
                   </div>

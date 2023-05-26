@@ -6121,6 +6121,10 @@ button.dropdown-item.is-active {
   -ms-overflow-y: visible;
 }
 
+.modal-card-text {
+  text-align: justify;
+}
+
 .modal-card-head,
 .modal-card-foot {
   align-items: center;
@@ -6144,6 +6148,13 @@ button.dropdown-item.is-active {
   flex-shrink: 0;
   font-size: 1.5rem;
   line-height: 1;
+}
+
+.main-modal .modal-title{
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  font-size: 40px;
 }
 
 .modal-card-foot {
@@ -12664,8 +12675,14 @@ Subnavbar
 }
 
 /*
-Panel administración
+Admin General
 */
+
+.info-general .election-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .panel-text {
   font-size: 1.2rem;
@@ -13250,4 +13267,9 @@ Consult
   margin-left: 30px;
   text-align: justify;
   font-size: 18px;
+}
+
+.asterisk-required-field {
+  color: red;
+  margin-left: 5px;
 }
