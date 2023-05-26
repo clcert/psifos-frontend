@@ -30,6 +30,20 @@ function HomeAdmin() {
       }
     });
   }, []);
+  /**
+   * Search substring
+   * @param {*} input
+   */
+  function searchSubstring(input, substring) {
+    return (
+      input
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .includes(substring.toLowerCase().normalize("NFD")) ||
+      input.toLowerCase().includes(substring.toLowerCase())
+    );
+  }
   function searchElection(e) {
     /**
      * Search for elections by name
@@ -37,7 +51,10 @@ function HomeAdmin() {
 
     const search = e.target.value;
     const newElections = elections.filter((election) => {
-      return election.name.toLowerCase().includes(search.toLowerCase());
+      return (
+        searchSubstring(election.name, search) ||
+        searchSubstring(election.short_name, search)
+      );
     });
     setElectionsSearch(newElections);
   }
