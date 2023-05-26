@@ -62,7 +62,7 @@ function Accordion(props) {
                       to={"/psifos/admin/" + props.election.short_name + "/panel"}
                       className="accordion-link"
                     >
-                      Panel administración
+                      Panel
                     </Link>{" "}
                   </div>
                   <div className="row-accordion is-full">
@@ -93,7 +93,7 @@ function Accordion(props) {
                       to={"/psifos/admin/" + props.election.short_name + "/trustee"}
                       className="accordion-link"
                     >
-                      Custodio de claves
+                      Custodios
                     </Link>{" "}
                   </div>
                   <div className="row-accordion is-full">
@@ -106,15 +106,12 @@ function Accordion(props) {
                     </Link>{" "}
                   </div>
                   <div className="row-accordion is-full">
+                    {" "}
                     <Link
-                      to={
-                        "/psifos/admin/" +
-                        props.election.short_name +
-                        "/create-question"
-                      }
+                      to={"/psifos/admin/" + props.election.short_name + "/statistics"}
                       className="accordion-link"
                     >
-                      Preguntas
+                      Estadísticas
                     </Link>{" "}
                   </div>
                 </div>
