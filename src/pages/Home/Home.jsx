@@ -14,7 +14,7 @@ function Home() {
   
   return (
     <div id="content">
-      <UpperBanner title="BIENVENIDO" subtitle="AL SISTEMA DE VOTACIÓN" />
+      <UpperBanner title="PÁGINA PRINCIPAL" subtitle="SISTEMA DE VOTACIÓN Y CONSULTAS" />
       <section className="election-section pt-0 pb-0">
         <div className="election-sect">
           <div
@@ -180,55 +180,66 @@ function Home() {
           <h1 className="title pt-2" id="election-current">
             EQUIPO DE TRABAJO
           </h1>
+          <h1 className="subtitle pt-0" id="election-current">
+            Junio 2023
+          </h1>
           <div className="columns">
             <div className="column">
               <TeamComponent
                 name="ALEJANDRO HEVIA"
                 rol="Coordinador Académico"
-                image={process.env.PUBLIC_URL + "/Fotos/alejandro2.png"}
+                image={process.env.PUBLIC_URL + "/Fotos/alejandro.svg"}
               />
             </div>
-            <div className="column">
+            <div className="column is-one-quarter">
               <TeamComponent
                 name="CAMILO GÓMEZ"
                 rol="Coordinador Operativo"
-                image={process.env.PUBLIC_URL + "/Fotos/camilo2.png"}
+                image={process.env.PUBLIC_URL + "/Fotos/camilo.svg"}
               />
             </div>
-            <div className="column is-one-third">
+            <div className="column is-one-quarter">
               <TeamComponent
-                name="CATALINA BURGOS"
-                rol="Diseñadora Gráfica"
-                image={process.env.PUBLIC_URL + "/Fotos/catalina2.png"}
+                name="CRISTOBAL JARAMILLO"
+                rol="Ingeniero de Desarrollo e Investigación"
+                image={process.env.PUBLIC_URL + "/Fotos/cristobal.svg"}
+              />
+            </div>
+            <div className="column is-one-quarter">
+              <TeamComponent
+                name="FERNANDA MACÍAS"
+                rol="Ingeniera de Desarrollo e Investigación"
+                image={process.env.PUBLIC_URL + "/Fotos/fernanda.svg"}
               />
             </div>
           </div>
           <div className="columns">
-            <div className="column is-one-third">
+          <div className="column is-one-quarter">
               <TeamComponent
                 name="EDUARDO RIVEROS"
                 rol="Ingeniero de Ciberseguridad e Infraestructura"
-                image={process.env.PUBLIC_URL + "/Fotos/eduardo2.png"}
+                image={process.env.PUBLIC_URL + "/Fotos/eduardo.svg"}
               />
             </div>
-            <div className="column is-one-third">
+            <div className="column is-one-quarter">
               <TeamComponent
-                name="MARÍA GRAZIA PRATO"
-                rol="Diseñadora UI/UX"
-                image={process.env.PUBLIC_URL + "/Fotos/grazzia2.png"}
+                name="MARTA APABLAZA"
+                rol="Periodista"
+                image={process.env.PUBLIC_URL + "/Fotos/marta.svg"}
+              />
+            </div>
+            <div className="column is-one-quarter">
+              <TeamComponent
+                name="RAÚL DE LA FUENTE"
+                rol="Estudiante de Pregrado"
+                image={process.env.PUBLIC_URL + "/Fotos/raul.svg"}
               />
             </div>
 
-            <div className="column is-one-third">
-              <TeamComponent
-                name="RICARDO PERALTA"
-                rol="Ingeniero de Desarrollo"
-                image={process.env.PUBLIC_URL + "/Fotos/matias2.png"}
-              />
-            </div>
+
           </div>
 
-          <div className="is-flex is-justify-content-center">
+          <div className="is-flex is-justify-content-center" style={{ "font-size": "2rem" }}>
             <span className="bullet-1">•</span> &emsp;{" "}
             <span className="bullet-2">•</span> &emsp;{" "}
             <span className="bullet-3">•</span> &emsp;{" "}
@@ -238,7 +249,7 @@ function Home() {
       </section>
       <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
       <section className="hero">
-        <div className="hero-body bottom-hero"></div>
+        <div className="hero-body bottom-hero py-4"></div>
       </section>
     </div>
   );

@@ -1,14 +1,11 @@
-
 function FinishButton(props) {
-
-
   return (
     <button
       onClick={() => {
         props.action();
       }}
       className="button is-medium question-button proceed-button"
-      name="button-finish"
+      id="next-button"
     >
       <span>FINALIZAR</span>
       <span className="icon is-small">

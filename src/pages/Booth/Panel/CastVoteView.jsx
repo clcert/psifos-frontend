@@ -25,7 +25,7 @@ function CastVoteView({ election = {} }) {
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
 
   const getDataVotes = useCallback(async () => {
-    getVotesInfo(shortName, electionData.actualPage * lengthPage, lengthPage, {
+    getVotesInfo(shortName, electionData.actualPage, lengthPage, {
       voteHash: hashUrl,
       onlyValidVotes: true,
     }).then((dataVotes) => {
@@ -54,7 +54,9 @@ function CastVoteView({ election = {} }) {
 
     const newPage = electionData.actualPage + number;
     if (newPage >= 0) {
-      getVotesInfo(shortName, newPage * lengthPage, lengthPage, {
+      setDisabledNext(true);
+      setDisabledPrevious(true);
+      getVotesInfo(shortName, newPage, lengthPage, {
         onlyValidVotes: true,
       }).then((dataVotes) => {
         if (dataVotes.voters.length !== 0) {
@@ -66,8 +68,6 @@ function CastVoteView({ election = {} }) {
             electionVoters: dataVotes.voters,
             actualPage: newPage,
           });
-        } else {
-          setDisabledNext(true);
         }
       });
     }

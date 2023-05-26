@@ -1,6 +1,7 @@
 function NextButton(props) {
   return (
     <button
+      id="next-button"
       onClick={props.action}
       className="button is-medium question-button next-button"
     >

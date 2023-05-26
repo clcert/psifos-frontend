@@ -179,6 +179,7 @@ function CreateElection(props) {
             </label>
             <div className="control">
               <input
+                id="input-short-name"
                 disabled={disabledEdit}
                 className="input"
                 type="text"
@@ -201,6 +202,7 @@ function CreateElection(props) {
             </label>
             <div className="control">
               <input
+                id="input-name"
                 disabled={disabledEdit}
                 className="input"
                 type="text"
@@ -372,6 +374,7 @@ function CreateElection(props) {
                 </Button>
               ) : (
                 <Button
+                  id="button-send-election"
                   onClick={() => {
                     sendElection("/create-election");
                   }}

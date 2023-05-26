@@ -106,15 +106,12 @@ function Accordion(props) {
                     </Link>{" "}
                   </div>
                   <div className="row-accordion is-full">
+                    {" "}
                     <Link
-                      to={
-                        "/psifos/admin/" +
-                        props.election.short_name +
-                        "/create-question"
-                      }
+                      to={"/psifos/admin/" + props.election.short_name + "/statistics"}
                       className="accordion-link"
                     >
-                      Preguntas
+                      Estadísticas
                     </Link>{" "}
                   </div>
                 </div>

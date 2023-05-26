@@ -62,10 +62,13 @@ function Keygenerator(props) {
      * @returns {int} randomness
      */
 
-    const resp = await fetch(backendOpIP + "/" + shortName + "/get-randomness", {
-      method: "GET",
-      credentials: "include",
-    });
+    const resp = await fetch(
+      backendOpIP + "/" + shortName + "/get-randomness",
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
       return jsonResponse.randomness;
@@ -114,7 +117,13 @@ function Keygenerator(props) {
      */
 
     const url =
-      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/step-" + step;
+      backendOpIP +
+      "/" +
+      shortName +
+      "/trustee/" +
+      uuidTrustee +
+      "/step-" +
+      step;
 
     const resp = await fetch(url, {
       method: "POST",
@@ -217,7 +226,7 @@ function Keygenerator(props) {
      *
      */
 
-    document.getElementById("process_step").style.display = 'none';
+    document.getElementById("process_step").style.display = "none";
     generate_keypair();
     download_sk_to_file("trustee_key_" + trustee.email + ".txt");
     setSecretKey(helios_c.secret_key);
@@ -587,15 +596,15 @@ function Keygenerator(props) {
                 <i
                   id="step_1"
                   className={
-                  actualStep >= 4 
-                    ? "fa-solid fa-circle-check"
-                    : "fa-solid fa-spinner fa-spin"
+                    actualStep >= 4
+                      ? "fa-solid fa-circle-check"
+                      : "fa-solid fa-spinner fa-spin"
                   }
                 ></i>
               </p>
             </div>
 
-/*          <div className="level">
+            /*          <div className="level">
               <div className="level-item has-text-centered">
                 <div>
                   <p className="pb-2 title has-text-white">
@@ -643,11 +652,17 @@ function Keygenerator(props) {
               </div>
             </div> */
           )}
-          <div id="process_step" className="mt-3 has-text-black is-size-5 px-6 box">
-            <span>&nbsp;
-              <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN<br/>
-              Una vez que descargues la clave, debes almacenarla en tu computador, además 
-              de hacer un respaldo del archivo descargado. <br/> 
+          <div
+            id="process_step"
+            className="mt-3 has-text-black is-size-5 px-6 box"
+          >
+            <span>
+              &nbsp;
+              <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN
+              <br />
+              Una vez que descargues la clave, debes almacenarla en tu
+              computador, además de hacer un respaldo del archivo descargado.{" "}
+              <br />
               Para hacer este respaldo puedes guardar el archivo en un pendrive.
             </span>
           </div>
@@ -655,75 +670,88 @@ function Keygenerator(props) {
           <p className="has-text-white is-size-5">{processFeedback}</p>
           {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
 
-            <div className="d-flex flex-sm-column mt-4 is-align-items-center">
-              {!secretKey && actualPhase === 1 && (
-                <button
-                  className="is-large button is-info is-light is-outlined"
-                  style={{ textDecoration: "None", textTransform: "uppercase", whiteSpace: "normal", height: "3em" }}
-                  disabled={!enabledButtonInit}
-                  onClick={() => {
-                    step_0();
-                  }}
-                >
-                  Generar y descargar clave
-                </button>
-              )}
-              {actualPhase === 2 && actualStep !== 4 && (
-                <button
-                  className="button mx-sm-2 mt-2"
-                  disabled={!enabledButtonInit}
-                  onClick={() => {
-                    init_process();
-                  }}
-                >
-                  {textButtonInit}
-                </button>
-              )}
-              {actualStep === 4 && (
-                <div>
-                  {/* <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p> */}
-                  <button id="button-init" className="button is-link mr-5 mt-0">
-                    <Link
-                      style={{ textDecoration: "None", color: "white" }}
-                      to={
-                        "/psifos/" +
-                        shortName +
-                        "/trustee/" +
-                        uuidTrustee +
-                        "/home"
-                      }
-                    >
-                      Ir al Home
-                    </Link>
-                  </button>
-                </div>
-              )}
-            </div>
-            <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
-              {secretKey && actualPhase === 1 && (
-                <div>
-                  <p className="has-text-white is-size-5 mb-1 mt-4">Si no encuentras el archivo, puedes descargar nuevamente tu clave privada</p>
-                  <button
-                    className="button is-primary mt-0"
-                    onClick={() => {
-                      downloadKey();
-                    }}
-                  >
-                    Descargar clave
-                  </button>
-                </div>
-              )}
-            </div>
-            {actualStep !== 4 && (
-            <button className="button is-normal is-link mt-5">
-                <Link
-                  style={{ textDecoration: "None" , color: "white" }}
-                  to={"/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"}
-                >
-                  Volver atrás
-                </Link>
-            </button>
+          <div className="d-flex flex-sm-column mt-4 is-align-items-center">
+            {!secretKey && actualPhase === 1 && (
+              <button
+                id="download-key"
+                className="is-large button is-info is-light is-outlined"
+                style={{
+                  textDecoration: "None",
+                  textTransform: "uppercase",
+                  whiteSpace: "normal",
+                  height: "3em",
+                }}
+                disabled={!enabledButtonInit}
+                onClick={() => {
+                  step_0();
+                }}
+              >
+                Generar y descargar clave
+              </button>
             )}
+            {actualPhase === 2 && actualStep !== 4 && (
+              <button
+                className="button mx-sm-2 mt-2"
+                disabled={!enabledButtonInit}
+                onClick={() => {
+                  init_process();
+                }}
+              >
+                {textButtonInit}
+              </button>
+            )}
+            {actualStep === 4 && (
+              <div>
+                {/* <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p> */}
+                <button id="button-init" className="button is-link mr-5 mt-0">
+                  <Link
+                    id="go-home-trustee"
+                    style={{ textDecoration: "None", color: "white" }}
+                    to={
+                      "/psifos/" +
+                      shortName +
+                      "/trustee/" +
+                      uuidTrustee +
+                      "/home"
+                    }
+                  >
+                    Ir al Home
+                  </Link>
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
+            {secretKey && actualPhase === 1 && (
+              <div>
+                <p className="has-text-white is-size-5 mb-1 mt-4">
+                  Si no encuentras el archivo, puedes descargar nuevamente tu
+                  clave privada
+                </p>
+                <button
+                  className="button is-primary mt-0"
+                  onClick={() => {
+                    downloadKey();
+                  }}
+                >
+                  Descargar clave
+                </button>
+              </div>
+            )}
+          </div>
+          {actualStep !== 4 && (
+            <button className="button is-normal is-link mt-5">
+              <Link
+                id="go-home-trustee"
+                style={{ textDecoration: "None", color: "white" }}
+                to={
+                  "/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"
+                }
+              >
+                Volver atrás
+              </Link>
+            </button>
+          )}
         </div>
       </section>
       <div>

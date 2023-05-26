@@ -90,7 +90,7 @@ function CheckSk(props) {
             placeholder="Clave privada..."
             value={secretKey}
           />
-          <p className="has-text-white is-size-4">{feedbackMessage}</p>
+          <p id="feedback-check" className="has-text-white is-size-4">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
             <button id="button-init" className="button is-link mx-sm-2 mt-2">
               <Link

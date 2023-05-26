@@ -114,6 +114,7 @@ function QuestionsForms(props) {
       <div className="create-title mb-1">Pregunta</div>
       <div className="is-flex mb-2 ">
         <input
+          id={`name-${props.questionId}`}
           className="input"
           disabled={props.disabledEdit}
           type="text"

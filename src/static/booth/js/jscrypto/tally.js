@@ -142,7 +142,7 @@ class MixnetTally extends Tally {
     var decryption_proofs = [];
 
   
-    this.tally.forEach((one_tally, vote_numer) => {
+    this.tally.forEach((one_tally, vote_number) => {
       let one_factor = [];
       let one_proof = [];
 
@@ -159,8 +159,8 @@ class MixnetTally extends Tally {
       });
 
       // add factor and proof of vote to the final array
-      decryption_factors[vote_numer] = one_factor;
-      decryption_proofs[vote_numer] = one_proof;
+      decryption_factors[vote_number] = one_factor;
+      decryption_proofs[vote_number] = one_proof;
     });
 
     return {
@@ -194,12 +194,7 @@ Tally.createAllTally = function (array_tally, public_key) {
    * @param {Array} array_tally - an array of tallies
    * @param {PublicKey} public_key - election public key
    */
-
-  let tally = [];
-  for (let i = 0; i < array_tally.length; i++) {
-    tally.push(Tally.fromJSONObject(array_tally[i], public_key));
-  }
-  return tally;
+  return Tally.fromJSONObject(array_tally , public_key) 
 };
 
 export default Tally;

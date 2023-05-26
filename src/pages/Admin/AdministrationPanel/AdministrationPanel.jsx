@@ -118,7 +118,7 @@ function AdministrationPanel(props) {
           {load ? (
             <div className="container is-max-desktop">
               {feedbackMessage && (
-                <div className={"notification is-primary " + typeFeedback}>
+                <div id="feedback-message" className={"notification is-primary " + typeFeedback}>
                   <button
                     className="delete"
                     onClick={() => setFeedbackMessage("")}
