@@ -29,7 +29,7 @@ function InfoChannels() {
         icon="fab fa-whatsapp"
         name="whatsapp"
         contact="(+56) 9 7473 2599"
-        href="https://api.whatsapp.com/send?phone=+56974732599"
+        href=" https://web.whatsapp.com/send/?phone=+56974732599"
       />
       <InfoChannel
         icon="fab fa-telegram"
