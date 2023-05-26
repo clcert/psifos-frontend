@@ -9,11 +9,7 @@ import SubNavbar from "../component/SubNavbar";
 import { getElection } from "../../../services/election";
 
 function AsteriskRequiredField() {
-  return (
-    <span className="asterisk-required-field">
-      *
-    </span>
-  )
+  return <span className="asterisk-required-field">*</span>;
 }
 
 function CreateElection(props) {
@@ -135,6 +131,11 @@ function CreateElection(props) {
     if (shortNameElection.length === 0 || shortNameElection.length > 100) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;
+    } else if (shortNameElection.includes(" ")) {
+      setAlertMessage(
+        "El nombre de la elección no puede tener espacios en blanco"
+      );
+      return false;
     } else if (name.length === 0 || name.length > 250) {
       setAlertMessage(
         "El nombre de la elección debe tener entre 1 y 250 caracteres"
@@ -175,7 +176,7 @@ function CreateElection(props) {
           <div className="field">
             <label className="label label-form-election">
               Nombre corto
-              <AsteriskRequiredField/>
+              <AsteriskRequiredField />
             </label>
             <div className="control">
               <input
@@ -192,13 +193,15 @@ function CreateElection(props) {
               />
             </div>
             <p className="help">
-              {"Ingrese un nombre que no contenga especios, pues este será parte de la URL (e.g. my-club-2010)."}
+              {
+                "Ingrese un nombre que no contenga especios, pues este será parte de la URL (e.g. my-club-2010)."
+              }
             </p>
           </div>
           <div className="field">
             <label className="label label-form-election">
               Nombre de la elección
-              <AsteriskRequiredField/>
+              <AsteriskRequiredField />
             </label>
             <div className="control">
               <input
@@ -214,7 +217,9 @@ function CreateElection(props) {
               />
             </div>
             <p className="help">
-              {"Ingrese un nombre bonito para su elección (e.g Elecciones de Mi Club 2010)."}
+              {
+                "Ingrese un nombre bonito para su elección (e.g Elecciones de Mi Club 2010)."
+              }
             </p>
           </div>
           <div className="field">
@@ -267,7 +272,10 @@ function CreateElection(props) {
                 }}
               />
             </div>
-            <p className="help"> El máximo valor que puede tener el peso de uno de los votantes.</p>
+            <p className="help">
+              {" "}
+              El máximo valor que puede tener el peso de uno de los votantes.
+            </p>
           </div>
           <div className="field">
             <div className="control">
@@ -285,7 +293,9 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              {"Actívelo si desea que la identidad de los votantes sea remplazada por alias en el centro de rastreo de papeletas (e.g. V12)."}
+              {
+                "Actívelo si desea que la identidad de los votantes sea remplazada por alias en el centro de rastreo de papeletas (e.g. V12)."
+              }
             </p>
           </div>
           <div className="field">
@@ -324,7 +334,8 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              Actívelo si desea que su elección sea privada, es decir, que solo sea visible para los votantes registrados.
+              Actívelo si desea que su elección sea privada, es decir, que solo
+              sea visible para los votantes registrados.
             </p>
           </div>
           <div className="field">
@@ -343,8 +354,8 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              Actívelo si desea que los números de resultados que se muestran se dividan por el peso
-              máximo de votantes.
+              Actívelo si desea que los números de resultados que se muestran se
+              dividan por el peso máximo de votantes.
             </p>
           </div>
           <div className="row">
