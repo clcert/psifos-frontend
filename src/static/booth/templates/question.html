@@ -34,10 +34,10 @@
                     <div id="answer_label_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}">
 
                         {#if $T.question.max == 1 && $T.question.min == 1}
-                        <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="radio question-answer p-2">
+                        <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="radio question-answer question-answer-enabled p-2">
                             <input type="radio" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}" value="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" onclick="BOOTH.click_radiobox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);"/>
                         {#else}
-                            <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="checkbox question-answer p-2">
+                            <label id="answer_wrapper_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" class="checkbox question-answer question-answer-enabled p-2">
                             <input type="checkbox" class="ballot_answer" id="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" name="answer_{$T.question_num}_{$T.answer_ordering[$T.answer$index]}" value="yes" onclick="BOOTH.click_checkbox({$T.question_num}, {$T.answer_ordering[$T.answer$index]}, this.checked);" />
                          {#/if}
                                 <span class="is-size-4">{$T.question.answers[$T.answer_ordering[$T.answer$index]]}</span>

@@ -37,10 +37,12 @@ function InputCheckbox(props) {
           !props.question.include_blank_null ||
           index < props.question.closed_options.length - 2
         ) {
+          const isDesabled = disabledCondition(index)
           return (
-            <div key={index} className="mt-2">
+            <div key={index} className={"mt-2 "}>
               <label
                 className={
+                  (isDesabled ? "question-answer-desabled " : "question-answer-enabled ") +
                   "d-inline-flex align-items-center checkbox question-answer px-3 py-2 " +
                   (props.answers.includes(index) ? "answer-selected" : "")
                 }
@@ -54,9 +56,9 @@ function InputCheckbox(props) {
                     let ans = addAnswer(e, props.index);
                     props.addAnswer(ans, props.index);
                   }}
-                  disabled={disabledCondition(index)}
+                  disabled={isDesabled}
                 />
-                <span className="is-size-5">{key}</span>
+                <span className={"is-size-5"}> {key} </span>
               </label>
             </div>
           );
