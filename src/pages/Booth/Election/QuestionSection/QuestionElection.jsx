@@ -9,6 +9,7 @@ import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import InputSelection from "./InputSelection";
 import { answersRestrictionText } from './utils.js'
+import { permanentOptionsList } from "../../../../constants";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -59,12 +60,25 @@ function QuestionElection(props) {
        * Check if the number of answers is correct
        * If not, show the alert
        */
-      const min = props.questions[index].min_answers;
-      const max = props.questions[index].max_answers;
-      if (answers[index].length < min || answers[index].length > max) {
-        setShowAlert(true);
-        setMessageAlert("Debe " + answersRestrictionText(min, max));
-        return false;
+      const {questions} = props;
+      const currentQuestion = questions[index];
+      const checkedIndex = answers[index];
+      const numCheckedIndex = checkedIndex.length;
+      const options = currentQuestion.closed_options;
+
+      if (
+        !Boolean(
+          numCheckedIndex === 1 && permanentOptionsList.includes(options[checkedIndex[0]])
+        )
+      ) {
+        const {min_answers, max_answers} = currentQuestion;
+        if (
+          numCheckedIndex < min_answers || numCheckedIndex > max_answers
+        ) {
+          setShowAlert(true);
+          setMessageAlert("Debe " + answersRestrictionText(min_answers, max_answers));
+          return false;
+        }
       }
       setShowAlert(false);
       return true;

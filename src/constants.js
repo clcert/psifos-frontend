@@ -42,3 +42,10 @@ export const events = {
         descript: "La lista de votantes ha sido actualizada.",
     }
 }
+
+export const permanentOptions = {
+    whiteOptionText: 'Voto Blanco',
+    nullOptionText: 'Voto Nulo'
+}
+
+export const permanentOptionsList = Object.values(permanentOptions)

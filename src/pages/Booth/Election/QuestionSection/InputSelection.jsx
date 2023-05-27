@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputCheckbox from "./Questions/InputCheckbox";
 import InputRadio from "./Questions/InputRadio";
+import { permanentOptions } from "../../../../constants";
 
 function InputSelection(props) {
   /** @state {boolean} answers text */
@@ -15,6 +16,8 @@ function InputSelection(props) {
 
   const nullValue = props.question.closed_options.length - 1;
   const blankValue = props.question.closed_options.length - 2;
+
+  const {whiteOptionText, nullOptionText} = permanentOptions
 
   function nullVote(event) {
     if (event.target.checked) {
@@ -95,7 +98,7 @@ function InputSelection(props) {
                   blankVote(event);
                 }}
               />
-              <span className="is-size-5">Voto Blanco</span>
+              <span className="is-size-5"> {whiteOptionText} </span>
             </label>
           </div>
           <div className="mt-2">
@@ -116,7 +119,7 @@ function InputSelection(props) {
                   nullVote(event);
                 }}
               />
-              <span className="is-size-5">Voto Nulo</span>
+              <span className="is-size-5"> {nullOptionText} </span>
             </label>
           </div>
         </>
