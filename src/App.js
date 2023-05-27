@@ -24,25 +24,58 @@ import Statistics from "./pages/Admin/Statistics/Statistics";
 import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
 import Elections from "./pages/Elections/Elections";
+import { useEffect } from "react";
 
 function App() {
-  function getToken() {
-    /**
-     * get token from localStorage
-     * @returns {string} token
-     */
+  /**
+   * Inactivity function
+   *
+   */
+  function idleTimer() {
+    var t;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer;
+    window.onclick = resetTimer;
+    window.onscroll = resetTimer;
+    window.onkeypress = resetTimer;
+    window.onload = resetTimer;
 
+    function logout() {
+      const pathName = window.location.pathname;
+      if (pathName.includes("admin")) {
+        localStorage.removeItem("token");
+        window.location.href = "/psifos";
+      }
+    }
+
+    function resetTimer() {
+      clearTimeout(t);
+      t = setTimeout(logout, 600000);
+    }
+  }
+  /**
+   * get token from localStorage
+   * @returns {string} token
+   */
+  function getToken() {
     const tokenString = localStorage.getItem("token");
     return tokenString;
   }
 
   const token = getToken();
 
+  useEffect(() => {
+    const pathName = window.location.pathname;
+    if (pathName.includes("admin") || pathName.includes("psifos")) {
+      idleTimer();
+    }
+  }, []);
+
   return (
     <Routes>
-      <Route path="/" element={ <Home /> } />
-      <Route path="/noticias" element={ <News /> } />
-      <Route path="/elecciones" element={ <Elections /> } />
+      <Route path="/" element={<Home />} />
+      <Route path="/noticias" element={<News />} />
+      <Route path="/elecciones" element={<Elections />} />
       <Route path="/psifos">
         {/** Route for home page */}
 
