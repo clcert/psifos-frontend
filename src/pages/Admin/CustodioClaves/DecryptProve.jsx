@@ -219,7 +219,7 @@ function DecryptProve() {
               placeholder="Clave privada..."
               disabled
             />
-            <p className="has-text-white pt-2">
+            <p id={`feedback-message-${actualStep}`} className="has-text-white pt-2">
               {feedbackMessage}
               <i
                 className={
@@ -231,6 +231,7 @@ function DecryptProve() {
             <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
               <button className="button is-link mx-sm-2 mt-2">
                 <Link
+                  id="go-home-trustee"
                   style={{ textDecoration: "None", color: "white" }}
                   to={`/psifos/${shortName}/trustee/${uuidTrustee}/home`}
                 >
