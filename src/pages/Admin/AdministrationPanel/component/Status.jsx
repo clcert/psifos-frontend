@@ -14,7 +14,7 @@ function Status(props) {
               }}
               className="panel-text-sect"
             >
-              <Link className="link-without-line" to="">
+              <Link id="button-add-voters" className="link-without-line" to="">
                 Añadir votantes
               </Link>
             </span>
