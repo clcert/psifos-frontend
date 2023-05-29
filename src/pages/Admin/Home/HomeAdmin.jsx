@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getElections } from "../../../services/election";
+import { normalizedLowerCase } from "../../../utils/utils";
 
 function HomeAdmin() {
   /**
@@ -35,13 +36,14 @@ function HomeAdmin() {
    * @param {*} input
    */
   function searchSubstring(input, substring) {
+    const inputLowerCase = input.toLowerCase();
+    const substringLowerCase = substring.toLowerCase();
+    const inputNormalized = normalizedLowerCase(input);
+    const substringNormalized = normalizedLowerCase(substring);
+
     return (
-      input
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .includes(substring.toLowerCase().normalize("NFD")) ||
-      input.toLowerCase().includes(substring.toLowerCase())
+      inputNormalized.includes(substringNormalized) ||
+      inputLowerCase.includes(substringLowerCase)
     );
   }
   function searchElection(e) {
@@ -51,10 +53,7 @@ function HomeAdmin() {
 
     const search = e.target.value;
     const newElections = elections.filter((election) => {
-      return (
-        searchSubstring(election.name, search) ||
-        searchSubstring(election.short_name, search)
-      );
+      return searchSubstring(election.short_name, search);
     });
     setElectionsSearch(newElections);
   }
