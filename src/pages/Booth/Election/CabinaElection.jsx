@@ -145,10 +145,7 @@ function CabinaElection(props) {
     <div id="content" className={phases[actualPhase].sectionClass}>
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar
-            linkExit={backendOpIP + "/vote/" + shortName + "/logout"}
-            linkInit=""
-          />
+          <MyNavbar linkExit={backendOpIP + "/vote/" + shortName + "/logout"} />
           <TitlePsifos
             namePage={
               props.preview
