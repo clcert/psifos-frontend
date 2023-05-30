@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
 import { backendOpIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
+import AlertNotification from "../component/AlertNotification";
 import { getElection } from "../../../services/election";
 
 function AsteriskRequiredField() {
@@ -131,6 +132,11 @@ function CreateElection(props) {
     if (shortNameElection.length === 0 || shortNameElection.length > 100) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;
+    } else if (shortNameElection.includes(" ")) {
+      setAlertMessage(
+        "El nombre de la elección no puede tener espacios en blanco"
+      );
+      return false;
     } else if (name.length === 0 || name.length > 250) {
       setAlertMessage(
         "El nombre de la elección debe tener entre 1 y 250 caracteres"
@@ -157,17 +163,13 @@ function CreateElection(props) {
       >
         <div className="body-content">
           {alertMessage.length > 0 && (
-            <div className="notification is-danger is-light">
-              <button
-                className="delete"
-                onClick={() => {
-                  setAlertMessage("");
-                }}
-              ></button>
-              {alertMessage}
-            </div>
+            <AlertNotification
+              alertMessage={alertMessage}
+              onClear={() => {
+                setAlertMessage("");
+              }}
+            />
           )}
-
           <div className="field">
             <label className="label label-form-election">
               Nombre corto
