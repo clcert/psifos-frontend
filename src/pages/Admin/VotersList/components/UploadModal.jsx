@@ -93,6 +93,7 @@ function UploadModal(props) {
                 </button>
 
                 <button
+                  id="button-upload-voters"
                   className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
                   onClick={sendVoter}
                 >
@@ -117,8 +118,11 @@ function UploadModal(props) {
             <section className="modal-card-body">
               <h1 className="title">Proceso terminado con exito</h1>
               <div className="field">
-                <label className="label label-form-election">
-                  Los votantes se han subido con exito
+                <label
+                  id="feedback-upload"
+                  className="label label-form-election"
+                >
+                  Los votantes se han subido con éxito
                 </label>
               </div>
             </section>
@@ -126,7 +130,10 @@ function UploadModal(props) {
             <section className="modal-card-body">
               <h1 className="title">Ha ocurrido un error</h1>
               <div className="field">
-                <label className="label label-form-election">
+                <label
+                  id="feedback-upload"
+                  className="label label-form-election"
+                >
                   Los votantes no han sido subidos, intente nuevamente
                 </label>
               </div>
