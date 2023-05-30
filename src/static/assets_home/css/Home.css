@@ -3421,7 +3421,9 @@ div.icon-text {
   background-color: whitesmoke;
   border-radius: 4px;
   position: relative;
-  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+  padding: 1.25rem 1.5rem 1.25rem 1.5rem !important;
+  display: flex;
+  justify-content: space-between;
 }
 .notification a:not(.button):not(.dropdown-item) {
   color: currentColor;

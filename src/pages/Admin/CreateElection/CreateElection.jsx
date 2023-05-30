@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
 import { backendOpIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
+import AlertNotification from "../component/AlertNotification";
 import { getElection } from "../../../services/election";
 
 function AsteriskRequiredField() {
@@ -162,17 +163,13 @@ function CreateElection(props) {
       >
         <div className="body-content">
           {alertMessage.length > 0 && (
-            <div className="notification is-danger is-light">
-              <button
-                className="delete"
-                onClick={() => {
-                  setAlertMessage("");
-                }}
-              ></button>
-              {alertMessage}
-            </div>
+            <AlertNotification
+              alertMessage={alertMessage}
+              onClear={() => {
+                setAlertMessage("");
+              }}
+            />
           )}
-
           <div className="field">
             <label className="label label-form-election">
               Nombre corto
