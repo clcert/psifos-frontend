@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getElections } from "../../../services/election";
+import { normalizedLowerCase } from "../../../utils/utils";
 
 function HomeAdmin() {
   /**
@@ -30,6 +31,21 @@ function HomeAdmin() {
       }
     });
   }, []);
+  /**
+   * Search substring
+   * @param {*} input
+   */
+  function searchSubstring(input, substring) {
+    const inputLowerCase = input.toLowerCase();
+    const substringLowerCase = substring.toLowerCase();
+    const inputNormalized = normalizedLowerCase(input);
+    const substringNormalized = normalizedLowerCase(substring);
+
+    return (
+      inputNormalized.includes(substringNormalized) ||
+      inputLowerCase.includes(substringLowerCase)
+    );
+  }
   function searchElection(e) {
     /**
      * Search for elections by name
@@ -37,7 +53,7 @@ function HomeAdmin() {
 
     const search = e.target.value;
     const newElections = elections.filter((election) => {
-      return election.name.toLowerCase().includes(search.toLowerCase());
+      return searchSubstring(election.short_name, search);
     });
     setElectionsSearch(newElections);
   }
