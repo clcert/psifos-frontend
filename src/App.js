@@ -91,7 +91,7 @@ function App() {
           {token ? (
             <Route
               path="login"
-              element={<Navigate replace to="admin/home" />}
+              element={<Navigate replace to="/psifos/admin/home" />}
             />
           ) : (
             <Route path="login" element={<Login />} />
