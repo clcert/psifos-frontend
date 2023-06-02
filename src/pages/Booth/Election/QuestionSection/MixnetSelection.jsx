@@ -272,7 +272,7 @@ function MixnetSelection(props) {
             <label
               id=""
               className={
-                "d-inline-flex align-items-center radio question-answer px-3 py-2  " +
+                "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2  " +
                 (blankButton ? "answer-selected" : "")
               }
             >
@@ -293,7 +293,7 @@ function MixnetSelection(props) {
             <label
               id=""
               className={
-                "d-inline-flex align-items-center radio question-answer px-3 py-2  " +
+                "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2  " +
                 (nullButton ? "answer-selected" : "")
               }
             >

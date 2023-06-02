@@ -844,8 +844,12 @@ input[type="radio"] {
   user-select: none;
 }
 
-.question-answer:hover {
+.question-answer-enabled:hover {
   color: #00b7ff !important;
+}
+
+.question-answer-desabled:hover {
+  color: white !important;
 }
 
 .previous-button {
@@ -916,7 +920,7 @@ input[type="radio"] {
 }
 
 .review-buttons:hover {
-  background-color: #00b7ff !important;
+  background-color: red !important;
 }
 
 .right-button-column {
@@ -13274,4 +13278,31 @@ Consult
 .asterisk-required-field {
   color: red;
   margin-left: 5px;
+}
+
+.text-align-justify {
+  text-align: justify;
+}
+
+.optional-note {
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 12px;
+}
+
+.optional-step .statement {
+  font-size: 23px;
+  justify-content: flex-start;
+}
+
+.optional-step .text {
+  margin: 1rem 0rem;
+}
+
+.optional-step .opt-button {
+  margin: 20px;
+}
+
+.optional-step .opt-title {
+  margin-top: 1rem;
 }

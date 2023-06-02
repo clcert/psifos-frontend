@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
 import NextButton from "../../components/Buttons/NextButton";
@@ -8,7 +8,8 @@ import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import InputSelection from "./InputSelection";
-import { useCallback } from "react";
+import { answersRestrictionText } from './utils.js'
+import { permanentOptionsList } from "../../../../constants";
 
 function QuestionElection(props) {
   /** Component for election questions */
@@ -52,21 +53,6 @@ function QuestionElection(props) {
     setAnswers(answersAux);
   }, [props.questions]);
 
-  function createMessageAlert(min, max) {
-    /**
-     * @param {number} min - minimum number of answers
-     * @param {number} max - maximum number of answers
-     * Set the message of the alert
-     */
-    if (min === max) {
-      setMessageAlert("Debes seleccionar " + min + " respuesta(s)");
-    } else {
-      setMessageAlert(
-        "Debes seleccionar entre " + min + " y " + max + " respuestas"
-      );
-    }
-  }
-
   const checkAnswers = useCallback(
     (index) => {
       /**
@@ -74,12 +60,25 @@ function QuestionElection(props) {
        * Check if the number of answers is correct
        * If not, show the alert
        */
-      const min = props.questions[index].min_answers;
-      const max = props.questions[index].max_answers;
-      if (answers[index].length < min || answers[index].length > max) {
-        setShowAlert(true);
-        createMessageAlert(min, max);
-        return false;
+      const {questions} = props;
+      const currentQuestion = questions[index];
+      const checkedIndex = answers[index];
+      const numCheckedIndex = checkedIndex.length;
+      const options = currentQuestion.closed_options;
+
+      if (
+        !Boolean(
+          numCheckedIndex === 1 && permanentOptionsList.includes(options[checkedIndex[0]])
+        )
+      ) {
+        const {min_answers, max_answers} = currentQuestion;
+        if (
+          numCheckedIndex < min_answers || numCheckedIndex > max_answers
+        ) {
+          setShowAlert(true);
+          setMessageAlert("Debe " + answersRestrictionText(min_answers, max_answers));
+          return false;
+        }
       }
       setShowAlert(false);
       return true;
@@ -97,7 +96,7 @@ function QuestionElection(props) {
               display: props.actualQuestion === index ? "block" : "none",
             }}
           >
-            {showAlert ? <AlertQuestions message={messageAlert} /> : <></>}
+            {showAlert && <AlertQuestions message={messageAlert} />}
             <QuestionHeader
               actualQuestion={props.actualQuestion}
               totalQuestions={props.questions.length}
@@ -134,6 +133,7 @@ function QuestionElection(props) {
           <div className="column is-flex left-button-column">
             <PreviousButton
               action={() => {
+                setShowAlert(false);
                 props.nextQuestion(props.actualQuestion - 1);
               }}
             />
@@ -142,6 +142,7 @@ function QuestionElection(props) {
           <div className="column is-invisible is-flex left-button-column">
             <PreviousButton
               action={() => {
+                setShowAlert(false);
                 props.nextQuestion(props.actualQuestion - 1);
               }}
             />
