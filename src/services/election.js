@@ -6,7 +6,7 @@ async function getElection(shortName) {
    * async function to get the election data
    */
 
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/get-election/" + shortName, {
     method: "GET",
     headers: {
@@ -43,7 +43,7 @@ async function getElections() {
    * Get all elections for the current admin
    */
 
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/get-elections", {
     method: "GET",
     headers: {

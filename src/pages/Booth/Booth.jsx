@@ -46,7 +46,7 @@ function Booth(props) {
        */
 
       const url = backendOpIP + "/get-election/" + shortName;
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const resp = await fetch(url, {
         method: "GET",
         headers: {

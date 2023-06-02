@@ -667,7 +667,9 @@ function Keygenerator(props) {
             </span>
           </div>
           <br />
-          <p className="has-text-white is-size-5">{processFeedback}</p>
+          <p id="feedback-message" className="has-text-white is-size-5">
+            {processFeedback}
+          </p>
           {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
 
           <div className="d-flex flex-sm-column mt-4 is-align-items-center">

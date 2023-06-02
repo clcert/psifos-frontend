@@ -18,7 +18,7 @@ function EditVoterModal(props) {
   const { shortName } = useParams();
 
   async function editVoter() {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const resp = await fetch(
       backendOpIP + "/" + shortName + "/voters/" + props.voter.uuid + "/edit",
       {

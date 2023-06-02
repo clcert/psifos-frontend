@@ -22,8 +22,12 @@ function ModalDeleteCustodio(props) {
 
     try {
       const url =
-        backendOpIP + "/" + props.shortName + "/delete-trustee/" + props.uuidTrustee;
-      const token = sessionStorage.getItem("token");
+        backendOpIP +
+        "/" +
+        props.shortName +
+        "/delete-trustee/" +
+        props.uuidTrustee;
+      const token = localStorage.getItem("token");
       const resp = await fetch(url, {
         method: "POST",
         headers: {
