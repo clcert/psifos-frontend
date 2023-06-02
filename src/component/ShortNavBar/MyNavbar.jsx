@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import ModalInfo from "./ModalInfo";
 import ModalHelp from "./ModalHelp";
 import NavbarLogo from "./NavbarLogo";
@@ -27,15 +26,16 @@ function MyNavbar(props) {
             <div className="navbar-end">
               <div className="navbar-item buttons-container pt-0">
                 <div id="navbar-buttons">
-                  <Link
-                    to={props.linkInit}
-                    style={{ textAlign: "left" }}
-                    className="menu-text-admin"
-                    id="text-button"
-                  >
-                    INICIO
-                  </Link>
-
+                  {props.linkInit && (
+                    <Link
+                      to={props.linkInit}
+                      style={{ textAlign: "left" }}
+                      className="menu-text-admin"
+                      id="text-button"
+                    >
+                      INICIO
+                    </Link>
+                  )}
                   <span
                     onClick={() => {
                       setShowInfo(true);
@@ -67,7 +67,11 @@ function MyNavbar(props) {
           </div>
         </nav>
       </div>
-      <ModalInfo show={showInfo} onHide={() => setShowInfo(false)} description={""} />
+      <ModalInfo
+        show={showInfo}
+        onHide={() => setShowInfo(false)}
+        description={""}
+      />
       <ModalHelp show={showHelp} onHide={() => setShowHelp(false)} />
     </div>
   );
