@@ -1,14 +1,17 @@
 import { useParams } from "react-router-dom";
 import { backendOpIP, frontIP } from "../../../../server";
 
-function OptinalStep({title, text}) {
+function OptinalStep({title, text, button}) {
   return(
-    <div>
-      <div className="mb-1" style={{fontSize:"23px"}}>
-        <i class="fa fa-check mr-3 is-color-blue" aria-hidden="true"/>
+    <div className="optional-step">
+      <div className="statement mb-1 text-align-justify">
+        <i class="fa fa-check mr-3 is-color-blue opt-title" aria-hidden="true"/>
         <span>{title}</span>
       </div>
-      <p>{text}</p>
+      <p className="text text-align-justify">{text}</p>
+      <div className="opt-button" style={{}}>
+        {button}
+      </div>
     </div>
   )
 }
@@ -30,14 +33,13 @@ function PrettyButton({
   )
 }
 
-function InfoCard({title, content, buttons}) {
+function InfoCard({title, content}) {
   return (
     <div className="box">
       <p className="subtitle is-3 is-color-blue">
         {title}
       </p>
       {content}
-      {buttons}
     </div>
   )
 }
@@ -92,10 +94,6 @@ function ValidatedVote(props) {
                 Su voto encriptado ha sido recibido exitosamente.
               </span>
             </div>
-          </div>
-        }
-        buttons={
-          <div>
             <PrettyButton
               onClick={exit}
               id="back-vote-button"
@@ -110,7 +108,7 @@ function ValidatedVote(props) {
       <InfoCard
         title="¿QUÉ PUEDO HACER AHORA?"
         content={
-          <div className="text-align-justify mb-5">
+          <div className="mb-4">
             <OptinalStep
               title="Puede descargar el certificado de su voto."
               text={
@@ -119,7 +117,17 @@ function ValidatedVote(props) {
                 "Sin embargo, el certificado no proporciona información sobre " +
                 "las preferencias emitidas en el voto."
               }
-              />
+              button={
+                <PrettyButton
+                  onClick={downloadFile}
+                  id="back-vote-button"
+                  icon={
+                    <i className="fa-solid fa-file-arrow-down"/>
+                  }
+                  text="DESCARGAR CERTIFICADO DE VOTO"
+                /> 
+              }
+            />
             <OptinalStep
               title="Puede verificar su voto en la urna electrónica."
               text={
@@ -127,39 +135,22 @@ function ValidatedVote(props) {
                 "y enviados hasta el momento. Al ingresar, podrá observar que la " +
                 "fila resaltada corresponde a una muestra de su voto encriptado."
               }
-              />
-            <OptinalStep
-              title="Si lo desea, tiene la opción de volver a votar mientras el proceso esté abierto."
-              text={
-                "En caso de hacerlo, su nuevo voto encriptado reemplazará al anterior, y solo se " +
-                "tomará en cuenta el último voto encriptado emitido."
-              }
-              />
-          </div>
-        }
-        buttons={
-          <div className="columns">
-            <div className="column castdone-box mb-0 is-5">
-              <PrettyButton
-                id="back-vote-button"
-                onClick={downloadFile}
-                text="DESCARGAR CERTIFICADO DE VOTO"
-                icon={
-                  <i className="fa-solid fa-file-arrow-down"/>
-                }
-              />  
-            </div>
-            <div className="column is-2"/>
-            <div className="column castdone-box is-5">
-              <PrettyButton
+              button={
+                <PrettyButton
                 onClick={openBallotBox}
                 id="back-vote-button"
                 icon={
                   <i className="fa-solid fa-box-archive"/>
                 }
                 text="VER URNA ELECTRÓNICA"
-              /> 
-            </div>
+              />
+              }
+              />
+              <p className="optional-note">
+                ¡Importante! Si así lo desea, tiene la opción de volver a votar mientras el proceso
+                se mantenga abierto. En caso de que decida hacerlo, su nuevo voto encriptado reemplazará
+                al anterior y solo se considerará válido el último voto encriptado emitido.
+              </p>
           </div>
         }
       />
