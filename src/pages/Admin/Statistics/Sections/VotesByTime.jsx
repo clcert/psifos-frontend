@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
 import LinePsifosGraph from "../Graphs/LinePsifosGraph";
+import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
 
 function VotesByTime(props) {
   /** Section dedicated to graphing the number of votes by time */
@@ -71,10 +72,10 @@ function VotesByTime(props) {
           </div>
         </div>
       ) : load ? (
-        <div className="box" id="not-results-box">
-          <p className="is-size-3 has-text-weight-bold">
-            Aun no existen votos registrados
-          </p>
+        <div className="d-flex is-justify-content-center">
+          <NotAvalaibleMessage
+            message="Sin votos registrados"
+          />
         </div>
       ) : (
         <div className="d-flex justify-content-center pt-4">

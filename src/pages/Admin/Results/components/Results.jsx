@@ -10,6 +10,7 @@ import ResumeTable from "../../ElectionResume/components/ResumeTable";
 import PsifosTable from "./PsifosTable";
 import { getPercentage } from "../../utils";
 import WeightsTable from "../../ElectionResume/components/WeightsTable";
+import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
 
 function TitleCard({ title }) {
   return (
@@ -144,16 +145,17 @@ function CalculatedResults({ questions, results, election }) {
 function NoCalculatedResults({ getElectionResult }) {
   return (
     <>
-      <span className="ml-3 is-size-6 mb-2" onClick={getElectionResult}>
+      <NotAvalaibleMessage
+        message="Resultados aún no calculados"
+      />
+      <span
+        className="ml-3 is-size-6 mb-2"
+        onClick={getElectionResult}
+      >
         <Link className="link-without-line" to="">
           <i className="fa-solid fa-arrows-rotate"></i> Actualizar
         </Link>
       </span>
-      <div className="box" id="not-results-box">
-        <p className="is-size-3 has-text-weight-bold mb-0 has-text-centered">
-          Resultados aún no calculados
-        </p>
-      </div>
     </>
   );
 }
