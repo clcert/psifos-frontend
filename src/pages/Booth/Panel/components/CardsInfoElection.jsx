@@ -52,7 +52,7 @@ export default function CardsInfoElection() {
     <div>
       <div className={"row justify-content-between"}>
         <div className="box col-sm-3 col-12 m-0">
-          <div className="text-center is-size-4">Total Votos</div>
+          <div className="text-center is-size-4">Total votos</div>
           <span className="d-flex justify-content-center">
             {totalVotes} votos
           </span>

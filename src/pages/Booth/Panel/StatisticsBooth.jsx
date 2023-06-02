@@ -7,7 +7,7 @@ import CardsInfoElection from "./components/CardsInfoElection";
 function StatisticsBooth() {
   const [actualTab, setActualTab] = useState(0);
 
-  const tabs = ["Votos recibidos", "Votos por tiempo"];
+  const tabs = ["Votos recibidos", "Votos en el tiempo"];
 
   return (
     <div className="chart-container">
