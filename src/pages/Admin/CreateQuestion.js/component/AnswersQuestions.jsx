@@ -58,6 +58,7 @@ function AnswersQuestions(props) {
                       key={item.key}
                       value={item.value}
                       numberQuestion={item.key}
+                      questionId={props.questionId}
                       delete={() => {
                         props.handleRemoveItem(item.key);
                       }}

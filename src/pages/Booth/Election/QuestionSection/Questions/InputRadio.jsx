@@ -25,6 +25,7 @@ function InputRadio(props) {
                 }
               >
                 <input
+                  id={`question-${props.index}-answer-${index}`}
                   className="custom-answer"
                   type="radio"
                   name={"answer_" + props.index}
