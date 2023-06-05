@@ -40,6 +40,18 @@ function CabinaElection(props) {
   /** @urlParam {shortName} election shortName  */
   const { shortName } = useParams();
 
+  // Cuadro de dialogo por si el usuario quiere refrescar
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // Necesario para que Chrome muestre un mensaje personalizado
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
