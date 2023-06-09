@@ -25,7 +25,7 @@ function PrettyButton({ onClick, icon, text, id, subContent }) {
     <div>
       <button className="button" onClick={onClick} id={id}>
         <span className="icon is-small">{icon}</span>
-        <span>{text}</span>
+        <span className="is-size-7-mobile">{text}</span>
       </button>
       {subContent}
     </div>
@@ -131,7 +131,7 @@ function ValidatedVote(props) {
                   onClick={downloadFile}
                   id="back-vote-button"
                   icon={<i className="fa-solid fa-file-arrow-down" />}
-                  text="DESCARGAR CERTIFICADO DE VOTO"
+                  text="DESCARGAR CERTIFICADO"
                   subContent={loadFileContent}
                 />
               }
