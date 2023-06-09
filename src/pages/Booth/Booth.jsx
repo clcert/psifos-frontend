@@ -106,16 +106,13 @@ function Booth(props) {
         title={"Cabina de votación"}
         message={noAuthMessage}
         adressLogout={backendOpIP + "/vote/" + shortName + "/logout"}
-      ></NoAuth>
+      />
     );
   } else if (load) {
     return type === "Query" ? (
-      <Consult consultData={electionData}></Consult>
+      <Consult consultData={electionData} />
     ) : (
-      <CabinaElection
-        preview={props.preview}
-        electionData={electionData}
-      ></CabinaElection>
+      <CabinaElection preview={props.preview} electionData={electionData} />
     );
   }
 }

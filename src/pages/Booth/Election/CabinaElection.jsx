@@ -46,11 +46,15 @@ function CabinaElection(props) {
       event.preventDefault();
       event.returnValue = ""; // Necesario para que Chrome muestre un mensaje personalizado
     };
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    if (actualPhase === 4) {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    } else {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, []);
+  }, [actualPhase]);
 
   useEffect(() => {
     window.scrollTo({
