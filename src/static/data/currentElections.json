@@ -1,15 +1,18 @@
 {
   "data": [
     {
-      "startTime": "2023-05-30 09:00",
-      "endTime": "2023-05-30 17:00",
-      "unit": "Instituto de Nutrición y Tecnología de los Alimentos",
-      "typeUnit": "Instituto",
-      "picture": "img/logo-inta.svg",
+      "startTime": "2023-06-13 09:00",
+      "endTime": "2023-06-14 17:00",
+      "unit": "Universidad de Chile",
+      "typeUnit": "Universidad",
+      "picture": "img/logo-bienestar.png",
+      "title": "Consejo Administrativo de Bienestar del Personal",
       "open": false,
       "elections": [ 
-        {"name": "Consejo INTA (Integrantes Transversales)",
-         "link": "#"}
+        {"name": "Académicos(as)",
+         "link": "/bienestarAcad"},
+        {"name": "Personal de Colaboración",
+         "link": "/bienestarPers"}
       ]
     }
   ]

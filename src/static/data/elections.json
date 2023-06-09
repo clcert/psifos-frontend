@@ -1,6 +1,23 @@
 {
   "data": [
     {
+      "date": "2023-06-06", 
+      "unit": "Instituto de Nutrición y Tecnología de los Alimentos", 
+      "typeUnit": "Instituto", 
+      "elections": [
+        "Integrantes Transversales del Consejo"
+      ]
+    },
+    {
+      "date": "2023-06-01", 
+      "unit": "Facultad de Odontología", 
+      "typeUnit": "Facultad", 
+      "elections": [
+        "Representantes Estudiantiles Consejo de Escuela de Pregrado",
+        "Representantes Estudiantiles Consejo de Escuela de Graduados"
+      ]
+    },
+    {
       "date": "2023-05-09", 
       "unit": "Facultad de Ciencias Químicas y Farmacéuticas", 
       "typeUnit": "Facultad", 

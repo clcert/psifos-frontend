@@ -24,6 +24,8 @@ import Statistics from "./pages/Admin/Statistics/Statistics";
 import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
 import Elections from "./pages/Elections/Elections";
+import BienestarAcad from "./pages/bienestar_acad/BienestarAcad";
+import BienestarPers from "./pages/bienestar_pers/BienestarPers";
 import { useEffect } from "react";
 
 function App() {
@@ -76,6 +78,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/noticias" element={<News />} />
       <Route path="/elecciones" element={<Elections />} />
+      <Route path="/bienestarAcad" element={<BienestarAcad />} />
+      <Route path="/bienestarPers" element={<BienestarPers />} />
       <Route path="/psifos">
         {/** Route for home page */}
 

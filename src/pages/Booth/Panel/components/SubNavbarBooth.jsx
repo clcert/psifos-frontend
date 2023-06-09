@@ -28,8 +28,8 @@ function SubNavbarBooth(props) {
             <ItemNavbar
               active={props.active !== 2}
               to=""
-              icon="fa-solid fa-list-alt"
-              itemText="Resultados"
+              icon="fa-solid fa-list-check"
+              itemText="Eventos"
               actionClick={() => {
                 props.changeActive(2);
               }}
@@ -37,8 +37,8 @@ function SubNavbarBooth(props) {
             <ItemNavbar
               active={props.active !== 3}
               to=""
-              icon="fa-solid fa-square-check"
-              itemText="Verificación"
+              icon="fa-solid fa-list-alt"
+              itemText="Resultados"
               actionClick={() => {
                 props.changeActive(3);
               }}
@@ -46,8 +46,8 @@ function SubNavbarBooth(props) {
             <ItemNavbar
               active={props.active !== 4}
               to=""
-              icon="fa-solid fa-list-check"
-              itemText="Eventos"
+              icon="fa-solid fa-square-check"
+              itemText="Verificación"
               actionClick={() => {
                 props.changeActive(4);
               }}

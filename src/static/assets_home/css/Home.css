@@ -526,6 +526,11 @@ div#preload {
   padding: 0 !important;
 }
 
+.bienestar-section {
+  background-color: #d9e4ef;
+  padding: 0 !important;
+}
+
 .color-notice {
   padding: 0;
   background-color: rgba(255, 255, 255, 0.8);
@@ -6159,7 +6164,7 @@ button.dropdown-item.is-active {
 .main-modal .modal-title{
   display: flex;
   justify-content: center;
-  margin: 10px;
+  margin-bottom: 10px;
   font-size: 40px;
 }
 
@@ -13110,6 +13115,36 @@ Consult
   margin-right: 5px;
 }
 
+.unit-button {
+  color: black !important;
+  border-radius: 5px !important;
+  text-decoration: none;
+  padding: 5px;
+  font-size: 20px !important;
+  border: none !important;
+  margin-bottom: 15px;
+  width: 600px;
+  background-color: white !important;
+  border: 2px solid #004c94 !important;
+}
+
+.unit-button:hover {
+  background-color: #1493e7 !important;
+  color: white !important;
+}
+
+@media screen and (max-width: 800px) {
+  .unit-button {
+    width: 320px;
+  }
+}
+
+.unit-button[disabled] {
+  box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .election-button {
   color: white !important;
   border-radius: 10px !important;
@@ -13125,7 +13160,7 @@ Consult
 }
 
 @media screen and (max-width: 1024px) {
-  .election-button-1 {
+  .election-button {
     margin-top: 0.5rem;
   }
 }
@@ -13134,8 +13169,41 @@ Consult
   background-color: #1493e7 !important;
 }
 
+.bienestar-button-1 {
+  background-color: #93004c !important;
+}
+
+.bienestar-button-1:hover {
+  background-color: #1493e7 !important;
+}
+
+.bienestar-button-2 {
+  background-color: #4c9300 !important;
+}
+
+.bienestar-button-2:hover {
+  background-color: #1493e7 !important;
+}
+
+.bienestar-bullet-1 {
+  color: #93004c !important;
+  font-weight: bold;
+}
+
+.bienestar-bullet-2 {
+  color: #4c9300 !important;
+  font-weight: bold;
+}
+
 .election-button-2 {
   background-color: #1493e7 !important;
+}
+
+.election-title {
+  color: #004c94;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 15px;
 }
 
 .election-closed {
