@@ -85,7 +85,7 @@ function HomeAdmin() {
                 )}
               </div>
               <div className="d-flex justify-content-between mt-4">
-                {elections.length !== 0 && (
+{/*                 {elections.length !== 0 && (
                   <div className="d-flex mt-2">
                     <Link
                       style={{ textDecoration: "none", color: "white" }}
@@ -97,7 +97,7 @@ function HomeAdmin() {
                       </Button>
                     </Link>
                   </div>
-                )}
+                )} */}
                 <div className="d-flex mt-2">
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
