@@ -30,7 +30,7 @@ function InfoBoothView() {
     <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar linkExit="" linkInit="" />
+          <MyNavbar linkExit="/" linkInit="" />
 
           <TitlePsifos
             namePage="Portal de Información"
