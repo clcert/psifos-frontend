@@ -9,10 +9,9 @@ const getElectionDate = (startTime, endTime) => {
   if (dateInit === dateEnd) {
     return new Date(dateInit + " 00:00").toLocaleDateString('es-ES', dateOptions) + ', de '+ timeInit + ' a ' + timeEnd + ' hrs.';
   } else {
-    // return ('desde ' + new Date(dateInit + " 00:00").toLocaleDateString('es-ES', dateOptions) + ' ' + timeInit + ' hrs.' 
-    //   + ' hasta ' + new Date(dateEnd + " 00:00").toLocaleDateString('es-ES', dateOptions) + ' ' + timeEnd + ' hrs.' 
-    // )
-    return ('Hospital Clínico: desde martes 13 de junio 09:00, hasta miércoles 14 de junio 17:00.Resto de la Universidad: miércoles 14 de junio, de 09:00 a 17:00')
+    return ('desde ' + new Date(dateInit + " 00:00").toLocaleDateString('es-ES', dateOptions) + ' ' + timeInit + ' hrs.' 
+      + ' hasta ' + new Date(dateEnd + " 00:00").toLocaleDateString('es-ES', dateOptions) + ' ' + timeEnd + ' hrs.' 
+    )
   }
 }
 
