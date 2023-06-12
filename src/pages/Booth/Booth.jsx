@@ -105,8 +105,8 @@ function Booth(props) {
       <NoAuth
         title={"Cabina de votación"}
         message={noAuthMessage}
-        adressLogout={backendOpIP + "/vote/" + shortName + "/logout"}
-      />
+        adressLogout={"/"}
+      ></NoAuth>
     );
   } else if (load) {
     return type === "Query" ? (
