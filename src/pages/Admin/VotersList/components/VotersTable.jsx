@@ -190,13 +190,15 @@ function VotersTable({
                     </Td>
                     <Td className="align-middle has-text-centered">
                       {election.normalization ? (
-                        <>
-                          {/* {% load tag %}
-                            {% normalize_weight voter.voter_weight election.max_weight %}
-                            TODO: Revisar esto, que hace la etiqueta tag */}
-                        </>
+                        <span>
+                          {parseFloat(
+                            (voter.voter_weight / election.max_weight).toFixed(
+                              3
+                            )
+                          )}
+                        </span>
                       ) : (
-                        <>{voter.voter_weight} </>
+                        <span>{voter.voter_weight} </span>
                       )}
                     </Td>
                     <Td
