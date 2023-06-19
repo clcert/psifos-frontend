@@ -1,7 +1,8 @@
 export const getPercentage = (frec, total) => {
-    let dec = frec/total*100
-    if (Math.floor(dec) !== Math.ceil(dec)) {
-        dec = dec.toFixed(2)
-    }
-    return dec.toString() + '%'
-}
+  if (total === 0) return "0%";
+  let dec = (frec / total) * 100;
+  if (Math.floor(dec) !== Math.ceil(dec)) {
+    dec = dec.toFixed(2);
+  }
+  return dec.toString() + "%";
+};
