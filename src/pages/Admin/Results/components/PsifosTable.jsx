@@ -1,23 +1,11 @@
 import { useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
-import { getElection } from "../../../../services/election";
-import { useParams } from "react-router-dom";
 
-function PsifosTable({ data }) {
+function PsifosTable({ data, election }) {
   const [tableData, setTableData] = useState([...data]);
-  const [election, setElection] = useState({});
   const [ordenamiento, setOrdenamiento] = useState({
     column: null,
     ascendente: true,
-  });
-  /** @urlParam {string} shortName of election */
-  const { shortName } = useParams();
-
-  getElection(shortName).then((election) => {
-    const { resp, jsonResponse } = election;
-    if (resp.status === 200) {
-      setElection(jsonResponse);
-    }
   });
 
   const arbitraryEl = data[0];

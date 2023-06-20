@@ -7,99 +7,104 @@ import ResumeTable from "../../ElectionResume/components/ResumeTable";
 import PsifosTable from "./PsifosTable";
 import { getPercentage } from "../../utils";
 
-function TitleCard({title}){
+function TitleCard({ title }) {
   return (
     <div className="d-flex py-2">
       <h1 className="title is-size-3">{title}</h1>
     </div>
-  )
+  );
 }
 
 function ResumenElection() {
-  return (<>
-    <TitleCard title="Resumen elección"/>
-    <ResumeTable className="pt-4" />
-  </>)
+  return (
+    <>
+      <TitleCard title="Resumen elección" />
+      <ResumeTable className="pt-4" />
+    </>
+  );
 }
 
-function QuestionTitle({index, text}){
-  return(
+function QuestionTitle({ index, text }) {
+  return (
     <>
       <div key={index} className="is-size-5 question">
         <span className="has-text-info question-number">
-          Pregunta n°{index + 1}{":"}
+          Pregunta n°{index + 1}
+          {":"}
         </span>
         <div> {text} </div>
       </div>
     </>
-  )
+  );
 }
 
-function QuestionTables({result, question}) {
-  return(
-    <div
-      className="disable-text-selection justify-content-md-center columns question-columns"
-    >
+function QuestionTables({ result, question, election }) {
+  return (
+    <div className="disable-text-selection justify-content-md-center columns question-columns">
       <div className="column justify-content-center">
         <PsifosTable
+          election={election}
           data={
             question.include_blank_null === "True"
-              ? result.slice(0, -2) : result
+              ? result.slice(0, -2)
+              : result
           }
         />
       </div>
       {question.include_blank_null === "True" && (
         <div className="column justify-content-center">
-          <PsifosTable data={result.slice(-2)} />
+          <PsifosTable election={election} data={result.slice(-2)} />
         </div>
       )}
     </div>
-  )
+  );
 }
 
-function ResultsPerQuestion({ questions, results }){
-  return (<>
-    <TitleCard title="Resultados por pregunta"/>
-    {questions.map((question, index) => {
-      return (
-        <div key={index} className="box question-box-results" id="question-box-results">
-          <QuestionTitle
-            index={index}
-            text={question.q_text}
-          />
-          <QuestionTables
-            result={results[index]}
-            question={questions[index]}
-          />
-        </div>
-      );
-    })}
-  </>)
+function ResultsPerQuestion({ questions, results, election }) {
+  return (
+    <>
+      <TitleCard title="Resultados por pregunta" />
+      {questions.map((question, index) => {
+        return (
+          <div
+            key={index}
+            className="box question-box-results"
+            id="question-box-results"
+          >
+            <QuestionTitle index={index} text={question.q_text} />
+            <QuestionTables
+              election={election}
+              result={results[index]}
+              question={questions[index]}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
 }
 
-function CalculatedResults({questions, results}) {
+function CalculatedResults({ questions, results, election }) {
   return (
     <div>
       <div className="box ">
         <ResumenElection />
       </div>
       <div className="box ">
-        <ResultsPerQuestion 
+        <ResultsPerQuestion
+          election={election}
           questions={questions}
           results={results}
         />
       </div>
     </div>
-  )
+  );
 }
 
 function NoCalculatedResults({ getElectionResult }) {
   return (
     <>
-      <span
-        className="ml-3 is-size-6 mb-2"
-        onClick={getElectionResult}
-      >
+      <span className="ml-3 is-size-6 mb-2" onClick={getElectionResult}>
         <Link className="link-without-line" to="">
           <i className="fa-solid fa-arrows-rotate"></i> Actualizar
         </Link>
@@ -110,7 +115,7 @@ function NoCalculatedResults({ getElectionResult }) {
         </p>
       </div>
     </>
-  )
+  );
 }
 
 function Results() {
@@ -123,6 +128,8 @@ function Results() {
   /** @state {bool} state of load info */
   const [load, setLoad] = useState(false);
 
+  const [election, setElection] = useState({});
+
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
@@ -131,6 +138,7 @@ function Results() {
     getElectionPublic(shortName).then((election) => {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
+        setElection(jsonResponse);
         if (jsonResponse.election_status === "Decryptions combined") {
           const questionsObject = JSON.parse(jsonResponse.questions);
           const resultObject = JSON.parse(jsonResponse.result);
@@ -167,15 +175,14 @@ function Results() {
     <>
       {!load && <div className="spinner-animation"></div>}
       {results.length > 0 && load && (
-        <CalculatedResults 
+        <CalculatedResults
+          election={election}
           questions={questions}
           results={results}
         />
       )}
       {results.length === 0 && load && (
-        <NoCalculatedResults
-          getElectionResult={getElectionResult}
-        />
+        <NoCalculatedResults getElectionResult={getElectionResult} />
       )}
     </>
   );
