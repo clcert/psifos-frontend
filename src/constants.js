@@ -48,4 +48,15 @@ export const permanentOptions = {
     nullOptionText: 'Voto Nulo'
 }
 
+
+export const electionStatus = {
+    settingUp : "Setting up",
+    started : "Started",
+    ended : "Ended",
+    tallyComputed : "Tally computed",
+    decryptionsUploaded : "Decryptions uploaded",
+    decryptionsCombined : "Decryptions combined",
+    resultsReleased : "Results released"
+}
+
 export const permanentOptionsList = Object.values(permanentOptions)

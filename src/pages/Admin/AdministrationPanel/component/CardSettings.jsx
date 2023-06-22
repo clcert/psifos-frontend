@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, json, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { backendInfoIp, backendOpIP } from "../../../../server";
+import { bundleDownload } from "../../../../services/bundle";
 
 function CardSettings(props) {
   /** @state {bool} state for show infor message about copy */
@@ -10,42 +11,11 @@ function CardSettings(props) {
   /** @urlParam {string} shortName of election  */
   const { shortName } = useParams();
 
-  const bundleDownload = async () => {
+  const bundleButton = async () => {
     /**
      * Get bundle file a generate download file
      */
-
-    const url = backendInfoIp + "/election/" + shortName + "/bundle-file";
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.status === 200) {
-      const jsonResponse = await response.json();
-      const bundleContent = JSON.stringify(parseBundleFile(jsonResponse));
-      let hiddenElement = document.createElement("a");
-      hiddenElement.download = `bundle-file.json`;
-      const blob = new Blob([bundleContent], {
-        type: "application/json",
-      });
-      hiddenElement.href = window.URL.createObjectURL(blob);
-      hiddenElement.click();
-    }
-  };
-
-  const parseBundleFile = (bundleJson) => {
-    /**
-     * Parse file to b64 without newlines
-     */
-
-    Object.keys(bundleJson).forEach((key) => {
-      bundleJson[key] = btoa(
-        JSON.stringify(bundleJson[key]).replace(/[\n\r]+/g, "")
-      );
-    });
-    return bundleJson;
+    bundleDownload(shortName);
   };
 
   return (
@@ -124,11 +94,15 @@ function CardSettings(props) {
           </CopyToClipboard>
         </div>
         {props.election.election_status === "Decryptions combined" && (
-          <div onClick={bundleDownload} className="content-card-admin">
+          <div onClick={bundleButton} className="content-card-admin">
             <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
               <i className="fa-solid fa-file-arrow-down"></i>{" "}
             </div>
-            <Link className="link-without-line" to="">
+            <Link
+              id="bundle-button-download"
+              className="link-without-line"
+              to=""
+            >
               Descargar archivo de verificación
             </Link>
           </div>
