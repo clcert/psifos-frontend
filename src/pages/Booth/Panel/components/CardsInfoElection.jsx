@@ -6,7 +6,7 @@ import { getStats } from "../../../../services/election";
 export default function CardsInfoElection() {
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
-  const [weightsInit, setWeightsInit] = useState({});
+  const [weightsInit, setWeightsInit] = useState([]);
   const [weightsElection, setWEightsElection] = useState({});
 
   /** @urlParam {string} shortName of election */
@@ -48,7 +48,6 @@ export default function CardsInfoElection() {
   }, []);
 
   const percentageVotes = ((totalVotes / totalVoters) * 100).toFixed(2);
-
   return (
     <div>
       <div className={"row justify-content-between"}>
