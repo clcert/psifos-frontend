@@ -5,9 +5,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { getVotesInfo } from "../../../services/info";
 import UrnaTable from "./components/UrnaTable";
 
-function CastVoteView({ election = {} }) {
+function CastVoteView({ election }) {
   const [electionData, setElectionData] = useState({
-    election: election,
     electionVoters: [],
     actualPage: 0,
     totalVotes: 0,
@@ -113,7 +112,10 @@ function CastVoteView({ election = {} }) {
                 </span>
               </div>
               <div className="mt-1">
-                <UrnaTable electionData={electionData} />
+                <UrnaTable
+                  election={election}
+                  electionVoters={electionData.electionVoters}
+                />
               </div>
             </div>
           ) : (

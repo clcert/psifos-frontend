@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link, json, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { backendInfoIp, backendOpIP } from "../../../../server";
+import { backendOpIP } from "../../../../server";
 import { bundleDownload } from "../../../../services/bundle";
 
 function CardSettings(props) {

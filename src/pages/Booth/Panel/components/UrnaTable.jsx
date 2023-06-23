@@ -4,7 +4,7 @@ import { backendInfoIp } from "../../../../server";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 
-function UrnaTable(props) {
+function UrnaTable({ election, electionVoters }) {
   const [searchParams] = useSearchParams();
 
   const hashUrl =
@@ -19,7 +19,7 @@ function UrnaTable(props) {
       "_blank"
     );
   };
-  const isShowWeightColumn = props.electionData.election.max_weight > 1;
+  const isShowWeightColumn = election.max_weight > 1;
   return (
     <Table className="pretty table is-bordered is-hoverable voters-table mt-2">
       <Thead>
@@ -31,7 +31,7 @@ function UrnaTable(props) {
           <Th className="has-text-centered">Voto Encriptado</Th>
         </Tr>
       </Thead>
-      {props.electionData.electionVoters.map((voter, index) => {
+      {electionVoters.map((voter, index) => {
         const voterHash = voter.cast_vote ? voter.cast_vote.vote_hash : "-";
         return (
           <Tbody key={index}>
@@ -51,7 +51,15 @@ function UrnaTable(props) {
                     (hashUrl === voterHash ? "hash-selected" : "")
                   }
                 >
-                  {voter.voter_weight}
+                  {election.normalization ? (
+                    <span>
+                      {parseFloat(
+                        (voter.voter_weight / election.max_weight).toFixed(3)
+                      )}
+                    </span>
+                  ) : (
+                    <span>{voter.voter_weight} </span>
+                  )}
                 </Td>
               )}
               <Td

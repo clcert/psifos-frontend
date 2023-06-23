@@ -26,13 +26,17 @@ export default function CardsInfoElection() {
 
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
-
-      setWeightsInit(JSON.parse(jsonResponse.weights_init));
+      const sortedWeights = sortWeight(JSON.parse(jsonResponse.weights_init));
+      setWeightsInit(sortedWeights);
       setWEightsElection(JSON.parse(jsonResponse.weights_election));
 
       return jsonResponse;
     }
   }
+
+  const sortWeight = (weights) => {
+    return Object.keys(weights).sort();
+  };
 
   useEffect(() => {
     getElectionResume();
@@ -69,16 +73,24 @@ export default function CardsInfoElection() {
       </div>
       <div className={"row justify-content-between mt-4"}>
         {weightsInit &&
-          Object.keys(weightsInit).map((weight, index) => {
+          weightsInit.map((weight, index) => {
             return (
-              <div className="box col-sm-3 col-12 m-0" key={index}>
-                <div className="text-center is-size-5">
-                  Votos ponderación {weight}
+              <>
+                <div
+                  className={`box col-sm-3 col-12 ${
+                    index % 3 === 0 ? "ml-0 mr-1" : ""
+                  } ${index % 3 === 2 ? "mr-0 ml-1" : ""}`}
+                  key={index}
+                >
+                  <div className="text-center is-size-5">
+                    Votos ponderación {weight}
+                  </div>
+                  <span className="d-flex justify-content-center">
+                    {weightsElection[weight] ? weightsElection[weight] : 0}{" "}
+                    votos
+                  </span>
                 </div>
-                <span className="d-flex justify-content-center">
-                  {weightsElection[weight] ? weightsElection[weight] : 0} votos
-                </span>
-              </div>
+              </>
             );
           })}
       </div>
