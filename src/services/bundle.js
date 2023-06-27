@@ -16,7 +16,7 @@ export const bundleDownload = async (shortName) => {
       const jsonResponse = await response.json();
       const bundleContent = JSON.stringify(parseBundleFile(jsonResponse));
       let hiddenElement = document.createElement("a");
-      hiddenElement.download = `bundle-file.json`;
+      hiddenElement.download = `bundle-` + shortName + `.json`;
       const blob = new Blob([bundleContent], {
         type: "application/json",
       });
