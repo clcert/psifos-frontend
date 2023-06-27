@@ -21,6 +21,8 @@ function ElectionResume() {
 
   const [weightsEnd, setWeightsEnd] = useState({});
 
+  const [weightsElection, setWeightsElection] = useState({});
+
   /** @state {string} state of loading data */
   const [load, setLoad] = useState(false);
 
@@ -33,6 +35,7 @@ function ElectionResume() {
         const { jsonResponse } = data;
         setWeightsInit(JSON.parse(jsonResponse.weights_init));
         setWeightsEnd(JSON.parse(jsonResponse.weights_end));
+        setWeightsElection(JSON.parse(jsonResponse.weights_election));
         setLoad(true);
       });
       getStats(shortName).then((data) => {
@@ -61,6 +64,7 @@ function ElectionResume() {
         load={load}
         weightsInit={weightsInit}
         weightsEnd={weightsEnd}
+        weightsElection={weightsElection}
       />
 
       <ImageFooter imagePath={imageTrustees} />

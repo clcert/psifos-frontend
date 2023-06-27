@@ -13303,6 +13303,14 @@ Consult
   margin-top: 0px;
 }
 
+.voters-table {
+  width: fit-content;
+}
+
+.voters-table tbody {
+  background-color: white !important;
+}
+
 .table .table-header {
   font-weight: bold; 
 }
