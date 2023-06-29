@@ -341,7 +341,6 @@ function CreateElection(props) {
             <div className="control">
               <label className="checkbox">
                 <input
-                  disabled={disabledEdit}
                   onChange={(e) => {
                     setNormalization(e.target.checked);
                   }}
@@ -374,7 +373,6 @@ function CreateElection(props) {
             <div className="col-6 d-inline-flex justify-content-end">
               {props.edit ? (
                 <Button
-                  disabled={disabledEdit}
                   onClick={() => {
                     sendElection("/edit-election/" + shortName);
                   }}
