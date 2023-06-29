@@ -19,11 +19,13 @@ function InfoElection(props) {
                 </div>
                 <ResumeTable />
                 <div>
-                  <h1 className="title is-size-4 pt-4">Número de votantes por ponderación</h1>
+                  <h1 className="title is-size-4 pt-4">
+                    Número de votantes por ponderación
+                  </h1>
                 </div>
-                <WeightsTable 
-                  weightsInit={props.weightsInit} 
-                  weightsEnd={props.weightsEnd} 
+                <WeightsTable
+                  weightsInit={props.weightsInit}
+                  weightsEnd={props.weightsEnd}
                   weightsElection={props.weightsElection}
                 />
               </>

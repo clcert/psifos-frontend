@@ -2,10 +2,14 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getElectionPublic } from "../../../../services/election";
+import {
+  getElectionPublic,
+  getElectionResume,
+} from "../../../../services/election";
 import ResumeTable from "../../ElectionResume/components/ResumeTable";
 import PsifosTable from "./PsifosTable";
 import { getPercentage } from "../../utils";
+import WeightsTable from "../../ElectionResume/components/WeightsTable";
 
 function TitleCard({ title }) {
   return (
@@ -84,11 +88,47 @@ function ResultsPerQuestion({ questions, results, election }) {
   );
 }
 
+function WeightsTableSection() {
+  const [weightsInit, setWeightsInit] = useState({});
+
+  const [weightsEnd, setWeightsEnd] = useState({});
+
+  const [weightsElection, setWeightsElection] = useState({});
+
+  /** @urlParam {string} shortName of election */
+  const { shortName } = useParams();
+
+  useEffect(
+    function effectFunction() {
+      getElectionResume(shortName).then((data) => {
+        const { jsonResponse } = data;
+        setWeightsInit(JSON.parse(jsonResponse.weights_init));
+        setWeightsEnd(JSON.parse(jsonResponse.weights_end));
+        setWeightsElection(JSON.parse(jsonResponse.weights_election));
+      });
+    },
+    [shortName]
+  );
+  return (
+    <>
+      <TitleCard title="Número de votantes por ponderación" />
+      <WeightsTable
+        weightsInit={weightsInit}
+        weightsEnd={weightsEnd}
+        weightsElection={weightsElection}
+      />
+    </>
+  );
+}
+
 function CalculatedResults({ questions, results, election }) {
   return (
     <div>
       <div className="box ">
         <ResumenElection />
+      </div>
+      <div className="box ">
+        <WeightsTableSection />
       </div>
       <div className="box ">
         <ResultsPerQuestion
