@@ -7,7 +7,6 @@ import Step1Descript from "./VerifyInstructions/Step1Descript"
 import Step2Descript from "./VerifyInstructions/Step2Descript"
 import Step3Descript from "./VerifyInstructions/Step3Descript"
 
-function EnabledVerification({linkResumen="https://www.google.com.ar/"}) {
 
 function EnabledVerification() {
   return (

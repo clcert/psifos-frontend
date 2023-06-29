@@ -146,7 +146,7 @@ function NoCalculatedResults({ getElectionResult }) {
   return (
     <>
       <NotAvalaibleMessage
-        message="Resultados aún no calculados"
+        message="Sin resultados calculados"
       />
       <span
         className="ml-3 is-size-6 mb-2"

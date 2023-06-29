@@ -64,7 +64,7 @@ export default function CardsInfoElection() {
           </span>
         </div>
         <div className="box col-sm-3 col-12">
-          <div className="text-center is-size-4">Total padron</div>
+          <div className="text-center is-size-4">Total padrón</div>
           <span className="d-flex justify-content-center">
             {totalVoters} votantes
           </span>

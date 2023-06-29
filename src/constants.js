@@ -27,10 +27,10 @@ export const events = {
     },
     tally_computed: {
         name: "Cálculo de precómputo",
-        descript: "El precómputo ha sido calculado, aún no estñan los resultados de la elección.",
+        descript: "El precómputo ha sido calculado, aún no están los resultados de la elección.",
     },
     decryption_recieved: {
-        name: "Se han recibido desencriptaciones parciales",
+        name: "Recepción de desencriptaciones parciales",
         descript: "Los custodios han ingresado sus claves privadas para calcular las desencriptaciones.",
     },
     decryptions_combined: {
