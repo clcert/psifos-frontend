@@ -1,19 +1,19 @@
-import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
-import { sjcl } from "../../../static/booth/js/jscrypto/sjcl";
-import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
-import ImageFooter from "../../../component/Footers/ImageFooter";
-import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
-import imageTrustees from "../../../static/svg/trustees1.svg";
-import DropFile from "./components/DropFile";
+import { BigInt } from "../../../../static/booth/js/jscrypto/bigint";
+import { sjcl } from "../../../../static/booth/js/jscrypto/sjcl";
+import { ElGamal } from "../../../../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../../../../static/booth/js/jscrypto/heliosc-trustee";
+import ImageFooter from "../../../../component/Footers/ImageFooter";
+import FooterParticipa from "../../../../component/Footers/FooterParticipa";
+import MyNavbar from "../../../../component/ShortNavBar/MyNavbar";
+import TitlePsifos from "../../../../component/OthersComponents/TitlePsifos";
+import imageTrustees from "../../../../static/svg/trustees1.svg";
+import DropFile from "../components/DropFile";
 import { Link, useParams } from "react-router-dom";
-import { backendOpIP } from "../../../server";
+import { backendOpIP } from "../../../../server";
 import { useCallback, useEffect, useState } from "react";
 
-import { getTrusteeHome } from "../../../services/trustee";
-import { getEgParams } from "../../../services/crypto";
+import { getTrusteeHome } from "../../../../services/trustee";
+import { getEgParams } from "../../../../services/crypto";
 
 function Keygenerator(props) {
   let COEFFICIENTS = [];
@@ -116,14 +116,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url =
-      backendOpIP +
-      "/" +
-      shortName +
-      "/trustee/" +
-      uuidTrustee +
-      "/step-" +
-      step;
+    const url = `${backendOpIP}/${shortName}/trustee/${uuidTrustee}/step`
 
     const resp = await fetch(url, {
       method: "POST",
@@ -152,8 +145,7 @@ function Keygenerator(props) {
      * @returns {object} data response
      */
 
-    const url =
-      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/" + step;
+    const url = `/${shortName}/trustee/${uuidTrustee}/${step}`
 
     const resp = await fetch(url, {
       method: "GET",
@@ -169,8 +161,7 @@ function Keygenerator(props) {
      * async function to get the actual step for trustee
      * @returns {object} data response
      */
-    const url =
-      backendOpIP + "/" + shortName + "/trustee/" + uuidTrustee + "/get-step";
+    const url = `${backendOpIP}/${shortName}/trustee/${uuidTrustee}/get-step`
 
     const resp = await fetch(url, {
       method: "GET",

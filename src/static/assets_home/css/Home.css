@@ -9572,6 +9572,10 @@ a.has-text-black:focus {
   color: black !important;
 }
 
+.has-text-blue {
+  color: #004c94 !important;
+}
+
 .has-background-black {
   background-color: #0a0a0a !important;
 }
