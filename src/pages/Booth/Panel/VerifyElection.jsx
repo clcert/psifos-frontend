@@ -12,7 +12,7 @@ function EnabledVerification() {
   return (
     <>
       <div className="has-text-centered title is-size-4-mobile">
-        Verificación del resultado
+        ¿Cómo verificar el resultado?
       </div>
       <hr />
 

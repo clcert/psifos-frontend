@@ -31,7 +31,7 @@ function Description() {
 function StepDescript() {
     return (
         <CardInstruction
-            title={'Paso 2: Descarga el verificador'}
+            title={'Paso 2: Descargar el verificador'}
             description={<Description/>}
         />
     )
