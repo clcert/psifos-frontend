@@ -43,7 +43,7 @@ function Body({
         : true
     );
     return (
-        <section className="section" id="drawing-section">
+        <section className="section mb-5" id="drawing-section">
           <div className="container has-text-centered is-max-desktop">
             <div>
                 {mustGenerate ? <GenerationProcess
@@ -83,7 +83,6 @@ function HomeContent({
             electionStatus={electionStatus}
             decryptions={decryptions}
         />
-        <section style={{ height: '60px' }}/>
         <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />        
       </div>
     )
