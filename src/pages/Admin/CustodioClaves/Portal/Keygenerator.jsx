@@ -2,18 +2,14 @@ import { BigInt } from "../../../../static/booth/js/jscrypto/bigint";
 import { sjcl } from "../../../../static/booth/js/jscrypto/sjcl";
 import { ElGamal } from "../../../../static/booth/js/jscrypto/elgamal";
 import { helios_c } from "../../../../static/booth/js/jscrypto/heliosc-trustee";
-import ImageFooter from "../../../../component/Footers/ImageFooter";
-import FooterParticipa from "../../../../component/Footers/FooterParticipa";
-import MyNavbar from "../../../../component/ShortNavBar/MyNavbar";
-import TitlePsifos from "../../../../component/OthersComponents/TitlePsifos";
-import imageTrustees from "../../../../static/svg/trustees1.svg";
-import DropFile from "../components/DropFile";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { backendOpIP } from "../../../../server";
 import { useCallback, useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../../services/trustee";
 import { getEgParams } from "../../../../services/crypto";
+import { CustodioCanva } from "../components/CustodiosCanva";
+import BlueButton from "../../../../component/Buttons/BlueButton";
 
 function Keygenerator(props) {
   let COEFFICIENTS = [];
@@ -50,8 +46,6 @@ function Keygenerator(props) {
   const [secretKey, setSecretKey] = useState(null);
 
   const [certificateCache, setCertificateCache] = useState(null);
-
-  const [checkedSecretKey, setCheckedSecretKey] = useState("");
 
   /** @urlParam {shortName} election shortName */
   const { shortName, uuidTrustee } = useParams();
@@ -546,212 +540,53 @@ function Keygenerator(props) {
     }
   };
 
+  const linkGoBack = `/psifos/${shortName}/trustee/${uuidTrustee}/home`
+
   return (
-    <div id="content-trustees">
-      <section id="header-section" className="parallax hero is-medium">
-        <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar
-            linkExit={`${backendOpIP}/${shortName}/trustee/logout`}
-            linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
-          />
-          <TitlePsifos
-            namePage="Portal de Custodio de Clave: Generación"
-            nameElection={election.name} // TODO: Retrieve this value
-          />
-        </div>
-      </section>
+    <CustodioCanva
+      linkExit={`${backendOpIP}/${shortName}/trustee/logout`}
+      linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
+      electionName={election.name}
+    >
+      {!secretKey && actualPhase === 1 && (
+        <GenerationBox
+          actualStep={actualStep}
+          linkGoBack={linkGoBack}
+          disabledGeneration={!enabledButtonInit}
+          handleGeneration={step_0}
+        />
+      )}
+      {secretKey && actualPhase === 1 && (
+        <VerificationBox
+          checkSk={checkSk}
+          linkGoBack={linkGoBack}
+          handleDownload={downloadKey}
+          actualStep={actualStep}
+        />
+      )}
 
-      <section className="section" id="medium-section">
-        <div className="container has-text-centered is-max-desktop">
-          {actualPhase === 1 && (
-            <div className="level-item has-text-centered">
-              <div>
-                <p className="pb-2 title has-text-white">
-                  Generación de Claves{" "}
-                  <i
-                    id="step_0"
-                    className={
-                      actualStep >= 1
-                        ? "fa-solid fa-circle-check"
-                        : "fa-solid fa-circle-xmark"
-                    }
-                  ></i>
-                </p>
-              </div>
-            </div>
-          )}
-          {actualPhase === 2 && (
-            <div>
-              <p className="title has-text-white pb-2">
-                Sincronizando con los otros custodios de claves{" "}
-                <i
-                  id="step_1"
-                  className={
-                    actualStep >= 4
-                      ? "fa-solid fa-circle-check"
-                      : "fa-solid fa-spinner fa-spin"
-                  }
-                ></i>
-              </p>
-            </div>
-
-            /*          <div className="level">
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="pb-2 title has-text-white">
-                    Paso 1{" "}
-                    <i
-                      id="step_1"
-                      className={
-                        actualStep >= 2
-                          ? "fa-solid fa-circle-check"
-                          : "fa-solid fa-spinner fa-spin"
-                      }
-                    ></i>
-                  </p>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="pb-2 title has-text-white">
-                    Paso 2{" "}
-                    <i
-                      id="step_2"
-                      className={
-                        actualStep >= 3
-                          ? "fa-solid fa-circle-check"
-                          : "fa-solid fa-spinner fa-spin"
-                      }
-                    ></i>
-                  </p>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="pb-2 title has-text-white">
-                    Paso 3{" "}
-                    <i
-                      id="step_3"
-                      className={
-                        actualStep >= 4
-                          ? "fa-solid fa-circle-check"
-                          : "fa-solid fa-spinner fa-spin"
-                      }
-                    ></i>
-                  </p>
-                </div>
-              </div>
-            </div> */
-          )}
-          <div
-            id="process_step"
-            className="mt-3 has-text-black is-size-5 px-6 box"
-          >
-            <span>
-              &nbsp;
-              <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN
-              <br />
-              Una vez que descargues la clave, debes almacenarla en tu
-              computador, además de hacer un respaldo del archivo descargado.{" "}
-              <br />
-              Para hacer este respaldo puedes guardar el archivo en un pendrive.
-            </span>
-          </div>
-          <br />
-          <p id="feedback-message" className="has-text-white is-size-5">
-            {processFeedback}
+      {actualPhase === 2 && (
+        <SyncupBox
+          actualPhase={actualPhase}
+          actualStep={actualStep}
+          enabledButtonInit={enabledButtonInit}
+          textButtonInit={textButtonInit}
+          init_process={init_process}
+        >
+          <p id="feedback-message" className="has-text-blue is-size-5">
+            {message}
           </p>
-          {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
+        </SyncupBox>
+      )}
 
-          <div className="d-flex flex-sm-column mt-4 is-align-items-center">
-            {!secretKey && actualPhase === 1 && (
-              <button
-                id="download-key"
-                className="is-large button is-info is-light is-outlined"
-                style={{
-                  textDecoration: "None",
-                  textTransform: "uppercase",
-                  whiteSpace: "normal",
-                  height: "3em",
-                }}
-                disabled={!enabledButtonInit}
-                onClick={() => {
-                  step_0();
-                }}
-              >
-                Generar y descargar clave
-              </button>
-            )}
-            {actualPhase === 2 && actualStep !== 4 && (
-              <button
-                className="button mx-sm-2 mt-2"
-                disabled={!enabledButtonInit}
-                onClick={() => {
-                  init_process();
-                }}
-              >
-                {textButtonInit}
-              </button>
-            )}
-            {actualStep === 4 && (
-              <div>
-                {/* <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p> */}
-                <button id="button-init" className="button is-link mr-5 mt-0">
-                  <Link
-                    id="go-home-trustee"
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={
-                      "/psifos/" +
-                      shortName +
-                      "/trustee/" +
-                      uuidTrustee +
-                      "/home"
-                    }
-                  >
-                    Ir al Home
-                  </Link>
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
-            {secretKey && actualPhase === 1 && (
-              <div>
-                <p className="has-text-white is-size-5 mb-1 mt-4">
-                  Si no encuentras el archivo, puedes descargar nuevamente tu
-                  clave privada
-                </p>
-                <button
-                  className="button is-primary mt-0"
-                  onClick={() => {
-                    downloadKey();
-                  }}
-                >
-                  Descargar clave
-                </button>
-              </div>
-            )}
-          </div>
-          {actualStep !== 4 && (
-            <button className="button is-normal is-link mt-5">
-              <Link
-                id="go-home-trustee"
-                style={{ textDecoration: "None", color: "white" }}
-                to={
-                  "/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"
-                }
-              >
-                Volver atrás
-              </Link>
-            </button>
-          )}
-        </div>
-      </section>
-      <div>
-        <ImageFooter imagePath={imageTrustees} />
-        <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
-      </div>
-    </div>
+      {actualStep === 4 && (
+        <BlueButton
+          linkTo={linkGoBack}
+          text={"Ir al inicio"}
+          id="go-home-trustee"
+        />
+      )}
+    </CustodioCanva>
   );
 }
 

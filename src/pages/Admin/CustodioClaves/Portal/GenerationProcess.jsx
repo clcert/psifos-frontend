@@ -17,7 +17,7 @@ function WelcomeMessage({clickHandler}) {
                 ¡Bienvenido(a)!
             </p>
             <Paragraph
-                text="En este portal, puede generar su clave privada. Al generarla, se descargará un archivo de texto plano que contendrá la clave en su interior."
+                text="En este portal, puede obtener su clave privada. Al obtenerla, se descargará un archivo de texto plano que contendrá la clave en su interior."
             />
             <Paragraph
                 text="Una vez que haya finalizado la elección, deberá ingresar su clave para generar la desencriptación parcial de los resultados. Por esta razón, es importante que guarde y respalde el archivo hasta que la elección haya finalizado."
@@ -29,7 +29,9 @@ function WelcomeMessage({clickHandler}) {
                     type="checkbox"
                     className="mr-2"
                     />
-                    Conozco la importancia de mi rol y me comprometo a no compartir la clave privada con nadie.
+                    <span className="has-hover-blue">
+                        Conozco la importancia de mi rol y me comprometo a no compartir la clave privada con nadie.
+                    </span>
                 </label>
             </p>
         </>
