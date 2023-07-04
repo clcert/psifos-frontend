@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { Button } from "react-bulma-components";
 
-function BlueButton({id, linkTo, text, ...props}) {
+function BlueButton({id, linkTo, text, handleClick, ...props}) {
   return (
     <Button
         className="btn-fixed button-custom"
+        onClick={handleClick}
         {...props}
     >
         <Link

@@ -46,7 +46,7 @@ export default function DropFile(props) {
         onClick={buttonUpload}
       >
         <div className="d-flex justify-content-center">
-          <span className="has-text-white">
+          <span className="has-text-blue">
             Arrastra o haga click para subir el archivo
           </span>
         </div>

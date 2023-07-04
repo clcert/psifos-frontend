@@ -1,33 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import FooterParticipa from "../../../../component/Footers/FooterParticipa";
 import LoadPage from "../../../../component/Loading/LoadPage";
-import TitlePsifos from "../../../../component/OthersComponents/TitlePsifos";
-import MyNavbar from "../../../../component/ShortNavBar/MyNavbar";
 import { backendOpIP } from "../../../../server";
 import { getTrusteeHome } from "../../../../services/trustee";
 import NoAuth from "../../../Booth/NoAuth";
 import GenerationProcess from "./GenerationProcess";
 import GenerationDone from "./GenerationDone";
-
-function Header({
-  linkExit, linkInit, electionName
-}) {
-    return (
-        <section id="header-section" className="parallax hero is-medium">
-          <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar
-              linkExit={linkExit}
-              linkInit={linkInit}
-            />
-            <TitlePsifos
-              namePage="Portal de Custodio de Clave"
-              nameElection={electionName}
-            />
-          </div>
-        </section>
-    )
-}
+import { CustodioCanva } from "../components/CustodiosCanva";
 
 function Body({
     mustGenerate, shortName, uuidTrustee,
@@ -43,8 +22,8 @@ function Body({
         : true
     );
     return (
-        <section className="section mb-5" id="drawing-section">
-          <div className="container has-text-centered is-max-desktop">
+        <section>
+          <div className="container is-max-desktop">
             <div>
                 {mustGenerate ? <GenerationProcess
                     shortName={shortName}
@@ -64,27 +43,24 @@ function Body({
 }
 
 function HomeContent({
-    linkExit, linkInit, election, shortName, uuidTrustee, generatedKey,
-    currentStep, electionStatus, decryptions,
+    linkExit, linkInit, election, shortName, uuidTrustee, generatedKey, trustee,
 }) {
     return (
-        <div id="content-trustees">
-        <Header
-            linkExit={linkExit}
-            linkInit={linkInit}
-            electionName={election.name}
-        />
-        <Body
-            mustGenerate={!generatedKey}
-            shortName={shortName}
-            uuidTrustee={uuidTrustee}
-            publicKey={true}
-            currentStep={currentStep}
-            electionStatus={electionStatus}
-            decryptions={decryptions}
-        />
-        <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />        
-      </div>
+        <CustodioCanva
+          linkExit={linkExit}
+          linkInit={linkInit}
+          electionName={election.name}
+        >
+          <Body
+              mustGenerate={!generatedKey}
+              shortName={shortName}
+              uuidTrustee={uuidTrustee}
+              publicKey={true}
+              currentStep={trustee.current_step}
+              electionStatus={election.status}
+              decryptions={trustee.decryptions}
+          />
+        </CustodioCanva>
     )
 }
 
@@ -143,9 +119,7 @@ function CustodioHome(props) {
             generatedKey={Boolean(trustee.public_key && !(
                 trustee.current_step >= 0 && trustee.current_step < 3
             ))}
-            currentStep={trustee.current_step}
-            electionStatus={election.election_status}
-            decryptions={trustee.decryptions}
+            trustee={trustee}
         /> )
     )
   )
