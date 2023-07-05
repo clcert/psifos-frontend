@@ -128,9 +128,11 @@ function CalculatedResults({ questions, results, election }) {
       <div className="box ">
         <ResumenElection />
       </div>
-      <div className="box ">
-        <WeightsTableSection />
-      </div>
+      {election.max_weight !== 1 && (
+        <div className="box ">
+          <WeightsTableSection />
+        </div>
+      )}
       <div className="box ">
         <ResultsPerQuestion
           election={election}
