@@ -47,7 +47,7 @@ export default function DropFile(props) {
       >
         <div className="d-flex justify-content-center">
           <span className="has-text-white">
-            Arrastra o haga click para subir el archivo
+            Arrastre o haga click aquí para subir el archivo
           </span>
         </div>
       </div>
