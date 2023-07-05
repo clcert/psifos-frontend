@@ -24,8 +24,8 @@ function PrettyButton({ onClick, icon, text, id, subContent }) {
   return (
     <div>
       <button className="button" onClick={onClick} id={id}>
-        <span className="icon is-small">{icon}</span>
-        <span className="is-size-7-mobile">{text}</span>
+        <span className="icon">{icon}</span>
+        <span className="is-size-05-mobile">{text}</span>
       </button>
       {subContent}
     </div>
@@ -121,7 +121,7 @@ function ValidatedVote(props) {
             <OptinalStep
               title="Puede descargar el certificado de su voto."
               text={
-                "Este documento acredita que tu voto fue realizado " +
+                "Este documento acredita que su voto fue realizado " +
                 "correctamente y que será contabilizado en el escrutinio final. " +
                 "Sin embargo, el certificado no proporciona información sobre " +
                 "las preferencias emitidas en el voto."

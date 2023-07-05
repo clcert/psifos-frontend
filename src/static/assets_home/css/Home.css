@@ -10647,6 +10647,10 @@ a.has-text-danger-dark:focus {
   .is-size-7-mobile {
     font-size: 0.75rem !important;
   }
+
+  .is-size-05-mobile {
+    font-size: 50% !important;
+  }
 }
 @media screen and (min-width: 769px), print {
   .is-size-1-tablet {
