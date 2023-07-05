@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 
 function Status(props) {
+  const canCombineDecryptions =
+    props.electionStatus === "Decryptions uploaded" ||
+    (props.electionStatus === "Tally computed" &&
+      props.election.decryptions_uploaded >=
+        Math.floor(props.election.total_trustees / 2) + 1);
+
   return (
     <>
       {" "}
@@ -97,7 +103,7 @@ function Status(props) {
           </span>
         </div>
       )}
-      {props.electionStatus === "Decryptions uploaded" && (
+      {canCombineDecryptions && (
         <div className="content-card-admin">
           <span
             onClick={() => props.combineTallyModal()}
