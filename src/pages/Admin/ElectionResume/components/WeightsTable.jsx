@@ -9,7 +9,7 @@ export default function WeightsTable(props) {
       >
         <Thead>
           <Tr>
-            <Th>PONDERADOR</Th>
+            <Th>Ponderador</Th>
             <Th className="has-text-centered">Votantes en apertura</Th>
             <Th className="has-text-centered">Votos Recibidos</Th>
             <Th className="has-text-centered">Votos a contar (1)</Th>

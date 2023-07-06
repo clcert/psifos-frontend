@@ -7,7 +7,7 @@ function Description() {
             <div>El verificador es un programa que toma el resumen matemático correspondiente a una elección cualquiera y verifica que el resultado de la elección concuerde con los cálculos realizados.</div>
             <div>
                 {
-                    ' El verificador que utilices dependerá de las características de tu computador. Si tu computador es Windows-amd64 puedes descargar tu verificador haciendo click en el botón, en el caso contrario puedes buscar y descargar el verificador correspondiente ingresando '
+                    ' El verificador que utilice dependerá de las características de su computador. Si su computador es Windows-amd64 puede descargar su verificador haciendo click en el botón, en el caso contrario puede buscar y descargar el verificador correspondiente ingresando '
                 }
                 <a href={links.verificators}>aquí</a>.
 
@@ -31,7 +31,7 @@ function Description() {
 function StepDescript() {
     return (
         <CardInstruction
-            title={'Paso 2: Descarga el verificador'}
+            title={'Paso 2: Descargar el verificador'}
             description={<Description/>}
         />
     )
