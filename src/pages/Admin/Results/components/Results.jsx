@@ -11,6 +11,7 @@ import PsifosTable from "./PsifosTable";
 import { getPercentage } from "../../utils";
 import WeightsTable from "../../ElectionResume/components/WeightsTable";
 import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
+import { permanentOptionsList } from "../../../../constants";
 
 function TitleCard({ title }) {
   return (
@@ -196,13 +197,18 @@ function Results() {
     questionsObject.forEach((element, q_num) => {
       let q_result = [];
       const ans = resultObject[q_num].ans_results;
-      const n_votes = ans.reduce((n, a) => n + parseInt(a), 0);
+      const no_null_white_ans = questionsObject[q_num].include_blank_null === "True"
+      ? ans.slice(0, -2) : ans
+      const n_votes = no_null_white_ans.reduce((n, a) => n + parseInt(a), 0);
       element.closed_options.forEach((answer, index) => {
-        q_result.push({
-          Respuesta: answer,
-          Votos: parseInt(ans[index]),
-          Porcentaje: getPercentage(ans[index], n_votes),
-        });
+        q_result.push(
+          permanentOptionsList.includes(answer) ? {
+            Respuesta: answer, Votos: parseInt(ans[index]),
+          } : {
+            Respuesta: answer, Votos: parseInt(ans[index]),
+            Porcentaje: getPercentage(ans[index], n_votes),
+          }
+        );
       });
       result.push(q_result);
     });
