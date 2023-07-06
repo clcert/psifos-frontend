@@ -32,6 +32,7 @@ export const events = {
     decryption_recieved: {
         name: "Recepción de desencriptaciones parciales",
         descript: "Los custodios han ingresado sus claves privadas para calcular las desencriptaciones.",
+        detail: "Custodio(a): "
     },
     decryptions_combined: {
         name: "Combinación de desencriptaciones parciales",

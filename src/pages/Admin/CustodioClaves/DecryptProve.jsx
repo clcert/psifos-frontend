@@ -93,6 +93,11 @@ function DecryptProve() {
 
     worker.onmessage = function (event) {
       if (event.data.type === "log") return console.log(event.data.msg);
+      if (event.data.type === "error") {
+        setFeedbackMessage(event.data.message);
+        setActualStep(0);
+        return;
+      }
       if (event.data.type === "result") {
         const tally_factors_and_proof = event.data.tally_factors_and_proof;
 
@@ -219,7 +224,10 @@ function DecryptProve() {
               placeholder="Clave privada..."
               disabled
             />
-            <p id={`feedback-message-${actualStep}`} className="has-text-white pt-2">
+            <p
+              id={`feedback-message-${actualStep}`}
+              className="has-text-white pt-2"
+            >
               {feedbackMessage}
               <i
                 className={
