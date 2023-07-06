@@ -3708,6 +3708,7 @@ div.icon-text {
 .table {
   background-color: white;
   color: #363636;
+  user-select: text;
 }
 .table td,
 .table th {
