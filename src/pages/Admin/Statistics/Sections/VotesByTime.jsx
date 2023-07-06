@@ -3,6 +3,32 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
 import LinePsifosGraph from "../Graphs/LinePsifosGraph";
+import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
+
+function TimeOptions({handleChange, deltaTime}) {
+  return (
+    <div className="statistics-votes-by-time">
+      <label>Escala de tiempo:</label>
+      <div className="control ml-2">
+        <div className="select">
+          <select
+            onChange={handleChange}
+            name="delta-time"
+            id="time"
+            value={deltaTime}
+          >
+            <option value="1">1 minuto</option>
+            <option value="30">30 minutos</option>
+            <option value="60">1 hora</option>
+            <option value="120">2 horas</option>
+            <option value="240">4 horas</option>
+            <option value="1440">1 Día</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function VotesByTime(props) {
   /** Section dedicated to graphing the number of votes by time */
@@ -48,33 +74,19 @@ function VotesByTime(props) {
     <>
       {Object.keys(votesForTime).length !== 0 ? (
         <div className="chart-container" style={{ overflowX: "auto" }}>
-          <label>Variación de tiempo:</label>
-          <div className="control">
-            <div className="select">
-              <select
-                onChange={handleChange}
-                name="delta-time"
-                id="time"
-                value={deltaTime}
-              >
-                <option value="1">1 Minuto</option>
-                <option value="30">30 Minutos</option>
-                <option value="60">60 Minutos</option>
-                <option value="120">2 Horas</option>
-                <option value="240">4 Horas</option>
-                <option value="1440">1 Día</option>
-              </select>
-            </div>
-          </div>
           <div className="is-flex is-align-items-center is-flex-direction-column">
             <LinePsifosGraph data={votesForTime} label="Cantidad de votos" />
           </div>
+          <TimeOptions
+            handleChange={handleChange}
+            deltaTime={deltaTime}
+          />
         </div>
       ) : load ? (
-        <div className="box" id="not-results-box">
-          <p className="is-size-3 has-text-weight-bold">
-            Aun no existen votos registrados
-          </p>
+        <div className="d-flex is-justify-content-center">
+          <NotAvalaibleMessage
+            message="Sin votos registrados"
+          />
         </div>
       ) : (
         <div className="d-flex justify-content-center pt-4">

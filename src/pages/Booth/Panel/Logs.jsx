@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../server";
 import { Tooltip } from 'react-tooltip'
 import { events } from '../../../constants'
+import NotAvalaibleMessage from "../components/NotAvalaibleMessage";
 
 function MoreInfo({children, descript}) {
   return (
@@ -47,6 +48,31 @@ function EventInfo({created_at, event_params, event_detail}) {
   )
 }
 
+function RegisteredEvents({electionLogs}) {
+  return (
+    <>
+      {electionLogs.map((logs, index) => {
+        return (
+          <div key={index} className="box logs-box">
+            <div className="is-size-5">
+              <EventHeader
+                event={events[logs.event].name}
+                descript={events[logs.event].descript}
+              />
+              <hr/>
+              <EventInfo
+                created_at={new Date(logs.created_at).toLocaleString()}
+                event_params={JSON.parse(logs.event_params)}
+                event_detail={events[logs.event].detail}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </>
+  )
+}
+
 function Logs() {
   const [electionLogs, setElectionLogs] = useState([]);
   const [load, setLoad] = useState(false);
@@ -81,28 +107,17 @@ function Logs() {
 
   return (
     <>
-      {load ? (
-        <>
-          {electionLogs.map((logs, index) => {
-            return (
-              <div key={index} className="box logs-box">
-                <div className="is-size-5">
-                  <EventHeader
-                    event={events[logs.event].name}
-                    descript={events[logs.event].descript}
-                  />
-                  <hr/>
-                  <EventInfo
-                    created_at={new Date(logs.created_at).toLocaleString()}
-                    event_params={JSON.parse(logs.event_params)}
-                    event_detail={events[logs.event].detail}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </>
-      ) : (
+      {load ? 
+        (electionLogs.length !== 0 ? (
+            <RegisteredEvents
+              electionLogs={electionLogs}
+            />
+          ) : (
+            <NotAvalaibleMessage
+              message="Sin eventos registrados"
+            />
+          ))
+       : (
         <div className="spinner-animation"></div>
       )}
     </>

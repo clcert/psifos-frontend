@@ -4,6 +4,7 @@ import { Button } from "react-bulma-components";
 import { useParams, useSearchParams } from "react-router-dom";
 import { getVotesInfo } from "../../../services/info";
 import UrnaTable from "./components/UrnaTable";
+import NotAvalaibleMessage from "../components/NotAvalaibleMessage";
 
 function CastVoteView({ election }) {
   const [electionData, setElectionData] = useState({
@@ -119,11 +120,9 @@ function CastVoteView({ election }) {
               </div>
             </div>
           ) : (
-            <div className="box has-text-centered" id="not-results-box">
-              <p className="is-size-3 has-text-weight-bold">
-                Aun no existen votos registrados.
-              </p>
-            </div>
+            <NotAvalaibleMessage 
+              message="Sin votos registrados"
+            />
           )}
         </>
       ) : (

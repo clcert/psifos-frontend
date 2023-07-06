@@ -3708,6 +3708,7 @@ div.icon-text {
 .table {
   background-color: white;
   color: #363636;
+  user-select: text;
 }
 .table td,
 .table th {
@@ -13385,4 +13386,11 @@ Consult
 
 .optional-step .opt-title {
   margin-top: 1rem;
+}
+
+.statistics-votes-by-time {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  margin-top: 30px;
 }
