@@ -108,8 +108,8 @@ function CastVoteView({ election }) {
               <div className="d-flex justify-content-center mt-2">
                 <span>
                   Página {electionData.actualPage + 1} de {totalPages}{" "}
-                  (Mostrando 1-{lengthPage} de {electionData.totalVotes}{" "}
-                  resultados)
+                  (Mostrando 1-{electionData.electionVoters.length} de{" "}
+                  {electionData.totalVotes} resultados)
                 </span>
               </div>
               <div className="mt-1">

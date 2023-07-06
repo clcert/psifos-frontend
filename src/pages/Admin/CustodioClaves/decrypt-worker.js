@@ -39,17 +39,22 @@ function getSecretKey(sk, params, certificates, points) {
  * @param {*} points election points
  */
 function decrypt(sk, tally, electionPk, params, certificates, points) {
-  var secret_key = getSecretKey(sk, params, certificates, points);
+  try {
+    var secret_key = getSecretKey(sk, params, certificates, points);
+  } catch {
+    postMessage({
+      type: "error",
+      message: "Clave incorrecta",
+    });
+    return
+  }
 
   // ENCRYPTED TALLY :
   let tally_factors_and_proof = tally.doDecrypt(electionPk, secret_key);
-  ;
-
   postMessage({
-    type:"result",
-    tally_factors_and_proof: tally_factors_and_proof
+    type: "result",
+    tally_factors_and_proof: tally_factors_and_proof,
   });
-
 }
 
 /**
@@ -72,10 +77,7 @@ onmessage = function (event) {
     let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
       JSON.parse(ELECTION_JSON["public_key"])
     );
-    let TALLY = Tally.createAllTally(
-      tally,
-      ELECTION_PK
-    );
+    let TALLY = Tally.createAllTally(tally, ELECTION_PK);
     decrypt(secretKey, TALLY, ELECTION_PK, PARAMS, certificates, points);
   });
 };
