@@ -75,10 +75,8 @@ export default function StyledCardsInfoElection() {
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
       const sortedWeights = sortWeight(JSON.parse(jsonResponse.weights_init));
-      //setWeightsInit(sortedWeights);
-      //setWEightsElection(JSON.parse(jsonResponse.weights_election));
-      setWeightsInit(['1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0']);
-      setWEightsElection({'1.0': 1, '2.0': 2, '3.0': 3, '4.0': 3, '5.0': 3, '6.0': 3, '7.0': 3});
+      setWeightsInit(sortedWeights);
+      setWEightsElection(JSON.parse(jsonResponse.weights_election));
 
       return jsonResponse;
     }
