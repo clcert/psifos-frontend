@@ -1,6 +1,23 @@
 import { useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
+function StyledCell({content}) {
+  return (
+    <td
+      style={{
+        width: "180px", paddingRight: "20px", paddingLeft: "20px",
+      }}
+      className={
+        typeof content === 'number'
+        ? "has-text-right"
+        : "has-text-centered"
+      }
+    >
+      {content}
+    </td>
+  )
+}
+
 function PsifosTable({ data, election }) {
   const [tableData, setTableData] = useState([...data]);
   const [ordenamiento, setOrdenamiento] = useState({
@@ -41,13 +58,14 @@ function PsifosTable({ data, election }) {
       <tbody>
         {tableData.map((fila, index) => {
           return (
-            <tr className="has-text-centered" key={index}>
+            <tr key={index}>
               {dataKeys.map((row, indexRow) => (
-                <td style={boxResult} key={row}>
-                  {election.normalization && indexRow === 1
+                <StyledCell
+                  key={`row${indexRow}`}
+                  content={election.normalization && indexRow === 1
                     ? parseFloat((fila[row] / election.max_weight).toFixed(3))
                     : fila[row]}
-                </td>
+                />
               ))}
             </tr>
           );
