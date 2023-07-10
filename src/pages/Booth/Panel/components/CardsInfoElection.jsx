@@ -2,8 +2,56 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
 import { getStats } from "../../../../services/election";
+import { singularOrPlural } from "../../../../utils/utils";
 
-export default function CardsInfoElection() {
+function StyledRow({children}) {
+  return (
+    <div className={"row justify-content-between"}>
+      {children}
+    </div>
+  )
+}
+
+function StyledCard({children}) {
+  return(
+    <div
+      className="box col-sm-3 col-12 m-0 mb-3"
+      style={{minWidth: '30%'}}
+    >
+      {children}
+    </div>
+  )
+}
+
+function PercentageCard({
+  title, cipher,
+}) {
+  return (
+    <StyledCard>
+      <div className="text-center is-size-8">{title}</div>
+      <span className="d-flex justify-content-center is-size-4 is-bold">
+        {cipher}%
+      </span>
+    </StyledCard>
+  )
+}
+
+function QuantitativeCard({
+  title, cipher, singular, plural,
+}) {
+  return (
+    <StyledCard>
+      <div className="text-center is-size-8">{title}</div>
+      <span className="d-flex justify-content-center is-size-4 is-bold">
+        {cipher}
+        {" "}
+        {singularOrPlural(singular, plural, cipher)}
+      </span>
+    </StyledCard>
+  )
+}
+
+export default function StyledCardsInfoElection() {
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const [weightsInit, setWeightsInit] = useState([]);
@@ -27,8 +75,10 @@ export default function CardsInfoElection() {
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
       const sortedWeights = sortWeight(JSON.parse(jsonResponse.weights_init));
-      setWeightsInit(sortedWeights);
-      setWEightsElection(JSON.parse(jsonResponse.weights_election));
+      //setWeightsInit(sortedWeights);
+      //setWEightsElection(JSON.parse(jsonResponse.weights_election));
+      setWeightsInit(['1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0']);
+      setWEightsElection({'1.0': 1, '2.0': 2, '3.0': 3, '4.0': 3, '5.0': 3, '6.0': 3, '7.0': 3});
 
       return jsonResponse;
     }
@@ -50,49 +100,39 @@ export default function CardsInfoElection() {
   const percentageVotes = ((totalVotes / totalVoters) * 100).toFixed(2);
   return (
     <div>
-      <div className={"row justify-content-between"}>
-        <div className="box col-sm-3 col-12 m-0">
-          <div className="text-center is-size-4">Total votos</div>
-          <span className="d-flex justify-content-center">
-            {totalVotes} votos
-          </span>
-        </div>
-        <div className="box col-sm-4 col-12 m-0 mx-sm-2 mx-0">
-          <div className="text-center is-size-4">Participación</div>
-          <span className="d-flex justify-content-center">
-            {isNaN(percentageVotes) ? 0 : percentageVotes}%
-          </span>
-        </div>
-        <div className="box col-sm-3 col-12">
-          <div className="text-center is-size-4">Total padrón</div>
-          <span className="d-flex justify-content-center">
-            {totalVoters} votantes
-          </span>
-        </div>
-      </div>
-      <div className={"row justify-content-between mt-4"}>
+      <StyledRow>
+        <QuantitativeCard
+          title="Total votos"
+          cipher={totalVotes}
+          singular="voto"
+          key="nroVotos"
+        />
+        <PercentageCard
+          title="Participación"
+          cipher={isNaN(percentageVotes) ? 0 : percentageVotes}
+          key="participacion"
+        />
+        <QuantitativeCard
+          title="Total padrón"
+          cipher={totalVoters}
+          singular="votante"
+          plural="votantes"
+          key="nroVotantes"
+        />
+      </StyledRow>
+      <StyledRow>
         {weightsInit &&
-          weightsInit.map((weight, index) => {
+          weightsInit.map((weight) => {
             return (
-              <>
-                <div
-                  className={`box col-sm-3 col-12 ${
-                    index % 3 === 0 ? "ml-0 mr-1" : ""
-                  } ${index % 3 === 2 ? "mr-0 ml-1" : ""}`}
-                  key={index}
-                >
-                  <div className="text-center is-size-5">
-                    Votos ponderación {weight}
-                  </div>
-                  <span className="d-flex justify-content-center">
-                    {weightsElection[weight] ? weightsElection[weight] : 0}{" "}
-                    votos
-                  </span>
-                </div>
-              </>
+              <QuantitativeCard
+                title={`Votos ponderación ${weight}`}
+                cipher={weightsElection[weight] ? weightsElection[weight] : 0}
+                singular="voto"
+                key={`votosPonderacion${weight}`}
+              />
             );
           })}
-      </div>
+      </StyledRow>
     </div>
   );
 }
