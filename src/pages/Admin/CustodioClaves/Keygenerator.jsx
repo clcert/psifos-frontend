@@ -212,7 +212,7 @@ function Keygenerator(props) {
           step_3();
         } else if (TRUSTEE_STEP === 4) {
           window.clearInterval(interval);
-          setProcessFeedback("Generación de claves completado con éxito");
+          setProcessFeedback("Generación de claves completada con éxito");
         }
       } else {
         setProcessFeedback("Los otros trustee aun no completan la etapa");
@@ -231,7 +231,7 @@ function Keygenerator(props) {
     download_sk_to_file("trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt");
     setSecretKey(helios_c.secret_key);
     setProcessFeedback(
-      "Debes descargar el archivo y respaldarlo adecuadamente. Para continuar, debes subir el archivo recién descargado para verificar que lo tienes almacenado en tu computador"
+      "Para continuar, debe subir el archivo recién descargado. Recuerde guardar adecuadamente el archivo en su computador y respaldarlo."
     );
   }
 
@@ -660,10 +660,9 @@ function Keygenerator(props) {
               &nbsp;
               <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN
               <br />
-              Una vez que descargues la clave, debes almacenarla en tu
-              computador, además de hacer un respaldo del archivo descargado.{" "}
-              <br />
-              Para hacer este respaldo puedes guardar el archivo en un pendrive.
+              Una vez que descargue la clave, debe almacenarla en su
+              computador y respaldar el archivo descargado. Puede respaldar guardando
+              el archivo en un pendrive.
             </span>
           </div>
           <br />
@@ -727,8 +726,7 @@ function Keygenerator(props) {
             {secretKey && actualPhase === 1 && (
               <div>
                 <p className="has-text-white is-size-5 mb-1 mt-4">
-                  Si no encuentras el archivo, puedes descargar nuevamente tu
-                  clave privada
+                  Si no encuentra el archivo, puede descargarlo nuevamente.
                 </p>
                 <button
                   className="button is-primary mt-0"
