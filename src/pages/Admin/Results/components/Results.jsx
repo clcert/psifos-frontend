@@ -86,8 +86,8 @@ function PercentageOptions({
   handleChange, currentValue,
 }) {
   return (
-    <div className="statistics-votes-by-time">
-      <label>Total considerado para porcentajes:</label>
+    <div className="percentage-selector-container">
+      <label>¿Desea considerar los votos blancos y nulos en el total de votos?</label>
       <div className="control ml-2">
         <div className="select">
           <select
@@ -96,8 +96,8 @@ function PercentageOptions({
             id="time"
             value={currentValue}
           >
-            <option value="votosValidos">Cantidad de votos válidamente emitidos</option>
-            <option value="votosEmitidos">Cantidad de votos emitidos (incluye blancos y nulos)</option>
+            <option value="votosValidos">Si</option>
+            <option value="votosEmitidos">No</option>
           </select>
         </div>
       </div>
@@ -212,23 +212,23 @@ function WeightsTableSection() {
 
 function CalculatedResults({ questions, results, election }) {
   return (
-    <div>
-      <div className="box ">
+    <>
+      <div className="box " style={{width: "100%"}}>
         <ResumenElection />
       </div>
       {election.max_weight !== 1 && (
-        <div className="box ">
+        <div className="box " style={{width: "100%"}}>
           <WeightsTableSection />
         </div>
       )}
-      <div className="box ">
+      <div className="box " style={{width: "100%"}}>
         <ResultsPerQuestion
           election={election}
           questions={questions}
           results={results}
         />
       </div>
-    </div>
+    </>
   );
 }
 

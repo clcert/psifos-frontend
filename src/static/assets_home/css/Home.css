@@ -13395,6 +13395,12 @@ Consult
   margin-top: 30px;
 }
 
+.percentage-selector-container {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+}
+
 .is-bold {
   font-weight: bold;
 }
