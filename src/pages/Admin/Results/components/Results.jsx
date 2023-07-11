@@ -13,6 +13,98 @@ import WeightsTable from "../../ElectionResume/components/WeightsTable";
 import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
 import { permanentOptionsList } from "../../../../constants";
 
+const analizeQuestionResult = (
+  question,
+  votesPerAns,
+  includeBlankNull,
+) => {
+  const noNullWhiteAns = includeBlankNull === "True"
+  ? votesPerAns.slice(0, -2) : votesPerAns
+  const nValidVotes = votesPerAns.reduce((n, a) => n + parseInt(a), 0);
+  const nCastVotes = noNullWhiteAns.reduce((n, a) => n + parseInt(a), 0);
+  
+  let result = [];
+  question.closed_options.forEach((answer, index) => {
+    const obj = {
+      Respuesta: answer,
+      Votos: parseInt(votesPerAns[index]),
+      PorcentajeSobreVotosValidos: getPercentage(votesPerAns[index], nValidVotes),
+    }
+    if (permanentOptionsList.includes(answer)) {
+      result.push(obj)
+    }
+    else {
+      result.push({
+        ...obj,
+        PorcentajeSobreVotosEmitidos: getPercentage(votesPerAns[index], nCastVotes),
+      })
+    }
+  });
+  return result
+}
+
+function BoxPerQuestion({
+  question, index, election, result, 
+}) {
+  const [percentageOption, setPercentageOpcion] = useState('votosValidos')
+
+  const resultByOption = result.reduce((accumulator, currentValue) => {
+    const {
+      PorcentajeSobreVotosValidos, PorcentajeSobreVotosEmitidos, ...infoGeneral
+    } = currentValue
+    if (percentageOption === 'votosValidos') {
+      accumulator.push({...infoGeneral, Porcentaje: PorcentajeSobreVotosValidos})
+    }
+    else if (percentageOption === 'votosEmitidos' && PorcentajeSobreVotosEmitidos) {
+      accumulator.push({...infoGeneral, Porcentaje: PorcentajeSobreVotosEmitidos})
+    }
+    else {
+      accumulator.push(infoGeneral)
+    }
+    return accumulator
+  }, [])
+  return (
+    <div
+      className="box question-box-results"
+      id="question-box-results"
+    >
+      <QuestionTitle index={index} text={question.q_text} />
+      <QuestionTables
+        election={election}
+        result={resultByOption}
+        question={question}
+      />
+      {question.include_blank_null === "True" && <PercentageOptions
+        handleChange={(e) => setPercentageOpcion(e.target.value)}
+        currentValue={percentageOption}
+      />}
+    </div>
+  )
+}
+
+function PercentageOptions({
+  handleChange, currentValue,
+}) {
+  return (
+    <div className="statistics-votes-by-time">
+      <label>Total considerado para porcentajes:</label>
+      <div className="control ml-2">
+        <div className="select">
+          <select
+            onChange={handleChange}
+            name="delta-time"
+            id="time"
+            value={currentValue}
+          >
+            <option value="votosValidos">Cantidad de votos válidamente emitidos</option>
+            <option value="votosEmitidos">Cantidad de votos emitidos (incluye blancos y nulos)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function TitleCard({ title }) {
   return (
     <div className="d-flex py-2">
@@ -72,18 +164,13 @@ function ResultsPerQuestion({ questions, results, election }) {
       <TitleCard title="Resultados por pregunta" />
       {questions.map((question, index) => {
         return (
-          <div
+          <BoxPerQuestion
+            question={question}
+            index={index}
+            election={election}
+            result={results[index]}
             key={index}
-            className="box question-box-results"
-            id="question-box-results"
-          >
-            <QuestionTitle index={index} text={question.q_text} />
-            <QuestionTables
-              election={election}
-              result={results[index]}
-              question={questions[index]}
-            />
-          </div>
+          />
         );
       })}
     </>
@@ -178,6 +265,19 @@ function Results() {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
+  const handleResults = (questionsObject, resultObject) => {
+    let result = [];
+    questionsObject.forEach((element, q_num) => {
+      result.push(analizeQuestionResult(
+        element,
+        resultObject[q_num].ans_results,
+        questionsObject[q_num].include_blank_null,
+      ))
+    });
+    setResults(result);
+    setQuestions(questionsObject);
+  };
+
   const getElectionResult = useCallback(async () => {
     setLoad(false);
     getElectionPublic(shortName).then((election) => {
@@ -187,36 +287,12 @@ function Results() {
         if (jsonResponse.election_status === "Decryptions combined") {
           const questionsObject = JSON.parse(jsonResponse.questions);
           const resultObject = JSON.parse(jsonResponse.result);
-          createResults(questionsObject, resultObject);
+          handleResults(questionsObject, resultObject);
         }
       }
       setLoad(true);
     });
   }, [shortName]);
-
-  const createResults = (questionsObject, resultObject) => {
-    let result = [];
-    questionsObject.forEach((element, q_num) => {
-      let q_result = [];
-      const ans = resultObject[q_num].ans_results;
-      const no_null_white_ans = questionsObject[q_num].include_blank_null === "True"
-      ? ans.slice(0, -2) : ans
-      const n_votes = no_null_white_ans.reduce((n, a) => n + parseInt(a), 0);
-      element.closed_options.forEach((answer, index) => {
-        q_result.push(
-          permanentOptionsList.includes(answer) ? {
-            Respuesta: answer, Votos: parseInt(ans[index]),
-          } : {
-            Respuesta: answer, Votos: parseInt(ans[index]),
-            Porcentaje: getPercentage(ans[index], n_votes),
-          }
-        );
-      });
-      result.push(q_result);
-    });
-    setResults(result);
-    setQuestions(questionsObject);
-  };
 
   useEffect(() => {
     getElectionResult();

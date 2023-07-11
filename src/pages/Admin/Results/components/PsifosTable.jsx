@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
 function StyledCell({content}) {
@@ -19,7 +19,7 @@ function StyledCell({content}) {
 }
 
 function PsifosTable({ data, election }) {
-  const [tableData, setTableData] = useState([...data]);
+  const [tableData, setTableData] = useState(data);
   const [ordenamiento, setOrdenamiento] = useState({
     column: null,
     ascendente: true,
@@ -31,9 +31,8 @@ function PsifosTable({ data, election }) {
     (item) => typeof arbitraryEl[item] === "number"
   );
 
-  const boxResult = {
-    width: "180px",
-  };
+  useEffect(() => setTableData(data)
+  , [data])
 
   return (
     <table className="pretty table is-hoverable voters-table">
