@@ -5,7 +5,7 @@ import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import { getElectionPublic } from "../../../services/election";
-import Results from "../../Admin/Results/components/Results";
+import Results from "../../Admin/Results/Results";
 import CastVoteView from "./CastVoteView";
 import SubNavbarBooth from "./components/SubNavbarBooth";
 import LoggerBoth from "./LoggerBooth";
