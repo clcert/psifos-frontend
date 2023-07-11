@@ -54,10 +54,23 @@ export const electionStatus = {
     settingUp : "Setting up",
     started : "Started",
     ended : "Ended",
+    computingTally: "Computing Tally",
     tallyComputed : "Tally computed",
     decryptionsUploaded : "Decryptions uploaded",
     decryptionsCombined : "Decryptions combined",
     resultsReleased : "Results released"
 }
+
+export const electionStatusTranslate = {
+    "Setting up" : "En configuración",
+    "Started" : "Iniciada",
+    "Ended" : "Finalizada",
+    "Computing Tally": "Computando tally",
+    "Tally computed" : "Tally computado",
+    "Decryptions uploaded" : "Desencriptaciones subidas",
+    "Decryptions combined" : "Desencriptaciones combinadas",
+    "Results released" : "Resultados liberados"
+}
+
 
 export const permanentOptionsList = Object.values(permanentOptions)

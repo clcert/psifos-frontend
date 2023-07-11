@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { logout } from "../../../utils/utils";
 import { getElection, getStats } from "../../../services/election";
@@ -16,6 +16,7 @@ import CardSettings from "./component/CardSettings";
 import CardSteps from "./component/CardSteps";
 import UploadModal from "../VotersList/components/UploadModal";
 import ModalDeleteElection from "./component/ModalDeleteElection";
+import { electionStatus } from "../../../constants";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -55,7 +56,9 @@ function AdministrationPanel(props) {
   const [typeFeedback, setTypeFeedback] = useState("");
 
   /** @state {string} election status */
-  const [electionStatus, setElectionStatus] = useState("");
+  const [electionStep, setElectionStep] = useState("");
+
+  const interTallyRef = useRef(null);
 
   /** @state {array} array with all trustees */
   const [trustees, setTrustees] = useState([]);
@@ -73,18 +76,6 @@ function AdministrationPanel(props) {
     /**
      * Get election and trustee info
      */
-    getElection(shortName).then((election) => {
-      const { resp, jsonResponse } = election;
-      if (resp.status === 200) {
-        setElection(jsonResponse);
-        setElectionStatus(jsonResponse.election_status);
-        setTrustees(jsonResponse.trustees);
-
-        setLoad(true);
-      } else if (resp.status === 401) {
-        logout();
-      }
-    });
     getStats(shortName).then((res) => {
       const { jsonResponse } = res;
       setTotalVoters(jsonResponse.total_voters);
@@ -92,9 +83,45 @@ function AdministrationPanel(props) {
     });
   }, [shortName]);
 
+  const updateElection = useCallback(async () => {
+    await getElection(shortName).then((election) => {
+      const { resp, jsonResponse } = election;
+      if (resp.status === 200) {
+        setElection(jsonResponse);
+        setElectionStep(jsonResponse.election_status);
+        setTrustees(jsonResponse.trustees);
+        setLoad(true);
+      } else if (resp.status === 401) {
+        logout();
+      }
+    });
+  }, [shortName]);
+
+  const tallyHandler = useCallback(() => {
+    let interval = setInterval(async function () {
+      await updateElection();
+    }, 10000);
+    interTallyRef.current = interval;
+  }, [electionStep, updateElection]);
+
   useEffect(() => {
+    updateElection();
     updateInfo();
-  }, [updateInfo]);
+    return () => {
+      clearInterval(interTallyRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      interTallyRef.current === null &&
+      electionStep === electionStatus.computingTally
+    ) {
+      tallyHandler();
+    } else {
+      clearInterval(interTallyRef.current);
+    }
+  }, [electionStep]);
 
   return (
     <>
@@ -118,7 +145,10 @@ function AdministrationPanel(props) {
           {load ? (
             <div className="container is-max-desktop">
               {feedbackMessage && (
-                <div id="feedback-message" className={"notification is-primary " + typeFeedback}>
+                <div
+                  id="feedback-message"
+                  className={"notification is-primary " + typeFeedback}
+                >
                   <button
                     className="delete"
                     onClick={() => setFeedbackMessage("")}
@@ -138,7 +168,7 @@ function AdministrationPanel(props) {
                   />
                   <CardSteps
                     election={election}
-                    electionStatus={electionStatus}
+                    electionStep={electionStep}
                     freezeModal={() => setFreezeModal(true)}
                     closeModal={() => setCloseModal(true)}
                     tallyModal={() => setTallyModal(true)}
@@ -151,7 +181,7 @@ function AdministrationPanel(props) {
                 <div className="column">
                   <CardInfo
                     election={election}
-                    electionStatus={electionStatus}
+                    electionStep={electionStep}
                     updateInfo={updateInfo}
                     totalVoters={totalVoters}
                     totalVotes={totalVotes}
@@ -172,7 +202,7 @@ function AdministrationPanel(props) {
         <ModalFreeze
           show={freezeModal}
           onHide={() => setFreezeModal(false)}
-          freezeChange={() => setElectionStatus("Started")}
+          freezeChange={() => setElectionStep("Started")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -182,7 +212,7 @@ function AdministrationPanel(props) {
         <ModalCloseElection
           show={closeModal}
           onHide={() => setCloseModal(false)}
-          endChange={() => setElectionStatus("Ended")}
+          endChange={() => setElectionStep("Ended")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -193,7 +223,7 @@ function AdministrationPanel(props) {
         <ModalTally
           show={tallyModal}
           onHide={() => setTallyModal(false)}
-          tallyChange={() => setElectionStatus("Tally computed")}
+          tallyChange={() => setElectionStep(electionStatus.computingTally)}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -204,7 +234,7 @@ function AdministrationPanel(props) {
         <ModalCombineTally
           show={combineTallyModal}
           onHide={() => setCombineTallyModal(false)}
-          combineChange={() => setElectionStatus("Decryptions combined")}
+          combineChange={() => setElectionStep("Decryptions combined")}
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);

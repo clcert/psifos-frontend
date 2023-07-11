@@ -1,22 +1,31 @@
 import { Link } from "react-router-dom";
+import { electionStatus } from "../../../../constants";
 
-function Status(props) {
+function Status({
+  electionStep,
+  election,
+  uploadModalonClick,
+  freezeModal,
+  closeModal,
+  tallyModal,
+  combineTallyModal,
+}) {
   const canCombineDecryptions =
-    props.electionStatus === "Decryptions uploaded" ||
-    (props.electionStatus === "Tally computed" &&
-      props.election.decryptions_uploaded >=
-        Math.floor(props.election.total_trustees / 2) + 1);
+    electionStep === "Decryptions uploaded" ||
+    (electionStep === "Tally computed" &&
+      election.decryptions_uploaded >=
+        Math.floor(election.total_trustees / 2) + 1);
 
   return (
     <>
       {" "}
-      {!props.election.total_voters > 0 &&
-        props.election.private_p &&
-        props.electionStatus === "Setting up" && (
+      {!election.total_voters > 0 &&
+        election.private_p &&
+        electionStep === "Setting up" && (
           <div className="content-card-admin">
             <span
               onClick={() => {
-                props.uploadModalonClick(true);
+                uploadModalonClick(true);
               }}
               className="panel-text-sect"
             >
@@ -26,17 +35,15 @@ function Status(props) {
             </span>
           </div>
         )}
-      {props.election.questions === null &&
-        props.electionStatus === "Setting up" && (
+      {election.questions === null &&
+        electionStep === electionStatus.settingUp && (
           <div className="content-card-admin">
             <span className="panel-text-sect">
               <Link
                 id="button-add-questions"
                 className="link-without-line"
                 to={
-                  "/psifos/admin/" +
-                  props.election.short_name +
-                  "/create-question/"
+                  "/psifos/admin/" + election.short_name + "/create-question/"
                 }
               >
                 Añadir preguntas
@@ -44,59 +51,64 @@ function Status(props) {
             </span>
           </div>
         )}
-      {props.election.trustees.length === 0 &&
-        props.electionStatus === "Setting up" && (
+      {election.trustees.length === 0 &&
+        electionStep === electionStatus.settingUp && (
           <div className="content-card-admin">
             <span className="panel-text-sect">
               <Link
                 id="button-add-trustee"
                 className="link-without-line"
-                to={"/psifos/admin/" + props.election.short_name + "/trustee"}
+                to={"/psifos/admin/" + election.short_name + "/trustee"}
               >
                 Añadir custodios
               </Link>
             </span>
           </div>
         )}
-      {(props.election.total_voters > 0 || !props.election.private_p) &&
-        props.election.questions !== null &&
-        props.election.trustees.length !== 0 &&
-        props.electionStatus === "Setting up" && (
+      {(election.total_voters > 0 || !election.private_p) &&
+        election.questions !== null &&
+        election.trustees.length !== 0 &&
+        electionStep === "Setting up" && (
           <div className="content-card-admin">
-            <span
-              onClick={() => props.freezeModal()}
-              className="panel-text-sect"
-            >
+            <span onClick={() => freezeModal()} className="panel-text-sect">
               <Link id="init-election" className="link-without-line" to="">
                 Iniciar elección
               </Link>
             </span>
           </div>
         )}
-      {props.electionStatus === "Started" && (
+      {electionStep === "Started" && (
         <div className="content-card-admin">
-          <span onClick={() => props.closeModal()} className="panel-text-sect">
+          <span onClick={() => closeModal()} className="panel-text-sect">
             <Link id="close-election" className="link-without-line" to="">
               Cerrar elección
             </Link>
           </span>
         </div>
       )}
-      {props.electionStatus === "Ended" && (
+      {electionStep === "Ended" && (
         <div className="content-card-admin">
-          <span onClick={() => props.tallyModal()} className="panel-text-sect">
+          <span onClick={() => tallyModal()} className="panel-text-sect">
             <Link id="compute-tally" className="link-without-line" to="">
               Computar Tally
             </Link>
           </span>
         </div>
       )}
-      {props.electionStatus === "Tally computed" && (
+      {electionStep === electionStatus.computingTally && (
+        <div className="content-card-admin">
+          <span className="panel-text-sect">
+            Computando tally....{" "}
+            <i id="step_1" className="fa-solid fa-spinner fa-spin" />
+          </span>
+        </div>
+      )}
+      {electionStep === electionStatus.tallyComputed && (
         <div className="content-card-admin">
           <span className="panel-text-sect">
             <Link
               className="link-without-line"
-              to={"/psifos/admin/" + props.election.short_name + "/trustee"}
+              to={"/psifos/admin/" + election.short_name + "/trustee"}
             >
               Esperando desencriptaciones parciales
             </Link>
@@ -105,24 +117,18 @@ function Status(props) {
       )}
       {canCombineDecryptions && (
         <div className="content-card-admin">
-          <span
-            onClick={() => props.combineTallyModal()}
-            className="panel-text-sect"
-          >
+          <span onClick={() => combineTallyModal()} className="panel-text-sect">
             <Link className="link-without-line" to="">
               Combinar desencriptaciones parciales
             </Link>
           </span>
         </div>
       )}
-      {props.electionStatus === "Decryptions combined" && (
+      {electionStep === electionStatus.decryptionsCombined && (
         <div className="content-card-admin">
-          <span
-            onClick={() => props.combineTallyModal()}
-            className="panel-text-sect"
-          >
+          <span onClick={() => combineTallyModal()} className="panel-text-sect">
             <Link
-              to={"/psifos/admin/" + props.election.short_name + "/resultado"}
+              to={"/psifos/admin/" + election.short_name + "/resultado"}
               className="link-without-line"
             >
               Ver resultados
