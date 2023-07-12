@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
-import LinePsifosGraph from "../Graphs/LinePsifosGraph";
+import BarPsifosGraph from "../Graphs/BarPsifosGraph";
 import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
 
-function TimeOptions({handleChange, deltaTime}) {
+function TimeOptions({ handleChange, deltaTime }) {
   return (
     <div className="statistics-votes-by-time">
       <label>Escala de tiempo:</label>
@@ -27,7 +27,7 @@ function TimeOptions({handleChange, deltaTime}) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function VotesByTime(props) {
@@ -75,18 +75,18 @@ function VotesByTime(props) {
       {Object.keys(votesForTime).length !== 0 ? (
         <div className="chart-container" style={{ overflowX: "auto" }}>
           <div className="is-flex is-align-items-center is-flex-direction-column">
-            <LinePsifosGraph data={votesForTime} label="Cantidad de votos" />
+            <BarPsifosGraph
+              data={votesForTime}
+              label="Cantidad de votos"
+              title="Votos a traves del tiempo"
+              onlyHour={true}
+            />
           </div>
-          <TimeOptions
-            handleChange={handleChange}
-            deltaTime={deltaTime}
-          />
+          <TimeOptions handleChange={handleChange} deltaTime={deltaTime} />
         </div>
       ) : load ? (
         <div className="d-flex is-justify-content-center">
-          <NotAvalaibleMessage
-            message="Sin votos registrados"
-          />
+          <NotAvalaibleMessage message="Sin votos registrados" />
         </div>
       ) : (
         <div className="d-flex justify-content-center pt-4">
