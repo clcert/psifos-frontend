@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { backendOpIP } from "../../../../server";
 import { bundleDownload } from "../../../../services/bundle";
+import { electionStatus } from "../../../../constants";
 
 function CardSettings(props) {
   /** @state {bool} state for show infor message about copy */
@@ -93,7 +94,8 @@ function CardSettings(props) {
             </span>
           </CopyToClipboard>
         </div>
-        {props.election.election_status === "Decryptions combined" && (
+        {props.election.election_status ===
+          electionStatus.decryptionsCombined && (
           <div onClick={bundleButton} className="content-card-admin">
             <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
               <i className="fa-solid fa-file-arrow-down"></i>{" "}

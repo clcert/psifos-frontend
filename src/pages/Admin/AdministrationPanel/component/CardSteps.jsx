@@ -1,6 +1,14 @@
 import Status from "./Status";
 
-function CardSteps(props) {
+function CardSteps({
+  election,
+  electionStep,
+  freezeModal,
+  closeModal,
+  tallyModal,
+  combineTallyModal,
+  uploadModalonClick,
+}) {
   return (
     <div className="box ">
       <div className="is-size-4">Proximos pasos</div>
@@ -8,14 +16,14 @@ function CardSteps(props) {
       <hr />
 
       <Status
-        election={props.election}
-        electionStatus={props.electionStatus}
-        freezeModal={props.freezeModal}
-        closeModal={props.closeModal}
-        tallyModal={props.tallyModal}
-        combineTallyModal={props.combineTallyModal}
+        election={election}
+        electionStep={electionStep}
+        freezeModal={freezeModal}
+        closeModal={closeModal}
+        tallyModal={tallyModal}
+        combineTallyModal={combineTallyModal}
         uploadModalonClick={(value) => {
-          props.uploadModalonClick(value);
+          uploadModalonClick(value);
         }}
       />
     </div>

@@ -1,40 +1,31 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getStats } from "../../../../services/election";
-import { translateStep } from "../../../../utils/utils";
 import Status from "../../AdministrationPanel/component/Status";
+import { electionStatusTranslate } from "../../../../constants";
 
-function Header({
-  electionName, electionShortName, configRoute
-}) {
+function Header({ electionName, electionShortName, configRoute }) {
   return (
     <div className="election-header">
-        <div className="">
-          <div className="is-size-3">{electionName}</div>
-          <div className="is-size-4">{electionShortName}</div>
-        </div>
-        <span className="is-size-6">
-          <Link
-            className="link-without-line"
-            to={configRoute}
-          >
-            <i class="fa-solid fa-screwdriver-wrench mr-2"/>
-            <span>Configuraciones</span>
-          </Link>
-        </span>
+      <div className="">
+        <div className="is-size-3">{electionName}</div>
+        <div className="is-size-4">{electionShortName}</div>
       </div>
-  )
+      <span className="is-size-6">
+        <Link className="link-without-line" to={configRoute}>
+          <i class="fa-solid fa-screwdriver-wrench mr-2" />
+          <span>Configuraciones</span>
+        </Link>
+      </span>
+    </div>
+  );
 }
 
-function MainInfo({
-  state, totalVoters, totalVotes,
-}) {
+function MainInfo({ state, totalVoters, totalVotes }) {
   return (
     <>
       <div className="content-card-admin">
-        <span className="panel-text-sect">
-          Estado: {state}
-        </span>
+        <span className="panel-text-sect">Estado: {state}</span>
       </div>
       <div className="content-card-admin">
         <span className="panel-text-sect">
@@ -45,12 +36,17 @@ function MainInfo({
         <span className="panel-text-sect">Cantidad de votos: {totalVotes}</span>
       </div>
     </>
-  )
+  );
 }
 
 function NextSteps({
-  election, electionStatus, freezeModal, closeModal,
-  tallyModal, combineTallyModal, uploadModalonClick,
+  election,
+  electionStatus,
+  freezeModal,
+  closeModal,
+  tallyModal,
+  combineTallyModal,
+  uploadModalonClick,
 }) {
   return (
     <div>
@@ -67,7 +63,7 @@ function NextSteps({
         }}
       />
     </div>
-  )
+  );
 }
 
 function CardElection(props) {
@@ -96,19 +92,19 @@ function CardElection(props) {
 
   return (
     <div className="box info-general">
-      <Header 
+      <Header
         electionName={props.election.name}
         electionShortName={props.election.short_name}
         configRoute={"/psifos/admin/" + props.election.short_name + "/panel"}
       />
       <hr />
       <MainInfo
-        state={translateStep(electionStatus)}
+        state={electionStatusTranslate[electionStatus]}
         totalVoters={totalVoters}
         totalVotes={totalVotes}
       />
       <hr />
-      <NextSteps 
+      <NextSteps
         election={props.election}
         electionStatus={electionStatus}
         freezeModal={props.freezeModal}
