@@ -191,7 +191,7 @@ function CreateElection(props) {
             </div>
             <p className="help">
               {
-                "Ingrese un nombre que no contenga especios, pues este será parte de la URL (e.g. my-club-2010)."
+                "Ingrese un nombre que no contenga espacios, pues este será parte de la URL (e.g. my-club-2010)."
               }
             </p>
           </div>
