@@ -23,7 +23,7 @@ function InvalidLogginByTime(props) {
   const { shortName } = useParams();
 
   async function getCountDates() {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
       method: "POST",
       headers: {
@@ -90,7 +90,9 @@ function InvalidLogginByTime(props) {
           </p>
         </div>
       ) : (
-        <div className="spinner-animation"></div>
+        <div className="d-flex justify-content-center pt-4">
+          <div className="spinner-animation"></div>
+        </div>
       )}
     </>
   );

@@ -6,7 +6,12 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useState, useEffect } from "react";
 import { backendOpIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
+import AlertNotification from "../component/AlertNotification";
 import { getElection } from "../../../services/election";
+
+function AsteriskRequiredField() {
+  return <span className="asterisk-required-field">*</span>;
+}
 
 function CreateElection(props) {
   /**
@@ -75,7 +80,7 @@ function CreateElection(props) {
      * async function to send and create a election
      */
     if (checkData()) {
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const resp = await fetch(backendOpIP + url, {
         method: "POST",
         headers: {
@@ -127,6 +132,11 @@ function CreateElection(props) {
     if (shortNameElection.length === 0 || shortNameElection.length > 100) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;
+    } else if (shortNameElection.includes(" ")) {
+      setAlertMessage(
+        "El nombre de la elección no puede tener espacios en blanco"
+      );
+      return false;
     } else if (name.length === 0 || name.length > 250) {
       setAlertMessage(
         "El nombre de la elección debe tener entre 1 y 250 caracteres"
@@ -141,7 +151,7 @@ function CreateElection(props) {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Creación de Elección" />
+          <TitlePsifos namePage="Crear votación" />
         </div>
       </section>
 
@@ -153,21 +163,21 @@ function CreateElection(props) {
       >
         <div className="body-content">
           {alertMessage.length > 0 && (
-            <div className="notification is-danger is-light">
-              <button
-                className="delete"
-                onClick={() => {
-                  setAlertMessage("");
-                }}
-              ></button>
-              {alertMessage}
-            </div>
+            <AlertNotification
+              alertMessage={alertMessage}
+              onClear={() => {
+                setAlertMessage("");
+              }}
+            />
           )}
-
           <div className="field">
-            <label className="label label-form-election">Nombre corto</label>
+            <label className="label label-form-election">
+              Nombre corto
+              <AsteriskRequiredField />
+            </label>
             <div className="control">
               <input
+                id="input-short-name"
                 disabled={disabledEdit}
                 className="input"
                 type="text"
@@ -180,15 +190,19 @@ function CreateElection(props) {
               />
             </div>
             <p className="help">
-              No espacios, esta sera parte de la URL, e.g. my-club-2010
+              {
+                "Ingrese un nombre que no contenga espacios, pues este será parte de la URL (e.g. my-club-2010)."
+              }
             </p>
           </div>
           <div className="field">
             <label className="label label-form-election">
               Nombre de la elección
+              <AsteriskRequiredField />
             </label>
             <div className="control">
               <input
+                id="input-name"
                 disabled={disabledEdit}
                 className="input"
                 type="text"
@@ -200,7 +214,9 @@ function CreateElection(props) {
               />
             </div>
             <p className="help">
-              El nombre bonito para su elección, e.g Elecciones de Mi Club 2010
+              {
+                "Ingrese un nombre bonito para su elección (e.g Elecciones de Mi Club 2010)."
+              }
             </p>
           </div>
           <div className="field">
@@ -243,6 +259,7 @@ function CreateElection(props) {
             </label>
             <div className="control">
               <input
+                id="weight-input"
                 disabled={disabledEdit}
                 className="input"
                 type="number"
@@ -253,7 +270,10 @@ function CreateElection(props) {
                 }}
               />
             </div>
-            <p className="help">The maximum value of the voter weights.</p>
+            <p className="help">
+              {" "}
+              El máximo valor que puede tener el peso de uno de los votantes.
+            </p>
           </div>
           <div className="field">
             <div className="control">
@@ -271,8 +291,9 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              If selected, voter identities will be replaced with aliases, e.g.
-              "V12", in the ballot tracking center
+              {
+                "Actívelo si desea que la identidad de los votantes sea remplazada por alias en el centro de rastreo de papeletas (e.g. V12)."
+              }
             </p>
           </div>
           <div className="field">
@@ -299,6 +320,7 @@ function CreateElection(props) {
             <div className="control">
               <label className="checkbox">
                 <input
+                  id="private-input"
                   disabled={disabledEdit}
                   onChange={(e) => {
                     setPrivateElection(e.target.checked);
@@ -311,15 +333,14 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              Una elección privada solo es visible para los votantes
-              registrados.
+              Actívelo si desea que su elección sea privada, es decir, que solo
+              sea visible para los votantes registrados.
             </p>
           </div>
           <div className="field">
             <div className="control">
               <label className="checkbox">
                 <input
-                  disabled={disabledEdit}
                   onChange={(e) => {
                     setNormalization(e.target.checked);
                   }}
@@ -331,8 +352,8 @@ function CreateElection(props) {
               </label>
             </div>
             <p className="help">
-              Los números de resultados que se muestran se dividen por el peso
-              máximo de votantes
+              Actívelo si desea que los números de resultados que se muestran se
+              dividan por el peso máximo de votantes.
             </p>
           </div>
           <div className="row">
@@ -352,7 +373,6 @@ function CreateElection(props) {
             <div className="col-6 d-inline-flex justify-content-end">
               {props.edit ? (
                 <Button
-                  disabled={disabledEdit}
                   onClick={() => {
                     sendElection("/edit-election/" + shortName);
                   }}
@@ -362,6 +382,7 @@ function CreateElection(props) {
                 </Button>
               ) : (
                 <Button
+                  id="button-send-election"
                   onClick={() => {
                     sendElection("/create-election");
                   }}

@@ -23,7 +23,7 @@ function TeamComponent(props) {
         className="
     title
     is-size-5
-    pt-4
+    pt-1
     is-color-blue
     has-text-weight-bold
     "

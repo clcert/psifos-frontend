@@ -58,6 +58,7 @@ function AnswersQuestions(props) {
                       key={item.key}
                       value={item.value}
                       numberQuestion={item.key}
+                      questionId={props.questionId}
                       delete={() => {
                         props.handleRemoveItem(item.key);
                       }}
@@ -74,6 +75,7 @@ function AnswersQuestions(props) {
             <div className="is-flex level">
               <div className="is-flex leve-left">
                 <Button
+                  id={`add-option-${props.questionId}`}
                   className="button-create-question"
                   onClick={() => {
                     props.addAnswer();

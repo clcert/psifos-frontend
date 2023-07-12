@@ -7,10 +7,10 @@ const getElectionDate = (startTime, endTime) => {
   const [ dateInit, timeInit ] = startTime.split(' ');
   const [ dateEnd, timeEnd ] = endTime.split(' ');
   if (dateInit === dateEnd) {
-    return new Date(dateInit).toLocaleDateString('es-ES', dateOptions) + ', de '+ timeInit + ' a ' + timeEnd + ' hrs.';
+    return new Date(dateInit + " 00:00").toLocaleDateString('es-ES', dateOptions) + ', de '+ timeInit + ' a ' + timeEnd + ' hrs.';
   } else {
-    return ('desde ' + new Date(dateInit).toLocaleDateString('es-ES', dateOptions) + ' ' + timeInit + ' hrs.' 
-      + ' hasta ' + new Date(dateEnd).toLocaleDateString('es-ES', dateOptions) + ' ' + timeEnd + ' hrs.' 
+    return ('desde ' + new Date(dateInit + " 00:00").toLocaleDateString('es-ES', dateOptions) + ' ' + timeInit + ' hrs.' 
+      + ' hasta ' + new Date(dateEnd + " 00:00").toLocaleDateString('es-ES', dateOptions) + ' ' + timeEnd + ' hrs.' 
     )
   }
 }
@@ -21,7 +21,7 @@ function InfoVotacion({image, electionData}) {
 
   return (
     <div className="election-box">
-      <div className="is-flex ml-0 is-justify-content-center">
+      <div className="is-flex ml-0">
         <img width={40} height={40} src={image} alt=""/>
         <p className="has-text-weight-bold is-size-4 ml-3 mt-4 current-election-title ">
           ELECCIÓN EN CURSO
@@ -30,26 +30,31 @@ function InfoVotacion({image, electionData}) {
       <div className="unit-logo">
         <img src={`/Fotos/${electionData.picture}`} alt="Logo de Unidad Académica"/>
       </div>
-      <div className="election-date">
-        <b>FECHA</b>:
-        <p>{electionDate}</p>
+      <div className="election-title">
+        <p className="has-text-weight-bold is-size-5 mb-0" style={{ "font-size": "16px" }}>{electionData.title}</p>
+      </div>
+      <div className="mt-3">
+        <b>FECHA</b>
+        <p style={{ "font-size": "16px" }}><em>Hospital Clínico:</em> desde martes 13 de junio 09:00, hasta miércoles 14 de junio 17:00<br/><em>Resto de la Universidad:</em> miércoles 14 de junio, de 09:00 a 17:00</p>
       </div>
       <div className="election-detail">
-        <b>ELECCIONES</b>
-        <ul className="elections-list">
+        <b>INGRESO POR ESTAMENTO</b>
+        <ul className="elections-list pl-0">
           {
             electionData.elections.map((election, index) => (
               <li key={index} className="is-size-6 mb-1 is-flex is-justify-content-space-between is-align-items-center">
-                <span className={"election-bullet bullet-" + String((index % 2) + 1)}>
+                <span className={"election-bullet is-hidden-mobile bienestar-bullet-" + String((index % 2) + 1)}>
                   { " ● " }
                 </span>
-                <span>{ election }</span>
-                <hr className={"multiple-elections-hr bullet-" + String((index % 2) + 1)} />
+                <span style={{ "font-size": "16px", "textAlign": "center" }}>{ election.name }</span>
+                <hr className={"multiple-elections-hr is-hidden-mobile ml-2 bienestar-bullet-" + String((index % 2) + 1)} />
                 {
                   electionData.open ?
-                  <button className={"button election-button election-button-"+ String((index % 2) + 1)} >VOTAR</button>
+                  <a href={ election.link } target="_blank" style={{ "textDecoration": "none" }}>
+                    <button className={"button election-button bienestar-button-" + String((index % 2) + 1)} >ENTRAR</button>
+                  </a>
                   :
-                  <button className={"button election-button election-button-"+ String((index % 2) + 1)} disabled>VOTAR</button>
+                  <button className={"button election-button bienestar-button-" + String((index % 2) + 1)} disabled>ENTRAR</button>
                 }
               </li>
             ))
@@ -59,7 +64,7 @@ function InfoVotacion({image, electionData}) {
       {
         !electionData.open &&
         <div className="election-closed">
-          <p className="has-text-weight-bold is-size-6">ELECCIÓN CERRADA</p>
+          <p className="has-text-weight-bold is-size-5 mb-0">ELECCIÓN CERRADA</p>
         </div> 
       }
     </div>

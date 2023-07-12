@@ -79,7 +79,7 @@ div#preload {
 }
 
 .election-sect {
-  background-image: url("../img/background.jpg") !important;
+  background-image: url("../img/parallax05.jpg") !important;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -140,13 +140,18 @@ div#preload {
 .barra-menu {
   border-left: solid 3px;
   color: #004c94;
-  margin-top: 20px;
-  margin-bottom: 11px;
 }
 
 .navbar-div {
   width: 100%;
   background-color: white;
+  padding-bottom: 0.75rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .navbar-div {
+    padding-bottom: 0;
+  }
 }
 
 .custom-navbar {
@@ -314,15 +319,15 @@ div#preload {
 .text-title {
   font-family: "Arial Black", sans-serif;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #004c94;
-  text-align: right;
 }
 
 .big-text-title {
   font-family: "Arial Black", sans-serif;
   font-weight: bold;
-  font-size: 2.4rem;
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .election-section {
@@ -362,10 +367,8 @@ div#preload {
   color: black;
   margin-left: auto;
   margin-right: auto;
-  width: 60vw;
-  max-width: 1024px;
   padding-left: 2rem !important;
-  padding-right: 3rem !important;
+  padding-right: 2rem !important;
 }
 
 .content-past-elections {
@@ -385,7 +388,6 @@ div#preload {
   .past-elections-box {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-    width: 90vw;
   }
 }
 
@@ -411,7 +413,6 @@ div#preload {
   font-size: 1.5rem;
   font-family: "Arial Black", sans-serif;
   color: #004c94;
-  border-bottom: 2px solid #004c94;
 }
 
 .current-election-item {
@@ -444,7 +445,7 @@ div#preload {
   color: rgb(38, 38, 38) !important;
   font-size: 1.2rem;
   padding: 0.5rem;
-  margin: 20px 2rem;
+  margin-top: 20px;
   border-radius: 5px;
 }
 
@@ -472,22 +473,22 @@ div#preload {
 }
 
 .bullet-1 {
-  color: #004c94 !important;
+  color: #004b93 !important;
   font-weight: bold;
 }
 
 .bullet-2 {
-  color: #1493e7 !important;
+  color: #0095d4 !important;
   font-weight: bold;
 }
 
 .bullet-3 {
-  color: #027d47 !important;
+  color: #6dcaf3 !important;
   font-weight: bold;
 }
 
 .bullet-4 {
-  color: #fdd245 !important;
+  color: #93d5f6 !important;
   font-weight: bold;
 }
 
@@ -517,19 +518,16 @@ div#preload {
 }
 
 .faq-section {
-  background: url("../../img/background-not-allowed.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
+  background-color: #d9e4ef;
 }
 
 .notice-section {
-  background: url("../../../../public/Fotos/individuality.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
+  background-color: #d9e4ef;
+  padding: 0 !important;
+}
+
+.bienestar-section {
+  background-color: #d9e4ef;
   padding: 0 !important;
 }
 
@@ -560,22 +558,21 @@ div#preload {
 
 .icon-flotant {
   position: fixed;
-  width: 30px;
-  left: 95%;
-  bottom: 40px;
-  height: 30px;
-  font-size: 1.3rem;
-  color: white;
-  text-align: center;
-  z-index: 1;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: 2px #fff solid;
+  outline: none;
+  background-color: #004b93;
+  color: #fff;
   cursor: pointer;
-  background-color: #004990;
-  border-radius: 50%;
-  user-select: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
 }
 
 .team-section {
-  background-color: #bfe5f4;
+  background-color: #d9e4ef;
 }
 
 .team-box {
@@ -584,7 +581,8 @@ div#preload {
   box-shadow: none !important;
   margin-left: auto;
   margin-right: auto;
-  max-width: 350px;
+  max-width: 250px;
+  padding: 0 !important;
 }
 
 .team-image {
@@ -851,8 +849,12 @@ input[type="radio"] {
   user-select: none;
 }
 
-.question-answer:hover {
+.question-answer-enabled:hover {
   color: #00b7ff !important;
+}
+
+.question-answer-desabled:hover {
+  color: white !important;
 }
 
 .previous-button {
@@ -923,7 +925,7 @@ input[type="radio"] {
 }
 
 .review-buttons:hover {
-  background-color: #00b7ff !important;
+  background-color: red !important;
 }
 
 .right-button-column {
@@ -3428,7 +3430,9 @@ div.icon-text {
   background-color: whitesmoke;
   border-radius: 4px;
   position: relative;
-  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+  padding: 1.25rem 1.5rem 1.25rem 1.5rem !important;
+  display: flex;
+  justify-content: space-between;
 }
 .notification a:not(.button):not(.dropdown-item) {
   color: currentColor;
@@ -3704,6 +3708,7 @@ div.icon-text {
 .table {
   background-color: white;
   color: #363636;
+  user-select: text;
 }
 .table td,
 .table th {
@@ -6128,6 +6133,10 @@ button.dropdown-item.is-active {
   -ms-overflow-y: visible;
 }
 
+.modal-card-text {
+  text-align: justify;
+}
+
 .modal-card-head,
 .modal-card-foot {
   align-items: center;
@@ -6151,6 +6160,13 @@ button.dropdown-item.is-active {
   flex-shrink: 0;
   font-size: 1.5rem;
   line-height: 1;
+}
+
+.main-modal .modal-title{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 40px;
 }
 
 .modal-card-foot {
@@ -10632,6 +10648,10 @@ a.has-text-danger-dark:focus {
   .is-size-7-mobile {
     font-size: 0.75rem !important;
   }
+
+  .is-size-05-mobile {
+    font-size: 50% !important;
+  }
 }
 @media screen and (min-width: 769px), print {
   .is-size-1-tablet {
@@ -12671,8 +12691,14 @@ Subnavbar
 }
 
 /*
-Panel administración
+Admin General
 */
+
+.info-general .election-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .panel-text {
   font-size: 1.2rem;
@@ -13073,15 +13099,55 @@ Consult
 }
 
 .unit-logo img {
-  margin-bottom: 20px;
+  padding: 10px;
+  border: 5px solid #6dcaf3;
 }
 
 .elections-list li {
   list-style: circle !important;
 }
 
+@media screen and (max-width: 1024px) {
+  .elections-list li {
+    border: 2px solid #004c94;
+    flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
 .election-bullet {
   margin-right: 5px;
+}
+
+.unit-button {
+  color: black !important;
+  border-radius: 5px !important;
+  text-decoration: none;
+  padding: 5px;
+  font-size: 20px !important;
+  border: none !important;
+  margin-bottom: 15px;
+  width: 600px;
+  background-color: white !important;
+  border: 2px solid #004c94 !important;
+}
+
+.unit-button:hover {
+  background-color: #1493e7 !important;
+  color: white !important;
+}
+
+@media screen and (max-width: 800px) {
+  .unit-button {
+    width: 320px;
+  }
+}
+
+.unit-button[disabled] {
+  box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .election-button {
@@ -13098,18 +13164,62 @@ Consult
   background-color: #004c94 !important;
 }
 
+@media screen and (max-width: 1024px) {
+  .election-button {
+    margin-top: 0.5rem;
+  }
+}
+
+.election-button-1:hover {
+  background-color: #1493e7 !important;
+}
+
+.bienestar-button-1 {
+  background-color: #93004c !important;
+}
+
+.bienestar-button-1:hover {
+  background-color: #1493e7 !important;
+}
+
+.bienestar-button-2 {
+  background-color: #4c9300 !important;
+}
+
+.bienestar-button-2:hover {
+  background-color: #1493e7 !important;
+}
+
+.bienestar-bullet-1 {
+  color: #93004c !important;
+  font-weight: bold;
+}
+
+.bienestar-bullet-2 {
+  color: #4c9300 !important;
+  font-weight: bold;
+}
+
 .election-button-2 {
   background-color: #1493e7 !important;
 }
 
+.election-title {
+  color: #004c94;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+
 .election-closed {
-  color: #f14668;
+  color: red;
   text-align: center;
 }
 
 .current-elections-section {
   display: flex;
   flex-direction: column;
+  background-color: rgba(0,75,147,.6);
 }
 
 .loading-news {
@@ -13138,16 +13248,24 @@ Consult
 }
 
 .image-navbar-burger {
-  display: flex !important;
+  display: none !important;
 }
+
+@media screen and (max-width: 1020px) {
+  .image-navbar-burger {
+    display: flex !important;
+    width: 50%;
+    min-width: 250px;
+  }
+}
+
 #image-navbar {
   max-height: none;
   width: 77vw;
 }
 
-.image-navbar-burger {
-  display: none !important;
-}
+
+
 .file-zone{
   height: 100px;
   border: 5px dashed white;
@@ -13190,6 +13308,14 @@ Consult
   margin-top: 0px;
 }
 
+.voters-table {
+  width: fit-content;
+}
+
+.voters-table tbody {
+  background-color: white !important;
+}
+
 .table .table-header {
   font-weight: bold; 
 }
@@ -13228,4 +13354,43 @@ Consult
   margin-left: 30px;
   text-align: justify;
   font-size: 18px;
+}
+
+.asterisk-required-field {
+  color: red;
+  margin-left: 5px;
+}
+
+.text-align-justify {
+  text-align: justify;
+}
+
+.optional-note {
+  font-weight: bold;
+  font-style: italic;
+  margin-top: 12px;
+}
+
+.optional-step .statement {
+  font-size: 23px;
+  justify-content: flex-start;
+}
+
+.optional-step .text {
+  margin: 1rem 0rem;
+}
+
+.optional-step .opt-button {
+  margin: 20px;
+}
+
+.optional-step .opt-title {
+  margin-top: 1rem;
+}
+
+.statistics-votes-by-time {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  margin-top: 30px;
 }

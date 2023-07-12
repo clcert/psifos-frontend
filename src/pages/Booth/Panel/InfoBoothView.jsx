@@ -30,7 +30,7 @@ function InfoBoothView() {
     <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar linkExit="" linkInit="" />
+          <MyNavbar linkExit="/" linkInit="" />
 
           <TitlePsifos
             namePage="Portal de Información"
@@ -52,9 +52,9 @@ function InfoBoothView() {
       >
         {activeNumber === 0 && <CastVoteView election={election} />}
         {activeNumber === 1 && <StatisticsBooth />}
-        {activeNumber === 2 && <Results />}
-        {activeNumber === 3 && <VerifyElection />}
-        {activeNumber === 4 && <LoggerBoth />}
+        {activeNumber === 2 && <LoggerBoth />}
+        {activeNumber === 3 && <Results />}
+        {activeNumber === 4 && <VerifyElection />}
       </section>
 
       <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />

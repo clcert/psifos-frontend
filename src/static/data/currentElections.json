@@ -1,26 +1,18 @@
 {
   "data": [
     {
-      "startTime": "2022-12-05 09:00",
-      "endTime": "2022-12-05 17:00",
-      "unit": "Facultad de Odontología",
-      "typeUnit": "Facultad",
-      "picture": "img/logo-odontologia.svg",
-      "open": true,
-      "elections": [
-        "Comité Salud Pública"
-      ]
-    },
-    {
-      "startTime": "2022-12-12 10:00",
-      "endTime": "2022-12-13 17:00",
-      "unit": "Facultad de Ejemplo",
-      "typeUnit": "Facultad",
-      "picture": "img/logo-fcfm.svg",
+      "startTime": "2023-06-13 09:00",
+      "endTime": "2023-06-14 17:00",
+      "unit": "Universidad de Chile",
+      "typeUnit": "Universidad",
+      "picture": "img/logo-bienestar.png",
+      "title": "Consejo Administrativo de Bienestar del Personal",
       "open": false,
-      "elections": [
-        "Sample Election 1",
-        "Sample Election 2"
+      "elections": [ 
+        {"name": "Académicos(as)",
+         "link": "/bienestarAcad"},
+        {"name": "Personal de Colaboración",
+         "link": "/bienestarPers"}
       ]
     }
   ]

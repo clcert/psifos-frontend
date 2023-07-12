@@ -4,7 +4,7 @@ function UserButton(props) {
   const [display, setDisplay] = useState(false);
 
   function logOut() {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     window.location.href = "/psifos/admin/login";
   }
   return (
@@ -22,7 +22,7 @@ function UserButton(props) {
       }}
     >
       <span>
-        <span>{sessionStorage.getItem("user")}</span>
+        <span> SALIR </span>
       </span>
       {display && (
         <div className="dropdown-menu" id="dropdown-menu4" role="menu">

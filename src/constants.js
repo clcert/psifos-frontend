@@ -1,6 +1,6 @@
 export const links = {
-    windowsVerificator: 'https://github.com/clcert/pyrios/releases/download/v1.1.0/pyrios_windows-amd64',
-    verificators: 'https://github.com/clcert/pyrios/releases/tag/v1.1.0',
+    windowsVerificator: 'https://github.com/clcert/pyrios/releases/download/v2.0.0/pyrios-v2.0.0-windows-amd64.zip',
+    verificators: 'https://github.com/clcert/pyrios/releases/tag/v2.0.0',
 }
 
 export const events = {
@@ -27,11 +27,12 @@ export const events = {
     },
     tally_computed: {
         name: "Cálculo de precómputo",
-        descript: "El precómputo ha sido calculado, aún no estñan los resultados de la elección.",
+        descript: "El precómputo ha sido calculado, aún no están los resultados de la elección.",
     },
-    decryptions_recieved: {
-        name: "Se han recibido desencriptaciones parciales",
+    decryption_recieved: {
+        name: "Recepción de desencriptaciones parciales",
         descript: "Los custodios han ingresado sus claves privadas para calcular las desencriptaciones.",
+        detail: "Custodio(a): "
     },
     decryptions_combined: {
         name: "Combinación de desencriptaciones parciales",
@@ -42,3 +43,21 @@ export const events = {
         descript: "La lista de votantes ha sido actualizada.",
     }
 }
+
+export const permanentOptions = {
+    whiteOptionText: 'Voto Blanco',
+    nullOptionText: 'Voto Nulo'
+}
+
+
+export const electionStatus = {
+    settingUp : "Setting up",
+    started : "Started",
+    ended : "Ended",
+    tallyComputed : "Tally computed",
+    decryptionsUploaded : "Decryptions uploaded",
+    decryptionsCombined : "Decryptions combined",
+    resultsReleased : "Results released"
+}
+
+export const permanentOptionsList = Object.values(permanentOptions)

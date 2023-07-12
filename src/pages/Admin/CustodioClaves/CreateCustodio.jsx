@@ -39,7 +39,7 @@ function CreateCustodio() {
     /**
      * fetch POST create a new custodio
      */
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const url = backendOpIP + "/" + shortName + "/create-trustee";
     const resp = await fetch(url, {
       method: "POST",
@@ -114,6 +114,7 @@ function CreateCustodio() {
             <label className="label label-form-election">Nombre</label>
             <div className="control">
               <input
+                id="trustee-name"
                 className="input"
                 type="text"
                 placeholder="Nombre"
@@ -127,6 +128,7 @@ function CreateCustodio() {
             <label className="label label-form-election">Login ID</label>
             <div className="control">
               <input
+                id="trustee-id"
                 className="input"
                 type="text"
                 placeholder="Login ID"
@@ -140,6 +142,7 @@ function CreateCustodio() {
             <label className="label label-form-election">Correo</label>
             <div className="control">
               <input
+                id="trustee-email"
                 className="input"
                 type="text"
                 placeholder="Correo"
@@ -160,6 +163,7 @@ function CreateCustodio() {
             </Button>
 
             <Button
+              id="send-trustee"
               onClick={verifyForm}
               className="button-custom mr-2 ml-2 level-right"
             >

@@ -37,17 +37,21 @@ function UpperBanner ({title= '', subtitle= ''}) {
               { subtitle !== '' && subtitle }
             </p>
           </div>
-          <div className="column is-align-self-center">
-            <figure className="image" style={{ width: "400px" }}>
+          <div className="column is-align-self-center is-flex is-flex-direction-row is-justify-content-center is-align-items-center">
+            <figure className="image mb-0" style={{ width: "300px" }}>
               <img src={logoParticipa} alt="Logo participa" />
             </figure>
+            <div className="barra-menu mx-2" style={{ height: "50px" }}></div>
+            <figure className="image mb-0" style={{ width: "40px" }}>
+              <img src={logoUchile} alt="Logo Uchile" />
+            </figure>
           </div>
-          <div className="barra-menu"></div>
+          {/* <div className="barra-menu"></div>
           <div className="column is-align-self-center">
             <figure className="image" style={{ width: "70px" }}>
               <img src={logoUchile} alt="Logo Uchile" />
             </figure>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

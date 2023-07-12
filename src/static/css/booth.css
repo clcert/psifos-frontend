@@ -16,13 +16,7 @@
   src: url("../fonts/Arial Italic.ttf");
 }
 /*$family-primary: "Arial-UCH", sans-serif;*/
-#content {
-  background-image: url("../img/parallax05.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: 100vh;
-}
+
 
 #content-trustees {
   background-image: url("../img/background-trustees.jpg");

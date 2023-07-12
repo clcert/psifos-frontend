@@ -17,7 +17,10 @@ function GeneralAdmin() {
   const [elections, setElections] = useState([]);
 
   /** @state {json} state modal freeze */
-  const [freezeModal, setFreezeModal] = useState({ state: false, shortName: "" });
+  const [freezeModal, setFreezeModal] = useState({
+    state: false,
+    shortName: "",
+  });
 
   /** @state {json} state modal close election */
   const [closeModal, setCloseModal] = useState({ state: false, shortName: "" });
@@ -41,7 +44,10 @@ function GeneralAdmin() {
   const [load, setLoad] = useState(false);
 
   /** @state {bool} upload modal state */
-  const [uploadModal, setUploadModal] = useState({ state: false, shortName: "" });
+  const [uploadModal, setUploadModal] = useState({
+    state: false,
+    shortName: "",
+  });
 
   function updateElectionStatus(shortName, status) {
     let auxElections = elections;
@@ -73,7 +79,7 @@ function GeneralAdmin() {
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <NavbarAdmin />
-            <TitlePsifos namePage="Panel de Administración" nameElection={""} />
+            <TitlePsifos namePage="Detalle votaciones" nameElection={""} />
           </div>
         </section>
 
@@ -85,7 +91,7 @@ function GeneralAdmin() {
                   <button
                     className="delete"
                     onClick={() => setFeedbackMessage("")}
-                  ></button>
+                  />
                   {feedbackMessage}
                 </div>
               )}
@@ -96,7 +102,7 @@ function GeneralAdmin() {
                     className="link-button"
                     to="/psifos/admin/home"
                   >
-                    Volver Atras
+                    Volver
                   </Link>
                 </Button>
               </div>
@@ -107,13 +113,22 @@ function GeneralAdmin() {
                     election={election}
                     electionStatus={election.election_status}
                     freezeModal={() => {
-                      setFreezeModal({ state: true, shortName: election.short_name });
+                      setFreezeModal({
+                        state: true,
+                        shortName: election.short_name,
+                      });
                     }}
                     closeModal={() => {
-                      setCloseModal({ state: true, shortName: election.short_name });
+                      setCloseModal({
+                        state: true,
+                        shortName: election.short_name,
+                      });
                     }}
                     tallyModal={() => {
-                      setTallyModal({ state: true, shortName: election.short_name });
+                      setTallyModal({
+                        state: true,
+                        shortName: election.short_name,
+                      });
                     }}
                     combineTallyModal={() => {
                       setCombineTallyModal({
@@ -122,7 +137,10 @@ function GeneralAdmin() {
                       });
                     }}
                     uploadModalonClick={(value) => {
-                      setUploadModal({ state: true, shortName: election.short_name });
+                      setUploadModal({
+                        state: true,
+                        shortName: election.short_name,
+                      });
                     }}
                   />
                 );
@@ -136,7 +154,9 @@ function GeneralAdmin() {
         <ModalFreeze
           show={freezeModal.state}
           onHide={() => setFreezeModal(false)}
-          freezeChange={() => updateElectionStatus(freezeModal.shortName, "Started")}
+          freezeChange={() =>
+            updateElectionStatus(freezeModal.shortName, "Started")
+          }
           feedback={(message, type) => {
             setFeedbackMessage(message);
             setTypeFeedback(type);
@@ -171,7 +191,10 @@ function GeneralAdmin() {
           show={combineTallyModal.state}
           onHide={() => setCombineTallyModal(false)}
           combineChange={() =>
-            updateElectionStatus(combineTallyModal.shortName, "Decryptions combined")
+            updateElectionStatus(
+              combineTallyModal.shortName,
+              "Decryptions combined"
+            )
           }
           feedback={(message, type) => {
             setFeedbackMessage(message);

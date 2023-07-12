@@ -26,13 +26,16 @@ function DeleteModal(props) {
 
     try {
       setDeleteState(true);
-      const token = sessionStorage.getItem("token");
-      const resp = await fetch(backendOpIP + "/" + shortName + "/delete-voters", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const token = localStorage.getItem("token");
+      const resp = await fetch(
+        backendOpIP + "/" + shortName + "/delete-voters",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       setDeleteState(false);
       setFinishedDelete(true);
       if (resp.status === 200) {

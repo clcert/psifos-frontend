@@ -4,10 +4,10 @@ import { Button } from "react-bulma-components";
 import { useParams, useSearchParams } from "react-router-dom";
 import { getVotesInfo } from "../../../services/info";
 import UrnaTable from "./components/UrnaTable";
+import NotAvalaibleMessage from "../components/NotAvalaibleMessage";
 
-function CastVoteView({ election = {} }) {
+function CastVoteView({ election }) {
   const [electionData, setElectionData] = useState({
-    election: election,
     electionVoters: [],
     actualPage: 0,
     totalVotes: 0,
@@ -25,7 +25,7 @@ function CastVoteView({ election = {} }) {
     searchParams.get("hash") !== null ? searchParams.get("hash") : undefined;
 
   const getDataVotes = useCallback(async () => {
-    getVotesInfo(shortName, electionData.actualPage * lengthPage, lengthPage, {
+    getVotesInfo(shortName, electionData.actualPage, lengthPage, {
       voteHash: hashUrl,
       onlyValidVotes: true,
     }).then((dataVotes) => {
@@ -54,7 +54,9 @@ function CastVoteView({ election = {} }) {
 
     const newPage = electionData.actualPage + number;
     if (newPage >= 0) {
-      getVotesInfo(shortName, newPage * lengthPage, lengthPage, {
+      setDisabledNext(true);
+      setDisabledPrevious(true);
+      getVotesInfo(shortName, newPage, lengthPage, {
         onlyValidVotes: true,
       }).then((dataVotes) => {
         if (dataVotes.voters.length !== 0) {
@@ -66,8 +68,6 @@ function CastVoteView({ election = {} }) {
             electionVoters: dataVotes.voters,
             actualPage: newPage,
           });
-        } else {
-          setDisabledNext(true);
         }
       });
     }
@@ -108,20 +108,21 @@ function CastVoteView({ election = {} }) {
               <div className="d-flex justify-content-center mt-2">
                 <span>
                   Página {electionData.actualPage + 1} de {totalPages}{" "}
-                  (Mostrando 1-{lengthPage} de {electionData.totalVotes}{" "}
-                  resultados)
+                  (Mostrando 1-{electionData.electionVoters.length} de{" "}
+                  {electionData.totalVotes} resultados)
                 </span>
               </div>
               <div className="mt-1">
-                <UrnaTable electionData={electionData} />
+                <UrnaTable
+                  election={election}
+                  electionVoters={electionData.electionVoters}
+                />
               </div>
             </div>
           ) : (
-            <div className="box has-text-centered" id="not-results-box">
-              <p className="is-size-3 has-text-weight-bold">
-                Aun no existen votos registrados.
-              </p>
-            </div>
+            <NotAvalaibleMessage 
+              message="Sin votos registrados"
+            />
           )}
         </>
       ) : (

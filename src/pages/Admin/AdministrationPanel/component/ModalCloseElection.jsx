@@ -3,7 +3,7 @@ import { backendOpIP } from "../../../../server";
 function ModalCloseElection(props) {
   async function closeElection() {
     const url = backendOpIP + "/" + props.shortName + "/end-election";
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -48,6 +48,7 @@ function ModalCloseElection(props) {
             </button>
 
             <button
+              id="button-close-election"
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
               onClick={closeElection}
             >

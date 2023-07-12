@@ -31,6 +31,7 @@ export default function DropFile(props) {
   return (
     <div>
       <div
+        id="drop-zone-key"
         className="file-zone d-flex justify-content-center align-content-center"
         onDragOver={(e) => {
           e.preventDefault();
@@ -46,7 +47,7 @@ export default function DropFile(props) {
       >
         <div className="d-flex justify-content-center">
           <span className="has-text-white">
-            Arrastra o haga click para subir el archivo
+            Arrastre o haga click aquí para subir el archivo
           </span>
         </div>
       </div>

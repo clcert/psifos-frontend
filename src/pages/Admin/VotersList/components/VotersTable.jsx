@@ -21,6 +21,7 @@ function VotersTable({
   const [actualPage, setPage] = useState(0);
   const [electionStatus, setElectionStatus] = useState("");
   const [voterToSearch, setVoterToSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const maxForPage = 50;
 
@@ -30,7 +31,7 @@ function VotersTable({
         voterName: voterName,
       }).then((data) => {
         setVoters(data.voters);
-        if (!data.more_votes) setNextDisabled(true);
+        setNextDisabled(!data.more_votes);
       });
     },
     [election]
@@ -44,6 +45,7 @@ function VotersTable({
         setElectionStatus(jsonResponse.status);
         setTotalVoters(jsonResponse.total_voters);
         setTotalVotes(jsonResponse.num_casted_votes);
+        setIsLoading(false);
       });
     },
     [election, getVoters]
@@ -55,10 +57,8 @@ function VotersTable({
      * @param {string} value
      */
     const newPage = actualPage + value;
-
-    if (newPage === 0) {
-      setPreviousDisabled(true);
-    }
+    setPage(newPage);
+    setPreviousDisabled(newPage === 0);
 
     if (newPage >= 0) {
       getVoters(newPage);
@@ -71,6 +71,14 @@ function VotersTable({
      * @param {event} event
      */
     getVoters(0, voterToSearch);
+  }
+
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center pt-4">
+        <div className="spinner-animation"></div>
+      </div>
+    );
   }
 
   if (totalVoters > 0) {
@@ -182,13 +190,15 @@ function VotersTable({
                     </Td>
                     <Td className="align-middle has-text-centered">
                       {election.normalization ? (
-                        <>
-                          {/* {% load tag %}
-                            {% normalize_weight voter.voter_weight election.max_weight %}
-                            TODO: Revisar esto, que hace la etiqueta tag */}
-                        </>
+                        <span>
+                          {parseFloat(
+                            (voter.voter_weight / election.max_weight).toFixed(
+                              3
+                            )
+                          )}
+                        </span>
                       ) : (
-                        <>{voter.voter_weight} </>
+                        <span>{voter.voter_weight} </span>
                       )}
                     </Td>
                     <Td

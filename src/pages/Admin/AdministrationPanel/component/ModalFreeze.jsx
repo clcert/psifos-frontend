@@ -3,7 +3,7 @@ import { backendOpIP } from "../../../../server";
 function ModalFreeze(props) {
   async function freeze() {
     const url = backendOpIP + "/" + props.shortName + "/start-election";
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -49,6 +49,7 @@ function ModalFreeze(props) {
             </button>
 
             <button
+              id="button-init-election"
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
               onClick={freeze}
             >

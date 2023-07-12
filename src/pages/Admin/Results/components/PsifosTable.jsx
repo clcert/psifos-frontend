@@ -1,16 +1,18 @@
 import { useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
-function PsifosTable({ data }) {
+function PsifosTable({ data, election }) {
   const [tableData, setTableData] = useState([...data]);
   const [ordenamiento, setOrdenamiento] = useState({
     column: null,
     ascendente: true,
   });
 
-  const arbitraryEl = data[0]
+  const arbitraryEl = data[0];
   const dataKeys = Object.keys(arbitraryEl);
-  const intDataKeys = dataKeys.filter(item => typeof arbitraryEl[item] === 'number')
+  const intDataKeys = dataKeys.filter(
+    (item) => typeof arbitraryEl[item] === "number"
+  );
 
   const boxResult = {
     width: "180px",
@@ -40,9 +42,11 @@ function PsifosTable({ data }) {
         {tableData.map((fila, index) => {
           return (
             <tr className="has-text-centered" key={index}>
-              {dataKeys.map((row) => (
+              {dataKeys.map((row, indexRow) => (
                 <td style={boxResult} key={row}>
-                  {fila[row]}
+                  {election.normalization && indexRow === 1
+                    ? parseFloat((fila[row] / election.max_weight).toFixed(3))
+                    : fila[row]}
                 </td>
               ))}
             </tr>

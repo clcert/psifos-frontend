@@ -6,6 +6,7 @@ import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getElections } from "../../../services/election";
+import { normalizedLowerCase } from "../../../utils/utils";
 
 function HomeAdmin() {
   /**
@@ -30,6 +31,21 @@ function HomeAdmin() {
       }
     });
   }, []);
+  /**
+   * Search substring
+   * @param {*} input
+   */
+  function searchSubstring(input, substring) {
+    const inputLowerCase = input.toLowerCase();
+    const substringLowerCase = substring.toLowerCase();
+    const inputNormalized = normalizedLowerCase(input);
+    const substringNormalized = normalizedLowerCase(substring);
+
+    return (
+      inputNormalized.includes(substringNormalized) ||
+      inputLowerCase.includes(substringLowerCase)
+    );
+  }
   function searchElection(e) {
     /**
      * Search for elections by name
@@ -37,7 +53,7 @@ function HomeAdmin() {
 
     const search = e.target.value;
     const newElections = elections.filter((election) => {
-      return election.name.toLowerCase().includes(search.toLowerCase());
+      return searchSubstring(election.short_name, search);
     });
     setElectionsSearch(newElections);
   }
@@ -47,7 +63,7 @@ function HomeAdmin() {
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body py-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Bienvenido a Participa UChile DEV" />
+          <TitlePsifos namePage="Bienvenido(a) a Participa UChile DEV" />
         </div>
       </section>
 
@@ -69,7 +85,7 @@ function HomeAdmin() {
                 )}
               </div>
               <div className="d-flex justify-content-between mt-4">
-                {elections.length !== 0 && (
+{/*                 {elections.length !== 0 && (
                   <div className="d-flex mt-2">
                     <Link
                       style={{ textDecoration: "none", color: "white" }}
@@ -77,18 +93,21 @@ function HomeAdmin() {
                       to="/psifos/admin/general"
                     >
                       <Button className="button-custom home-admin-button btn-fixed">
-                        Panel general
+                        Detalle votaciones
                       </Button>
                     </Link>
                   </div>
-                )}
+                )} */}
                 <div className="d-flex mt-2">
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
                     className="link-button"
                     to="/psifos/admin/create-election"
                   >
-                    <Button className="button-custom home-admin-button btn-fixed">
+                    <Button
+                      id="button-create-election"
+                      className="button-custom home-admin-button btn-fixed"
+                    >
                       Crear Votación
                     </Button>
                   </Link>

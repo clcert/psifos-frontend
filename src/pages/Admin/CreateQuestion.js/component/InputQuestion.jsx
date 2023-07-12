@@ -15,6 +15,9 @@ function InputQuestion(props) {
   return (
     <div className="is-flex mb-2">
       <input
+        id={`question-${props.questionId}-text-option-${
+          props.numberQuestion
+        }`}
         disabled={props.disabledEdit}
         value={value}
         onChange={(e) => {

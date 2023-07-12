@@ -21,7 +21,7 @@ async function getTrustees(shortName) {
    * async function to get the trustees
    * set the trustees list
    */
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/" + shortName + "/get-trustees", {
     method: "GET",
     headers: {

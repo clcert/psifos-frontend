@@ -6,7 +6,7 @@ import { getStats } from "../../../../services/election";
 export default function CardsInfoElection() {
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
-  const [weightsInit, setWeightsInit] = useState({});
+  const [weightsInit, setWeightsInit] = useState([]);
   const [weightsElection, setWEightsElection] = useState({});
 
   /** @urlParam {string} shortName of election */
@@ -26,13 +26,17 @@ export default function CardsInfoElection() {
 
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
-
-      setWeightsInit(JSON.parse(jsonResponse.weights_init));
+      const sortedWeights = sortWeight(JSON.parse(jsonResponse.weights_init));
+      setWeightsInit(sortedWeights);
       setWEightsElection(JSON.parse(jsonResponse.weights_election));
 
       return jsonResponse;
     }
   }
+
+  const sortWeight = (weights) => {
+    return Object.keys(weights).sort();
+  };
 
   useEffect(() => {
     getElectionResume();
@@ -44,12 +48,11 @@ export default function CardsInfoElection() {
   }, []);
 
   const percentageVotes = ((totalVotes / totalVoters) * 100).toFixed(2);
-
   return (
     <div>
       <div className={"row justify-content-between"}>
         <div className="box col-sm-3 col-12 m-0">
-          <div className="text-center is-size-4">Total Votos</div>
+          <div className="text-center is-size-4">Total votos</div>
           <span className="d-flex justify-content-center">
             {totalVotes} votos
           </span>
@@ -61,7 +64,7 @@ export default function CardsInfoElection() {
           </span>
         </div>
         <div className="box col-sm-3 col-12">
-          <div className="text-center is-size-4">Total padron</div>
+          <div className="text-center is-size-4">Total padrón</div>
           <span className="d-flex justify-content-center">
             {totalVoters} votantes
           </span>
@@ -69,16 +72,24 @@ export default function CardsInfoElection() {
       </div>
       <div className={"row justify-content-between mt-4"}>
         {weightsInit &&
-          Object.keys(weightsInit).map((weight, index) => {
+          weightsInit.map((weight, index) => {
             return (
-              <div className="box col-sm-3 col-12 m-0" key={index}>
-                <div className="text-center is-size-5">
-                  Votos ponderación {weight}
+              <>
+                <div
+                  className={`box col-sm-3 col-12 ${
+                    index % 3 === 0 ? "ml-0 mr-1" : ""
+                  } ${index % 3 === 2 ? "mr-0 ml-1" : ""}`}
+                  key={index}
+                >
+                  <div className="text-center is-size-5">
+                    Votos ponderación {weight}
+                  </div>
+                  <span className="d-flex justify-content-center">
+                    {weightsElection[weight] ? weightsElection[weight] : 0}{" "}
+                    votos
+                  </span>
                 </div>
-                <span className="d-flex justify-content-center">
-                  {weightsElection[weight] ? weightsElection[weight] : 0} votos
-                </span>
-              </div>
+              </>
             );
           })}
       </div>

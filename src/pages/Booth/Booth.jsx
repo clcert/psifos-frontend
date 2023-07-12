@@ -46,7 +46,7 @@ function Booth(props) {
        */
 
       const url = backendOpIP + "/get-election/" + shortName;
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       const resp = await fetch(url, {
         method: "GET",
         headers: {
@@ -105,17 +105,14 @@ function Booth(props) {
       <NoAuth
         title={"Cabina de votación"}
         message={noAuthMessage}
-        adressLogout={backendOpIP + "/vote/" + shortName + "/logout"}
+        adressLogout={"/"}
       ></NoAuth>
     );
   } else if (load) {
     return type === "Query" ? (
-      <Consult consultData={electionData}></Consult>
+      <Consult consultData={electionData} />
     ) : (
-      <CabinaElection
-        preview={props.preview}
-        electionData={electionData}
-      ></CabinaElection>
+      <CabinaElection preview={props.preview} electionData={electionData} />
     );
   }
 }

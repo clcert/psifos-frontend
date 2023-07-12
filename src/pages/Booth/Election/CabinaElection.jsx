@@ -40,6 +40,22 @@ function CabinaElection(props) {
   /** @urlParam {shortName} election shortName  */
   const { shortName } = useParams();
 
+  // Cuadro de dialogo por si el usuario quiere refrescar
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // Necesario para que Chrome muestre un mensaje personalizado
+    };
+    if (actualPhase === 4) {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    } else {
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    }
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [actualPhase]);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -145,10 +161,7 @@ function CabinaElection(props) {
     <div id="content" className={phases[actualPhase].sectionClass}>
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar
-            linkExit={backendOpIP + "/vote/" + shortName + "/logout"}
-            linkInit=""
-          />
+          <MyNavbar linkExit={"/"} />
           <TitlePsifos
             namePage={
               props.preview

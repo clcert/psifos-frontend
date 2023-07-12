@@ -176,6 +176,7 @@ function OptionQuestions(props) {
             <label className="label">Cantidad maximas respuestas</label>
             <div className="control">
               <input
+                id={`question-${props.questionId}-max-answers`}
                 disabled={props.disabledEdit}
                 value={maxAnswers}
                 className={"input " + (checkMaxAnswers ? "" : "is-danger")}
