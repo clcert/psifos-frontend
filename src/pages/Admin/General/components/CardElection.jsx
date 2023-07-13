@@ -13,7 +13,7 @@ function Header({ electionName, electionShortName, configRoute }) {
       </div>
       <span className="is-size-6">
         <Link className="link-without-line" to={configRoute}>
-          <i class="fa-solid fa-screwdriver-wrench mr-2" />
+          <i className="fa-solid fa-screwdriver-wrench mr-2" />
           <span>Configuraciones</span>
         </Link>
       </span>
