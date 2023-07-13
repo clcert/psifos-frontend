@@ -164,11 +164,11 @@ function QuestionsForms(props) {
                   type="checkbox"
                   className="mr-2"
                 />
-                Incluir voto nulo o blanco
+                Incluir voto nulo y blanco
               </label>
             </div>
             <p className="help">
-              Se incluira la opción para votar nulo o blanco.
+              Se podrá votar por las opciones nulo y blanco.
             </p>
           </div>
           {props.question.q_type === "mixnet_question" && (
