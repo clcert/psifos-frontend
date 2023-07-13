@@ -5,7 +5,7 @@ import CardTitle from "./components/CardTitle";
 function PercentageOptions({ handleChange, currentValue }) {
     return (
         <div className="percentage-selector-container">
-            <label>¿Desea considerar los votos blancos y nulos en el total de votos?</label>
+            <label>¿Desea considerar los votos blancos y nulos en el porcentaje desplegado?</label>
             <div className="control ml-2">
                 <div className="select">
                     <select
