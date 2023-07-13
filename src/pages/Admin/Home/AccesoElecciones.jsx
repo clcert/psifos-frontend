@@ -69,8 +69,8 @@ export default function AccesoElecciones() {
                   />
                 )}
               </div>
-              <div className="d-flex justify-content-between mt-4">
-                <div className="d-flex mt-2">
+              <div className="d-flex justify-content-between">
+                <div className="d-flex">
                   <Link
                     style={{ textDecoration: "none", color: "white" }}
                     className="link-button"
@@ -80,7 +80,7 @@ export default function AccesoElecciones() {
                       id="button-create-election"
                       className="button-custom home-admin-button btn-fixed"
                     >
-                      Crear Votación
+                      Crear votación
                     </Button>
                   </Link>
                 </div>

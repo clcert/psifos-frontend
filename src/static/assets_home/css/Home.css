@@ -13404,3 +13404,9 @@ Consult
 .is-bold {
   font-weight: bold;
 }
+
+.header-accordion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
