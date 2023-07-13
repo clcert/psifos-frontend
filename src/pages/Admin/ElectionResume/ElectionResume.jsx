@@ -5,9 +5,11 @@ import InfoElection from "./components/InfoElection";
 import ElectionCode from "../../../component/Footers/ElectionCode";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SubNavbar from "../component/SubNavbar";
-import { getElectionResume, getStats } from "../../../services/election";
+import {
+  getElectionResume, getStats, getElectionPublic
+} from "../../../services/election";
 
 function ElectionResume() {
   /**
@@ -22,12 +24,29 @@ function ElectionResume() {
   const [weightsEnd, setWeightsEnd] = useState({});
 
   const [weightsElection, setWeightsElection] = useState({});
+  
+  const [maxWeight, setMaxWeight] = useState();
 
   /** @state {string} state of loading data */
   const [load, setLoad] = useState(false);
 
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
+
+  const getElectionResult = useCallback(async () => {
+    getElectionPublic(shortName).then((election) => {
+      const { resp, jsonResponse } = election;
+      if (resp.status === 200) {
+        jsonResponse.max_weight && setMaxWeight(
+          jsonResponse.max_weight
+        )
+      }
+    });
+  }, [shortName]);
+
+  useEffect(() => {
+    getElectionResult();
+  }, [getElectionResult]);
 
   useEffect(
     function effectFunction() {
@@ -65,6 +84,7 @@ function ElectionResume() {
         weightsInit={weightsInit}
         weightsEnd={weightsEnd}
         weightsElection={weightsElection}
+        maxWeight={maxWeight}
       />
 
       <ImageFooter imagePath={imageTrustees} />

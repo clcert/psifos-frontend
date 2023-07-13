@@ -21,16 +21,13 @@ export default function ResumeTable() {
     });
   }, [shortName]);
 
-  const tableStyle = {
-    width: "400px",
-  };
 
   return (
     <div className="d-flex disable-text-selection row justify-content-md-center">
       <table
-        style={tableStyle}
         id="resume-table"
         className="mt-2 table is-bordered is-hoverable voters-table"
+        style={{maxWidth: "50%"}}
       >
         <tbody>
           <tr>
