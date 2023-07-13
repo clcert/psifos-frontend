@@ -11,6 +11,9 @@ function QuestionsForms(props) {
   /** @state {string} question type */
   const [typeQuestion, setTypeQuestion] = useState("unic");
 
+  /** @state {boolean} the question includes white & null options */
+  const [includedWhiteNull, setIncludeWhiteNull] = useState(true);
+
   useEffect(() => {
     if (props.question !== undefined) {
       let answersAux = [];
@@ -155,6 +158,7 @@ function QuestionsForms(props) {
                     let auxQuestion = props.question;
                     auxQuestion.include_blank_null = e.target.checked;
                     props.updateQuestions(props.questionId, auxQuestion);
+                    setIncludeWhiteNull(!includedWhiteNull)
                   }}
                   checked={props.question.include_blank_null}
                   type="checkbox"
@@ -198,6 +202,7 @@ function QuestionsForms(props) {
         disabledEdit={props.disabledEdit}
         checkOptions={props.checkOptions}
         updateQuestions={props.updateQuestions}
+        disabledMinAns={includedWhiteNull}
       />
 
       <div>

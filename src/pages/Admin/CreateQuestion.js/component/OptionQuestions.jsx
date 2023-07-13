@@ -129,6 +129,10 @@ function OptionQuestions(props) {
     props.question.closed_options,
   ]);
 
+  useEffect(() => {
+    props.disabledMinAns && setMinAnswers(1)
+  }, [props.disabledMinAns]);
+
   return (
     <div>
       <div className="field">
@@ -156,13 +160,16 @@ function OptionQuestions(props) {
             <label className="label">Cantidad minima respuestas</label>
             <div className="control">
               <input
-                disabled={props.disabledEdit}
+                disabled={props.disabledEdit || props.disabledMinAns}
                 value={minAnswers}
                 className={"input " + (checkMinAnswers ? "" : "is-danger")}
                 type="number"
                 placeholder="Minimo"
                 onChange={(e) => {
-                  setMinAnswers(parseInt(e.target.value));
+                  const enteredValue = parseInt(e.target.value);
+                  if (isNaN(enteredValue) || enteredValue >= 0) {
+                    setMinAnswers(enteredValue);
+                  }
                 }}
               />
             </div>
@@ -183,7 +190,10 @@ function OptionQuestions(props) {
                 type="number"
                 placeholder="Maximo"
                 onChange={(e) => {
-                  setMaxAnswers(parseInt(e.target.value));
+                  const enteredValue = parseInt(e.target.value);
+                  if (isNaN(enteredValue) || enteredValue >= 0) {
+                    setMaxAnswers(parseInt(enteredValue));
+                  }
                 }}
               />
             </div>
