@@ -12,7 +12,7 @@ function QuestionsForms(props) {
   const [typeQuestion, setTypeQuestion] = useState("unic");
 
   /** @state {boolean} the question includes white & null options */
-  const [includedWhiteNull, setIncludeWhiteNull] = useState(true);
+  const [includedWhiteNull, setIncludeWhiteNull] = useState(props.question.include_blank_null);
 
   useEffect(() => {
     if (props.question !== undefined) {
