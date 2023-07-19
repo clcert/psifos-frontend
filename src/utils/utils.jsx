@@ -1,9 +1,9 @@
-function logout() {
+export function logout() {
   localStorage.removeItem("token");
   window.location.href = "/psifos/admin/login";
 }
 
-function translateStep(step) {
+export function translateStep(step) {
   if (step === "Setting up") {
     return "En configuración";
   } else if (step === "Started") {
@@ -28,7 +28,7 @@ function translateStep(step) {
  * @param {string} phrase phrase to normalize
  * @returns string normalized
  */
-function normalizedLowerCase(phrase) {
+export function normalizedLowerCase(phrase) {
   const phraseLowerCase = phrase.toLowerCase();
   const phraseNormalized = phraseLowerCase
     .normalize("NFD")
@@ -37,4 +37,8 @@ function normalizedLowerCase(phrase) {
   return phraseNormalized;
 }
 
-export { logout, translateStep, normalizedLowerCase };
+export const singularOrPlural = (singular, plural, count) => {
+  if (count === 1) { return singular }
+  if (Boolean(plural)) { return plural }
+  return `${singular}s`
+}

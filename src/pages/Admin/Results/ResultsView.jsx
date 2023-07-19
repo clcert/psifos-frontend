@@ -5,7 +5,7 @@ import SubNavbar from "../component/SubNavbar";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { getStats } from "../../../services/election";
-import Results from "./components/Results";
+import Results from "./Results";
 
 function Resultados() {
   /**

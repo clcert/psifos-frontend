@@ -33,15 +33,14 @@ function ExtendElection(props) {
             >
               <span>VOLVER ATRÁS</span>
             </button>
-       
-    
+
             <button
               className="button review-buttons previous-button has-text-white has-text-weight-bold level-right"
               onClick={props.onHide}
             >
               <span>EXTENDER</span>
             </button>
-            </div>
+          </div>
         </footer>
       </div>
     </div>

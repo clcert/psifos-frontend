@@ -1,12 +1,12 @@
-import { indexOf } from "lodash";
 import { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 
-function MixnetSelection(props) {
+function MixnetSelection({ question, addAnswer, index }) {
   const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
-  const isMixnetGroup = props.question.group_votes === "True";
+  const isMixnetGroup = question.group_votes === "True";
+  const otherOptionsName = "Otras Candidaturas";
 
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
@@ -29,23 +29,23 @@ function MixnetSelection(props) {
   const changeAllEncrypted = useCallback(
     (number) => {
       let auxAnswersForEncrypt = [];
-      for (let i = 0; i < props.question.max_answers; i++) {
+      for (let i = 0; i < question.max_answers; i++) {
         auxAnswersForEncrypt.push(number);
       }
       setAnswersForEncrypt(auxAnswersForEncrypt);
-      props.addAnswer(auxAnswersForEncrypt, props.index);
+      addAnswer(auxAnswersForEncrypt, index);
       return auxAnswersForEncrypt;
     },
-    [answersForEncrypt]
+    [addAnswer, index, question]
   );
 
   useEffect(() => {
     const auxAnswersForEncrypt = changeAllEncrypted(
-      props.question.closed_options.length
+      question.closed_options.length
     );
     const auxOptions = [];
-    props.question.closed_options.forEach((close_option, index) => {
-      const includeBlankNull = props.question.include_blank_null === "True";
+    question.closed_options.forEach((close_option, index) => {
+      const includeBlankNull = question.include_blank_null === "True";
       if (
         includeBlankNull &&
         (close_option === "Voto Blanco" || close_option === "Voto Nulo")
@@ -61,7 +61,7 @@ function MixnetSelection(props) {
       } else {
         const optionSplit = close_option.split(",");
         const value = optionSplit[0];
-        const group = optionSplit[1] ? optionSplit[1] : "Otras Candidaturas";
+        const group = optionSplit[1] ? optionSplit[1] : otherOptionsName;
         const optionValue = {
           value: value,
           label: value,
@@ -76,31 +76,47 @@ function MixnetSelection(props) {
             options: [optionValue],
           });
         } else {
-          optionValue.position = indexGroup.options.length
+          optionValue.position = indexGroup.options.length;
           indexGroup.options.push(optionValue);
         }
       }
     });
+    moveToFinal(auxOptions, (element) => element.label === otherOptionsName);
     setOptions(auxOptions);
-    props.addAnswer(auxAnswersForEncrypt, props.index);
+    addAnswer(auxAnswersForEncrypt, index);
   }, []);
+
+  const moveToFinal = function (array, condition) {
+    const indice = array.findIndex(condition);
+
+    if (indice !== -1) {
+      const elemento = array.splice(indice, 1)[0];
+      array.push(elemento);
+    }
+  };
 
   const filterOptions = useCallback(
     (inputValue) => {
       if (!isMixnetGroup) {
         return options.filter((i) =>
-          i.label.toLowerCase().normalize("NFD").includes(inputValue.toLowerCase().normalize("NFD"))
+          i.label
+            .toLowerCase()
+            .normalize("NFD")
+            .includes(inputValue.toLowerCase().normalize("NFD"))
         );
       }
       const auxOptions = JSON.parse(JSON.stringify(options));
-      auxOptions.map((option) => {
+      auxOptions.forEach((option) => {
         option.options = option.options.filter((i) =>
-          i.label.toLowerCase().normalize("NFD").includes(inputValue.toLowerCase().normalize("NFD"))
+          i.label
+            .toLowerCase()
+            .normalize("NFD")
+            .includes(inputValue.toLowerCase().normalize("NFD"))
         );
       });
       return auxOptions;
     },
-    [options]
+    [options, isMixnetGroup]
   );
 
   const loadOptions = (inputValue, callback) => {
@@ -129,7 +145,7 @@ function MixnetSelection(props) {
         setNullButton(false);
         setBlankButton(false);
         auxAnswersForEncrypt = changeAllEncrypted(
-          props.question.closed_options.length
+          question.closed_options.length
         );
       }
 
@@ -159,11 +175,21 @@ function MixnetSelection(props) {
 
       setAnswersSelected(auxAnswersSelected);
       setAnswersForEncrypt(auxAnswersForEncrypt);
-      props.addAnswer(auxAnswersForEncrypt, props.index);
+      addAnswer(auxAnswersForEncrypt, index);
       setOptions(auxOptions);
       setPlaceHolder(defaultPlaceHolder);
     },
-    [nullButton, blankButton, options, answersSelected, answersForEncrypt]
+    [
+      nullButton,
+      blankButton,
+      options,
+      answersSelected,
+      answersForEncrypt,
+      addAnswer,
+      isMixnetGroup,
+      changeAllEncrypted,
+      question,
+    ]
   );
 
   function deleteOptions() {
@@ -195,7 +221,7 @@ function MixnetSelection(props) {
   function blankVote(event) {
     setBlankButton(event.target.checked);
     setNullButton(false);
-    changeAllEncrypted(props.question.closed_options.length);
+    changeAllEncrypted(question.closed_options.length);
     setPlaceHolder(defaultPlaceHolder);
     if (event.target.checked) {
       deleteOptions();
@@ -205,7 +231,7 @@ function MixnetSelection(props) {
   function nullVote(event) {
     setNullButton(event.target.checked);
     setBlankButton(false);
-    changeAllEncrypted(props.question.closed_options.length + 1);
+    changeAllEncrypted(question.closed_options.length + 1);
     if (event.target.checked) {
       deleteOptions();
     }
@@ -213,7 +239,7 @@ function MixnetSelection(props) {
 
   return (
     <>
-      {[...Array(parseInt(props.question.max_answers)).keys()].map((index) => {
+      {[...Array(parseInt(question.max_answers)).keys()].map((index) => {
         return (
           <div key={index} className="has-text-black mb-4">
             <div className="mb-2">
@@ -265,7 +291,7 @@ function MixnetSelection(props) {
         );
       })}
 
-      {props.question.include_blank_null && (
+      {question.include_blank_null && (
         <>
           {" "}
           <div>

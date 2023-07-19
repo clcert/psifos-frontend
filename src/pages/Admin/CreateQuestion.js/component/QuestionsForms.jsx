@@ -11,6 +11,9 @@ function QuestionsForms(props) {
   /** @state {string} question type */
   const [typeQuestion, setTypeQuestion] = useState("unic");
 
+  /** @state {boolean} the question includes white & null options */
+  const [includedWhiteNull, setIncludeWhiteNull] = useState(props.question.include_blank_null);
+
   useEffect(() => {
     if (props.question !== undefined) {
       let answersAux = [];
@@ -155,16 +158,17 @@ function QuestionsForms(props) {
                     let auxQuestion = props.question;
                     auxQuestion.include_blank_null = e.target.checked;
                     props.updateQuestions(props.questionId, auxQuestion);
+                    setIncludeWhiteNull(!includedWhiteNull)
                   }}
                   checked={props.question.include_blank_null}
                   type="checkbox"
                   className="mr-2"
                 />
-                Incluir voto nulo o blanco
+                Incluir voto nulo y blanco
               </label>
             </div>
             <p className="help">
-              Se incluira la opción para votar nulo o blanco.
+              Se podrá votar por las opciones nulo y blanco.
             </p>
           </div>
           {props.question.q_type === "mixnet_question" && (
@@ -198,6 +202,7 @@ function QuestionsForms(props) {
         disabledEdit={props.disabledEdit}
         checkOptions={props.checkOptions}
         updateQuestions={props.updateQuestions}
+        disabledMinAns={includedWhiteNull}
       />
 
       <div>
