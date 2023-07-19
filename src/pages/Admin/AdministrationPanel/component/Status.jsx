@@ -98,7 +98,7 @@ function Status({
       {electionStep === electionStatus.computingTally && (
         <div className="content-card-admin">
           <span className="panel-text-sect">
-            Computando tally....{" "}
+            Computando tally ... {" "}
             <i id="step_1" className="fa-solid fa-spinner fa-spin" />
           </span>
         </div>
