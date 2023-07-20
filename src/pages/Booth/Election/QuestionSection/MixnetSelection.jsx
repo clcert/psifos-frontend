@@ -26,6 +26,8 @@ function MixnetSelection({ question, addAnswer, index }) {
   /** @state {string} placeholder for input select */
   const [placeHolder, setPlaceHolder] = useState(defaultPlaceHolder);
 
+  const includeBlankNull = question.include_blank_null === "True";
+
   const changeAllEncrypted = useCallback(
     (number) => {
       let auxAnswersForEncrypt = [];
@@ -45,7 +47,6 @@ function MixnetSelection({ question, addAnswer, index }) {
     );
     const auxOptions = [];
     question.closed_options.forEach((close_option, index) => {
-      const includeBlankNull = question.include_blank_null === "True";
       if (
         includeBlankNull &&
         (close_option === "Voto Blanco" || close_option === "Voto Nulo")
@@ -291,7 +292,7 @@ function MixnetSelection({ question, addAnswer, index }) {
         );
       })}
 
-      {question.include_blank_null && (
+      {includeBlankNull && (
         <>
           {" "}
           <div>

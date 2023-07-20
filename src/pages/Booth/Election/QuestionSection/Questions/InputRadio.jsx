@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function InputRadio(props) {
   function handlerInput(event) {
     props.setAnswers([parseInt(event.target.value)]);
@@ -8,11 +6,13 @@ function InputRadio(props) {
     props.addAnswer([parseInt(event.target.value)], props.index);
   }
 
+  const includeBlankNull = props.question.include_blank_null === "True";
+
   return (
     <div>
       {props.question.closed_options.map((key, index) => {
         if (
-          !props.question.include_blank_null ||
+          !includeBlankNull ||
           index < props.question.closed_options.length - 2
         )
           return (
