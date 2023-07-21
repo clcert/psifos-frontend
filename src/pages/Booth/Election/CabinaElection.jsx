@@ -9,9 +9,37 @@ import EncryptingCharging from "../components/EncryptingCharging";
 import ReviewQuestions from "./Review/ReviewQuestions";
 import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
-import { backendOpIP } from "../../../server";
 import BoothPsifos from "../BoothPsifos";
 import DescriptionModal from "../components/DescriptionModal";
+
+function SelectionPhase(props) {
+  return(
+    <div
+      style={{ display: "block" }}
+    >
+      <section className="section pb-1" id="question-section">
+        <div className="container has-text-centered is-max-desktop">
+          <QuestionElection
+            election={props.electionData}
+            questions={props.questions}
+            afterEncrypt={(answersQuestions) => {
+              props.setAnswers(answersQuestions);
+              props.setActualPhase(3);
+            }}
+            nextQuestion={(num) => {
+              props.setActualQuestion(num);
+            }}
+            actualQuestion={props.actualQuestion}
+            booth={props.BOOTH_PSIFOS.getBooth()}
+            encrypQuestions={(answersQuestions) => {
+              props.BOOTH_PSIFOS.sendEncryp(answersQuestions);
+            }}
+          />
+        </div>
+      </section>
+    </div>
+  )
+}
 
 function CabinaElection(props) {
   /** @state {int} election phase */
@@ -40,6 +68,7 @@ function CabinaElection(props) {
   /** @urlParam {shortName} election shortName  */
   const { shortName } = useParams();
 
+  console.log("AAAAA", voteHash)
   // Cuadro de dialogo por si el usuario quiere refrescar
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -89,7 +118,15 @@ function CabinaElection(props) {
     1: {
       sectionClass: "parallax-02",
       stage: 1,
-      component: <></>,
+      component: <SelectionPhase
+        electionData={props.selectionData}
+        questions={questions}
+        setActualPhase={setActualPhase}
+        setAnswers={setAnswers}
+        setActualQuestion={setActualQuestion}
+        actualQuestion={actualQuestion}
+        BOOTH_PSIFOS={BOOTH_PSIFOS}
+      />,
     },
     2: {
       sectionClass: "parallax-03",
@@ -100,34 +137,31 @@ function CabinaElection(props) {
       sectionClass: "parallax-02",
       stage: 2,
       component: (
-        <>
-          <ProgressBar phase={2} />
-          <ReviewQuestions
-            election={props.electionData}
-            answers={answers}
-            questions={questions}
-            setVoteVerificates={setVoteVerificates}
-            voteHash={voteHash}
-            modalVerify={modalVerify}
-            changeAnswer={(question) => {
-              setActualQuestion(question);
-              setActualPhase(1);
-            }}
-            sendVote={() => {
-              setModalVerify(true);
-              BOOTH_PSIFOS.sendJson(shortName).then((res) => {
-                setVoteHash(res);
-              });
-            }}
-            afterVerify={() => {
-              setModalVerify(false);
-              setActualPhase(4);
-            }}
-            audit={() => {
-              setActualPhase(5);
-            }}
-          />
-        </>
+        <ReviewQuestions
+          election={props.electionData}
+          answers={answers}
+          questions={questions}
+          setVoteVerificates={setVoteVerificates}
+          voteHash={voteHash}
+          modalVerify={modalVerify}
+          changeAnswer={(question) => {
+            setActualQuestion(question);
+            setActualPhase(1);
+          }}
+          sendVote={() => {
+            setModalVerify(true);
+            BOOTH_PSIFOS.sendJson(shortName).then((res) => {
+              setVoteHash(res);
+            });
+          }}
+          afterVerify={() => {
+            setModalVerify(false);
+            setActualPhase(4);
+          }}
+          audit={() => {
+            setActualPhase(5);
+          }}
+        />
       ),
     },
 
@@ -135,13 +169,10 @@ function CabinaElection(props) {
       sectionClass: "parallax-02",
       stage: 3,
       component: (
-        <>
-          <ProgressBar phase={3} />
-          <CastDone
-            voteVerificated={voteVerificated}
-            voteHash={voteHash}
-          ></CastDone>
-        </>
+        <CastDone
+          voteVerificated={voteVerificated}
+          voteHash={voteHash}
+        />
       ),
     },
     5: {
@@ -173,42 +204,16 @@ function CabinaElection(props) {
         </div>
       </section>
 
-      <div
-        style={{
-          display: actualPhase === 1 ? "block" : "none",
-        }}
-      >
-        <ProgressBar phase={phases[actualPhase].stage} />
-        <section className="section pb-1" id="question-section">
-          <div className="container has-text-centered is-max-desktop">
-            <QuestionElection
-              election={props.electionData}
-              questions={questions}
-              afterEncrypt={(answersQuestions) => {
-                setAnswers(answersQuestions);
-                setActualPhase(3);
-              }}
-              nextQuestion={(num) => {
-                setActualQuestion(num);
-              }}
-              actualQuestion={actualQuestion}
-              booth={BOOTH_PSIFOS.getBooth()}
-              encrypQuestions={(answersQuestions) => {
-                BOOTH_PSIFOS.sendEncryp(answersQuestions);
-              }}
-            />
-          </div>
-        </section>
-      </div>
+      <ProgressBar phase={phases[actualPhase].stage} />
       {phases[actualPhase].component}
 
-      <ElectionCode />
-      <div id="bottom"></div>
-      <DescriptionModal
+      <ElectionCode /> {/* footer */}
+      <div id="bottom" />
+      {actualPhase === 1 && <DescriptionModal
         election={props.electionData}
         show={modalDescription}
         onHide={() => setModalDescription(false)}
-      />
+      />}
     </div>
   );
 }
