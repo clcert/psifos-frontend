@@ -67,8 +67,6 @@ function CabinaElection(props) {
 
   /** @urlParam {shortName} election shortName  */
   const { shortName } = useParams();
-
-  console.log("AAAAA", voteHash)
   // Cuadro de dialogo por si el usuario quiere refrescar
   useEffect(() => {
     const handleBeforeUnload = (event) => {
