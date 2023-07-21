@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
+import { normalizedLowerCase } from "../../../../utils/utils";
 
 function MixnetSelection({ question, addAnswer, numQuestion }) {
   const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
@@ -98,22 +99,25 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
   const filterOptions = useCallback(
     (inputValue) => {
+      const inputNormalized = normalizedLowerCase(inputValue);
       if (!isMixnetGroup) {
-        return options.filter((i) =>
-          i.label
-            .toLowerCase()
-            .normalize("NFD")
-            .includes(inputValue.toLowerCase().normalize("NFD"))
-        );
+        return options.filter((option) => {
+          const optionNormalized = normalizedLowerCase(option.label);
+          return (
+            inputNormalized.includes(optionNormalized) ||
+            optionNormalized.includes(inputNormalized)
+          );
+        });
       }
       const auxOptions = JSON.parse(JSON.stringify(options));
       auxOptions.forEach((option) => {
-        option.options = option.options.filter((i) =>
-          i.label
-            .toLowerCase()
-            .normalize("NFD")
-            .includes(inputValue.toLowerCase().normalize("NFD"))
-        );
+        option.options = option.options.filter((optionGroup) => {
+          const optionNormalized = normalizedLowerCase(optionGroup.label);
+          return (
+            inputNormalized.includes(optionNormalized) ||
+            optionNormalized.includes(inputNormalized)
+          );
+        });
       });
       return auxOptions;
     },
@@ -190,7 +194,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       isMixnetGroup,
       changeAllEncrypted,
       question,
-      numQuestion
+      numQuestion,
     ]
   );
 
