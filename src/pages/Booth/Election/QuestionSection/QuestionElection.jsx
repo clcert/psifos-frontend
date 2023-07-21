@@ -8,7 +8,7 @@ import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import InputSelection from "./InputSelection";
-import { answersRestrictionText } from './utils.js'
+import { answersRestrictionText } from "./utils.js";
 import { permanentOptionsList } from "../../../../constants";
 
 function QuestionElection(props) {
@@ -53,38 +53,36 @@ function QuestionElection(props) {
     setAnswers(answersAux);
   }, [props.questions]);
 
-  const checkAnswers = useCallback(
-    (index) => {
-      /**
-       * @param {number} index - question index
-       * Check if the number of answers is correct
-       * If not, show the alert
-       */
-      const {questions} = props;
-      const currentQuestion = questions[index];
-      const checkedIndex = answers[index];
-      const numCheckedIndex = checkedIndex.length;
-      const options = currentQuestion.closed_options;
+  const checkAnswers = (index) => {
+    /**
+     * @param {number} index - question index
+     * Check if the number of answers is correct
+     * If not, show the alert
+     */
+    const { questions } = props;
+    const currentQuestion = questions[index];
+    const checkedIndex = answers[index];
+    const numCheckedIndex = checkedIndex.length;
+    const options = currentQuestion.closed_options;
 
-      if (
-        !Boolean(
-          numCheckedIndex === 1 && permanentOptionsList.includes(options[checkedIndex[0]])
-        )
-      ) {
-        const {min_answers, max_answers} = currentQuestion;
-        if (
-          numCheckedIndex < min_answers || numCheckedIndex > max_answers
-        ) {
-          setShowAlert(true);
-          setMessageAlert("Debe " + answersRestrictionText(min_answers, max_answers));
-          return false;
-        }
+    if (
+      !Boolean(
+        numCheckedIndex === 1 &&
+          permanentOptionsList.includes(options[checkedIndex[0]])
+      )
+    ) {
+      const { min_answers, max_answers } = currentQuestion;
+      if (numCheckedIndex < min_answers || numCheckedIndex > max_answers) {
+        setShowAlert(true);
+        setMessageAlert(
+          "Debe " + answersRestrictionText(min_answers, max_answers)
+        );
+        return false;
       }
-      setShowAlert(false);
-      return true;
-    },
-    [answers]
-  );
+    }
+    setShowAlert(false);
+    return true;
+  };
 
   return (
     <div>
@@ -115,7 +113,7 @@ function QuestionElection(props) {
                 )}
                 {question.q_type === "mixnet_question" && (
                   <MixnetSelection
-                    index={index}
+                    numQuestion={index}
                     addAnswer={addAnswer}
                     question={question}
                     election={props.election}

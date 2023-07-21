@@ -1,4 +1,6 @@
 function InputCheckbox(props) {
+  const includeBlankNull = props.question.include_blank_null === "True";
+  
   const disabledCondition = (index) => {
     return (
       parseInt(props.question.max_answers) === props.answers.length &&
@@ -12,7 +14,7 @@ function InputCheckbox(props) {
 
     const questionsLength = props.question.closed_options.length;
     if (
-      props.question.include_blank_null &&
+      includeBlankNull &&
       (answersAux.includes(questionsLength - 2) ||
         answersAux.includes(questionsLength - 1))
     ) {
@@ -34,7 +36,7 @@ function InputCheckbox(props) {
     <div>
       {props.question.closed_options.map((key, index) => {
         if (
-          !props.question.include_blank_null ||
+          !includeBlankNull ||
           index < props.question.closed_options.length - 2
         ) {
           const isDesabled = disabledCondition(index);

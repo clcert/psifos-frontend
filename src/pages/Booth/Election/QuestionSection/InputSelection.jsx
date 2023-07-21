@@ -16,8 +16,9 @@ function InputSelection(props) {
 
   const nullValue = props.question.closed_options.length - 1;
   const blankValue = props.question.closed_options.length - 2;
+  const includeBlankNull = props.question.include_blank_null === "True";
 
-  const {whiteOptionText, nullOptionText} = permanentOptions
+  const { whiteOptionText, nullOptionText } = permanentOptions;
 
   function nullVote(event) {
     if (event.target.checked) {
@@ -77,7 +78,7 @@ function InputSelection(props) {
         )}
       </div>
 
-      {props.question.include_blank_null && (
+      {includeBlankNull && (
         <>
           {" "}
           <div className="mt-2">
