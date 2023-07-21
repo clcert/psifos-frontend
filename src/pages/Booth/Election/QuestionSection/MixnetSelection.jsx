@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 
-function MixnetSelection({ question, addAnswer, index }) {
+function MixnetSelection({ question, addAnswer, numQuestion }) {
   const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
   const isMixnetGroup = question.group_votes === "True";
   const otherOptionsName = "Otras Candidaturas";
@@ -35,10 +35,10 @@ function MixnetSelection({ question, addAnswer, index }) {
         auxAnswersForEncrypt.push(number);
       }
       setAnswersForEncrypt(auxAnswersForEncrypt);
-      addAnswer(auxAnswersForEncrypt, index);
+      addAnswer(auxAnswersForEncrypt, numQuestion);
       return auxAnswersForEncrypt;
     },
-    [addAnswer, index, question]
+    [addAnswer, numQuestion, question]
   );
 
   useEffect(() => {
@@ -84,7 +84,7 @@ function MixnetSelection({ question, addAnswer, index }) {
     });
     moveToFinal(auxOptions, (element) => element.label === otherOptionsName);
     setOptions(auxOptions);
-    addAnswer(auxAnswersForEncrypt, index);
+    addAnswer(auxAnswersForEncrypt, numQuestion);
   }, []);
 
   const moveToFinal = function (array, condition) {
@@ -176,7 +176,7 @@ function MixnetSelection({ question, addAnswer, index }) {
 
       setAnswersSelected(auxAnswersSelected);
       setAnswersForEncrypt(auxAnswersForEncrypt);
-      addAnswer(auxAnswersForEncrypt, index);
+      addAnswer(auxAnswersForEncrypt, numQuestion);
       setOptions(auxOptions);
       setPlaceHolder(defaultPlaceHolder);
     },
@@ -190,6 +190,7 @@ function MixnetSelection({ question, addAnswer, index }) {
       isMixnetGroup,
       changeAllEncrypted,
       question,
+      numQuestion
     ]
   );
 

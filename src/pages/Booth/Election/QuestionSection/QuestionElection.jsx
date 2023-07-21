@@ -113,7 +113,7 @@ function QuestionElection(props) {
                 )}
                 {question.q_type === "mixnet_question" && (
                   <MixnetSelection
-                    index={index}
+                    numQuestion={index}
                     addAnswer={addAnswer}
                     question={question}
                     election={props.election}
