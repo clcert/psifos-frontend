@@ -54,7 +54,9 @@ function InfoBoothView() {
         {activeNumber === 1 && <StatisticsBooth />}
         {activeNumber === 2 && <LoggerBoth />}
         {activeNumber === 3 && <Results />}
-        {activeNumber === 4 && <VerifyElection />}
+        {activeNumber === 4 && <VerifyElection
+          includesMnQuestion={election.questions.includes("mixnet_question")}
+        />}
       </section>
 
       <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
