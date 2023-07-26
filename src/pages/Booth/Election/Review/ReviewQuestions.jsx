@@ -11,7 +11,7 @@ function ReviewQuestions(props) {
       <div className="container has-text-centered is-max-desktop">
         <h1 className="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
         <p className="subtitle">
-            Revisa aquí tu(s) preferencia(s) seleccionada(s)<br/>
+            Revise su(s) preferencia(s) seleccionada(s)<br/>
         </p>
         {props.questions.map((question, index) => {
           return (
