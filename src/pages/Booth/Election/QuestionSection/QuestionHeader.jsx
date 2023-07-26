@@ -6,7 +6,7 @@ function QuestionHeader(props) {
   const restriction = answersRestrictionText(questions.min_answers,questions.max_answers )
 
   return (
-    <div style={{ margin: "0rem 7rem"}}>
+    <div>
       <p className="subtitle is-italic mb-0">
         {"Pregunta " +
           (props.actualQuestion + 1) +
