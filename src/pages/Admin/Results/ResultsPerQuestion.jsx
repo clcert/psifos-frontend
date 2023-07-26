@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PsifosTable from "./components/PsifosTable";
 import CardTitle from "./components/CardTitle";
+import { getResponseWithoutGroup } from "../utils";
 
 function PercentageOptions({ handleChange, currentValue }) {
     return (
@@ -65,8 +66,16 @@ function BoxPerQuestion({
 
     const resultByOption = result.reduce((accumulator, currentValue) => {
         const {
-            PorcentajeSobreVotosValidos, PorcentajeSobreVotosEmitidos, ...infoGeneral
+            PorcentajeSobreVotosValidos, PorcentajeSobreVotosEmitidos, Respuesta, Votos,
         } = currentValue
+
+        const infoGeneral = {
+            'Respuesta': question.q_type === "mixnet_question"
+            ? getResponseWithoutGroup(Respuesta)
+            : Respuesta,
+            Votos,
+        }
+
         if (percentageOption === 'votosValidos') {
             accumulator.push({...infoGeneral, Porcentaje: PorcentajeSobreVotosValidos})
         }

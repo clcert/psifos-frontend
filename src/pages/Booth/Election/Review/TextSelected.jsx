@@ -36,7 +36,7 @@ function TextSelected({ answers, index, question }) {
                   {"[ ✓ ] " +
                     (question.q_type === "mixnet_question"
                       ? answer.split(",").length > 1
-                        ? answer.split(",")[0] + " - " + answer.split(",")[1]
+                        ? answer.split(",")[0]
                         : answer
                       : answer)}
                 </span>
