@@ -41,20 +41,19 @@ function VerifyElection({ includesMnQuestion }) {
     status === electionStatus.decryptionsCombined;
   return (
     <div>
-      {finishedElection ? (
-        <EnabledVerification />
-      ) : (
+      {includesMnQuestion ? (
         <NotAvalaibleMessage
-          message={
-            includesMnQuestion
-            ? "¡En desarrollo!"
-            : "Elección no finalizada"
-          }
-          note={
-            includesMnQuestion
-            && "Esta elección calcula sus resultados utilizando Mix Network, por lo que no es posible realizar el proceso de verificación por el momento. Estamos trabajando para permitir el proceso de verificación en este tipo de elecciones a la brevedad."
-          }
+          message="¡En desarrollo!"
+          note="Esta elección calcula sus resultados utilizando Mix Network, por lo que no es posible realizar el proceso de verificación por el momento. Estamos trabajando para permitir el proceso de verificación en este tipo de elecciones a la brevedad."
         />
+      ) : (
+        finishedElection ? (
+          <EnabledVerification />
+        ) : (
+          <NotAvalaibleMessage
+            message="Elección no finalizada"
+          />
+        )
       )}
     </div>
   );
