@@ -27,7 +27,7 @@ export default function ResumeTable() {
       <table
         id="resume-table"
         className="mt-2 table is-bordered is-hoverable voters-table"
-        style={{maxWidth: "50%"}}
+        style={{maxWidth: "350px"}}
       >
         <tbody>
           <tr>
