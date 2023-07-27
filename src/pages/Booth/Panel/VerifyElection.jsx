@@ -23,7 +23,7 @@ function EnabledVerification() {
   );
 }
 
-function VerifyElection() {
+function VerifyElection({ includesMnQuestion }) {
   const [status, setStatus] = useState("");
 
   /** @urlParam {string} shortName of election */
@@ -45,7 +45,15 @@ function VerifyElection() {
         <EnabledVerification />
       ) : (
         <NotAvalaibleMessage
-          message="Elección no finalizada"
+          message={
+            includesMnQuestion
+            ? "¡En desarrollo!"
+            : "Elección no finalizada"
+          }
+          note={
+            includesMnQuestion
+            && "Esta elección calcula sus resultados utilizando Mix Network, por lo que no es posible realizar el proceso de verificación por el momento. Estamos trabajando para permitir el proceso de verificación en este tipo de elecciones a la brevedad."
+          }
         />
       )}
     </div>

@@ -6,3 +6,11 @@ export const getPercentage = (frec, total) => {
   }
   return dec.toString() + "%";
 };
+
+export const getResponseWithoutGroup = (response) => {
+  const responseArr = response.split(',')
+  if (responseArr.length > 1) {
+    return responseArr[0]
+  }
+  return response
+}
