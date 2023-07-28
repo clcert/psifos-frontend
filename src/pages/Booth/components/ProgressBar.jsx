@@ -1,41 +1,59 @@
-import fase1 from "../../../static/booth/svg/menu1-1.svg";
-import fase2 from "../../../static/booth/svg/menu2-1.svg";
-import fase3 from "../../../static/booth/svg/menu3-1.svg";
-import fase1On from "../../../static/booth/svg/menu1-2.svg";
-import fase2On from "../../../static/booth/svg/menu2-2.svg";
-import fase3On from "../../../static/booth/svg/menu3-2.svg";
 import React from "react";
+import revisionBlue from "../../../static/svg/ProcesoVotacion/revision_blue.svg";
+import revisionGray from "../../../static/svg/ProcesoVotacion/revision_gray.svg";
+import revisionGreen from "../../../static/svg/ProcesoVotacion/revision_green.svg";
+import seleccionBlue from "../../../static/svg/ProcesoVotacion/seleccion_blue.svg";
+import seleccionGray from "../../../static/svg/ProcesoVotacion/seleccion_gray.svg";
+import seleccionGreen from "../../../static/svg/ProcesoVotacion/seleccion_green.svg";
+
+function StepImage({phase, image}) {
+  return (
+    <div
+      className={
+        `phase ${phase} column ${phase !== 3 && " hide-mobile"}`
+      }
+    >
+      <img src={image} className="spinner" alt="" style={{ maxWidth: "85%" }} />
+    </div>
+  )
+}
 
 function ProgressBar(props) {
-  const Image = React.memo(function Image({ src }) {
-    return <img src={src} className="spinner" alt="" />;
-  });
+  const  phases = {
+    1: {
+      future: seleccionGray,
+      current: seleccionBlue,
+      past: seleccionGreen,
+    },
+    2: {
+      future: revisionGray,
+      current: revisionBlue,
+      past: revisionGreen,
+    },
+  }
+
   return (
+    props.phase > 2 ? <div /> :
     <section className="section px-0" id="progress-bar">
-      <div className="line-1 is-hidden-touch" id="progress-line"></div>
+      <div className="line-1 is-hidden-touch"/>
       <div className="container has-text-centered progress-container">
         <div className="columns progress-bar-items">
-          <div
-            className={
-              "column " + (props.phase !== 1 ? "column hide-mobile" : "")
-            }
-          >
-            <img src={props.phase === 1 ? fase1On : fase1} className="spinner" alt="" style={{ maxWidth: "85%" }} />
-          </div>
-          <div
-            className={
-              "column " + (props.phase !== 2 ? "column hide-mobile" : "")
-            }
-          >
-            <img src={props.phase === 2 ? fase2On : fase2} className="spinner" alt="" style={{ maxWidth: "85%" }} />
-          </div>
-          <div
-            className={
-              "column " + (props.phase !== 3 ? "column hide-mobile" : "")
-            }
-          >
-            <img src={props.phase === 3 ? fase3On : fase3} className="spinner" alt="" style={{ maxWidth: "85%" }} />
-          </div>
+          {Object.keys(phases).map(key => {
+            const phaseNumber = parseInt(key, 10)
+            let image = props.phase === phaseNumber
+            ? phases[key].current
+            : (
+              props.phase < phaseNumber
+              ? phases[key].future
+              : phases[key].past
+            )
+            return (
+              <StepImage
+                phase={props.phase}
+                image={image}
+              />
+            )}
+          )}
         </div>
       </div>
     </section>
