@@ -12,7 +12,9 @@ function QuestionsForms(props) {
   const [typeQuestion, setTypeQuestion] = useState("unic");
 
   /** @state {boolean} the question includes white & null options */
-  const [includedWhiteNull, setIncludeWhiteNull] = useState(props.question.include_blank_null);
+  const [includedWhiteNull, setIncludeWhiteNull] = useState(
+    props.question.include_blank_null
+  );
 
   useEffect(() => {
     if (props.question !== undefined) {
@@ -118,7 +120,7 @@ function QuestionsForms(props) {
       <div className="is-flex mb-2 ">
         <input
           id={`name-${props.questionId}`}
-          className="input"
+          className={"input " + (props.question.q_text ? "" : "is-danger")}
           disabled={props.disabledEdit}
           type="text"
           placeholder="Pregunta"
@@ -130,6 +132,11 @@ function QuestionsForms(props) {
           }}
         />
       </div>
+      {!props.question.q_text && (
+        <p className="help is-danger">
+          El encabezado de la pregunta no puede ser vació
+        </p>
+      )}
       <div className="columns">
         <div className="column">
           <div className="field">
@@ -158,7 +165,7 @@ function QuestionsForms(props) {
                     let auxQuestion = props.question;
                     auxQuestion.include_blank_null = e.target.checked;
                     props.updateQuestions(props.questionId, auxQuestion);
-                    setIncludeWhiteNull(!includedWhiteNull)
+                    setIncludeWhiteNull(!includedWhiteNull);
                   }}
                   checked={props.question.include_blank_null}
                   type="checkbox"
