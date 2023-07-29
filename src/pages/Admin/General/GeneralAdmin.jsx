@@ -1,5 +1,5 @@
 import { Button } from "react-bulma-components";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { getElections } from "../../../services/election";
 import { Link } from "react-router-dom";
@@ -14,7 +14,14 @@ import UploadModal from "../VotersList/components/UploadModal";
 import CardElection from "./components/CardElection";
 
 function GeneralAdmin() {
+  /** @state {array} all elections */
   const [elections, setElections] = useState([]);
+
+  /** @state {array} elections showed in the election */
+  const [electionsPage, setElectionsPage] = useState([]);
+
+  /** @state {number} page elections */
+  const [actualPage, setActualPage] = useState(0);
 
   /** @state {json} state modal freeze */
   const [freezeModal, setFreezeModal] = useState({
@@ -49,6 +56,11 @@ function GeneralAdmin() {
     shortName: "",
   });
 
+  const electionsForPage = 3;
+  const nextDisabled =
+    actualPage * electionsForPage + electionsForPage >= elections.length;
+  const previousDisabled = actualPage === 0;
+
   function updateElectionStatus(shortName, status) {
     let auxElections = elections;
     for (let i = 0; i < auxElections.length; i++) {
@@ -59,7 +71,20 @@ function GeneralAdmin() {
     setElections(auxElections);
   }
 
-  function updateElections() {
+  const updateElections = useCallback(() => {
+    const selectedElections = elections.slice(
+      actualPage * electionsForPage,
+      actualPage * electionsForPage + electionsForPage
+    );
+    setElectionsPage(selectedElections);
+  }, [actualPage, elections]);
+
+  useEffect(() => {
+    setElectionsPage([]);
+    updateElections();
+  }, [actualPage, updateElections]);
+
+  useEffect(() => {
     getElections().then((res) => {
       const { resp, jsonResponse } = res;
       if (resp.status === 200) {
@@ -67,10 +92,6 @@ function GeneralAdmin() {
         setLoad(true);
       }
     });
-  }
-
-  useEffect(() => {
-    updateElections();
   }, []);
 
   return (
@@ -106,7 +127,7 @@ function GeneralAdmin() {
                   </Link>
                 </Button>
               </div>
-              {elections.map((election, index) => {
+              {electionsPage.map((election, index) => {
                 return (
                   <CardElection
                     key={index}
@@ -145,6 +166,30 @@ function GeneralAdmin() {
                   />
                 );
               })}
+              <div className="d-flex justify-content-between mt-4">
+                <div className="d-flex mt-2">
+                  <Button
+                    className="button-custom home-admin-button btn-fixed"
+                    disabled={previousDisabled}
+                    onClick={() => {
+                      setActualPage(actualPage - 1);
+                    }}
+                  >
+                    Anterior
+                  </Button>
+                </div>
+                <div className="d-flex mt-2">
+                  <Button
+                    className="button-custom home-admin-button btn-fixed"
+                    disabled={nextDisabled}
+                    onClick={() => {
+                      setActualPage(actualPage + 1);
+                    }}
+                  >
+                    Siguiente
+                  </Button>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="spinner-animation"></div>

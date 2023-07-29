@@ -88,7 +88,7 @@ function CardElection(props) {
     });
 
     setElectionStatus(props.electionStatus);
-  }, []);
+  }, [props.election]);
 
   return (
     <div className="box info-general">
