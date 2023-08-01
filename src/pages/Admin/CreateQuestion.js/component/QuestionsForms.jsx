@@ -1,6 +1,118 @@
 import { useEffect, useState } from "react";
-import AnswersQuestions from "./AnswersQuestions";
-import OptionQuestions from "./OptionQuestions";
+import AnswersSetup from "./AnswersQuestions";
+import NumberOfAnswersSetup from "./OptionQuestions";
+
+function DeleteQuestionButton({enable, handleDelete}) {
+  return (
+    <div className="header-question level">
+      <div className="level-left"></div>
+      <div className="level-right">
+        {enable && (
+          <i
+            onClick={handleDelete}
+            className="close-question fa-solid fa-trash"
+          ></i>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function Title({title}) {
+  return (
+    <div className="create-title mb-1">{title}</div>
+  )
+}
+
+function QuestionStatementInput({
+  questionId, disabledEdit, statement, handleChange,
+}) {
+  return (
+    <div className="is-flex mb-2 ">
+      <input
+        id={`name-${questionId}`}
+        className={"input " + (statement ? "" : "is-danger")}
+        disabled={disabledEdit}
+        type="text"
+        placeholder="Pregunta"
+        value={statement}
+        onChange={handleChange}
+      />
+    </div>
+  )
+}
+
+function QuestionTypeSelector({
+  disabledEdit, handleChange, typeQuestion,
+}) {
+  return (
+    <div className="field">
+      <label className="label">Tipo de pregunta</label>
+      <div className="control">
+        <div className="select">
+          <select
+            disabled={disabledEdit}
+            className="mr-2"
+            onChange={handleChange}
+            value={typeQuestion}
+          >
+            {/* <option value="open_question">Pregunta abierta</option> */}
+            <option value="closed_question">Pregunta cerrada</option>
+            <option value="mixnet_question">Pregunta mixnet</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function IncludeBlankNullCheckbox({
+  handleChange, disabledEdit, checkedOption,
+}) {
+  return (
+    <div className="field">
+      <div className="control">
+        <label className="checkbox">
+          <input
+            disabled={disabledEdit}
+            onChange={handleChange}
+            checked={checkedOption}
+            type="checkbox"
+            className="mr-2"
+          />
+          Incluir voto nulo y blanco
+        </label>
+      </div>
+      <p className="help">
+        Se podrá votar por las opciones nulo y blanco.
+      </p>
+    </div>
+  )
+}
+
+function GroupApplicationsCheckbox({
+  disabledEdit, handleChange, checkedOption,
+}) {
+  return (
+    <div className="field">
+      <div className="control">
+        <label className="checkbox">
+          <input
+            disabled={disabledEdit}
+            onChange={handleChange}
+            checked={checkedOption}
+            type="checkbox"
+            className="mr-2"
+          />
+          Agrupar candidaturas
+        </label>
+      </div>
+      <p className="help">
+        Se agruparan los distintos votos por grupo.
+      </p>
+    </div>
+  )
+}
 
 function QuestionsForms(props) {
   const [answersWithKey, setAnswersWithKey] = useState([]);
@@ -90,120 +202,79 @@ function QuestionsForms(props) {
   }
 
   function editAnswer(key, newValue) {
-    let newAns = [...answersWithKey];
-    for (let i = 0; i < newAns.length; i++) {
-      if (newAns[i].key === key) {
-        newAns[i].value = newValue;
+    let ansList = [...answersWithKey];
+    for (let i = 0; i < ansList.length; i++) {
+      if (ansList[i].key === key) {
+        ansList[i].value = newValue;
       }
     }
 
     let auxQuestion = props.question;
-    auxQuestion.closed_options = answersWithoutKey(newAns);
+    auxQuestion.closed_options = answersWithoutKey(ansList);
     props.updateQuestions(props.questionId, auxQuestion);
   }
 
   return (
     <div className="form-question mt-5">
-      <div className="header-question level">
-        <div className="level-left"></div>
-        <div className="level-right">
-          {!props.disabledEdit && (
-            <i
-              onClick={props.remove}
-              className="close-question fa-solid fa-trash"
-            ></i>
+      <DeleteQuestionButton
+        enable={!props.disabledEdit}
+        handleDelete={props.remove}
+      />
+      <Title
+        title="Pregunta"
+      />
+
+      <QuestionStatementInput
+        questionId={props.questionId}
+        disabledEdit={props.disabledEdit}
+        statement={props.question.q_text}
+        handleChange={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.q_text = e.target.value;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+      />
+
+      {!props.question.q_text && (
+        <p className="help is-danger">
+          El encabezado de la pregunta no puede ser vacío
+        </p>
+      )}
+
+      <div className="columns">
+        <div className="column">
+          <QuestionTypeSelector
+            disabledEdit={props.disabledEdit}
+            handleChange={changeQuestion}
+            typeQuestion={typeQuestion}
+          />
+
+          <IncludeBlankNullCheckbox
+            handleChange={(e) => {
+              let auxQuestion = props.question;
+              auxQuestion.include_blank_null = e.target.checked;
+              props.updateQuestions(props.questionId, auxQuestion);
+              setIncludeWhiteNull(!includedWhiteNull);
+            }}
+            disabledEdit={props.disabledEdit}
+            checkedOption={props.question.include_blank_null}
+          />
+
+          {props.question.q_type === "mixnet_question" && (
+            <GroupApplicationsCheckbox
+              disabledEdit={props.disabledEdit}
+              handleChange={(e) => {
+                let auxQuestion = props.question;
+                auxQuestion.group_votes = e.target.checked;
+                props.updateQuestions(props.questionId, auxQuestion);
+              }}
+              checkedOption={props.question.group_votes}
+            />
           )}
         </div>
       </div>
 
-      <div className="create-title mb-1">Pregunta</div>
-      <div className="is-flex mb-2 ">
-        <input
-          id={`name-${props.questionId}`}
-          className={"input " + (props.question.q_text ? "" : "is-danger")}
-          disabled={props.disabledEdit}
-          type="text"
-          placeholder="Pregunta"
-          value={props.question.q_text}
-          onChange={(e) => {
-            let auxQuestion = props.question;
-            auxQuestion.q_text = e.target.value;
-            props.updateQuestions(props.questionId, auxQuestion);
-          }}
-        />
-      </div>
-      {!props.question.q_text && (
-        <p className="help is-danger">
-          El encabezado de la pregunta no puede ser vació
-        </p>
-      )}
-      <div className="columns">
-        <div className="column">
-          <div className="field">
-            <label className="label">Tipo de pregunta</label>
-            <div className="control">
-              <div className="select">
-                <select
-                  disabled={props.disabledEdit}
-                  className="mr-2"
-                  onChange={changeQuestion}
-                  value={typeQuestion}
-                >
-                  {/* <option value="open_question">Pregunta abierta</option> */}
-                  <option value="closed_question">Pregunta cerrada</option>
-                  <option value="mixnet_question">Pregunta mixnet</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <label className="checkbox">
-                <input
-                  disabled={props.disabledEdit}
-                  onChange={(e) => {
-                    let auxQuestion = props.question;
-                    auxQuestion.include_blank_null = e.target.checked;
-                    props.updateQuestions(props.questionId, auxQuestion);
-                    setIncludeWhiteNull(!includedWhiteNull);
-                  }}
-                  checked={props.question.include_blank_null}
-                  type="checkbox"
-                  className="mr-2"
-                />
-                Incluir voto nulo y blanco
-              </label>
-            </div>
-            <p className="help">
-              Se podrá votar por las opciones nulo y blanco.
-            </p>
-          </div>
-          {props.question.q_type === "mixnet_question" && (
-            <div className="field">
-              <div className="control">
-                <label className="checkbox">
-                  <input
-                    disabled={props.disabledEdit}
-                    onChange={(e) => {
-                      let auxQuestion = props.question;
-                      auxQuestion.group_votes = e.target.checked;
-                      props.updateQuestions(props.questionId, auxQuestion);
-                    }}
-                    checked={props.question.group_votes}
-                    type="checkbox"
-                    className="mr-2"
-                  />
-                  Agrupar candidaturas
-                </label>
-              </div>
-              <p className="help">
-                Se agruparan los distintos votos por grupo.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-      <OptionQuestions
+      <NumberOfAnswersSetup
         question={props.question}
         questionId={props.questionId}
         disabledEdit={props.disabledEdit}
@@ -212,18 +283,16 @@ function QuestionsForms(props) {
         disabledMinAns={includedWhiteNull}
       />
 
-      <div>
-        <AnswersQuestions
-          question={props.question}
-          editAnswer={editAnswer}
-          addAnswer={addAnswer}
-          updateQuestions={props.updateQuestions}
-          questionId={props.questionId}
-          answersWithKey={answersWithKey}
-          handleRemoveItem={handleRemoveItem}
-          disabledEdit={props.disabledEdit}
-        />
-      </div>
+      <AnswersSetup
+        question={props.question}
+        editAnswer={editAnswer}
+        addAnswer={addAnswer}
+        updateQuestions={props.updateQuestions}
+        questionId={props.questionId}
+        answersWithKey={answersWithKey}
+        handleRemoveItem={handleRemoveItem}
+        disabledEdit={props.disabledEdit}
+      />
     </div>
   );
 }

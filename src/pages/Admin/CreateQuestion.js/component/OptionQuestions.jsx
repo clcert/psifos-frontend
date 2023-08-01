@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-function OptionQuestions(props) {
+function NumberOfAnswersSetup(props) {
   /** @state {string} question description */
   const [description, setDescription] = useState("");
   const [checkDescription, setCheckDescription] = useState(true);
@@ -255,4 +255,4 @@ function OptionQuestions(props) {
   );
 }
 
-export default OptionQuestions;
+export default NumberOfAnswersSetup;
