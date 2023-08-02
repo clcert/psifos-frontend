@@ -2,116 +2,15 @@ import { useEffect, useState } from "react";
 import AnswersSetup from "./AnswersQuestions";
 import NumberOfAnswersSetup from "./OptionQuestions";
 import { applyAccent } from "../../utils";
-
-function DeleteQuestionButton({enable, handleDelete}) {
-  return (
-    <div className="header-question level">
-      <div className="level-left"></div>
-      <div className="level-right">
-        {enable && (
-          <i
-            onClick={handleDelete}
-            className="close-question fa-solid fa-trash"
-          ></i>
-        )}
-      </div>
-    </div>
-  )
-}
+import DeleteQuestionButton from "./DeleteQuestionButton";
+import QuestionStatementInput from "./QuestionStatementInput";
+import QuestionTypeSelector from "./QuestionTypeSelector";
+import IncludeBlankNullCheckbox from "./IncludeBlankNullCheckbox";
+import GroupApplicationsCheckbox from "./GroupApplicationsCheckbox";
 
 function Title({title}) {
   return (
     <div className="create-title mb-1">{title}</div>
-  )
-}
-
-function QuestionStatementInput({
-  questionId, disabledEdit, statement, handleChange,
-}) {
-  return (
-    <div className="is-flex mb-2 ">
-      <input
-        id={`name-${questionId}`}
-        className={"input " + (statement ? "" : "is-danger")}
-        disabled={disabledEdit}
-        type="text"
-        placeholder="Pregunta"
-        value={statement}
-        onChange={handleChange}
-      />
-    </div>
-  )
-}
-
-function QuestionTypeSelector({
-  disabledEdit, handleChange, typeQuestion,
-}) {
-  return (
-    <div className="field">
-      <label className="label">Tipo de pregunta</label>
-      <div className="control">
-        <div className="select">
-          <select
-            disabled={disabledEdit}
-            className="mr-2"
-            onChange={handleChange}
-            value={typeQuestion}
-          >
-            {/* <option value="open_question">Pregunta abierta</option> */}
-            <option value="closed_question">Pregunta cerrada</option>
-            <option value="mixnet_question">Pregunta mixnet</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function IncludeBlankNullCheckbox({
-  handleChange, disabledEdit, checkedOption,
-}) {
-  return (
-    <div className="field">
-      <div className="control">
-        <label className="checkbox">
-          <input
-            disabled={disabledEdit}
-            onChange={handleChange}
-            checked={checkedOption}
-            type="checkbox"
-            className="mr-2"
-          />
-          Incluir voto nulo y blanco
-        </label>
-      </div>
-      <p className="help">
-        Se podrá votar por las opciones nulo y blanco.
-      </p>
-    </div>
-  )
-}
-
-function GroupApplicationsCheckbox({
-  disabledEdit, handleChange, checkedOption,
-}) {
-  return (
-    <div className="field">
-      <div className="control">
-        <label className="checkbox">
-          <input
-            disabled={disabledEdit}
-            onChange={handleChange}
-            checked={checkedOption}
-            type="checkbox"
-            className="mr-2"
-          />
-          Agrupar candidaturas
-        </label>
-      </div>
-      <p className="help">
-        Se agruparan los distintos votos por grupo.
-      </p>
-    </div>
   )
 }
 
