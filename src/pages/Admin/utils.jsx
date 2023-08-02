@@ -14,3 +14,26 @@ export const getResponseWithoutGroup = (response) => {
   }
   return response
 }
+
+export const applyAccent = (word) => {
+  let i=0
+  let newWord = ''
+  while (i<word.length){
+    if (word[i]==='´' && i+1<word.length) {
+      newWord = newWord + (
+        (word[i+1]==='a' && 'á')
+        || (word[i+1]==='e' && 'é')
+        || (word[i+1]==='i' && 'í')
+        || (word[i+1]==='o' && 'ó')
+        || (word[i+1]==='u' && 'ú')
+        || (word[i] + word[i+1])
+      )
+      i += 2
+    }
+    else {
+      newWord = newWord + word[i]
+      i+=1
+    }
+  }
+  return newWord
+}
