@@ -175,8 +175,14 @@ function QuestionsForms(props) {
 
     let newAns = [];
     for (let i = 0; i < answersWithKey.length; i++) {
-      if (answersWithKey[i].key !== key) {
+      if (answersWithKey[i].key < key) {
         newAns.push(answersWithKey[i]);
+      }
+      else if (answersWithKey[i].key > key) {
+        newAns.push({
+          key: answersWithKey[i].key-1,
+          value: answersWithKey[i].value,
+        });
       }
     }
     let auxQuestion = props.question;
