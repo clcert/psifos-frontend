@@ -147,38 +147,34 @@ function QuestionsForms(props) {
         </p>
       )}
 
-      <div className="columns">
-        <div className="column">
-          <QuestionTypeSelector
-            disabledEdit={props.disabledEdit}
-            handleChange={changeQuestion}
-            typeQuestion={typeQuestion}
-          />
+      <QuestionTypeSelector
+        disabledEdit={props.disabledEdit}
+        handleChange={changeQuestion}
+        typeQuestion={typeQuestion}
+      />
 
-          <IncludeBlankNullCheckbox
-            handleChange={(e) => {
-              let auxQuestion = props.question;
-              auxQuestion.include_blank_null = e.target.checked;
-              props.updateQuestions(props.questionId, auxQuestion);
-              setIncludeWhiteNull(!includedWhiteNull);
-            }}
-            disabledEdit={props.disabledEdit}
-            checkedOption={props.question.include_blank_null}
-          />
+      <IncludeBlankNullCheckbox
+        handleChange={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.include_blank_null = e.target.checked;
+          props.updateQuestions(props.questionId, auxQuestion);
+          setIncludeWhiteNull(!includedWhiteNull);
+        }}
+        disabledEdit={props.disabledEdit}
+        checkedOption={props.question.include_blank_null}
+      />
 
-          {props.question.q_type === "mixnet_question" && (
-            <GroupApplicationsCheckbox
-              disabledEdit={props.disabledEdit}
-              handleChange={(e) => {
-                let auxQuestion = props.question;
-                auxQuestion.group_votes = e.target.checked;
-                props.updateQuestions(props.questionId, auxQuestion);
-              }}
-              checkedOption={props.question.group_votes}
-            />
-          )}
-        </div>
-      </div>
+      {props.question.q_type === "mixnet_question" && (
+        <GroupApplicationsCheckbox
+          disabledEdit={props.disabledEdit}
+          handleChange={(e) => {
+            let auxQuestion = props.question;
+            auxQuestion.group_votes = e.target.checked;
+            props.updateQuestions(props.questionId, auxQuestion);
+          }}
+          checkedOption={props.question.group_votes}
+        />
+      )}
 
       <NumberOfAnswersSetup
         question={props.question}

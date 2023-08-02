@@ -9,7 +9,7 @@ function ClosedAnswersSetup({
     <>
       {" "}
       <div>
-        <div className="create-title ml-2 mb-1">Respuestas</div>
+        <div className="create-title mb-1">Respuestas</div>
         <div id="create-questions">
           {answersWithKey.map((item, index) => {
             return (
@@ -51,8 +51,8 @@ function MixnetAnswersSetup({
   handleFileChange, handleDownloadFile,
 }){
   return(
-    <div className="columns">
-      <div className="column">
+    <div>
+      <div>
         <div className="field">
           <label className="label">Archivo de preguntas</label>{" "}
           <input

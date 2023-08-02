@@ -155,7 +155,7 @@ function NumberOfAnswersSetup(props) {
         )}
       </div>
       <div className="columns">
-        <div className="column">
+        <div className="column" style={{paddingLeft: "0px"}}>
           <div className="field">
             <label className="label">Cantidad mínima de respuestas</label>
             <div className="control">
