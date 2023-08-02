@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AnswersSetup from "./AnswersQuestions";
 import NumberOfAnswersSetup from "./OptionQuestions";
+import { applyAccent } from "../../utils";
 
 function DeleteQuestionButton({enable, handleDelete}) {
   return (
@@ -211,7 +212,7 @@ function QuestionsForms(props) {
     let ansList = [...answersWithKey];
     for (let i = 0; i < ansList.length; i++) {
       if (ansList[i].key === key) {
-        ansList[i].value = newValue;
+        ansList[i].value = applyAccent(newValue);
       }
     }
 
