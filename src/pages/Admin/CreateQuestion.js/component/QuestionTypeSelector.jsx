@@ -7,6 +7,7 @@ export default function QuestionTypeSelector({
         <div className="control">
           <div className="select">
             <select
+              id="select_type_question"
               disabled={disabledEdit}
               className="mr-2"
               onChange={handleChange}
