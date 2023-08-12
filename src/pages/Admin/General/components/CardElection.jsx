@@ -41,7 +41,6 @@ function MainInfo({ state, totalVoters, totalVotes }) {
 
 function NextSteps({
   election,
-  electionStatus,
   freezeModal,
   closeModal,
   tallyModal,
@@ -53,7 +52,6 @@ function NextSteps({
       <span className="panel-text-sect">Proximos pasos:</span>
       <Status
         election={election}
-        electionStatus={electionStatus}
         freezeModal={freezeModal}
         closeModal={closeModal}
         tallyModal={tallyModal}
@@ -73,21 +71,12 @@ function CardElection(props) {
   /** @state {num} election have audit */
   const [totalVoters, setTotalVoters] = useState(0);
 
-  /** @state {string} election status */
-  const [electionStatus, setElectionStatus] = useState("");
-
-  useEffect(() => {
-    setElectionStatus(props.electionStatus);
-  }, [props.electionStatus]);
-
   useEffect(() => {
     getStats(props.election.short_name).then((res) => {
       const { jsonResponse } = res;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
-
-    setElectionStatus(props.electionStatus);
   }, [props.election]);
 
   return (
@@ -99,14 +88,13 @@ function CardElection(props) {
       />
       <hr />
       <MainInfo
-        state={electionStatusTranslate[electionStatus]}
+        state={electionStatusTranslate[props.election.election_status]}
         totalVoters={totalVoters}
         totalVotes={totalVotes}
       />
       <hr />
       <NextSteps
         election={props.election}
-        electionStatus={electionStatus}
         freezeModal={props.freezeModal}
         closeModal={props.closeModal}
         tallyModal={props.tallyModal}
