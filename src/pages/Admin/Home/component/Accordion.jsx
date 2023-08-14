@@ -59,7 +59,9 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.short_name + "/panel"}
+                      to={
+                        "/psifos/admin/" + props.election.short_name + "/panel"
+                      }
                       className="accordion-link"
                     >
                       Configuraciones
@@ -68,7 +70,11 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.short_name + "/resumen"}
+                      to={
+                        "/psifos/admin/" +
+                        props.election.short_name +
+                        "/resumen"
+                      }
                       className="accordion-link"
                     >
                       Resumen
@@ -78,7 +84,9 @@ function Accordion(props) {
                     {" "}
                     <Link
                       to={
-                        "/psifos/admin/" + props.election.short_name + "/voters-list"
+                        "/psifos/admin/" +
+                        props.election.short_name +
+                        "/voters-list"
                       }
                       className="accordion-link"
                     >
@@ -90,7 +98,11 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.short_name + "/trustee"}
+                      to={
+                        "/psifos/admin/" +
+                        props.election.short_name +
+                        "/trustee"
+                      }
                       className="accordion-link"
                     >
                       Custodios
@@ -99,7 +111,11 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.short_name + "/resultado"}
+                      to={
+                        "/psifos/admin/" +
+                        props.election.short_name +
+                        "/resultado"
+                      }
                       className="accordion-link"
                     >
                       Resultados
@@ -108,7 +124,11 @@ function Accordion(props) {
                   <div className="row-accordion is-full">
                     {" "}
                     <Link
-                      to={"/psifos/admin/" + props.election.short_name + "/statistics"}
+                      to={
+                        "/psifos/admin/" +
+                        props.election.short_name +
+                        "/statistics"
+                      }
                       className="accordion-link"
                     >
                       Estadísticas

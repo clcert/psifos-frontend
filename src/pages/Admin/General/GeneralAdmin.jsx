@@ -1,3 +1,15 @@
+import FooterParticipa from "../../../component/Footers/FooterParticipa";
+import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
+import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
+import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
+import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
+import ModalTally from "../AdministrationPanel/component/ModalTally";
+import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTally";
+import UploadModal from "../VotersList/components/UploadModal";
+import CardElection from "./components/CardElection";
+import AlertNotification from "../component/AlertNotification";
+import { Link } from "react-router-dom";
+import { electionStatusTranslate } from "../../../constants";
 import { Button } from "react-bulma-components";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
@@ -8,18 +20,6 @@ import {
   getElections,
   initElection,
 } from "../../../services/election";
-import { Link } from "react-router-dom";
-import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
-import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
-import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
-import ModalTally from "../AdministrationPanel/component/ModalTally";
-import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTally";
-import UploadModal from "../VotersList/components/UploadModal";
-import CardElection from "./components/CardElection";
-import { electionStatusTranslate } from "../../../constants";
-import AlertNotification from "../component/AlertNotification";
 
 function CardElectionRecount({
   elections,
@@ -27,9 +27,19 @@ function CardElectionRecount({
   refreshElections,
   setInfoMessages,
 }) {
+  /** @state {boolean} active consent */
   const [activeConsent, setActiveConsent] = useState(false);
 
-  const totalElections = elections.length;
+  /** @state {number} total elections */
+  const [totalElections, setTotalElections] = useState(0);
+
+  useEffect(() => {
+    setTotalElections(elections.length);
+  }, [elections]);
+
+  /**
+   * Different possible tasks for the elections
+   */
   const tasks = {
     "Setting up": {
       buttonText: "Iniciar Elecciones",
@@ -63,13 +73,17 @@ function CardElectionRecount({
     },
   };
 
+  /**
+   * It is in charge of executing the desired process of the elections
+   *
+   * @author Cristóbal Jaramillo
+   */
   const handler = async () => {
     let successElections = [];
     let errorElections = [];
     const promises = elections.map(async (election) => {
       try {
         const resp = await tasks[status].action(election.short_name);
-        console.log(resp);
         if (resp.status === 200) {
           successElections = [...successElections, election.name];
         } else {
@@ -210,8 +224,16 @@ function GeneralAdmin() {
     shortName: "",
   });
 
+  /** @state {object} Total election to show */
   const [electionsRecount, setElectionsRecount] = useState({});
 
+  /** @state {object} Selected election to show */
+  const [electionSelected, setElectionSelected] = useState([]);
+
+  /** @state {object} Selected election to show */
+  const [electionShowed, setElectionShowed] = useState({});
+
+  /** @state {object} Messages feedback */
   const [infoMessages, setInfoMessages] = useState({
     danger: "",
     success: "",
@@ -245,6 +267,28 @@ function GeneralAdmin() {
     updateElections();
   }, [actualPage, updateElections]);
 
+  /**
+   * Check if decryptions can be combined
+   *
+   * @param {*} election to check
+   * @returns bool
+   *
+   * @author Cristóbal Jaramillo
+   */
+  const canCombineDecryptions = (election) => {
+    return (
+      election.election_status === "Decryptions uploaded" ||
+      (election.election_status === "Tally computed" &&
+        election.decryptions_uploaded >=
+          Math.floor(election.total_trustees / 2) + 1)
+    );
+  };
+
+  /**
+   * Refreshes elections in case of changes
+   *
+   * @author Cristóbal Jaramillo
+   */
   const refreshElections = () => {
     getElections().then((res) => {
       const { resp, jsonResponse } = res;
@@ -253,26 +297,64 @@ function GeneralAdmin() {
         const auxJson = {};
         jsonResponse.forEach((election) => {
           let status = election.election_status;
-          const canCombineDecryptions =
-            election.election_status === "Decryptions uploaded" ||
-            (election.election_status === "Tally computed" &&
-              election.decryptions_uploaded >=
-                Math.floor(election.total_trustees / 2) + 1);
-
-          if (canCombineDecryptions) {
+          if (canCombineDecryptions(election)) {
             status = "Can combine decryptions";
           }
-          if (status in auxJson) {
-            auxJson[status] = [...auxJson[status], election];
-          } else {
-            auxJson[status] = [election];
-          }
+          auxJson[status] =
+            status in auxJson ? [...auxJson[status], election] : [election];
         });
+
         setElectionsRecount(auxJson);
+        setElectionShowed(auxJson);
+        setElectionSelected({});
         setLoad(true);
       }
     });
   };
+
+  /**
+   * Action of selecting an election
+   *
+   * @param {object} election selected
+   * @param {boolean} checked
+   *
+   * @author Cristóbal Jaramillo
+   */
+
+  const handlerElectionSelected = (election, checked) => {
+    let status = election.election_status;
+
+    if (canCombineDecryptions(election)) {
+      status = "Can combine decryptions";
+    }
+    let selected = { ...electionSelected };
+    if (checked) {
+      selected[status] =
+        status in selected ? [...selected[status], election] : [election];
+    } else {
+      selected[status] = selected[status].filter(
+        (item) => item.short_name !== election.short_name
+      );
+    }
+
+    setElectionSelected(selected);
+    setElectionShowed(selected);
+  };
+
+  /**
+   * Discriminate between showing all or selected ones
+   */
+  useEffect(() => {
+    if (
+      Object.values(electionSelected).every(
+        (arr) => Array.isArray(arr) && arr.length === 0
+      )
+    ) {
+      setElectionShowed(electionsRecount);
+      return;
+    }
+    setElectionShowed(electionSelected);
+  }, [electionSelected]);
 
   useEffect(() => {
     refreshElections();
@@ -320,11 +402,12 @@ function GeneralAdmin() {
                   alertMessage={infoMessages.danger}
                   type="danger"
                 />
-                {Object.keys(electionsRecount).map((status) => {
+                {Object.keys(electionShowed).map((status, index) => {
                   return (
                     <CardElectionRecount
+                      key={index}
                       status={status}
-                      elections={electionsRecount[status]}
+                      elections={electionShowed[status]}
                       refreshElections={refreshElections}
                       setInfoMessages={setInfoMessages}
                     />
@@ -337,6 +420,10 @@ function GeneralAdmin() {
                     key={index}
                     election={election}
                     electionStatus={election.election_status}
+                    electionSelected={electionSelected}
+                    handlerElectionSelected={(checked) => {
+                      handlerElectionSelected(election, checked);
+                    }}
                     freezeModal={() => {
                       setFreezeModal({
                         state: true,

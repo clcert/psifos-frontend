@@ -13,7 +13,7 @@ function Header({ electionName, electionShortName, configRoute }) {
       </div>
       <span className="is-size-6">
         <Link className="link-without-line" to={configRoute}>
-          <i class="fa-solid fa-screwdriver-wrench mr-2" />
+          <i className="fa-solid fa-screwdriver-wrench mr-2" />
           <span>Configuraciones</span>
         </Link>
       </span>
@@ -71,6 +71,8 @@ function CardElection(props) {
   /** @state {num} election have audit */
   const [totalVoters, setTotalVoters] = useState(0);
 
+  const [checked, setChecked] = useState(false);
+
   useEffect(() => {
     getStats(props.election.short_name).then((res) => {
       const { jsonResponse } = res;
@@ -79,8 +81,38 @@ function CardElection(props) {
     });
   }, [props.election]);
 
+  const handler = (e) => {
+    const checked = e.target.checked;
+    props.handlerElectionSelected(checked);
+  };
+
+  const inputCheck = () => {
+    if (props.electionSelected.length === 0) return false;
+
+    let status = props.election.election_status;
+    const canCombineDecryptions =
+      props.election.election_status === "Decryptions uploaded" ||
+      (props.election.election_status === "Tally computed" &&
+        props.election.decryptions_uploaded >=
+          Math.floor(props.election.total_trustees / 2) + 1);
+
+    if (canCombineDecryptions) {
+      status = "Can combine decryptions";
+    }
+    if (!(status in props.electionSelected)) return false;
+    return props.electionSelected[status].some(
+      (e) => e.short_name === props.election.short_name
+    );
+  };
+
+  useEffect(() => {
+    const aux = inputCheck();
+    setChecked(aux);
+  }, [props.electionSelected, props.election]);
+
   return (
     <div className="box info-general">
+      <input type="checkbox" onChange={handler} checked={checked} />
       <Header
         electionName={props.election.name}
         electionShortName={props.election.short_name}

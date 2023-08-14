@@ -7,7 +7,7 @@ function OptinalStep({ title, text, button }) {
     <div className="optional-step">
       <div className="statement mb-1 text-align-justify">
         <i
-          class="fa fa-check mr-3 is-color-blue opt-title"
+          className="fa fa-check mr-3 is-color-blue opt-title"
           aria-hidden="true"
         />
         <span>{title}</span>
@@ -107,7 +107,7 @@ function ValidatedVote(props) {
               onClick={exit}
               id="back-vote-button"
               icon={
-                <i class="fa-solid fa-house" style={{ fontSize: "18px" }} />
+                <i className="fa-solid fa-house" style={{ fontSize: "18px" }} />
               }
               text="VOLVER AL INICIO"
             />
