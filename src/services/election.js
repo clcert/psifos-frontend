@@ -93,4 +93,98 @@ async function getElectionResume(shortName) {
   }
 }
 
-export { getElection, getElectionPublic, getElections, getStats, getElectionResume };
+async function initElection(shortName) {
+  /**
+   * Init election
+   */
+
+  const token = localStorage.getItem("token");
+  const url = backendOpIP + "/" + shortName + "/start-election";
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (resp.status === 403) {
+    logout();
+  }
+  return resp
+}
+
+async function closeElection(shortName) {
+  /**
+   * Init election
+   */
+
+  const token = localStorage.getItem("token");
+  const url = backendOpIP + "/" + shortName + "/end-election";
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (resp.status === 403) {
+    logout();
+  }
+  return resp
+}
+
+async function computeTally(shortName) {
+  /**
+   * Compute tally election
+   */
+
+  const token = localStorage.getItem("token");
+  const url = backendOpIP + "/" + shortName + "/compute-tally";
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (resp.status === 403) {
+    logout();
+  }
+  return resp
+}
+
+async function combineDecryptions(shortName) {
+  /**
+   * Combine decryptions
+   */
+
+  const token = localStorage.getItem("token");
+  const url = backendOpIP + "/" + shortName + "/combine-decryptions";
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (resp.status === 403) {
+    logout();
+  }
+  return resp
+}
+
+export {
+  getElection,
+  getElectionPublic,
+  getElections,
+  getStats,
+  getElectionResume,
+  initElection,
+  closeElection,
+  computeTally,
+  combineDecryptions,
+};
