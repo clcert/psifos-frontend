@@ -28,7 +28,8 @@ function DecryptProve() {
   let WORKERS = [];
   let RESULT_WORKERS = [];
   let WORKERS_QUESTIONS = [];
-  const TOTAL_WORKERS = Math.max(navigator.hardwareConcurrency, 4);
+  const TOTAL_WORKERS = navigator.hardwareConcurrency ?
+  Math.max(navigator.hardwareConcurrency, 4) : 1;
   let QUESTIONS_COMPLETE = 0;
   let TOTAL_TALLY;
 
