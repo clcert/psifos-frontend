@@ -11,7 +11,7 @@ function ReviewQuestions(props) {
       <div className="container has-text-centered is-max-desktop">
         <h1 className="title is-4 has-text-black pt-6">REVISA TU VOTACIÓN</h1>
         <p className="subtitle">
-            Revisa aquí tu(s) preferencia(s) seleccionada(s)<br/>
+            Revise su(s) preferencia(s) seleccionada(s)<br/>
         </p>
         {props.questions.map((question, index) => {
           return (
@@ -47,8 +47,8 @@ function ReviewQuestions(props) {
 
         <div className="container has-text-centered mt-6">
           <div className="columns pb-0 is-align-items-center review-buttons-container">
-            <div className="column is-hidden-mobile">
-              {/* <div className="container">
+            {/*<div className="column is-hidden-mobile">
+               <div className="container">
                 <button
                   className="button is-medium review-buttons"
                   id="audit-button"
@@ -70,8 +70,8 @@ function ReviewQuestions(props) {
                 data-tooltip="Verificación avanzada de correcta encriptación de las preferencias."
               >
                 <i className="far fa-question-circle"></i>
-              </span> */}
-            </div>
+              </span>
+            </div> */}
             <div className="column pb-0 is-hidden-mobile">
               <figure className="image select-img-wrapper">
                 <img id="review-final-img" src={reviewImage} alt="" />

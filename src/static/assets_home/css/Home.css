@@ -673,6 +673,8 @@ div#preload {
 .progress-container {
   padding-left: 2rem;
   padding-right: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .progress-icon {

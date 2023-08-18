@@ -143,10 +143,17 @@ function CreateQuestion(props) {
      * check if the questions are valid
      * @returns {boolean} true if the questions are valid
      */
+
+    let isValid = true;
+    question.forEach((q) => {
+      if (!q.q_text) {
+        isValid = false;
+      }
+    });
     if (!optionsChecked) {
-      return false;
+      isValid = false;
     }
-    return true;
+    return isValid;
   }
   async function sendQuestions() {
     /**

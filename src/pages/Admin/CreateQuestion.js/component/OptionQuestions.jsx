@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-function OptionQuestions(props) {
+function NumberOfAnswersSetup(props) {
   /** @state {string} question description */
   const [description, setDescription] = useState("");
   const [checkDescription, setCheckDescription] = useState(true);
@@ -155,7 +155,7 @@ function OptionQuestions(props) {
         )}
       </div>
       <div className="columns">
-        <div className="column">
+        <div className="column" style={{paddingLeft: "0px"}}>
           <div className="field">
             <label className="label">Cantidad mínima de respuestas</label>
             <div className="control">
@@ -255,4 +255,4 @@ function OptionQuestions(props) {
   );
 }
 
-export default OptionQuestions;
+export default NumberOfAnswersSetup;

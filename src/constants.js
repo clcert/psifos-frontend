@@ -68,6 +68,7 @@ export const electionStatusTranslate = {
     "Computing Tally": "Computando tally",
     "Tally computed" : "Tally computado",
     "Decryptions uploaded" : "Desencriptaciones subidas",
+    "Can combine decryptions": "Puede combinar desencriptaciones",
     "Decryptions combined" : "Desencriptaciones combinadas",
     "Results released" : "Resultados liberados"
 }

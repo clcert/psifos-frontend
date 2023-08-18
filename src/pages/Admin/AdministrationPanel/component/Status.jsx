@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { electionStatus } from "../../../../constants";
 
 function Status({
-  electionStep,
   election,
   uploadModalonClick,
   freezeModal,
@@ -10,6 +9,7 @@ function Status({
   tallyModal,
   combineTallyModal,
 }) {
+  const electionStep = election.election_status;
   const canCombineDecryptions =
     electionStep === "Decryptions uploaded" ||
     (electionStep === "Tally computed" &&
@@ -98,7 +98,7 @@ function Status({
       {electionStep === electionStatus.computingTally && (
         <div className="content-card-admin">
           <span className="panel-text-sect">
-            Computando tally ... {" "}
+            Computando tally ...{" "}
             <i id="step_1" className="fa-solid fa-spinner fa-spin" />
           </span>
         </div>

@@ -13,7 +13,7 @@ function Header({ electionName, electionShortName, configRoute }) {
       </div>
       <span className="is-size-6">
         <Link className="link-without-line" to={configRoute}>
-          <i class="fa-solid fa-screwdriver-wrench mr-2" />
+          <i className="fa-solid fa-screwdriver-wrench mr-2" />
           <span>Configuraciones</span>
         </Link>
       </span>
@@ -41,7 +41,6 @@ function MainInfo({ state, totalVoters, totalVotes }) {
 
 function NextSteps({
   election,
-  electionStatus,
   freezeModal,
   closeModal,
   tallyModal,
@@ -53,7 +52,6 @@ function NextSteps({
       <span className="panel-text-sect">Proximos pasos:</span>
       <Status
         election={election}
-        electionStatus={electionStatus}
         freezeModal={freezeModal}
         closeModal={closeModal}
         tallyModal={tallyModal}
@@ -73,12 +71,7 @@ function CardElection(props) {
   /** @state {num} election have audit */
   const [totalVoters, setTotalVoters] = useState(0);
 
-  /** @state {string} election status */
-  const [electionStatus, setElectionStatus] = useState("");
-
-  useEffect(() => {
-    setElectionStatus(props.electionStatus);
-  }, [props.electionStatus]);
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     getStats(props.election.short_name).then((res) => {
@@ -86,12 +79,40 @@ function CardElection(props) {
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
+  }, [props.election]);
 
-    setElectionStatus(props.electionStatus);
-  }, []);
+  const handler = (e) => {
+    const checked = e.target.checked;
+    props.handlerElectionSelected(checked);
+  };
+
+  const inputCheck = () => {
+    if (props.electionSelected.length === 0) return false;
+
+    let status = props.election.election_status;
+    const canCombineDecryptions =
+      props.election.election_status === "Decryptions uploaded" ||
+      (props.election.election_status === "Tally computed" &&
+        props.election.decryptions_uploaded >=
+          Math.floor(props.election.total_trustees / 2) + 1);
+
+    if (canCombineDecryptions) {
+      status = "Can combine decryptions";
+    }
+    if (!(status in props.electionSelected)) return false;
+    return props.electionSelected[status].some(
+      (e) => e.short_name === props.election.short_name
+    );
+  };
+
+  useEffect(() => {
+    const aux = inputCheck();
+    setChecked(aux);
+  }, [props.electionSelected, props.election]);
 
   return (
     <div className="box info-general">
+      <input type="checkbox" onChange={handler} checked={checked} />
       <Header
         electionName={props.election.name}
         electionShortName={props.election.short_name}
@@ -99,14 +120,13 @@ function CardElection(props) {
       />
       <hr />
       <MainInfo
-        state={electionStatusTranslate[electionStatus]}
+        state={electionStatusTranslate[props.election.election_status]}
         totalVoters={totalVoters}
         totalVotes={totalVotes}
       />
       <hr />
       <NextSteps
         election={props.election}
-        electionStatus={electionStatus}
         freezeModal={props.freezeModal}
         closeModal={props.closeModal}
         tallyModal={props.tallyModal}

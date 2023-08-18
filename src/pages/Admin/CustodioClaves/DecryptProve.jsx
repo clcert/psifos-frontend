@@ -28,7 +28,8 @@ function DecryptProve() {
   let WORKERS = [];
   let RESULT_WORKERS = [];
   let WORKERS_QUESTIONS = [];
-  const TOTAL_WORKERS = Math.max(navigator.hardwareConcurrency, 4);
+  const TOTAL_WORKERS = navigator.hardwareConcurrency ?
+  Math.max(navigator.hardwareConcurrency, 4) : 1;
   let QUESTIONS_COMPLETE = 0;
   let TOTAL_TALLY;
 
@@ -124,8 +125,8 @@ function DecryptProve() {
             factor_proofs.tally_type = result.tally_type;
           });
           DESCRIPTIONS[q_num] = factor_proofs;
+          QUESTIONS_COMPLETE = QUESTIONS_COMPLETE + 1;
         }
-        QUESTIONS_COMPLETE = QUESTIONS_COMPLETE + 1;
         // En caso de que terminamos todas las preguntas
         if (QUESTIONS_COMPLETE === TOTAL_TALLY) {
           let final_json = {
@@ -155,7 +156,7 @@ function DecryptProve() {
         const tally = JSON.parse(ELECTION.encrypted_tally);
         TOTAL_TALLY = tally.length;
         tally.forEach((t, q_num) => {
-          const size = Math.floor(t.tally.length / 4);
+          const size = Math.ceil(t.tally.length / TOTAL_WORKERS);
           WORKERS[q_num] = 0;
 
           // Caso de tally pequeño, solo un hilo de ejecución
