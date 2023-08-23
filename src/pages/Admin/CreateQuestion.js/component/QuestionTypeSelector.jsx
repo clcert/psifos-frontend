@@ -16,7 +16,7 @@ export default function QuestionTypeSelector({
               {/* <option value="open_question">Pregunta abierta</option> */}
               <option value="closed_question">Pregunta cerrada</option>
               <option value="mixnet_question">Pregunta mixnet</option>
-              <option value="stv_question">Pregunta con ranking preferencial</option>
+              <option value="stvnc_question">Pregunta con ranking preferencial</option>
             </select>
           </div>
         </div>
