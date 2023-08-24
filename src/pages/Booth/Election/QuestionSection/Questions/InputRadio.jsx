@@ -1,5 +1,4 @@
 function InputRadio(props) {
-  console.log(props.answers);
   function handlerInput(event) {
     props.setAnswers([parseInt(event.target.value)]);
     props.setBlankButton(false);

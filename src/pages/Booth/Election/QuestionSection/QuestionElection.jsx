@@ -104,8 +104,7 @@ function QuestionElection(props) {
 
             <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
               <div className="control control-box">
-                {question.q_type === "stvnc_question" &&
-                  !question.include_blank_null && (
+                {question.q_type === "stvnc_question" && (
                     <RankingSelection
                       index={index}
                       addAnswer={addAnswer}
