@@ -19,31 +19,18 @@ function CreateElection(props) {
    */
 
   /** @state {string} short name for election */
-  const [shortNameElection, setShortName] = useState("");
-
-  /** @state {string} title of election */
-  const [name, setName] = useState("");
-
-  /** @state {string} description of election */
-  const [description, setDescription] = useState("");
-
-  /** @state {string} date for start election */
-  const [electionType, setElectionType] = useState("election");
-
-  /** @state {number} max weight for election */
-  const [maxWeight, setMaxWeight] = useState(1);
-
-  /** @state {boolean} indicates if the election has aliases  */
-  const [voterAliases, setVoterAliases] = useState(false);
-
-  /** @state {boolean} indicates if the election has randomize  */
-  const [randomizeAnswer, setRandomizeAnswer] = useState(false);
-
-  /** @state {boolean} indicates if the election is private  */
-  const [privateElection, setPrivateElection] = useState(false);
-
-  /** @state {boolean} indicates if normalize the election  */
-  const [normalization, setNormalization] = useState(false);
+  const [electionParams, setElectionParams] = useState({
+    short_name: "",
+    name: "",
+    description: "",
+    election_type: "election",
+    max_weight: 1,
+    obscure_voter_names: false,
+    randomize_answer_order: false,
+    private_p: false,
+    normalization: false,
+    grouped: false,
+  });
 
   /** @state {string} alert message  */
   const [alertMessage, setAlertMessage] = useState("");
@@ -59,15 +46,19 @@ function CreateElection(props) {
         const { resp, jsonResponse } = election;
         if (resp.status === 200) {
           setDisabledEdit(jsonResponse.election_status !== "Setting up");
-          setShortName(jsonResponse.short_name);
-          setName(jsonResponse.name);
-          setDescription(jsonResponse.description);
-          setElectionType(jsonResponse.election_type.toLocaleLowerCase());
-          setMaxWeight(jsonResponse.max_weight);
-          setVoterAliases(jsonResponse.obscure_voter_names);
-          setRandomizeAnswer(jsonResponse.randomize_answer_order);
-          setPrivateElection(jsonResponse.private_p);
-          setNormalization(jsonResponse.normalization);
+          const params = {
+            short_name: jsonResponse.short_name,
+            name: jsonResponse.name,
+            description: jsonResponse.description,
+            election_type: jsonResponse.election_type.toLocaleLowerCase(),
+            max_weight: jsonResponse.max_weight,
+            obscure_voter_names: jsonResponse.obscure_voter_names,
+            randomize_answer_order: jsonResponse.randomize_answer_order,
+            private_p: jsonResponse.private_p,
+            normalization: jsonResponse.normalization,
+            grouped: jsonResponse.grouped,
+          };
+          setElectionParams(params);
         } else {
           setAlertMessage(jsonResponse.message);
         }
@@ -87,27 +78,18 @@ function CreateElection(props) {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          short_name: shortNameElection,
-          name: name,
-          description: description,
-          election_type: electionType,
-          max_weight: maxWeight,
-          obscure_voter_names: voterAliases,
-          randomize_answer_order: randomizeAnswer,
-          private_p: privateElection,
-          normalization: normalization,
-        }),
+        body: JSON.stringify(electionParams),
       });
       const jsonResponse = await resp.json();
       if (resp.status === 404) {
         if (jsonResponse.detail === "The election already exists.") {
-          setAlertMessage(`La elección ${shortNameElection} ya existe`);
+          setAlertMessage(`La elección ${electionParams.short_name} ya existe`);
           upScreen();
         }
       }
       if (resp.status === 201) {
-        window.location.href = "/psifos/admin/" + shortNameElection + "/panel";
+        window.location.href =
+          "/psifos/admin/" + electionParams.short_name + "/panel";
       }
     } else {
       upScreen();
@@ -129,15 +111,21 @@ function CreateElection(props) {
      * function to check if the jsonResponse is correct
      */
 
-    if (shortNameElection.length === 0 || shortNameElection.length > 100) {
+    if (
+      electionParams.short_name.length === 0 ||
+      electionParams.short_name.length > 100
+    ) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;
-    } else if (shortNameElection.includes(" ")) {
+    } else if (electionParams.short_name.includes(" ")) {
       setAlertMessage(
         "El nombre de la elección no puede tener espacios en blanco"
       );
       return false;
-    } else if (name.length === 0 || name.length > 250) {
+    } else if (
+      electionParams.name.length === 0 ||
+      electionParams.name.length > 250
+    ) {
       setAlertMessage(
         "El nombre de la elección debe tener entre 1 y 250 caracteres"
       );
@@ -182,9 +170,12 @@ function CreateElection(props) {
                 className="input"
                 type="text"
                 placeholder="Nombre corto"
-                value={shortNameElection}
+                value={electionParams.short_name}
                 onChange={(e) => {
-                  setShortName(e.target.value);
+                  setElectionParams({
+                    ...electionParams,
+                    short_name: e.target.value,
+                  });
                 }}
                 maxLength="100"
               />
@@ -207,9 +198,12 @@ function CreateElection(props) {
                 className="input"
                 type="text"
                 placeholder="Nombre de la elección"
-                value={name}
+                value={electionParams.name}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setElectionParams({
+                    ...electionParams,
+                    name: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -226,9 +220,12 @@ function CreateElection(props) {
                 disabled={disabledEdit}
                 className="textarea"
                 placeholder="Descripción"
-                value={description}
+                value={electionParams.description}
                 onChange={(e) => {
-                  setDescription(e.target.value);
+                  setElectionParams({
+                    ...electionParams,
+                    description: e.target.value,
+                  });
                 }}
               ></textarea>
             </div>
@@ -241,9 +238,12 @@ function CreateElection(props) {
               <div className="select">
                 <select
                   disabled={disabledEdit}
-                  value={electionType}
+                  value={electionParams.election_type}
                   onChange={(e) => {
-                    setElectionType(e.target.value);
+                    setElectionParams({
+                      ...electionParams,
+                      election_type: e.target.value,
+                    });
                   }}
                 >
                   <option value="election">Elección</option>
@@ -264,9 +264,12 @@ function CreateElection(props) {
                 className="input"
                 type="number"
                 placeholder="Peso maximo"
-                value={maxWeight}
+                value={electionParams.max_weight}
                 onChange={(e) => {
-                  setMaxWeight(e.target.value);
+                  setElectionParams({
+                    ...electionParams,
+                    max_weight: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -281,9 +284,12 @@ function CreateElection(props) {
                 <input
                   disabled={disabledEdit}
                   onChange={(e) => {
-                    setVoterAliases(e.target.checked);
+                    setElectionParams({
+                      ...electionParams,
+                      obscure_voter_names: e.target.checked,
+                    });
                   }}
-                  checked={voterAliases}
+                  checked={electionParams.obscure_voter_names}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -302,9 +308,12 @@ function CreateElection(props) {
                 <input
                   disabled={disabledEdit}
                   onChange={(e) => {
-                    setRandomizeAnswer(e.target.checked);
+                    setElectionParams({
+                      ...electionParams,
+                      randomize_answer_order: e.target.checked,
+                    });
                   }}
-                  checked={randomizeAnswer}
+                  checked={electionParams.randomize_answer_order}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -323,9 +332,12 @@ function CreateElection(props) {
                   id="private-input"
                   disabled={disabledEdit}
                   onChange={(e) => {
-                    setPrivateElection(e.target.checked);
+                    setElectionParams({
+                      ...electionParams,
+                      private_p: e.target.checked,
+                    });
                   }}
-                  checked={privateElection}
+                  checked={electionParams.private_p}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -342,9 +354,12 @@ function CreateElection(props) {
               <label className="checkbox">
                 <input
                   onChange={(e) => {
-                    setNormalization(e.target.checked);
+                    setElectionParams({
+                      ...electionParams,
+                      normalization: e.target.checked,
+                    });
                   }}
-                  checked={normalization}
+                  checked={electionParams.normalization}
                   type="checkbox"
                   className="mr-2"
                 />
@@ -354,6 +369,27 @@ function CreateElection(props) {
             <p className="help">
               Actívelo si desea que los números de resultados que se muestran se
               dividan por el peso máximo de votantes.
+            </p>
+          </div>
+          <div className="field">
+            <div className="control">
+              <label className="checkbox">
+                <input
+                  onChange={(e) => {
+                    setElectionParams({
+                      ...electionParams,
+                      grouped: e.target.checked,
+                    });
+                  }}
+                  checked={electionParams.grouped}
+                  type="checkbox"
+                  className="mr-2"
+                />
+                Agrupar los resultados
+              </label>
+            </div>
+            <p className="help">
+              Actívelo si desea que los votantes esten agrupados.
             </p>
           </div>
           <div className="row">
