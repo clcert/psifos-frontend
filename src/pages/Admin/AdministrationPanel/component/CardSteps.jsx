@@ -7,6 +7,7 @@ function CardSteps({
   closeModal,
   tallyModal,
   combineTallyModal,
+  releaseModal,
   uploadModalonClick,
 }) {
   return (
@@ -22,6 +23,7 @@ function CardSteps({
         closeModal={closeModal}
         tallyModal={tallyModal}
         combineTallyModal={combineTallyModal}
+        releaseModal={releaseModal}
         uploadModalonClick={(value) => {
           uploadModalonClick(value);
         }}
