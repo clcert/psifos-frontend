@@ -12,6 +12,93 @@ import { permanentOptionsList } from "../../../../constants";
 import RankingSelection from "./RankingSelection";
 import InputSelection from "./InputSelection";
 
+function QuestionSelectionBox({
+  question, index, showAlert, messageAlert,
+  totalQuestions, addAnswer, election,
+}) {
+  const selectionProps = {
+    index: index,
+    addAnswer: addAnswer,
+    question: question,
+    election: election,
+  }
+
+  return (
+    <div
+      key={index}
+      style={{ display: "block" }}
+    >
+      {showAlert && <AlertQuestions message={messageAlert} />}
+      <QuestionHeader
+        actualQuestion={index}
+        totalQuestions={totalQuestions}
+        questions={question}
+      />
+
+      <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
+        <div className="control control-box">
+          {question.q_type === "stvnc_question" && (
+            <RankingSelection {...selectionProps} />
+          )}
+          {question.q_type === "closed_question" && (
+            <InputSelection {...selectionProps} />
+          )}
+          {question.q_type === "mixnet_question" && (
+            <MixnetSelection numQuestion={index} {...selectionProps} />
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PreviousButtonBox({
+  actualQuestion, numQuestions, handleAlert, nextQuestion,
+}) {
+  return (
+    actualQuestion !== 0 && actualQuestion < numQuestions && (
+      <div className="column is-flex left-button-column">
+        <PreviousButton
+          action={() => {
+            handleAlert(false);
+            nextQuestion(actualQuestion - 1);
+          }}
+        />
+      </div>
+    )
+  )
+}
+
+function SelectFigureBox() {
+  return (
+    <div className="column is-hidden-mobile pb-0">
+      <figure className="image select-img-wrapper">
+        <img id="select-final-img" src={selectImg} alt="" />
+      </figure>
+    </div>
+  )
+}
+
+function ContinueButtonBox({
+  isNextButtonBool, answers,
+  nextButtonHandler, finishButtonHandler,
+}) {
+  return (
+    <div className="column is-flex right-button-column">
+      {isNextButtonBool ? (
+        <NextButton
+          action={nextButtonHandler}
+        />
+      ) : (
+        <FinishButton
+          action={finishButtonHandler}
+          answers={answers}
+        />
+      )}
+    </div>
+  )
+}
+
 function QuestionElection(props) {
   /** Component for election questions */
 
@@ -29,18 +116,6 @@ function QuestionElection(props) {
 
   /** @state {string} feedback message of alert */
   const [messageAlert, setMessageAlert] = useState("");
-
-  function addAnswer(answer, index) {
-    /**
-     * @param {array} answersAux - consult answers
-     * @param {number} index - question index
-     *
-     * include the responses in the response array for encryption
-     */
-    let answersAux = [...answers];
-    answersAux[index] = answer;
-    setAnswers(answersAux);
-  }
 
   useEffect(() => {
     /**
@@ -87,106 +162,50 @@ function QuestionElection(props) {
 
   return (
     <div>
-      {props.questions.map((question, index) => {
-        return (
-          <div
-            key={index}
-            style={{
-              display: props.actualQuestion === index ? "block" : "none",
-            }}
-          >
-            {showAlert && <AlertQuestions message={messageAlert} />}
-            <QuestionHeader
-              actualQuestion={props.actualQuestion}
-              totalQuestions={props.questions.length}
-              questions={question}
-            />
-
-            <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
-              <div className="control control-box">
-                {question.q_type === "stvnc_question" && (
-                    <RankingSelection
-                      index={index}
-                      addAnswer={addAnswer}
-                      question={question}
-                      election={props.election}
-                    />
-                )}
-                {question.q_type === "closed_question" && (
-                  <InputSelection
-                    index={index}
-                    addAnswer={addAnswer}
-                    question={question}
-                    election={props.election}
-                  />
-                )}
-                {question.q_type === "mixnet_question" && (
-                  <MixnetSelection
-                    numQuestion={index}
-                    addAnswer={addAnswer}
-                    question={question}
-                    election={props.election}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
+      {props.questions[props.actualQuestion] && (
+        <QuestionSelectionBox
+          question={props.questions[props.actualQuestion]}
+          index={props.actualQuestion}
+          showAlert={showAlert}
+          messageAlert={messageAlert}
+          totalQuestions={props.questions.length}
+          addAnswer={(answer, index) => {
+            let answersAux = [...answers];
+            answersAux[index] = answer;
+            setAnswers(answersAux);
+          }}
+          election={props.election}
+        />
+      )}
 
       <div className="columns pt-1 pb-4 buttons-question">
-        {props.actualQuestion !== 0 &&
-        props.actualQuestion < props.questions.length ? (
-          <div className="column is-flex left-button-column">
-            <PreviousButton
-              action={() => {
-                setShowAlert(false);
-                props.nextQuestion(props.actualQuestion - 1);
-              }}
-            />
-          </div>
-        ) : (
-          <div className="column is-invisible is-flex left-button-column">
-            <PreviousButton
-              action={() => {
-                setShowAlert(false);
-                props.nextQuestion(props.actualQuestion - 1);
-              }}
-            />
-          </div>
-        )}
+        <PreviousButtonBox
+          actualQuestion={props.actualQuestion}
+          numQuestions={props.questions.length}
+          handleAlert={setShowAlert}
+          nextQuestion={props.nextQuestion}
+        />
 
-        <div className="column is-hidden-mobile pb-0">
-          <figure className="image select-img-wrapper">
-            <img id="select-final-img" src={selectImg} alt="" />
-          </figure>
-        </div>
+        <SelectFigureBox />
 
-        {props.actualQuestion < props.questions.length - 1 && !finished ? (
-          <div className="column is-flex right-button-column">
-            <NextButton
-              action={() => {
-                if (checkAnswers(props.actualQuestion)) {
-                  props.nextQuestion(props.actualQuestion + 1);
-                }
-              }}
-            />
-          </div>
-        ) : (
-          <div className="column is-flex right-button-column">
-            <FinishButton
-              action={() => {
-                if (checkAnswers(props.actualQuestion)) {
-                  props.encrypQuestions(answers);
-                  setShowModal(true);
-                  setFinished(true);
-                }
-              }}
-              answers={answers}
-            />
-          </div>
-        )}
+        <ContinueButtonBox
+          isNextButtonBool={ props.actualQuestion < props.questions.length - 1 && !finished }
+          answers={answers}
+          nextButtonHandler={() => {
+            if (checkAnswers(props.actualQuestion)) {
+              props.nextQuestion(props.actualQuestion + 1);
+            }
+          }}
+          finishButtonHandler={() => {
+            if (checkAnswers(props.actualQuestion)) {
+              props.encrypQuestions(answers);
+              setShowModal(true);
+              setFinished(true);
+            }
+          }}
+        />
       </div>
+
       <ModalPercentage
         booth={props.booth}
         show={showModal}
