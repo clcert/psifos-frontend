@@ -8,7 +8,9 @@ import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import { answersRestrictionText } from "./utils.js";
-import { permanentOptionsList } from "../../../../constants";
+import {
+  permanentOptionsList, preferentialRankingTallyTypes,
+} from "../../../../constants";
 import RankingSelection from "./RankingSelection";
 import InputSelection from "./InputSelection";
 
@@ -140,7 +142,16 @@ function QuestionElection(props) {
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
     const options = currentQuestion.closed_options;
+    return !preferentialRankingTallyTypes.includes(
+      currentQuestion.tally_type
+    ) ? checkNumAnswers(
+      numCheckedIndex, options, checkedIndex, currentQuestion,
+    ) : true
+  }
 
+  const checkNumAnswers = (
+    numCheckedIndex, options, checkedIndex, currentQuestion,
+  ) => {
     if (
       !Boolean(
         numCheckedIndex === 1 &&
