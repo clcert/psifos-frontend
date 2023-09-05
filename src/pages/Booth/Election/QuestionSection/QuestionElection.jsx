@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
 import NextButton from "../../components/Buttons/NextButton";
@@ -13,6 +13,21 @@ import {
 } from "../../../../constants";
 import RankingSelection from "./RankingSelection";
 import InputSelection from "./InputSelection";
+
+const getDefaultAnswer = (currentQuestion) => {
+  const getEmptyArray = (_) => []
+  const defaultAnswer = {
+    "stvnc_question": (actualQuestion) => {
+      return actualQuestion.closed_options.reduce(
+        (accumulator, index) => {
+          return [...accumulator, index]
+        }, []
+    )},
+    "mixnet_question": getEmptyArray,
+    "closed_question": getEmptyArray,
+  }
+  return defaultAnswer[currentQuestion.q_type](currentQuestion)
+}
 
 function QuestionSelectionBox({
   question, index, showAlert, messageAlert,
@@ -121,13 +136,13 @@ function QuestionElection(props) {
 
   useEffect(() => {
     /**
-     * Empty arrays are included in each response
+     * Default arrays are included in each response
      */
-    let answersAux = [];
-    props.questions.forEach((actualQuestion, index) => {
-      let auxArray = [];
-      answersAux[index] = auxArray;
-    });
+    let answersAux = props.questions.reduce(
+      (accumulator, currentValue, index) => {
+        accumulator[index] = getDefaultAnswer(currentValue)
+        return accumulator
+    }, []);
     setAnswers(answersAux);
   }, [props.questions]);
 
