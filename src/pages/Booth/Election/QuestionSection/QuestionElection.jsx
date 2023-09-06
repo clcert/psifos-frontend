@@ -19,7 +19,7 @@ const getDefaultAnswer = (currentQuestion) => {
   const defaultAnswer = {
     "stvnc_question": (actualQuestion) => {
       return actualQuestion.closed_options.reduce(
-        (accumulator, index) => {
+        (accumulator, _, index) => {
           return [...accumulator, index]
         }, []
     )},
