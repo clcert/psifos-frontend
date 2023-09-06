@@ -7,6 +7,7 @@ function Status({
   freezeModal,
   closeModal,
   tallyModal,
+  releaseModal,
   combineTallyModal,
 }) {
   const electionStep = election.election_status;
@@ -51,7 +52,7 @@ function Status({
             </span>
           </div>
         )}
-      {election.trustees.length === 0 &&
+      {election.total_trustees === 0 &&
         electionStep === electionStatus.settingUp && (
           <div className="content-card-admin">
             <span className="panel-text-sect">
@@ -67,7 +68,7 @@ function Status({
         )}
       {(election.total_voters > 0 || !election.private_p) &&
         election.questions !== null &&
-        election.trustees.length !== 0 &&
+        election.total_trustees !== 0 &&
         electionStep === "Setting up" && (
           <div className="content-card-admin">
             <span onClick={() => freezeModal()} className="panel-text-sect">
@@ -125,6 +126,15 @@ function Status({
         </div>
       )}
       {electionStep === electionStatus.decryptionsCombined && (
+        <div className="content-card-admin">
+          <span onClick={() => releaseModal()} className="panel-text-sect">
+            <Link to="" className="link-without-line">
+              Liberar los resultados
+            </Link>
+          </span>
+        </div>
+      )}
+      {electionStep === electionStatus.resultsReleased && (
         <div className="content-card-admin">
           <span onClick={() => combineTallyModal()} className="panel-text-sect">
             <Link

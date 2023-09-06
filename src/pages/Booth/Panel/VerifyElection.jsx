@@ -38,7 +38,7 @@ function VerifyElection({ includesMnQuestion }) {
     });
   }, [shortName]);
   const finishedElection =
-    status === electionStatus.decryptionsCombined;
+    status === electionStatus.resultsReleased;
   return (
     <div>
       {includesMnQuestion ? (

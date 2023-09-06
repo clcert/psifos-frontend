@@ -221,7 +221,7 @@ function VotersTable({
                         >
                           <i className="fa-solid fa-pen-to-square"></i>
                         </div>
-                        {electionStatus === "Setting up" && (
+                        {!voter.cast_vote && (
                           <div
                             onClick={() => {
                               setVoterSelect((prevState) => ({
