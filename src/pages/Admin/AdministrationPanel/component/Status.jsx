@@ -7,6 +7,7 @@ function Status({
   freezeModal,
   closeModal,
   tallyModal,
+  releaseModal,
   combineTallyModal,
 }) {
   const electionStep = election.election_status;
@@ -125,6 +126,15 @@ function Status({
         </div>
       )}
       {electionStep === electionStatus.decryptionsCombined && (
+        <div className="content-card-admin">
+          <span onClick={() => releaseModal()} className="panel-text-sect">
+            <Link to="" className="link-without-line">
+              Liberar los resultados
+            </Link>
+          </span>
+        </div>
+      )}
+      {electionStep === electionStatus.resultsReleased && (
         <div className="content-card-admin">
           <span onClick={() => combineTallyModal()} className="panel-text-sect">
             <Link
