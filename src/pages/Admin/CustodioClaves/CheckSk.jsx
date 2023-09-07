@@ -83,13 +83,6 @@ function CheckSk(props) {
         <div className="container has-text-centered is-max-desktop">
           <h4 className="has-text-white">Inserte su clave privada aquí</h4>
           <DropFile setText={check_sk} />
-          <input
-            type="text"
-            disabled
-            className="input mb-3 mt-4 is-family-monospace has-text-centered"
-            placeholder="Clave privada..."
-            value={secretKey}
-          />
           <p id="feedback-check" className="has-text-white is-size-4">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
             <button id="button-init" className="button is-link mx-sm-2 mt-2">
