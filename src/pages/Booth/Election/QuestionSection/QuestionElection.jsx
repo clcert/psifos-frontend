@@ -99,6 +99,7 @@ function SelectFigureBox() {
 function ContinueButtonBox({
   isNextButtonBool, answers,
   nextButtonHandler, finishButtonHandler,
+  isPreview,
 }) {
   return (
     <div className="column is-flex right-button-column">
@@ -108,7 +109,7 @@ function ContinueButtonBox({
         />
       ) : (
         <FinishButton
-          action={finishButtonHandler}
+          action={() => !isPreview && finishButtonHandler()}
           answers={answers}
         />
       )}
@@ -229,6 +230,7 @@ function QuestionElection(props) {
               setFinished(true);
             }
           }}
+          isPreview={props.isPreview}
         />
       </div>
 
