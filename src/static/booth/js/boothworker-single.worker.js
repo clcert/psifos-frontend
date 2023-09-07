@@ -31,8 +31,7 @@ function do_encrypt(message) {
     type: "result",
     q_num: message.q_num,
     id: message.id,
-    q_type: message.q_type
-    // });
+    q_type: message.q_type,
   };
 
   console.log("EMPIEZA A ENCRIPTAR");

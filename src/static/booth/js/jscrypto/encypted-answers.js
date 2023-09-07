@@ -11,12 +11,14 @@ class EncryptedAnswerFactory {
    */
 
   create(type, question, answer, pk, progress) {
-    if (type === "open_question") {
-      return new EncryptedOpenAnswer(question, answer, pk, progress);
-    } else if (type === "closed_question") {
-      return new EncryptedCloseAnswer(question, answer, pk, progress);
-    } else if (type === "mixnet_question") {
-      return new EncryptedMixnetAnswer(question, answer, pk, progress);
+    const question_types = {
+      "open_question": EncryptedOpenAnswer,
+      "closed_question": EncryptedCloseAnswer,
+      "mixnet_question": EncryptedMixnetAnswer,
+      "stvnc_question": EncryptedStvncAnswer,
+    }
+    if (Object.keys(question_types).includes(type)) {
+      return new question_types[type](question, answer, pk, progress);
     }
   }
 }
@@ -312,5 +314,75 @@ class EncryptedMixnetAnswer extends EncryptedAnswer {
 
   
 }
+
+class EncryptedStvncAnswer extends EncryptedAnswer {
+  /**
+   * class to encrypt a mixnet question
+   */
+
+  constructor(question, answer, pk, progress, type) {
+    super(question, answer, pk, progress, type);
+    this.enc_ans_type = "encrypted_mixnet_answer";
+    console.log('jiji constructor')
+  }
+
+  doEncryption(question, answer, pk, randomness, progress) {
+    var choices = [];
+    console.log('answer', answer)
+    console.log('pk', pk)
+    console.log('randomess', randomness)
+    console.log('progress', progress)
+
+    // keep track of whether we need to generate new randomness
+    var generate_new_randomness = false;
+    if (!randomness) {
+      randomness = [];
+      generate_new_randomness = true;
+    }
+
+    // keep track of number of options selected.
+    var num_selected_answers = 0;
+    // go through each possible answer and encrypt either a g^0 or a g^1.
+    for (var i = 0; i < answer.length; i++) {
+      // generate randomness?
+      if (generate_new_randomness) {
+        randomness[i] = Random.getRandomInteger(pk.q);
+      }
+
+      choices[i] = ElGamal.encryptMixnet(pk, answer[i], randomness[i]);
+
+      if (progress) progress.tick();
+    }
+    console.log('despues de la encriptacion')
+    console.log('choises', choices)
+    console.log('randomness', randomness)
+
+
+    return {
+      choices: choices,
+      randomness: randomness,
+    };
+  }
+
+  toJSONObject(include_plaintext) {
+    var return_obj = {
+      enc_ans_type: this.enc_ans_type,
+      choices: _(this.choices).map(function (choice) {
+        return choice.toJSONObject();
+      }),
+    };
+    if (include_plaintext) {
+      return_obj.answer = this.answer;
+      return_obj.randomness = _(this.randomness).map(function (r) {
+        return r.toJSONObject();
+      });
+    }
+
+    return return_obj;
+  }
+
+  
+}
+
 
 export default EncryptedAnswerFactory;
