@@ -323,15 +323,10 @@ class EncryptedStvncAnswer extends EncryptedAnswer {
   constructor(question, answer, pk, progress, type) {
     super(question, answer, pk, progress, type);
     this.enc_ans_type = "encrypted_mixnet_answer";
-    console.log('jiji constructor')
   }
 
   doEncryption(question, answer, pk, randomness, progress) {
     var choices = [];
-    console.log('answer', answer)
-    console.log('pk', pk)
-    console.log('randomess', randomness)
-    console.log('progress', progress)
 
     // keep track of whether we need to generate new randomness
     var generate_new_randomness = false;
@@ -353,9 +348,6 @@ class EncryptedStvncAnswer extends EncryptedAnswer {
 
       if (progress) progress.tick();
     }
-    console.log('despues de la encriptacion')
-    console.log('choises', choices)
-    console.log('randomness', randomness)
 
 
     return {
