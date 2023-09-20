@@ -1,7 +1,10 @@
 import { useState } from "react";
 import PsifosTable from "./components/PsifosTable";
 import CardTitle from "./components/CardTitle";
-import { getResponseWithoutGroup } from "../utils";
+import {
+    isAClosedTally, isARankingTally,
+} from "../utils";
+import { updateResult } from "./parseResult";
 
 function PercentageOptions({ handleChange, currentValue }) {
     return (
@@ -37,7 +40,7 @@ function QuestionTitle({ index, text }){
     )
 }
     
-function QuestionTables({ result, question, election }) {
+function ClosedQuestionTables({ result, question, election }) {
     return (
         <div className="disable-text-selection justify-content-md-center columns question-columns">
             <div className="column justify-content-center">
@@ -59,35 +62,33 @@ function QuestionTables({ result, question, election }) {
     )
 }
 
+function RankingQuestionTables({ result, question, election }) {
+    return (
+        <>{result}</>
+    )
+}
+
+function QuestionTables(props) {
+    return (
+        isARankingTally(props.question.tally_type)
+        ? (
+            <RankingQuestionTables
+                {...props}
+            />
+        )
+        : (isAClosedTally(props.question.tally_type) &&
+            <ClosedQuestionTables
+                {...props}
+            />
+        )
+    )
+}
+
 function BoxPerQuestion({
     question, index, election, result, 
 }) {
-    const [percentageOption, setPercentageOpcion] = useState('votosValidos')
-
-    const resultByOption = result.reduce((accumulator, currentValue) => {
-        const {
-            PorcentajeSobreVotosValidos, PorcentajeSobreVotosEmitidos, Respuesta, Votos,
-        } = currentValue
-
-        const infoGeneral = {
-            'Respuesta': question.q_type === "mixnet_question"
-            ? getResponseWithoutGroup(Respuesta)
-            : Respuesta,
-            Votos,
-        }
-
-        if (percentageOption === 'votosValidos') {
-            accumulator.push({...infoGeneral, Porcentaje: PorcentajeSobreVotosValidos})
-        }
-        else if (percentageOption === 'votosEmitidos' && PorcentajeSobreVotosEmitidos) {
-            accumulator.push({...infoGeneral, Porcentaje: PorcentajeSobreVotosEmitidos})
-        }
-        else {
-            accumulator.push(infoGeneral)
-        }
-        return accumulator
-    }, [])
-
+    const [percentageOption, setPercentageOption] = useState('votosValidos')
+    const resultByOption = updateResult(result, question, percentageOption)
     return (
         <div
             className="box question-box-results"
@@ -100,7 +101,7 @@ function BoxPerQuestion({
                 question={question}
             />
             {question.include_blank_null === "True" && <PercentageOptions
-                handleChange={(e) => setPercentageOpcion(e.target.value)}
+                handleChange={(e) => setPercentageOption(e.target.value)}
                 currentValue={percentageOption}
             />}
         </div>
