@@ -64,7 +64,17 @@ function ClosedQuestionTables({ result, question, election }) {
 
 function RankingQuestionTables({ result, question, election }) {
     return (
-        <>{result}</>
+        <div
+            style={{marginTop: "1rem", display: "flex"}}
+            className="is-size-6"
+        >
+            <div style={{
+                marginRight: "5px", maxWidth: "50%", wordBreak: "break-all",
+            }}>
+                {"Seleccionada(o): "}
+            </div>
+            <div> {result} </div>
+        </div>
     )
 }
 
