@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { getElectionPublic } from "../../../services/election";
 import { getPercentage } from "../utils";
 import NotAvalaibleMessage from "../../Booth/components/NotAvalaibleMessage";
-import { permanentOptionsList } from "../../../constants";
+import { electionStatus, permanentOptionsList } from "../../../constants";
 import CalculatedResults from "./CalculatedResults";
 
 const analizeQuestionResult = (question, votesPerAns, includeWhiteNull) => {
@@ -94,7 +94,7 @@ function Results() {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
         setElection(jsonResponse);
-        if (jsonResponse.election_status === "Decryptions combined") {
+        if (jsonResponse.election_status === electionStatus.resultsReleased) {
           const questionsObject = JSON.parse(jsonResponse.questions);
           const resultObject = JSON.parse(jsonResponse.result);
           setResultGrouped(resultObject);
@@ -126,7 +126,7 @@ function Results() {
   return (
     <>
       {!load && <div className="spinner-animation"></div>}
-      {results.length > 0 && load && (
+      {load && election.election_status === electionStatus.resultsReleased ? (
         <CalculatedResults
           election={election}
           questions={questions}
@@ -134,8 +134,7 @@ function Results() {
           groups={groups}
           setGroup={setGroup}
         />
-      )}
-      {results.length === 0 && load && (
+      ) : (
         <NoCalculatedResults getElectionResult={getElectionResult} />
       )}
     </>

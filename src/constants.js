@@ -38,6 +38,10 @@ export const events = {
         name: "Combinación de desencriptaciones parciales",
         descript: "Las desencriptaciones parciales se han combinado para obtener el resultado de la elección.",
     },
+    results_released: {
+        name: "Los resultados han sido liberados",
+        descript: "Los resultados de la elección se encuentran disponibles",
+    },
     electoral_roll_modified: {
         name: "Modificación al padrón",
         descript: "La lista de votantes ha sido actualizada.",

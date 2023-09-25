@@ -17,6 +17,7 @@ import CardSteps from "./component/CardSteps";
 import UploadModal from "../VotersList/components/UploadModal";
 import ModalDeleteElection from "./component/ModalDeleteElection";
 import { electionStatus } from "../../../constants";
+import ModalResultsRelease from "./component/ModalReleaseResults";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -48,6 +49,9 @@ function AdministrationPanel(props) {
 
   /** @state {bool} state modal delete election */
   const [deleteElectionModal, setDeleteElectionModal] = useState(false);
+
+  /** @state {bool} state modal release election */
+  const [releaseElectionModal, setReleaseElectionModal] = useState(false);
 
   /** @state {string} feedback message for admin */
   const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -123,6 +127,16 @@ function AdministrationPanel(props) {
     }
   }, [electionStep]);
 
+  useEffect(() => {
+    updateElection();
+  }, [
+    freezeModal,
+    combineTallyModal,
+    closeModal,
+    releaseElectionModal,
+    combineTallyModal,
+  ]);
+
   return (
     <>
       <div id="content-home-admin">
@@ -173,6 +187,7 @@ function AdministrationPanel(props) {
                     closeModal={() => setCloseModal(true)}
                     tallyModal={() => setTallyModal(true)}
                     combineTallyModal={() => setCombineTallyModal(true)}
+                    releaseModal={() => setReleaseElectionModal(true)}
                     uploadModalonClick={(value) => {
                       setUploadModal(value);
                     }}
@@ -249,6 +264,15 @@ function AdministrationPanel(props) {
         <ModalDeleteElection
           show={deleteElectionModal}
           onHide={() => setDeleteElectionModal(false)}
+          shortName={shortName}
+        />
+        <ModalResultsRelease
+          show={releaseElectionModal}
+          onHide={() => setReleaseElectionModal(false)}
+          feedback={(message, type) => {
+            setFeedbackMessage(message);
+            setTypeFeedback(type);
+          }}
           shortName={shortName}
         />
       </div>
