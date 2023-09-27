@@ -1,4 +1,3 @@
-import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
 import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
 import ModalTally from "../AdministrationPanel/component/ModalTally";
@@ -18,6 +17,50 @@ import {
   getElections,
   initElection,
 } from "../../../services/election";
+
+function ShowFeedbackMessage({
+  feedbackMessage, handleFeedbackMessage, typeFeedback,
+}){
+  return (
+    Boolean(feedbackMessage) && (
+      <div className={`notification is-primary ${typeFeedback}`}>
+        <button
+          className="delete"
+          onClick={handleFeedbackMessage}
+        />
+        {feedbackMessage}
+      </div>
+    )
+  )
+}
+
+function Resume({
+  infoMessages, electionShowed, refreshElections, handleInfoMessages,
+}) {
+  return (
+    <div className="box row justify-content-between">
+      <AlertNotification
+        alertMessage={infoMessages.success}
+        type="success"
+      />
+      <AlertNotification
+        alertMessage={infoMessages.danger}
+        type="danger"
+      />
+      {Object.keys(electionShowed).map((status, index) => {
+        return (
+          <CardElectionRecount
+            key={index}
+            status={status}
+            elections={electionShowed[status]}
+            refreshElections={refreshElections}
+            setInfoMessages={handleInfoMessages}
+          />
+        );
+      })}
+    </div>
+  )
+}
 
 function CardElectionRecount({
   elections,
@@ -177,6 +220,71 @@ function CardElectionRecount({
       </div>
     </>
   );
+}
+
+function ElectionList({
+  electionsPage, electionSelected, electionSelectedHandler,
+  freezeModalHandler, closeModalHandler, tallyModalHandler,
+  combineTallyHandler, uploadModalHandler,
+}) {
+  return (
+    electionsPage.map((election, index) => {
+      const modalParams = {
+        state: true,
+        shortName: election.short_name,
+      }
+      return (
+        <CardElection
+          key={index}
+          election={election}
+          electionStatus={election.election_status}
+          electionSelected={electionSelected}
+          handlerElectionSelected={electionSelectedHandler(election)}
+          freezeModal={() => freezeModalHandler(modalParams)}
+          closeModal={() => closeModalHandler(modalParams)}
+          tallyModal={() => tallyModalHandler(modalParams)}
+          combineTallyModal={() => combineTallyHandler(modalParams)}
+          uploadModalonClick={(_) => uploadModalHandler(modalParams)}
+        />
+      )
+    })
+  )
+}
+
+function ElectionListButton({
+  isDisabled, onClickHandler, message,
+}) {
+  return(
+    <div className="d-flex mt-2">
+      <Button
+        className="button-custom home-admin-button btn-fixed"
+        disabled={isDisabled}
+        onClick={onClickHandler}
+      >
+        {message}
+      </Button>
+    </div>
+  )
+}
+
+function ElectionListButtons({
+  isPreviousDisabled, previousHandler,
+  isNextDisabled, nextHandler,
+}) {
+  return (
+    <div className="d-flex justify-content-between mt-4">
+      <ElectionListButton
+        isDisabled={isPreviousDisabled}
+        onClickHandler={previousHandler}
+        message="Anterior"
+      />
+      <ElectionListButton
+        isDisabled={isNextDisabled}
+        onClickHandler={nextHandler}
+        message="Siguiente"
+      />
+    </div>
+  )
 }
 
 function GeneralAdmin() {
@@ -361,123 +469,47 @@ function GeneralAdmin() {
   return (
     <>
       <div id="content-home-admin">
-        <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
+        <div className="voters-section is-flex is-flex-direction-column is-align-items-center">
           {load ? (
             <div className="container is-max-desktop">
-              {feedbackMessage && (
-                <div className={"notification is-primary " + typeFeedback}>
-                  <button
-                    className="delete"
-                    onClick={() => setFeedbackMessage("")}
-                  />
-                  {feedbackMessage}
-                </div>
-              )}
-              <div>
-                <Button className="button-custom mb-2 mt-0 home-admin-button level-item">
-                  <Link
-                    style={{ textDecoration: "none", color: "white" }}
-                    className="link-button"
-                    to="/psifos/admin/home"
-                  >
-                    Volver
-                  </Link>
-                </Button>
-              </div>
-              <div className="box row justify-content-between">
-                <AlertNotification
-                  alertMessage={infoMessages.success}
-                  type="success"
-                />
-                <AlertNotification
-                  alertMessage={infoMessages.danger}
-                  type="danger"
-                />
-                {Object.keys(electionShowed).map((status, index) => {
+              <ShowFeedbackMessage
+                feedbackMessage={feedbackMessage}
+                handleFeedbackMessage={() => setFeedbackMessage("")}
+                typeFeedback={typeFeedback}
+              />
+              <Resume
+                infoMessages={infoMessages}
+                electionShowed={electionShowed}
+                refreshElections={refreshElections}
+                handleInfoMessages={setInfoMessages}
+              />
+              <ElectionList
+                electionsPage={electionsPage}
+                electionSelected={electionSelected}
+                electionSelectedHandler={(election) => {
                   return (
-                    <CardElectionRecount
-                      key={index}
-                      status={status}
-                      elections={electionShowed[status]}
-                      refreshElections={refreshElections}
-                      setInfoMessages={setInfoMessages}
-                    />
-                  );
-                })}
-              </div>
-              {electionsPage.map((election, index) => {
-                return (
-                  <CardElection
-                    key={index}
-                    election={election}
-                    electionStatus={election.election_status}
-                    electionSelected={electionSelected}
-                    handlerElectionSelected={(checked) => {
-                      handlerElectionSelected(election, checked);
-                    }}
-                    freezeModal={() => {
-                      setFreezeModal({
-                        state: true,
-                        shortName: election.short_name,
-                      });
-                    }}
-                    closeModal={() => {
-                      setCloseModal({
-                        state: true,
-                        shortName: election.short_name,
-                      });
-                    }}
-                    tallyModal={() => {
-                      setTallyModal({
-                        state: true,
-                        shortName: election.short_name,
-                      });
-                    }}
-                    combineTallyModal={() => {
-                      setCombineTallyModal({
-                        state: true,
-                        shortName: election.short_name,
-                      });
-                    }}
-                    uploadModalonClick={(value) => {
-                      setUploadModal({
-                        state: true,
-                        shortName: election.short_name,
-                      });
-                    }}
-                  />
-                );
-              })}
-              <div className="d-flex justify-content-between mt-4">
-                <div className="d-flex mt-2">
-                  <Button
-                    className="button-custom home-admin-button btn-fixed"
-                    disabled={previousDisabled}
-                    onClick={() => {
-                      setActualPage(actualPage - 1);
-                    }}
-                  >
-                    Anterior
-                  </Button>
-                </div>
-                <div className="d-flex mt-2">
-                  <Button
-                    className="button-custom home-admin-button btn-fixed"
-                    disabled={nextDisabled}
-                    onClick={() => {
-                      setActualPage(actualPage + 1);
-                    }}
-                  >
-                    Siguiente
-                  </Button>
-                </div>
-              </div>
+                    (checked) => handlerElectionSelected(election, checked)
+                  )
+                }}
+                freezeModalHandler={setFreezeModal}
+                closeModalHandler={setCloseModal}
+                tallyModalHandler={setTallyModal}
+                combineTallyHandler={setCombineTallyModal}
+                uploadModalHandler={setUploadModal}
+              />
+              <ElectionListButtons
+                isPreviousDisabled={previousDisabled}
+                previousHandler={() => setActualPage(actualPage - 1)}
+                isNextDisabled={nextDisabled}
+                nextHandler={() => setActualPage(actualPage + 1)}
+              />
             </div>
           ) : (
-            <div className="spinner-animation"></div>
+            <div className="spinner-animation"/>
           )}
-        </section>
-        <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
+
+          <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
+        </div>
 
         <ModalFreeze
           show={freezeModal.state}
