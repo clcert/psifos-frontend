@@ -2,10 +2,14 @@ import { Button } from "react-bulma-components";
 import InputQuestion from "./InputQuestion";
 
 function ClosedAnswersSetup({
-  answersWithKey, disabledEdit, questionId,
-  handleRemoveAns, handleChangeAns, handleNewAns
+  answersWithKey,
+  disabledEdit,
+  questionId,
+  handleRemoveAns,
+  handleChangeAns,
+  handleNewAns,
 }) {
-  return(
+  return (
     <>
       {" "}
       <div>
@@ -43,14 +47,16 @@ function ClosedAnswersSetup({
         </div>
       )}
     </>
-  )
+  );
 }
 
 function MixnetAnswersSetup({
-  disabledEdit, closedOptions,
-  handleFileChange, handleDownloadFile,
-}){
-  return(
+  disabledEdit,
+  closedOptions,
+  handleFileChange,
+  handleDownloadFile,
+}) {
+  return (
     <div>
       <div>
         <div className="field">
@@ -66,16 +72,13 @@ function MixnetAnswersSetup({
           <div>
             <div className="mb-2">
               <span onClick={handleDownloadFile}>
-                Existen un total de {closedOptions.length}{" "}
-                respuestas registradas.
+                Existen un total de {closedOptions.length} respuestas
+                registradas.
               </span>
             </div>
             {closedOptions.length !== 0 && (
               <div>
-                <Button
-                  className="button-custom"
-                  onClick={handleDownloadFile}
-                >
+                <Button className="button-custom" onClick={handleDownloadFile}>
                   <span>Descargar archivo</span>
                 </Button>
               </div>
@@ -84,9 +87,8 @@ function MixnetAnswersSetup({
         )}
       </div>
     </div>
-  )
+  );
 }
-
 
 function AnswersSetup(props) {
   function arrayToString() {
@@ -123,7 +125,7 @@ function AnswersSetup(props) {
         return element !== "";
       });
       let auxQuestion = props.question;
-      auxQuestion.closed_options = newAns;
+      auxQuestion.closed_options = Array.from(new Set(newAns));
       props.updateQuestions(props.questionId, auxQuestion);
     };
     reader.readAsText(input.files[0]);
