@@ -1,12 +1,10 @@
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
-import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
 import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
 import ModalTally from "../AdministrationPanel/component/ModalTally";
 import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTally";
 import UploadModal from "../VotersList/components/UploadModal";
-import CardElection from "./components/CardElection";
+import CardElection from "./component/CardElection";
 import AlertNotification from "../component/AlertNotification";
 import { Link } from "react-router-dom";
 import { electionStatusTranslate } from "../../../constants";
@@ -363,13 +361,6 @@ function GeneralAdmin() {
   return (
     <>
       <div id="content-home-admin">
-        <section id="header-section" className="parallax hero is-medium">
-          <div className="hero-body pt-0 px-0 header-hero">
-            <NavbarAdmin />
-            <TitlePsifos namePage="Detalle votaciones" nameElection={""} />
-          </div>
-        </section>
-
         <section className="section voters-section is-flex is-flex-direction-column is-align-items-center">
           {load ? (
             <div className="container is-max-desktop">
@@ -487,6 +478,7 @@ function GeneralAdmin() {
           )}
         </section>
         <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
+
         <ModalFreeze
           show={freezeModal.state}
           onHide={() => setFreezeModal(false)}

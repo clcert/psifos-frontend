@@ -13449,3 +13449,13 @@ Consult
 .is-bold {
   font-weight: bold;
 }
+
+.header-accordion {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.header-accordion .header-item {
+  margin-top: 10px;
+}
