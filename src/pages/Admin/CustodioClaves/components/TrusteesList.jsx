@@ -49,26 +49,24 @@ function TrusteesList(props) {
               <>
                 <br />({t.email})<span> &nbsp; </span>
                 {props.election.election_status === "Setting up" && (
-                  <a
+                  <button
+                    className="button-undesigned"
                     style={{ color: "rgb(0, 182, 254)" }}
                     onClick={() => {
                       props.deleteTrustee(t.uuid);
                     }}
                   >
                     Eliminar
-                  </a>
+                  </button>
                 )}
-                <span> &nbsp; </span>
-                <a style={{ color: "rgb(0, 182, 254)" }} onClick={() => {}}>
-                  Enviar link
-                </a>
               </>
             </span>
 
             {t.public_key_hash ? (
-              <p className="mt-4">
-                Código de Clave Pública: <tt>{t.public_key_hash}</tt>
-              </p>
+              <>
+                <p className="mt-4">Código de Clave Pública:</p>
+                <p className="overflow-auto">{t.public_key_hash}</p>
+              </>
             ) : (
               <p className="mt-4">Custodio aún no sube su clave pública.</p>
             )}
