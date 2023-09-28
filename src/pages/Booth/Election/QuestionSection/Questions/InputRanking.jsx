@@ -32,7 +32,6 @@ const InputRanking = (props) => {
   // dnd-kit sortable ids start from 1.
   let rankingOptions = props.answers.map((id) => id + 1);
   let rankingIndices = Array.from(rankingOptions.keys()).map((id) => id + 1);
-  console.log(props.answers);
 
   /** @sensors */
   const sensors = useSensors(

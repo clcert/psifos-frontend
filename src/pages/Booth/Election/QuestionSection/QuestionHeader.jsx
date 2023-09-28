@@ -14,7 +14,9 @@ function QuestionHeader(props) {
           props.totalQuestions}
       </p>
       <p className="title is-4 has-text-black pt-6">{props.questions.q_text}</p>
-      <p className="subtitle is-italic">{"(" + restriction + ")" }</p>
+      {props.questions.tally_type !== "stvnc" && (
+        <p className="subtitle is-italic">{"(" + restriction + ")" }</p>
+      )}
       {props.questions.q_description && (
         <p className="subtitle is-italic">{props.questions.q_description}</p>
       )}

@@ -3,41 +3,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getElectionPublic } from "../../../services/election";
-import { getPercentage } from "../utils";
 import NotAvalaibleMessage from "../../Booth/components/NotAvalaibleMessage";
-import { electionStatus, permanentOptionsList } from "../../../constants";
+import { electionStatus } from "../../../constants";
 import CalculatedResults from "./CalculatedResults";
-
-const analizeQuestionResult = (question, votesPerAns, includeWhiteNull) => {
-  const noNullWhiteAns =
-    includeWhiteNull === "True" ? votesPerAns.slice(0, -2) : votesPerAns;
-  const nValidVotes = votesPerAns.reduce((n, a) => n + parseInt(a), 0);
-  const nCastVotes = noNullWhiteAns.reduce((n, a) => n + parseInt(a), 0);
-
-  let result = [];
-  question.closed_options.forEach((answer, index) => {
-    const obj = {
-      Respuesta: answer,
-      Votos: parseInt(votesPerAns[index]),
-      PorcentajeSobreVotosValidos: getPercentage(
-        votesPerAns[index],
-        nValidVotes
-      ),
-    };
-    if (permanentOptionsList.includes(answer)) {
-      result.push(obj);
-    } else {
-      result.push({
-        ...obj,
-        PorcentajeSobreVotosEmitidos: getPercentage(
-          votesPerAns[index],
-          nCastVotes
-        ),
-      });
-    }
-  });
-  return result;
-};
+import { parseResult } from "./parseResult";
 
 function NoCalculatedResults({ getElectionResult }) {
   return (
@@ -77,7 +46,7 @@ function Results() {
     let result = [];
     questionsObject.forEach((element, q_num) => {
       result.push(
-        analizeQuestionResult(
+        parseResult(
           element,
           resultObject.result[q_num].ans_results,
           questionsObject[q_num].include_blank_null
