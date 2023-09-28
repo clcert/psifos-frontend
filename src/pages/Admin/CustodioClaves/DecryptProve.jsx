@@ -1,14 +1,16 @@
 import { useCallback, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
+import { getEgParams } from "../../../services/crypto";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import imageTrustees from "../../../static/svg/trustees2.svg";
-import { getEgParams } from "../../../services/crypto";
 import DropFile from "./components/DropFile";
 import ModalDecrypt from "./components/ModalDecrypt";
+
+const { sha3_512 } = require("js-sha3");
 
 function DecryptProve() {
   const [actualStep, setActualStep] = useState(0);
@@ -28,8 +30,9 @@ function DecryptProve() {
   let WORKERS = [];
   let RESULT_WORKERS = [];
   let WORKERS_QUESTIONS = [];
-  const TOTAL_WORKERS = navigator.hardwareConcurrency ?
-  Math.max(navigator.hardwareConcurrency, 4) : 1;
+  const TOTAL_WORKERS = navigator.hardwareConcurrency
+    ? Math.max(navigator.hardwareConcurrency, 4)
+    : 1;
   let QUESTIONS_COMPLETE = 0;
   let TOTAL_TALLY;
 
@@ -181,7 +184,12 @@ function DecryptProve() {
   };
   const decrypt = async (sk) => {
     try {
-      setSecretKey(sk);
+      if (!sk) {
+        setFeedbackMessage("Archivo de formato incorrecto.");
+        return;
+      }
+      const skHash = sha3_512(sk);
+      setSecretKey(skHash);
       setFeedbackMessage("Generando desencriptado parcial...");
       setActualStep(1);
       setTimeout(() => {
