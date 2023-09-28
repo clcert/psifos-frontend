@@ -22,11 +22,17 @@ function NoCalculatedResults({ getElectionResult }) {
 }
 
 function Results() {
+  const [resultGrouped, setResultGrouped] = useState([]);
+
   /** @state {array} election results (resume) */
   const [results, setResults] = useState([]);
 
   /** @state {array} election questions */
   const [questions, setQuestions] = useState([]);
+
+  const [group, setGroup] = useState("");
+
+  const [groups, setGroups] = useState([]);
 
   /** @state {bool} state of load info */
   const [load, setLoad] = useState(false);
@@ -42,7 +48,7 @@ function Results() {
       result.push(
         parseResult(
           element,
-          resultObject[q_num].ans_results,
+          resultObject.result[q_num].ans_results,
           questionsObject[q_num].include_blank_null
         )
       );
@@ -60,16 +66,32 @@ function Results() {
         if (jsonResponse.election_status === electionStatus.resultsReleased) {
           const questionsObject = JSON.parse(jsonResponse.questions);
           const resultObject = JSON.parse(jsonResponse.result);
-          handleResults(questionsObject, resultObject);
+          setResultGrouped(resultObject);
+          setResultGroups(resultObject);
+          handleResults(questionsObject, resultObject[0]);
         }
       }
       setLoad(true);
     });
   }, [shortName]);
 
+  const setResultGroups = (resultGrouped) => {
+    const auxResult = resultGrouped.map((result) => {
+      return result.group;
+    });
+    setGroups(auxResult);
+  };
+
   useEffect(() => {
     getElectionResult();
   }, [getElectionResult]);
+
+  useEffect(() => {
+    const result = resultGrouped.find((element) => {
+      return element.group === group;
+    });
+    handleResults(questions, result);
+  }, [group]);
   return (
     <>
       {!load && <div className="spinner-animation"></div>}
@@ -78,6 +100,8 @@ function Results() {
           election={election}
           questions={questions}
           results={results}
+          groups={groups}
+          setGroup={setGroup}
         />
       ) : (
         <NoCalculatedResults getElectionResult={getElectionResult} />

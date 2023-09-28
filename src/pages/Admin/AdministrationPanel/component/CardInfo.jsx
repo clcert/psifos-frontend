@@ -104,6 +104,14 @@ function CardInfo({
             <i className="fa-solid fa-x" />
           )}
         </div>
+        <div className="content-card-admin">
+          <span className="panel-text-sect">Elección agrupada</span>:{" "}
+          {election.grouped ? (
+            <i className="fa-solid fa-check" />
+          ) : (
+            <i className="fa-solid fa-x" />
+          )}
+        </div>
       </div>
     </div>
   );
