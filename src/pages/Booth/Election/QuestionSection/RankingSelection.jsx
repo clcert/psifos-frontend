@@ -1,11 +1,16 @@
 import InputRanking from "./Questions/InputRanking";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const RankingSelection = (props) => {
   /**
    * answers initial state is an array with option indices.
    */
   const [answers, setAnswers] = useState(Array.from(props.question.closed_options.keys()));
+
+  useEffect(() => {
+    props.addAnswer(answers, props.index)
+  }, [answers]);
+
   return (
     <div>
       <div>
@@ -15,7 +20,6 @@ const RankingSelection = (props) => {
           question={props.question}
           answers={answers}
           setAnswers={setAnswers}
-          addAnswer={props.addAnswer}
           value={String(props.index)}
         />
       </div>

@@ -34,6 +34,7 @@ function SelectionPhase(props) {
             encrypQuestions={(answersQuestions) => {
               props.BOOTH_PSIFOS.sendEncryp(answersQuestions);
             }}
+            isPreview={props.isPreview}
           />
         </div>
       </section>
@@ -124,6 +125,7 @@ function CabinaElection(props) {
         setActualQuestion={setActualQuestion}
         actualQuestion={actualQuestion}
         BOOTH_PSIFOS={BOOTH_PSIFOS}
+        isPreview={props.preview}
       />,
     },
     2: {

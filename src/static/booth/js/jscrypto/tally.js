@@ -8,23 +8,19 @@ class TallyFactory {
    */
 
   create(tally_type, computed, num_tallied, public_key, question, raw_tally) {
-    if (tally_type === "homomorphic") {
-      return new HomomorphicTally(
-        computed,
-        num_tallied,
-        public_key,
-        question,
-        raw_tally
-      );
-    } else if (tally_type === "mixnet") {
-      return new MixnetTally(
-        computed,
-        num_tallied,
-        public_key,
-        question,
-        raw_tally
-      );
-    }
+    const tally_types_obj = {
+      "homomorphic": HomomorphicTally,
+      "mixnet": MixnetTally,
+      "stvnc": MixnetTally,
+    };
+
+    return Object.keys(tally_types_obj).includes(tally_type) && new tally_types_obj[tally_type](
+      computed,
+      num_tallied,
+      public_key,
+      question,
+      raw_tally
+    );
   }
 }
 

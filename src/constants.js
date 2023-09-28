@@ -77,5 +77,23 @@ export const electionStatusTranslate = {
     "Results released" : "Resultados liberados"
 }
 
-
 export const permanentOptionsList = Object.values(permanentOptions)
+
+export const questionsToTally = {
+    "stvnc_question": "stvnc",
+    "closed_question": "homomorphic",
+    "mixnet_question": "mixnet",
+}
+
+export const firstMajorityTallyTypes = [
+    "homomorphic", "mixnet",
+]
+
+export const preferentialRankingTallyTypes = [
+    "stvnc",
+]
+
+export const tallyTypes = [
+    ...firstMajorityTallyTypes,
+    ...preferentialRankingTallyTypes,
+]
