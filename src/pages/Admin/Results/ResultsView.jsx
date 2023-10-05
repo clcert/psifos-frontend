@@ -44,7 +44,7 @@ function Resultados() {
         className="section is-flex is-align-items-center is-flex-direction-column"
         id="results-section"
       >
-        <Results />
+        <Results isAdmin={true} />
       </section>
 
       <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />

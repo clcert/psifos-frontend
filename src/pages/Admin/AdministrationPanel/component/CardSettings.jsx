@@ -94,8 +94,10 @@ function CardSettings(props) {
             </span>
           </CopyToClipboard>
         </div>
-        {props.election.election_status ===
-          electionStatus.decryptionsCombined && (
+        {(props.election.election_status ===
+          electionStatus.decryptionsCombined ||
+          props.election.election_status ===
+            electionStatus.resultsReleased) && (
           <div onClick={bundleButton} className="content-card-admin">
             <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
               <i className="fa-solid fa-file-arrow-down"></i>{" "}

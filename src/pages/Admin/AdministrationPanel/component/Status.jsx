@@ -134,18 +134,22 @@ function Status({
           </span>
         </div>
       )}
-      {electionStep === electionStatus.resultsReleased && (
-        <div className="content-card-admin">
-          <span onClick={() => combineTallyModal()} className="panel-text-sect">
-            <Link
-              to={"/psifos/admin/" + election.short_name + "/resultado"}
-              className="link-without-line"
+      {(electionStep === electionStatus.resultsReleased ||
+        electionStep === electionStatus.decryptionsCombined) && (
+          <div className="content-card-admin">
+            <span
+              onClick={() => combineTallyModal()}
+              className="panel-text-sect"
             >
-              Ver resultados
-            </Link>
-          </span>
-        </div>
-      )}
+              <Link
+                to={"/psifos/admin/" + election.short_name + "/resultado"}
+                className="link-without-line"
+              >
+                Ver resultados
+              </Link>
+            </span>
+          </div>
+        )}
     </>
   );
 }

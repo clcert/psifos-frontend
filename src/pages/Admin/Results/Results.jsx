@@ -21,7 +21,7 @@ function NoCalculatedResults({ getElectionResult }) {
   );
 }
 
-function Results() {
+function Results({ isAdmin = false }) {
   const [resultGrouped, setResultGrouped] = useState([]);
 
   /** @state {array} election results (resume) */
@@ -63,7 +63,10 @@ function Results() {
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
         setElection(jsonResponse);
-        if (jsonResponse.election_status === electionStatus.resultsReleased) {
+        if (
+          jsonResponse.election_status === electionStatus.resultsReleased ||
+          jsonResponse.election_status === electionStatus.decryptionsCombined
+        ) {
           const questionsObject = JSON.parse(jsonResponse.questions);
           const resultObject = JSON.parse(jsonResponse.result);
           setResultGrouped(resultObject);
@@ -95,7 +98,10 @@ function Results() {
   return (
     <>
       {!load && <div className="spinner-animation"></div>}
-      {load && election.election_status === electionStatus.resultsReleased ? (
+      {load &&
+      (election.election_status === electionStatus.resultsReleased ||
+        (election.election_status === electionStatus.decryptionsCombined &&
+          isAdmin)) ? (
         <CalculatedResults
           election={election}
           questions={questions}
