@@ -11,12 +11,14 @@ class EncryptedAnswerFactory {
    */
 
   create(type, question, answer, pk, progress) {
-    if (type === "open_question") {
-      return new EncryptedOpenAnswer(question, answer, pk, progress);
-    } else if (type === "closed_question") {
-      return new EncryptedCloseAnswer(question, answer, pk, progress);
-    } else if (type === "mixnet_question") {
-      return new EncryptedMixnetAnswer(question, answer, pk, progress);
+    const question_types = {
+      "open_question": EncryptedOpenAnswer,
+      "closed_question": EncryptedCloseAnswer,
+      "mixnet_question": EncryptedMixnetAnswer,
+      "stvnc_question": EncryptedStvncAnswer,
+    }
+    if (Object.keys(question_types).includes(type)) {
+      return new question_types[type](question, answer, pk, progress);
     }
   }
 }
@@ -252,16 +254,7 @@ class EncryptedCloseAnswer extends EncryptedAnswer {
   }
 }
 
-class EncryptedMixnetAnswer extends EncryptedAnswer {
-  /**
-   * class to encrypt a mixnet question
-   */
-
-  constructor(question, answer, pk, progress, type) {
-    super(question, answer, pk, progress, type);
-    this.enc_ans_type = "encrypted_mixnet_answer";
-  }
-
+class EncryptedMixnetType extends EncryptedAnswer {
   doEncryption(question, answer, pk, randomness, progress) {
     var choices = [];
 
@@ -312,5 +305,29 @@ class EncryptedMixnetAnswer extends EncryptedAnswer {
 
   
 }
+
+class EncryptedMixnetAnswer extends EncryptedMixnetType {
+  /**
+   * class to encrypt a mixnet question
+   */
+
+  constructor(question, answer, pk, progress, type) {
+    super(question, answer, pk, progress, type);
+    this.enc_ans_type = "encrypted_mixnet_answer";
+  }
+  
+}
+
+class EncryptedStvncAnswer extends EncryptedMixnetType {
+  /**
+   * class to encrypt a STV no coercion question
+   */
+
+  constructor(question, answer, pk, progress, type) {
+    super(question, answer, pk, progress, type);
+    this.enc_ans_type = "encrypted_stvnc_answer";
+  }
+}
+
 
 export default EncryptedAnswerFactory;

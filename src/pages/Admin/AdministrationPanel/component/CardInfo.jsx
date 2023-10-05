@@ -3,6 +3,27 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { electionStatusTranslate } from "../../../../constants";
 
+const DisplayStats = ({ name, value }) => {
+  return (
+    <div className="content-card-admin">
+      <span className="panel-text-sect">{name}</span>: {value}
+    </div>
+  );
+};
+
+const DisplayTicket = ({ name, condition }) => {
+  return (
+    <div className="content-card-admin">
+      <span className="panel-text-sect">{name}</span>:{" "}
+      {condition ? (
+        <i className="fa-solid fa-check" />
+      ) : (
+        <i className="fa-solid fa-x" />
+      )}
+    </div>
+  );
+};
+
 function CardInfo({
   election,
   electionStep,
@@ -42,68 +63,45 @@ function CardInfo({
 
       <hr />
       <div className="is-size-5">
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Estado</span>:{" "}
-          {electionStatusTranslate[electionStep]}
-        </div>
-
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Tipo de votación</span>:{" "}
-          {election.election_type === "Election" ? "Elección" : "Consulta"}
-        </div>
-
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Cantidad de votantes</span>:{" "}
-          {totalVoters}
-        </div>
-
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Votos recibidos</span>: {totalVotes}
-        </div>
-
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Numero Custodios</span>:{" "}
-          {trustees.length}
-        </div>
-
+        <DisplayStats
+          name="Estado"
+          value={electionStatusTranslate[electionStep]}
+        />
+        <DisplayStats
+          name="Tipo de votación"
+          value={
+            election.election_type === "Election" ? "Elección" : "Consulta"
+          }
+        />
+        <DisplayStats name="Cantidad de votantes" value={totalVoters} />
+        <DisplayStats name="Votos recibidos" value={totalVotes} />
+        <DisplayStats
+          name="Peso máximo de votantes"
+          value={election.max_weight}
+        />
+        <DisplayStats name="Numero Custodios" value={trustees.length} />
         {electionStep === "Tally computed" ||
           (electionStep === "Decryptions uploaded" && (
-            <div className="content-card-admin">
-              <span className="panel-text-sect">
-                Desencriptaciones Parciales
-              </span>
-              : {decryptionNumber}/{trustees.length}
-            </div>
+            <DisplayStats
+              name="Desencriptaciones Parciales"
+              value={decryptionNumber / trustees.length}
+            />
           ))}
 
-        <div className="content-card-admin">
-          <span className="panel-text-sect">
-            Esconder nombre de los votantes:{" "}
-          </span>
-          {election.obscure_voter_names ? (
-            <i className="fa-solid fa-check" />
-          ) : (
-            <i className="fa-solid fa-x" />
-          )}
-        </div>
-
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Elección privada</span>:{" "}
-          {election.private_p ? (
-            <i className="fa-solid fa-check" />
-          ) : (
-            <i className="fa-solid fa-x" />
-          )}
-        </div>
-
-        <div className="content-card-admin">
-          <span className="panel-text-sect">Aleatorizar respuestas</span>:{" "}
-          {election.randomize_answer_order ? (
-            <i className="fa-solid fa-check" />
-          ) : (
-            <i className="fa-solid fa-x" />
-          )}
-        </div>
+        <DisplayTicket
+          name="Esconder nombre de los votantes"
+          condition={election.obscure_voter_names}
+        />
+        <DisplayTicket name="Elección privada" condition={election.private_p} />
+        <DisplayTicket
+          name="Aleatorizar respuestas"
+          condition={election.randomize_answer_order}
+        />
+        <DisplayTicket name="Elección agrupada" condition={election.grouped} />
+        <DisplayTicket
+          name="Normalización"
+          condition={election.normalization}
+        />
       </div>
     </div>
   );
