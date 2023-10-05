@@ -94,23 +94,23 @@ function CardSettings(props) {
             </span>
           </CopyToClipboard>
         </div>
-        {props.election.election_status ===
+        {(props.election.election_status ===
           electionStatus.decryptionsCombined ||
-          (props.election.election_status ===
-            electionStatus.resultsReleased && (
-            <div onClick={bundleButton} className="content-card-admin">
-              <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
-                <i className="fa-solid fa-file-arrow-down"></i>{" "}
-              </div>
-              <Link
-                id="bundle-button-download"
-                className="link-without-line"
-                to=""
-              >
-                Descargar archivo de verificación
-              </Link>
+          props.election.election_status ===
+            electionStatus.resultsReleased) && (
+          <div onClick={bundleButton} className="content-card-admin">
+            <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
+              <i className="fa-solid fa-file-arrow-down"></i>{" "}
             </div>
-          ))}
+            <Link
+              id="bundle-button-download"
+              className="link-without-line"
+              to=""
+            >
+              Descargar archivo de verificación
+            </Link>
+          </div>
+        )}
         <div className="content-card-admin">
           <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
             <i className="fa-solid fa-trash "></i>
