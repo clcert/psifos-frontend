@@ -5,18 +5,12 @@ import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTall
 import UploadModal from "../VotersList/components/UploadModal";
 import CardElection from "./component/CardElection";
 import AlertNotification from "../component/AlertNotification";
-import { Link } from "react-router-dom";
-import { electionStatusTranslate } from "../../../constants";
+import MoreInfoTooltip from "../../../component/MoreInfo/MoreInfoTooltip";
+import ResumeTable from "./component/ResumeTable";
 import { Button } from "react-bulma-components";
-import { useCallback, useState } from "react";
-import { useEffect } from "react";
-import {
-  closeElection,
-  combineDecryptions,
-  computeTally,
-  getElections,
-  initElection,
-} from "../../../services/election";
+import { useCallback, useState, useEffect } from "react";
+import { getElections } from "../../../services/election";
+
 
 function ShowFeedbackMessage({
   feedbackMessage, handleFeedbackMessage, typeFeedback,
@@ -34,11 +28,23 @@ function ShowFeedbackMessage({
   )
 }
 
+function ResumeTitle() {
+  const description = "Puede filtrar los procesos que muestra la tabla seleccionando las tarjetas."
+  return (
+    <div className="is-flex level event-header">
+      <div className="is-size-3">Estado elecciones</div>
+      <MoreInfoTooltip descript={description} place="left">
+        <i className="fa-solid fa-circle-info more-info-icon"/>
+      </MoreInfoTooltip>
+    </div>
+  )
+}
+
 function Resume({
   infoMessages, electionShowed, refreshElections, handleInfoMessages,
 }) {
   return (
-    <div className="box row justify-content-between">
+    <div className="box">
       <AlertNotification
         alertMessage={infoMessages.success}
         type="success"
@@ -47,179 +53,14 @@ function Resume({
         alertMessage={infoMessages.danger}
         type="danger"
       />
-      {Object.keys(electionShowed).map((status, index) => {
-        return (
-          <CardElectionRecount
-            key={index}
-            status={status}
-            elections={electionShowed[status]}
-            refreshElections={refreshElections}
-            setInfoMessages={handleInfoMessages}
-          />
-        );
-      })}
+      <ResumeTitle />
+      <ResumeTable
+        electionShowed={electionShowed}
+        refreshElections={refreshElections}
+        handleInfoMessages={handleInfoMessages}
+      />
     </div>
   )
-}
-
-function CardElectionRecount({
-  elections,
-  status,
-  refreshElections,
-  setInfoMessages,
-}) {
-  /** @state {boolean} active consent */
-  const [activeConsent, setActiveConsent] = useState(false);
-
-  /** @state {number} total elections */
-  const [totalElections, setTotalElections] = useState(0);
-
-  useEffect(() => {
-    setTotalElections(elections.length);
-  }, [elections]);
-
-  /**
-   * Different possible tasks for the elections
-   */
-  const tasks = {
-    "Setting up": {
-      buttonText: "Iniciar Elecciones",
-      action: async (shortName) => {
-        return await initElection(shortName);
-      },
-    },
-    Started: {
-      buttonText: "Cerrar elecciones",
-      action: async (shortName) => {
-        return await closeElection(shortName);
-      },
-    },
-    Ended: {
-      buttonText: "Computar Tallys",
-      action: async (shortName) => {
-        return await computeTally(shortName);
-      },
-    },
-    "Tally computed": {
-      textHelp: "Esperando a recibir las desencriptaciones",
-    },
-    "Decryptions combined": {
-      textHelp: "Desencriptaciones listas, los resultados están calculados",
-    },
-    "Can combine decryptions": {
-      buttonText: "Combinar",
-      action: async (shortName) => {
-        return await combineDecryptions(shortName);
-      },
-    },
-  };
-
-  /**
-   * It is in charge of executing the desired process of the elections
-   *
-   * @author Cristóbal Jaramillo
-   */
-  const handler = async () => {
-    let successElections = [];
-    let errorElections = [];
-    const promises = elections.map(async (election) => {
-      try {
-        const resp = await tasks[status].action(election.short_name);
-        if (resp.status === 200) {
-          successElections = [...successElections, election.name];
-        } else {
-          errorElections = [...errorElections, election.name];
-        }
-      } catch (error) {
-        errorElections = [...errorElections, election.name];
-      }
-    });
-
-    await Promise.all(promises);
-
-    setTimeout(refreshElections, 1000);
-    let successMessage =
-      successElections.length > 0
-        ? "Las elecciones " +
-          successElections.join(", ") +
-          " fueron procesadas con éxito."
-        : "";
-    successMessage = successMessage.endsWith(", ")
-      ? successMessage.slice(0, -2)
-      : successMessage;
-
-    let dangerMessage =
-      errorElections.length > 0
-        ? "Las elecciones " +
-          errorElections.join(", ") +
-          " tuvieron problemas para ser procesadas, es posible que falte configurar o procesar datos."
-        : "";
-    dangerMessage = dangerMessage.endsWith(", ")
-      ? dangerMessage.slice(0, -2)
-      : dangerMessage;
-    setInfoMessages({
-      danger: dangerMessage,
-      success: successMessage,
-    });
-    refreshElections();
-    setActiveConsent(false);
-  };
-
-  return (
-    <>
-      <div className="box col-sm-3 col-12 m-0 mb-3" style={{ minWidth: "30%" }}>
-        <span>
-          Tienes {totalElections}{" "}
-          {totalElections > 1 ? "elecciones" : "elección"} en estado:{" "}
-        </span>
-        <span className="panel-text-sect">
-          {electionStatusTranslate[status]}{" "}
-        </span>
-        {tasks[status]?.action &&
-          (!activeConsent ? (
-            <div className="d-flex justify-content-center mt-4">
-              <Button
-                className="button-custom home-admin-button btn-fixed"
-                onClick={() => {
-                  setActiveConsent(true);
-                }}
-              >
-                {tasks[status].buttonText}
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div className="d-flex justify-content-center">
-                <span>¿Seguro?</span>
-              </div>
-              <div className="d-flex justify-content-center mt-1">
-                <Button
-                  className="button-custom home-admin-button btn-fixed"
-                  onClick={handler}
-                >
-                  Si
-                </Button>
-                <Button
-                  className="button-custom home-admin-button btn-fixed"
-                  onClick={() => {
-                    setActiveConsent(false);
-                  }}
-                >
-                  No
-                </Button>
-              </div>
-            </>
-          ))}
-        {tasks[status]?.textHelp && (
-          <div className="p-2">
-            <span style={{ fontStyle: "italic" }}>
-              **{tasks[status].textHelp}
-            </span>
-          </div>
-        )}
-      </div>
-    </>
-  );
 }
 
 function ElectionList({
@@ -255,7 +96,7 @@ function ElectionListButton({
   isDisabled, onClickHandler, message,
 }) {
   return(
-    <div className="d-flex mt-2">
+    <div className="d-flex">
       <Button
         className="button-custom home-admin-button btn-fixed"
         disabled={isDisabled}
@@ -483,26 +324,29 @@ function GeneralAdmin() {
                 refreshElections={refreshElections}
                 handleInfoMessages={setInfoMessages}
               />
-              <ElectionList
-                electionsPage={electionsPage}
-                electionSelected={electionSelected}
-                electionSelectedHandler={(election) => {
-                  return (
-                    (checked) => handlerElectionSelected(election, checked)
-                  )
-                }}
-                freezeModalHandler={setFreezeModal}
-                closeModalHandler={setCloseModal}
-                tallyModalHandler={setTallyModal}
-                combineTallyHandler={setCombineTallyModal}
-                uploadModalHandler={setUploadModal}
-              />
-              <ElectionListButtons
-                isPreviousDisabled={previousDisabled}
-                previousHandler={() => setActualPage(actualPage - 1)}
-                isNextDisabled={nextDisabled}
-                nextHandler={() => setActualPage(actualPage + 1)}
-              />
+              <div className="box">
+                <div className="is-size-3 mb-2">Listado elecciones</div>
+                <ElectionList
+                  electionsPage={electionsPage}
+                  electionSelected={electionSelected}
+                  electionSelectedHandler={(election) => {
+                    return (
+                      (checked) => handlerElectionSelected(election, checked)
+                    )
+                  }}
+                  freezeModalHandler={setFreezeModal}
+                  closeModalHandler={setCloseModal}
+                  tallyModalHandler={setTallyModal}
+                  combineTallyHandler={setCombineTallyModal}
+                  uploadModalHandler={setUploadModal}
+                />
+                <ElectionListButtons
+                  isPreviousDisabled={previousDisabled}
+                  previousHandler={() => setActualPage(actualPage - 1)}
+                  isNextDisabled={nextDisabled}
+                  nextHandler={() => setActualPage(actualPage + 1)}
+                />
+              </div>
             </div>
           ) : (
             <div className="spinner-animation"/>
@@ -562,6 +406,7 @@ function GeneralAdmin() {
           }}
           shortName={combineTallyModal.shortName}
         />
+
         <UploadModal
           show={uploadModal.state}
           onHide={() => setUploadModal(false)}

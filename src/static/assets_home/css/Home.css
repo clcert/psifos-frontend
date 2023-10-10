@@ -12742,7 +12742,6 @@ Admin General
 .info-general .election-header{
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .panel-text {

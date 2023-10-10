@@ -4,14 +4,28 @@ import { getStats } from "../../../../services/election";
 import Status from "../../AdministrationPanel/component/Status";
 import { electionStatusTranslate } from "../../../../constants";
 
-function Header({ electionName, electionShortName, configRoute }) {
+function Header({
+  electionName, electionShortName, configRoute,
+  checkboxHandler, checked,
+}) {
   return (
     <div className="election-header">
       <div className="">
-        <div className="is-size-3">{electionName}</div>
-        <div className="is-size-4">{electionShortName}</div>
+        <div>
+          <input
+            type="checkbox"
+            onChange={checkboxHandler}
+            checked={checked}
+          />
+          <span className="is-size-4" style={{marginLeft: "6px"}}>
+            {electionName}
+          </span>
+        </div>
+        <div className="is-size-5 ml-4">
+          {electionShortName}
+        </div>
       </div>
-      <span className="is-size-6">
+      <span className="is-size-6" style={{marginTop: "7px"}}>
         <Link className="link-without-line" to={configRoute}>
           <i className="fa-solid fa-screwdriver-wrench mr-2" />
           <span>Configuraciones</span>
@@ -21,20 +35,20 @@ function Header({ electionName, electionShortName, configRoute }) {
   );
 }
 
+function Info({ message }) {
+  return (
+    <div className="content-card-admin ml-4">
+      <span className="panel-text-sect">{message}</span>
+    </div>
+  )
+}
+
 function MainInfo({ state, totalVoters, totalVotes }) {
   return (
     <>
-      <div className="content-card-admin">
-        <span className="panel-text-sect">Estado: {state}</span>
-      </div>
-      <div className="content-card-admin">
-        <span className="panel-text-sect">
-          Cantidad de votantes: {totalVoters}
-        </span>
-      </div>
-      <div className="content-card-admin">
-        <span className="panel-text-sect">Cantidad de votos: {totalVotes}</span>
-      </div>
+      <Info message={`Estado: ${state}`} />
+      <Info message={`Cantidad de votantes: ${totalVoters}`} />
+      <Info message={`Cantidad de votos: ${totalVotes}`} />
     </>
   );
 }
@@ -48,7 +62,7 @@ function NextSteps({
   uploadModalonClick,
 }) {
   return (
-    <div>
+    <div className="ml-4">
       <span className="panel-text-sect">Proximos pasos:</span>
       <Status
         election={election}
@@ -81,7 +95,7 @@ function CardElection(props) {
     });
   }, [props.election]);
 
-  const handler = (e) => {
+  const checkboxHandler = (e) => {
     const checked = e.target.checked;
     props.handlerElectionSelected(checked);
   };
@@ -112,11 +126,12 @@ function CardElection(props) {
 
   return (
     <div className="box info-general">
-      <input type="checkbox" onChange={handler} checked={checked} />
       <Header
         electionName={props.election.name}
         electionShortName={props.election.short_name}
         configRoute={"/psifos/admin/" + props.election.short_name + "/panel"}
+        checkboxHandler={checkboxHandler}
+        checked={checked}
       />
       <hr />
       <MainInfo
