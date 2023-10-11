@@ -209,7 +209,7 @@ function AdministrationPanel(props) {
             <div className="spinner-animation"></div>
           )}
         </section>
-        <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
+        <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
         <ExtendElection
           show={extendElectionModal}
           onHide={() => setExtendElectionModal(false)}
