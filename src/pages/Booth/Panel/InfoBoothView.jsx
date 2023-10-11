@@ -59,7 +59,7 @@ function InfoBoothView() {
         />}
       </section>
 
-      <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
+      <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
     </div>
   );
 }

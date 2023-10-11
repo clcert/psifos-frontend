@@ -6,11 +6,20 @@ import FooterParticipa from "../../component/Footers/FooterParticipa";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
 import "../../static/assets_home/css/Home.css";
 import UpperBanner from "../../component/Banner/UpperBanner";
+import { useInViewport } from "react-in-viewport";
+import React, { useRef } from "react";
 
 
 function Home() {
 
   const elections = require("../../static/data/currentElections.json");
+
+  const myRef = useRef();
+  const [showAnimation, setShowAnimation] = React.useState(false);
+  const { inViewport } = useInViewport(myRef);
+  if (inViewport && !showAnimation) {
+    setShowAnimation(true);
+  }
   
   return (
     <div id="content">
@@ -180,32 +189,29 @@ function Home() {
           <h1 className="title pt-2" id="election-current">
             EQUIPO DE TRABAJO
           </h1>
-          <h1 className="subtitle pt-0" id="election-current">
-            Junio 2023
-          </h1>
           <div className="columns">
-            <div className="column">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="ALEJANDRO HEVIA"
                 rol="Coordinador Académico"
                 image={process.env.PUBLIC_URL + "/Fotos/alejandro.svg"}
               />
             </div>
-            <div className="column is-one-quarter">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="CAMILO GÓMEZ"
                 rol="Coordinador Operativo"
                 image={process.env.PUBLIC_URL + "/Fotos/camilo.svg"}
               />
             </div>
-            <div className="column is-one-quarter">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="CRISTOBAL JARAMILLO"
                 rol="Ingeniero de Desarrollo e Investigación"
                 image={process.env.PUBLIC_URL + "/Fotos/cristobal.svg"}
               />
             </div>
-            <div className="column is-one-quarter">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="FERNANDA MACÍAS"
                 rol="Ingeniera de Desarrollo e Investigación"
@@ -214,21 +220,21 @@ function Home() {
             </div>
           </div>
           <div className="columns">
-          <div className="column is-one-quarter">
+          <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="EDUARDO RIVEROS"
                 rol="Ingeniero de Ciberseguridad e Infraestructura"
                 image={process.env.PUBLIC_URL + "/Fotos/eduardo.svg"}
               />
             </div>
-            <div className="column is-one-quarter">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="MARTA APABLAZA"
                 rol="Periodista"
                 image={process.env.PUBLIC_URL + "/Fotos/marta.svg"}
               />
             </div>
-            <div className="column is-one-quarter">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="RAÚL DE LA FUENTE"
                 rol="Estudiante de Pregrado"
@@ -239,6 +245,32 @@ function Home() {
 
           </div>
 
+          
+            <p className="has-text-centered">Participa UChile es un proyecto de <span className="has-text-weight-bold is-color-blue">Prorrectoría U. de Chile</span>, desarrollado por el <span className="has-text-weight-bold is-color-blue">Lab. de Criptografía Aplicada y Ciberseguridad (CLCERT)</span>, y patrocinado por la <span className="has-text-weight-bold is-color-blue">Vicerrectoría de Tecnología de la Información, la Vicerrectoría de Asuntos Económicos y Gestión Institucional, y la Facultad de Ciencias Físicas y Matemáticas de la U. de Chile</span></p>
+            <div className={"columns has-text-centered is-align-items-center "  + (showAnimation ? "slide-up-activate" : "slide-up-enter")} ref={myRef}>
+            <div className="column is-one-quarter m-0">
+              <figure className="image">
+                <img className="" src={process.env.PUBLIC_URL + "/Fotos/uchile.png"} alt=""/>
+              </figure>
+            </div>
+              <div className="column is-one-quarter m-0">
+              <figure className="image">
+                <img className="" src={process.env.PUBLIC_URL + "/Fotos/vti.png"} alt=""/>
+              </figure>
+              </div>
+              <div className="column is-one-quarter m-0">
+              <figure className="image">
+                <img className="" src={process.env.PUBLIC_URL + "/Fotos/fcfm.png"} alt=""/>
+              </figure>
+              </div>
+              <div className="column is-one-quarter m-0">
+              <figure className="image">
+                <img className="" src={process.env.PUBLIC_URL + "/Fotos/clcert.png"} alt=""/>
+              </figure>
+              </div>
+            </div>  
+           
+
           <div className="is-flex is-justify-content-center" style={{ "font-size": "2rem" }}>
             <span className="bullet-1">•</span> &emsp;{" "}
             <span className="bullet-2">•</span> &emsp;{" "}
@@ -247,7 +279,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
+      <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
       <section className="hero">
         <div className="hero-body bottom-hero py-4"></div>
       </section>

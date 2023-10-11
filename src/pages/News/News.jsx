@@ -18,7 +18,7 @@ function News () {
           </div>
         </div>
       </section>
-      <FooterParticipa message="Participa UChile es un proyecto de CLCERT - Universidad de Chile" />
+      <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
       <section className="hero">
         <div className="hero-body bottom-hero py-4"></div>
       </section>

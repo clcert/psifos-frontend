@@ -330,6 +330,47 @@ div#preload {
   line-height: 1;
 }
 
+.demo-enter-button {
+  width: fit-content;
+  background-color: #e43427 !important;
+  display: flex !important;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0 !important;
+}
+
+.demo-election-button {
+  background-color: #e43427 !important;
+  border-color: #004c94 !important ;
+  color: white !important;
+  border-width: 2px !important;
+  border-radius: 10px !important;
+  font-size: 1rem !important;
+  height: 2.2em !important;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .demo-election-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+  }
+  .demo-election-section {
+    padding-top: 0 !important;
+  }
+  .demo-enter-button {
+    width: fit-content;
+    white-space: pre-line !important;
+  }
+  .modal-content {
+    width: 75% !important;
+  }
+  .mini-uchile-logo {
+    display: none !important;
+  }
+}
+
 .election-section {
   background-color: rgba(255, 255, 255, 0.75);
   padding-top: 2rem !important;
