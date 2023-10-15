@@ -28,6 +28,7 @@ function UrnaTable({ election, electionVoters }) {
           {isShowWeightColumn && (
             <Th className="has-text-centered">Ponderador</Th>
           )}
+          <Th className="has-text-centered">Voto contabilizado</Th>
           <Th className="has-text-centered">Voto Encriptado</Th>
         </Tr>
       </Thead>
@@ -62,6 +63,13 @@ function UrnaTable({ election, electionVoters }) {
                   )}
                 </Td>
               )}
+              <Td className="align-middle has-text-centered">
+                {voter.count_vote ? (
+                  <i className="fa-solid fa-check" />
+                ) : (
+                  <i className="fa-solid fa-x" />
+                )}
+              </Td>
               <Td
                 className={
                   "align-middle has-text-centered " +

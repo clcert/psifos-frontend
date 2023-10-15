@@ -10,6 +10,9 @@ export default function ResumeTable() {
   /** @state {int} number of votes in the election  */
   const [totalVotes, setTotalVotes] = useState(0);
 
+  /** @state {int} number of votes in the election  */
+  const [countVotes, setCountVotes] = useState(0);
+
   /** @urlParam {string} uuid of election */
   const { shortName } = useParams();
 
@@ -18,6 +21,7 @@ export default function ResumeTable() {
       const { jsonResponse } = data;
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
+      setCountVotes(jsonResponse.num_count_votes)
     });
   }, [shortName]);
 
@@ -33,6 +37,10 @@ export default function ResumeTable() {
           <tr>
             <td className="table-header">Votos Recibidos</td>
             <td className="has-text-centered">{totalVotes}</td>
+          </tr>
+          <tr>
+            <td className="table-header">Votos Contabilizados</td>
+            <td className="has-text-centered">{countVotes}</td>
           </tr>
           <tr>
             <td className="table-header">Total Padrón</td>
