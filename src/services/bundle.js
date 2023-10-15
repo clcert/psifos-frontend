@@ -32,9 +32,11 @@ export const parseBundleFile = (bundleJson) => {
      */
 
     Object.keys(bundleJson).forEach((key) => {
-      bundleJson[key] = btoa(
-        JSON.stringify(bundleJson[key]).replace(/[\n\r]+/g, "")
-      );
+      const encoder = new TextEncoder();
+      const data = encoder.encode(JSON.stringify(bundleJson[key]));
+      const base64String = btoa(String.fromCharCode.apply(null, data));
+
+      bundleJson[key] = base64String;
     });
     return bundleJson;
   };
