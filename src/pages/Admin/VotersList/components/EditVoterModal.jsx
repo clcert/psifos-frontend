@@ -1,4 +1,3 @@
-import { event } from "jquery";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendOpIP } from "../../../../server";
@@ -7,6 +6,7 @@ function EditVoterModal(props) {
   const initialStateVoter = {
     login: "",
     weight: "",
+    count_vote: true,
   };
 
   const [infoVoter, setInfoVoter] = useState(initialStateVoter);
@@ -19,6 +19,11 @@ function EditVoterModal(props) {
 
   async function editVoter() {
     const token = localStorage.getItem("token");
+    console.log(JSON.stringify({
+      voter_login_id: infoVoter.login,
+      voter_weight: infoVoter.weight,
+      count_vote: infoVoter.count_vote,
+    }),)
     const resp = await fetch(
       backendOpIP + "/" + shortName + "/voters/" + props.voter.uuid + "/edit",
       {
@@ -31,10 +36,12 @@ function EditVoterModal(props) {
         body: JSON.stringify({
           voter_login_id: infoVoter.login,
           voter_weight: infoVoter.weight,
+          count_vote: infoVoter.count_vote,
         }),
       }
     );
     if (resp.status === 200) {
+      props.effectFunction()
       setTypeAlert("is-success");
       setFeedbackMessage("Votante editado con exito!");
     } else {
@@ -48,6 +55,7 @@ function EditVoterModal(props) {
       ...infoVoter,
       login: props.voter.voter_login_id,
       weight: props.voter.voter_weight,
+      count_vote: props.voter.count_vote,
     });
   }, [props.voter]);
 
@@ -59,6 +67,15 @@ function EditVoterModal(props) {
       [e.target.name]: value,
     }));
     e.preventDefault();
+  }
+
+  function checkboxHandler(e) {
+    // create the new state and set it
+    const value = e.target.checked;
+    setInfoVoter((prevState) => ({
+      ...prevState,
+      [e.target.name]: value,
+    }));
   }
 
   return (
@@ -100,6 +117,20 @@ function EditVoterModal(props) {
                   type="number"
                   value={infoVoter.weight}
                   onChange={handleChange}
+                ></input>
+              </div>
+            </div>
+          </div>
+          <div className="mt-2">
+            <div className="field">
+              <div className="control">
+                <label className="checkbox mr-4">Contabilizar voto</label>
+                <input
+                  className=""
+                  name="count_vote"
+                  type="checkbox"
+                  checked={infoVoter.count_vote}
+                  onChange={checkboxHandler}
                 ></input>
               </div>
             </div>

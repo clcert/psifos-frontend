@@ -168,7 +168,8 @@ function VotersTable({
                 <Th className="has-text-centered">Votante</Th>
                 <Th className="has-text-centered">Código de papeleta</Th>
                 <Th className="has-text-centered">Ponderador</Th>
-                <Th className="has-text-centered">Actions</Th>
+                <Th className="has-text-centered">Contabilizado</Th>
+                <Th className="has-text-centered">Acciones</Th>
               </Tr>
             </Thead>
             {voters.map((voter, index) => {
@@ -201,6 +202,13 @@ function VotersTable({
                         <span>{voter.voter_weight} </span>
                       )}
                     </Td>
+                    <Td className="align-middle has-text-centered">
+                      {voter.count_vote ? (
+                        <i className="fa-solid fa-check" />
+                      ) : (
+                        <i className="fa-solid fa-x" />
+                      )}
+                    </Td>
                     <Td
                       style={{ whiteSpace: "nowrap" }}
                       className="has-text-centered"
@@ -214,6 +222,7 @@ function VotersTable({
                               uuid: voter.uuid,
                               voter_login_id: voter.voter_login_id,
                               voter_weight: voter.voter_weight,
+                              count_vote: voter.count_vote
                             }));
                             setEditVoterModal(true);
                           }}

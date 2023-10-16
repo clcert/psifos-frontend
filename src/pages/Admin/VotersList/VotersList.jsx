@@ -43,22 +43,23 @@ function VotersList() {
     uuid: "",
     voter_login_id: "",
     voter_weight: "",
+    count_vote: true,
   });
 
   /** @urlParam {shortName} election shortName */
   const { shortName } = useParams();
 
-  useEffect(
-    function effectFunction() {
-      getElection(shortName).then((election) => {
-        const { jsonResponse } = election;
-        setElection(jsonResponse);
-        setElectionOpenReg(jsonResponse.openreg);
-        setLoad(true);
-      });
-    },
-    [shortName]
-  );
+  function effectFunction() {
+    getElection(shortName).then((election) => {
+      const { jsonResponse } = election;
+      setElection(jsonResponse);
+      setElectionOpenReg(jsonResponse.openreg);
+      setLoad(true);
+    });
+  }
+  useEffect(() => {
+    effectFunction();
+  }, [shortName]);
 
   return (
     <div id="content-home-admin">
@@ -129,6 +130,7 @@ function VotersList() {
         onHide={() => setEditVoterModal(false)}
         voter={voterSelect}
         setVoterSelect={setVoterSelect}
+        effectFunction={effectFunction}
       />
     </div>
   );
