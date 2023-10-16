@@ -7,6 +7,7 @@ import CardElection from "./component/CardElection";
 import AlertNotification from "../component/AlertNotification";
 import MoreInfoTooltip from "../../../component/MoreInfo/MoreInfoTooltip";
 import ResumeTable from "./component/ResumeTable";
+import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import { Button } from "react-bulma-components";
 import { useCallback, useState, useEffect } from "react";
 import { getElections } from "../../../services/election";
@@ -44,6 +45,7 @@ function Resume({
   infoMessages, electionShowed, refreshElections, handleInfoMessages,
 }) {
   return (
+    Object.keys(electionShowed).length > 0 ? (
     <div className="box">
       <AlertNotification
         alertMessage={infoMessages.success}
@@ -60,6 +62,7 @@ function Resume({
         handleInfoMessages={handleInfoMessages}
       />
     </div>
+    ) : <div />
   )
 }
 
@@ -309,8 +312,8 @@ function GeneralAdmin() {
 
   return (
     <>
-      <div id="content-home-admin">
-        <div className="voters-section is-flex is-flex-direction-column is-align-items-center">
+      <>
+        <div className="is-flex is-flex-direction-column is-align-items-center">
           {load ? (
             <div className="container is-max-desktop">
               <ShowFeedbackMessage
@@ -412,7 +415,7 @@ function GeneralAdmin() {
           onHide={() => setUploadModal(false)}
           shortName={uploadModal.shortName}
         />
-      </div>
+      </>
     </>
   );
 }

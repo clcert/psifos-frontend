@@ -1,6 +1,7 @@
 import { Button } from "react-bulma-components";
 import { useState } from "react";
 import { tasks } from "./tasks";
+import { translateStep } from "../../../../utils/utils";
 
 function StateActionButton({handler, message}) {
     return(
@@ -127,20 +128,23 @@ function HeadersRow({headersArr}) {
 }
 
 function ContentRow({contentArr}) {
-    return (
-      <tr>
-        {contentArr.map((content, index) => {
-          return (
-            <td
-                className="has-text-centered"
-                key={`${index}-${contentArr[0]}`}
-            >
-              {content}
-            </td>
-          )
-        })}
-      </tr>
-    )
+  return (
+    <tr>
+      {contentArr.map((content, index) => {
+        return (
+          <td
+              className={
+                typeof content === "number"
+                ? "has-text-right" : "has-text-centered"
+              }
+              key={`${index}-${contentArr[0]}`}
+          >
+            {content}
+          </td>
+        )
+      })}
+    </tr>
+  )
 }
 
 export default function ResumeTable({
@@ -160,19 +164,21 @@ export default function ResumeTable({
             />
             {Object.keys(electionShowed).map((status, index) => {
               return (
-                <ContentRow
-                  key={`content-${index}`}
-                  contentArr={[
-                    status,
-                    electionShowed[status].length,
-                    <StateAction
-                      elections={electionShowed[status]}
-                      status={status}
-                      refreshElections={refreshElections}
-                      setInfoMessages={handleInfoMessages}
-                    />,
-                  ]}
-                />
+                electionShowed[status].length !== 0 && (
+                  <ContentRow
+                    key={`content-${index}`}
+                    contentArr={[
+                      translateStep(status),
+                      electionShowed[status].length,
+                      <StateAction
+                        elections={electionShowed[status]}
+                        status={status}
+                        refreshElections={refreshElections}
+                        setInfoMessages={handleInfoMessages}
+                      />,
+                    ]}
+                  />
+                )
               );
             })}
           </tbody>
