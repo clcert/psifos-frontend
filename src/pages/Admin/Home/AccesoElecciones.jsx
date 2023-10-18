@@ -120,7 +120,9 @@ export default function AccesoElecciones() {
           </div>
         </div>
       ) : (
-        <div className="spinner-animation"/>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-animation"/>
+        </div>
       )}
     </>
   )
