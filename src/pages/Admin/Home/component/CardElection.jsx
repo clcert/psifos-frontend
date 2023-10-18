@@ -57,6 +57,7 @@ function NextSteps({
   election,
   freezeModal,
   closeModal,
+  releaseModal,
   tallyModal,
   combineTallyModal,
   uploadModalonClick,
@@ -68,6 +69,7 @@ function NextSteps({
         election={election}
         freezeModal={freezeModal}
         closeModal={closeModal}
+        releaseModal={releaseModal}
         tallyModal={tallyModal}
         combineTallyModal={combineTallyModal}
         uploadModalonClick={(value) => {
@@ -144,6 +146,7 @@ function CardElection(props) {
         election={props.election}
         freezeModal={props.freezeModal}
         closeModal={props.closeModal}
+        releaseModal={props.releaseModal}
         tallyModal={props.tallyModal}
         combineTallyModal={props.combineTallyModal}
         uploadModalonClick={props.uploadModalonClick}

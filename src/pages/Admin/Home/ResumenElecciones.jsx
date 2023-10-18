@@ -2,12 +2,12 @@ import ModalFreeze from "../AdministrationPanel/component/ModalFreeze";
 import ModalCloseElection from "../AdministrationPanel/component/ModalCloseElection";
 import ModalTally from "../AdministrationPanel/component/ModalTally";
 import ModalCombineTally from "../AdministrationPanel/component/ModalCombineTally";
+import ModalResultsRelease from "../AdministrationPanel/component/ModalReleaseResults";
 import UploadModal from "../VotersList/components/UploadModal";
 import CardElection from "./component/CardElection";
 import AlertNotification from "../component/AlertNotification";
 import MoreInfoTooltip from "../../../component/MoreInfo/MoreInfoTooltip";
 import ResumeTable from "./component/ResumeTable";
-import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import { Button } from "react-bulma-components";
 import { useCallback, useState, useEffect } from "react";
 import { getElections } from "../../../services/election";
@@ -69,7 +69,7 @@ function Resume({
 function ElectionList({
   electionsPage, electionSelected, electionSelectedHandler,
   freezeModalHandler, closeModalHandler, tallyModalHandler,
-  combineTallyHandler, uploadModalHandler,
+  combineTallyHandler, uploadModalHandler, releaseModalHandler,
 }) {
   return (
     electionsPage.map((election, index) => {
@@ -86,6 +86,7 @@ function ElectionList({
           handlerElectionSelected={electionSelectedHandler(election)}
           freezeModal={() => freezeModalHandler(modalParams)}
           closeModal={() => closeModalHandler(modalParams)}
+          releaseModal={() => releaseModalHandler(modalParams)}
           tallyModal={() => tallyModalHandler(modalParams)}
           combineTallyModal={() => combineTallyHandler(modalParams)}
           uploadModalonClick={(_) => uploadModalHandler(modalParams)}
@@ -142,22 +143,19 @@ function GeneralAdmin() {
   const [actualPage, setActualPage] = useState(0);
 
   /** @state {json} state modal freeze */
-  const [freezeModal, setFreezeModal] = useState({
-    state: false,
-    shortName: "",
-  });
+  const [freezeModal, setFreezeModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} state modal close election */
   const [closeModal, setCloseModal] = useState({ state: false, shortName: "" });
+
+  /** @state {json} state modal release results */
+  const [releaseModal, setReleaseModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} tally modal close election */
   const [tallyModal, setTallyModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} state modal combine tally election */
-  const [combineTallyModal, setCombineTallyModal] = useState({
-    state: false,
-    shortName: "",
-  });
+  const [combineTallyModal, setCombineTallyModal] = useState({ state: false, shortName: "" });
 
   /** @state {string} message with feeback for admin */
   const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -339,6 +337,7 @@ function GeneralAdmin() {
                   }}
                   freezeModalHandler={setFreezeModal}
                   closeModalHandler={setCloseModal}
+                  releaseModalHandler={setReleaseModal}
                   tallyModalHandler={setTallyModal}
                   combineTallyHandler={setCombineTallyModal}
                   uploadModalHandler={setUploadModal}
@@ -354,8 +353,6 @@ function GeneralAdmin() {
           ) : (
             <div className="spinner-animation"/>
           )}
-
-          <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
         </div>
 
         <ModalFreeze
@@ -392,6 +389,16 @@ function GeneralAdmin() {
             setTypeFeedback(type);
           }}
           shortName={tallyModal.shortName}
+        />
+
+        <ModalResultsRelease
+          show={releaseModal.state}
+          onHide={() => setReleaseModal(false)}
+          feedback={(message, type) => {
+            setFeedbackMessage(message);
+            setTypeFeedback(type);
+          }}
+          shortName={releaseModal.shortName}
         />
 
         <ModalCombineTally
