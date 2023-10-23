@@ -4,28 +4,19 @@ import { backendInfoIp } from "../../../../server";
 import { getStats } from "../../../../services/election";
 import { singularOrPlural } from "../../../../utils/utils";
 
-function StyledRow({children}) {
+function StyledRow({ children }) {
+  return <div className={"row justify-content-between"}>{children}</div>;
+}
+
+function StyledCard({ children }) {
   return (
-    <div className={"row justify-content-between"}>
+    <div className="box col-sm-3 col-12 m-0 mb-3" style={{ minWidth: "30%" }}>
       {children}
     </div>
-  )
+  );
 }
 
-function StyledCard({children}) {
-  return(
-    <div
-      className="box col-sm-3 col-12 m-0 mb-3"
-      style={{minWidth: '30%'}}
-    >
-      {children}
-    </div>
-  )
-}
-
-function PercentageCard({
-  title, cipher,
-}) {
+function PercentageCard({ title, cipher }) {
   return (
     <StyledCard>
       <div className="text-center is-size-8">{title}</div>
@@ -33,22 +24,18 @@ function PercentageCard({
         {cipher}%
       </span>
     </StyledCard>
-  )
+  );
 }
 
-function QuantitativeCard({
-  title, cipher, singular, plural,
-}) {
+function QuantitativeCard({ title, cipher, singular, plural }) {
   return (
     <StyledCard>
       <div className="text-center is-size-8">{title}</div>
       <span className="d-flex justify-content-center is-size-4 is-bold">
-        {cipher}
-        {" "}
-        {singularOrPlural(singular, plural, cipher)}
+        {cipher} {singularOrPlural(singular, plural, cipher)}
       </span>
     </StyledCard>
-  )
+  );
 }
 
 export default function StyledCardsInfoElection() {
@@ -74,7 +61,9 @@ export default function StyledCardsInfoElection() {
 
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
-      const sortedWeights = sortWeight(JSON.parse(jsonResponse.weights_init));
+      const sortedWeights = sortWeight(
+        JSON.parse(jsonResponse.weights_init).voters_by_weight_init
+      );
       setWeightsInit(sortedWeights);
       setWEightsElection(JSON.parse(jsonResponse.weights_election));
 

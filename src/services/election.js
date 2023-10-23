@@ -73,6 +73,23 @@ async function getStats(shortName) {
   }
 }
 
+async function getStatsGroup(shortName, group) {
+  group = group === "Sin grupo" ? "" : group;
+  const resp = await fetch(backendInfoIp + "/get-election-group-stats/" + shortName, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      group: group
+    })
+  });
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  }
+}
+
 async function getElectionResume(shortName) {
   /**
    * async function to get the election data
@@ -182,6 +199,7 @@ export {
   getElectionPublic,
   getElections,
   getStats,
+  getStatsGroup,
   getElectionResume,
   initElection,
   closeElection,

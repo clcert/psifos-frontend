@@ -32,8 +32,8 @@ function InfoElection(props) {
                   <>
                     <StyledTitle title="Número de votantes por ponderación"/>
                     <WeightsTable
-                      weightsInit={props.weightsInit}
-                      weightsEnd={props.weightsEnd}
+                      weightsInit={props.weightsInit.voters_by_weight_init}
+                      weightsEnd={props.weightsEnd.voters_by_weight_end}
                       weightsElection={props.weightsElection}
                     />
                   </>
