@@ -168,7 +168,10 @@ function VotersTable({
                 <Th className="has-text-centered">Votante</Th>
                 <Th className="has-text-centered">Código de papeleta</Th>
                 <Th className="has-text-centered">Ponderador</Th>
-                <Th className="has-text-centered">Actions</Th>
+                {election.grouped && (
+                  <Th className="has-text-centered">Grupo</Th>
+                )}
+                <Th className="has-text-centered">Acciones</Th>
               </Tr>
             </Thead>
             {voters.map((voter, index) => {
@@ -201,6 +204,11 @@ function VotersTable({
                         <span>{voter.voter_weight} </span>
                       )}
                     </Td>
+                    {election.grouped && (
+                      <Td className="align-middle has-text-centered">
+                        {voter.group ? voter.group : "-"}
+                      </Td>
+                    )}
                     <Td
                       style={{ whiteSpace: "nowrap" }}
                       className="has-text-centered"

@@ -22,15 +22,17 @@ function NoCalculatedResults({ getElectionResult }) {
 }
 
 function Results({ isAdmin = false }) {
-  const [resultGrouped, setResultGrouped] = useState([]);
+  const [groupedResults, setGroupedResults] = useState([]);
 
   /** @state {array} election results (resume) */
-  const [results, setResults] = useState([]);
+  const [totalResults, setTotalResults] = useState([]);
+
+  const [groupResult, setGroupResult] = useState([]);
 
   /** @state {array} election questions */
   const [questions, setQuestions] = useState([]);
 
-  const [group, setGroup] = useState("");
+  const [group, setGroup] = useState("Sin grupo");
 
   const [groups, setGroups] = useState([]);
 
@@ -42,7 +44,22 @@ function Results({ isAdmin = false }) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
-  const handleResults = (questionsObject, resultObject) => {
+  const handleTotalResults = (questionsObject, resultObject) => {
+    let result = [];
+    questionsObject.forEach((element, q_num) => {
+      result.push(
+        parseResult(
+          element,
+          resultObject[q_num].ans_results,
+          questionsObject[q_num].include_blank_null
+        )
+      );
+    });
+    setTotalResults(result);
+    setQuestions(questionsObject);
+  };
+
+  const handleGroupResults = (questionsObject, resultObject) => {
     let result = [];
     questionsObject.forEach((element, q_num) => {
       result.push(
@@ -53,7 +70,7 @@ function Results({ isAdmin = false }) {
         )
       );
     });
-    setResults(result);
+    setGroupResult(result);
     setQuestions(questionsObject);
   };
 
@@ -69,17 +86,22 @@ function Results({ isAdmin = false }) {
         ) {
           const questionsObject = JSON.parse(jsonResponse.questions);
           const resultObject = JSON.parse(jsonResponse.result);
-          setResultGrouped(resultObject);
+          setGroupedResults(resultObject.results_grouped);
+          setTotalResults(resultObject.results_total);
           setResultGroups(resultObject);
-          handleResults(questionsObject, resultObject[0]);
+          handleTotalResults(questionsObject, resultObject.results_total);
+          const result = resultObject.results_grouped.find((element) => {
+            return element.group === "Sin grupo";
+          });
+          handleGroupResults(questionsObject, result);
         }
       }
       setLoad(true);
     });
   }, [shortName]);
 
-  const setResultGroups = (resultGrouped) => {
-    const auxResult = resultGrouped.map((result) => {
+  const setResultGroups = (groupedResults) => {
+    const auxResult = groupedResults.results_grouped.map((result) => {
       return result.group;
     });
     setGroups(auxResult);
@@ -90,10 +112,10 @@ function Results({ isAdmin = false }) {
   }, [getElectionResult]);
 
   useEffect(() => {
-    const result = resultGrouped.find((element) => {
+    const result = groupedResults.find((element) => {
       return element.group === group;
     });
-    handleResults(questions, result);
+    handleGroupResults(questions, result);
   }, [group]);
   return (
     <>
@@ -105,7 +127,9 @@ function Results({ isAdmin = false }) {
         <CalculatedResults
           election={election}
           questions={questions}
-          results={results}
+          totalResults={totalResults}
+          groupResult={groupResult}
+          group={group}
           groups={groups}
           setGroup={setGroup}
         />
