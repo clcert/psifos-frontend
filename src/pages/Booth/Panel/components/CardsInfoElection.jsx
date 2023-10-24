@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
-import { getStats } from "../../../../services/election";
+import { getElectionPublic, getStats } from "../../../../services/election";
 import { singularOrPlural } from "../../../../utils/utils";
 
 function StyledRow({ children }) {
@@ -38,21 +38,26 @@ function QuantitativeCard({ title, cipher, singular, plural }) {
   );
 }
 
+/**
+ * Renders a component that displays information about an election, such as the total number of votes, the participation percentage, and the total number of voters.
+ * @returns {JSX.Element} The JSX code that displays the election information.
+ */
 export default function StyledCardsInfoElection() {
   const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const [weightsInit, setWeightsInit] = useState([]);
   const [weightsElection, setWEightsElection] = useState({});
+  const [election, setElection] = useState({});
 
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
+  /**
+   * Retrieves the resume of the election from the backend and updates the state with the weights of the voters.
+   * @returns {Promise<Object>} A promise that resolves to the JSON response from the backend.
+   */
   async function getElectionResume() {
-    /**
-     * async function to get the election data
-     */
-
-    const resp = await fetch(backendInfoIp + "/" + shortName + "/resume", {
+    const resp = await fetch(`${backendInfoIp}/${shortName}/resume`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -61,22 +66,23 @@ export default function StyledCardsInfoElection() {
 
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
-      const sortedWeights = sortWeight(
+      const sortedWeights = Object.keys(
         JSON.parse(jsonResponse.weights_init).voters_by_weight_init
-      );
+      ).sort();
       setWeightsInit(sortedWeights);
-      setWEightsElection(JSON.parse(jsonResponse.weights_election));
-
+      setWEightsElection(
+        JSON.parse(jsonResponse.weights_election).voters_by_weight
+      );
       return jsonResponse;
     }
   }
 
-  const sortWeight = (weights) => {
-    return Object.keys(weights).sort();
-  };
-
   useEffect(() => {
     getElectionResume();
+    getElectionPublic(shortName).then((data) => {
+      const { jsonResponse } = data;
+      setElection(jsonResponse);
+    });
     getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setTotalVoters(jsonResponse.total_voters);
@@ -85,6 +91,7 @@ export default function StyledCardsInfoElection() {
   }, []);
 
   const percentageVotes = ((totalVotes / totalVoters) * 100).toFixed(2);
+
   return (
     <div>
       <StyledRow>
@@ -108,7 +115,8 @@ export default function StyledCardsInfoElection() {
         />
       </StyledRow>
       <StyledRow>
-        {weightsInit &&
+        {election.max_weight > 1 &&
+          weightsInit &&
           weightsInit.map((weight) => {
             return (
               <QuantitativeCard
