@@ -136,14 +136,13 @@ function QuestionsForms(props) {
       />
 
       <QuestionStatementInput
-        questionId={props.questionId}
-        disabledEdit={props.disabledEdit}
         statement={props.question.q_text}
         handleChange={(e) => {
           let auxQuestion = props.question;
           auxQuestion.q_text = e.target.value;
           props.updateQuestions(props.questionId, auxQuestion);
         }}
+        {...props}
       />
 
       <QuestionTypeSelector
@@ -175,30 +174,22 @@ function QuestionsForms(props) {
       />
 
       <DescriptionInput
-        disabledEdit={props.disabledEdit}
         description={description}
         handleChange={setDescription}
-        checkOptions={props.checkOptions}
+        {...props}
       />
 
       <NumberOfAnswersSetup
-        question={props.question}
-        questionId={props.questionId}
-        disabledEdit={props.disabledEdit}
-        checkOptions={props.checkOptions}
-        updateQuestions={props.updateQuestions}
         disabledMinAns={includedWhiteNull}
+        {...props}
       />
 
       <AnswersSetup
-        question={props.question}
         editAnswer={editAnswer}
         addAnswer={addAnswer}
-        updateQuestions={props.updateQuestions}
-        questionId={props.questionId}
         answersWithKey={answersWithKey}
         handleRemoveItem={handleRemoveItem}
-        disabledEdit={props.disabledEdit}
+        {...props}
       />
     </div>
   );
