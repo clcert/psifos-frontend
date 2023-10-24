@@ -90,9 +90,10 @@ function Results({ isAdmin = false }) {
           setTotalResults(resultObject.results_total);
           setResultGroups(resultObject);
           handleTotalResults(questionsObject, resultObject.results_total);
-          const result = resultObject.results_grouped.find((element) => {
+          let result = resultObject.results_grouped.find((element) => {
             return element.group === "Sin grupo";
           });
+          if (!result) result = resultObject.results_grouped[0];
           handleGroupResults(questionsObject, result);
         }
       }
