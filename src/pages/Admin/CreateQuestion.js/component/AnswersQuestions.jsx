@@ -1,5 +1,6 @@
 import { Button } from "react-bulma-components";
 import InputQuestion from "./InputQuestion";
+import { isMixNetQuestion } from "../../../../utils";
 
 function ClosedAnswersSetup({
   answersWithKey,
@@ -132,7 +133,7 @@ function AnswersSetup(props) {
   }
   return (
     <>
-      {props.question.q_type !== "mixnet_question" && (
+      {!isMixNetQuestion(props.question.q_type) && (
         <ClosedAnswersSetup
           answersWithKey={props.answersWithKey}
           disabledEdit={props.disabledEdit}
@@ -143,7 +144,7 @@ function AnswersSetup(props) {
         />
       )}
 
-      {props.question.q_type === "mixnet_question" && (
+      {isMixNetQuestion(props.question.q_type) && (
         <MixnetAnswersSetup
           disabledEdit={props.disabledEdit}
           handleFileChange={filesToString}

@@ -1,11 +1,117 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
+export function DescriptionInput({
+  disabledEdit, description, handleChange, checkOptions,
+}) {
+  const [warningText, setWarningText] = useState(false);
+
+  useEffect(() => {
+    if (description?.length > 100) {
+      setWarningText(
+        "La descripción debe tener menos de 100 caracteres"
+      );
+      checkOptions(false);
+    }
+    else {
+      setWarningText(false);
+    }
+  }, [description]);
+
+  return (
+    <div className="field">
+      <label className="label">Descripción</label>
+      <div className="control">
+        <textarea
+          disabled={disabledEdit}
+          value={description}
+          className={`textarea is-small ${warningText && "is-danger"}`}
+          placeholder="Descripción pregunta"
+          onChange={(e) => handleChange(e.target.value)}
+        />
+      </div>
+      {warningText && (
+        <p className="help is-danger">{warningText}</p>
+      )}
+    </div>
+  )
+}
+
+export function NumberOfAnsInput({
+  label, isDisabled, value, inputId,
+  placeholder, handleInput, checkOptions, numberOfAns,
+  minCoteCondition, minCoteWarningMessage,
+  maxCoteCondition, maxCoteWarningMessage,
+}) {
+  const [warningText, setWarningText] = useState(false);
+
+  useEffect(() => {
+    let wt = false
+    if (!isDisabled){
+      if (minCoteCondition) {
+        wt = minCoteWarningMessage;
+        checkOptions(false);
+      }
+      else if (maxCoteCondition){
+        wt = maxCoteWarningMessage;
+        checkOptions(false);
+      }
+    }
+    setWarningText(wt);
+  }, [value, isDisabled, numberOfAns]);
+
+  return (
+    <div className="column" style={{paddingLeft: "0px"}}>
+      <div className="field">
+        <label className="label">{label}</label>
+        <div className="control">
+          <input
+            id={inputId}
+            disabled={isDisabled}
+            value={value}
+            className={`input ${warningText && "is-danger"}`}
+            type="number"
+            placeholder={placeholder}
+            onChange={handleInput}
+          />
+        </div>
+        {warningText && (
+          <p className="help is-danger">{warningText}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export function MinOfAnsInput(props) {
+  return (
+    <NumberOfAnsInput
+      label="Cantidad mínima de respuestas"
+      inputId={`question-${props.questionId}-min-answers`}
+      placeholder="Mínimo"
+      minCoteWarningMessage="Debe introducir un número mayor que 0"
+      maxCoteWarningMessage="Debe introducir un número menor a la cantidad de respuestas"
+      {...props}
+    />
+  )
+}
+
+export function MaxOfAnsInput(props) {
+  return (
+    <NumberOfAnsInput
+      label="Cantidad máxima de respuestas"
+      inputId={`question-${props.questionId}-max-answers`}
+      placeholder="Máximo"
+      minCoteWarningMessage="Debe introducir un número mayor que 0 y menor que el mínimo"
+      maxCoteWarningMessage="Debe introducir un número menor o igual a la cantidad de respuestas"
+      {...props}
+    />
+  )
+}
+
 function NumberOfAnswersSetup(props) {
   /** @state {string} question description */
   const [description, setDescription] = useState("");
-  const [checkDescription, setCheckDescription] = useState(true);
-  const [textDescription, setTextDescription] = useState("");
 
   /** @state {int} min answers for question */
   const [minAnswers, setMinAnswers] = useState("");
@@ -59,13 +165,6 @@ function NumberOfAnswersSetup(props) {
      * check options for question
      */
     let final_state = true;
-
-    setCheckDescription(true);
-    if (description.length > 100) {
-      setTextDescription("La descripción debe tener menos de 100 caracteres");
-      setCheckDescription(false);
-      final_state = false;
-    }
 
     setCheckMinAnswers(true);
     if (String(minAnswers) === "NaN" || minAnswers === 0) {
@@ -135,73 +234,39 @@ function NumberOfAnswersSetup(props) {
 
   return (
     <div>
-      <div className="field">
-        <label className="label">Descripción</label>
-        <div className="control">
-          <textarea
-            disabled={props.disabledEdit}
-            value={description}
-            className={
-              "textarea is-small " + (checkDescription ? "" : "is-danger")
-            }
-            placeholder="Descripción pregunta"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          ></textarea>
-        </div>
-        {!checkDescription && (
-          <p className="help is-danger">{textDescription}</p>
-        )}
-      </div>
       <div className="columns">
-        <div className="column" style={{paddingLeft: "0px"}}>
-          <div className="field">
-            <label className="label">Cantidad mínima de respuestas</label>
-            <div className="control">
-              <input
-                disabled={props.disabledEdit || props.disabledMinAns}
-                value={minAnswers}
-                className={"input " + (checkMinAnswers ? "" : "is-danger")}
-                type="number"
-                placeholder="Mínimo"
-                onChange={(e) => {
-                  const enteredValue = parseInt(e.target.value);
-                  if (isNaN(enteredValue) || enteredValue >= 0) {
-                    setMinAnswers(enteredValue);
-                  }
-                }}
-              />
-            </div>
-            {!checkMinAnswers && (
-              <p className="help is-danger">{textMinAnswers}</p>
-            )}
-          </div>
-        </div>
-        <div className="column">
-          <div className="field">
-            <label className="label">Cantidad máxima de respuestas</label>
-            <div className="control">
-              <input
-                id={`question-${props.questionId}-max-answers`}
-                disabled={props.disabledEdit}
-                value={maxAnswers}
-                className={"input " + (checkMaxAnswers ? "" : "is-danger")}
-                type="number"
-                placeholder="Máximo"
-                onChange={(e) => {
-                  const enteredValue = parseInt(e.target.value);
-                  if (isNaN(enteredValue) || enteredValue >= 0) {
-                    setMaxAnswers(parseInt(enteredValue));
-                  }
-                }}
-              />
-            </div>
-          </div>
-          {!checkMaxAnswers && (
-            <p className="help is-danger">{textMaxAnswers}</p>
-          )}
-        </div>
+      <MinOfAnsInput
+          isDisabled={props.disabledEdit || props.disabledMinAns}
+          value={minAnswers}
+          questionId={props.questionId}
+          handleInput={(e) => {
+            const enteredValue = parseInt(e.target.value);
+            if (isNaN(enteredValue) || enteredValue >= 0) {
+              setMinAnswers(enteredValue);
+            }
+          }}
+          checkOptions={props.checkOptions}
+          minCoteCondition={String(minAnswers) === "NaN" || minAnswers === 0}
+          maxCoteCondition={minAnswers > props.question.closed_options.length}
+          numberOfAns={props.question.closed_options.length}
+        />
+        <MaxOfAnsInput
+          isDisabled={props.disabledEdit}
+          value={maxAnswers}
+          questionId={props.questionId}
+          handleInput={(e) => {
+            const enteredValue = parseInt(e.target.value);
+            if (isNaN(enteredValue) || enteredValue >= 0) {
+              setMaxAnswers(enteredValue);
+            }
+          }}
+          checkOptions={props.checkOptions}
+          minCoteCondition={
+            String(maxAnswers) === "NaN" || maxAnswers === 0 || maxAnswers < minAnswers
+          }
+          maxCoteCondition={maxAnswers > props.question.closed_options.length}
+          numberOfAns={props.question.closed_options.length}
+        />
       </div>
       {props.q_type === "open_question" && (
         <div className="columns">

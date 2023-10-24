@@ -1,0 +1,1 @@
+export const isMixNetQuestion = (q) => q === "mixnet_question"

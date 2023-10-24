@@ -9,7 +9,7 @@ import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import { answersRestrictionText } from "./utils.js";
 import {
-  permanentOptionsList, preferentialRankingTallyTypes,
+  permanentOptionsList, preferentialRankingTallyNames,
 } from "../../../../constants";
 import RankingSelection from "./RankingSelection";
 import InputSelection from "./InputSelection";
@@ -158,7 +158,7 @@ function QuestionElection(props) {
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
     const options = currentQuestion.closed_options;
-    return !preferentialRankingTallyTypes.includes(
+    return !preferentialRankingTallyNames.includes(
       currentQuestion.tally_type
     ) ? checkNumAnswers(
       numCheckedIndex, options, checkedIndex, currentQuestion,

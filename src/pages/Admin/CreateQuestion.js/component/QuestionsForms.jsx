@@ -7,6 +7,7 @@ import QuestionStatementInput from "./QuestionStatementInput";
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import IncludeBlankNullCheckbox from "./IncludeBlankNullCheckbox";
 import GroupApplicationsCheckbox from "./GroupApplicationsCheckbox";
+import { DescriptionInput } from "./OptionQuestions";
 
 function Title({title}) {
   return (
@@ -27,6 +28,9 @@ function QuestionsForms(props) {
   const [includedWhiteNull, setIncludeWhiteNull] = useState(
     props.question.include_blank_null
   );
+
+  /** @state {string} question description */
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (props.question !== undefined) {
@@ -126,6 +130,7 @@ function QuestionsForms(props) {
         enable={!props.disabledEdit}
         handleDelete={props.remove}
       />
+
       <Title
         title="Pregunta"
       />
@@ -140,12 +145,6 @@ function QuestionsForms(props) {
           props.updateQuestions(props.questionId, auxQuestion);
         }}
       />
-
-      {!props.question.q_text && (
-        <p className="help is-danger">
-          El encabezado de la pregunta no puede ser vacío
-        </p>
-      )}
 
       <QuestionTypeSelector
         disabledEdit={props.disabledEdit}
@@ -164,17 +163,23 @@ function QuestionsForms(props) {
         checkedOption={props.question.include_blank_null}
       />
 
-      {props.question.q_type === "mixnet_question" && (
-        <GroupApplicationsCheckbox
-          disabledEdit={props.disabledEdit}
-          handleChange={(e) => {
-            let auxQuestion = props.question;
-            auxQuestion.group_votes = e.target.checked;
-            props.updateQuestions(props.questionId, auxQuestion);
-          }}
-          checkedOption={props.question.group_votes}
-        />
-      )}
+      <GroupApplicationsCheckbox
+        questionType={props.question.q_type}
+        disabledEdit={props.disabledEdit}
+        handleChange={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.group_votes = e.target.checked;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        checkedOption={props.question.group_votes}
+      />
+
+      <DescriptionInput
+        disabledEdit={props.disabledEdit}
+        description={description}
+        handleChange={setDescription}
+        checkOptions={props.checkOptions}
+      />
 
       <NumberOfAnswersSetup
         question={props.question}
@@ -198,4 +203,5 @@ function QuestionsForms(props) {
     </div>
   );
 }
+
 export default QuestionsForms;

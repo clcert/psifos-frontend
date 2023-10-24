@@ -79,21 +79,50 @@ export const electionStatusTranslate = {
 
 export const permanentOptionsList = Object.values(permanentOptions)
 
-export const questionsToTally = {
-    "stvnc_question": "stvnc",
-    "closed_question": "homomorphic",
-    "mixnet_question": "mixnet",
-}
-
-export const firstMajorityTallyTypes = [
-    "homomorphic", "mixnet",
+export const questionsInfo = [
+    { // puedo marcan entre min y max candidatos
+        "type": "closed_question",
+        "name": "Pregunta cerrada",
+        "tally_name": "homomorphic",
+        "tally_type": "first_majority",
+    }, { // lo mismo, pero cuando la lista de candidatos es muy grande
+        "type": "mixnet_question",
+        "name": "Pregunta masiva",
+        "tally_name": "mixnet",
+        "tally_type": "first_majority",
+    }, {
+        "type": "stvnc_question",
+        "name": "Pregunta con ranking preferencial",
+        "tally_name": "stvnc",
+        "tally_type": "preferential_ranking",
+    },
 ]
 
-export const preferentialRankingTallyTypes = [
-    "stvnc",
-]
+export const questionsToTally = questionsInfo.reduce(
+    (acc, q) => {
+        return { ...acc, [q.type]: q.tally_name}
+    }
+, {})
 
-export const tallyTypes = [
-    ...firstMajorityTallyTypes,
-    ...preferentialRankingTallyTypes,
+export const firstMajorityTallyNames = questionsInfo.reduce(
+    (acc, q) => {
+        if (q.tally_type === "first_majority") {
+            return [...acc, q.tally_name]
+        }
+        return acc
+    }
+, [])
+
+export const preferentialRankingTallyNames = questionsInfo.reduce(
+    (acc, q) => {
+        if (q.tally_type === "preferential_ranking") {
+            return [...acc, q.tally_name]
+        }
+        return acc
+    }
+, [])
+
+export const tallyNames = [
+    ...firstMajorityTallyNames,
+    ...preferentialRankingTallyNames,
 ]
