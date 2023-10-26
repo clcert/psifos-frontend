@@ -251,12 +251,6 @@ function DecryptProve() {
           <div id="sk_section">
             <h3>Inserte su clave privada aquí</h3>
             <DropFile setText={decrypt} />
-            <input
-              value={secretKey}
-              className="input mb-2 mt-4 has-text-centered is-family-monospace"
-              placeholder="Clave privada..."
-              disabled
-            />
             <p
               id={`feedback-message-${actualStep}`}
               className="has-text-white pt-2"
