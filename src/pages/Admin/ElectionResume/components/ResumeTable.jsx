@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getStats } from "../../../../services/election";
-import { getPercentage } from "../../utils"
+import { getStats, getStatsGroup } from "../../../../services/election";
+import { getPercentage } from "../../utils";
 
-export default function ResumeTable() {
+export default function ResumeTable({ grouped = false, group = "" }) {
   /** @state {int} number of voters in the election  */
   const [totalVoters, setTotalVoters] = useState(0);
 
@@ -14,20 +14,27 @@ export default function ResumeTable() {
   const { shortName } = useParams();
 
   useEffect(() => {
-    getStats(shortName).then((data) => {
-      const { jsonResponse } = data;
-      setTotalVoters(jsonResponse.total_voters);
-      setTotalVotes(jsonResponse.num_casted_votes);
-    });
-  }, [shortName]);
-
+    if (!grouped) {
+      getStats(shortName).then((data) => {
+        const { jsonResponse } = data;
+        setTotalVoters(jsonResponse.total_voters);
+        setTotalVotes(jsonResponse.num_casted_votes);
+      });
+    } else {
+      getStatsGroup(shortName, group).then((data) => {
+        const { jsonResponse } = data;
+        setTotalVoters(jsonResponse.total_voters);
+        setTotalVotes(jsonResponse.num_casted_votes);
+      });
+    }
+  }, [shortName, group]);
 
   return (
     <div className="d-flex disable-text-selection row justify-content-md-center">
       <table
         id="resume-table"
         className="mt-2 table is-bordered is-hoverable voters-table"
-        style={{maxWidth: "350px"}}
+        style={{ maxWidth: "350px" }}
       >
         <tbody>
           <tr>

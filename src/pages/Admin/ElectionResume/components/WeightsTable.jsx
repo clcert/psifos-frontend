@@ -1,6 +1,12 @@
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 
-export default function WeightsTable(props) {
+export default function WeightsTable({
+  weightsInit,
+  weightsEnd,
+  weightsElection,
+}) {
+  if(!weightsInit) return <></>
+
   return (
     <div className="disable-text-selection row justify-content-md-center has-text-centered px-6">
       <Table
@@ -9,14 +15,14 @@ export default function WeightsTable(props) {
       >
         <Thead>
           <Tr>
-            <Th>Ponderador</Th>
+            <Th>PONDERADOR</Th>
             <Th className="has-text-centered">Votantes en apertura</Th>
             <Th className="has-text-centered">Votos Recibidos</Th>
             <Th className="has-text-centered">Votos a contar (1)</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {Object.keys(props.weightsInit)
+          {Object.keys(weightsInit)
             .sort()
             .map((key) => (
               <Tr key={key}>
@@ -27,13 +33,13 @@ export default function WeightsTable(props) {
                   {key}
                 </Td>
                 <Td className="has-text-centered">
-                  {props.weightsInit[key] ? props.weightsInit[key] : 0}
+                  {weightsInit[key] ? weightsInit[key] : 0}
                 </Td>
                 <Td className="has-text-centered">
-                  {props.weightsEnd[key] ? props.weightsEnd[key] : 0}
+                  {weightsEnd[key] ? weightsEnd[key] : 0}
                 </Td>
                 <Td className="has-text-centered">
-                  {props.weightsElection[key] ? props.weightsElection[key] : 0}
+                  {weightsElection[key] ? weightsElection[key] : 0}
                 </Td>
               </Tr>
             ))}
