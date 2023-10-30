@@ -19,7 +19,6 @@ import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 import Booth from "./pages/Booth/Booth";
 import CheckSk from "./pages/Admin/CustodioClaves/CheckSk";
 import DecryptProve from "./pages/Admin/CustodioClaves/DecryptProve";
-import GeneralAdmin from "./pages/Admin/General/GeneralAdmin";
 import Statistics from "./pages/Admin/Statistics/Statistics";
 import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
@@ -105,14 +104,6 @@ function App() {
             element={
               <RequireAuth>
                 <HomeAdmin />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="general"
-            element={
-              <RequireAuth>
-                <GeneralAdmin />
               </RequireAuth>
             }
           />

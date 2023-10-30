@@ -4,21 +4,16 @@ export function logout() {
 }
 
 export function translateStep(step) {
-  if (step === "Setting up") {
-    return "En configuración";
-  } else if (step === "Started") {
-    return "Iniciada";
-  } else if (step === "Ended") {
-    return "Finalizada";
-  } else if (step === "Tally computed") {
-    return "Tally computado";
-  } else if (step === "Decryptions uploaded") {
-    return "Desencriptaciones subidas";
-  } else if (step === "Decryptions combined") {
-    return "Desencriptaciones combinadas";
-  } else if (step === "Results released") {
-    return "Resultados liberados";
+  const steps = {
+    "Setting up": "En configuración",
+    "Started": "Iniciada",
+    "Ended": "Finalizada",
+    "Tally computed": "Tally computado",
+    "Decryptions uploaded": "Desencriptaciones subidas",
+    "Decryptions combined": "Desencriptaciones combinadas",
+    "Results released": "Resultados liberados",
   }
+  return Object.keys(steps).includes(step) && steps[step]
 }
 
 /**
