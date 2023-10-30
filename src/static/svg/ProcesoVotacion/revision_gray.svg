@@ -8,27 +8,8 @@
    xmlnsInkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlnsSodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlnsXlink="http://www.w3.org/1999/xlink"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlnsSvg="http://www.w3.org/2000/svg">
-  <sodipodiNamedview
-     id="namedview61"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscapeShowpageshadow="2"
-     inkscapePageopacity="0.0"
-     inkscapePagecheckerboard="0"
-     inkscapeDeskcolor="#d1d1d1"
-     showgrid="false"
-     inkscapeZoom="4.3062774"
-     inkscapeCx="167.5461"
-     inkscapeCy="59.680317"
-     inkscapeWindow-width="2560"
-     inkscapeWindow-height="1011"
-     inkscapeWindow-x="0"
-     inkscapeWindow-y="32"
-     inkscapeWindow-maximized="1"
-     inkscapeCurrent-layer="svg59" />
+   xmlnsSvg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg">
   <defs
      id="defs5">
     <style
@@ -142,17 +123,6 @@
            cy="26.25"
            r="20"
            id="circle49" />
-        <path
-           class="cls-14"
-           d="M299.29,23.81a7.38,7.38,0,1,0,7.38-7.38A7.37,7.37,0,0,0,299.29,23.81Z"
-           id="path51" />
-        <line
-           class="cls-15"
-           x1="317.93"
-           y1="36.07"
-           x2="311.81"
-           y2="29.95"
-           id="line53" />
       </g>
     </g>
   </g>
