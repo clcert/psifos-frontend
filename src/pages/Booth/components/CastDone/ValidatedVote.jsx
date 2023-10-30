@@ -122,8 +122,8 @@ function ValidatedVote(props) {
               title="Puede descargar el certificado de su voto."
               text={
                 "Este documento acredita que su voto fue realizado " +
-                "correctamente y que será contabilizado en el escrutinio final. " +
-                "Sin embargo, el certificado no proporciona información sobre " +
+                "correctamente. " +
+                "El certificado no proporciona información sobre " +
                 "las preferencias emitidas en el voto."
               }
               button={
