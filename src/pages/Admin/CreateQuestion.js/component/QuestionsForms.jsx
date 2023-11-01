@@ -29,8 +29,6 @@ function QuestionsForms(props) {
     props.question.include_blank_null
   );
 
-  /** @state {string} question description */
-  const [description, setDescription] = useState("");
   const [descriptionChecked, setDescriptionChecked] = useState(true);
   const [numberOfAnsChecked, setNumberOfAnsChecked] = useState(true);
 
@@ -182,8 +180,12 @@ function QuestionsForms(props) {
       />
 
       <DescriptionInput
-        description={description}
-        handleChange={setDescription}
+        description={props.question.q_description}
+        handleChange={(newDesc) => {
+          let auxQuestion = props.question;
+          auxQuestion.q_description = newDesc;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
         checkOptions={setDescriptionChecked}
         {...props}
       />
