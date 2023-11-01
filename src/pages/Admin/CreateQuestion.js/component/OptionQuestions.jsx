@@ -10,12 +10,15 @@ export function DescriptionInput({
       setWarningText(
         "La descripción debe tener menos de 100 caracteres"
       );
-      checkOptions(false);
     }
     else {
       setWarningText(false);
     }
   }, [description]);
+
+  useEffect(() => {
+    checkOptions(!Boolean(warningText));
+  }, [warningText]);
 
   return (
     <div className="field">
@@ -58,6 +61,10 @@ function NumberOfAnsInput({
     }
     setWarningText(wt);
   }, [value, isDisabled, numberOfAns]);
+
+  useEffect(() => {
+    checkOptions(!Boolean(warningText));
+  }, [warningText])
 
   return (
     <div className="column" style={{paddingLeft: "0px"}}>
@@ -109,18 +116,22 @@ function MaxOfAnsInput(props) {
 }
 
 export function NumberOfAnswersSetup({
+  minAnswers, handleMinAns,
+  maxAnswers, handleMaxAns,
   disabledEdit, disabledMinAns,
   questionId, numOfOptions, checkOptions,
 }) {
-  /** @state {int} min answers for question */
-  const [minAnswers, setMinAnswers] = useState("");
 
-  /** @state {int} max answers for questions */
-  const [maxAnswers, setMaxAnswers] = useState("");
+  const [minOfAnsChecked, setMinOfAnsChecked] = useState(true);
+  const [maxOfAnsChecked, setMaxOfAnsChecked] = useState(true);
 
   useEffect(() => {
-    disabledMinAns && setMinAnswers(1)
+    disabledMinAns && handleMinAns(1)
   }, [disabledMinAns]);
+
+  useEffect(() => {
+    checkOptions(minOfAnsChecked && maxOfAnsChecked)
+  }, [minOfAnsChecked, maxOfAnsChecked]);
 
   return (
     <div className="columns">
@@ -131,12 +142,12 @@ export function NumberOfAnswersSetup({
         handleInput={(e) => {
           const enteredValue = parseInt(e.target.value);
           if (isNaN(enteredValue) || enteredValue >= 0) {
-            setMinAnswers(enteredValue);
+            handleMinAns(enteredValue);
           }
         }}
-        checkOptions={checkOptions}
+        checkOptions={setMinOfAnsChecked}
         minCoteCondition={String(minAnswers) === "NaN" || minAnswers === 0}
-        maxCoteCondition={minAnswers > numOfOptions}
+        maxCoteCondition={parseInt(minAnswers) > numOfOptions}
         numberOfAns={numOfOptions}
       />
       <MaxOfAnsInput
@@ -146,14 +157,15 @@ export function NumberOfAnswersSetup({
         handleInput={(e) => {
           const enteredValue = parseInt(e.target.value);
           if (isNaN(enteredValue) || enteredValue >= 0) {
-            setMaxAnswers(enteredValue);
+            handleMaxAns(enteredValue);
           }
         }}
-        checkOptions={checkOptions}
+        checkOptions={setMaxOfAnsChecked}
         minCoteCondition={
-          String(maxAnswers) === "NaN" || maxAnswers === 0 || maxAnswers < minAnswers
+          String(maxAnswers) === "NaN" || maxAnswers === 0
+          || maxAnswers < minAnswers || numOfOptions < 0
         }
-        maxCoteCondition={maxAnswers > numOfOptions}
+        maxCoteCondition={parseInt(maxAnswers) > numOfOptions}
         numberOfAns={numOfOptions}
       />
     </div>

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { applyAccent } from "../../utils";
+import { DescriptionInput } from "./OptionQuestions";
 import AnswersSetup from "./AnswersQuestions";
 import NumberOfAnswersSetup from "./OptionQuestions";
-import { applyAccent } from "../../utils";
 import DeleteQuestionButton from "./DeleteQuestionButton";
 import QuestionStatementInput from "./QuestionStatementInput";
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import IncludeBlankNullCheckbox from "./IncludeBlankNullCheckbox";
 import GroupApplicationsCheckbox from "./GroupApplicationsCheckbox";
-import { DescriptionInput } from "./OptionQuestions";
 
 function Title({title}) {
   return (
@@ -31,21 +31,29 @@ function QuestionsForms(props) {
 
   /** @state {string} question description */
   const [description, setDescription] = useState("");
+  const [descriptionChecked, setDescriptionChecked] = useState(true);
+  const [numberOfAnsChecked, setNumberOfAnsChecked] = useState(true);
+
+  const numOfClosedOptions = props.question.closed_options.length;
 
   useEffect(() => {
     if (props.question !== undefined) {
       let answersAux = [];
-      for (let i = 0; i < props.question.closed_options.length; i++) {
+      for (let i = 0; i < numOfClosedOptions; i++) {
         answersAux.push({
           key: i,
           value: props.question.closed_options[i],
         });
       }
       setAnswersWithKey(answersAux);
-      setNumberQuestion(props.question.closed_options.length);
+      setNumberQuestion(numOfClosedOptions);
       setTypeQuestion(props.question.q_type);
     }
   }, []);
+
+  useEffect(() => {
+    props.checkOptions(descriptionChecked && numberOfAnsChecked)
+  }, [descriptionChecked, numberOfAnsChecked])
 
   function answersWithoutKey(arrayWithKeys) {
     let auxAnswers = [];
@@ -176,11 +184,26 @@ function QuestionsForms(props) {
       <DescriptionInput
         description={description}
         handleChange={setDescription}
+        checkOptions={setDescriptionChecked}
         {...props}
       />
 
       <NumberOfAnswersSetup
         disabledMinAns={includedWhiteNull}
+        numOfOptions={numOfClosedOptions}
+        minAnswers={props.question.min_answers}
+        handleMinAns={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.min_answers = e;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        maxAnswers={props.question.max_answers}
+        handleMaxAns={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.max_answers = e;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        checkOptions={setNumberOfAnsChecked}
         {...props}
       />
 
