@@ -879,6 +879,15 @@ input[type="radio"] {
   border-radius: 5px;
 }
 
+.radio-button-selected {
+  color: #00b7ff;
+}
+
+.is-bordered {
+  outline: 2px solid white;
+  border-radius: 5px;
+}
+
 .custom-answer {
   position: relative;
   top: -2px;

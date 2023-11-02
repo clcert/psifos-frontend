@@ -1,40 +1,72 @@
-function InputRadio(props) {
-  function handlerInput(event) {
-    props.setAnswers([parseInt(event.target.value)]);
-    props.setBlankButton(false);
-    props.setNullButton(false);
-    props.addAnswer([parseInt(event.target.value)], props.index);
-  }
+export function OptionInputRadio({
+  optionId, questionId, optionLabel,
+  isSelected, inputHandler, isBordered=false,
+}) {
+  return (
+    <div
+      key={optionId}
+      className={`mt-2 ${isBordered && "is-bordered"}`}
+      style={{padding: "8px"}}
+    >
+      <label
+        key={optionId}
+        className={
+          "d-inline-flex align-items-center radio " +
+          "question-answer question-answer-enabled px-3 py-2 " +
+          `${isSelected && (
+            `radio-button-selected ${
+              !isBordered && "is-bordered"
+            }`
+          )} `
+        }
+      >
+        <input
+          id={`question-${questionId}-answer-${optionId}`}
+          className="custom-answer"
+          type="radio"
+          name={"answer_" + questionId}
+          value={optionId}
+          onClick={inputHandler}
+          checked={isSelected}
+        />
+        <span className="is-size-5">{optionLabel}</span>
+      </label>
+    </div>
+  )
+}
 
-  const includeBlankNull = props.question.include_blank_null === "True";
+
+function InputRadio({
+  setAnswers, setBlankButton, setNullButton,
+  addAnswer, question, answers, questionId,
+}) {
+
+  const { include_blank_null, closed_options } = question
+  const includeInformalAns = include_blank_null === "True";
+
+  function handlerInput(event) {
+    const { target } = event
+    const { value } = target
+    setAnswers([parseInt(value)]);
+    setBlankButton(false);
+    setNullButton(false);
+    addAnswer([parseInt(value)], questionId);
+  }
 
   return (
     <div>
-      {props.question.closed_options.map((key, index) => {
+      {closed_options.map((key, index) => {
         if (
-          !includeBlankNull ||
-          index < props.question.closed_options.length - 2
+          !includeInformalAns || index < closed_options.length - 2
         )
           return (
-            <div key={index} className="mt-2">
-              <label
-                key={index}
-                className={
-                  "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2 " +
-                  (props.answers.includes(index) ? "answer-selected" : "")
-                }
-              >
-                <input
-                  id={`question-${props.index}-answer-${index}`}
-                  className="custom-answer"
-                  type="radio"
-                  name={"answer_" + props.index}
-                  value={index}
-                  onClick={handlerInput}
-                />
-                <span className="is-size-5">{key}</span>
-              </label>
-            </div>
+            <OptionInputRadio
+              optionId={index}
+              questionId={questionId}
+              optionLabel={key}
+              isSelected={answers.includes(index)}
+              inputHandler={handlerInput}
+            />
           );
         else return null;
       })}
