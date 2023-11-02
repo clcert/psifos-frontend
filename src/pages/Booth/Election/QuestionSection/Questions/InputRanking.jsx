@@ -58,7 +58,7 @@ const InputRanking = (props) => {
   };
 
   return (
-    <div className="ranking__container">
+    <div className="ranking__container is-bordered">
       <div className="ranking__idx_col">
         {rankingIndices.map((id) => (
           <div className="ranking__idx" key={id}>
