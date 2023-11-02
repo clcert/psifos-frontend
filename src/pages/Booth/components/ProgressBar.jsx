@@ -45,6 +45,7 @@ function ProgressBar(props) {
             )
             return (
               <StepImage
+                key={`phase-${key}`}
                 phase={props.phase}
                 image={image}
               />
