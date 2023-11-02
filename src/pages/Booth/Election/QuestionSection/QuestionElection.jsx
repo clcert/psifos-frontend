@@ -11,6 +11,9 @@ import { answersRestrictionText } from "./utils.js";
 import {
   permanentOptionsList, preferentialRankingTallyNames,
 } from "../../../../constants";
+import {
+  isMixNetQuestion, isClosedQuestion, isSTVQuestion,
+} from "../../../../utils";
 import RankingSelection from "./RankingSelection";
 import InputSelection from "./InputSelection";
 
@@ -54,13 +57,13 @@ function QuestionSelectionBox({
 
       <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
         <div className="control control-box">
-          {question.q_type === "stvnc_question" && (
+          {isSTVQuestion(question.q_type) && (
             <RankingSelection {...selectionProps} />
           )}
-          {question.q_type === "closed_question" && (
+          {isClosedQuestion(question.q_type) && (
             <InputSelection {...selectionProps} />
           )}
-          {question.q_type === "mixnet_question" && (
+          {isMixNetQuestion(question.q_type) && (
             <MixnetSelection numQuestion={index} {...selectionProps} />
           )}
         </div>
