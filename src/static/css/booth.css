@@ -918,6 +918,11 @@ canvas {
   padding: 1em;
 }
 
+.ranking__idx {
+  padding-bottom: 1em;
+  padding-top: 1em;
+}
+
 .ranked {
   border: 2px;
   font-weight: 700;
@@ -925,6 +930,10 @@ canvas {
   padding-bottom: 1em;
   margin-top: .5em;
   margin-bottom: .5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.2em;
 }
 
 .unranked {
@@ -943,4 +952,15 @@ canvas {
   padding: 10px;
   text-align: center;
   align-items: center;
+}
+
+.circled-icon {
+  padding: 0.1em;
+  border: 0.15em solid black;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  aspect-ratio: 1/1;
+  height: 100%;
+  padding-bottom: 1em;
 }

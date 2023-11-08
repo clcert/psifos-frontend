@@ -6,7 +6,7 @@ import {
     SortableContext,
 } from "@dnd-kit/sortable";
 
-import { RankableItem } from "./RankableItem";
+import { RankableItem, RankedItem } from "./RankableItem";
 
 function SecretMessage({ condition, message }){
     return condition &&
@@ -32,11 +32,10 @@ export function SortedDroppable({
                 style={{height: "100%", width: "100%", margin:"0px", padding:"0px"}}
             >
                 {items.map((item) => (
-                    <RankableItem
+                    <RankedItem
                         key={item}
                         id={item}
                         label={labels[item-1]}
-                        itemType="ranking__btn ranked"
                     />
                 ))}
                 <SecretMessage
