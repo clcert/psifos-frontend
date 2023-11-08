@@ -881,13 +881,18 @@ canvas {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  padding: 5%;
+}
+
+.ranked__container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
 .ranking__idx_col {
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
-  align-content: center;
   width: 10%;
 }
 
@@ -896,24 +901,46 @@ canvas {
   flex-flow: column nowrap;
   align-items: center;
   align-content: center;
-  width: 85%;
+  width: 100%;
+  margin-left: .5em;
 }
 
-.ranking__idx {
-  font-size: 1.2em;
-  font-weight: 900;
-  border-radius: 2em;
-  margin: 1.35em;
-  color: white;
+.ranking__opt_lake {
+  padding: 0.2em;
+  margin-top: 5%;
 }
 
 .ranking__btn {
-  padding: 1em 2em;
   border: #84C7EF solid 2px;
   background: white;
   color: black;
-  font-weight: 700;
-  margin: .5em;
   border-radius: 1em;
+  padding: 1em;
+}
+
+.ranked {
+  border: 2px;
+  font-weight: 700;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.unranked {
+  border: 2px;
+  font-weight: 700;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin: .3em;
+}
+
+.ranking-secret-message {
+  height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
 }

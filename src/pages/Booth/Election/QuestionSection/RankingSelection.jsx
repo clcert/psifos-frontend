@@ -27,18 +27,16 @@ function InformalInput({
   )
 }
 
-const RankingSelection = (props) => {
-  const {
-    question, addAnswer, index,
-  } = props
-
+const RankingSelection = ({
+  question, addAnswer, index
+}) => {
   const {
     closed_options, include_blank_null,
   } = question
-
   const options = Array.from(closed_options.keys());
   const includeInformalAns = include_blank_null === "True";
   const optionIds = includeInformalAns ? options.slice(0, -2) : options;
+  const optionLabels = includeInformalAns ? closed_options.slice(0, -2) : closed_options;
   
   const [rankedAnswers, setRankedAnswers] = useState(optionIds);
   const [informalAnswer, setInformalAnswer] = useState(undefined);
@@ -55,7 +53,10 @@ const RankingSelection = (props) => {
   }, [informalAnswer]);
 
   useEffect(() => {
-    addAnswer(answers, index)
+    addAnswer(
+      answers.map((item) => item-1),
+      index
+    )
   }, [answers]);
 
   return (
@@ -63,9 +64,8 @@ const RankingSelection = (props) => {
       <div>
         <InputRanking
           answers={rankedAnswers}
-          setAnswers={setRankedAnswers}
-          value={String(index)}
-          {...props}
+          answersHandler={setRankedAnswers}
+          answerLabels={optionLabels}
         />
         {includeInformalAns &&
           <InformalInput
@@ -79,7 +79,7 @@ const RankingSelection = (props) => {
               }
             }
             optionIds={options.slice(-2)}
-            optionLabels={["Blanco", "Nulo"]}
+            optionLabels={closed_options.slice(-2)}
           />
         }
       </div>
