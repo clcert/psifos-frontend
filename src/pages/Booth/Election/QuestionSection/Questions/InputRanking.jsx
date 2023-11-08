@@ -141,7 +141,7 @@ function RankingDndContext({
 }
 
 function InputRanking({
-  answers, answersHandler, answerLabels,
+  answers, answersHandler, answerLabels, clickHandler,
 }) {
   const [itemGroups, setItemGroups] = useState({
     rankedItems: [],
@@ -162,6 +162,7 @@ function InputRanking({
     >
       <div
         style={{display: "flex", flexDirection: "column", width: "100%"}}
+        onClick={clickHandler}
       >
         <div className="ranked__container">
           <RankingIndices

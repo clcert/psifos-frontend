@@ -53,10 +53,7 @@ const RankingSelection = ({
   }, [informalAnswer]);
 
   useEffect(() => {
-    addAnswer(
-      answers.map((item) => item-1),
-      index
-    )
+    addAnswer(answers, index)
   }, [answers]);
 
   return (
@@ -64,8 +61,14 @@ const RankingSelection = ({
       <div>
         <InputRanking
           answers={rankedAnswers}
-          answersHandler={setRankedAnswers}
+          answersHandler={(ans) => setRankedAnswers(
+            ans.map((item) => item-1)
+          )}
           answerLabels={optionLabels}
+          clickHandler={() => (
+            answers.length === 1 &&
+            answers[0] === informalAnswer
+          ) && setInformalAnswer(undefined)}
         />
         {includeInformalAns &&
           <InformalInput
