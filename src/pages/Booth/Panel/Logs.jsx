@@ -2,24 +2,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../server";
-import { Tooltip } from 'react-tooltip'
 import { events } from '../../../constants'
 import NotAvalaibleMessage from "../components/NotAvalaibleMessage";
-
-function MoreInfo({children, descript}) {
-  return (
-    <>
-      <div
-        data-tooltip-id="my-tooltip" 
-        className="more-info-tooltip"
-        data-tooltip-content={descript}
-      >
-        {children}
-      </div>
-      <Tooltip id="my-tooltip" place="bottom"/>
-    </>
-  )
-}
+import MoreInfoTooltip from "../../../component/MoreInfo/MoreInfoTooltip";
 
 function EventHeader({event, descript}) {
   return (
@@ -27,9 +12,9 @@ function EventHeader({event, descript}) {
       <div className="title">
         <i className="fa-solid fa-check check-icon"/> {event} <br/>
       </div>
-      <MoreInfo descript={descript}>
+      <MoreInfoTooltip descript={descript}>
         <i className="fa-solid fa-circle-info more-info-icon"/>
-      </MoreInfo>
+      </MoreInfoTooltip>
     </div>
   )
 }

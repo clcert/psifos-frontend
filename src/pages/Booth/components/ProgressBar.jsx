@@ -1,10 +1,8 @@
 import React from "react";
 import revisionBlue from "../../../static/svg/ProcesoVotacion/revision_blue.svg";
 import revisionGray from "../../../static/svg/ProcesoVotacion/revision_gray.svg";
-import revisionGreen from "../../../static/svg/ProcesoVotacion/revision_green.svg";
 import seleccionBlue from "../../../static/svg/ProcesoVotacion/seleccion_blue.svg";
-import seleccionGray from "../../../static/svg/ProcesoVotacion/seleccion_gray.svg";
-import seleccionGreen from "../../../static/svg/ProcesoVotacion/seleccion_green.svg";
+import seleccionLightblue from "../../../static/svg/ProcesoVotacion/seleccion_lightblue.svg";
 
 function StepImage({phase, image}) {
   return (
@@ -21,14 +19,12 @@ function StepImage({phase, image}) {
 function ProgressBar(props) {
   const  phases = {
     1: {
-      future: seleccionGray,
       current: seleccionBlue,
-      past: seleccionGreen,
+      past: seleccionLightblue,
     },
     2: {
       future: revisionGray,
       current: revisionBlue,
-      past: revisionGreen,
     },
   }
 

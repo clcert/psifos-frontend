@@ -12742,7 +12742,6 @@ Admin General
 .info-general .election-header{
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .panel-text {
@@ -13448,4 +13447,14 @@ Consult
 
 .is-bold {
   font-weight: bold;
+}
+
+.header-accordion {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.header-accordion .header-item {
+  margin-top: 10px;
 }
