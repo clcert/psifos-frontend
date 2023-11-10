@@ -943,6 +943,7 @@ canvas {
   padding-top: 1em;
   padding-bottom: 1em;
   margin: .3em;
+  display: flex;
 }
 
 .ranking-secret-message {

@@ -12,7 +12,7 @@ import {
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 import RankingIndices from "./components/RankingIndices";
-import { RankableItem } from "./components/RankableItem";
+import { RankedItem } from "./components/RankableItem";
 import {
   SortedDroppable, UnsortedDroppable
 } from "./components/RankingDroppable";
@@ -191,7 +191,7 @@ function InputRanking({
           />
         </div>
         <DragOverlay>
-          {activeId && <RankableItem
+          {activeId && <RankedItem
             id={activeId}
             label={answerLabels[activeId-1]}
             dragOverlay

@@ -1,14 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from '@dnd-kit/utilities';
 
-function CircleIcon({children}) {
-  return (
-    <div className="circled-icon">
-      {children}
-    </div>
-  )
-}
-
 function ItemBasics({
   children, dragOverlay, itemType,
 }) {
@@ -22,43 +14,20 @@ function ItemBasics({
   )
 }
 
-export function BasicItem({
-  dragOverlay, label,
+export function Item({
+  dragOverlay, label, itemType,
 }) {
   return (
     <ItemBasics
       dragOverlay={dragOverlay}
-      itemType="ranking__btn unranked"
-    >
-      {label}
-    </ItemBasics>
-  )
-}
-
-export function ComplexItem({
-  dragOverlay, label,
-}) {
-  return (
-    <ItemBasics
-      dragOverlay={dragOverlay}
-      itemType="ranking__btn ranked"
+      itemType={`ranking__btn ${itemType}`}
     >
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
+          display: "flex", alignItems: "center",
         }}
       >
-        <div className="d-flex">
-          <CircleIcon>
-            <i class="fa-solid fa-caret-up"/>  
-          </CircleIcon>
-          <div style={{width: "0.15em"}}/>
-          <CircleIcon>
-            <i class="fa-solid fa-caret-down"/>  
-          </CircleIcon>
-        </div>
-        <span className="ml-2">
+        <span className="mr-2">
           {label}
         </span>
       </div>
@@ -98,9 +67,10 @@ function ItemEnvironment({ children, id }){
 export function RankableItem({ id, label }) {
   return (
     <ItemEnvironment id={id}>
-      <BasicItem
+      <Item
         id={id}
         label={label}
+        itemType="unranked"
       />
     </ItemEnvironment>
   );
@@ -109,9 +79,10 @@ export function RankableItem({ id, label }) {
 export function RankedItem({ id, label }) {
   return (
     <ItemEnvironment id={id}>
-      <ComplexItem
+      <Item
         id={id}
         label={label}
+        itemType="ranked"
       />
     </ItemEnvironment>
   );
