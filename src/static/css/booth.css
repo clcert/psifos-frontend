@@ -916,6 +916,7 @@ canvas {
   color: black;
   border-radius: 1em;
   padding: 1em;
+  touch-action: none;
 }
 
 .ranking__idx {
