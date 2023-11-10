@@ -70,7 +70,7 @@ export function RankableItem({ id, label }) {
       <Item
         id={id}
         label={label}
-        itemType="unranked"
+        itemType="rankable"
       />
     </ItemEnvironment>
   );

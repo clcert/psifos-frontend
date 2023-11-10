@@ -937,7 +937,7 @@ canvas {
   height: 3.2em;
 }
 
-.unranked {
+.rankable {
   border: 2px;
   font-weight: 700;
   padding-top: 1em;
