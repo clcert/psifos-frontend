@@ -41,33 +41,36 @@ function TrusteesList(props) {
 
   return (
     <div className="mx-auto">
+      {trustees.length > 0 && (
+        <div className="has-text-centered title is-size-4-mobile my-3">
+          Lista de custodios
+        </div>
+      )}
       {trustees.map((t, index) => {
         return (
-          <div className="box" id="trustee-box" key={t.name}>
-            <span className="has-text-weight-bold is-size-4">
-              Custodio de Clave #{index + 1}: {t.name}
-              <>
-                <br />({t.email})<span> &nbsp; </span>
-                {props.election.election_status === "Setting up" && (
-                  <a
-                    style={{ color: "rgb(0, 182, 254)" }}
+          <div className="box border-style-box" key={t.name}>
+            <div className="level">
+              <span className="has-text-weight-bold is-size-4 level-item">
+                Custodio de Clave #{index + 1}: {t.name}
+              </span>
+              {props.election.election_status === "Setting up" && (
+                <span className="level-right">
+                  <i
+                    className="close-question fa-solid fa-trash"
                     onClick={() => {
                       props.deleteTrustee(t.uuid);
                     }}
-                  >
-                    Eliminar
-                  </a>
-                )}
-                <span> &nbsp; </span>
-                <a style={{ color: "rgb(0, 182, 254)" }} onClick={() => {}}>
-                  Enviar link
-                </a>
-              </>
-            </span>
+                  />
+                </span>
+              )}
+            </div>
 
             {t.public_key_hash ? (
               <p className="mt-4">
-                Código de Clave Pública: <tt>{t.public_key_hash}</tt>
+                Código de Clave Pública:{" "}
+                <p className="overflow-auto">
+                  <tt>{t.public_key_hash}</tt>
+                </p>
               </p>
             ) : (
               <p className="mt-4">Custodio aún no sube su clave pública.</p>

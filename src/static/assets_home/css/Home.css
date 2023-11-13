@@ -12756,6 +12756,7 @@ Admin General
 .link-without-line {
   text-decoration: none;
   color: #004c94;
+  cursor: pointer;
 }
 
 .link-without-line:hover {
@@ -13022,6 +13023,10 @@ Consult
 .button-redirect-vote:hover {
   color: #6dcaf3;
   cursor: pointer;
+}
+.border-style-box {
+	border: 1px solid #0E4B90 !important;
+	color: #0E4B90;
 }
 
 .button-delete-voter {
