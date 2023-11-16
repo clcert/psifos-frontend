@@ -1,3 +1,5 @@
+import { questionsInfo } from "../../../../constants"
+
 export default function QuestionTypeSelector({
     disabledEdit, handleChange, typeQuestion,
   }) {
@@ -13,10 +15,9 @@ export default function QuestionTypeSelector({
               onChange={handleChange}
               value={typeQuestion}
             >
-              {/* <option value="open_question">Pregunta abierta</option> */}
-              <option value="closed_question">Pregunta cerrada</option>
-              <option value="mixnet_question">Pregunta mixnet</option>
-              <option value="stvnc_question">Pregunta con ranking preferencial</option>
+              {questionsInfo.map((q) => (
+                <option value={q.type}>{q.name}</option>
+              ))}
             </select>
           </div>
         </div>

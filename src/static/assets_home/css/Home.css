@@ -12842,8 +12842,9 @@ Create Question
 }
 
 .header-question {
-  margin-top: -1.5rem !important;
-  margin-bottom: 0.9rem !important;
+  margin-top: -1rem !important;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .close-question {

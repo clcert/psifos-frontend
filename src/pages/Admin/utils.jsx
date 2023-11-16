@@ -1,6 +1,6 @@
 import {
-  preferentialRankingTallyTypes,
-  firstMajorityTallyTypes,
+  preferentialRankingTallyNames,
+  firstMajorityTallyNames,
 } from "../../constants";
 
 export const getPercentage = (frec, total) => {
@@ -44,9 +44,9 @@ export const applyAccent = (word) => {
 }
 
 export const isARankingTally = (tallyType) => {
-  return preferentialRankingTallyTypes.includes(tallyType)
+  return preferentialRankingTallyNames.includes(tallyType)
 }
 
 export const isAClosedTally = (tallyType) => {
-  return firstMajorityTallyTypes.includes(tallyType)
+  return firstMajorityTallyNames.includes(tallyType)
 }

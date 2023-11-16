@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { applyAccent } from "../../utils";
+import { DescriptionInput } from "./OptionQuestions";
 import AnswersSetup from "./AnswersQuestions";
 import NumberOfAnswersSetup from "./OptionQuestions";
-import { applyAccent } from "../../utils";
 import DeleteQuestionButton from "./DeleteQuestionButton";
 import QuestionStatementInput from "./QuestionStatementInput";
 import QuestionTypeSelector from "./QuestionTypeSelector";
@@ -28,20 +29,29 @@ function QuestionsForms(props) {
     props.question.include_blank_null
   );
 
+  const [descriptionChecked, setDescriptionChecked] = useState(true);
+  const [numberOfAnsChecked, setNumberOfAnsChecked] = useState(true);
+
+  const numOfClosedOptions = props.question.closed_options.length;
+
   useEffect(() => {
     if (props.question !== undefined) {
       let answersAux = [];
-      for (let i = 0; i < props.question.closed_options.length; i++) {
+      for (let i = 0; i < numOfClosedOptions; i++) {
         answersAux.push({
           key: i,
           value: props.question.closed_options[i],
         });
       }
       setAnswersWithKey(answersAux);
-      setNumberQuestion(props.question.closed_options.length);
+      setNumberQuestion(numOfClosedOptions);
       setTypeQuestion(props.question.q_type);
     }
   }, []);
+
+  useEffect(() => {
+    props.checkOptions(descriptionChecked && numberOfAnsChecked)
+  }, [descriptionChecked, numberOfAnsChecked])
 
   function answersWithoutKey(arrayWithKeys) {
     let auxAnswers = [];
@@ -126,26 +136,20 @@ function QuestionsForms(props) {
         enable={!props.disabledEdit}
         handleDelete={props.remove}
       />
+
       <Title
         title="Pregunta"
       />
 
       <QuestionStatementInput
-        questionId={props.questionId}
-        disabledEdit={props.disabledEdit}
         statement={props.question.q_text}
         handleChange={(e) => {
           let auxQuestion = props.question;
           auxQuestion.q_text = e.target.value;
           props.updateQuestions(props.questionId, auxQuestion);
         }}
+        {...props}
       />
-
-      {!props.question.q_text && (
-        <p className="help is-danger">
-          El encabezado de la pregunta no puede ser vacío
-        </p>
-      )}
 
       <QuestionTypeSelector
         disabledEdit={props.disabledEdit}
@@ -164,38 +168,56 @@ function QuestionsForms(props) {
         checkedOption={props.question.include_blank_null}
       />
 
-      {props.question.q_type === "mixnet_question" && (
-        <GroupApplicationsCheckbox
-          disabledEdit={props.disabledEdit}
-          handleChange={(e) => {
-            let auxQuestion = props.question;
-            auxQuestion.group_votes = e.target.checked;
-            props.updateQuestions(props.questionId, auxQuestion);
-          }}
-          checkedOption={props.question.group_votes}
-        />
-      )}
+      <GroupApplicationsCheckbox
+        questionType={props.question.q_type}
+        disabledEdit={props.disabledEdit}
+        handleChange={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.group_votes = e.target.checked;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        checkedOption={props.question.group_votes}
+      />
+
+      <DescriptionInput
+        description={props.question.q_description}
+        handleChange={(newDesc) => {
+          let auxQuestion = props.question;
+          auxQuestion.q_description = newDesc;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        checkOptions={setDescriptionChecked}
+        {...props}
+      />
 
       <NumberOfAnswersSetup
-        question={props.question}
-        questionId={props.questionId}
-        disabledEdit={props.disabledEdit}
-        checkOptions={props.checkOptions}
-        updateQuestions={props.updateQuestions}
         disabledMinAns={includedWhiteNull}
+        numOfOptions={numOfClosedOptions}
+        minAnswers={props.question.min_answers}
+        handleMinAns={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.min_answers = e;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        maxAnswers={props.question.max_answers}
+        handleMaxAns={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.max_answers = e;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        checkOptions={setNumberOfAnsChecked}
+        {...props}
       />
 
       <AnswersSetup
-        question={props.question}
         editAnswer={editAnswer}
         addAnswer={addAnswer}
-        updateQuestions={props.updateQuestions}
-        questionId={props.questionId}
         answersWithKey={answersWithKey}
         handleRemoveItem={handleRemoveItem}
-        disabledEdit={props.disabledEdit}
+        {...props}
       />
     </div>
   );
 }
+
 export default QuestionsForms;
