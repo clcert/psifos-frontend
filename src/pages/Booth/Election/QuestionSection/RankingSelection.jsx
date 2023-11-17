@@ -42,6 +42,20 @@ const RankingSelection = ({
   const [informalAnswer, setInformalAnswer] = useState(undefined);
   const [answers, setAnswers] = useState(rankedAnswers);
 
+  const padAnswers = (answers) => {
+    const desiredLength = optionIds.length;
+    const currentLength = answers.length;
+    if (
+      currentLength === 1 && answers[0] === desiredLength + 1
+    ) {
+      return Array(desiredLength).fill(desiredLength + 1)
+    }
+    else {
+      const padSize = desiredLength - currentLength
+      return answers.concat(Array(padSize).fill(desiredLength))
+    }
+  }
+
   useEffect(() => {
     !informalAnswer && setAnswers(rankedAnswers)
   }, [rankedAnswers]);
@@ -53,7 +67,7 @@ const RankingSelection = ({
   }, [informalAnswer]);
 
   useEffect(() => {
-    addAnswer(answers, index)
+    addAnswer(padAnswers(answers), index)
   }, [answers]);
 
   return (

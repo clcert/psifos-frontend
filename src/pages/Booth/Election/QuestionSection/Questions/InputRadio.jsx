@@ -6,7 +6,6 @@ export function OptionInputRadio({
     <div
       key={optionId}
       className={`mt-2 ${isBordered && "is-bordered"}`}
-      style={{padding: "8px"}}
     >
       <label
         key={optionId}
