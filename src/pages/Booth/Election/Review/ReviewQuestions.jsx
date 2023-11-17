@@ -22,9 +22,7 @@ function ReviewQuestions(props) {
               <div className="box has-text-left pl-6 review-answer">
                 <div className="subtitle is-5 has-text-white answer-text mb-0">
                   <TextSelected
-                    election={props.election}
-                    answers={props.answers}
-                    index={index}
+                    answer={props.answers[index]}
                     question={question}
                   />
                     <div className="is-flex is-justify-content-end">

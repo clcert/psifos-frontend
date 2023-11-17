@@ -1,6 +1,7 @@
 import React from "react";
 import { 
-  isMixNetQuestion, isSTVQuestion,
+  isMixNetQuestion, isSTVQuestion, usesMixNetTally,
+  getBlankAnswerId, getNullAnswerId,
 } from "../../../../utils";
 
 function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
@@ -49,36 +50,35 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
   );
 }
 
-function TextSelected({ answers, index, question }) {
-  const includeBlankNull = question.include_blank_null === "True";
 
-  if (answers[index].length === 0) {
+function TextSelected({ answer, question }) {
+  const includeBlankNull = question.include_blank_null === "True";
+  const blankId = getBlankAnswerId(question.closed_options)
+  const nullId = getNullAnswerId(question.closed_options)
+  if (answer.length === 0) {
     return <p>[ ] Ninguna opción seleccionada</p>;
-  } else if (
-    answers[index].every((element) => {
-      return element === question.closed_options.length;
-    }) &&
-    includeBlankNull &&
-    isMixNetQuestion(question.q_type)
-  ) {
-    return <p>Respuesta en blanco</p>;
-  } else if (
-    answers[index].every((element) => {
-      return element === question.closed_options.length + 1;
-    }) &&
-    includeBlankNull &&
-    isMixNetQuestion(question.q_type)
-  ) {
-    return <p>Respuesta nula</p>;
-  } else {
-    return (
-      <ShowAnswersList
-        currentAns={answers[index]}
-        questionType={question.q_type}
-        closedOptions={question.closed_options}
-      />
-    );
   }
+  else if (
+    includeBlankNull && usesMixNetTally(question.q_type)
+  ) {
+    if (
+      answer.every((element) => element === blankId)
+    ) {
+      return <p>Respuesta en blanco</p>;
+    }
+    else if(
+      answer.every((element) => element === nullId)
+    ) {
+      return <p>Respuesta nula</p>;
+    }
+  }
+  return (
+    <ShowAnswersList
+      currentAns={answer}
+      questionType={question.q_type}
+      closedOptions={question.closed_options}
+    />
+  );
 }
 
 export default TextSelected;

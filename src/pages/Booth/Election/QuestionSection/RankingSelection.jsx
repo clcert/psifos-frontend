@@ -1,6 +1,9 @@
 import InputRanking from "./Questions/InputRanking";
 import { OptionInputRadio } from "./Questions/InputRadio";
 import { useEffect, useState } from "react";
+import {
+  getBlankAnswerId, getNullAnswerId,
+} from "../../../../utils";
 
 function InformalInput({
   questionId, ans, ansHandler,
@@ -42,17 +45,20 @@ const RankingSelection = ({
   const [informalAnswer, setInformalAnswer] = useState(undefined);
   const [answers, setAnswers] = useState(rankedAnswers);
 
+  const blankId = getBlankAnswerId(closed_options)
+  const nullId = getNullAnswerId(closed_options)
+
   const padAnswers = (answers) => {
     const desiredLength = optionIds.length;
     const currentLength = answers.length;
     if (
-      currentLength === 1 && answers[0] === desiredLength + 1
+      currentLength === 1 && answers[0] === nullId
     ) {
-      return Array(desiredLength).fill(desiredLength + 1)
+      return Array(desiredLength).fill(nullId)
     }
     else {
       const padSize = desiredLength - currentLength
-      return answers.concat(Array(padSize).fill(desiredLength))
+      return answers.concat(Array(padSize).fill(blankId))
     }
   }
 
@@ -95,7 +101,7 @@ const RankingSelection = ({
                 setInformalAnswer(e)
               }
             }
-            optionIds={options.slice(-2)}
+            optionIds={[blankId, nullId]}
             optionLabels={closed_options.slice(-2)}
           />
         }
