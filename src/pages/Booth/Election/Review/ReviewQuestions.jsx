@@ -47,36 +47,6 @@ function ReviewQuestions(props) {
 
         <div className="container has-text-centered mt-6">
           <div className="columns pb-0 is-align-items-center review-buttons-container">
-            {/*<div className="column is-hidden-mobile">
-               <div className="container">
-                <button
-                  className="button is-medium review-buttons"
-                  id="audit-button"
-                  onClick={() => {
-                    setShowModal(true);
-                  }}
-                >
-                  <span className="icon">
-                    <i className="far fa-envelope-open"></i>
-                  </span>
-
-                  <span>AUDITAR VOTO</span>
-                </button>
-                <br />
-              </div>
-              <span className="is-size-6 is-italic">(Opcional)</span>
-              <span
-                className="icon question-audit has-tooltip-arrow has-tooltip-left has-tooltip-top-mobile has-tooltip-multiline has-tooltip-info"
-                data-tooltip="Verificación avanzada de correcta encriptación de las preferencias."
-              >
-                <i className="far fa-question-circle"></i>
-              </span>
-            </div> */}
-            {/* <div className="column pb-0 is-hidden-mobile">
-              <figure className="image select-img-wrapper">
-                <img id="review-final-img" src={reviewImage} alt="" />
-              </figure>
-            </div> */}
             <div className="column right-button-column has-text-centered-mobile is-flex mb-3">
               <button
                 className="button is-medium question-button proceed-button"

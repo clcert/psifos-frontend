@@ -4,6 +4,7 @@ import EncryptedVote from "../../../static/booth/js/jscrypto/encrypted-vote";
 import encryptingGIF from "../../../static/img/encrypting.gif";
 
 function ModalPercentage(props) {
+
   /** @state {boolean}  */
   const [initialize, setInitialize] = useState(false);
 

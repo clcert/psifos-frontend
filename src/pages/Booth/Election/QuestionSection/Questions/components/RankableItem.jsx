@@ -31,7 +31,7 @@ export function Item({
           {label}
         </span>
       </div>
-      <i class="fa-solid fa-grip-vertical" />
+      <i className="fa-solid fa-grip-vertical" />
     </ItemBasics>
   )
 }

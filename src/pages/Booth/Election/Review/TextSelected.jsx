@@ -1,14 +1,25 @@
 import React from "react";
+import { 
+  isMixNetQuestion, isSTVQuestion,
+} from "../../../../utils";
 
 function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
   return (
-    (!(questionType === "mixnet_question") || indexAnswer < numOptions - 2) && (
+    Boolean(answer) && (
+      !isMixNetQuestion(questionType)
+      || indexAnswer < numOptions - 2
+    ) && (
       <React.Fragment key={index}>
         <span key={index}>
-          {(questionType === "stvnc_question" ? `[${index + 1}.] ` : "[ ✓ ] ") +
-            (questionType === "mixnet_question" && answer.split(",").length > 1
-              ? answer.split(",")[0]
-              : answer)}
+          {(
+            isSTVQuestion(questionType)
+            ? `[${index+1}.] `
+            : "[ ✓ ] "
+          ) + (
+            isMixNetQuestion(questionType) && answer.split(",").length > 1
+            ? answer.split(",")[0]
+            : answer
+          )}
         </span>
         <br />
       </React.Fragment>
@@ -20,7 +31,9 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
   return (
     <p className="mb-0">
       {currentAns.map((key, index) => {
-        const indexAnswer = questionType === "mixnet_question" ? key - 1 : key;
+        const indexAnswer = (
+          isMixNetQuestion(questionType) ? key - 1 : key
+        )
         return (
           <ShowAnswer
             key={index}
@@ -46,7 +59,7 @@ function TextSelected({ answers, index, question }) {
       return element === question.closed_options.length;
     }) &&
     includeBlankNull &&
-    question.q_type === "mixnet_question"
+    isMixNetQuestion(question.q_type)
   ) {
     return <p>Respuesta en blanco</p>;
   } else if (
@@ -54,7 +67,7 @@ function TextSelected({ answers, index, question }) {
       return element === question.closed_options.length + 1;
     }) &&
     includeBlankNull &&
-    question.q_type === "mixnet_question"
+    isMixNetQuestion(question.q_type)
   ) {
     return <p>Respuesta nula</p>;
   } else {
