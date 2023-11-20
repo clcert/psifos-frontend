@@ -26,6 +26,16 @@ export const bundleDownload = async (shortName) => {
   };
 
 
+  function base64Encode(data) {
+    let base64String = "";
+    for (let i = 0; i < data.length; i += 3) {
+      const chunk = data.slice(i, i + 3);
+      base64String += btoa(String.fromCharCode.apply(null, chunk));
+    }
+    return base64String;
+  }
+
+
 export const parseBundleFile = (bundleJson) => {
     /**
      * Parse file to b64 without newlines
@@ -34,7 +44,7 @@ export const parseBundleFile = (bundleJson) => {
     Object.keys(bundleJson).forEach((key) => {
       const encoder = new TextEncoder();
       const data = encoder.encode(JSON.stringify(bundleJson[key]));
-      const base64String = btoa(String.fromCharCode.apply(null, data));
+      const base64String = base64Encode(data)
 
       bundleJson[key] = base64String;
     });
