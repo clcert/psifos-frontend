@@ -14,7 +14,7 @@ function DecryptProve() {
   const [actualStep, setActualStep] = useState(0);
   const [secretKey, setSecretKey] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState(
-    "Esperando clave para generar desencriptado parcial"
+    "Esperando clave para generar desencriptación parcial"
   );
 
   const { shortName, uuidTrustee } = useParams();
@@ -73,7 +73,7 @@ function DecryptProve() {
       body: JSON.stringify(descriptions),
     });
     if (response.status === 200) {
-      setFeedbackMessage("Desencriptación Parcial enviada exitosamente ✓");
+      setFeedbackMessage("Desencriptación Completada ✓");
       setActualStep(2);
       const jsonResponse = await response.json();
       return jsonResponse;
@@ -226,7 +226,7 @@ function DecryptProve() {
   };
 
   return (
-    <div id="content-trustees">
+    <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
@@ -242,18 +242,13 @@ function DecryptProve() {
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered has-text-white is-max-desktop">
-          <p>
-            Se ha calculado el recuento cifrado de la elección.
-            <br />
-            Ahora es el momento de calcular y enviar su desencriptado parcial.
-          </p>
 
           <div id="sk_section">
             <h3>Inserte su clave privada aquí</h3>
             <DropFile setText={decrypt} />
             <p
               id={`feedback-message-${actualStep}`}
-              className="has-text-white pt-2"
+              className="has-text-white pt-4 is-size-4"
             >
               {feedbackMessage}
               <i
@@ -263,17 +258,42 @@ function DecryptProve() {
               ></i>
             </p>
 
-            <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-              <button className="button is-link mx-sm-2 mt-2">
-                <Link
-                  id="go-home-trustee"
-                  style={{ textDecoration: "None", color: "white" }}
-                  to={`/psifos/${shortName}/trustee/${uuidTrustee}/home`}
-                >
-                  Volver atrás
-                </Link>
-              </button>
-            </div>
+            {actualStep < 2 && 
+              (
+              <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
+                <button className="button is-link mx-sm-2 mt-2">
+                  <Link
+                    id="go-home-trustee"
+                    style={{ textDecoration: "None", color: "white" }}
+                    to={`/psifos/${shortName}/trustee/${uuidTrustee}/home`}
+                  >
+                    Volver atrás
+                  </Link>
+                </button>
+              </div>
+              )
+            }
+
+            {actualStep == 2 && 
+              (
+              <div className="d-flex justify-content-center flex-sm-column mt-4">
+                <p className="is-size-4">
+                  Proceso de escrutinio de la elección completado. Los resultados serán publicados prontamente.
+                </p>
+                <button className="button is-link mx-sm-2 mt-2">
+                  <Link
+                    id="go-home-trustee"
+                    style={{ textDecoration: "None", color: "white" }}
+                    to={`/psifos/booth/${shortName}/public-info`}
+                  >
+                    Ir al Portal de Información
+                  </Link>
+                </button>
+              </div>
+              )
+            }
+
+
             <div className="mt-4"></div>
           </div>
         </div>

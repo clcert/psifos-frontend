@@ -33,7 +33,7 @@ function Keygenerator(props) {
   const [enabledButtonInit, setEnabledButtonInit] = useState(false);
 
   /** @state {string} totally process feedback */
-  const [processFeedback, setProcessFeedback] = useState("Cargando datos..");
+  const [processFeedback, setProcessFeedback] = useState("Cargando datos...");
 
   const [actualStep, setActualStep] = useState(0);
 
@@ -199,15 +199,15 @@ function Keygenerator(props) {
         setActualStep(TRUSTEE_STEP);
 
         if (TRUSTEE_STEP === 1 && !EXECUTE) {
-          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
+          setProcessFeedback(`Ejecutando el Paso 2.${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_1();
         } else if (TRUSTEE_STEP === 2 && !EXECUTE) {
-          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
+          setProcessFeedback(`Ejecutando el Paso 2.${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_2();
         } else if (TRUSTEE_STEP === 3 && !EXECUTE) {
-          setProcessFeedback(`Ejecutando el paso ${TRUSTEE_STEP}`);
+          setProcessFeedback(`Ejecutando el Paso 2.${TRUSTEE_STEP}`);
           EXECUTE = true;
           step_3();
         } else if (TRUSTEE_STEP === 4) {
@@ -215,7 +215,7 @@ function Keygenerator(props) {
           setProcessFeedback("Generación de claves completada con éxito");
         }
       } else {
-        setProcessFeedback("Los otros trustee aun no completan la etapa");
+        setProcessFeedback("Los otros trustee aún no completan la etapa");
       }
     });
   }
@@ -413,7 +413,7 @@ function Keygenerator(props) {
         setTextButtonInit("Continuar proceso");
       } else {
         setActualPhase(1);
-        setProcessFeedback("Clave aun no generada");
+        setProcessFeedback("Clave aún no generada");
       }
     }
   }
@@ -560,7 +560,7 @@ function Keygenerator(props) {
   };
 
   return (
-    <div id="content-trustees">
+    <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
@@ -568,7 +568,7 @@ function Keygenerator(props) {
             linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
-            namePage="Portal de Custodio de Clave: Generación"
+            namePage="Portal de Custodio de Clave: Generación de Claves"
             nameElection={election.name} // TODO: Retrieve this value
           />
         </div>
@@ -580,7 +580,7 @@ function Keygenerator(props) {
             <div className="level-item has-text-centered">
               <div>
                 <p className="pb-2 title has-text-white">
-                  Generación de Claves{" "}
+                  1. Descarga de Clave Privada{" "}
                   <i
                     id="step_0"
                     className={
@@ -595,8 +595,15 @@ function Keygenerator(props) {
           )}
           {actualPhase === 2 && (
             <div>
-              <p className="title has-text-white pb-2">
-                Sincronizando con los otros custodios de claves{" "}
+              <p className="mb-1 title has-text-white">
+                  1. Descarga de Clave Privada{" "}
+                  <i
+                    id="step_0"
+                    className={"fa-solid fa-circle-check"}
+                  ></i>
+                </p>
+              <p className="title has-text-white pb-2 mb-0">
+                2. Sincronización con Custodios de Clave{" "}
                 <i
                   id="step_1"
                   className={
@@ -669,8 +676,7 @@ function Keygenerator(props) {
               archivo en un pendrive.
             </span>
           </div>
-          <br />
-          <p id="feedback-message" className="has-text-white is-size-5">
+          <p id="feedback-message" className="has-text-white is-size-4">
             {processFeedback}
           </p>
           {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
@@ -740,21 +746,6 @@ function Keygenerator(props) {
               </div>
             )}
           </div>
-          {actualStep !== 4 && (
-            <div className="d-flex flex-column flex-sm-row justify-content-center">
-              <button className="button is-normal is-link mt-2">
-                <Link
-                  id="go-home-trustee"
-                  style={{ textDecoration: "None", color: "white" }}
-                  to={
-                    "/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"
-                  }
-                >
-                  Volver atrás
-                </Link>
-              </button>
-            </div>
-          )}
         </div>
       </section>
       <div>

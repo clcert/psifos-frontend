@@ -82,7 +82,7 @@ function CustodioHome(props) {
     );
   } else {
     return (
-      <div id="content-trustees">
+      <div id="content-home-admin">
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
@@ -102,31 +102,42 @@ function CustodioHome(props) {
               {load ? (
                 <>
                   <div className="is-flex is-flex-direction-column is-align-items-center">
-                    {!disabledButton1 && (
-                      <StepButton
-                        id="init-key-generator"
-                        text="Iniciar Generación de Claves"
-                        linkTo={
-                          "/psifos/" +
-                          shortName +
-                          "/trustee/" +
-                          uuidTrustee +
-                          "/keygenerator"
-                        }
-                      />
+                    {!disabledButton1 &&
+                    (
+                      <div>
+                        <p className="has-text-white is-size-4">
+                          El primer paso en su rol de Custodio de Clave será generar y descargar su clave privada. Luego, vendrá un proceso de sincronización con el resto de los Custodios de Clave. El proceso se inicia dando click al botón de abajo:
+                        </p>
+                        <StepButton
+                          id="init-key-generator"
+                          text="Iniciar Generación de Claves"
+                          linkTo={
+                            "/psifos/" +
+                            shortName +
+                            "/trustee/" +
+                            uuidTrustee +
+                            "/keygenerator"
+                          }
+                        />
+                      </div>
                     )}
                     {!disabledButton2 && disabledButton3 && (
-                      <StepButton
-                        id="verify-key"
-                        text="Verificar Clave Privada"
-                        linkTo={
-                          "/psifos/" +
-                          shortName +
-                          "/trustee/" +
-                          uuidTrustee +
-                          "/check-sk"
-                        }
-                      />
+                      <div>
+                        <p className="has-text-white is-size-4">
+                          En cualquier momento Ud. puede verificar que su Clave Privada está correctamente almacenada en su computador y respaldo correspondiente
+                        </p>
+                        <StepButton
+                          id="verify-key"
+                          text="Verificar Clave Privada"
+                          linkTo={
+                            "/psifos/" +
+                            shortName +
+                            "/trustee/" +
+                            uuidTrustee +
+                            "/check-sk"
+                          }
+                        />
+                      </div>
                     )}
                     {!disabledButton2 && !disabledButton3 && (
                       <SmallStepButton
@@ -154,12 +165,6 @@ function CustodioHome(props) {
                       />
                     )}
                   </div>
-                  {!election.encrypted_tally && (
-                    <p className="has-text-white pt-5 px-5 is-size-5">
-                      Cuando termine la elección debe volver a este sitio para
-                      enviar su desencriptación parcial.
-                    </p>
-                  )}
                 </>
               ) : (
                 <div className="spinner-animation-white"></div>

@@ -49,9 +49,9 @@ function TrusteesList(props) {
       {trustees.map((t, index) => {
         return (
           <div className="box border-style-box" key={t.name}>
-            <div className="level">
+            <div className="level mb-0">
               <span className="has-text-weight-bold is-size-4 level-item">
-                Custodio de Clave #{index + 1}: {t.name}
+                Custodio de Clave #{index + 1}
               </span>
               {props.election.election_status === "Setting up" && (
                 <span className="level-right">
@@ -62,8 +62,18 @@ function TrusteesList(props) {
                     }}
                   />
                 </span>
-              )}
+              )}              
             </div>
+
+            <p className="mt-0">
+              <span className="has-text-weight-bold is-size-4">{t.name}</span>
+              <br/>
+              <tt>
+                {t.trustee_login_id}
+                <br/>
+                {t.email}
+              </tt>
+            </p>
 
             {t.public_key_hash ? (
               <p className="mt-4">
@@ -73,10 +83,13 @@ function TrusteesList(props) {
                 </p>
               </p>
             ) : (
-              <p className="mt-4">Custodio aún no sube su clave pública.</p>
+              <p className="mt-4">Custodio aún no sube su clave pública</p>
             )}
 
-            {props.election.election_status === "Tally computed" && (
+            {(props.election.election_status === "Tally computed" || 
+              props.election.election_status === "Decryptions uploaded" ||
+              props.election.election_status === "Decryptions combined" || 
+              props.election.election_status === "Results released") && (
               <InfoTrustee trustee={t} />
             )}
           </div>
