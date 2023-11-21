@@ -13,6 +13,7 @@ import ModalDeleteCustodio from "./components/ModalDeleteCustodio";
 import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getElection } from "../../../services/election";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 function CustodioClaves(props) {
   /** @state {json} election data  */
@@ -23,6 +24,9 @@ function CustodioClaves(props) {
 
   /** @state {boolean} state of model with delete trustee info  */
   const [modalDelete, setModalDelete] = useState(false);
+
+  /** @state {boolean} state of copy message  */
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
 
   /** @state {string} shortName trustee  */
   const [uuidTrustee, setUuidTrustee] = useState("");
@@ -53,63 +57,96 @@ function CustodioClaves(props) {
 
       <SubNavbar active={4} />
 
-      <section className="section" id="medium-section">
+      <section className="section voters-section">
         <div className="container has-text-centered is-max-desktop">
           {location.state && (
             <div className="notification is-primary is-light">
               {location.state.message}
             </div>
           )}
-          <div className="content d-flex justify-content-center">
-            <ul className="has-text-white has-text-left">
-              <li>
-                Los custodios de claves son los responsables de desencriptar el
-                escrutinio de la elección.
-              </li>
-              <li>
-                Cada custodio de clave generará un par de claves (pública y
+          <div className="has-text-centered title is-size-4-mobile mt-2">
+            Panel de custodios
+          </div>
+          <div
+            className="box has-text-centered border-style-box"
+            id="border-style-box"
+          >
+            <div className="has-text-left mb-0">
+              <div>
+                - Los custodios de claves son los responsables de desencriptar
+                el escrutinio de la elección.
+              </div>
+              <div className="mt-2">
+                - Cada custodio de clave generará un par de claves (pública y
                 privada), donde la clave pública es subida al servidor.
-              </li>
-              <li>
-                Al momento de desencriptar el escrutinio, cada custodio de
+              </div>
+              <div className="mt-2">
+                - Al momento de desencriptar el escrutinio, cada custodio de
                 claves proveerá su clave privada.
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
           {election.election_status === "Setting up" && (
             <>
-              <>
-                <button
-                  id="add-trustee"
-                  className="button mb-4"
-                  onClick={() => {
-                    setModalCustodio(true);
-                  }}
-                >
-                  AGREGAR CUSTODIO DE CLAVE
-                </button>
+              <div className="d-flex justify-center flex-column">
+                <div>
+                  <button
+                    id="add-trustee"
+                    className="button button-custom mb-4"
+                    onClick={() => {
+                      setModalCustodio(true);
+                    }}
+                  >
+                    AGREGAR CUSTODIO DE CLAVE
+                  </button>
+                </div>
                 {!election.has_helios_trustee && (
-                  <p className="has-text-white mb-4">
-                    [
-                    <span id="trustees-link">
-                      agregar al servidor como custodio de clave
-                    </span>
-                    ]
-                  </p>
+                  <div>
+                    <button
+                      id="add-trustee"
+                      className="button button-custom mb-4"
+                      onClick={() => {}}
+                    >
+                      Servidor como custodio
+                    </button>
+                  </div>
                 )}
-              </>
+              </div>
             </>
           )}
-          <div className="box" id="trustee-box">
-            Link de conexión custodio:{" "}
-            <a
-              rel="noreferrer"
-              target="_blank"
-              style={{ color: "rgb(0, 182, 254)" }}
-              href={backendOpIP + "/" + shortName + "/trustee/login"}
-            >
-              {backendOpIP + "/" + shortName + "/trustee/login"}
-            </a>
+          <div
+            className="box has-text-centered border-style-box"
+            id="border-style-box"
+          >
+            <div>
+              <span>Link de conexión custodio: </span>
+              <CopyToClipboard
+                text={backendOpIP + "/" + shortName + "/trustee/login"}
+                onCopy={() => setShowCopyMessage(true)}
+              >
+                <span>
+                  <span className="link-without-line">
+                    Copiar <i class="fa-solid fa-copy"></i>
+                  </span>
+                  {showCopyMessage && (
+                    <span className="alert-copy ml-2">Link copiado!</span>
+                  )}
+                </span>
+              </CopyToClipboard>
+            </div>
+            <div className="mt-2">
+              <span
+                className="link-without-line font-caption"
+                onClick={() => {
+                  window.open(
+                    backendOpIP + "/" + shortName + "/trustee/login",
+                    "_blank"
+                  );
+                }}
+              >
+                Click para ir al sitio web del custodio
+              </span>
+            </div>
           </div>
           <TrusteesList
             deleteTrustee={(uuid) => {

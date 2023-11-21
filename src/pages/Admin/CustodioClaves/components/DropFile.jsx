@@ -45,7 +45,7 @@ export default function DropFile(props) {
         }}
         onClick={buttonUpload}
       >
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center p-1">
           <span className="has-text-white">
             Arrastre o haga click aquí para subir el archivo
           </span>

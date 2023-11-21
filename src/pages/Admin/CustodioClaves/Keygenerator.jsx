@@ -228,7 +228,9 @@ function Keygenerator(props) {
 
     document.getElementById("process_step").style.display = "none";
     generate_keypair();
-    download_sk_to_file("trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt");
+    download_sk_to_file(
+      "trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt"
+    );
     setSecretKey(helios_c.secret_key);
     setProcessFeedback(
       "Para continuar, debe subir el archivo recién descargado. Recuerde guardar adecuadamente el archivo en su computador y respaldarlo."
@@ -543,7 +545,9 @@ function Keygenerator(props) {
   };
 
   const downloadKey = () => {
-    download_sk_to_file("trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt");
+    download_sk_to_file(
+      "trustee_key_" + trustee.trustee_login_id + "_" + shortName + ".txt"
+    );
   };
 
   const checkSk = (key) => {
@@ -660,9 +664,9 @@ function Keygenerator(props) {
               &nbsp;
               <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN
               <br />
-              Una vez que descargue la clave, debe almacenarla en su
-              computador y respaldar el archivo descargado. Puede respaldar guardando
-              el archivo en un pendrive.
+              Una vez que descargue la clave, debe almacenarla en su computador
+              y respaldar el archivo descargado. Puede respaldar guardando el
+              archivo en un pendrive.
             </span>
           </div>
           <br />
@@ -671,11 +675,11 @@ function Keygenerator(props) {
           </p>
           {secretKey && actualPhase === 1 && <DropFile setText={checkSk} />}
 
-          <div className="d-flex flex-sm-column mt-4 is-align-items-center">
+          <div className="d-flex flex-column flex-sm-row justify-content-center">
             {!secretKey && actualPhase === 1 && (
               <button
                 id="download-key"
-                className="is-large button is-info is-light is-outlined"
+                className="is-size-5-mobile  is-large button is-info is-light is-outlined"
                 style={{
                   textDecoration: "None",
                   textTransform: "uppercase",
@@ -691,35 +695,30 @@ function Keygenerator(props) {
               </button>
             )}
             {actualPhase === 2 && actualStep !== 4 && (
-              <button
-                className="button mx-sm-2 mt-2"
-                disabled={!enabledButtonInit}
-                onClick={() => {
-                  init_process();
-                }}
-              >
-                {textButtonInit}
-              </button>
-            )}
-            {actualStep === 4 && (
-              <div>
-                {/* <p className="has-text-white mb-1 is-size-5 px-5">Para terminar el proceso, es necesario que verifiques nuevamente la clave privada que guardaste en tu computador</p> */}
-                <button id="button-init" className="button is-link mr-5 mt-0">
-                  <Link
-                    id="go-home-trustee"
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={
-                      "/psifos/" +
-                      shortName +
-                      "/trustee/" +
-                      uuidTrustee +
-                      "/home"
-                    }
-                  >
-                    Ir al Home
-                  </Link>
+              <div className="d-flex flex-column flex-sm-row justify-content-center">
+                <button
+                  className="button mx-sm-2 mt-2"
+                  disabled={!enabledButtonInit}
+                  onClick={() => {
+                    init_process();
+                  }}
+                >
+                  {textButtonInit}
                 </button>
               </div>
+            )}
+            {actualStep === 4 && (
+              <button id="button-init" className="button is-link mt-0">
+                <Link
+                  id="go-home-trustee"
+                  style={{ textDecoration: "None", color: "white" }}
+                  to={
+                    "/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"
+                  }
+                >
+                  Ir al Home
+                </Link>
+              </button>
             )}
           </div>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse">
@@ -728,29 +727,33 @@ function Keygenerator(props) {
                 <p className="has-text-white is-size-5 mb-1 mt-4">
                   Si no encuentra el archivo, puede descargarlo nuevamente.
                 </p>
-                <button
-                  className="button is-primary mt-0"
-                  onClick={() => {
-                    downloadKey();
-                  }}
-                >
-                  Descargar clave
-                </button>
+                <div className="d-flex flex-column flex-sm-row justify-content-center mt-1">
+                  <button
+                    className="button is-primary mt-0"
+                    onClick={() => {
+                      downloadKey();
+                    }}
+                  >
+                    Descargar clave
+                  </button>
+                </div>
               </div>
             )}
           </div>
           {actualStep !== 4 && (
-            <button className="button is-normal is-link mt-5">
-              <Link
-                id="go-home-trustee"
-                style={{ textDecoration: "None", color: "white" }}
-                to={
-                  "/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"
-                }
-              >
-                Volver atrás
-              </Link>
-            </button>
+            <div className="d-flex flex-column flex-sm-row justify-content-center">
+              <button className="button is-normal is-link mt-2">
+                <Link
+                  id="go-home-trustee"
+                  style={{ textDecoration: "None", color: "white" }}
+                  to={
+                    "/psifos/" + shortName + "/trustee/" + uuidTrustee + "/home"
+                  }
+                >
+                  Volver atrás
+                </Link>
+              </button>
+            </div>
           )}
         </div>
       </section>
