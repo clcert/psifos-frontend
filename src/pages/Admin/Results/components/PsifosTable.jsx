@@ -5,7 +5,7 @@ function StyledCell({content}) {
   return (
     <td
       style={{
-        width: "180px", paddingRight: "20px", paddingLeft: "20px", wordBreak: "break-word",
+        width: "180px", wordBreak: "break-word",
       }}
       className={
         typeof content === 'number'
