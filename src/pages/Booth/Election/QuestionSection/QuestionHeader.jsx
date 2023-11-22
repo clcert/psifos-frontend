@@ -1,9 +1,17 @@
 import { answersRestrictionText } from './utils.js'
 
+function urlifyDescription(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a target="_blank" href="' + url + '">' + url + '</a>';
+  })
+}
+
 function QuestionHeader(props) {
 
   const questions = props.questions;
-  const restriction = answersRestrictionText(questions.min_answers,questions.max_answers )
+  const restriction = answersRestrictionText(questions.min_answers,questions.max_answers)
+  const description_with_url = urlifyDescription(props.questions.q_description)
 
   return (
     <div>
@@ -18,7 +26,8 @@ function QuestionHeader(props) {
         <p className="subtitle is-italic">{"(" + restriction + ")" }</p>
       )}
       {props.questions.q_description && (
-        <p className="subtitle is-italic">{props.questions.q_description}</p>
+        <p dangerouslySetInnerHTML={{ __html: description_with_url }} className="subtitle is-italic">
+        </p>
       )}
     </div>
   );
