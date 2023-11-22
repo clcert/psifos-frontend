@@ -413,7 +413,7 @@ function Keygenerator(props) {
         setTextButtonInit("Continuar proceso");
       } else {
         setActualPhase(1);
-        setProcessFeedback("Clave aún no generada");
+        setProcessFeedback("Clave Privada aún no generada");
       }
     }
   }
@@ -671,9 +671,8 @@ function Keygenerator(props) {
               &nbsp;
               <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN
               <br />
-              Una vez que descargue la clave, debe almacenarla en su computador
-              y respaldar el archivo descargado. Puede respaldar guardando el
-              archivo en un pendrive.
+              Se descargará un archivo que contiene su Clave Privada. Ese archivo lo debe almacenar en su computador
+              y guardar un respaldo en otro dispositivo, por ejemplo, un pendrive.
             </span>
           </div>
           <p id="feedback-message" className="has-text-white is-size-4">

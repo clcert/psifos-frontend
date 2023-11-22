@@ -73,7 +73,7 @@ function DecryptProve() {
       body: JSON.stringify(descriptions),
     });
     if (response.status === 200) {
-      setFeedbackMessage("Desencriptación Completada ✓");
+      setFeedbackMessage("Desencriptación Parcial Completada ✓");
       setActualStep(2);
       const jsonResponse = await response.json();
       return jsonResponse;
@@ -244,7 +244,7 @@ function DecryptProve() {
         <div className="container has-text-centered has-text-white is-max-desktop">
 
           <div id="sk_section">
-            <h3>Inserte su clave privada aquí</h3>
+            <h3>Inserte su archivo con Clave Privada aquí</h3>
             <DropFile setText={decrypt} />
             <p
               id={`feedback-message-${actualStep}`}
@@ -276,10 +276,7 @@ function DecryptProve() {
 
             {actualStep == 2 && 
               (
-              <div className="d-flex justify-content-center flex-sm-column mt-4">
-                <p className="is-size-4">
-                  Proceso de escrutinio de la elección completado. Los resultados serán publicados prontamente.
-                </p>
+              <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
                 <button className="button is-link mx-sm-2 mt-2">
                   <Link
                     id="go-home-trustee"

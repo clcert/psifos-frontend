@@ -106,7 +106,7 @@ function CustodioHome(props) {
                     (
                       <div>
                         <p className="has-text-white is-size-4">
-                          El primer paso en su rol de Custodio de Clave será generar y descargar su clave privada. Luego, vendrá un proceso de sincronización con el resto de los Custodios de Clave. El proceso se inicia dando click al botón de abajo:
+                          La Generación Claves se divide en dos pasos: el primero será generar y descargar su clave privada. Luego, vendrá el proceso de sincronización con el resto de los Custodios de Clave.
                         </p>
                         <StepButton
                           id="init-key-generator"
@@ -124,7 +124,7 @@ function CustodioHome(props) {
                     {!disabledButton2 && disabledButton3 && (
                       <div>
                         <p className="has-text-white is-size-4">
-                          En cualquier momento Ud. puede verificar que su Clave Privada está correctamente almacenada en su computador y respaldo correspondiente
+                          En cualquier momento Ud. puede verificar que su Clave Privada está correctamente almacenada en su computador y en su respaldo correspondiente
                         </p>
                         <StepButton
                           id="verify-key"
@@ -152,6 +152,10 @@ function CustodioHome(props) {
                       />
                     )}
                     {!disabledButton3 && (
+                      <div>
+                      <p className="has-text-white is-size-4">
+                        La elección ha finalizado y Ud. debe enviar su Desencriptación Parcial. Para ello debe subir el archivo con su Clave Privada que está almacenado en su computador y respaldado
+                       </p>
                       <StepButton
                         id="upload-key"
                         text="Enviar Desencriptación Parcial"
@@ -163,6 +167,7 @@ function CustodioHome(props) {
                           "/decrypt-and-prove"
                         }
                       />
+                      </div>
                     )}
                   </div>
                 </>

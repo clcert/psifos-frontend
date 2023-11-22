@@ -81,7 +81,7 @@ function CheckSk(props) {
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
-          <h4 className="has-text-white">Inserte su clave privada aquí</h4>
+          <h4 className="has-text-white">Inserte su archivo con Clave Privada aquí</h4>
           <DropFile setText={check_sk} />
           <p id="feedback-check" className="has-text-white is-size-4 mt-3">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
