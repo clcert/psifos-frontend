@@ -65,7 +65,7 @@ function CheckSk(props) {
   }
 
   return (
-    <div id="content-trustees">
+    <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <MyNavbar
@@ -73,7 +73,7 @@ function CheckSk(props) {
             linkInit={"/" + shortName + "/trustee/" + uuidTrustee + "/home"}
           />
           <TitlePsifos
-            namePage="Portal de Custodio de Clave: Verificación"
+            namePage="Portal de Custodio de Clave: Verificación de Clave Privada"
             nameElection={election.name} // TODO: Retrieve this value
           />
         </div>
@@ -81,9 +81,9 @@ function CheckSk(props) {
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered is-max-desktop">
-          <h4 className="has-text-white">Inserte su clave privada aquí</h4>
+          <h4 className="has-text-white">Inserte su archivo con Clave Privada aquí</h4>
           <DropFile setText={check_sk} />
-          <p id="feedback-check" className="has-text-white is-size-4">{feedbackMessage}</p>
+          <p id="feedback-check" className="has-text-white is-size-4 mt-3">{feedbackMessage}</p>
           <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
             <button id="button-init" className="button is-link mx-sm-2 mt-2">
               <Link

@@ -710,7 +710,7 @@ input[type="radio"] {
 
 #decryption-wait {
   margin-top: 2rem;
-  background-color: white;
+  background-color: #ffedb44d;
   border-radius: 10px;
   color: #004c94;
   padding: 1rem;
@@ -719,11 +719,11 @@ input[type="radio"] {
 
 #decryption-finish {
   margin-top: 2rem;
-  background-color: white;
+  background-color: #a7dd914d;
   border-radius: 10px;
   color: #004c94;
   padding: 1rem;
-  border: 5px solid #52dc1c;
+  border: 5px solid #2d9e00;
 }
 
 .loading-trustee {
