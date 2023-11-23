@@ -1,6 +1,6 @@
 export const links = {
-    windowsVerificator: 'https://github.com/clcert/pyrios/releases/download/v2.0.0/pyrios-v2.0.0-windows-amd64.zip',
-    verificators: 'https://github.com/clcert/pyrios/releases/tag/v2.0.0',
+    windowsVerificator: 'https://github.com/clcert/pyrios/releases/download/v3.0.0/pyrios-v3.0.0-windows-amd64.zip',
+    verificators: 'https://github.com/clcert/pyrios/releases/tag/v3.0.0',
 }
 
 export const events = {
