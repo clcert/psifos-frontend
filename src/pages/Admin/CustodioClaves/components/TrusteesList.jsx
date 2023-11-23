@@ -68,9 +68,9 @@ function TrusteesList(props) {
             {t.public_key_hash ? (
               <p className="mt-4">
                 Código de Clave Pública:{" "}
-                <p className="overflow-auto">
+                <span className="overflow-auto">
                   <tt>{t.public_key_hash}</tt>
-                </p>
+                </span>
               </p>
             ) : (
               <p className="mt-4">Custodio aún no sube su clave pública.</p>

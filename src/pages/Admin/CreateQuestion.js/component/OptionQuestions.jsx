@@ -6,9 +6,9 @@ export function DescriptionInput({
   const [warningText, setWarningText] = useState(false);
 
   useEffect(() => {
-    if (description?.length > 100) {
+    if (description?.length > 300) {
       setWarningText(
-        "La descripción debe tener menos de 100 caracteres"
+        "La descripción debe tener menos de 300 caracteres"
       );
     }
     else {

@@ -126,7 +126,7 @@ function CustodioClaves(props) {
               >
                 <span>
                   <span className="link-without-line">
-                    Copiar <i class="fa-solid fa-copy"></i>
+                    Copiar <i className="fa-solid fa-copy"></i>
                   </span>
                   {showCopyMessage && (
                     <span className="alert-copy ml-2">Link copiado!</span>
