@@ -82,7 +82,7 @@ function CustodioHome(props) {
     );
   } else {
     return (
-      <div id="content-trustees">
+      <div id="content-home-admin">
         <section id="header-section" className="parallax hero is-medium">
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar
@@ -102,31 +102,42 @@ function CustodioHome(props) {
               {load ? (
                 <>
                   <div className="is-flex is-flex-direction-column is-align-items-center">
-                    {!disabledButton1 && (
-                      <StepButton
-                        id="init-key-generator"
-                        text="Iniciar Generación de Claves"
-                        linkTo={
-                          "/psifos/" +
-                          shortName +
-                          "/trustee/" +
-                          uuidTrustee +
-                          "/keygenerator"
-                        }
-                      />
+                    {!disabledButton1 &&
+                    (
+                      <div>
+                        <p className="has-text-white is-size-4">
+                          La Generación Claves se divide en dos pasos: el primero será generar y descargar su clave privada. Luego, vendrá el proceso de sincronización con el resto de los Custodios de Clave.
+                        </p>
+                        <StepButton
+                          id="init-key-generator"
+                          text="Iniciar Generación de Claves"
+                          linkTo={
+                            "/psifos/" +
+                            shortName +
+                            "/trustee/" +
+                            uuidTrustee +
+                            "/keygenerator"
+                          }
+                        />
+                      </div>
                     )}
                     {!disabledButton2 && disabledButton3 && (
-                      <StepButton
-                        id="verify-key"
-                        text="Verificar Clave Privada"
-                        linkTo={
-                          "/psifos/" +
-                          shortName +
-                          "/trustee/" +
-                          uuidTrustee +
-                          "/check-sk"
-                        }
-                      />
+                      <div>
+                        <p className="has-text-white is-size-4">
+                          En cualquier momento Ud. puede verificar que su Clave Privada está correctamente almacenada en su computador y en su respaldo correspondiente
+                        </p>
+                        <StepButton
+                          id="verify-key"
+                          text="Verificar Clave Privada"
+                          linkTo={
+                            "/psifos/" +
+                            shortName +
+                            "/trustee/" +
+                            uuidTrustee +
+                            "/check-sk"
+                          }
+                        />
+                      </div>
                     )}
                     {!disabledButton2 && !disabledButton3 && (
                       <SmallStepButton
@@ -141,6 +152,10 @@ function CustodioHome(props) {
                       />
                     )}
                     {!disabledButton3 && (
+                      <div>
+                      <p className="has-text-white is-size-4">
+                        La elección ha finalizado y Ud. debe enviar su Desencriptación Parcial. Para ello debe subir el archivo con su Clave Privada que está almacenado en su computador y respaldado
+                       </p>
                       <StepButton
                         id="upload-key"
                         text="Enviar Desencriptación Parcial"
@@ -152,14 +167,9 @@ function CustodioHome(props) {
                           "/decrypt-and-prove"
                         }
                       />
+                      </div>
                     )}
                   </div>
-                  {!election.encrypted_tally && (
-                    <p className="has-text-white pt-5 px-5 is-size-5">
-                      Cuando termine la elección debe volver a este sitio para
-                      enviar su desencriptación parcial.
-                    </p>
-                  )}
                 </>
               ) : (
                 <div className="spinner-animation-white"></div>

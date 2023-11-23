@@ -7,7 +7,7 @@ function ModalDecrypt(props) {
       <div className="modal-card">
         <section className="modal-card-body single-card has-text-centered">
           <p className="has-text-weight-bold is-size-5">
-            REALIZANDO DESENCRIPTACIONES <br />
+            REALIZANDO DESENCRIPTACIÓN <br />
             POR FAVOR ESPERA UN MOMENTO
           </p>
           <img alt="encrypr" className="mt-2" src={encryptingGIF} />

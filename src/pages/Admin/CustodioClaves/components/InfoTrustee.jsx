@@ -18,11 +18,6 @@ function InfoTrustee(props) {
           className="has-text-weight-bold is-size-5 status-decryption is-flex is-flex-direction-column"
         >
           ESPERANDO DESENCRIPTACIÓN PARCIAL
-          <img
-            className="is-align-self-center loading-trustee"
-            src={loading}
-            alt=""
-          />
         </p>
       )}
     </div>
