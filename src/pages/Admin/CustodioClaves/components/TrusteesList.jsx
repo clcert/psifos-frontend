@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTrustees } from "../../../../services/trustee";
 import InfoTrustee from "./InfoTrustee";
+import { electionStatus } from "../../../../constants";
+
 function TrusteesList(props) {
   /** @state {array} trustees list */
   const [trustees, setTrustees] = useState([]);
@@ -86,10 +88,10 @@ function TrusteesList(props) {
               <p className="mt-4">Custodio aún no sube su clave pública</p>
             )}
 
-            {(props.election.election_status === "Tally computed" || 
-              props.election.election_status === "Decryptions uploaded" ||
-              props.election.election_status === "Decryptions combined" || 
-              props.election.election_status === "Results released") && (
+            {(props.election.election_status === electionStatus.tallyComputed || 
+              props.election.election_status === electionStatus.decryptionsUploaded ||
+              props.election.election_status === electionStatus.decryptionsCombined || 
+              props.election.election_status === electionStatus.resultsReleased) && (
               <InfoTrustee trustee={t} />
             )}
           </div>
