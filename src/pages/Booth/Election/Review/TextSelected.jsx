@@ -43,6 +43,7 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
             numOptions={closedOptions.length}
             index={index}
             answer={closedOptions[indexAnswer]}
+            key={`${index}.-${closedOptions[indexAnswer]}`}
           />
         );
       })}

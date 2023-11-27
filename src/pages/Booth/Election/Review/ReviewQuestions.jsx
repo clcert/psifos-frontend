@@ -28,7 +28,6 @@ function ReviewQuestions(props) {
                     <div className="is-flex is-justify-content-end">
                   <a
                     onClick={() => props.changeAnswer(index)}
-                    href={() => false}
                     className="change-answer-button"
                   >
                     <span className="icon has-text-white">
