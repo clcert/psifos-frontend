@@ -22,32 +22,31 @@ function InvalidLogginByTime(props) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
-  async function getCountDates() {
-    const token = localStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        minutes: deltaTime,
-        type_log: "voter_login_fail",
-      }),
-    });
-    if (resp.status === 200) {
-      const jsonResponse = await resp.json();
-      if (Object.keys(jsonResponse).length !== 0) {
-        setLogginFailForTime(jsonResponse.count_logs);
-        setLogginInvalidTotal(jsonResponse.total_logs);
-      }
-      setLoad(true);
-    }
-  }
-
   useEffect(() => {
+    async function getCountDates() {
+      const token = localStorage.getItem("token");
+      const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          minutes: deltaTime,
+          type_log: "voter_login_fail",
+        }),
+      });
+      if (resp.status === 200) {
+        const jsonResponse = await resp.json();
+        if (Object.keys(jsonResponse).length !== 0) {
+          setLogginFailForTime(jsonResponse.count_logs);
+          setLogginInvalidTotal(jsonResponse.total_logs);
+        }
+        setLoad(true);
+      }
+    }
     getCountDates();
-  }, [deltaTime]);
+  }, [deltaTime, shortName]);
 
   function handleChange(event) {
     setDeltaTime(parseInt(event.target.value));

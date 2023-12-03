@@ -12,6 +12,7 @@ export function translateStep(step) {
     "Decryptions uploaded": "Desencriptaciones subidas",
     "Decryptions combined": "Desencriptaciones combinadas",
     "Results released": "Resultados liberados",
+    "Can combine decryptions": "Puede combinar desencriptaciones",
   }
   return Object.keys(steps).includes(step) && steps[step]
 }
