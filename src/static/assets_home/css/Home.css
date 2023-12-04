@@ -13477,3 +13477,13 @@ Consult
 .center-text {
   text-align: center;
 }
+
+.ranking-results-table {
+  max-width: 50% !important;
+}
+
+.ranking-illustration-bottom {
+  width: 100%;
+  border: 1px solid #004c94;
+  background: #ECEFF0;
+}

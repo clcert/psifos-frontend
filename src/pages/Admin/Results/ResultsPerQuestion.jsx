@@ -3,6 +3,7 @@ import PsifosTable from "./components/PsifosTable";
 import CardTitle from "./components/CardTitle";
 import { isAClosedTally, isARankingTally } from "../utils";
 import { updateResult } from "./parseResult";
+import RankingQuestionResume from "./QuestionResumes/RankingQuestionResume";
 
 function PercentageOptions({ handleChange, currentValue }) {
   return (
@@ -39,7 +40,7 @@ function QuestionTitle({ index, text }) {
   );
 }
 
-function ClosedQuestionTables({ result, question, election }) {
+function ClosedQuestionResume({ result, question, election }) {
   return (
     <div className="disable-text-selection justify-content-md-center columns question-columns">
       <div className="column justify-content-center">
@@ -61,29 +62,12 @@ function ClosedQuestionTables({ result, question, election }) {
   );
 }
 
-function RankingQuestionTables({ result, question, election }) {
-  return (
-    <div style={{ marginTop: "1rem", display: "flex" }} className="is-size-6">
-      <div
-        style={{
-          marginRight: "5px",
-          maxWidth: "50%",
-          wordBreak: "break-all",
-        }}
-      >
-        {"Seleccionada(o): "}
-      </div>
-      <div> {result} </div>
-    </div>
-  );
-}
-
-function QuestionTables(props) {
+function QuestionResume(props) {
   return isARankingTally(props.question.tally_type) ? (
-    <RankingQuestionTables {...props} />
+    <RankingQuestionResume {...props} />
   ) : (
     isAClosedTally(props.question.tally_type) && (
-      <ClosedQuestionTables {...props} />
+      <ClosedQuestionResume {...props} />
     )
   );
 }
@@ -94,7 +78,7 @@ function BoxPerQuestion({ question, index, election, result }) {
   return (
     <div className="box question-box-results" id="question-box-results">
       <QuestionTitle index={index} text={question.q_text} />
-      <QuestionTables
+      <QuestionResume
         election={election}
         result={resultByOption}
         question={question}

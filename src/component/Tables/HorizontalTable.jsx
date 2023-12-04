@@ -5,14 +5,16 @@ export default function SimpleHorizontalTable({contentPerRow}) {
         className="mt-2 table is-hoverable voters-table"
         style={{ maxWidth: "350px", margin: "0px !important" }}
       >
-        {contentPerRow.map((row) => {
-          return (
-            <tr>
-              <td className="table-header">{row.header}</td>
-              <td className="has-text-centered">{row.value}</td>
-            </tr>
-          )
-        })}
+        <tbody>
+          {contentPerRow.map((row) => {
+            return (
+              <tr key={row.header}>
+                <td className="table-header">{row.header}</td>
+                <td className="has-text-centered">{row.value}</td>
+              </tr>
+            )
+          })}
+        </tbody>
       </table>
     )
   }
