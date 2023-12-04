@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { electionStatusTranslate } from "../../../../constants";
+import {
+  electionLoginType,
+  electionStatusTranslate,
+} from "../../../../constants";
 
 const DisplayStats = ({ name, value }) => {
   return (
@@ -92,7 +95,10 @@ function CardInfo({
           name="Esconder nombre de los votantes"
           condition={election.obscure_voter_names}
         />
-        <DisplayTicket name="Elección privada" condition={election.private_p} />
+        <DisplayTicket
+          name="Elección privada"
+          condition={election.election_login_type === electionLoginType.close_p}
+        />
         <DisplayTicket
           name="Aleatorizar respuestas"
           condition={election.randomize_answer_order}

@@ -27,7 +27,7 @@ function CreateElection(props) {
     max_weight: 1,
     obscure_voter_names: false,
     randomize_answer_order: false,
-    private_p: false,
+    election_login_type: "close_p",
     normalization: false,
     grouped: false,
   });
@@ -54,7 +54,7 @@ function CreateElection(props) {
             max_weight: jsonResponse.max_weight,
             obscure_voter_names: jsonResponse.obscure_voter_names,
             randomize_answer_order: jsonResponse.randomize_answer_order,
-            private_p: jsonResponse.private_p,
+            election_login_type: jsonResponse.election_login_type,
             normalization: jsonResponse.normalization,
             grouped: jsonResponse.grouped,
           };
@@ -252,6 +252,28 @@ function CreateElection(props) {
               </div>
             </div>
           </div>
+          <label className="label label-form-election">
+            Ingreso del votante
+          </label>
+          <div className="control">
+            <div className="select">
+              <select
+                disabled={disabledEdit}
+                value={electionParams.election_login_type}
+                onChange={(e) => {
+                  setElectionParams({
+                    ...electionParams,
+                    election_login_type: e.target.value,
+                  });
+                }}
+              >
+                <option value="close_p">Cerrado</option>
+                <option value="open_p">Abierto</option>
+                <option value="semi_close_p">Semi cerrado</option>
+              </select>
+            </div>
+          </div>
+          <div className="field"></div>
 
           <div className="field">
             <label className="label label-form-election">
@@ -323,30 +345,6 @@ function CreateElection(props) {
             <p className="help">
               Actívelo si desea que las respuestas a las preguntas aparezcan en
               orden aleatorio para cada votante
-            </p>
-          </div>
-          <div className="field">
-            <div className="control">
-              <label className="checkbox">
-                <input
-                  id="private-input"
-                  disabled={disabledEdit}
-                  onChange={(e) => {
-                    setElectionParams({
-                      ...electionParams,
-                      private_p: e.target.checked,
-                    });
-                  }}
-                  checked={electionParams.private_p}
-                  type="checkbox"
-                  className="mr-2"
-                />
-                Elección privada
-              </label>
-            </div>
-            <p className="help">
-              Actívelo si desea que su elección sea privada, es decir, que solo
-              sea visible para los votantes registrados.
             </p>
           </div>
           <div className="field">
