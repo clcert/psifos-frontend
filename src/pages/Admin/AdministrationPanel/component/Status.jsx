@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { electionStatus } from "../../../../constants";
+import { electionLoginType, electionStatus } from "../../../../constants";
 
 function Status({
   election,
@@ -21,7 +21,7 @@ function Status({
     <>
       {" "}
       {!election.total_voters > 0 &&
-        election.private_p &&
+        election.election_login_type === electionLoginType.close_p &&
         electionStep === "Setting up" && (
           <div className="content-card-admin">
             <span
@@ -66,7 +66,8 @@ function Status({
             </span>
           </div>
         )}
-      {(election.total_voters > 0 || !election.private_p) &&
+      {(election.total_voters > 0 ||
+        election.election_login_type !== electionLoginType.close_p) &&
         election.questions !== null &&
         election.total_trustees !== 0 &&
         electionStep === "Setting up" && (
@@ -136,20 +137,17 @@ function Status({
       )}
       {(electionStep === electionStatus.resultsReleased ||
         electionStep === electionStatus.decryptionsCombined) && (
-          <div className="content-card-admin">
-            <span
-              onClick={() => combineTallyModal()}
-              className="panel-text-sect"
+        <div className="content-card-admin">
+          <span onClick={() => combineTallyModal()} className="panel-text-sect">
+            <Link
+              to={"/psifos/admin/" + election.short_name + "/resultado"}
+              className="link-without-line"
             >
-              <Link
-                to={"/psifos/admin/" + election.short_name + "/resultado"}
-                className="link-without-line"
-              >
-                Ver resultados
-              </Link>
-            </span>
-          </div>
-        )}
+              Ver resultados
+            </Link>
+          </span>
+        </div>
+      )}
     </>
   );
 }
