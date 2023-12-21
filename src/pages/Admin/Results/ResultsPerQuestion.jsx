@@ -89,7 +89,7 @@ function QuestionTables(props) {
 }
 
 function BoxPerQuestion({ question, index, election, result }) {
-  const [percentageOption, setPercentageOption] = useState("votosValidos");
+  const [percentageOption, setPercentageOption] = useState("votosEmitidos");
   const resultByOption = updateResult(result, question, percentageOption);
   return (
     <div className="box question-box-results" id="question-box-results">
