@@ -26,7 +26,7 @@ function BarPsifosGraph({ data, label, title, onlyHour }) {
   const [options, setOptions] = useState({});
   useEffect(() => {
     const labels = Object.keys(data).map((label) => {
-      if (onlyHour) return label.split(" ")[1];
+      if (onlyHour) return label.split(" ")[1].split(":").slice(0,2).join(":");
       else return label;
     });
     const dataAux = {
@@ -35,8 +35,8 @@ function BarPsifosGraph({ data, label, title, onlyHour }) {
         {
           label: label,
           data: Object.values(data),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "rgb(0, 76, 148)",
+          backgroundColor: "rgba(0, 76, 148, 0.5)",
         },
       ],
     };
