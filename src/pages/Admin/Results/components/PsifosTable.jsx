@@ -8,7 +8,7 @@ function StyledCell({content}) {
         width: "180px", wordBreak: "break-word",
       }}
       className={
-        typeof content === 'number'
+        typeof content === 'number' || parseInt(content) != NaN
         ? "has-text-right"
         : "has-text-centered"
       }
@@ -62,7 +62,7 @@ function PsifosTable({ data, election }) {
                 <StyledCell
                   key={`row${indexRow}`}
                   content={election.normalization && indexRow === 1
-                    ? parseFloat((fila[row] / election.max_weight).toFixed(3))
+                    ? parseFloat((fila[row] / election.max_weight)).toFixed(3)
                     : fila[row]}
                 />
               ))}
