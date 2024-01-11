@@ -46,6 +46,11 @@ function CreateElection(props) {
         const { resp, jsonResponse } = election;
         if (resp.status === 200) {
           setDisabledEdit(jsonResponse.election_status !== "Setting up");
+          const electionType = {
+            "Open": "open_p",
+            "Close": "close_p",
+            "Semi Public": "semi_close_p",
+          }
           const params = {
             short_name: jsonResponse.short_name,
             name: jsonResponse.name,
@@ -54,7 +59,7 @@ function CreateElection(props) {
             max_weight: jsonResponse.max_weight,
             obscure_voter_names: jsonResponse.obscure_voter_names,
             randomize_answer_order: jsonResponse.randomize_answer_order,
-            election_login_type: jsonResponse.election_login_type,
+            election_login_type: electionType[jsonResponse.election_login_type],
             normalization: jsonResponse.normalization,
             grouped: jsonResponse.grouped,
           };
