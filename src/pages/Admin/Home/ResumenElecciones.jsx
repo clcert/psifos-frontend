@@ -11,50 +11,47 @@ import ResumeTable from "./component/ResumeTable";
 import { Button } from "react-bulma-components";
 import { useCallback, useState, useEffect } from "react";
 import { getElections } from "../../../services/election";
-
+import { setElections } from "../../../store/slices/electionSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function ShowFeedbackMessage({
-  feedbackMessage, handleFeedbackMessage, typeFeedback,
-}){
+  feedbackMessage,
+  handleFeedbackMessage,
+  typeFeedback,
+}) {
   return (
     Boolean(feedbackMessage) && (
       <div className={`notification is-primary ${typeFeedback}`}>
-        <button
-          className="delete"
-          onClick={handleFeedbackMessage}
-        />
+        <button className="delete" onClick={handleFeedbackMessage} />
         {feedbackMessage}
       </div>
     )
-  )
+  );
 }
 
 function ResumeTitle() {
-  const description = "Puede filtrar los procesos que muestra la tabla seleccionando las tarjetas."
+  const description =
+    "Puede filtrar los procesos que muestra la tabla seleccionando las tarjetas.";
   return (
     <div className="is-flex level event-header">
       <div className="is-size-3">Estado elecciones</div>
       <MoreInfoTooltip descript={description} place="left">
-        <i className="fa-solid fa-circle-info more-info-icon"/>
+        <i className="fa-solid fa-circle-info more-info-icon" />
       </MoreInfoTooltip>
     </div>
-  )
+  );
 }
 
 function Resume({
-  infoMessages, electionShowed, refreshElections, handleInfoMessages,
+  infoMessages,
+  electionShowed,
+  refreshElections,
+  handleInfoMessages,
 }) {
-  return (
-    Object.keys(electionShowed).length > 0 ? (
+  return Object.keys(electionShowed).length > 0 ? (
     <div className="box">
-      <AlertNotification
-        alertMessage={infoMessages.success}
-        type="success"
-      />
-      <AlertNotification
-        alertMessage={infoMessages.danger}
-        type="danger"
-      />
+      <AlertNotification alertMessage={infoMessages.success} type="success" />
+      <AlertNotification alertMessage={infoMessages.danger} type="danger" />
       <ResumeTitle />
       <ResumeTable
         electionShowed={electionShowed}
@@ -62,44 +59,47 @@ function Resume({
         handleInfoMessages={handleInfoMessages}
       />
     </div>
-    ) : <div />
-  )
+  ) : (
+    <div />
+  );
 }
 
 function ElectionList({
-  electionsPage, electionSelected, electionSelectedHandler,
-  freezeModalHandler, closeModalHandler, tallyModalHandler,
-  combineTallyHandler, uploadModalHandler, releaseModalHandler,
+  electionsPage,
+  electionSelected,
+  electionSelectedHandler,
+  freezeModalHandler,
+  closeModalHandler,
+  tallyModalHandler,
+  combineTallyHandler,
+  uploadModalHandler,
+  releaseModalHandler,
 }) {
-  return (
-    electionsPage.map((election, index) => {
-      const modalParams = {
-        state: true,
-        shortName: election.short_name,
-      }
-      return (
-        <CardElection
-          key={index}
-          election={election}
-          electionStatus={election.election_status}
-          electionSelected={electionSelected}
-          handlerElectionSelected={electionSelectedHandler(election)}
-          freezeModal={() => freezeModalHandler(modalParams)}
-          closeModal={() => closeModalHandler(modalParams)}
-          releaseModal={() => releaseModalHandler(modalParams)}
-          tallyModal={() => tallyModalHandler(modalParams)}
-          combineTallyModal={() => combineTallyHandler(modalParams)}
-          uploadModalonClick={(_) => uploadModalHandler(modalParams)}
-        />
-      )
-    })
-  )
+  return electionsPage.map((election, index) => {
+    const modalParams = {
+      state: true,
+      shortName: election.short_name,
+    };
+    return (
+      <CardElection
+        key={index}
+        election={election}
+        electionStatus={election.election_status}
+        electionSelected={electionSelected}
+        handlerElectionSelected={electionSelectedHandler(election)}
+        freezeModal={() => freezeModalHandler(modalParams)}
+        closeModal={() => closeModalHandler(modalParams)}
+        releaseModal={() => releaseModalHandler(modalParams)}
+        tallyModal={() => tallyModalHandler(modalParams)}
+        combineTallyModal={() => combineTallyHandler(modalParams)}
+        uploadModalonClick={(_) => uploadModalHandler(modalParams)}
+      />
+    );
+  });
 }
 
-function ElectionListButton({
-  isDisabled, onClickHandler, message,
-}) {
-  return(
+function ElectionListButton({ isDisabled, onClickHandler, message }) {
+  return (
     <div className="d-flex">
       <Button
         className="button-custom home-admin-button btn-fixed"
@@ -109,12 +109,14 @@ function ElectionListButton({
         {message}
       </Button>
     </div>
-  )
+  );
 }
 
 function ElectionListButtons({
-  isPreviousDisabled, previousHandler,
-  isNextDisabled, nextHandler,
+  isPreviousDisabled,
+  previousHandler,
+  isNextDisabled,
+  nextHandler,
 }) {
   return (
     <div className="d-flex justify-content-between mt-4">
@@ -129,12 +131,12 @@ function ElectionListButtons({
         message="Siguiente"
       />
     </div>
-  )
+  );
 }
 
 function GeneralAdmin() {
-  /** @state {array} all elections */
-  const [elections, setElections] = useState([]);
+  const dispatch = useDispatch();
+  const elections = useSelector((state) => state.election.elections);
 
   /** @state {array} elections showed in the election */
   const [electionsPage, setElectionsPage] = useState([]);
@@ -143,19 +145,28 @@ function GeneralAdmin() {
   const [actualPage, setActualPage] = useState(0);
 
   /** @state {json} state modal freeze */
-  const [freezeModal, setFreezeModal] = useState({ state: false, shortName: "" });
+  const [freezeModal, setFreezeModal] = useState({
+    state: false,
+    shortName: "",
+  });
 
   /** @state {json} state modal close election */
   const [closeModal, setCloseModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} state modal release results */
-  const [releaseModal, setReleaseModal] = useState({ state: false, shortName: "" });
+  const [releaseModal, setReleaseModal] = useState({
+    state: false,
+    shortName: "",
+  });
 
   /** @state {json} tally modal close election */
   const [tallyModal, setTallyModal] = useState({ state: false, shortName: "" });
 
   /** @state {json} state modal combine tally election */
-  const [combineTallyModal, setCombineTallyModal] = useState({ state: false, shortName: "" });
+  const [combineTallyModal, setCombineTallyModal] = useState({
+    state: false,
+    shortName: "",
+  });
 
   /** @state {string} message with feeback for admin */
   const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -232,6 +243,23 @@ function GeneralAdmin() {
     );
   };
 
+  const setElectionData = useCallback(() => {
+    const auxJson = {};
+    elections.forEach((election) => {
+      let status = election.election_status;
+      if (canCombineDecryptions(election)) {
+        status = "Can combine decryptions";
+      }
+      auxJson[status] =
+        status in auxJson ? [...auxJson[status], election] : [election];
+    });
+
+    setElectionsRecount(auxJson);
+    setElectionShowed(auxJson);
+    setElectionSelected({});
+    setLoad(true);
+  }, [elections]);
+
   /**
    * Refreshes elections in case of changes
    *
@@ -241,21 +269,8 @@ function GeneralAdmin() {
     getElections().then((res) => {
       const { resp, jsonResponse } = res;
       if (resp.status === 200) {
-        setElections(jsonResponse);
-        const auxJson = {};
-        jsonResponse.forEach((election) => {
-          let status = election.election_status;
-          if (canCombineDecryptions(election)) {
-            status = "Can combine decryptions";
-          }
-          auxJson[status] =
-            status in auxJson ? [...auxJson[status], election] : [election];
-        });
-
-        setElectionsRecount(auxJson);
-        setElectionShowed(auxJson);
-        setElectionSelected({});
-        setLoad(true);
+        dispatch(setElections(jsonResponse));
+        setElectionData();
       }
     });
   };
@@ -289,24 +304,28 @@ function GeneralAdmin() {
     setElectionShowed(selected);
   };
 
-  /**
-   * Discriminate between showing all or selected ones
-   */
-  useEffect(() => {
+  const setShowingElections = useCallback(() => {
+    let auxElectionSelected = electionSelected;
     if (
       Object.values(electionSelected).every(
         (arr) => Array.isArray(arr) && arr.length === 0
       )
     ) {
-      setElectionShowed(electionsRecount);
-      return;
+      auxElectionSelected = electionsRecount;
     }
-    setElectionShowed(electionSelected);
-  }, [electionSelected]);
+    setElectionShowed(auxElectionSelected);
+  }, [electionSelected, electionsRecount]);
+
+  /**
+   * Discriminate between showing all or selected ones
+   */
+  useEffect(() => {
+    setShowingElections();
+  }, [setShowingElections]);
 
   useEffect(() => {
-    refreshElections();
-  }, []);
+    setElectionData();
+  }, [setElectionData]);
 
   return (
     <>
@@ -331,9 +350,8 @@ function GeneralAdmin() {
                   electionsPage={electionsPage}
                   electionSelected={electionSelected}
                   electionSelectedHandler={(election) => {
-                    return (
-                      (checked) => handlerElectionSelected(election, checked)
-                    )
+                    return (checked) =>
+                      handlerElectionSelected(election, checked);
                   }}
                   freezeModalHandler={setFreezeModal}
                   closeModalHandler={setCloseModal}
@@ -351,7 +369,7 @@ function GeneralAdmin() {
               </div>
             </div>
           ) : (
-            <div className="spinner-animation"/>
+            <div className="spinner-animation" />
           )}
         </div>
 

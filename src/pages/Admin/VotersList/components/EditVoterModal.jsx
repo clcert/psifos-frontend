@@ -1,4 +1,3 @@
-import { event } from "jquery";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendOpIP } from "../../../../server";

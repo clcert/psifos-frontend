@@ -14,8 +14,11 @@ import { useCallback, useEffect, useState } from "react";
 
 import { getTrusteeHome } from "../../../services/trustee";
 import { getEgParams } from "../../../services/crypto";
+import { useSelector } from "react-redux";
 
 function Keygenerator(props) {
+  const election = useSelector((state) => state.election.actualElection);
+
   let COEFFICIENTS = [];
   let ACKS = [];
   let SENT, ACKS2;
@@ -39,8 +42,6 @@ function Keygenerator(props) {
 
   const [trustee, setTrustee] = useState("");
 
-  const [election, setElection] = useState([]);
-
   const [interval, setInterval] = useState(null);
 
   const [ElGamalParams, setElGamalParams] = useState("");
@@ -50,8 +51,6 @@ function Keygenerator(props) {
   const [secretKey, setSecretKey] = useState(null);
 
   const [certificateCache, setCertificateCache] = useState(null);
-
-  const [checkedSecretKey, setCheckedSecretKey] = useState("");
 
   /** @urlParam {shortName} election shortName */
   const { shortName, uuidTrustee } = useParams();
@@ -596,12 +595,9 @@ function Keygenerator(props) {
           {actualPhase === 2 && (
             <div>
               <p className="mb-1 title has-text-white">
-                  1. Descarga de Clave Privada{" "}
-                  <i
-                    id="step_0"
-                    className={"fa-solid fa-circle-check"}
-                  ></i>
-                </p>
+                1. Descarga de Clave Privada{" "}
+                <i id="step_0" className={"fa-solid fa-circle-check"}></i>
+              </p>
               <p className="title has-text-white pb-2 mb-0">
                 2. Sincronización con Custodios de Clave{" "}
                 <i
@@ -671,8 +667,9 @@ function Keygenerator(props) {
               &nbsp;
               <i className="fa-solid fa-circle-info"></i>&nbsp;INFORMACIÓN
               <br />
-              Se descargará un archivo que contiene su Clave Privada. Ese archivo lo debe almacenar en su computador
-              y guardar un respaldo en otro dispositivo, por ejemplo, un pendrive.
+              Se descargará un archivo que contiene su Clave Privada. Ese
+              archivo lo debe almacenar en su computador y guardar un respaldo
+              en otro dispositivo, por ejemplo, un pendrive.
             </span>
           </div>
           <p id="feedback-message" className="has-text-white is-size-4">

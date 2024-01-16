@@ -9,9 +9,7 @@ import UpperBanner from "../../component/Banner/UpperBanner";
 import { useInViewport } from "react-in-viewport";
 import React, { useRef } from "react";
 
-
 function Home() {
-
   const elections = require("../../static/data/currentElections.json");
 
   const myRef = useRef();
@@ -20,21 +18,22 @@ function Home() {
   if (inViewport && !showAnimation) {
     setShowAnimation(true);
   }
-  
+
   return (
     <div id="content">
-      <UpperBanner title="PÁGINA PRINCIPAL" subtitle="SISTEMA DE VOTACIÓN Y CONSULTAS" />
+      <UpperBanner
+        title="PÁGINA PRINCIPAL"
+        subtitle="SISTEMA DE VOTACIÓN Y CONSULTAS"
+      />
       <section className="election-section pt-0 pb-0">
         <div className="election-sect">
           <div
             className="current-elections-section is-centered m-auto"
             id="curso"
           >
-            {
-              elections.data.map((election, index) => (
-                <InfoVotacion image={sobre} electionData={election} key={index} />
-              ))
-            }
+            {elections.data.map((election, index) => (
+              <InfoVotacion image={sobre} electionData={election} key={index} />
+            ))}
           </div>
 
           <Video
@@ -220,7 +219,7 @@ function Home() {
             </div>
           </div>
           <div className="columns">
-          <div className="column is-one-quarter m-0">
+            <div className="column is-one-quarter m-0">
               <TeamComponent
                 name="EDUARDO RIVEROS"
                 rol="Ingeniero de Ciberseguridad e Infraestructura"
@@ -241,45 +240,105 @@ function Home() {
                 image={process.env.PUBLIC_URL + "/Fotos/raul.svg"}
               />
             </div>
-
-
           </div>
 
-          
-            <p className="has-text-centered">Participa UChile es un proyecto de <span className="has-text-weight-bold is-color-blue">Prorrectoría U. de Chile</span>, desarrollado por el <span className="has-text-weight-bold is-color-blue"><a href="https://clcert.cl" target="_blank">Lab. de Criptografía Aplicada y Ciberseguridad (CLCERT)</a></span>, y patrocinado por la <span className="has-text-weight-bold is-color-blue"><a href="https://vti.uchile.cl" target="_blank">Vicerrectoría de Tecnología de la Información</a>, la Vicerrectoría de Asuntos Económicos y Gestión Institucional, y la <a href="https://ingenieria.uchile.cl/" target="_blank">Facultad de Ciencias Físicas y Matemáticas</a> de la U. de Chile</span></p>
-            <div className={"columns has-text-centered is-align-items-center "  + (showAnimation ? "slide-up-activate" : "slide-up-enter")} ref={myRef}>
+          <p className="has-text-centered">
+            Participa UChile es un proyecto de{" "}
+            <span className="has-text-weight-bold is-color-blue">
+              Prorrectoría U. de Chile
+            </span>
+            , desarrollado por el{" "}
+            <span className="has-text-weight-bold is-color-blue">
+              <a href="https://clcert.cl" target="_blank">
+                Lab. de Criptografía Aplicada y Ciberseguridad (CLCERT)
+              </a>
+            </span>
+            , y patrocinado por la{" "}
+            <span className="has-text-weight-bold is-color-blue">
+              <a href="https://vti.uchile.cl" target="_blank">
+                Vicerrectoría de Tecnología de la Información
+              </a>
+              , la Vicerrectoría de Asuntos Económicos y Gestión Institucional,
+              y la{" "}
+              <a href="https://ingenieria.uchile.cl/" target="_blank">
+                Facultad de Ciencias Físicas y Matemáticas
+              </a>{" "}
+              de la U. de Chile
+            </span>
+          </p>
+          <div
+            className={
+              "columns has-text-centered is-align-items-center " +
+              (showAnimation ? "slide-up-activate" : "slide-up-enter")
+            }
+            ref={myRef}
+          >
             <div className="column is-one-quarter m-0">
-            <a href="https://uchile.cl" target="_blank">
-              <figure className="image">
-                <img className="" src={process.env.PUBLIC_URL + "/Fotos/uchile.png"} alt=""/>
-              </figure>
+              <a
+                href="https://uchile.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <figure className="image">
+                  <img
+                    className=""
+                    src={process.env.PUBLIC_URL + "/Fotos/uchile.png"}
+                    alt=""
+                  />
+                </figure>
               </a>
             </div>
-              <div className="column is-one-quarter m-0">
-              <a href="https://vti.uchile.cl" target="_blank">
-              <figure className="image">
-                <img className="" src={process.env.PUBLIC_URL + "/Fotos/vti.png"} alt=""/>
-              </figure>
+            <div className="column is-one-quarter m-0">
+              <a
+                href="https://vti.uchile.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <figure className="image">
+                  <img
+                    className=""
+                    src={process.env.PUBLIC_URL + "/Fotos/vti.png"}
+                    alt=""
+                  />
+                </figure>
               </a>
-              </div>
-              <div className="column is-one-quarter m-0">
-              <a href="https://ingenieria.uchile.cl" target="_blank">
-              <figure className="image">
-                <img className="" src={process.env.PUBLIC_URL + "/Fotos/fcfm.png"} alt=""/>
-              </figure>
+            </div>
+            <div className="column is-one-quarter m-0">
+              <a
+                href="https://ingenieria.uchile.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <figure className="image">
+                  <img
+                    className=""
+                    src={process.env.PUBLIC_URL + "/Fotos/fcfm.png"}
+                    alt=""
+                  />
+                </figure>
               </a>
-              </div>
-              <div className="column is-one-quarter m-0">
-              <a href="https://clcert.cl" target="_blank">
-              <figure className="image">
-                <img className="" src={process.env.PUBLIC_URL + "/Fotos/clcert.png"} alt=""/>
-              </figure>
+            </div>
+            <div className="column is-one-quarter m-0">
+              <a
+                href="https://clcert.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <figure className="image">
+                  <img
+                    className=""
+                    src={process.env.PUBLIC_URL + "/Fotos/clcert.png"}
+                    alt=""
+                  />
+                </figure>
               </a>
-              </div>
-            </div>  
-           
+            </div>
+          </div>
 
-          <div className="is-flex is-justify-content-center" style={{ "font-size": "2rem" }}>
+          <div
+            className="is-flex is-justify-content-center"
+            style={{ "font-size": "2rem" }}
+          >
             <span className="bullet-1">•</span> &emsp;{" "}
             <span className="bullet-2">•</span> &emsp;{" "}
             <span className="bullet-3">•</span> &emsp;{" "}

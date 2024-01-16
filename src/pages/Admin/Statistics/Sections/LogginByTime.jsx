@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendOpIP } from "../../../../server";
@@ -22,7 +22,7 @@ function LogginByTime(props) {
   /** @urlParam {string} uuid of election */
   const { shortName } = useParams();
 
-  async function getCountDates() {
+  const getCountDates = useCallback(async () => {
     const token = localStorage.getItem("token");
     const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
       method: "POST",
@@ -43,11 +43,11 @@ function LogginByTime(props) {
       }
       setLoad(true);
     }
-  }
+  }, [deltaTime, shortName]);
 
   useEffect(() => {
     getCountDates();
-  }, [deltaTime]);
+  }, [getCountDates, deltaTime]);
 
   function handleChange(event) {
     setDeltaTime(parseInt(event.target.value));

@@ -86,7 +86,7 @@ function VotersList() {
                   >
                     <span>Subir votantes</span>
                   </Button>
-                  {election.election_status == "Setting up" && (
+                  {election.election_status === "Setting up" && (
                     <Button
                       className="button progress-previous has-text-white has-text-weight-bold ml-3"
                       onClick={() => {

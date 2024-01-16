@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
@@ -26,7 +26,8 @@ ChartJS.register(
 function LinePsifosGraph(props) {
   const [data, setData] = useState({});
   const [options, setOptions] = useState({});
-  useEffect(() => {
+
+  const initComponent = useCallback(() => {
     const labels = Object.keys(props.data);
     const dataAux = {
       labels,
@@ -56,15 +57,20 @@ function LinePsifosGraph(props) {
     };
     setData(dataAux);
     setOptions(options);
-  }, [props.data]);
+  }, [props.data, props.label, props.title]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
 
   return (
     <>
-      {Object.keys(data).length !== 0 && Object.keys(props.data).length !== 0 && (
-        <div className="canvas-graph">
-          <Line data={data} options={options} />
-        </div>
-      )}
+      {Object.keys(data).length !== 0 &&
+        Object.keys(props.data).length !== 0 && (
+          <div className="canvas-graph">
+            <Line data={data} options={options} />
+          </div>
+        )}
     </>
   );
 }

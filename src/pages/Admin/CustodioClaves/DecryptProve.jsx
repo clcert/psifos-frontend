@@ -12,7 +12,6 @@ import ModalDecrypt from "./components/ModalDecrypt";
 
 function DecryptProve() {
   const [actualStep, setActualStep] = useState(0);
-  const [secretKey, setSecretKey] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState(
     "Esperando clave para generar desencriptación parcial"
   );
@@ -213,7 +212,6 @@ function DecryptProve() {
   };
   const decrypt = async (sk) => {
     try {
-      setSecretKey(sk);
       setFeedbackMessage("Generando desencriptado parcial...");
       setActualStep(1);
       setTimeout(() => {
@@ -242,7 +240,6 @@ function DecryptProve() {
 
       <section className="section" id="medium-section">
         <div className="container has-text-centered has-text-white is-max-desktop">
-
           <div id="sk_section">
             <h3>Inserte su archivo con Clave Privada aquí</h3>
             <DropFile setText={decrypt} />
@@ -257,9 +254,7 @@ function DecryptProve() {
                 }
               ></i>
             </p>
-
-            {actualStep < 2 && 
-              (
+            {actualStep < 2 && (
               <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
                 <button className="button is-link mx-sm-2 mt-2">
                   <Link
@@ -271,11 +266,8 @@ function DecryptProve() {
                   </Link>
                 </button>
               </div>
-              )
-            }
-
-            {actualStep == 2 && 
-              (
+            )}
+            {actualStep === 2 && (
               <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
                 <button className="button is-link mx-sm-2 mt-2">
                   <Link
@@ -287,10 +279,7 @@ function DecryptProve() {
                   </Link>
                 </button>
               </div>
-              )
-            }
-
-
+            )}
             <div className="mt-4"></div>
           </div>
         </div>

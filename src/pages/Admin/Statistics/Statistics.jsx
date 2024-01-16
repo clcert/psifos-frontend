@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getStats } from "../../../services/election";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
@@ -21,12 +21,16 @@ function Statistics() {
 
   const tabs = ["Votos recibidos", "Ingresos recibidos", "Ingresos fallidos"];
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     getStats(shortName).then((data) => {
       const { jsonResponse } = data;
       setElectionName(jsonResponse.name);
     });
-  }, []);
+  }, [shortName]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
 
   return (
     <div id="content-home-admin">
