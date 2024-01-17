@@ -249,18 +249,30 @@ function Home() {
             </span>
             , desarrollado por el{" "}
             <span className="has-text-weight-bold is-color-blue">
-              <a href="https://clcert.cl" target="_blank">
+              <a
+                href="https://clcert.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Lab. de Criptografía Aplicada y Ciberseguridad (CLCERT)
               </a>
             </span>
             , y patrocinado por la{" "}
             <span className="has-text-weight-bold is-color-blue">
-              <a href="https://vti.uchile.cl" target="_blank">
+              <a
+                href="https://vti.uchile.cl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Vicerrectoría de Tecnología de la Información
               </a>
               , la Vicerrectoría de Asuntos Económicos y Gestión Institucional,
               y la{" "}
-              <a href="https://ingenieria.uchile.cl/" target="_blank">
+              <a
+                href="https://ingenieria.uchile.cl/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Facultad de Ciencias Físicas y Matemáticas
               </a>{" "}
               de la U. de Chile

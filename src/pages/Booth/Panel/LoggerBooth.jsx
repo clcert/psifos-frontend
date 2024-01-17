@@ -1,4 +1,3 @@
-import WorkInProgress from "../../../component/OthersComponents/WorkInProgress";
 import Logs from "./Logs";
 
 function LoggerBoth() {

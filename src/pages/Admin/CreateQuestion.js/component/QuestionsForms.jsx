@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { applyAccent } from "../../utils";
 import { DescriptionInput } from "./OptionQuestions";
 import AnswersSetup from "./AnswersQuestions";
@@ -9,10 +9,8 @@ import QuestionTypeSelector from "./QuestionTypeSelector";
 import IncludeBlankNullCheckbox from "./IncludeBlankNullCheckbox";
 import GroupApplicationsCheckbox from "./GroupApplicationsCheckbox";
 
-function Title({title}) {
-  return (
-    <div className="create-title mb-1">{title}</div>
-  )
+function Title({ title }) {
+  return <div className="create-title mb-1">{title}</div>;
 }
 
 function QuestionsForms(props) {
@@ -34,7 +32,7 @@ function QuestionsForms(props) {
 
   const numOfClosedOptions = props.question.closed_options.length;
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     if (props.question !== undefined) {
       let answersAux = [];
       for (let i = 0; i < numOfClosedOptions; i++) {
@@ -47,11 +45,15 @@ function QuestionsForms(props) {
       setNumberQuestion(numOfClosedOptions);
       setTypeQuestion(props.question.q_type);
     }
-  }, []);
+  }, [numOfClosedOptions, props.question]);
 
   useEffect(() => {
-    props.checkOptions(descriptionChecked && numberOfAnsChecked)
-  }, [descriptionChecked, numberOfAnsChecked])
+    initComponent();
+  }, [initComponent]);
+
+  useEffect(() => {
+    props.checkOptions(descriptionChecked && numberOfAnsChecked);
+  }, [descriptionChecked, numberOfAnsChecked, props]);
 
   function answersWithoutKey(arrayWithKeys) {
     let auxAnswers = [];
@@ -87,10 +89,9 @@ function QuestionsForms(props) {
     for (let i = 0; i < answersWithKey.length; i++) {
       if (answersWithKey[i].key < key) {
         newAns.push(answersWithKey[i]);
-      }
-      else if (answersWithKey[i].key > key) {
+      } else if (answersWithKey[i].key > key) {
         newAns.push({
-          key: answersWithKey[i].key-1,
+          key: answersWithKey[i].key - 1,
           value: answersWithKey[i].value,
         });
       }
@@ -137,9 +138,7 @@ function QuestionsForms(props) {
         handleDelete={props.remove}
       />
 
-      <Title
-        title="Pregunta"
-      />
+      <Title title="Pregunta" />
 
       <QuestionStatementInput
         statement={props.question.q_text}

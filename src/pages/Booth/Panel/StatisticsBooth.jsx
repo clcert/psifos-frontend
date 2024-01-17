@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Tabs from "../../Admin/component/Tabs";
-import ResumeTable from "../../Admin/ElectionResume/components/ResumeTable";
 import VotesByTime from "../../Admin/Statistics/Sections/VotesByTime";
 import CardsInfoElection from "./components/CardsInfoElection";
 

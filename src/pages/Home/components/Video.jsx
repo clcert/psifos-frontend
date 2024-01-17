@@ -11,6 +11,7 @@ function Video(props) {
           </h1>
           <figure className="image is-16by9">
             <iframe
+              title="Video"
               className="has-ratio"
               width="640"
               height="360"

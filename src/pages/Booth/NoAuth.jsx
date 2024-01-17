@@ -1,11 +1,9 @@
 import ElectionCode from "../../component/Footers/ElectionCode";
 import TitlePsifos from "../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function NoAuth(props) {
-  const { shortName } = useParams();
-
   return (
     <div id="content">
       <section className="parallax hero is-medium">

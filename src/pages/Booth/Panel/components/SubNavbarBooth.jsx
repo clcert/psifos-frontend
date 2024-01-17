@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import ItemNavbar from "../../../Admin/component/ItemNavbar";
 
 function SubNavbarBooth(props) {

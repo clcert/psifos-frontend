@@ -1,6 +1,6 @@
 function InputCheckbox(props) {
   const includeBlankNull = props.question.include_blank_null === "True";
-  
+
   const disabledCondition = (index) => {
     return (
       parseInt(props.question.max_answers) === props.answers.length &&
@@ -39,12 +39,12 @@ function InputCheckbox(props) {
           !includeBlankNull ||
           index < props.question.closed_options.length - 2
         ) {
-          const isDesabled = disabledCondition(index);
+          const isDisabled = disabledCondition(index);
           return (
             <div key={index} className={"mt-2 "}>
               <label
                 className={
-                  (isDesabled
+                  (isDisabled
                     ? "question-answer-desabled "
                     : "question-answer-enabled ") +
                   "d-inline-flex align-items-center checkbox question-answer px-3 py-2 " +
@@ -62,13 +62,13 @@ function InputCheckbox(props) {
                     let ans = addAnswer(e, props.index);
                     props.addAnswer(ans, props.index);
                   }}
-                  disabled={isDesabled}
+                  disabled={isDisabled}
                 />
                 <span className={"is-size-5"}> {key} </span>
               </label>
             </div>
           );
-        }
+        } else return null;
       })}
     </div>
   );
