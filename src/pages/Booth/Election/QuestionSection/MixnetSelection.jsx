@@ -28,6 +28,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   const [placeHolder, setPlaceHolder] = useState(defaultPlaceHolder);
 
   const includeBlankNull = question.include_blank_null === "True";
+  const addAnswerCallback = useCallback(addAnswer, [addAnswer]);
 
   const changeAllEncrypted = useCallback(
     (number) => {
@@ -36,13 +37,13 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         auxAnswersForEncrypt.push(number);
       }
       setAnswersForEncrypt(auxAnswersForEncrypt);
-      addAnswer(auxAnswersForEncrypt, numQuestion);
+      addAnswerCallback(auxAnswersForEncrypt, numQuestion);
       return auxAnswersForEncrypt;
     },
-    [addAnswer, numQuestion, question]
+    [addAnswerCallback, numQuestion, question]
   );
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     const auxAnswersForEncrypt = changeAllEncrypted(
       question.closed_options.length
     );
@@ -85,7 +86,19 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     });
     moveToFinal(auxOptions, (element) => element.label === otherOptionsName);
     setOptions(auxOptions);
-    addAnswer(auxAnswersForEncrypt, numQuestion);
+    addAnswerCallback(auxAnswersForEncrypt, numQuestion);
+  }, [
+    addAnswerCallback,
+    changeAllEncrypted,
+    includeBlankNull,
+    isMixnetGroup,
+    numQuestion,
+    question.closed_options,
+  ]);
+
+
+  useEffect(() => {
+    initComponent();
   }, []);
 
   const moveToFinal = function (array, condition) {
@@ -180,7 +193,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
       setAnswersSelected(auxAnswersSelected);
       setAnswersForEncrypt(auxAnswersForEncrypt);
-      addAnswer(auxAnswersForEncrypt, numQuestion);
+      addAnswerCallback(auxAnswersForEncrypt, numQuestion);
       setOptions(auxOptions);
       setPlaceHolder(defaultPlaceHolder);
     },
@@ -190,7 +203,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       options,
       answersSelected,
       answersForEncrypt,
-      addAnswer,
+      addAnswerCallback,
       isMixnetGroup,
       changeAllEncrypted,
       question,

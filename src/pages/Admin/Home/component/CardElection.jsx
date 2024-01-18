@@ -1,31 +1,28 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getStats } from "../../../../services/election";
 import Status from "../../AdministrationPanel/component/Status";
 import { electionStatusTranslate } from "../../../../constants";
 
 function Header({
-  electionName, electionShortName, configRoute,
-  checkboxHandler, checked,
+  electionName,
+  electionShortName,
+  configRoute,
+  checkboxHandler,
+  checked,
 }) {
   return (
     <div className="election-header">
       <div className="">
         <div>
-          <input
-            type="checkbox"
-            onChange={checkboxHandler}
-            checked={checked}
-          />
-          <span className="is-size-4" style={{marginLeft: "6px"}}>
+          <input type="checkbox" onChange={checkboxHandler} checked={checked} />
+          <span className="is-size-4" style={{ marginLeft: "6px" }}>
             {electionName}
           </span>
         </div>
-        <div className="is-size-5 ml-4">
-          {electionShortName}
-        </div>
+        <div className="is-size-5 ml-4">{electionShortName}</div>
       </div>
-      <span className="is-size-6" style={{marginTop: "7px"}}>
+      <span className="is-size-6" style={{ marginTop: "7px" }}>
         <Link className="link-without-line" to={configRoute}>
           <i className="fa-solid fa-screwdriver-wrench mr-2" />
           <span>Configuraciones</span>
@@ -40,7 +37,7 @@ function Info({ message }) {
     <div className="content-card-admin ml-4">
       <span className="panel-text-sect">{message}</span>
     </div>
-  )
+  );
 }
 
 function MainInfo({ state, totalVoters, totalVotes }) {
@@ -102,7 +99,7 @@ function CardElection(props) {
     props.handlerElectionSelected(checked);
   };
 
-  const inputCheck = () => {
+  const inputCheck = useCallback(() => {
     if (props.electionSelected.length === 0) return false;
 
     let status = props.election.election_status;
@@ -119,12 +116,12 @@ function CardElection(props) {
     return props.electionSelected[status].some(
       (e) => e.short_name === props.election.short_name
     );
-  };
+  }, [props.electionSelected, props.election]);
 
   useEffect(() => {
     const aux = inputCheck();
     setChecked(aux);
-  }, [props.electionSelected, props.election]);
+  }, [props.electionSelected, props.election, inputCheck]);
 
   return (
     <div className="box info-general">

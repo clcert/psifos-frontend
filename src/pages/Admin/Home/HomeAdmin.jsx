@@ -26,7 +26,7 @@ function HomeAdmin() {
         <div className="chart-container">
           <Tabs actualTab={actualTab} setActualTab={setActualTab} tabs={tabs} />
           <div className={actualTab !== 0 ? "d-none" : ""}>
-            <AccesoElecciones/>
+            <AccesoElecciones />
           </div>
           <div className={actualTab !== 1 ? "d-none" : ""}>
             <ResumenElecciones />

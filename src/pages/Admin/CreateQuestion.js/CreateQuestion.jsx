@@ -1,5 +1,4 @@
-import { values } from "lodash";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "react-bulma-components";
 import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
@@ -9,19 +8,23 @@ import { backendOpIP } from "../../../server";
 import { getElection } from "../../../services/election";
 import SubNavbar from "../component/SubNavbar";
 import QuestionsForms from "./component/QuestionsForms";
+import { useDispatch, useSelector } from "react-redux";
+import { setElection } from "../../../store/slices/electionSlice";
+import { electionStatus } from "../../../constants";
 
 function CreateQuestion(props) {
   /**
    * view that is responsible for creating a question
    */
 
+  const dispatch = useDispatch();
+  const election = useSelector((state) => state.election.actualElection);
+
   /** @state {number} number of questions */
   const [questionCantidad, setQuestionCantidad] = useState(1);
 
   /** @state {array} array containing the questions */
   const [question, setQuestion] = useState([]);
-
-  const [election, setElection] = useState({});
 
   /** @state {string} alert message for state of creation */
   const [alertMessage, setAlertMessage] = useState("");
@@ -36,15 +39,23 @@ function CreateQuestion(props) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
+  const initComponent = useCallback((election) => {
+    if (election.questions !== null) {
+      setQuestions(JSON.parse(election.questions));
+    }
+    setDisabledEdit(election.election_status !== electionStatus.settingUp);
+  }, []);
+
   useEffect(() => {
-    getElection(shortName).then((resp) => {
-      setElection(resp.jsonResponse);
-      if (resp.jsonResponse.questions !== null) {
-        setQuestions(JSON.parse(resp.jsonResponse.questions));
-      }
-      setDisabledEdit(resp.jsonResponse.election_status !== "Setting up");
-    });
-  }, [shortName]);
+    if (Object.keys(election).length === 0) {
+      getElection(shortName).then((resp) => {
+        dispatch(setElection(resp.jsonResponse));
+        initComponent(resp.jsonResponse);
+      });
+    } else {
+      initComponent(election);
+    }
+  }, [shortName, dispatch, election, initComponent]);
 
   function addQuestion() {
     /**

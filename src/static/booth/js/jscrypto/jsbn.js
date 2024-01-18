@@ -14,7 +14,7 @@ var j_lm = (canary & 0xffffff) == 0xefcafe;
 // (public) Constructor
 class BigInteger {
   constructor(a, b, c) {
-    this.arr = new Array();
+    this.arr = [];
     if (a != null)
       if ("number" == typeof a) this.fromNumber(a, b, c);
       else if (b == null && "string" != typeof a) this.fromString(a, 256);
@@ -119,7 +119,7 @@ BigInteger.prototype.F2 = 2 * dbits - BI_FP;
 
 // Digit conversions
 var BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
-var BI_RC = new Array();
+var BI_RC = [];
 var rr, vv;
 rr = "0".charCodeAt(0);
 for (vv = 0; vv <= 9; ++vv) BI_RC[rr++] = vv;

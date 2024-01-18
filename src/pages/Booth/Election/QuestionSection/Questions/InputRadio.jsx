@@ -36,6 +36,7 @@ function InputRadio(props) {
               </label>
             </div>
           );
+        else return null;
       })}
     </div>
   );

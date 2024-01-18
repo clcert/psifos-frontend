@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function DescriptionInput({
-  disabledEdit, description, handleChange, checkOptions,
+  disabledEdit,
+  description,
+  handleChange,
+  checkOptions,
 }) {
   const [warningText, setWarningText] = useState(false);
 
   useEffect(() => {
     if (description?.length > 300) {
-      setWarningText(
-        "La descripción debe tener menos de 300 caracteres"
-      );
-    }
-    else {
+      setWarningText("La descripción debe tener menos de 300 caracteres");
+    } else {
       setWarningText(false);
     }
   }, [description]);
 
   useEffect(() => {
     checkOptions(!Boolean(warningText));
-  }, [warningText]);
+  }, [checkOptions, warningText]);
 
   return (
     <div className="field">
@@ -32,42 +32,56 @@ export function DescriptionInput({
           onChange={(e) => handleChange(e.target.value)}
         />
       </div>
-      {warningText && (
-        <p className="help is-danger">{warningText}</p>
-      )}
+      {warningText && <p className="help is-danger">{warningText}</p>}
     </div>
-  )
+  );
 }
 
 function NumberOfAnsInput({
-  label, isDisabled, value, inputId,
-  placeholder, handleInput, checkOptions, numberOfAns,
-  minCoteCondition, minCoteWarningMessage,
-  maxCoteCondition, maxCoteWarningMessage,
+  label,
+  isDisabled,
+  value,
+  inputId,
+  placeholder,
+  handleInput,
+  checkOptions,
+  numberOfAns,
+  minCoteCondition,
+  minCoteWarningMessage,
+  maxCoteCondition,
+  maxCoteWarningMessage,
 }) {
   const [warningText, setWarningText] = useState(false);
 
   useEffect(() => {
-    let wt = false
-    if (!isDisabled){
+    let wt = false;
+    if (!isDisabled) {
       if (minCoteCondition) {
         wt = minCoteWarningMessage;
         checkOptions(false);
-      }
-      else if (maxCoteCondition){
+      } else if (maxCoteCondition) {
         wt = maxCoteWarningMessage;
         checkOptions(false);
       }
     }
     setWarningText(wt);
-  }, [value, isDisabled, numberOfAns]);
+  }, [
+    value,
+    isDisabled,
+    numberOfAns,
+    minCoteCondition,
+    maxCoteCondition,
+    minCoteWarningMessage,
+    maxCoteWarningMessage,
+    checkOptions,
+  ]);
 
   useEffect(() => {
     checkOptions(!Boolean(warningText));
-  }, [warningText])
+  }, [warningText, checkOptions]);
 
   return (
-    <div className="column" style={{paddingLeft: "0px"}}>
+    <div className="column" style={{ paddingLeft: "0px" }}>
       <div className="field">
         <label className="label">{label}</label>
         <div className="control">
@@ -81,12 +95,10 @@ function NumberOfAnsInput({
             onChange={handleInput}
           />
         </div>
-        {warningText && (
-          <p className="help is-danger">{warningText}</p>
-        )}
+        {warningText && <p className="help is-danger">{warningText}</p>}
       </div>
     </div>
-  )
+  );
 }
 
 function MinOfAnsInput(props) {
@@ -99,7 +111,7 @@ function MinOfAnsInput(props) {
       maxCoteWarningMessage="Debe introducir un número menor a la cantidad de respuestas"
       {...props}
     />
-  )
+  );
 }
 
 function MaxOfAnsInput(props) {
@@ -112,26 +124,34 @@ function MaxOfAnsInput(props) {
       maxCoteWarningMessage="Debe introducir un número menor o igual a la cantidad de respuestas"
       {...props}
     />
-  )
+  );
 }
 
 export function NumberOfAnswersSetup({
-  minAnswers, handleMinAns,
-  maxAnswers, handleMaxAns,
-  disabledEdit, disabledMinAns,
-  questionId, numOfOptions, checkOptions,
+  minAnswers,
+  handleMinAns,
+  maxAnswers,
+  handleMaxAns,
+  disabledEdit,
+  disabledMinAns,
+  questionId,
+  numOfOptions,
+  checkOptions,
 }) {
-
   const [minOfAnsChecked, setMinOfAnsChecked] = useState(true);
   const [maxOfAnsChecked, setMaxOfAnsChecked] = useState(true);
 
-  useEffect(() => {
-    disabledMinAns && handleMinAns(1)
+  const setupMinOfAns = useCallback(() => {
+    disabledMinAns && handleMinAns(1);
   }, [disabledMinAns]);
 
   useEffect(() => {
-    checkOptions(minOfAnsChecked && maxOfAnsChecked)
-  }, [minOfAnsChecked, maxOfAnsChecked]);
+    setupMinOfAns();
+  }, [setupMinOfAns]);
+
+  useEffect(() => {
+    checkOptions(minOfAnsChecked && maxOfAnsChecked);
+  }, [minOfAnsChecked, maxOfAnsChecked, checkOptions]);
 
   return (
     <div className="columns">
@@ -162,14 +182,16 @@ export function NumberOfAnswersSetup({
         }}
         checkOptions={setMaxOfAnsChecked}
         minCoteCondition={
-          String(maxAnswers) === "NaN" || maxAnswers === 0
-          || maxAnswers < minAnswers || numOfOptions < 0
+          String(maxAnswers) === "NaN" ||
+          maxAnswers === 0 ||
+          maxAnswers < minAnswers ||
+          numOfOptions < 0
         }
         maxCoteCondition={parseInt(maxAnswers) > numOfOptions}
         numberOfAns={numOfOptions}
       />
     </div>
-  )
+  );
 }
 
 export default NumberOfAnswersSetup;

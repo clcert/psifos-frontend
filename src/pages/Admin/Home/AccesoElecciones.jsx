@@ -1,9 +1,11 @@
 import Accordion from "./component/Accordion";
 import { Button } from "react-bulma-components";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getElections } from "../../../services/election";
 import { normalizedLowerCase } from "../../../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setElections } from "../../../store/slices/electionSlice";
 
 function CreateElectionButton() {
   return (
@@ -23,7 +25,7 @@ function CreateElectionButton() {
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 function SearchElectionInput({ numElections, inputHandler }) {
@@ -38,32 +40,35 @@ function SearchElectionInput({ numElections, inputHandler }) {
         />
       )}
     </div>
-  )
+  );
 }
 
 export default function AccesoElecciones() {
   /**
    * View home for admin
    */
-
-  /** @state {array} all elections for the current admin  */
-  const [elections, setElections] = useState([]);
+  const dispatch = useDispatch();
+  const elections = useSelector((state) => state.election.elections);
 
   /** @state {array} choices filtered by the search engine  */
   const [electionsSearch, setElectionsSearch] = useState([]);
 
   const [load, setLoad] = useState(false);
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     getElections().then((res) => {
       const { resp, jsonResponse } = res;
       if (resp.status === 200) {
-        setElections(jsonResponse);
+        dispatch(setElections(jsonResponse));
         setElectionsSearch(jsonResponse);
         setLoad(true);
       }
     });
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
   /**
    * Search substring
    * @param {*} input
@@ -121,9 +126,9 @@ export default function AccesoElecciones() {
         </div>
       ) : (
         <div className="d-flex justify-content-center">
-          <div className="spinner-animation"/>
+          <div className="spinner-animation" />
         </div>
       )}
     </>
-  )
+  );
 }

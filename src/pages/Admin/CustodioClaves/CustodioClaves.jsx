@@ -11,13 +11,15 @@ import ModalCreateCustodio from "./components/ModalCreateCustodio";
 import ModalDeleteCustodio from "./components/ModalDeleteCustodio";
 
 import { useLocation, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getElection } from "../../../services/election";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { useDispatch, useSelector } from "react-redux";
+import { setElection } from "../../../store/slices/electionSlice";
 
 function CustodioClaves(props) {
-  /** @state {json} election data  */
-  const [election, setElection] = useState({});
+  const dispatch = useDispatch();
+  const election = useSelector((state) => state.election.actualElection);
 
   /** @state {boolean} state of modal with create info  */
   const [modalCustodio, setModalCustodio] = useState(false);
@@ -35,14 +37,17 @@ function CustodioClaves(props) {
 
   const { shortName } = useParams();
 
-  useEffect(
-    function effectFunction() {
-      getElection(shortName).then((election) => {
-        setElection(election.jsonResponse);
-      });
-    },
-    [shortName]
-  );
+  const initComponent = useCallback(() => {
+    getElection(shortName).then((election) => {
+      dispatch(setElection(election.jsonResponse));
+    });
+  }, [shortName, dispatch]);
+
+  useEffect(() => {
+    if (Object.keys(election).length === 0) {
+      initComponent();
+    }
+  }, [election, initComponent]);
   return (
     <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">

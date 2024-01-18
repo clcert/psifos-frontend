@@ -16,26 +16,58 @@ function InvalidatedVote(props) {
         <li className="py-1">
           <span className="icon has-text-success">
             <i className="fab fa-whatsapp"></i>
-          </span>&nbsp;
-          <a href="https://api.whatsapp.com/send/?phone=56974732599" target="_blank" className="nounderline">(+56) 9 7473 2599</a>
+          </span>
+          &nbsp;
+          <a
+            href="https://api.whatsapp.com/send/?phone=56974732599"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nounderline"
+          >
+            (+56) 9 7473 2599
+          </a>
         </li>
         <li className="py-1">
           <span className="icon has-text-grey">
             <i className="fas fa-envelope"></i>
-          </span>&nbsp;
-          <a href="mailto:ayuda.participa@uchile.cl" target="_blank" className="nounderline">ayuda.participa@uchile.cl</a>
+          </span>
+          &nbsp;
+          <a
+            href="mailto:ayuda.participa@uchile.cl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nounderline"
+          >
+            ayuda.participa@uchile.cl
+          </a>
         </li>
         <li className="py-1">
           <span className="icon has-text-info">
             <i className="fab fa-telegram"></i>
-          </span>&nbsp;
-          <a href="https://t.me/participauchile" target="_blank" className="nounderline">@participaUChile</a>
+          </span>
+          &nbsp;
+          <a
+            href="https://t.me/participauchile"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nounderline"
+          >
+            @participaUChile
+          </a>
         </li>
         <li className="py-1">
           <span className="icon has-text-info">
             <i className="fab fa-twitter"></i>
-          </span>&nbsp;
-          <a href="https://twitter.com/participauchile" target="_blank" className="nounderline">@participaUChile</a>
+          </span>
+          &nbsp;
+          <a
+            href="https://twitter.com/participauchile"
+            target="_blank"
+            className="nounderline"
+            rel="noopener noreferrer"
+          >
+            @participaUChile
+          </a>
         </li>
       </ul>
 

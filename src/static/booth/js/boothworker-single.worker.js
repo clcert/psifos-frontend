@@ -58,7 +58,7 @@ function do_encrypt(message) {
       };
 
       let answer_bytearray =
-        answer != "" ? new TextEncoder().encode(answer) : [0];
+        answer !== "" ? new TextEncoder().encode(answer) : [0];
       let hexstring_answer = from_bytearray_to_hexstring(answer_bytearray);
       console.log("BYTEARRAY: " + answer_bytearray);
       console.log(

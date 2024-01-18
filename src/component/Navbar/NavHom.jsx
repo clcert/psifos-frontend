@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HashLink } from 'react-router-hash-link';
+import { HashLink } from "react-router-hash-link";
 import logo from "../../static/new_home_assets/SVG/logo participa.svg";
 
 function NavHome() {
@@ -13,10 +13,14 @@ function NavHome() {
     { name: "EQUIPO", href: { pathname: "/", hash: "#equipo" } },
     { name: "ELECCIONES", href: { pathname: "/elecciones" } },
     { name: "NOTICIAS", href: { pathname: "/noticias" } },
-  ]
+  ];
   return (
     <div className="is-flex is-justify-content-right">
-      <nav className="transparent-bg navbar" role="navigation" aria-label="main navigation">
+      <nav
+        className="transparent-bg navbar"
+        role="navigation"
+        aria-label="main navigation"
+      >
         <div className="navbar-brand">
           <a
             className="navbar-item image-navbar-burger"
@@ -56,14 +60,23 @@ function NavHome() {
         >
           <div className="navbar-start">
             {sections.map((section, index) => (
-              <HashLink className="navbar-item" to={section.href} id="navbar-button-home" key={index}>
+              <HashLink
+                className="navbar-item"
+                to={section.href}
+                id="navbar-button-home"
+                key={index}
+              >
                 {section.name}
               </HashLink>
             ))}
             <div className="mt-2 nav-icons">
-              <a href="https://www.twitter.com/participaUChile" target="_blank">
+              <a
+                href="https://www.twitter.com/participaUChile"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <div className="icon ml-2 mr-4">
-                    <i className="icon-twitter"></i>
+                  <i className="icon-twitter"></i>
                 </div>
               </a>
               <a href="mailto:participa@uchile.cl">

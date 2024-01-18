@@ -3,12 +3,6 @@ import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
 import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
 import Tally from "../../../static/booth/js/jscrypto/tally";
 
-var console = {
-  log: function (msg) {
-    postMessage({ type: "log", msg: msg });
-  },
-};
-
 /**
  * Create a ElGamal secretKey object with sk and params
  *
@@ -24,8 +18,8 @@ function getSecretKey(sk, params, certificates, points) {
   helios_c.certificates = certificates;
   helios_c.points = points;
   // TODO: check key
-  var sk = helios_c.ui_share_get_direct();
-  return new ElGamal.SecretKey(sk.x, sk.public_key);
+  var helios_c_sk = helios_c.ui_share_get_direct();
+  return new ElGamal.SecretKey(helios_c_sk.x, helios_c_sk.public_key);
 }
 
 /**

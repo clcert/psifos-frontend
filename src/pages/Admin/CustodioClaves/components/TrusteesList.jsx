@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTrustees } from "../../../../services/trustee";
@@ -12,12 +12,16 @@ function TrusteesList(props) {
 
   const { shortName } = useParams();
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     getTrustees(shortName).then((trustees) => {
       setIsLoading(false);
       setTrustees(trustees.jsonResponse);
     });
-  }, [shortName, isLoading]);
+  }, [shortName]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
 
   useEffect(
     function effectFunction() {
@@ -64,15 +68,15 @@ function TrusteesList(props) {
                     }}
                   />
                 </span>
-              )}              
+              )}
             </div>
 
             <p className="mt-0">
               <span className="has-text-weight-bold is-size-4">{t.name}</span>
-              <br/>
+              <br />
               <tt>
                 {t.trustee_login_id}
-                <br/>
+                <br />
                 {t.email}
               </tt>
             </p>
@@ -88,12 +92,13 @@ function TrusteesList(props) {
               <p className="mt-4">Custodio aún no sube su clave pública</p>
             )}
 
-            {(props.election.election_status === electionStatus.tallyComputed || 
-              props.election.election_status === electionStatus.decryptionsUploaded ||
-              props.election.election_status === electionStatus.decryptionsCombined || 
-              props.election.election_status === electionStatus.resultsReleased) && (
-              <InfoTrustee trustee={t} />
-            )}
+            {(props.election.election_status === electionStatus.tallyComputed ||
+              props.election.election_status ===
+                electionStatus.decryptionsUploaded ||
+              props.election.election_status ===
+                electionStatus.decryptionsCombined ||
+              props.election.election_status ===
+                electionStatus.resultsReleased) && <InfoTrustee trustee={t} />}
           </div>
         );
       })}
