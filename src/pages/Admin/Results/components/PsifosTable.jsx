@@ -8,7 +8,7 @@ function StyledCell({content}) {
         width: "180px", wordBreak: "break-word",
       }}
       className={
-        typeof content === 'number' || parseInt(content) !== isNaN(content)
+        typeof content === 'number' || !isNaN(parseInt(content))
         ? "has-text-right"
         : "has-text-centered"
       }
