@@ -1,36 +1,3 @@
-const getElectionDate = (startTime, endTime) => {
-  const dateOptions = {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  };
-  const [dateInit, timeInit] = startTime.split(" ");
-  const [dateEnd, timeEnd] = endTime.split(" ");
-  if (dateInit === dateEnd) {
-    return (
-      new Date(dateInit + " 00:00").toLocaleDateString("es-ES", dateOptions) +
-      ", de " +
-      timeInit +
-      " a " +
-      timeEnd +
-      " hrs."
-    );
-  } else {
-    return (
-      "desde " +
-      new Date(dateInit + " 00:00").toLocaleDateString("es-ES", dateOptions) +
-      " " +
-      timeInit +
-      " hrs." +
-      " hasta " +
-      new Date(dateEnd + " 00:00").toLocaleDateString("es-ES", dateOptions) +
-      " " +
-      timeEnd +
-      " hrs."
-    );
-  }
-};
-
 function InfoVotacion({ image, electionData }) {
   return (
     <div className="election-box">

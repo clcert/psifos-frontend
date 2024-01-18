@@ -1,5 +1,6 @@
 import { useState } from "react";
 import auditImage from "../../../../static/booth/svg/audit-img.svg";
+import { Button } from "react-bulma-components";
 
 function AuditSection(props) {
   const [pane1, setPane1] = useState(true);
@@ -24,24 +25,26 @@ function AuditSection(props) {
         <div className="tabs is-large is-boxed mb-0">
           <ul style={{ marginBottom: "0" }}>
             <li className="is-active" id="audit-vote-wrapper">
-              <a
-                id="audit-vote-tab"
+              <Button
+                id="button-create-election"
+                className="button-custom home-admin-button btn-fixed"
                 onClick={() => {
                   changePane();
                 }}
               >
                 VOTO AUDITADO
-              </a>
+              </Button>
             </li>
             <li className="is-active" id="important-wrapper">
-              <a
-                id="important-tab"
+              <Button
+                id="button-create-election"
+                className="button-custom home-admin-button btn-fixed"
                 onClick={() => {
                   changePane();
                 }}
               >
                 IMPORTANTE
-              </a>
+              </Button>
             </li>
           </ul>
         </div>
@@ -83,9 +86,9 @@ function AuditSection(props) {
             </p>
             <p>
               También puedes{" "}
-              <a onClick="BOOTH.post_audited_ballot();">
+              <Button onClick="BOOTH.post_audited_ballot();">
                 publicar tu voto auditado
-              </a>{" "}
+              </Button>{" "}
               para que otras personas puedan confirmar que este voto fue
               correctamente calculado.
             </p>

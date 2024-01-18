@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { backendOpIP } from "../../../../server";
 import { Button } from "react-bulma-components";
 import { getStats } from "../../../../services/election";
 
@@ -19,7 +18,6 @@ function VotersTable({
   const [previousDisabled, setPreviousDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
   const [actualPage, setPage] = useState(0);
-  const [electionStatus, setElectionStatus] = useState("");
   const [voterToSearch, setVoterToSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,7 +40,6 @@ function VotersTable({
       getVoters(0);
       getStats(election.short_name).then((data) => {
         const { jsonResponse } = data;
-        setElectionStatus(jsonResponse.status);
         setTotalVoters(jsonResponse.total_voters);
         setTotalVotes(jsonResponse.num_casted_votes);
         setIsLoading(false);
