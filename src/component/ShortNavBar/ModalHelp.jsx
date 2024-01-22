@@ -1,25 +1,19 @@
 import "../../static/css/animations.css";
 
-function InfoChannel({
-  icon, name, contact, href
-}) {
-  return(
-    <div className="py-1">
+function InfoChannel({ icon, name, contact, href }) {
+  return (
+    <div className="py-1 is-size-6">
       <span className="icon">
-        <i className={icon}/>
+        <i className={icon} />
       </span>
       {name}:&nbsp;
       <span>
-        <a
-          href={href}
-          rel="noreferrer"
-          target="_blank"
-        >
+        <a href={href} rel="noreferrer" target="_blank">
           {contact}
         </a>
       </span>
     </div>
-  )
+  );
 }
 
 function InfoChannels() {
@@ -50,20 +44,27 @@ function InfoChannels() {
         href="mailto:ayuda.participa@uchile.cl"
       />
     </div>
-  )
+  );
 }
 
 function ModalHelp(props) {
   return (
-    <div className={"main-modal modal " + (props.show ? "is-active" : "")} id="help-modal">
+    <div
+      className={"main-modal modal " + (props.show ? "is-active" : "")}
+      id="help-modal"
+    >
       <div className="modal-background" onClick={props.onHide}></div>
       <div className="modal-card">
         <section className="modal-card-body">
           <h1 className="modal-title">MESA DE AYUDA</h1>
 
           <p className="mb-2 ml-2 mr-2">
-            <span className="has-text-weight-bold">¿Tiene dudas o problemas con su elección?</span><br/>
-            Puede utilizar cualquiera de los siguientes canales para contactarnos:
+            <span className="has-text-weight-bold">
+              ¿Tiene dudas o problemas con su elección?
+            </span>
+            <br />
+            Puede utilizar cualquiera de los siguientes canales para
+            contactarnos:
           </p>
           <InfoChannels />
         </section>
@@ -83,4 +84,4 @@ function ModalHelp(props) {
   );
 }
 
-export default ModalHelp;
+export { ModalHelp, InfoChannels };

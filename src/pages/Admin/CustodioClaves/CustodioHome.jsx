@@ -48,6 +48,12 @@ function CustodioHome(props) {
     getTrusteeHome(shortName, uuidTrustee).then((data) => {
       try {
         const { resp, jsonResponse } = data;
+        const typeErrors = {
+          "Election status check failed": "La elección se encuentra cerrada",
+          "Election not found": "La elección no existe",
+          "Trustee not found":
+            "No estas habilitado para generar llaves en esta elección",
+        };
 
         setLoad(true);
         if (resp.status === 200) {
@@ -55,14 +61,12 @@ function CustodioHome(props) {
           setTrustee(jsonResponse.trustee);
           setElection(jsonResponse.election);
         } else {
-          setNoAuthMessage(
-            "La elección no existe o no estas habilitado para generar llaves en ella"
-          );
+          setNoAuthMessage(typeErrors[jsonResponse.detail]);
         }
       } catch (err) {
         setLoad(true);
         setNoAuthMessage(
-          "La elección no existe o no estas habilitado para generar llaves en ella"
+          "No estas habilitado para generar llaves en esta elección"
         );
       }
     });
@@ -77,8 +81,8 @@ function CustodioHome(props) {
       <NoAuth
         title={"Custodio de Claves"}
         message={noAuthMessage}
-        adressLogout={`${backendOpIP}/${shortName}/trustee/logout`}
-      ></NoAuth>
+        addressLogout={`${backendOpIP}/${shortName}/trustee/logout`}
+      />
     );
   } else {
     return (
@@ -102,11 +106,13 @@ function CustodioHome(props) {
               {load ? (
                 <>
                   <div className="is-flex is-flex-direction-column is-align-items-center">
-                    {!disabledButton1 &&
-                    (
+                    {!disabledButton1 && (
                       <div>
                         <p className="has-text-white is-size-4">
-                          La Generación Claves se divide en dos pasos: el primero será generar y descargar su clave privada. Luego, vendrá el proceso de sincronización con el resto de los Custodios de Clave.
+                          La Generación Claves se divide en dos pasos: el
+                          primero será generar y descargar su clave privada.
+                          Luego, vendrá el proceso de sincronización con el
+                          resto de los Custodios de Clave.
                         </p>
                         <StepButton
                           id="init-key-generator"
@@ -124,7 +130,9 @@ function CustodioHome(props) {
                     {!disabledButton2 && disabledButton3 && (
                       <div>
                         <p className="has-text-white is-size-4">
-                          En cualquier momento Ud. puede verificar que su Clave Privada está correctamente almacenada en su computador y en su respaldo correspondiente
+                          En cualquier momento Ud. puede verificar que su Clave
+                          Privada está correctamente almacenada en su computador
+                          y en su respaldo correspondiente
                         </p>
                         <StepButton
                           id="verify-key"
@@ -153,20 +161,23 @@ function CustodioHome(props) {
                     )}
                     {!disabledButton3 && (
                       <div>
-                      <p className="has-text-white is-size-4">
-                        La elección ha finalizado y Ud. debe enviar su Desencriptación Parcial. Para ello debe subir el archivo con su Clave Privada que está almacenado en su computador y respaldado
-                       </p>
-                      <StepButton
-                        id="upload-key"
-                        text="Enviar Desencriptación Parcial"
-                        linkTo={
-                          "/psifos/" +
-                          shortName +
-                          "/trustee/" +
-                          uuidTrustee +
-                          "/decrypt-and-prove"
-                        }
-                      />
+                        <p className="has-text-white is-size-4">
+                          La elección ha finalizado y Ud. debe enviar su
+                          Desencriptación Parcial. Para ello debe subir el
+                          archivo con su Clave Privada que está almacenado en su
+                          computador y respaldado
+                        </p>
+                        <StepButton
+                          id="upload-key"
+                          text="Enviar Desencriptación Parcial"
+                          linkTo={
+                            "/psifos/" +
+                            shortName +
+                            "/trustee/" +
+                            uuidTrustee +
+                            "/decrypt-and-prove"
+                          }
+                        />
                       </div>
                     )}
                   </div>
