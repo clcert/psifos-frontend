@@ -89,7 +89,12 @@ function Booth(props) {
           setType(jsonResponse.election_type);
           setAuth(true);
         } else {
-          setNoAuthMessage(typeErrors[jsonResponse.detail]);
+          const message =
+            jsonResponse.detail in typeErrors
+              ? typeErrors[jsonResponse.detail]
+              : "No tienes permisos para ver ese contenido";
+
+          setNoAuthMessage(message);
         }
       } catch (err) {
         setLoad(true);

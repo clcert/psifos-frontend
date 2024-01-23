@@ -61,7 +61,12 @@ function CustodioHome(props) {
           setTrustee(jsonResponse.trustee);
           setElection(jsonResponse.election);
         } else {
-          setNoAuthMessage(typeErrors[jsonResponse.detail]);
+          const message =
+            jsonResponse.detail in typeErrors
+              ? typeErrors[jsonResponse.detail]
+              : "No tienes permisos para ver ese contenido";
+
+          setNoAuthMessage(message);
         }
       } catch (err) {
         setLoad(true);
