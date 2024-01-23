@@ -34,7 +34,9 @@ const RankingSelection = ({
   question, addAnswer, index
 }) => {
   const {
-    closed_options, include_blank_null,
+    closed_options,
+    include_blank_null,
+    max_answers,
   } = question
   const options = Array.from(closed_options.keys());
   const includeInformalAns = include_blank_null === "True";
@@ -89,6 +91,7 @@ const RankingSelection = ({
             answers.length === 1 &&
             answers[0] === informalAnswer
           ) && setInformalAnswer(undefined)}
+          maxAnswers={parseInt(max_answers, 10)}
         />
         {includeInformalAns &&
           <InformalInput

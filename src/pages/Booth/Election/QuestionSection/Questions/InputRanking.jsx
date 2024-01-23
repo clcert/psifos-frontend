@@ -24,7 +24,10 @@ import {
 function RankingDndContext({
   children, activeIdHandler,
   itemGroups, itemGroupsHandler,
+  cantMove,
 }) {
+  const [lastDistribution, setLastDistribution] = useState(itemGroups)
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -68,7 +71,13 @@ function RankingDndContext({
           over.id in itemGroups
             ? itemGroups[overContainer].length + 1
             : over.data.current.sortable.index;
+        if (cantMove(
+          activeContainer, overContainer, itemGroups
+        )) {
+          return lastDistribution;
+        }
 
+        setLastDistribution(itemGroups)
         return moveBetweenContainers(
           itemGroups,
           activeContainer,
@@ -141,7 +150,8 @@ function RankingDndContext({
 }
 
 function InputRanking({
-  answers, answersHandler, answerLabels, clickHandler,
+  answers, answersHandler, answerLabels,
+  clickHandler, maxAnswers,
 }) {
   const [itemGroups, setItemGroups] = useState({
     rankedItems: [],
@@ -159,6 +169,13 @@ function InputRanking({
       activeIdHandler={setActiveId}
       itemGroups={itemGroups}
       itemGroupsHandler={setItemGroups}
+      cantMove={(activeContainer, overContainer, itemGroups) => {
+        return (
+          overContainer === "rankedItems" &&
+          activeContainer === "notRankedItems" &&
+          itemGroups[overContainer].length === maxAnswers
+        )
+      }}
     >
       <div
         style={{display: "flex", flexDirection: "column", width: "100%"}}
@@ -169,7 +186,7 @@ function InputRanking({
             indices={getEnumerateList([
               ...itemGroups["rankedItems"],
               ...itemGroups["notRankedItems"]
-            ])}
+            ]).slice(0, maxAnswers)}
           />
           <div className="ranking__opt_col">
             <SortedDroppable
