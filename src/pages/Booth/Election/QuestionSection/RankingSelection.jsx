@@ -43,7 +43,7 @@ const RankingSelection = ({
   const optionIds = includeInformalAns ? options.slice(0, -2) : options;
   const optionLabels = includeInformalAns ? closed_options.slice(0, -2) : closed_options;
   
-  const [rankedAnswers, setRankedAnswers] = useState(optionIds);
+  const [rankedAnswers, setRankedAnswers] = useState([]);
   const [informalAnswer, setInformalAnswer] = useState(undefined);
   const [answers, setAnswers] = useState(rankedAnswers);
 
@@ -64,15 +64,42 @@ const RankingSelection = ({
     }
   }
 
-  useEffect(() => {
-    !informalAnswer && setAnswers(rankedAnswers)
-  }, [rankedAnswers]);
+  const [BChangedByA, setBChangedByA] = useState(false)
+  const [AChangedByB, setAChangedByB] = useState(false)
 
   useEffect(() => {
-    setAnswers(
-      informalAnswer ? [informalAnswer] : rankedAnswers
-    )
-  }, [informalAnswer]);
+    if (!AChangedByB) {
+      setAnswers(rankedAnswers)
+      if (informalAnswer) {
+        setBChangedByA(true)
+        setInformalAnswer(undefined)
+      }
+    }
+    else {
+      setAChangedByB(false)
+    }
+  }, [rankedAnswers]); // a.k.a A
+
+  useEffect(() => {
+    if (!BChangedByA) {
+      if (rankedAnswers.length === 0) {
+        if (informalAnswer){
+          setAnswers([informalAnswer])
+        }
+        else { // es undefined 
+          setAnswers(rankedAnswers)
+        }
+      }
+      else {
+        setAChangedByB(true)
+        setAnswers([informalAnswer])
+        setRankedAnswers([])
+      }
+    }
+    else {
+      setBChangedByA(false)
+    }
+  }, [informalAnswer]); // a.k.a B
 
   useEffect(() => {
     addAnswer(padAnswers(answers), index)
@@ -92,6 +119,7 @@ const RankingSelection = ({
             answers[0] === informalAnswer
           ) && setInformalAnswer(undefined)}
           maxAnswers={parseInt(max_answers, 10)}
+          options={optionIds}
         />
         {includeInformalAns &&
           <InformalInput

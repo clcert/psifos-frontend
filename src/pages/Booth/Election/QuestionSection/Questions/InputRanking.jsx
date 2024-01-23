@@ -151,18 +151,30 @@ function RankingDndContext({
 
 function InputRanking({
   answers, answersHandler, answerLabels,
-  clickHandler, maxAnswers,
+  clickHandler, maxAnswers, options,
+  
 }) {
-  const [itemGroups, setItemGroups] = useState({
+  const initialItemGroups = {
     rankedItems: [],
-    notRankedItems: answers.map((id) => id + 1),
-  });
+    notRankedItems: options.map((id) => id + 1),
+  }
+
+  const [itemGroups, setItemGroups] = useState(initialItemGroups);
 
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
     answersHandler(itemGroups.rankedItems)
   }, [itemGroups]);
+
+  useEffect(() => {
+    if (
+      answers.length === 0 && itemGroups.rankedItems.length !== 0
+    ) {
+      setItemGroups(initialItemGroups)
+      setActiveId(null)
+    }
+  }, [answers]);
 
   return (
     <RankingDndContext
