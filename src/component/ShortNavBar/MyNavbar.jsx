@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ModalInfo from "./ModalInfo";
-import ModalHelp from "./ModalHelp";
+import { ModalHelp } from "./ModalHelp";
 import NavbarLogo from "./NavbarLogo";
 import { Link } from "react-router-dom";
 
@@ -67,10 +67,7 @@ function MyNavbar(props) {
           </div>
         </nav>
       </div>
-      <ModalInfo
-        show={showInfo}
-        onHide={() => setShowInfo(false)}
-      />
+      <ModalInfo show={showInfo} onHide={() => setShowInfo(false)} />
       <ModalHelp show={showHelp} onHide={() => setShowHelp(false)} />
     </div>
   );

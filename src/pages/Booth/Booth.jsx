@@ -78,22 +78,27 @@ function Booth(props) {
       try {
         const jsonResponse = await resp.json();
         setLoad(true);
+        const typeErrors = {
+          "Election status check failed": "La elección se encuentra cerrada",
+          "Election not found": "La elección no existe",
+          "voter not found": "No estas habilitado para votar en esta elección",
+        };
+
         if (resp.status === 200) {
           setElectionData(jsonResponse);
           setType(jsonResponse.election_type);
           setAuth(true);
-        } else if (jsonResponse.detail === "Election status check failed") {
-          setNoAuthMessage("La elección se encuentra cerrada");
         } else {
-          setNoAuthMessage(
-            "La elección no existe o no estas habilitado para votar en ella"
-          );
+          const message =
+            jsonResponse.detail in typeErrors
+              ? typeErrors[jsonResponse.detail]
+              : "No tienes permisos para ver ese contenido";
+
+          setNoAuthMessage(message);
         }
       } catch (err) {
         setLoad(true);
-        setNoAuthMessage(
-          "La elección no existe o no estas habilitado para votar en ella"
-        );
+        setNoAuthMessage("No estas habilitado para votar en esta elección");
       }
     }
   }, [props.preview, searchParams, shortName]);
@@ -105,8 +110,8 @@ function Booth(props) {
       <NoAuth
         title={"Cabina de votación"}
         message={noAuthMessage}
-        adressLogout={"/"}
-      ></NoAuth>
+        addressLogout={"/"}
+      />
     );
   } else if (load) {
     return type === "Query" ? (
