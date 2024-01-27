@@ -25,6 +25,9 @@ export const tasks = {
       return await computeTally(shortName);
     },
   },
+  "Computing Tally": {
+    textHelp: "Esperando a que se computen los Tallys",
+  },
   "Tally computed": {
     textHelp: "Esperando a recibir las desencriptaciones",
   },
