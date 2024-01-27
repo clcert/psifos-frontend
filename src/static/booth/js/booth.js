@@ -1,9 +1,7 @@
 import $ from "jquery";
 import { HELIOS, UTILS } from "./jscrypto/helios";
-import { USE_SJCL } from "./jscrypto/bigint";
 import _ from "lodash";
 import { BigInt } from "./jscrypto/bigint";
-import { sjcl } from "./jscrypto/sjcl";
 import { b64_sha256 } from "./jscrypto/sha2";
 import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
 import EncryptedVote from "./jscrypto/encrypted-vote";

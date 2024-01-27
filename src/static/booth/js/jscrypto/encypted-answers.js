@@ -97,7 +97,7 @@ class EncryptedAnswer {
     var num_selected_answers = 0;
     // go through each possible answer and encrypt either a g^0 or a g^1.
     for (var i = 0; i < question.closed_options.length; i++) {
-      var index, plaintext_index;
+      var plaintext_index;
       // if this is the answer, swap them so m is encryption 1 (g)
       if (_.includes(answer, i)) {
         plaintext_index = 1;
@@ -139,9 +139,9 @@ class EncryptedAnswer {
       // compute the homomorphic sum of all the options
       var hom_sum = choices[0];
       var rand_sum = randomness[0];
-      for (var i = 1; i < question.closed_options.length; i++) {
-        hom_sum = hom_sum.multiply(choices[i]);
-        rand_sum = rand_sum.add(randomness[i]).mod(pk.q);
+      for (var j = 1; j < question.closed_options.length; j++) {
+        hom_sum = hom_sum.multiply(choices[j]);
+        rand_sum = rand_sum.add(randomness[j]).mod(pk.q);
       }
 
       // prove that the sum is 0 or 1 (can be "blank vote" for this answer)
@@ -160,7 +160,7 @@ class EncryptedAnswer {
       );
 
       if (progress) {
-        for (var i = 0; i < question.max_answers; i++) progress.tick();
+        for (var k = 0; k < question.max_answers; k++) progress.tick();
       }
     }
     return {
@@ -181,7 +181,7 @@ class EncryptedAnswer {
     var result = this.doEncryption(question, this.answer, pk, this.randomness);
 
     // check that we have the same number of ciphertexts
-    if (result.choices.length != this.choices.length) {
+    if (result.choices.length !== this.choices.length) {
       return false;
     }
 
@@ -266,7 +266,6 @@ class EncryptedMixnetType extends EncryptedAnswer {
     }
 
     // keep track of number of options selected.
-    var num_selected_answers = 0;
     // go through each possible answer and encrypt either a g^0 or a g^1.
     for (var i = 0; i < answer.length; i++) {
       // generate randomness?

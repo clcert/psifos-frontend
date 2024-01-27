@@ -108,13 +108,13 @@ class PublicKey {
 
   multiply(other) {
     // base condition
-    if (other == 0 || other == 1) {
+    if (other === 0 || other === 1) {
       return this;
     }
 
     // check params
-    if (!this.p.equals(other.p)) throw "mismatched params";
-    if (!this.g.equals(other.g)) throw "mismatched params";
+    if (!this.p.equals(other.p)) throw new Error ("mismatched params");
+    if (!this.g.equals(other.g)) throw new Error ("mismatched params");
 
     var new_pk = new ElGamal.PublicKey(
       this.p,
@@ -252,7 +252,7 @@ class Ciphertext {
 
   multiply(other) {
     // special case if other is 1 to enable easy aggregate ops
-    if (other == 1) return this;
+    if (other === 1) return this;
 
     // homomorphic multiply
     return new ElGamal.Ciphertext(
@@ -392,7 +392,7 @@ class Ciphertext {
         // now we must subtract all of the other challenges from this challenge.
         var real_challenge = disjunctive_challenge;
         _(proofs).each(function (proof, proof_num) {
-          if (proof_num != real_index)
+          if (proof_num !== real_index)
             real_challenge = real_challenge.add(proof.challenge.negate());
         });
 
@@ -407,7 +407,6 @@ class Ciphertext {
   }
 
   verifyDisjunctiveProof(list_of_plaintexts, disj_proof, challenge_generator) {
-    var result = true;
     var proofs = disj_proof.proofs;
 
     // for loop because we want to bail out of the inner loop
@@ -630,7 +629,7 @@ ElGamal.DisjunctiveProof = DisjunctiveProof;
 
 ElGamal.encrypt = function (pk, plaintext, r) {
   if (plaintext.getM().compareTo(BigInt.ZERO) === 0)
-    throw "Can't encrypt 0 with El Gamal";
+    throw new Error("Can't encrypt 0 with El Gamal");
 
   if (!r) r = Random.getRandomInteger(pk.q);
   var alpha = pk.g.modPow(r, pk.p);
@@ -651,7 +650,7 @@ ElGamal.encryptMixnet = function (pk, m, r) {
   }
 
   if (BigIntM.compareTo(BigInt.ZERO) === 0)
-    throw "Can't encrypt 0 with El Gamal";
+    throw new Error("Can't encrypt 0 with El Gamal");
 
   if (!r) r = Random.getRandomInteger(pk.q);
   var alpha = pk.g.modPow(r, pk.p);

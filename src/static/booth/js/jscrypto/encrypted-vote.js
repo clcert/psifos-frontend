@@ -140,8 +140,6 @@ class EncryptedVote {
   }
 }
 
-EncryptedVote = EncryptedVote;
-
 EncryptedVote.fromJSONObject = function (d, election) {
   if (d == null) return null;
 

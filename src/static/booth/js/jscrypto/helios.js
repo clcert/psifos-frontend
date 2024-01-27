@@ -21,7 +21,6 @@ $.extend({
 import { ElGamal } from "./elgamal";
 import { BigInt } from "./bigint";
 import { b64_sha256 } from "./sha2";
-import { Random } from "./random";
 
 export var UTILS = {};
 var _ = require("lodash");
@@ -29,7 +28,7 @@ var _ = require("lodash");
 UTILS.array_remove_value = function (arr, val) {
   var new_arr = [];
   _(arr).each(function (v, i) {
-    if (v != val) {
+    if (v !== val) {
       new_arr.push(v);
     }
   });
@@ -104,8 +103,6 @@ HELIOS.get_bogus_public_key = function () {
 };
 
 class Election {
-  constructor() {}
-
   toJSONObject() {
     var json_obj = {
       uuid: this.uuid,
@@ -204,9 +201,7 @@ UTILS.open_window_with_content = function (content, mime_type) {
     w.document.write(content);
     w.document.close();
   } else {
-    let w = window.open(
-      "data:" + mime_type + "," + encodeURIComponent(content)
-    );
+    window.open("data:" + mime_type + "," + encodeURIComponent(content));
   }
 };
 

@@ -16,10 +16,8 @@
 // let's try always using SJCL
 
 import { BigInteger } from "./jsbn";
-import $ from "jquery";
 
 export var USE_SJCL = true;
-var JSCRYPTO_HOME = "../jscrypto";
 
 export var BigInt = null;
 
@@ -43,7 +41,7 @@ if (USE_SJCL) {
   BigInt = class BigInt {
     constructor(value, radix) {
       if (value == null) {
-        throw "null value!";
+        throw new Error("null value!");
       }
   
       if (USE_SJCL) {
@@ -119,41 +117,6 @@ if (USE_SJCL) {
     obj._java_bigint = jo;
     return obj;
   };
-
-  //
-  // do the applet check
-  //
-  function check_applet() {
-    /* Is this Netscape 4.xx? */
-    var is_ns4 = navigator.appName == "Netscape" && navigator.appVersion < "5";
-
-    /* Do we need the toString() workaround (requires applet)? */
-    var str_workaround = navigator.appName == "Opera";
-
-    // stuff this in BigInt
-    BigInt.is_ie = navigator.appName == "Microsoft Internet Explorer";
-
-    /* Decide whether we need the helper applet or not */
-    var use_applet =
-      BigInt.is_ie ||
-      (!is_ns4 && navigator.platform.substr(0, 5) == "Linux") ||
-      str_workaround ||
-      typeof java == "undefined";
-
-    // add the applet
-    if (use_applet) {
-      var applet_base = JSCRYPTO_HOME;
-
-      var applet_html =
-        '<applet codebase="' +
-        applet_base +
-        '" mayscript name="bigint" code="bigint.class" width=1 height=1 id="bigint_applet"></applet>';
-      // var applet_html = '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" name="bigint" width="1" height="1" codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_5_0-windows-i586.cab#Version=1,5,0,0"> <param name="code" value="bigint.class"> <param name="codebase" value="' + applet_base + '"> <param name="archive" value="myapplet.jar"> <param name="type" value="application/x-java-applet;version=1.5.0"> <param name="scriptable" value="true"> <param name="mayscript" value="false"> <comment> <embed code="bigint.class" name="bigint" java_codebase="' + applet_base + '" width="1" height="1" scriptable="true" mayscript="false" type="application/x-java-applet;version=1.5.0" pluginspage="http://java.sun.com/j2se/1.5.0/download.html"> <noembed>No Java Support.</noembed> </embed> </comment> </object>';
-      $("#applet_div").html(applet_html);
-    }
-
-    return use_applet;
-  }
 
   // Set up the pointer to the applet if necessary, and some
   // basic Big Ints that everyone needs (0, 1, 2, and 42)
