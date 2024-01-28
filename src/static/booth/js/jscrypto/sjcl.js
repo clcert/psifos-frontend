@@ -56,15 +56,17 @@ sjcl.cipher.aes = function (a) {
   this.a = [(d = a.slice(0)), (e = [])];
   for (a = b; a < 4 * b + 28; a++) {
     c = d[a - 1];
-    if (0 === a % b || (8 === b && 4 === a % b))
-      (c =
+    if (0 === a % b || (8 === b && 4 === a % b)) {
+      c =
         (f[c >>> 24] << 24) ^
         (f[(c >> 16) & 255] << 16) ^
         (f[(c >> 8) & 255] << 8) ^
-        f[c & 255]),
-        0 === a % b &&
-          ((c = (c << 8) ^ (c >>> 24) ^ (h << 24)),
-          (h = (h << 1) ^ (283 * (h >> 7))));
+        f[c & 255];
+      if (0 === a % b) {
+        c = (c << 8) ^ (c >>> 24) ^ (h << 24);
+        h = (h << 1) ^ (283 * (h >> 7));
+      }
+    }
     d[a] = d[a - b] ^ c;
   }
   for (b = 0; a; b++, a--) {
@@ -264,10 +266,13 @@ sjcl.codec.utf8String = {
       c = sjcl.bitArray.bitLength(a),
       d,
       e;
-    for (d = 0; d < c / 8; d++)
-      0 === (d & 3) && (e = a[d / 4]),
-        (b += String.fromCharCode(e >>> 24)),
-        (e <<= 8);
+    for (d = 0; d < c / 8; d++) {
+      if (0 === (d & 3)) {
+        e = a[d / 4];
+      }
+      b += String.fromCharCode(e >>> 24);
+      e <<= 8;
+    }
     return decodeURIComponent(escape(b));
   },
   toBits: function (a) {
@@ -314,9 +319,10 @@ sjcl.codec.base64 = {
       g = 0,
       h = sjcl.bitArray.bitLength(a);
     c && (f = f.substr(0, 62) + "-_");
-    for (c = 0; 6 * d.length < h; )
-      (d += f.charAt((g ^ (a[c] >>> e)) >>> 26)),
-        6 > e ? ((g = a[c] << (6 - e)), (e += 26), c++) : ((g <<= 6), (e -= 6));
+    for (c = 0; 6 * d.length < h; ) {
+      d += f.charAt((g ^ (a[c] >>> e)) >>> 26);
+      6 > e ? ((g = a[c] << (6 - e)), (e += 26), c++) : ((g <<= 6), (e -= 6));
+    }
     for (; d.length & 3 && !b; ) d += "=";
     return d;
   },
@@ -329,12 +335,13 @@ sjcl.codec.base64 = {
       g = 0,
       h;
     b && (f = f.substr(0, 62) + "-_");
-    for (d = 0; d < a.length; d++)
-      (h = f.indexOf(a.charAt(d))),
-        0 > h && q(new sjcl.exception.invalid("this isn't base64!")),
-        26 < e
-          ? ((e -= 26), c.push(g ^ (h >>> e)), (g = h << (32 - e)))
-          : ((e += 6), (g ^= h << (32 - e)));
+    for (d = 0; d < a.length; d++) {
+      h = f.indexOf(a.charAt(d));
+      0 > h && q(new sjcl.exception.invalid("this isn't base64!"));
+      26 < e
+        ? ((e -= 26), c.push(g ^ (h >>> e)), (g = h << (32 - e)))
+        : ((e += 6), (g ^= h << (32 - e)));
+    }
     e & 56 && c.push(sjcl.bitArray.partial(e & 56, g, 1));
     return c;
   },
@@ -374,10 +381,10 @@ sjcl.hash.sha256.prototype = {
     return this;
   },
   finalize: function () {
-    var a,
-      b = this.m,
-      c = this.q,
-      b = sjcl.bitArray.concat(b, [sjcl.bitArray.partial(1, 1)]);
+    var a;
+    var b = this.m;
+    var c = this.q;
+    b = sjcl.bitArray.concat(b, [sjcl.bitArray.partial(1, 1)]);
     for (a = b.length + 2; a & 15; a++) b.push(0);
     b.push(Math.floor(this.g / 4294967296));
     for (b.push(this.g | 0); b.length; ) z(this, b.splice(0, 16));
@@ -416,45 +423,42 @@ function z(a, b) {
     s = g[5],
     r = g[6],
     v = g[7];
-  for (c = 0; 64 > c; c++)
-    16 > c
-      ? (d = f[c])
-      : ((d = f[(c + 1) & 15]),
-        (e = f[(c + 14) & 15]),
-        (d = f[c & 15] =
-          (((d >>> 7) ^ (d >>> 18) ^ (d >>> 3) ^ (d << 25) ^ (d << 14)) +
-            ((e >>> 17) ^ (e >>> 19) ^ (e >>> 10) ^ (e << 15) ^ (e << 13)) +
-            f[c & 15] +
-            f[(c + 9) & 15]) |
-          0)),
-      (d =
-        d +
-        v +
-        ((p >>> 6) ^
-          (p >>> 11) ^
-          (p >>> 25) ^
-          (p << 26) ^
-          (p << 21) ^
-          (p << 7)) +
-        (r ^ (p & (s ^ r))) +
-        h[c]),
-      (v = r),
-      (r = s),
-      (s = p),
-      (p = (m + d) | 0),
-      (m = n),
-      (n = k),
-      (k = l),
-      (l =
-        (d +
-          ((k & n) ^ (m & (k ^ n))) +
-          ((k >>> 2) ^
-            (k >>> 13) ^
-            (k >>> 22) ^
-            (k << 30) ^
-            (k << 19) ^
-            (k << 10))) |
-        0);
+  for (c = 0; 64 > c; c++) {
+    if (16 > c) d = f[c];
+    else {
+      d = f[(c + 1) & 15];
+      e = f[(c + 14) & 15];
+      d = f[c & 15] =
+        (((d >>> 7) ^ (d >>> 18) ^ (d >>> 3) ^ (d << 25) ^ (d << 14)) +
+          ((e >>> 17) ^ (e >>> 19) ^ (e >>> 10) ^ (e << 15) ^ (e << 13)) +
+          f[c & 15] +
+          f[(c + 9) & 15]) |
+        0;
+    }
+    d =
+      d +
+      v +
+      ((p >>> 6) ^ (p >>> 11) ^ (p >>> 25) ^ (p << 26) ^ (p << 21) ^ (p << 7)) +
+      (r ^ (p & (s ^ r))) +
+      h[c];
+    v = r;
+    r = s;
+    s = p;
+    p = (m + d) | 0;
+    m = n;
+    n = k;
+    k = l;
+    l =
+      (d +
+        ((k & n) ^ (m & (k ^ n))) +
+        ((k >>> 2) ^
+          (k >>> 13) ^
+          (k >>> 22) ^
+          (k << 30) ^
+          (k << 19) ^
+          (k << 10))) |
+      0;
+  }
   g[0] = (g[0] + l) | 0;
   g[1] = (g[1] + k) | 0;
   g[2] = (g[2] + n) | 0;
@@ -485,12 +489,12 @@ sjcl.mode.ccm = {
   decrypt: function (a, b, c, d, e) {
     e = e || 64;
     d = d || [];
-    var f = sjcl.bitArray,
-      g = f.bitLength(c) / 8,
-      h = f.bitLength(b),
-      l = f.clamp(b, h - e),
-      k = f.bitSlice(b, h - e),
-      h = (h - e) / 8;
+    var f = sjcl.bitArray;
+    var g = f.bitLength(c) / 8;
+    var h = f.bitLength(b);
+    var l = f.clamp(b, h - e);
+    var k = f.bitSlice(b, h - e);
+    h = (h - e) / 8;
     7 > g && q(new sjcl.exception.invalid("ccm: iv must be at least 7 bytes"));
     for (b = 2; 4 > b && h >>> (8 * b); b++);
     b < 15 - g && (b = 15 - g);
@@ -611,13 +615,13 @@ sjcl.mode.ocb2 = {
     return r.concat(h.clamp(m, p));
   },
   pmac: function (a, b) {
-    var c,
-      d = sjcl.mode.ocb2.G,
-      e = sjcl.bitArray,
-      f = e.k,
-      g = [0, 0, 0, 0],
-      h = a.encrypt([0, 0, 0, 0]),
-      h = f(h, d(d(h)));
+    var c;
+    var d = sjcl.mode.ocb2.G;
+    var e = sjcl.bitArray;
+    var f = e.k;
+    var g = [0, 0, 0, 0];
+    var h = a.encrypt([0, 0, 0, 0]);
+    h = f(h, d(d(h)));
     for (c = 0; c + 4 < b.length; c += 4) {
       h = d(h);
       g = f(g, a.encrypt(f(h, b.slice(c, c + 4))));
@@ -844,10 +848,11 @@ sjcl.prng.prototype = {
         d++
       );
     }
-    for (d = 0; d < a; d += 4)
-      0 === (d + 1) % this.Q && A(this),
-        (e = B(this)),
-        c.push(e[0], e[1], e[2], e[3]);
+    for (d = 0; d < a; d += 4) {
+      0 === (d + 1) % this.Q && A(this);
+      e = B(this);
+      c.push(e[0], e[1], e[2], e[3]);
+    }
     A(this);
     return c.slice(0, a);
   },
