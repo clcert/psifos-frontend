@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-"use strict";
 function q(a) {
   throw a;
 }
@@ -68,16 +67,16 @@ sjcl.cipher.aes = function (a) {
           (h = (h << 1) ^ (283 * (h >> 7))));
     d[a] = d[a - b] ^ c;
   }
-  for (b = 0; a; b++, a--) 
-    (c = d[b & 3 ? a : a - 4]),
-      (e[b] =
-        4 >= a || 4 > b
-          ? c
-          : g[0][f[c >>> 24]] ^
-            g[1][f[(c >> 16) & 255]] ^
-            g[2][f[(c >> 8) & 255]] ^
-            g[3][f[c & 255]]);
-  
+  for (b = 0; a; b++, a--) {
+    c = d[b & 3 ? a : a - 4];
+    e[b] =
+      4 >= a || 4 > b
+        ? c
+        : g[0][f[c >>> 24]] ^
+          g[1][f[(c >> 16) & 255]] ^
+          g[2][f[(c >> 8) & 255]] ^
+          g[3][f[c & 255]];
+  }
 };
 sjcl.cipher.aes.prototype = {
   encrypt: function (a) {
@@ -113,11 +112,15 @@ sjcl.cipher.aes.prototype = {
       n = h[(e = h[(k = h[f])])];
       p = (0x1010101 * n) ^ (0x10001 * e) ^ (0x101 * k) ^ (0x1010100 * f);
       n = (0x101 * h[m]) ^ (0x1010100 * m);
-      for (e = 0; 4 > e; e++)
-        (a[e][f] = n = (n << 24) ^ (n >>> 8)),
-          (b[e][m] = p = (p << 24) ^ (p >>> 8));
+      for (e = 0; 4 > e; e++) {
+        a[e][f] = n = (n << 24) ^ (n >>> 8);
+        b[e][m] = p = (p << 24) ^ (p >>> 8);
+      }
     }
-    for (e = 0; 5 > e; e++) (a[e] = a[e].slice(0)), (b[e] = b[e].slice(0));
+    for (e = 0; 5 > e; e++) {
+      a[e] = a[e].slice(0);
+      b[e] = b[e].slice(0);
+    }
   },
 };
 function y(a, b, c) {
@@ -140,43 +143,45 @@ function y(a, b, c) {
     v = h[2],
     w = h[3],
     x = h[4];
-  for (m = 0; m < n; m++)
-    (h =
-      a[e >>> 24] ^ r[(f >> 16) & 255] ^ v[(g >> 8) & 255] ^ w[b & 255] ^ d[p]),
-      (l =
-        a[f >>> 24] ^
-        r[(g >> 16) & 255] ^
-        v[(b >> 8) & 255] ^
-        w[e & 255] ^
-        d[p + 1]),
-      (k =
-        a[g >>> 24] ^
-        r[(b >> 16) & 255] ^
-        v[(e >> 8) & 255] ^
-        w[f & 255] ^
-        d[p + 2]),
-      (b =
-        a[b >>> 24] ^
-        r[(e >> 16) & 255] ^
-        v[(f >> 8) & 255] ^
-        w[g & 255] ^
-        d[p + 3]),
-      (p += 4),
-      (e = h),
-      (f = l),
-      (g = k);
-  for (m = 0; 4 > m; m++)
-    (s[c ? 3 & -m : m] =
+  for (m = 0; m < n; m++) {
+    h =
+      a[e >>> 24] ^ r[(f >> 16) & 255] ^ v[(g >> 8) & 255] ^ w[b & 255] ^ d[p];
+    l =
+      a[f >>> 24] ^
+      r[(g >> 16) & 255] ^
+      v[(b >> 8) & 255] ^
+      w[e & 255] ^
+      d[p + 1];
+    k =
+      a[g >>> 24] ^
+      r[(b >> 16) & 255] ^
+      v[(e >> 8) & 255] ^
+      w[f & 255] ^
+      d[p + 2];
+    b =
+      a[b >>> 24] ^
+      r[(e >> 16) & 255] ^
+      v[(f >> 8) & 255] ^
+      w[g & 255] ^
+      d[p + 3];
+    p += 4;
+    e = h;
+    f = l;
+    g = k;
+  }
+  for (m = 0; 4 > m; m++) {
+    s[c ? 3 & -m : m] =
       (x[e >>> 24] << 24) ^
       (x[(f >> 16) & 255] << 16) ^
       (x[(g >> 8) & 255] << 8) ^
       x[b & 255] ^
-      d[p++]),
-      (h = e),
-      (e = f),
-      (f = g),
-      (g = b),
-      (b = h);
+      d[p++];
+    h = e;
+    e = f;
+    f = g;
+    g = b;
+    b = h;
+  }
   return s;
 }
 sjcl.bitArray = {
@@ -235,10 +240,15 @@ sjcl.bitArray = {
   O: function (a, b, c, d) {
     var e;
     e = 0;
-    for (d === t && (d = []); 32 <= b; b -= 32) d.push(c), (c = 0);
+    for (d === t && (d = []); 32 <= b; b -= 32) {
+      d.push(c);
+      c = 0;
+    }
     if (0 === b) return d.concat(a);
-    for (e = 0; e < a.length; e++)
-      d.push(c | (a[e] >>> b)), (c = a[e] << (32 - b));
+    for (e = 0; e < a.length; e++) {
+      d.push(c | (a[e] >>> b));
+      c = a[e] << (32 - b);
+    }
     e = a.length ? a[a.length - 1] : 0;
     a = sjcl.bitArray.getPartial(e);
     d.push(sjcl.bitArray.partial((b + a) & 31, 32 < b + a ? c : d.pop(), 1));
@@ -265,8 +275,13 @@ sjcl.codec.utf8String = {
     var b = [],
       c,
       d = 0;
-    for (c = 0; c < a.length; c++)
-      (d = (d << 8) | a.charCodeAt(c)), 3 === (c & 3) && (b.push(d), (d = 0));
+    for (c = 0; c < a.length; c++) {
+      d = (d << 8) | a.charCodeAt(c);
+      if (3 === (c & 3)) {
+        b.push(d);
+        d = 0;
+      }
+    }
     c & 3 && b.push(sjcl.bitArray.partial(8 * (c & 3), d));
     return b;
   },
@@ -524,13 +539,14 @@ sjcl.mode.ccm = {
       .slice(0, 4);
     d = h.bitSlice(g(d, a.encrypt(c)), 0, e);
     if (!l) return { tag: d, data: [] };
-    for (g = 0; g < l; g += 4)
-      c[3]++,
-        (e = a.encrypt(c)),
-        (b[g] ^= e[0]),
-        (b[g + 1] ^= e[1]),
-        (b[g + 2] ^= e[2]),
-        (b[g + 3] ^= e[3]);
+    for (g = 0; g < l; g += 4) {
+      c[3]++;
+      e = a.encrypt(c);
+      b[g] ^= e[0];
+      b[g + 1] ^= e[1];
+      b[g + 2] ^= e[2];
+      b[g + 3] ^= e[3];
+    }
     return { tag: d, data: h.clamp(b, k) };
   },
 };
@@ -549,11 +565,12 @@ sjcl.mode.ocb2 = {
       p = [];
     d = d || [];
     e = e || 64;
-    for (g = 0; g + 4 < b.length; g += 4)
-      (m = b.slice(g, g + 4)),
-        (n = k(n, m)),
-        (p = p.concat(k(c, a.encrypt(k(c, m))))),
-        (c = h(c));
+    for (g = 0; g + 4 < b.length; g += 4) {
+      m = b.slice(g, g + 4);
+      n = k(n, m);
+      p = p.concat(k(c, a.encrypt(k(c, m))));
+      c = h(c);
+    }
     m = b.slice(g);
     b = l.bitLength(m);
     g = a.encrypt(k(c, [0, 0, 0, b]));
@@ -577,11 +594,12 @@ sjcl.mode.ocb2 = {
       s = sjcl.bitArray.bitLength(b) - e,
       r = [];
     d = d || [];
-    for (c = 0; c + 4 < s / 32; c += 4)
-      (m = l(n, a.decrypt(l(n, b.slice(c, c + 4))))),
-        (k = l(k, m)),
-        (r = r.concat(m)),
-        (n = g(n));
+    for (c = 0; c + 4 < s / 32; c += 4) {
+      m = l(n, a.decrypt(l(n, b.slice(c, c + 4))));
+      k = l(k, m);
+      r = r.concat(m);
+      n = g(n);
+    }
     p = s - 32 * c;
     m = a.encrypt(l(n, [0, 0, 0, p]));
     m = l(m, h.clamp(b.slice(c), p).concat([0, 0, 0]));
@@ -600,8 +618,10 @@ sjcl.mode.ocb2 = {
       g = [0, 0, 0, 0],
       h = a.encrypt([0, 0, 0, 0]),
       h = f(h, d(d(h)));
-    for (c = 0; c + 4 < b.length; c += 4)
-      (h = d(h)), (g = f(g, a.encrypt(f(h, b.slice(c, c + 4)))));
+    for (c = 0; c + 4 < b.length; c += 4) {
+      h = d(h);
+      g = f(g, a.encrypt(f(h, b.slice(c, c + 4))));
+    }
     c = b.slice(c);
     128 > e.bitLength(c) &&
       ((h = f(h, d(h))), (c = e.concat(c, [-2147483648, 0, 0, 0])));
@@ -663,12 +683,13 @@ sjcl.mode.gcm = {
     var d,
       e = c.length;
     b = b.slice(0);
-    for (d = 0; d < e; d += 4)
-      (b[0] ^= 0xffffffff & c[d]),
-        (b[1] ^= 0xffffffff & c[d + 1]),
-        (b[2] ^= 0xffffffff & c[d + 2]),
-        (b[3] ^= 0xffffffff & c[d + 3]),
-        (b = sjcl.mode.gcm.U(b, a));
+    for (d = 0; d < e; d += 4) {
+      b[0] ^= 0xffffffff & c[d];
+      b[1] ^= 0xffffffff & c[d + 1];
+      b[2] ^= 0xffffffff & c[d + 2];
+      b[3] ^= 0xffffffff & c[d + 3];
+      b = sjcl.mode.gcm.U(b, a);
+    }
     return b;
   },
   n: function (a, b, c, d, e, f) {
@@ -699,13 +720,14 @@ sjcl.mode.gcm = {
     n = e.slice(0);
     d = h.slice(0);
     a || (d = sjcl.mode.gcm.f(g, h, c));
-    for (k = 0; k < m; k += 4)
-      n[3]++,
-        (l = b.encrypt(n)),
-        (c[k] ^= l[0]),
-        (c[k + 1] ^= l[1]),
-        (c[k + 2] ^= l[2]),
-        (c[k + 3] ^= l[3]);
+    for (k = 0; k < m; k += 4) {
+      n[3]++;
+      l = b.encrypt(n);
+      c[k] ^= l[0];
+      c[k + 1] ^= l[1];
+      c[k + 2] ^= l[2];
+      c[k + 3] ^= l[3];
+    }
     c = r.clamp(c, p);
     a && (d = sjcl.mode.gcm.f(g, h, c));
     a = [
@@ -730,8 +752,10 @@ sjcl.misc.hmac = function (a, b) {
     e = b.prototype.blockSize / 32;
   this.o = [new b(), new b()];
   a.length > e && (a = b.hash(a));
-  for (d = 0; d < e; d++)
-    (c[0][d] = a[d] ^ 909522486), (c[1][d] = a[d] ^ 1549556828);
+  for (d = 0; d < e; d++) {
+    c[0][d] = a[d] ^ 909522486;
+    c[1][d] = a[d] ^ 1549556828;
+  }
   this.o[0].update(c[0]);
   this.o[1].update(c[1]);
 };
@@ -861,7 +885,10 @@ sjcl.prng.prototype = {
         if (!l) {
           if (b === t)
             for (c = b = 0; c < a.length; c++)
-              for (e = a[c]; 0 < e; ) b++, (e >>>= 1);
+              for (e = a[c]; 0 < e; ) {
+                b++;
+                e >>>= 1;
+              }
           this.b[g].update([d, this.C++, 2, b, f, a.length].concat(a));
         }
         break;
@@ -929,7 +956,10 @@ sjcl.prng.prototype = {
       e = this.z[a],
       f = [];
     for (d in e) e.hasOwnProperty(d) && e[d] === b && f.push(d);
-    for (c = 0; c < f.length; c++) (d = f[c]), delete e[d];
+    for (c = 0; c < f.length; c++) {
+      d = f[c];
+      delete e[d];
+    }
   },
   s: function (a) {
     sjcl.random.addEntropy(

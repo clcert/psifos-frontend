@@ -21,7 +21,6 @@ export var USE_SJCL = true;
 
 export var BigInt = null;
 
-
 // let's make this much cleaner
 if (USE_SJCL) {
   // why not?
@@ -43,7 +42,7 @@ if (USE_SJCL) {
       if (value == null) {
         throw new Error("null value!");
       }
-  
+
       if (USE_SJCL) {
         this._java_bigint = new BigInteger(value, radix);
       } else if (BigInt.use_applet) {
@@ -57,33 +56,35 @@ if (USE_SJCL) {
         }
       }
     }
-  
+
     toString() {
       return this._java_bigint.toString() + "";
     }
-  
+
     toJSONObject() {
       return this.toString();
     }
-  
+
     add(other) {
-      return BigInt._from_java_object(this._java_bigint.add(other._java_bigint));
+      return BigInt._from_java_object(
+        this._java_bigint.add(other._java_bigint)
+      );
     }
-  
+
     bitLength() {
       return this._java_bigint.bitLength();
     }
-  
+
     mod(modulus) {
       return BigInt._from_java_object(
         this._java_bigint.mod(modulus._java_bigint)
       );
     }
-  
+
     equals(other) {
       return this._java_bigint.equals(other._java_bigint);
     }
-  
+
     modPow(exp, modulus) {
       return BigInt._from_java_object(
         this._java_bigint.modPow(exp._java_bigint, modulus._java_bigint)
@@ -92,19 +93,19 @@ if (USE_SJCL) {
     negate() {
       return BigInt._from_java_object(this._java_bigint.negate());
     }
-  
+
     multiply(other) {
       return BigInt._from_java_object(
         this._java_bigint.multiply(other._java_bigint)
       );
     }
-  
+
     modInverse(modulus) {
       return BigInt._from_java_object(
         this._java_bigint.modInverse(modulus._java_bigint)
       );
     }
-  }
+  };
 
   BigInt.ready_p = false;
 
@@ -169,7 +170,7 @@ if (USE_SJCL) {
 
     if (fail_callback) BigInt.setup_fail = fail_callback;
 
-    BigInt.setup_interval = window.setInterval("BigInt._setup()", 1000);
+    BigInt.setup_interval = window.setInterval(BigInt._setup, 1000);
   };
 }
 

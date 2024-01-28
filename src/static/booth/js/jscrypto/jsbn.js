@@ -9,7 +9,7 @@ var dbits;
 
 // JavaScript engine analysis
 var canary = 0xdeadbeefcafe;
-var j_lm = (canary & 0xffffff) == 0xefcafe;
+var j_lm = (canary & 0xffffff) === 0xefcafe;
 
 // (public) Constructor
 class BigInteger {
@@ -61,7 +61,7 @@ function am2(i, x, w, j, c, n) {
 }
 // Alternately, set max digit bits to 28 since some
 // browsers slow down when dealing with 32-bit numbers.
-function am3(i, x, w, j, c, n) {
+export function am3(i, x, w, j, c, n) {
   var xl = x & 0x3fff,
     xh = x >> 14;
   while (--n >= 0) {

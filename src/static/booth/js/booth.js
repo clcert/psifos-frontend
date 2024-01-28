@@ -6,7 +6,6 @@ import { b64_sha256 } from "./jscrypto/sha2";
 import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
 import EncryptedVote from "./jscrypto/encrypted-vote";
 
-
 window.onbeforeunload = function (evt) {
   if (!BOOTH.started_p) return;
 
@@ -58,7 +57,7 @@ class BoothPsifos {
   }
 
   log(msg) {
-    if (typeof console != undefined) console.log(msg);
+    if (typeof console != "undefined") console.log(msg);
   }
 
   setup_workers(election_raw_json) {

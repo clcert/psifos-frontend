@@ -27,23 +27,19 @@ function VerifyVoteModal(props) {
     }
   }, [props, shortName]);
 
-  const initComponent = useCallback(() => {
-    let intervalTotal = setInterval(() => {
-      props.afterVerify();
-    }, 15000);
-
-    let interval = setInterval(getVote, 1000);
-    return () => {
-      clearInterval(interval);
-      clearInterval(intervalTotal);
-    };
-  }, [getVote, props]);
-
   useEffect(() => {
     if (props.show && props.voteHash) {
-      initComponent();
+      let intervalTotal = setInterval(() => {
+        props.afterVerify();
+      }, 15000);
+
+      let interval = setInterval(getVote, 1000);
+      return () => {
+        clearInterval(interval);
+        clearInterval(intervalTotal);
+      };
     }
-  }, [props.show, props.voteHash, initComponent]);
+  }, [props.show, props.voteHash, getVote, props]);
 
   return (
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">

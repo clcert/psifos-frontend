@@ -20,16 +20,16 @@ var chrsz   = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode      */
  * They take string arguments and return either hex or base-64 encoded strings
  */
 export function hex_sha1(s){return binb2hex(core_sha1(str2binb(s),s.length * chrsz));}
-function b64_sha1(s){return binb2b64(core_sha1(str2binb(s),s.length * chrsz));}
-function str_sha1(s){return binb2str(core_sha1(str2binb(s),s.length * chrsz));}
-function hex_hmac_sha1(key, data){ return binb2hex(core_hmac_sha1(key, data));}
-function b64_hmac_sha1(key, data){ return binb2b64(core_hmac_sha1(key, data));}
-function str_hmac_sha1(key, data){ return binb2str(core_hmac_sha1(key, data));}
+export function b64_sha1(s){return binb2b64(core_sha1(str2binb(s),s.length * chrsz));}
+export function str_sha1(s){return binb2str(core_sha1(str2binb(s),s.length * chrsz));}
+export function hex_hmac_sha1(key, data){ return binb2hex(core_hmac_sha1(key, data));}
+export function b64_hmac_sha1(key, data){ return binb2b64(core_hmac_sha1(key, data));}
+export function str_hmac_sha1(key, data){ return binb2str(core_hmac_sha1(key, data));}
 
 /*
  * Perform a simple self-test to see if the VM is working
  */
-function sha1_vm_test()
+export function sha1_vm_test()
 {
   return hex_sha1("abc") === "a9993e364706816aba3e25717850c26c9cd0d89d";
 }
