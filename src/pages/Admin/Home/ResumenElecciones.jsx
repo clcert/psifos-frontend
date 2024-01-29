@@ -102,7 +102,7 @@ function ElectionListButton({ isDisabled, onClickHandler, message }) {
   return (
     <div className="d-flex">
       <Button
-        className="button-custom home-admin-button btn-fixed"
+        className="button-custom home-admin-button is-size-7-mobile"
         disabled={isDisabled}
         onClick={onClickHandler}
       >

@@ -20,10 +20,10 @@ function HomeAdmin() {
       </section>
 
       <section
-        className="section columns is-flex is-vcentered is-centered mt-5 mb-0"
+        className="section d-flex justify-content-center is-flex is-vcentered is-centered mt-5 mb-0"
         id="accordion-section"
       >
-        <div className="chart-container">
+        <div>
           <Tabs actualTab={actualTab} setActualTab={setActualTab} tabs={tabs} />
           <div className={actualTab !== 0 ? "d-none" : ""}>
             <AccesoElecciones />
