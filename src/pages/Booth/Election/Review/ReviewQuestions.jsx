@@ -1,4 +1,3 @@
-import reviewImage from "../../../../static/booth/svg/review-img.svg";
 import AuditModal from "./AuditModal";
 import React, { useState } from "react";
 import VerifyVoteModal from "../../components/VerifyVoteModal";
@@ -72,12 +71,7 @@ function ReviewQuestions(props) {
                 <i className="far fa-question-circle"></i>
               </span>
             </div> */}
-            <div className="column pb-0 is-hidden-mobile">
-              <figure className="image select-img-wrapper">
-                <img id="review-final-img" src={reviewImage} alt="" />
-              </figure>
-            </div>
-            <div className="column right-button-column has-text-centered-mobile is-flex">
+            <div className="column is-justify-content-center has-text-centered-mobile is-flex mb-5">
               <button
                 className="button is-medium question-button proceed-button"
                 id="proceed_button"

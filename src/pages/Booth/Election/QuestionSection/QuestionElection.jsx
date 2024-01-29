@@ -89,15 +89,6 @@ function PreviousButtonBox({
   )
 }
 
-function SelectFigureBox() {
-  return (
-    <div className="column is-hidden-mobile pb-0">
-      <figure className="image select-img-wrapper">
-        <img id="select-final-img" src={selectImg} alt="" />
-      </figure>
-    </div>
-  )
-}
 
 function ContinueButtonBox({
   isNextButtonBool, answers,
@@ -215,8 +206,6 @@ function QuestionElection(props) {
           handleAlert={setShowAlert}
           nextQuestion={props.nextQuestion}
         />
-
-        <SelectFigureBox />
 
         <ContinueButtonBox
           isNextButtonBool={ props.actualQuestion < props.questions.length - 1 && !finished }

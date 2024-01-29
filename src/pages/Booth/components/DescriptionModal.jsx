@@ -1,3 +1,5 @@
+import { InfoChannels } from "../../../component/ShortNavBar/ModalHelp";
+
 function DescriptionModal(props) {
   return (
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
@@ -10,7 +12,8 @@ function DescriptionModal(props) {
           </p>
           <p>{props.election.description}</p>
           <p>Si tienes alguna duda, te invitamos a contactar a la mesa de ayuda:</p>
-          <div className="py-1">
+          <InfoChannels />
+          {/* <div className="py-1">
             <span className="icon">
               <i className="fab fa-whatsapp"></i>
             </span>
@@ -71,7 +74,7 @@ function DescriptionModal(props) {
                 ayuda.participa@uchile.cl
               </a>
             </span>
-          </div>
+          </div> */}
         </section>
         <footer className="modal-card-foot">
           <div className="container has-text-centered">

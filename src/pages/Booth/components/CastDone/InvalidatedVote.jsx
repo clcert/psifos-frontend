@@ -1,3 +1,5 @@
+import { InfoChannels } from "../../../../component/ShortNavBar/ModalHelp";
+
 function InvalidatedVote(props) {
   return (
     <>
@@ -9,7 +11,8 @@ function InvalidatedVote(props) {
         nuevamente, y si el problema persiste, por favor contacta a la mesa de
         ayuda:
       </p>
-      <ul
+      <InfoChannels />
+{/*       <ul
         className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-flex-start"
         id="help-desk-list"
       >
@@ -69,7 +72,7 @@ function InvalidatedVote(props) {
             @participaUChile
           </a>
         </li>
-      </ul>
+      </ul> */}
 
       <a href="https://participa.uchile.cl/">
         <button className="button is-medium my-4" id="back-vote-button">

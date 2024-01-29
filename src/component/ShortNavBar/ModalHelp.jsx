@@ -8,7 +8,7 @@ function InfoChannel({ icon, name, contact, href }) {
       </span>
       {name}:&nbsp;
       <span>
-        <a href={href} rel="noreferrer" target="_blank">
+        <a href={href} rel="noreferrer" target="_blank" style={{ textDecoration: "none" }}>
           {contact}
         </a>
       </span>
@@ -23,25 +23,19 @@ function InfoChannels() {
         icon="fab fa-whatsapp"
         name="whatsapp"
         contact="(+56) 9 7473 2599"
-        href=" https://web.whatsapp.com/send/?phone=+56974732599"
-      />
-      <InfoChannel
-        icon="fab fa-telegram"
-        name="telegram"
-        contact="@participaUChile"
-        href="https://t.me/participaUChile"
-      />
-      <InfoChannel
-        icon="fab fa-twitter"
-        name="twitter"
-        contact="@participaUChile"
-        href="https://www.twitter.com/participaUChile"
+        href=" https://wa.me/56974732599"
       />
       <InfoChannel
         icon="fas fa-envelope"
         name="correo"
         contact="ayuda.participa@uchile.cl"
         href="mailto:ayuda.participa@uchile.cl"
+      />
+      <InfoChannel
+        icon="fab fa-telegram"
+        name="telegram"
+        contact="@participaUChile"
+        href="https://t.me/participaUChile"
       />
     </div>
   );

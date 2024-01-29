@@ -1,3 +1,5 @@
+import { InfoChannels } from "../../../../component/ShortNavBar/ModalHelp";
+
 function PendingVote(props) {
   return (
     <>
@@ -12,8 +14,8 @@ function PendingVote(props) {
         Para asegurarte de que tu voto ha sido validado, por favor contactar a
         la mesa de ayuda:
       </p>
-
-      <ul
+      <InfoChannels />
+      {/* <ul
         className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-flex-start"
         id="help-desk-list"
       >
@@ -73,7 +75,7 @@ function PendingVote(props) {
             @participaUChile
           </a>
         </li>
-      </ul>
+      </ul> */}
 
       {/* <p className="subtitle has-text-black mb-0">
         Código de Papeleta:
