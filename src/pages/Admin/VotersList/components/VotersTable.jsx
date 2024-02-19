@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "react-bulma-components";
-import { getStats } from "../../../../services/election";
+import { getStats } from "../../../../services/election"
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { getVotesInfo } from "../../../../services/info";
