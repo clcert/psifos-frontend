@@ -72,12 +72,12 @@ function ReviewQuestions(props) {
                 <i className="far fa-question-circle"></i>
               </span>
             </div> */}
-            <div className="column pb-0 is-hidden-mobile">
+            {/* <div className="column pb-0 is-hidden-mobile">
               <figure className="image select-img-wrapper">
                 <img id="review-final-img" src={reviewImage} alt="" />
               </figure>
-            </div>
-            <div className="column right-button-column has-text-centered-mobile is-flex">
+            </div> */}
+            <div className="column right-button-column has-text-centered-mobile is-flex mb-3">
               <button
                 className="button is-medium question-button proceed-button"
                 id="proceed_button"
