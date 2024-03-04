@@ -11,7 +11,7 @@
 
 class BigIntDummy {
   constructor(value, radix) {
-    if (radix != 10) throw "in dummy, only radix=10, here radix=" + radix;
+    if (radix !== 10) throw new Error ("in dummy, only radix=10, here radix=" + radix);
 
     this.value = value;
   }
@@ -26,35 +26,35 @@ class BigIntDummy {
   }
 
   add(other) {
-    throw "dummy, no add!";
+    throw new Error ("dummy, no add!");
   }
 
   bitLength() {
-    throw "dummy, nobitlength!";
+    throw new Error ("dummy, nobitlength!");
   }
 
   mod(modulus) {
-    throw "dummy, no mod!";
+    throw new Error ("dummy, no mod!");
   }
 
   equals(other) {
-    throw "dummy, no equals!";
+    throw new Error ("dummy, no equals!");
   }
 
   modPow(exp, modulus) {
-    throw "dummy, no modpow!";
+    throw new Error ("dummy, no modpow!");
   }
 
   negate() {
-    throw "dummy, no negate!";
+    throw new Error ("dummy, no negate!");
   }
 
   multiply(other) {
-    throw "dummy, no multiply!";
+    throw new Error ("dummy, no multiply!");
   }
 
   modInverse(modulus) {
-    throw "dummy, no modInverse";
+    throw new Error ("dummy, no modInverse");
   }
 }
 

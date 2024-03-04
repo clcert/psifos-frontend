@@ -24,6 +24,7 @@ ChartJS.register(
 function BarPsifosGraph({ data, label, title, onlyHour }) {
   const [graphData, setGraphData] = useState({});
   const [options, setOptions] = useState({});
+  
   useEffect(() => {
     const labels = Object.keys(data).map((label) => {
       if (onlyHour) return label.split(" ")[1].split(":").slice(0,2).join(":");
@@ -57,7 +58,7 @@ function BarPsifosGraph({ data, label, title, onlyHour }) {
     };
     setGraphData(dataAux);
     setOptions(options);
-  }, [data]);
+  }, [data, label, title, onlyHour]);
 
   return (
     <>
