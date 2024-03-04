@@ -790,6 +790,12 @@ input[type="radio"] {
   width: 150px;
 }
 
+.btn-fixed-mobile {
+  @media screen and (min-width: 768px) {
+    width: 150px;
+  }
+}
+
 .button-custom {
   background-color: #004c94 !important;
   color: white !important;
@@ -811,6 +817,10 @@ input[type="radio"] {
   width: 60vw;
 }
 
+.home-container{
+  width: 60vw;
+}
+
 .canvas-graph {
   width: 80%;
 }
@@ -822,6 +832,9 @@ input[type="radio"] {
 @media screen and (max-width: 992px) {
   .chart-container {
     width: 80vw;
+  }
+  .home-container{
+    width: 120vw;
   }
   .canvas-graph {
     width: 250%;

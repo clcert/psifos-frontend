@@ -7,7 +7,7 @@ import { translateStep } from "../../../../utils/utils";
 function StateActionButton({ handler, message }) {
   return (
     <Button
-      className="button-custom home-admin-button btn-fixed"
+      className={`button-custom home-admin-button btn-fixed-mobile is-size-7-mobile`}
       onClick={handler}
     >
       {message}
