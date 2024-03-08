@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../server";
 import encryptingGIF from "../../../static/img/encrypting.gif";
@@ -6,7 +6,7 @@ import encryptingGIF from "../../../static/img/encrypting.gif";
 function VerifyVoteModal(props) {
   const { shortName } = useParams();
 
-  async function getVote() {
+  const getVote = useCallback(async () => {
     const voteHashEncode = encodeURIComponent(props.voteHash);
     const url =
       backendInfoIp + "/election/" + shortName + "/cast-vote/" + voteHashEncode;
@@ -25,7 +25,7 @@ function VerifyVoteModal(props) {
       props.setVoteVerificates(false);
       props.afterVerify();
     }
-  }
+  }, [props, shortName]);
 
   useEffect(() => {
     if (props.show && props.voteHash) {
@@ -39,7 +39,7 @@ function VerifyVoteModal(props) {
         clearInterval(intervalTotal);
       };
     }
-  }, [props.show, props.voteHash]);
+  }, [props.show, props.voteHash, getVote, props]);
 
   return (
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
@@ -50,7 +50,7 @@ function VerifyVoteModal(props) {
             VALIDANDO TU VOTO <br />
             POR FAVOR ESPERA UN MOMENTO
           </p>
-          <img className="mt-2" src={encryptingGIF} />
+          <img className="mt-2" src={encryptingGIF} alt="" />
           <p className="subtitle mt-4">
             Se está verificando que el voto se realizó correctamente
           </p>

@@ -41,7 +41,7 @@ function CastVoteView({ election }) {
         totalVotes: dataVotes.total_votes,
       });
     });
-  }, [shortName, hashUrl]);
+  }, [shortName, hashUrl, electionData]);
 
   useEffect(() => {
     getDataVotes();
@@ -120,9 +120,7 @@ function CastVoteView({ election }) {
               </div>
             </div>
           ) : (
-            <NotAvalaibleMessage 
-              message="Sin votos registrados"
-            />
+            <NotAvalaibleMessage message="Sin votos registrados" />
           )}
         </>
       ) : (

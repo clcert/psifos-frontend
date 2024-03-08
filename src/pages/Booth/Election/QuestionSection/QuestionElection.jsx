@@ -216,7 +216,7 @@ function QuestionElection(props) {
           nextQuestion={props.nextQuestion}
         />
 
-        <SelectFigureBox />
+        {/* <SelectFigureBox /> */}
 
         <ContinueButtonBox
           isNextButtonBool={ props.actualQuestion < props.questions.length - 1 && !finished }

@@ -49,7 +49,7 @@ class Heliosc {
     let R = new BigInt(s.response);
     let A = pk.g.modPow(R, pk.p).multiply(pk.y.modPow(C, pk.p)).mod(pk.p);
     let tmp = this.hash("sign|" + A.toString() + "|" + m);
-    return new BigInt(tmp, 16).mod(pk.q).compareTo(C) == 0;
+    return new BigInt(tmp, 16).mod(pk.q).compareTo(C) === 0;
   }
 
   encryption_encrypt(pk, m) {
@@ -115,7 +115,6 @@ class Heliosc {
 
   // Validation of trustee certificates
   ui_validator_check(i) {
-    let log = this.log;
 
     if (i < this.certificates.length) {
       let id = i + 1;
@@ -153,7 +152,7 @@ class Heliosc {
             this.certificates[this.params.trustee_id - 1]
           )
         ) {
-          throw "Not the right key!";
+          throw new Error("Not the right key!");
         }
 
         this.secret_key = secret_key;
@@ -167,7 +166,6 @@ class Heliosc {
   // Building the secret share of the election key
 
   ui_share_trustee(i) {
-    let log = this.log;
     if (i < this.params.l) {
       let id = i + 1;
       console.log("Decrypting point shared with trustee #" + id + "...");
@@ -199,7 +197,7 @@ class Heliosc {
       if (point) {
         SUM = SUM.add(point).mod(pk.q);
       } else {
-        throw "Error while building the secret share of the election key";
+        throw new Error("Error while building the secret share of the election key");
       }
     }
     pk.y = this.params.g.modPow(SUM, this.params.p);
@@ -270,7 +268,7 @@ class Heliosc {
     };
 
     res.check_certificate = function (cert) {
-      return signature_key.public_key.y.toString() == cert.signature_key;
+      return signature_key.public_key.y.toString() === cert.signature_key;
     };
 
     res.generate_coefficient = function (k) {
@@ -318,7 +316,7 @@ class Heliosc {
         product = product.multiply(c.modPow(jpower, PARAMS.p)).mod(PARAMS.p);
         jpower = jpower.multiply(bigj).mod(PARAMS.q);
       }
-      if (product.compareTo(point) != 0) {
+      if (product.compareTo(point) !== 0) {
         return false;
       }
       // sign an acknowledgement that checks have been done successfully

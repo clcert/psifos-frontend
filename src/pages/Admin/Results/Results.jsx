@@ -112,31 +112,35 @@ function Results({ isAdmin = false }) {
     getElectionResult();
   }, [getElectionResult]);
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     const result = groupedResults.find((element) => {
       return element.group === group;
     });
     handleGroupResults(questions, result);
-  }, [group]);
+  }, [group, groupedResults, questions]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
   return (
     <>
       {!load && <div className="spinner-animation"></div>}
       {load &&
-      (election.election_status === electionStatus.resultsReleased ||
+        (election.election_status === electionStatus.resultsReleased ||
         (election.election_status === electionStatus.decryptionsCombined &&
-          isAdmin)) ? (
-        <CalculatedResults
-          election={election}
-          questions={questions}
-          totalResults={totalResults}
-          groupResult={groupResult}
-          group={group}
-          groups={groups}
-          setGroup={setGroup}
-        />
-      ) : (
-        <NoCalculatedResults getElectionResult={getElectionResult} />
-      )}
+          isAdmin) ? (
+          <CalculatedResults
+            election={election}
+            questions={questions}
+            totalResults={totalResults}
+            groupResult={groupResult}
+            group={group}
+            groups={groups}
+            setGroup={setGroup}
+          />
+        ) : (
+          <NoCalculatedResults getElectionResult={getElectionResult} />
+        ))}
     </>
   );
 }

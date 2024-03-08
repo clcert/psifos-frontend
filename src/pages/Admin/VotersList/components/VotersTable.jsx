@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { backendOpIP } from "../../../../server";
 import { Button } from "react-bulma-components";
-import { getStats } from "../../../../services/election";
-
+import { getStats } from "../../../../services/election"
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { getVotesInfo } from "../../../../services/info";
@@ -19,16 +17,25 @@ function VotersTable({
   const [previousDisabled, setPreviousDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
   const [actualPage, setPage] = useState(0);
-  const [electionStatus, setElectionStatus] = useState("");
   const [voterToSearch, setVoterToSearch] = useState("");
+  const [voterByHash, setVoterByHash] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const maxForPage = 50;
 
+  /**
+   * Get Voters
+   * @param {number} page - page number
+   * @param {object} param1 - object with voterName and voteHash
+   * @param {string} param1.voterName - voter name
+   * @param {string} param1.voteHash - vote hash
+
+   */
   const getVoters = useCallback(
-    async (page, voterName = "") => {
+    async (page, { voterName = "", voteHash = "" } = {}) => {
       getVotesInfo(election.short_name, page, maxForPage, {
         voterName: voterName,
+        voteHash: voteHash,
       }).then((data) => {
         setVoters(data.voters);
         setNextDisabled(!data.more_votes);
@@ -37,19 +44,19 @@ function VotersTable({
     [election]
   );
 
-  useEffect(
-    function effectFunction() {
-      getVoters(0);
-      getStats(election.short_name).then((data) => {
-        const { jsonResponse } = data;
-        setElectionStatus(jsonResponse.status);
-        setTotalVoters(jsonResponse.total_voters);
-        setTotalVotes(jsonResponse.num_casted_votes);
-        setIsLoading(false);
-      });
-    },
-    [election, getVoters]
-  );
+  const initComponent = useCallback(() => {
+    getVoters(0);
+    getStats(election.short_name).then((data) => {
+      const { jsonResponse } = data;
+      setTotalVoters(jsonResponse.total_voters);
+      setTotalVotes(jsonResponse.num_casted_votes);
+      setIsLoading(false);
+    });
+  }, [election, getVoters]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
 
   function buttonAction(value) {
     /**
@@ -65,13 +72,38 @@ function VotersTable({
     }
   }
 
-  function search() {
-    /**
-     * Search for a voter by name
-     * @param {event} event
-     */
-    getVoters(0, voterToSearch);
+  /**
+   * Search for a voter by name
+   * @param {event} event
+   */
+  function searchVoterByName() {
+    getVoters(0, { voterName: voterToSearch });
   }
+  /**
+   * Search for a voter by hash
+   */
+  function searchVoterByHash() {
+    getVotesInfo(election.short_name, 0, maxForPage, {
+      voteHash: voterByHash.trim(),
+    }).then((data) => {
+      if (voterByHash !== "") searchByHash(data.voters);
+      else setVoters(data.voters);
+      setNextDisabled(!data.more_votes);
+    });
+  }
+  /**
+   * Search voter in the list by hash and set the list of voters
+   */
+  const searchByHash = useCallback(
+    (voters) => {
+      const auxVoters = voters.filter((voter) => {
+        if (!voter.cast_vote) return false;
+        return voter.cast_vote.vote_hash === voterByHash.trim();
+      });
+      setVoters(auxVoters);
+    },
+    [voterByHash]
+  );
 
   if (isLoading) {
     return (
@@ -86,9 +118,9 @@ function VotersTable({
       <>
         <div
           className="search-box search_box p-2"
-          onKeyPress={(e) => {
+          onKeyUp={(e) => {
             if (e.key === "Enter") {
-              search();
+              searchVoterByName();
             }
           }}
         >
@@ -97,13 +129,36 @@ function VotersTable({
             id="ballot_searched"
             name="q"
             className="input_search"
-            placeholder="Buscar Papeleta..."
+            placeholder="Buscar votante por nombre..."
             value={voterToSearch}
             onChange={(e) => {
               setVoterToSearch(e.target.value);
             }}
           />
-          <div className="search-button" onClick={search}>
+          <div className="search-button" onClick={searchVoterByName}>
+            <i className="fas fa-lg fa-search"></i>
+          </div>
+        </div>
+        <div
+          className="search-box search_box p-2"
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              searchVoterByHash();
+            }
+          }}
+        >
+          <input
+            type="text"
+            id="ballot_searched"
+            name="q"
+            className="input_search"
+            placeholder="Buscar votante por código de papeleta..."
+            value={voterByHash}
+            onChange={(e) => {
+              setVoterByHash(e.target.value);
+            }}
+          />
+          <div className="search-button" onClick={searchVoterByHash}>
             <i className="fas fa-lg fa-search"></i>
           </div>
         </div>

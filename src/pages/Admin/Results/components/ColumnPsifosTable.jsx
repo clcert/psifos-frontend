@@ -47,7 +47,7 @@ export default function ColumnPsifosTable({
 
   const [buttonActive, setButtonActive] = useState(false);
   const [isFilterCeros, setIsFilterCeros] = useState(true);
-  const [isPercentage, setIsPercentage] = useState(false);
+  const isPercentage = false
 
   const openButton = () => {
     if (buttonActive) setButtonActive(false);

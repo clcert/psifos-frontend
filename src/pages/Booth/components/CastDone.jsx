@@ -13,9 +13,9 @@ function CastDone(props) {
         {props.voteVerificated === null && <PendingVote voteHash={props.voteHash} />}
       </div>
 
-      <figure className="image send-img-wrapper pt-4">
+      {/* <figure className="image send-img-wrapper pt-4">
         <img id="send-final-img" src={sendImage} alt="" />
-      </figure>
+      </figure> */}
     </section>
   );
 }

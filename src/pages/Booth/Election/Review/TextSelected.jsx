@@ -1,43 +1,29 @@
 import React from "react";
 
-function ShowAnswer({
-  questionType, indexAnswer, numOptions,
-  index, answer,
-}) {
+function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
   return (
-    (
-      !(questionType === "mixnet_question")
-      || indexAnswer < numOptions - 2
-    ) && (
+    (!(questionType === "mixnet_question") || indexAnswer < numOptions - 2) && (
       <React.Fragment key={index}>
         <span key={index}>
-          {(
-            questionType === "stvnc_question"
-            ? `[${index+1}.] `
-            : "[ ✓ ] "
-          ) + (
-            questionType === "mixnet_question" && answer.split(",").length > 1
-            ? answer.split(",")[0]
-            : answer
-          )}
+          {(questionType === "stvnc_question" ? `[${index + 1}.] ` : "[ ✓ ] ") +
+            (questionType === "mixnet_question" && answer.split(",").length > 1
+              ? answer.split(",")[0]
+              : answer)}
         </span>
         <br />
       </React.Fragment>
     )
-  )
+  );
 }
 
-function ShowAnswersList({
-  currentAns, questionType, closedOptions,
-}) {
+function ShowAnswersList({ currentAns, questionType, closedOptions }) {
   return (
     <p className="mb-0">
       {currentAns.map((key, index) => {
-        const indexAnswer = (
-          questionType === "mixnet_question" ? key - 1 : key
-        )
+        const indexAnswer = questionType === "mixnet_question" ? key - 1 : key;
         return (
           <ShowAnswer
+            key={index}
             questionType={questionType}
             indexAnswer={indexAnswer}
             numOptions={closedOptions.length}
@@ -47,14 +33,13 @@ function ShowAnswersList({
         );
       })}
     </p>
-  )
+  );
 }
-
 
 function TextSelected({ answers, index, question }) {
   const includeBlankNull = question.include_blank_null === "True";
 
-  if (answers[index] === []) {
+  if (answers[index].length === 0) {
     return <p>[ ] Ninguna opción seleccionada</p>;
   } else if (
     answers[index].every((element) => {

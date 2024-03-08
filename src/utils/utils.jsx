@@ -8,6 +8,7 @@ export function translateStep(step) {
     "Setting up": "En configuración",
     "Started": "Iniciada",
     "Ended": "Finalizada",
+    "Computing Tally": "Computando Tally",
     "Tally computed": "Tally computado",
     "Decryptions uploaded": "Desencriptaciones subidas",
     "Decryptions combined": "Desencriptaciones combinadas",

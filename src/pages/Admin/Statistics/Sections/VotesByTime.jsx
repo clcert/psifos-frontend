@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
@@ -45,7 +45,7 @@ function VotesByTime(props) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
-  async function getCountDates() {
+  const getCountDates = useCallback(async () => {
     const resp = await fetch(backendInfoIp + "/" + shortName + "/count-dates", {
       method: "POST",
       headers: {
@@ -60,11 +60,11 @@ function VotesByTime(props) {
       setVotesForTime(jsonResponse);
       setLoad(true);
     }
-  }
+  }, [deltaTime, shortName]);
 
   useEffect(() => {
     getCountDates();
-  }, [deltaTime]);
+  }, [getCountDates, deltaTime]);
 
   function handleChange(event) {
     setDeltaTime(parseInt(event.target.value));

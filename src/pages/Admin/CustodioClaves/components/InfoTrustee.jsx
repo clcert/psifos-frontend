@@ -1,5 +1,3 @@
-import loading from "../../../../static/booth/loading.gif";
-
 function InfoTrustee(props) {
   return (
     <div>

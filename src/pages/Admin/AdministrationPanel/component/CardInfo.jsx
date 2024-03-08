@@ -30,7 +30,6 @@ const DisplayTicket = ({ name, condition }) => {
 function CardInfo({
   election,
   electionStep,
-  trustees,
   updateInfo,
   totalVoters,
   totalVotes,
@@ -40,13 +39,13 @@ function CardInfo({
 
   useEffect(() => {
     let number_decryptions = 0;
-    trustees.forEach((trustee) => {
+    election.trustees.forEach((trustee) => {
       if (trustee.decryptions !== "") {
         number_decryptions++;
       }
     });
     setDecryptionNumber(number_decryptions);
-  }, [trustees, electionStep]);
+  }, [election.trustees, electionStep]);
 
   return (
     <div className="box ">
@@ -82,12 +81,12 @@ function CardInfo({
           name="Peso máximo de votantes"
           value={election.max_weight}
         />
-        <DisplayStats name="Numero Custodios" value={trustees.length} />
+        <DisplayStats name="Numero Custodios" value={election.trustees.length} />
         {electionStep === "Tally computed" ||
           (electionStep === "Decryptions uploaded" && (
             <DisplayStats
               name="Desencriptaciones Parciales"
-              value={decryptionNumber / trustees.length}
+              value={decryptionNumber / election.trustees.length}
             />
           ))}
 

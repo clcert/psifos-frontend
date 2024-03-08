@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
 import { getElectionPublic, getStats } from "../../../../services/election";
@@ -56,7 +56,7 @@ export default function StyledCardsInfoElection() {
    * Retrieves the resume of the election from the backend and updates the state with the weights of the voters.
    * @returns {Promise<Object>} A promise that resolves to the JSON response from the backend.
    */
-  async function getElectionResume() {
+  const getElectionResume = useCallback(async () => {
     const resp = await fetch(`${backendInfoIp}/${shortName}/resume`, {
       method: "GET",
       headers: {
@@ -75,9 +75,9 @@ export default function StyledCardsInfoElection() {
       );
       return jsonResponse;
     }
-  }
+  }, [shortName]);
 
-  useEffect(() => {
+  const initComponent = useCallback(() => {
     getElectionResume();
     getElectionPublic(shortName).then((data) => {
       const { jsonResponse } = data;
@@ -88,7 +88,11 @@ export default function StyledCardsInfoElection() {
       setTotalVoters(jsonResponse.total_voters);
       setTotalVotes(jsonResponse.num_casted_votes);
     });
-  }, []);
+  }, [getElectionResume, shortName]);
+
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
 
   const percentageVotes = ((totalVotes / totalVoters) * 100).toFixed(2);
 

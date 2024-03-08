@@ -4,9 +4,8 @@ import { logout } from "../utils/utils";
 async function getElection(shortName) {
   /**
    * async function to get the election data
-   */
-
-  const token = localStorage.getItem("token");
+  */
+   const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/get-election/" + shortName, {
     method: "GET",
     headers: {
@@ -16,6 +15,7 @@ async function getElection(shortName) {
   });
   if (resp.status === 200) {
     const jsonResponse = await resp.json();
+
     return { resp: resp, jsonResponse: jsonResponse };
   } else if (resp.status === 403) {
     logout();

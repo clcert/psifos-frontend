@@ -3,11 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { backendOpIP } from "../../../server";
 import SubNavbar from "../component/SubNavbar";
 import AlertNotification from "../component/AlertNotification";
 import { getElection } from "../../../services/election";
+import { useDispatch, useSelector } from "react-redux";
+import { setElection } from "../../../store/slices/electionSlice";
 
 function AsteriskRequiredField() {
   return <span className="asterisk-required-field">*</span>;
@@ -17,6 +19,9 @@ function CreateElection(props) {
   /**
    * view that handles the creation of a election
    */
+
+  const dispatch = useDispatch();
+  const election = useSelector((state) => state.election.actualElection);
 
   /** @state {string} short name for election */
   const [electionParams, setElectionParams] = useState({
@@ -40,31 +45,43 @@ function CreateElection(props) {
   /** @urlParam {string} shortName of election  */
   const { shortName } = useParams();
 
+  const initComponent = useCallback((election) => {
+    setDisabledEdit(election.election_status !== "Setting up");
+    const electionType = {
+      Open: "open_p",
+      Close: "close_p",
+      "Semi Public": "semi_close_p",
+    };
+    const params = {
+      short_name: election.short_name,
+      name: election.name,
+      description: election.description,
+      election_type: election.election_type.toLocaleLowerCase(),
+      max_weight: election.max_weight,
+      obscure_voter_names: election.obscure_voter_names,
+      randomize_answer_order: election.randomize_answer_order,
+      election_login_type: electionType[election.election_login_type],
+      normalization: election.normalization,
+      grouped: election.grouped,
+    };
+    setElectionParams(params);
+  }, []);
+
   useEffect(() => {
-    if (props.edit) {
+    if (props.edit && Object.keys(election).length === 0) {
       getElection(shortName).then((election) => {
         const { resp, jsonResponse } = election;
         if (resp.status === 200) {
-          setDisabledEdit(jsonResponse.election_status !== "Setting up");
-          const params = {
-            short_name: jsonResponse.short_name,
-            name: jsonResponse.name,
-            description: jsonResponse.description,
-            election_type: jsonResponse.election_type.toLocaleLowerCase(),
-            max_weight: jsonResponse.max_weight,
-            obscure_voter_names: jsonResponse.obscure_voter_names,
-            randomize_answer_order: jsonResponse.randomize_answer_order,
-            election_login_type: jsonResponse.election_login_type,
-            normalization: jsonResponse.normalization,
-            grouped: jsonResponse.grouped,
-          };
-          setElectionParams(params);
+          dispatch(setElection(jsonResponse));
+          initComponent(jsonResponse);
         } else {
           setAlertMessage(jsonResponse.message);
         }
       });
+    } else if (props.edit && Object.keys(election).length !== 0) {
+      initComponent(election);
     }
-  }, [props.edit, shortName]);
+  }, [props.edit, shortName, initComponent, dispatch, election]);
 
   async function sendElection(url) {
     /**
