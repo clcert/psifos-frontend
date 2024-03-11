@@ -13482,8 +13482,11 @@ Consult
   max-width: 50% !important;
 }
 
-.ranking-illustration-bottom {
+.ranking-illustration-container {
   width: 100%;
-  border: 1px solid #004c94;
-  background: #ECEFF0;
+  padding: 0 5%;
+}
+
+.ranking-result-tabs {
+  margin: 2% 0;
 }
