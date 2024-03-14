@@ -13478,8 +13478,18 @@ Consult
   text-align: center;
 }
 
+.ranking-results-tables-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 .ranking-results-table {
   max-width: 50% !important;
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
 }
 
 .ranking-illustration-container {

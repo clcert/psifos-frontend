@@ -43,7 +43,8 @@ const getResultsTableElements = (
     let resultsTable = [{
         header: "Conjunto seleccionado",
         value: <WinnerList winners={winners} />,
-        },
+        alignTextLeft: true,
+      },
     ]
 
     if (includeInformals) {
@@ -73,7 +74,7 @@ export function ResumeTables({
         winners, includeInformals, nullvotes, blankvotes
     )
     return (
-        <div className="disable-text-selection row justify-content-md-center">
+        <div className="disable-text-selection ranking-results-tables-container">
             <div className="ranking-results-table">
             <SimpleHorizontalTable contentPerRow={algorithmTable}/>
             </div>

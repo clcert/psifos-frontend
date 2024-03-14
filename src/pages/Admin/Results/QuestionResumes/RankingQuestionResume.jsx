@@ -25,7 +25,7 @@ const parseResult = (
 
 
 
-export default function RankingQuestionResume({ result, question, election }) {
+export default function RankingQuestionResume({ result, question }) {
   const candidates = Array.from(
     { length: parseInt(question.total_options, 10)},
     (_, index) => String(index)

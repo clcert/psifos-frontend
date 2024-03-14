@@ -10,7 +10,11 @@ export default function SimpleHorizontalTable({contentPerRow}) {
             return (
               <tr key={row.header}>
                 <td className="table-header">{row.header}</td>
-                <td className="has-text-centered">{row.value}</td>
+                <td
+                  className={row.alignTextLeft ? "" : "has-text-centered"}
+                >
+                  {row.value}
+                </td>
               </tr>
             )
           })}
