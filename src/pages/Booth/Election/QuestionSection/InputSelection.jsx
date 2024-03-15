@@ -53,7 +53,7 @@ function InputSelection(props) {
       <div>
         {isMultipleSelection ? (
           <InputRadio
-            index={props.index}
+            questionId={props.index}
             election={props.election}
             question={props.question}
             answers={answers}

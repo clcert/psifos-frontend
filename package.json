@@ -16,6 +16,8 @@
     "buffer": "~6.0.3",
     "bulma-accordion": "~2.0.1",
     "chart.js": "~3.9.1",
+    "echarts": "^5.4.3",
+    "echarts-for-react": "^3.0.2",
     "jquery": "~3.6.4",
     "react": "^18.2.0",
     "react-bulma-components": "~4.1.0",

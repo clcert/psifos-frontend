@@ -879,6 +879,15 @@ input[type="radio"] {
   border-radius: 5px;
 }
 
+.radio-button-selected {
+  color: #00b7ff;
+}
+
+.is-bordered {
+  outline: 2px solid white;
+  border-radius: 5px;
+}
+
 .custom-answer {
   position: relative;
   top: -2px;
@@ -13463,4 +13472,31 @@ Consult
 
 .header-accordion .header-item {
   margin-top: 10px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.ranking-results-tables-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.ranking-results-table {
+  max-width: 50% !important;
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.ranking-illustration-container {
+  width: 100%;
+  padding: 0 5%;
+}
+
+.ranking-result-tabs {
+  margin: 2% 0;
 }
