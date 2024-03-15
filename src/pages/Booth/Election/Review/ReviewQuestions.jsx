@@ -28,7 +28,6 @@ function ReviewQuestions(props) {
                     <div className="is-flex is-justify-content-end">
                   <a
                     onClick={() => props.changeAnswer(index)}
-                    href={() => false}
                     className="change-answer-button"
                   >
                     <span className="icon has-text-white">
@@ -45,7 +44,12 @@ function ReviewQuestions(props) {
 
         <div className="container has-text-centered mt-6">
           <div className="columns pb-0 is-align-items-center review-buttons-container">
-            <div className="column right-button-column has-text-centered-mobile is-flex mb-3">
+            <div className="column pb-0 is-hidden-mobile">
+              <figure className="image select-img-wrapper">
+                <img id="review-final-img" src={reviewImage} alt="" />
+              </figure>
+            </div>
+            <div className="column right-button-column has-text-centered-mobile is-flex">
               <button
                 className="button is-medium question-button proceed-button"
                 id="proceed_button"

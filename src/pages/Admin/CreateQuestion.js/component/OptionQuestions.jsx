@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import CotedInput from "./CotedInput";
 
 export function DescriptionInput({
   disabledEdit,
@@ -37,73 +38,9 @@ export function DescriptionInput({
   );
 }
 
-function NumberOfAnsInput({
-  label,
-  isDisabled,
-  value,
-  inputId,
-  placeholder,
-  handleInput,
-  checkOptions,
-  numberOfAns,
-  minCoteCondition,
-  minCoteWarningMessage,
-  maxCoteCondition,
-  maxCoteWarningMessage,
-}) {
-  const [warningText, setWarningText] = useState(false);
-
-  useEffect(() => {
-    let wt = false;
-    if (!isDisabled) {
-      if (minCoteCondition) {
-        wt = minCoteWarningMessage;
-        checkOptions(false);
-      } else if (maxCoteCondition) {
-        wt = maxCoteWarningMessage;
-        checkOptions(false);
-      }
-    }
-    setWarningText(wt);
-  }, [
-    value,
-    isDisabled,
-    numberOfAns,
-    minCoteCondition,
-    maxCoteCondition,
-    minCoteWarningMessage,
-    maxCoteWarningMessage,
-    checkOptions,
-  ]);
-
-  useEffect(() => {
-    checkOptions(!Boolean(warningText));
-  }, [warningText, checkOptions]);
-
-  return (
-    <div className="column" style={{ paddingLeft: "0px" }}>
-      <div className="field">
-        <label className="label">{label}</label>
-        <div className="control">
-          <input
-            id={inputId}
-            disabled={isDisabled}
-            value={value}
-            className={`input ${warningText && "is-danger"}`}
-            type="number"
-            placeholder={placeholder}
-            onChange={handleInput}
-          />
-        </div>
-        {warningText && <p className="help is-danger">{warningText}</p>}
-      </div>
-    </div>
-  );
-}
-
 function MinOfAnsInput(props) {
   return (
-    <NumberOfAnsInput
+    <CotedInput
       label="Cantidad mínima de respuestas"
       inputId={`question-${props.questionId}-min-answers`}
       placeholder="Mínimo"
@@ -116,7 +53,7 @@ function MinOfAnsInput(props) {
 
 function MaxOfAnsInput(props) {
   return (
-    <NumberOfAnsInput
+    <CotedInput
       label="Cantidad máxima de respuestas"
       inputId={`question-${props.questionId}-max-answers`}
       placeholder="Máximo"

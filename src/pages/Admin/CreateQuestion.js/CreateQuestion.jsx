@@ -71,6 +71,7 @@ function CreateQuestion(props) {
       closed_options: [],
       open_option_max_size: 50,
       total_open_options: 0,
+      num_of_winners: 1,
       min_answers: 1,
       max_answers: 1,
       include_blank_null: true,
@@ -109,8 +110,9 @@ function CreateQuestion(props) {
       question.total_open_options = question.total_open_options
         ? question.total_open_options
         : 1;
-      question.min_answers = question.min_answers ? question.min_answers : 1;
-      question.max_answers = question.max_answers ? question.max_answers : 1;
+      question.num_of_winners = question.num_of_winners || 1;
+      question.min_answers = question.min_answers || 1;
+      question.max_answers = question.max_answers || 1;
       question.include_blank_null =
         question.include_blank_null === "True" ? true : false;
       question.group_votes = question.group_votes === "True" ? true : false;
