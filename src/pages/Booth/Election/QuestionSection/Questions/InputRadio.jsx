@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 export function OptionInputRadio({
   optionId, questionId, optionLabel,
   isSelected, inputHandler, isBordered=false,
@@ -38,21 +39,18 @@ export function OptionInputRadio({
 
 function InputRadio({
   setAnswers, setBlankButton, setNullButton,
-  addAnswer, question, answers, questionId,
+  addAnswer, question, questionId,
 }) {
 
   const { include_blank_null, closed_options } = question
   const includeInformalAns = include_blank_null === "True";
 
-  function handlerInput(event) {
-    const { target } = event
-    const { value } = target
-    setAnswers([parseInt(value)]);
-    setBlankButton(false);
-    setNullButton(false);
-    addAnswer([parseInt(value)], questionId);
-  }
+  let answers = useSelector((state) => state.booth.answers)[questionId];
+  answers = answers ? answers : [];
 
+  function handlerInput(event) {
+    addAnswer([parseInt(event.target.value)], questionId);
+  }
   return (
     <div>
       {closed_options.map((key, index) => {
