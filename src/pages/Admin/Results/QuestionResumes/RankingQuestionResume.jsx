@@ -6,6 +6,7 @@ const parseResult = (
 ) => {
   let hopefulCandidates = candidates
   return roundResumes.reduce((result, round, index) => {
+    hopefulCandidates = hopefulCandidates.map((candidate) => String(candidate))
     const roundTallies = talliesResumes[index]
     const keys = hopefulCandidates.map(candidate => (
       candidatesNames[candidate]
@@ -28,7 +29,7 @@ const parseResult = (
 export default function RankingQuestionResume({ result, question }) {
   const candidates = Array.from(
     { length: parseInt(question.total_options, 10)},
-    (_, index) => String(index)
+    (_, index) => index
   )
   const {
     quota,
@@ -49,7 +50,7 @@ export default function RankingQuestionResume({ result, question }) {
       />
       <RoundsCharts
         {...chartsData}
-        quota
+        quota={quota}
       />
     </div>
   );
