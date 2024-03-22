@@ -2,15 +2,13 @@ import { useState } from "react";
 import InputCheckbox from "./Questions/InputCheckbox";
 import InputRadio from "./Questions/InputRadio";
 import { permanentOptions } from "../../../../constants";
+import { useSelector } from "react-redux";
 
 function InputSelection(props) {
-  /** @state {boolean} answers text */
-  const [nullButton, setNullButton] = useState(false);
 
-  /** @state {boolean} answers text */
-  const [blankButton, setBlankButton] = useState(false);
+  let answers = useSelector((state) => state.booth.answers)[props.index];
+  answers = answers ? answers : [];
 
-  const [answers, setAnswers] = useState([]);
   const isMultipleSelection =
     props.question.min_answers === "1" && props.question.max_answers === "1";
 
@@ -23,13 +21,8 @@ function InputSelection(props) {
   function nullVote(event) {
     if (event.target.checked) {
       const value = parseInt(event.target.value);
-      setNullButton(true);
-      setBlankButton(false);
-      setAnswers([value]);
       props.addAnswer([value], props.index);
     } else {
-      setNullButton(false);
-      setAnswers([]);
       props.addAnswer([], props.index);
     }
   }
@@ -37,13 +30,8 @@ function InputSelection(props) {
   function blankVote(event) {
     if (event.target.checked) {
       const value = parseInt(event.target.value);
-      setBlankButton(true);
-      setNullButton(false);
-      setAnswers([value]);
       props.addAnswer([value], props.index);
     } else {
-      setBlankButton(false);
-      setAnswers([]);
       props.addAnswer([], props.index);
     }
   }
@@ -56,24 +44,16 @@ function InputSelection(props) {
             questionId={props.index}
             election={props.election}
             question={props.question}
-            answers={answers}
-            setAnswers={setAnswers}
             addAnswer={props.addAnswer}
             value={String(props.index)}
-            setBlankButton={setBlankButton}
-            setNullButton={setNullButton}
           />
         ) : (
           <InputCheckbox
             index={props.index}
             election={props.election}
             question={props.question}
-            answers={answers}
-            setAnswers={setAnswers}
             addAnswer={props.addAnswer}
             value={String(props.index)}
-            setBlankButton={setBlankButton}
-            setNullButton={setNullButton}
           />
         )}
       </div>
@@ -85,7 +65,7 @@ function InputSelection(props) {
             <label
               className={
                 "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2 " +
-                (blankButton ? "answer-selected" : "")
+                (answers.includes(blankValue) ? "answer-selected" : "")
               }
             >
               <input
@@ -94,7 +74,7 @@ function InputSelection(props) {
                 id="white"
                 value={blankValue}
                 name={"answer_" + props.index}
-                checked={blankButton}
+                checked={answers.includes(blankValue)}
                 onChange={(event) => {
                   blankVote(event);
                 }}
@@ -106,7 +86,7 @@ function InputSelection(props) {
             <label
               className={
                 "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2 " +
-                (nullButton ? "answer-selected" : "")
+                (answers.includes(nullValue) ? "answer-selected" : "")
               }
             >
               <input
@@ -115,7 +95,7 @@ function InputSelection(props) {
                 id="null"
                 value={nullValue}
                 name={"answer_" + props.index}
-                checked={nullButton}
+                checked={answers.includes(nullValue)}
                 onChange={(event) => {
                   nullVote(event);
                 }}

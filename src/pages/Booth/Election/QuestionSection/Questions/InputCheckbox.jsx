@@ -1,16 +1,20 @@
+import { useSelector } from "react-redux";
+
 function InputCheckbox(props) {
+  let answers = useSelector((state) => state.booth.answers)[props.index];
+  answers = answers ? answers : [];
   const includeBlankNull = props.question.include_blank_null === "True";
 
   const disabledCondition = (index) => {
     return (
-      parseInt(props.question.max_answers) === props.answers.length &&
-      !props.answers.includes(index)
+      parseInt(props.question.max_answers) === answers.length &&
+      !answers.includes(index)
     );
   };
 
   function addAnswer(event, index) {
     let value = parseInt(event.target.value);
-    let answersAux = [...props.answers];
+    let answersAux = [...answers];
 
     const questionsLength = props.question.closed_options.length;
     if (
@@ -18,17 +22,14 @@ function InputCheckbox(props) {
       (answersAux.includes(questionsLength - 2) ||
         answersAux.includes(questionsLength - 1))
     ) {
-      props.setBlankButton(false);
-      props.setNullButton(false);
       answersAux = [];
     }
 
-    if (event.target.checked && !props.answers.includes(value)) {
+    if (event.target.checked && !answers.includes(value)) {
       answersAux.push(value);
-    } else if (!event.target.checked && props.answers.includes(value)) {
+    } else if (!event.target.checked && answers.includes(value)) {
       answersAux.splice(answersAux.indexOf(value), 1);
     }
-    props.setAnswers(answersAux);
     return answersAux;
   }
 
@@ -48,7 +49,7 @@ function InputCheckbox(props) {
                     ? "question-answer-desabled "
                     : "question-answer-enabled ") +
                   "d-inline-flex align-items-center checkbox question-answer px-3 py-2 " +
-                  (props.answers.includes(index) ? "answer-selected" : "")
+                  (answers.includes(index) ? "answer-selected" : "")
                 }
               >
                 <input
@@ -57,7 +58,7 @@ function InputCheckbox(props) {
                   className="custom-answer"
                   name={"answer_" + index}
                   value={index}
-                  checked={props.answers.includes(index) || false}
+                  checked={answers.includes(index) || false}
                   onChange={(e) => {
                     let ans = addAnswer(e, props.index);
                     props.addAnswer(ans, props.index);

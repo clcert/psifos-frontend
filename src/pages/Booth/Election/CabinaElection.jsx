@@ -31,7 +31,7 @@ function SelectionPhase(props) {
             }}
             actualQuestion={props.actualQuestion}
             booth={props.BOOTH_PSIFOS.getBooth()}
-            encrypQuestions={(answersQuestions) => {
+            encryptQuestions={(answersQuestions) => {
               props.BOOTH_PSIFOS.sendEncryp(answersQuestions);
             }}
             isPreview={props.isPreview}

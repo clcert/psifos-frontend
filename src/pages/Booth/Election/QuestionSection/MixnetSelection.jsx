@@ -3,20 +3,21 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import AsyncSelect from "react-select/async";
 import { normalizedLowerCase } from "../../../../utils/utils";
+import { useSelector } from "react-redux";
 
 function MixnetSelection({ question, addAnswer, numQuestion }) {
   const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
   const isMixnetGroup = question.group_votes === "True";
   const otherOptionsName = "Otras Candidaturas";
 
+  let answers = useSelector((state) => state.booth.answers)[numQuestion];
+  answers = answers ? answers : [];
+
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
 
   /** @state {array} array with answers selected */
   const [answersSelected, setAnswersSelected] = useState([]);
-
-  /** @state {array} answers text */
-  const [answersForEncrypt, setAnswersForEncrypt] = useState([]);
 
   /** @state {boolean} answers text */
   const [nullButton, setNullButton] = useState(false);
@@ -36,9 +37,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       for (let i = 0; i < question.max_answers; i++) {
         auxAnswersForEncrypt.push(number);
       }
-      setAnswersForEncrypt(auxAnswersForEncrypt);
       addAnswerCallback(auxAnswersForEncrypt, numQuestion);
-      return auxAnswersForEncrypt;
     },
     [addAnswerCallback, numQuestion, question]
   );
@@ -95,7 +94,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     numQuestion,
     question.closed_options,
   ]);
-
 
   useEffect(() => {
     initComponent();
@@ -154,19 +152,18 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
       let auxOptions = [...options];
       let auxAnswersSelected = [...answersSelected];
-      let auxAnswersForEncrypt = [...answersForEncrypt];
+      let auxAnswersForEncrypt = [...answers];
+      auxAnswersForEncrypt[0] = 1;
 
-      let previousSelected = answersSelected[index];
+      let previousSelected = auxAnswersSelected[index];
       let actualSelected = event;
 
       if (nullButton || blankButton) {
         setNullButton(false);
         setBlankButton(false);
-        auxAnswersForEncrypt = changeAllEncrypted(
-          question.closed_options.length
-        );
+        changeAllEncrypted(question.closed_options.length);
+        auxAnswersForEncrypt = [...answers];
       }
-
       auxAnswersSelected[index] = event;
       auxAnswersForEncrypt[index] = actualSelected.key + 1;
 
@@ -190,19 +187,17 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
           auxOptions[previousSelected.key] = previousSelected;
         }
       }
-
       setAnswersSelected(auxAnswersSelected);
-      setAnswersForEncrypt(auxAnswersForEncrypt);
       addAnswerCallback(auxAnswersForEncrypt, numQuestion);
       setOptions(auxOptions);
       setPlaceHolder(defaultPlaceHolder);
     },
     [
+      answers,
+      answersSelected,
       nullButton,
       blankButton,
       options,
-      answersSelected,
-      answersForEncrypt,
       addAnswerCallback,
       isMixnetGroup,
       changeAllEncrypted,
@@ -217,7 +212,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
      */
 
     let auxOptions = [...options];
-    let auxAnswersSelected = [...answersSelected];
     answersSelected.forEach((answerSelected) => {
       if (isMixnetGroup) {
         auxOptions.forEach((option) => {
@@ -232,8 +226,8 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         auxOptions[answerSelected.key] = newAnswer;
       }
     });
-    auxAnswersSelected = [];
-    setAnswersSelected(auxAnswersSelected);
+    setAnswersSelected([]);
+    addAnswerCallback([], numQuestion);
     setOptions(auxOptions);
   }
 
