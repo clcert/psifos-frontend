@@ -12,11 +12,11 @@ class EncryptedAnswerFactory {
 
   create(type, question, answer, pk, progress) {
     const question_types = {
-      "open_question": EncryptedOpenAnswer,
-      "closed_question": EncryptedCloseAnswer,
-      "mixnet_question": EncryptedMixnetAnswer,
-      "stvnc_question": EncryptedStvncAnswer,
-    }
+      open_question: EncryptedOpenAnswer,
+      closed_question: EncryptedCloseAnswer,
+      mixnet_question: EncryptedMixnetAnswer,
+      stvnc_question: EncryptedStvncAnswer,
+    };
     if (Object.keys(question_types).includes(type)) {
       return new question_types[type](question, answer, pk, progress);
     }
@@ -25,7 +25,9 @@ class EncryptedAnswerFactory {
 
 EncryptedAnswerFactory.fromJSONObject = function (data, election) {
   let encrypted_answer = data.encrypted_answer;
+  let excluded_proofs = data.excluded_proofs;
   var ea = new EncryptedAnswerFactory().create(data.q_type);
+  ea.excluded_proofs = excluded_proofs;
   ea.choices = _(encrypted_answer.choices).map(function (choice) {
     return ElGamal.Ciphertext.fromJSONObject(choice, election.public_key);
   });
@@ -66,6 +68,7 @@ class EncryptedAnswer {
     this.randomness = enc_result.randomness;
     this.individual_proofs = enc_result.individual_proofs;
     this.overall_proof = enc_result.overall_proof;
+    this.excluded_proofs = enc_result.excluded_proofs;
     this.enc_ans_type = type;
   }
 
@@ -216,11 +219,8 @@ class EncryptedAnswer {
       }),
     };
 
-    if (this.overall_proof != null) {
-      return_obj.overall_proof = this.overall_proof.toJSONObject();
-    } else {
-      return_obj.overall_proof = null;
-    }
+    return_obj.overall_proof = this.overall_proof != null ? this.overall_proof.toJSONObject() : null;
+    return_obj.excluded_proofs = this.excluded_proofs != null ? this.excluded_proofs : null;
 
     if (include_plaintext) {
       return_obj.answer = this.answer;
@@ -278,7 +278,6 @@ class EncryptedMixnetType extends EncryptedAnswer {
       if (progress) progress.tick();
     }
 
-
     return {
       choices: choices,
       randomness: randomness,
@@ -301,8 +300,6 @@ class EncryptedMixnetType extends EncryptedAnswer {
 
     return return_obj;
   }
-
-  
 }
 
 class EncryptedMixnetAnswer extends EncryptedMixnetType {
@@ -314,7 +311,6 @@ class EncryptedMixnetAnswer extends EncryptedMixnetType {
     super(question, answer, pk, progress, type);
     this.enc_ans_type = "encrypted_mixnet_answer";
   }
-  
 }
 
 class EncryptedStvncAnswer extends EncryptedMixnetType {
@@ -327,6 +323,5 @@ class EncryptedStvncAnswer extends EncryptedMixnetType {
     this.enc_ans_type = "encrypted_stvnc_answer";
   }
 }
-
 
 export default EncryptedAnswerFactory;

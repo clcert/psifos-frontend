@@ -113,8 +113,8 @@ class PublicKey {
     }
 
     // check params
-    if (!this.p.equals(other.p)) throw new Error ("mismatched params");
-    if (!this.g.equals(other.g)) throw new Error ("mismatched params");
+    if (!this.p.equals(other.p)) throw new Error("mismatched params");
+    if (!this.g.equals(other.g)) throw new Error("mismatched params");
 
     var new_pk = new ElGamal.PublicKey(
       this.p,
@@ -359,7 +359,6 @@ class Ciphertext {
     // note how the interface is as such so that the result does not reveal which is the real proof.
     var self = this;
 
-
     var proofs = list_of_plaintexts.map(function (plaintext, p_num) {
       if (p_num === real_index) {
         // no real proof yet
@@ -369,8 +368,6 @@ class Ciphertext {
         return self.simulateProof(plaintext);
       }
     });
-    
-
     // do the real proof
     var real_proof = this.generateProof(
       list_of_plaintexts[real_index],
@@ -390,9 +387,9 @@ class Ciphertext {
         var disjunctive_challenge = challenge_generator(commitments);
 
         // now we must subtract all of the other challenges from this challenge.
-        var real_challenge = disjunctive_challenge;
+        var real_challenge = disjunctive_challenge;;
         _(proofs).each(function (proof, proof_num) {
-          if (proof_num !== real_index)
+          if (Number(proof_num) !== Number(real_index))
             real_challenge = real_challenge.add(proof.challenge.negate());
         });
 
@@ -639,8 +636,7 @@ ElGamal.encrypt = function (pk, plaintext, r) {
 };
 
 ElGamal.encryptMixnet = function (pk, m, r) {
-  
-  let BigIntM = new BigInt(String(m))
+  let BigIntM = new BigInt(String(m));
   var y = BigIntM.add(BigInt.ONE);
   var test = y.modPow(pk.q, pk.p);
   if (test.equals(BigInt.ONE)) {
