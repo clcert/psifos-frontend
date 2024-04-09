@@ -66,6 +66,7 @@ export default function StyledCardsInfoElection() {
 
     if (resp.status === 200) {
       const jsonResponse = await resp.json();
+      if(!jsonResponse.weights_init) return;
       const sortedWeights = Object.keys(
         JSON.parse(jsonResponse.weights_init).voters_by_weight_init
       ).sort();
