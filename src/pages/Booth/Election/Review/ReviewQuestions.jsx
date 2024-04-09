@@ -1,4 +1,3 @@
-import reviewImage from "../../../../static/booth/svg/review-img.svg";
 import AuditModal from "./AuditModal";
 import React, { useState } from "react";
 import VerifyVoteModal from "../../components/VerifyVoteModal";
@@ -44,12 +43,7 @@ function ReviewQuestions(props) {
 
         <div className="container has-text-centered mt-6">
           <div className="columns pb-0 is-align-items-center review-buttons-container">
-            <div className="column pb-0 is-hidden-mobile">
-              <figure className="image select-img-wrapper">
-                <img id="review-final-img" src={reviewImage} alt="" />
-              </figure>
-            </div>
-            <div className="column right-button-column has-text-centered-mobile is-flex">
+            <div className="column right-button-column has-text-centered-mobile is-flex mb-3">
               <button
                 className="button is-medium question-button proceed-button"
                 id="proceed_button"
