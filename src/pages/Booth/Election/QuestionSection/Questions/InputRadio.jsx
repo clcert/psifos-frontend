@@ -1,40 +1,64 @@
-function InputRadio(props) {
+import { useSelector } from "react-redux";
+export function OptionInputRadio({
+  optionId,
+  questionId,
+  optionLabel,
+  isSelected,
+  inputHandler,
+  isBordered = false,
+}) {
+  return (
+    <div key={optionId} className="mt-2">
+      <label
+        key={optionId}
+        className={
+          "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2 " +
+          (isSelected ? "answer-selected" : "")
+        }
+      >
+        <input
+          id={`question-${questionId}-answer-${optionId}`}
+          className="custom-answer"
+          type="radio"
+          name={"answer_" + questionId}
+          value={optionId}
+          onClick={inputHandler}
+        />
+        <span className="is-size-5">{optionLabel}</span>
+      </label>
+    </div>
+  );
+}
+
+function InputRadio({
+  setAnswers,
+  setBlankButton,
+  setNullButton,
+  addAnswer,
+  question,
+  questionId,
+}) {
+  const { include_blank_null, closed_options } = question;
+  const includeInformalAns = include_blank_null === "True";
+
+  let answers = useSelector((state) => state.booth.answers)[questionId];
+  answers = answers ? answers : [];
+
   function handlerInput(event) {
-    props.setAnswers([parseInt(event.target.value)]);
-    props.setBlankButton(false);
-    props.setNullButton(false);
-    props.addAnswer([parseInt(event.target.value)], props.index);
+    addAnswer([parseInt(event.target.value)], questionId);
   }
-
-  const includeBlankNull = props.question.include_blank_null === "True";
-
   return (
     <div>
-      {props.question.closed_options.map((key, index) => {
-        if (
-          !includeBlankNull ||
-          index < props.question.closed_options.length - 2
-        )
+      {closed_options.map((key, index) => {
+        if (!includeInformalAns || index < closed_options.length - 2)
           return (
-            <div key={index} className="mt-2">
-              <label
-                key={index}
-                className={
-                  "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2 " +
-                  (props.answers.includes(index) ? "answer-selected" : "")
-                }
-              >
-                <input
-                  id={`question-${props.index}-answer-${index}`}
-                  className="custom-answer"
-                  type="radio"
-                  name={"answer_" + props.index}
-                  value={index}
-                  onClick={handlerInput}
-                />
-                <span className="is-size-5">{key}</span>
-              </label>
-            </div>
+            <OptionInputRadio
+              optionId={index}
+              questionId={questionId}
+              optionLabel={key}
+              isSelected={answers.includes(index)}
+              inputHandler={handlerInput}
+            />
           );
         else return null;
       })}

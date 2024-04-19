@@ -116,7 +116,8 @@ function Results({ isAdmin = false }) {
     const result = groupedResults.find((element) => {
       return element.group === group;
     });
-    handleGroupResults(questions, result);
+
+     if(result) handleGroupResults(questions, result);
   }, [group, groupedResults, questions]);
 
   useEffect(() => {

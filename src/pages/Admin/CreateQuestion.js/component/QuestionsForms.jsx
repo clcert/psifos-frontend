@@ -8,6 +8,8 @@ import QuestionStatementInput from "./QuestionStatementInput";
 import QuestionTypeSelector from "./QuestionTypeSelector";
 import IncludeBlankNullCheckbox from "./IncludeBlankNullCheckbox";
 import GroupApplicationsCheckbox from "./GroupApplicationsCheckbox";
+import NumberOfWinnersInput from "./NumberOfWinnersInput";
+import { isSTVQuestion } from "../../../../utils";
 
 function Title({ title }) {
   return <div className="create-title mb-1">{title}</div>;
@@ -29,6 +31,7 @@ function QuestionsForms(props) {
 
   const [descriptionChecked, setDescriptionChecked] = useState(true);
   const [numberOfAnsChecked, setNumberOfAnsChecked] = useState(true);
+  const [numberOfWinners, setNumberOfWinners] = useState(true);
 
   const numOfClosedOptions = props.question.closed_options.length;
 
@@ -52,8 +55,10 @@ function QuestionsForms(props) {
   }, [initComponent]);
 
   useEffect(() => {
-    props.checkOptions(descriptionChecked && numberOfAnsChecked);
-  }, [descriptionChecked, numberOfAnsChecked, props]);
+    props.checkOptions(
+      descriptionChecked && numberOfAnsChecked && numberOfWinners
+    )
+  }, [descriptionChecked, numberOfAnsChecked, numberOfWinners])
 
   function answersWithoutKey(arrayWithKeys) {
     let auxAnswers = [];
@@ -189,8 +194,28 @@ function QuestionsForms(props) {
         {...props}
       />
 
+      <NumberOfWinnersInput
+        questionType={props.question.q_type}
+        checkOptions={setNumberOfWinners}
+        value={props.question.num_of_winners}
+        handleNumOfWinners={(e) => {
+          let auxQuestion = props.question;
+          auxQuestion.num_of_winners = e;
+          props.updateQuestions(props.questionId, auxQuestion);
+        }}
+        minCoteCondition={
+          String(props.question.num_of_winners) === "NaN"
+          || props.question.num_of_winners === 0
+        }
+        maxCoteCondition={
+          parseInt(props.question.num_of_winners) > props.question.closed_options.length
+        }
+        numberOfAns={props.question.closed_options.length}
+        {...props}
+      />
+
       <NumberOfAnswersSetup
-        disabledMinAns={includedWhiteNull}
+        disabledMinAns={isSTVQuestion(props.question.q_type) || includedWhiteNull}
         numOfOptions={numOfClosedOptions}
         minAnswers={props.question.min_answers}
         handleMinAns={(e) => {

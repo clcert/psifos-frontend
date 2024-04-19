@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useEffect } from "react";
 import { Button } from "react-bulma-components";
 import { useParams, useSearchParams } from "react-router-dom";
@@ -41,11 +41,21 @@ function CastVoteView({ election }) {
         totalVotes: dataVotes.total_votes,
       });
     });
-  }, [shortName, hashUrl, electionData]);
+  }, [shortName, hashUrl, electionData, lengthPage]);
 
+  const getDataVotesRef = useRef(getDataVotes);
+
+  
   useEffect(() => {
-    getDataVotes();
-  }, [getDataVotes]);
+    getDataVotesRef.current();
+  }, []);
+  
+  useEffect(() => {
+    // Verificar si electionData ha cambiado desde la última renderización
+    if (getDataVotesRef.current !== electionData) {
+      getDataVotesRef.current = electionData; // Actualizar el estado anterior
+    }
+  }, [electionData]);
 
   function changePage(number) {
     /**

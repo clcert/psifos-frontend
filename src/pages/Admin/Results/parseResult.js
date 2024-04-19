@@ -38,8 +38,23 @@ const parseClosedResult = (question, votesPerAns, includeWhiteNull) => {
 };
 
 const parseRankingResult = (question, result) => {
-    const index = parseInt(result[0])
-    return question.closed_options[index]
+    const options_list = question['closed_options']
+    const fixedJsonString = result[0]
+    .replace(/'/g, '"')
+    .replace(/None/g, 'null')
+    .replace(/\{([^{}"':]+):/g, '{"$1":')
+    .replace(/, (\d+)(?=:)/g, ', "$1"');
+    const jsObject = JSON.parse(fixedJsonString);
+
+    jsObject['ncandidates'] = parseInt(question['total_options'], 10)
+    jsObject['nwinners'] = parseInt(question['num_of_winners'], 10)
+    jsObject['nrounds'] = Object.keys(jsObject['roundresumes']).length
+    jsObject['winners'] = jsObject['winnerslist'].reduce((acc, winner_id) => {
+        const id = parseInt(winner_id, 10)
+        return [...acc, options_list[id]]
+    }, [])
+
+    return jsObject
 };
 
 export const parseResult = (question, result, includeWhiteNull) => {

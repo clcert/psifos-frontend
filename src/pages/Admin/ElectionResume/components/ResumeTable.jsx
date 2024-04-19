@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getStats, getStatsGroup } from "../../../../services/election";
 import { getPercentage } from "../../utils";
+import SimpleHorizontalTable from "../../../../component/Tables/HorizontalTable";
 
 export default function ResumeTable({ grouped = false, group = "" }) {
   /** @state {int} number of voters in the election  */
@@ -33,30 +34,22 @@ export default function ResumeTable({ grouped = false, group = "" }) {
     initComponent();
   }, [initComponent]);
 
+  const contentPerRow = [
+    {
+      header: "Votos recibidos",
+      value: totalVotes,
+    }, {
+      header: "Total padrón",
+      value: totalVoters,
+    }, {
+      header: "Participación",
+      value: getPercentage(totalVotes, totalVoters),
+    },
+  ]
+
   return (
     <div className="d-flex disable-text-selection row justify-content-md-center">
-      <table
-        id="resume-table"
-        className="mt-2 table is-bordered is-hoverable voters-table"
-        style={{ maxWidth: "350px" }}
-      >
-        <tbody>
-          <tr>
-            <td className="table-header">Votos Recibidos</td>
-            <td className="has-text-centered">{totalVotes}</td>
-          </tr>
-          <tr>
-            <td className="table-header">Total Padrón</td>
-            <td className="has-text-centered">{totalVoters}</td>
-          </tr>
-          <tr>
-            <td className="table-header">Participación</td>
-            <td className="has-text-centered">
-              {getPercentage(totalVotes, totalVoters)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <SimpleHorizontalTable contentPerRow={contentPerRow} />
     </div>
   );
 }

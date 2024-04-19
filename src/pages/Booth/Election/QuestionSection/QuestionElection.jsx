@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
 import NextButton from "../../components/Buttons/NextButton";
@@ -9,45 +9,51 @@ import AlertQuestions from "./Questions/AlertQuestions";
 import MixnetSelection from "./MixnetSelection";
 import { answersRestrictionText } from "./utils.js";
 import {
-  permanentOptionsList, preferentialRankingTallyNames,
+  permanentOptionsList,
+  preferentialRankingTallyNames,
 } from "../../../../constants";
 import {
-  isMixNetQuestion, isClosedQuestion, isSTVQuestion,
+  isMixNetQuestion,
+  isClosedQuestion,
+  isSTVQuestion,
 } from "../../../../utils";
 import RankingSelection from "./RankingSelection";
 import InputSelection from "./InputSelection";
+import { useDispatch, useSelector } from "react-redux";
+import { setAnswers } from "../../../../store/slices/boothSlice.js";
 
 const getDefaultAnswer = (currentQuestion) => {
-  const getEmptyArray = (_) => []
+  const getEmptyArray = (_) => [];
   const defaultAnswer = {
-    "stvnc_question": (actualQuestion) => {
-      return actualQuestion.closed_options.reduce(
-        (accumulator, _, index) => {
-          return [...accumulator, index]
-        }, []
-    )},
-    "mixnet_question": getEmptyArray,
-    "closed_question": getEmptyArray,
-  }
-  return defaultAnswer[currentQuestion.q_type](currentQuestion)
-}
+    stvnc_question: (actualQuestion) => {
+      return actualQuestion.closed_options.reduce((accumulator, _, index) => {
+        return [...accumulator, index];
+      }, []);
+    },
+    mixnet_question: getEmptyArray,
+    closed_question: getEmptyArray,
+  };
+  return defaultAnswer[currentQuestion.q_type](currentQuestion);
+};
 
 function QuestionSelectionBox({
-  question, index, showAlert, messageAlert,
-  totalQuestions, addAnswer, election,
+  question,
+  index,
+  showAlert,
+  messageAlert,
+  totalQuestions,
+  addAnswer,
+  election,
 }) {
   const selectionProps = {
     index: index,
     addAnswer: addAnswer,
     question: question,
     election: election,
-  }
+  };
 
   return (
-    <div
-      key={index}
-      style={{ display: "block" }}
-    >
+    <div key={index} style={{ display: "block" }}>
       {showAlert && <AlertQuestions message={messageAlert} />}
       <QuestionHeader
         actualQuestion={index}
@@ -69,14 +75,18 @@ function QuestionSelectionBox({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function PreviousButtonBox({
-  actualQuestion, numQuestions, handleAlert, nextQuestion,
+  actualQuestion,
+  numQuestions,
+  handleAlert,
+  nextQuestion,
 }) {
   return (
-    actualQuestion !== 0 && actualQuestion < numQuestions && (
+    actualQuestion !== 0 &&
+    actualQuestion < numQuestions && (
       <div className="column is-flex left-button-column">
         <PreviousButton
           action={() => {
@@ -86,7 +96,7 @@ function PreviousButtonBox({
         />
       </div>
     )
-  )
+  );
 }
 
 function SelectFigureBox() {
@@ -96,20 +106,20 @@ function SelectFigureBox() {
         <img id="select-final-img" src={selectImg} alt="" />
       </figure>
     </div>
-  )
+  );
 }
 
 function ContinueButtonBox({
-  isNextButtonBool, answers,
-  nextButtonHandler, finishButtonHandler,
+  isNextButtonBool,
+  answers,
+  nextButtonHandler,
+  finishButtonHandler,
   isPreview,
 }) {
   return (
     <div className="column is-flex right-button-column">
       {isNextButtonBool ? (
-        <NextButton
-          action={nextButtonHandler}
-        />
+        <NextButton action={nextButtonHandler} />
       ) : (
         <FinishButton
           action={() => !isPreview && finishButtonHandler()}
@@ -117,14 +127,16 @@ function ContinueButtonBox({
         />
       )}
     </div>
-  )
+  );
 }
 
 function QuestionElection(props) {
+  const dispatch = useDispatch();
+  const answers = useSelector((state) => state.booth.answers);
+
   /** Component for election questions */
 
   /** @state {array} election answers */
-  const [answers, setAnswers] = useState([]);
 
   /** @state {boolean} percentage modal state */
   const [showModal, setShowModal] = useState(false);
@@ -138,17 +150,33 @@ function QuestionElection(props) {
   /** @state {string} feedback message of alert */
   const [messageAlert, setMessageAlert] = useState("");
 
-  useEffect(() => {
+  const defaultAnswers = useCallback(() => {
     /**
      * Default arrays are included in each response
      */
+    if (answers.length !== 0) return;
     let answersAux = props.questions.reduce(
       (accumulator, currentValue, index) => {
-        accumulator[index] = getDefaultAnswer(currentValue)
-        return accumulator
-    }, []);
-    setAnswers(answersAux);
-  }, [props.questions]);
+        accumulator[index] = getDefaultAnswer(currentValue);
+        return accumulator;
+      },
+      []
+    );
+    dispatch(setAnswers(answersAux));
+  }, [answers, dispatch, props.questions]);
+
+  const defaultAnswersRef = useRef(defaultAnswers);
+
+  useEffect(() => {
+    defaultAnswersRef.current();
+  }, []);
+
+  useEffect(() => {
+    // Verificar si answers ha cambiado desde la última renderización
+    if (defaultAnswersRef.current !== defaultAnswers) {
+      defaultAnswersRef.current = defaultAnswers; // Actualizar el estado anterior
+    }
+  }, [defaultAnswers]);
 
   const checkAnswers = (index) => {
     /**
@@ -161,15 +189,16 @@ function QuestionElection(props) {
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
     const options = currentQuestion.closed_options;
-    return !preferentialRankingTallyNames.includes(
-      currentQuestion.tally_type
-    ) ? checkNumAnswers(
-      numCheckedIndex, options, checkedIndex, currentQuestion,
-    ) : true
-  }
+    return !preferentialRankingTallyNames.includes(currentQuestion.tally_type)
+      ? checkNumAnswers(numCheckedIndex, options, checkedIndex, currentQuestion)
+      : true;
+  };
 
   const checkNumAnswers = (
-    numCheckedIndex, options, checkedIndex, currentQuestion,
+    numCheckedIndex,
+    options,
+    checkedIndex,
+    currentQuestion
   ) => {
     if (
       !Boolean(
@@ -202,7 +231,7 @@ function QuestionElection(props) {
           addAnswer={(answer, index) => {
             let answersAux = [...answers];
             answersAux[index] = answer;
-            setAnswers(answersAux);
+            dispatch(setAnswers(answersAux));
           }}
           election={props.election}
         />
@@ -219,7 +248,9 @@ function QuestionElection(props) {
         {/* <SelectFigureBox /> */}
 
         <ContinueButtonBox
-          isNextButtonBool={ props.actualQuestion < props.questions.length - 1 && !finished }
+          isNextButtonBool={
+            props.actualQuestion < props.questions.length - 1 && !finished
+          }
           answers={answers}
           nextButtonHandler={() => {
             if (checkAnswers(props.actualQuestion)) {
@@ -228,7 +259,7 @@ function QuestionElection(props) {
           }}
           finishButtonHandler={() => {
             if (checkAnswers(props.actualQuestion)) {
-              props.encrypQuestions(answers);
+              props.encryptQuestions(answers);
               setShowModal(true);
               setFinished(true);
             }

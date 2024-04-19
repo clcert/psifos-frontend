@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
 import VotersList from "./pages/Admin/VotersList/VotersList";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
@@ -62,17 +62,20 @@ function App() {
   }
 
   const token = getToken();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const pathName = window.location.pathname;
     if (pathName.includes("admin") || pathName.includes("psifos")) {
       idleTimer();
     }
-  }, []);
+    if (pathName === "/") {
+      navigate("/psifos");
+    }
+  }, [navigate]);
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route path="/noticias" element={<News />} />
       <Route path="/elecciones" element={<Elections />} />
       <Route path="/psifos">

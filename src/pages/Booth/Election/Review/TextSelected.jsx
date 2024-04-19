@@ -1,14 +1,26 @@
 import React from "react";
+import { 
+  isMixNetQuestion, isSTVQuestion, usesMixNetTally,
+  getBlankAnswerId, getNullAnswerId,
+} from "../../../../utils";
 
 function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
   return (
-    (!(questionType === "mixnet_question") || indexAnswer < numOptions - 2) && (
+    Boolean(answer) && (
+      !isMixNetQuestion(questionType)
+      || indexAnswer < numOptions - 2
+    ) && (
       <React.Fragment key={index}>
         <span key={index}>
-          {(questionType === "stvnc_question" ? `[${index + 1}.] ` : "[ ✓ ] ") +
-            (questionType === "mixnet_question" && answer.split(",").length > 1
-              ? answer.split(",")[0]
-              : answer)}
+          {(
+            isSTVQuestion(questionType)
+            ? `[${index+1}.] `
+            : "[ ✓ ] "
+          ) + (
+            isMixNetQuestion(questionType) && answer.split(",").length > 1
+            ? answer.split(",")[0]
+            : answer
+          )}
         </span>
         <br />
       </React.Fragment>
@@ -20,7 +32,9 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
   return (
     <p className="mb-0">
       {currentAns.map((key, index) => {
-        const indexAnswer = questionType === "mixnet_question" ? key - 1 : key;
+        const indexAnswer = (
+          isMixNetQuestion(questionType) ? key - 1 : key
+        )
         return (
           <ShowAnswer
             key={index}
@@ -29,6 +43,7 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
             numOptions={closedOptions.length}
             index={index}
             answer={closedOptions[indexAnswer]}
+            key={`${index}.-${closedOptions[indexAnswer]}`}
           />
         );
       })}
@@ -36,36 +51,35 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
   );
 }
 
-function TextSelected({ answers, index, question }) {
-  const includeBlankNull = question.include_blank_null === "True";
 
-  if (answers[index].length === 0) {
+function TextSelected({ answer, question }) {
+  const includeBlankNull = question.include_blank_null === "True";
+  const blankId = getBlankAnswerId(question.closed_options)
+  const nullId = getNullAnswerId(question.closed_options)
+  if (answer.length === 0) {
     return <p>[ ] Ninguna opción seleccionada</p>;
-  } else if (
-    answers[index].every((element) => {
-      return element === question.closed_options.length;
-    }) &&
-    includeBlankNull &&
-    question.q_type === "mixnet_question"
-  ) {
-    return <p>Respuesta en blanco</p>;
-  } else if (
-    answers[index].every((element) => {
-      return element === question.closed_options.length + 1;
-    }) &&
-    includeBlankNull &&
-    question.q_type === "mixnet_question"
-  ) {
-    return <p>Respuesta nula</p>;
-  } else {
-    return (
-      <ShowAnswersList
-        currentAns={answers[index]}
-        questionType={question.q_type}
-        closedOptions={question.closed_options}
-      />
-    );
   }
+  else if (
+    includeBlankNull && usesMixNetTally(question.q_type)
+  ) {
+    if (
+      answer.every((element) => element === blankId)
+    ) {
+      return <p>Respuesta en blanco</p>;
+    }
+    else if(
+      answer.every((element) => element === nullId)
+    ) {
+      return <p>Respuesta nula</p>;
+    }
+  }
+  return (
+    <ShowAnswersList
+      currentAns={answer}
+      questionType={question.q_type}
+      closedOptions={question.closed_options}
+    />
+  );
 }
 
 export default TextSelected;
