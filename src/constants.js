@@ -72,8 +72,8 @@ export const electionStatus = {
 
 export const electionStatusTranslate = {
   "Setting up": "En configuración",
-  Started: "Iniciada",
-  Ended: "Finalizada",
+  "Started": "Iniciada",
+  "Ended": "Finalizada",
   "Computing Tally": "Computando tally",
   "Tally computed": "Tally computado",
   "Decryptions uploaded": "Desencriptaciones subidas",
@@ -135,3 +135,10 @@ export const tallyNames = [
   ...firstMajorityTallyNames,
   ...preferentialRankingTallyNames,
 ];
+
+export const colors = {
+  "principalBlue": "#0E4B90",
+  "gradientSecondBlue": "#3575B0",
+  "gradientThirdBlue": "#5D9ECF",
+  "gradientFourthBlue": "#84C8EF"
+};
