@@ -136,9 +136,29 @@ export const tallyNames = [
   ...preferentialRankingTallyNames,
 ];
 
-export const colors = {
-  "principalBlue": "#0E4B90",
-  "gradientSecondBlue": "#3575B0",
-  "gradientThirdBlue": "#5D9ECF",
-  "gradientFourthBlue": "#84C8EF"
-};
+export const principalBlue = "#0E4B90";
+
+export const principalLightBlue = "#84C8EF";
+
+export const gradientPalettes = {
+  1: [principalBlue],
+  2: [principalBlue, principalLightBlue],
+  3: [
+    principalBlue,
+    "#498AC0",
+    principalLightBlue
+  ],
+  4: [
+    principalBlue,
+    "#3575B0",
+    "#5D9ECF",
+    principalLightBlue
+  ],
+  5: [
+    principalBlue,
+    "#2C6AA8",
+    "#498AC0",
+    "#67A9D7",
+    principalLightBlue
+  ],
+}
