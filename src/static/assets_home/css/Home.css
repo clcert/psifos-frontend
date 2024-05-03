@@ -13451,7 +13451,7 @@ Consult
   margin-top: 1rem;
 }
 
-.statistics-votes-by-time {
+.selector-container {
   display: inline-flex;
   align-items: center;
   padding: 10px;
