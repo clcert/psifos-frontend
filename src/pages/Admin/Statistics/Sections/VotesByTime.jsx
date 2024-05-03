@@ -4,29 +4,25 @@ import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
 import BarPsifosGraph from "../Graphs/BarPsifosGraph";
 import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
+import ClassicSelector from "../../../../component/Selectors/classicSelector";
 
-function TimeOptions({ handleChange, deltaTime }) {
+function TimeOptions({ handleDeltaTime, deltaTime }) {
+  const options = {
+    "1": "1 minuto",
+    "30": "30 minutos",
+    "60": "1 hora",
+    "120": "2 horas",
+    "240": "4 horas",
+    "1440": "1 Día",
+  }
   return (
-    <div className="statistics-votes-by-time">
-      <label>Escala de tiempo:</label>
-      <div className="control ml-2">
-        <div className="select">
-          <select
-            onChange={handleChange}
-            name="delta-time"
-            id="time"
-            value={deltaTime}
-          >
-            <option value="1">1 minuto</option>
-            <option value="30">30 minutos</option>
-            <option value="60">1 hora</option>
-            <option value="120">2 horas</option>
-            <option value="240">4 horas</option>
-            <option value="1440">1 Día</option>
-          </select>
-        </div>
-      </div>
-    </div>
+    <ClassicSelector
+      handleChange={handleDeltaTime}
+      options={options}
+      value={deltaTime}
+      selectorName="delta-time"
+      selectorLabel="Escala de tiempo:"
+    />
   );
 }
 
@@ -66,7 +62,7 @@ function VotesByTime(props) {
     getCountDates();
   }, [getCountDates, deltaTime]);
 
-  function handleChange(event) {
+  function handleDeltaTime(event) {
     setDeltaTime(parseInt(event.target.value));
   }
 
@@ -82,7 +78,7 @@ function VotesByTime(props) {
               onlyHour={true}
             />
           </div>
-          <TimeOptions handleChange={handleChange} deltaTime={deltaTime} />
+          <TimeOptions handleDeltaTime={handleDeltaTime} deltaTime={deltaTime} />
         </div>
       ) : load ? (
         <div className="d-flex is-justify-content-center">
