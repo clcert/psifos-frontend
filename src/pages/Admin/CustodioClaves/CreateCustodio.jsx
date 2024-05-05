@@ -174,7 +174,7 @@ function CreateCustodio() {
       </section>
 
       <div>
-        <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
+        <FooterParticipa message="SEGURIDAD ∙ TRANSPARENCIA ∙ VERIFICACIÓN" />
       </div>
     </div>
   );

@@ -10,9 +10,7 @@
       "open": false,
       "elections": [ 
         {"name": "Académicos(as)",
-         "link": "/bienestarAcad"},
-        {"name": "Personal de Colaboración",
-         "link": "/bienestarPers"}
+         "link": "https://www.esteesunlink.cl"}
       ]
     }
   ]

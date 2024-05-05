@@ -192,7 +192,7 @@ function CabinaElection(props) {
     <div id="content" className={phases[actualPhase].sectionClass}>
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
-          <MyNavbar linkExit={"/"} />
+          <MyNavbar linkExit={"https://participa.uchile.cl"} />
           <TitlePsifos
             namePage={
               props.preview
