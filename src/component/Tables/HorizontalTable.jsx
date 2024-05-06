@@ -1,3 +1,12 @@
+export const renderTableData = (dataObj) => {
+  return Object.entries(dataObj).map(
+    ([header, value]) => ({
+      header,
+      value,
+    })
+  )
+}
+
 export default function SimpleHorizontalTable({contentPerRow}) {
     return (
       <table

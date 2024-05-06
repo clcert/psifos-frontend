@@ -1,7 +1,17 @@
 import ReactEcharts from "echarts-for-react";
 import { getGradientPalette } from "../../utils";
 
-export function PieChart({ data, legendPosition, chartPosition }) {
+const renderChartData = (dataObj) => {
+  return Object.entries(dataObj).map(
+    ([name, value]) => ({
+      name,
+      value,
+    })
+  )
+}
+
+export default function PieChart({ data, legendPosition, chartPosition }) {
+  const renderedData = renderChartData(data)
   const options = {
       tooltip: {
         trigger: 'item'
@@ -14,8 +24,8 @@ export function PieChart({ data, legendPosition, chartPosition }) {
         {
           type: 'pie',
           radius: ['30%'],
-          color: getGradientPalette(data.length),
-          data: data,
+          color: getGradientPalette(renderedData.length),
+          data: renderedData,
           ...chartPosition
         }
       ],

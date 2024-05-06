@@ -1,5 +1,6 @@
-import { PieChart } from "../../../../component/Charts/PieChart";
-import SimpleHorizontalTable from "../../../../component/Tables/HorizontalTable";
+import PieChart from "../../../../component/Charts/PieChart";
+import SimpleHorizontalTable, { renderTableData }
+from "../../../../component/Tables/HorizontalTable";
 
 function SectionTitle({title}) {
     return (
@@ -34,7 +35,9 @@ export default function Statistic({
             />
           </div>
           <div style={{width: '50%'}}>
-            <SimpleHorizontalTable contentPerRow={tableData} />
+            <SimpleHorizontalTable
+              contentPerRow={renderTableData(tableData)}
+            />
           </div>
         </div>
       </div>
