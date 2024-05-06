@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../../server";
 import BarPsifosGraph from "../Graphs/BarPsifosGraph";
-import NotAvalaibleMessage from "../../../Booth/components/NotAvalaibleMessage";
+import NotAvalaibleMessage from "../../../../component/Messages/NotAvailableMessage";
 import ClassicSelector from "../../../../component/Selectors/classicSelector";
 
 function TimeOptions({ handleDeltaTime, deltaTime }) {

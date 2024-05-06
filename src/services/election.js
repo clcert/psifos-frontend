@@ -21,6 +21,7 @@ async function getElection(shortName) {
     logout();
   }
 }
+
 async function getElectionPublic(shortName) {
   /**
    * async function to get the election data
