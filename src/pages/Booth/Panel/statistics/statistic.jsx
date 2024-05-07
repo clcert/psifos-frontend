@@ -19,8 +19,8 @@ export default function Statistic({
         <SectionTitle
           title={title}
         />
-        <div style={{display: 'flex'}}>
-          <div style={{width: '50%', height: '120px'}}>
+        <div className="statistic-content-container">
+          <div className="statistic-pie-chart-container">
             <PieChart
               data={pieChartData}
               legendPosition={{
@@ -34,7 +34,7 @@ export default function Statistic({
               }}
             />
           </div>
-          <div style={{width: '50%'}}>
+          <div className="statistic-table-container">
             <SimpleHorizontalTable
               contentPerRow={renderTableData(tableData)}
             />

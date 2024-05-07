@@ -5,7 +5,7 @@ export default function Tabs({
     <ul className="nav nav-tabs mb-4">
       {tabs.map((tab, index) => {
         return (
-          <li className="nav-item" key={index} style={{maxWidth: `${100/tabs.length}%`}}>
+          <li className="nav-item" key={index}>
             <button
               type="button"
               className={"nav-link " + (actualTab === index ? "active" : "")}

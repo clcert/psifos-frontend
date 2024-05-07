@@ -2,13 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import Statistic from "./statistic"
 import SimpleHorizontalTable, {renderTableData} from "../../../../component/Tables/HorizontalTable";
 import { requestStats, requestElectionPublic } from "./client";
-import { isSettingUpElection, isOpenLoginElection } from "../../../../utils";
+import { isSettingUpElection, isOpenLoginElection, roundNumber } from "../../../../utils";
 import Spinner from "../../../../component/OthersComponents/Spinner";
 import NotAvailableMessage from "../../../../component/Messages/NotAvailableMessage";
 
 function FullStats({
   totalVotes, totalVoters,
 }) {
+  const participation = totalVotes/totalVoters*100
   return (
     <Statistic
         title="Participantes en el padrón"
@@ -18,8 +19,8 @@ function FullStats({
         }}
         tableData={{
           "Votos recibidos": totalVotes,
-          "Total padrón": totalVoters,
-          "Participación": `${totalVotes/totalVoters*100}%`,
+          "Personas en padrón": totalVoters,
+          "Participación": `${roundNumber(participation, 2)}%`,
         }}
       />
   )
@@ -71,9 +72,11 @@ export default function Participation({ shortName }) {
           totalVoters={totalVoters}
           loginType={election.election_login_type}
         /> : <Spinner />
-      ) : <NotAvailableMessage
-        message="La elección aun no comienza."
-      />
+      ) : <div style={{display: "flex", justifyContent: "center"}}>
+        <NotAvailableMessage
+          message="La elección aun no comienza"
+        />
+      </div>
     ) : <Spinner />
   )
 }

@@ -28,3 +28,11 @@ export const getGradientPalette = (numberOfColors) => {
     }
     return undefined
 }
+
+export const roundNumber = (originalNum, round) => {
+    const splitedNum = originalNum.toString().split('.')
+    if (splitedNum.length>1 && splitedNum[1]>round){
+        return originalNum.toFixed(round)
+    }
+    return originalNum
+}
