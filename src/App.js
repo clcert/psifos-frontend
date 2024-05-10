@@ -4,7 +4,6 @@ import ElectionResume from "./pages/Admin/ElectionResume/ElectionResume";
 import VotersList from "./pages/Admin/VotersList/VotersList";
 import CustodioClaves from "./pages/Admin/CustodioClaves/CustodioClaves";
 import Resultados from "./pages/Admin/Results/ResultsView";
-import Home from "./pages/Home/Home";
 import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 import Login from "./pages/Admin/Login/Login";
@@ -24,6 +23,7 @@ import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
 import Elections from "./pages/Elections/Elections";
 import { useEffect } from "react";
+import { backendOpIP } from "./server";
 
 function App() {
   /**
@@ -61,6 +61,13 @@ function App() {
     return tokenString;
   }
 
+  const RedirectToGoogle = () => {
+    // Redirige a google.com
+    window.location.href = backendOpIP + "/admin";
+    // En caso de que JavaScript esté deshabilitado o la redirección no funcione, muestra un mensaje de error
+    return <p>Redirigiendo a Google...</p>;
+  };
+
   const token = getToken();
   const navigate = useNavigate();
 
@@ -78,6 +85,7 @@ function App() {
     <Routes>
       <Route path="/noticias" element={<News />} />
       <Route path="/elecciones" element={<Elections />} />
+      <Route path="/admin" element={<RedirectToGoogle />} />
       <Route path="/psifos">
         {/** Route for home page */}
 
