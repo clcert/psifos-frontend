@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
 
 function InformalAnswer({
-  button, vote, label, id
+  button, setVote, label, id
 }){
   return (
     <div>
@@ -26,7 +26,7 @@ function InformalAnswer({
           name={`vote_${id}`}
           checked={button}
           onChange={(event) => {
-            vote(event);
+            setVote(event);
           }}
         />
         <span className="is-size-5">{label}</span>
@@ -36,40 +36,22 @@ function InformalAnswer({
 }
 
 function InformalOptions({
-  blankButton, nullButton, setBlankButton, setNullButton,
-  changeAllEncrypted, setPlaceHolder, resetSelectedOptions,
-  numOfOptions,
+  blankButton, nullButton,
+  setBlankVote, setNullVote,
 }) {
-  function blankVote(event) {
-    setBlankButton(event.target.checked);
-    setNullButton(false);
-    changeAllEncrypted(numOfOptions);
-    setPlaceHolder(defaultPlaceHolder);
-    if (event.target.checked) {
-      resetSelectedOptions();
-    }
-  }
 
-  function nullVote(event) {
-    setNullButton(event.target.checked);
-    setBlankButton(false);
-    changeAllEncrypted(numOfOptions + 1);
-    if (event.target.checked) {
-      resetSelectedOptions();
-    }
-  }
   return (
     <div>
       {" "}
       <InformalAnswer
         button={blankButton}
-        vote={blankVote}
+        setVote={setBlankVote}
         label="Voto Blanco"
         id="blank"
       />
       <InformalAnswer
         button={nullButton}
-        vote={nullVote}
+        setVote={setNullVote}
         label="Voto Nulo"
         id="null"
       />
@@ -147,6 +129,8 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   let answers = useSelector(
     (state) => state.booth.answers
   )[numQuestion] || [];
+
+  const numOfOptions = question.closed_options.length
 
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
@@ -386,12 +370,25 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         <InformalOptions
           blankButton={blankButton}
           nullButton={nullButton}
-          setBlankButton={setBlankButton}
-          setNullButton={setNullButton}
-          changeAllEncrypted={changeAllEncrypted}
-          setPlaceHolder={setPlaceHolder}
-          resetSelectedOptions={resetSelectedOptions}
-          numOfOptions={question.closed_options.length}
+          setNullVote={(event) => {
+            setNullButton(event.target.checked);
+            setBlankButton(false);
+            if (event.target.checked) {
+              resetSelectedOptions();
+            }
+            const newAns = changeAllEncrypted(numOfOptions + 1);
+            addAnswerCallback(newAns, numQuestion)
+          }}
+          setBlankVote={(event) => {
+            setBlankButton(event.target.checked);
+            setNullButton(false);
+            setPlaceHolder(defaultPlaceHolder);
+            if (event.target.checked) {
+              resetSelectedOptions();
+            }
+            const newAns = changeAllEncrypted(numOfOptions);
+            addAnswerCallback(newAns, numQuestion);
+          }}
         />
       )}
     </>
