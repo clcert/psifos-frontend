@@ -273,7 +273,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       let auxOptions = [...options];
       let auxAnswersSelected = [...answersSelected];
       let auxAnswersForEncrypt = [...answers];
-      auxAnswersForEncrypt[0] = 1;
 
       let previousSelected = auxAnswersSelected[index];
       let actualSelected = event;
@@ -281,9 +280,9 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       if (nullButton || blankButton) {
         setNullButton(false);
         setBlankButton(false);
-        auxAnswersForEncrypt = changeAllEncrypted(
+        auxAnswersForEncrypt = [...changeAllEncrypted(
           question.closed_options.length
-        );
+        )];
       }
       auxAnswersSelected[index] = event;
       auxAnswersForEncrypt[index] = actualSelected.key + 1;
