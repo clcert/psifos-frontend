@@ -281,8 +281,9 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       if (nullButton || blankButton) {
         setNullButton(false);
         setBlankButton(false);
-        changeAllEncrypted(question.closed_options.length);
-        auxAnswersForEncrypt = [...answers];
+        auxAnswersForEncrypt = changeAllEncrypted(
+          question.closed_options.length
+        );
       }
       auxAnswersSelected[index] = event;
       auxAnswersForEncrypt[index] = actualSelected.key + 1;
