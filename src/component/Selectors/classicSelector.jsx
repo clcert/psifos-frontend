@@ -5,17 +5,19 @@ export default function ClassicSelector({
     return (
       <div className="selector-container">
         {selectorLabel && <label>{selectorLabel}</label>}
-        <div className="control ml-2">
+        <div className="control">
           <div className="select">
             <select
-              onChange={handleChange}
+              onChange={(event) => handleChange(event.target.value)}
               name={selectorName}
               id={selectorName}
               value={value}
             >
               {optionsArray.map(([id, label]) => {
                 return (
-                    <option value={id}>{label}</option>
+                    <option value={id} key={`selector-option-${id}`}>
+                      {label}
+                    </option>
                 );
               })}
             </select>

@@ -16,13 +16,15 @@ function TimeOptions({ handleDeltaTime, deltaTime }) {
     "1440": "1 Día",
   }
   return (
-    <ClassicSelector
-      handleChange={handleDeltaTime}
-      options={options}
-      value={deltaTime}
-      selectorName="delta-time"
-      selectorLabel="Escala de tiempo:"
-    />
+    <div style={{marginTop: '30px'}}>
+      <ClassicSelector
+        handleChange={handleDeltaTime}
+        options={options}
+        value={deltaTime}
+        selectorName="delta-time"
+        selectorLabel="Escala de tiempo:"
+      />
+    </div>
   );
 }
 
@@ -62,8 +64,8 @@ function VotesByTime(props) {
     getCountDates();
   }, [getCountDates, deltaTime]);
 
-  function handleDeltaTime(event) {
-    setDeltaTime(parseInt(event.target.value));
+  function handleDeltaTime(value) {
+    setDeltaTime(parseInt(value));
   }
 
   return (
