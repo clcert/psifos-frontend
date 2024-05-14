@@ -1,6 +1,6 @@
-import PieChart from "../../../../component/Charts/PieChart";
+import PieChart from "../../../../../component/Charts/PieChart";
 import SimpleHorizontalTable, { renderTableData }
-from "../../../../component/Tables/HorizontalTable";
+from "../../../../../component/Tables/HorizontalTable";
 
 function SectionTitle({title}) {
     return (

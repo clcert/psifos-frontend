@@ -1,7 +1,7 @@
 import {
     getStats, getElectionPublic, getElectionResume,
-} from "../../../../services/election";
-import { logout } from "../../../../utils/utils";
+} from "../../../../../services/election";
+import { logout } from "../../../../../utils/utils";
 
 export const requestStats = (
     shortName, setTotalVoters, setTotalVotes,
