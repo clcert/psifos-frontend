@@ -5,13 +5,132 @@ import AsyncSelect from "react-select/async";
 import { normalizedLowerCase } from "../../../../utils/utils";
 import { useSelector } from "react-redux";
 
+const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
+
+function InformalAnswer({
+  button, setVote, label, id
+}){
+  return (
+    <div>
+      <label
+        id=""
+        className={
+          "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2  " +
+          (button ? "answer-selected" : "")
+        }
+      >
+        <input
+          className="custom-answer"
+          type="radio"
+          id={id}
+          name={`vote_${id}`}
+          checked={button}
+          onChange={(event) => {
+            setVote(event);
+          }}
+        />
+        <span className="is-size-5">{label}</span>
+      </label>
+    </div>
+  )
+}
+
+function InformalOptions({
+  blankButton, nullButton,
+  setBlankVote, setNullVote,
+}) {
+
+  return (
+    <div>
+      {" "}
+      <InformalAnswer
+        button={blankButton}
+        setVote={setBlankVote}
+        label="Voto Blanco"
+        id="blank"
+      />
+      <InformalAnswer
+        button={nullButton}
+        setVote={setNullVote}
+        label="Voto Nulo"
+        id="null"
+      />
+    </div>
+  )
+}
+
+function FormalOptionLabel({ index }) {
+  return (
+    <div className="mb-2">
+      <span className="has-text-white">Opción {index + 1}:</span>
+    </div>
+  )
+}
+
+function FormalOption({
+  index,
+  numAnswersSelected, currentAnswerSelected,
+  options, loadOptions, placeHolder,
+  selectAnswers,
+}) {
+  return (
+    <div key={index} className="has-text-black mb-4">
+      <FormalOptionLabel index={index} />
+      <div
+        className={numAnswersSelected < index ? "not-clickable" : ""}
+      >
+        <AsyncSelect
+          isDisabled={numAnswersSelected < index}
+          name={`select-${index}`}
+          defaultOptions={options}
+          loadOptions={loadOptions}
+          placeholder={placeHolder}
+          value={currentAnswerSelected ? currentAnswerSelected : ""}
+          onChange={(event) => {
+            selectAnswers(event, index);
+          }}
+          styles={{
+            control: (baseStyles) => ({
+              ...baseStyles,
+              backgroundColor:
+              numAnswersSelected < index ? "#bbc1c6" : "white",
+            }),
+            groupHeading: (provided, state) => ({
+              ...provided,
+              backgroundColor: "#0095d4",
+              color: "white",
+              padding: "10px 10px",
+              display: "flex",
+              fontSize: "14px",
+            }),
+            group: (provided, state) => {
+              if (state.label === "Candidaturas Oficiales") {
+                return {
+                  ...provided,
+                  backgroundColor: "#DFF6FF",
+                };
+              }
+            },
+            option: (base, { isFocused }) => ({
+              ...base,
+              backgroundColor: isFocused ? "#FFE8DF" : undefined,
+            }),
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
 function MixnetSelection({ question, addAnswer, numQuestion }) {
-  const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
   const isMixnetGroup = question.group_votes === "True";
   const otherOptionsName = "Otras Candidaturas";
 
-  let answers = useSelector((state) => state.booth.answers)[numQuestion];
-  answers = answers ? answers : [];
+  let answers = useSelector(
+    (state) => state.booth.answers
+  )[numQuestion] || [];
+
+  const numOfOptions = question.closed_options.length
 
   /** @state {array} array with options for react-select */
   const [options, setOptions] = useState([]);
@@ -38,6 +157,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         auxAnswersForEncrypt.push(number);
       }
       addAnswerCallback(auxAnswersForEncrypt, numQuestion);
+      return auxAnswersForEncrypt
     },
     [addAnswerCallback, numQuestion, question]
   );
@@ -153,7 +273,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       let auxOptions = [...options];
       let auxAnswersSelected = [...answersSelected];
       let auxAnswersForEncrypt = [...answers];
-      auxAnswersForEncrypt[0] = 1;
 
       let previousSelected = auxAnswersSelected[index];
       let actualSelected = event;
@@ -161,8 +280,9 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       if (nullButton || blankButton) {
         setNullButton(false);
         setBlankButton(false);
-        changeAllEncrypted(question.closed_options.length);
-        auxAnswersForEncrypt = [...answers];
+        auxAnswersForEncrypt = [...changeAllEncrypted(
+          question.closed_options.length
+        )];
       }
       auxAnswersSelected[index] = event;
       auxAnswersForEncrypt[index] = actualSelected.key + 1;
@@ -206,7 +326,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     ]
   );
 
-  function deleteOptions() {
+  function resetSelectedOptions() {
     /**
      * Delete all options selected
      */
@@ -231,125 +351,45 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     setOptions(auxOptions);
   }
 
-  function blankVote(event) {
-    setBlankButton(event.target.checked);
-    setNullButton(false);
-    changeAllEncrypted(question.closed_options.length);
-    setPlaceHolder(defaultPlaceHolder);
-    if (event.target.checked) {
-      deleteOptions();
-    }
-  }
-
-  function nullVote(event) {
-    setNullButton(event.target.checked);
-    setBlankButton(false);
-    changeAllEncrypted(question.closed_options.length + 1);
-    if (event.target.checked) {
-      deleteOptions();
-    }
-  }
-
   return (
     <>
       {[...Array(parseInt(question.max_answers)).keys()].map((index) => {
         return (
-          <div key={index} className="has-text-black mb-4">
-            <div className="mb-2">
-              <span className="has-text-white">Opción {index + 1}:</span>
-            </div>
-            <div
-              className={answersSelected.length < index ? "not-clickable" : ""}
-            >
-              <AsyncSelect
-                isDisabled={answersSelected.length < index}
-                name={`select-${index}`}
-                defaultOptions={options}
-                loadOptions={loadOptions}
-                placeholder={placeHolder}
-                value={answersSelected[index] ? answersSelected[index] : ""}
-                onChange={(event) => {
-                  selectAnswers(event, index);
-                }}
-                styles={{
-                  control: (baseStyles) => ({
-                    ...baseStyles,
-                    backgroundColor:
-                      answersSelected.length < index ? "#bbc1c6" : "white",
-                  }),
-                  groupHeading: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: "#0095d4",
-                    color: "white",
-                    padding: "10px 10px",
-                    display: "flex",
-                    fontSize: "14px",
-                  }),
-                  group: (provided, state) => {
-                    if (state.label === "Candidaturas Oficiales") {
-                      return {
-                        ...provided,
-                        backgroundColor: "#DFF6FF",
-                      };
-                    }
-                  },
-                  option: (base, { isFocused }) => ({
-                    ...base,
-                    backgroundColor: isFocused ? "#FFE8DF" : undefined,
-                  }),
-                }}
-              />
-            </div>
-          </div>
+          <FormalOption
+            index={index}
+            numAnswersSelected={answersSelected.length}
+            currentAnswerSelected={answersSelected[index]}
+            options={options}
+            loadOptions={loadOptions}
+            placeHolder={placeHolder}
+            selectAnswers={selectAnswers}
+          />
         );
       })}
-
       {includeBlankNull && (
-        <>
-          {" "}
-          <div>
-            <label
-              id=""
-              className={
-                "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2  " +
-                (blankButton ? "answer-selected" : "")
-              }
-            >
-              <input
-                className="custom-answer"
-                type="radio"
-                id="white"
-                name="vote_null"
-                checked={blankButton}
-                onChange={(event) => {
-                  blankVote(event);
-                }}
-              />
-              <span className="is-size-5">Voto Blanco</span>
-            </label>
-          </div>
-          <div>
-            <label
-              id=""
-              className={
-                "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2  " +
-                (nullButton ? "answer-selected" : "")
-              }
-            >
-              <input
-                className="custom-answer"
-                type="radio"
-                id="null"
-                name="vote_null"
-                checked={nullButton}
-                onChange={(event) => {
-                  nullVote(event);
-                }}
-              />
-              <span className="is-size-5">Voto Nulo</span>
-            </label>
-          </div>
-        </>
+        <InformalOptions
+          blankButton={blankButton}
+          nullButton={nullButton}
+          setNullVote={(event) => {
+            setNullButton(event.target.checked);
+            setBlankButton(false);
+            if (event.target.checked) {
+              resetSelectedOptions();
+            }
+            const newAns = changeAllEncrypted(numOfOptions + 1);
+            addAnswerCallback(newAns, numQuestion)
+          }}
+          setBlankVote={(event) => {
+            setBlankButton(event.target.checked);
+            setNullButton(false);
+            setPlaceHolder(defaultPlaceHolder);
+            if (event.target.checked) {
+              resetSelectedOptions();
+            }
+            const newAns = changeAllEncrypted(numOfOptions);
+            addAnswerCallback(newAns, numQuestion);
+          }}
+        />
       )}
     </>
   );
