@@ -13458,8 +13458,6 @@ Consult
 .selector-container {
   display: inline-flex;
   align-items: center;
-  padding: 10px;
-  margin-top: 30px;
 }
 
 .percentage-selector-container {
@@ -13509,6 +13507,11 @@ Consult
   margin: 2% 0;
 }
 
+.not-available-statistic-message-container {
+  display: flex;
+  justify-content: center;
+}
+
 .statistic-content-container {
   display: flex;
   column-gap: 5px;
@@ -13524,4 +13527,11 @@ Consult
 .statistic-table-container {
   flex-grow: 1;
   min-width: 300px;
+}
+
+.statistic-header-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 }
