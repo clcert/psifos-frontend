@@ -6,7 +6,7 @@ const colors = {
     lightOrange: "#FFE8DF",
 }
 
-export default function AsyncSelector (props) {
+export default function AsyncSelector(props) {
     return (
         <AsyncSelect
             {...props}
@@ -14,7 +14,7 @@ export default function AsyncSelector (props) {
                 control: (baseStyles) => ({
                     ...baseStyles,
                     backgroundColor:
-                    isDisabled ? colors.disableGray : "white",
+                    props.isDisabled ? colors.disableGray : "white",
                 }),
                 groupHeading: (provided, state) => ({
                     ...provided,

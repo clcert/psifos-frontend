@@ -1,5 +1,6 @@
 import AsyncSelector from "../../../../../component/Selector/AsyncSelector";
 import { matchingStrings } from "../../../../../utils";
+import { normalizedLowerCase } from "../../../../../utils/utils";
 
 // todo: la normalización debería ocurrir al crear options
 const filterOptions = (inputValue, options, isGrouped) => {
