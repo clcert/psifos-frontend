@@ -251,7 +251,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   return (
     <>
       <FormalOptions
-        optionIndexes={[...Array(parseInt(question.max_answers)).keys()]}
+        answerIndexes={[...Array(parseInt(question.max_answers)).keys()]}
         answersSelected={answersSelected}
         options={options}
         selectAnswers={selectAnswers}

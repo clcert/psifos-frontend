@@ -59,12 +59,12 @@ function FormalOption({
   }
 
 export default function FormalOptions({
-    optionIndexes, answersSelected,
+    answerIndexes, answersSelected,
     options, selectAnswers,
   
   }) {
     return(
-      optionIndexes.map((index) => {
+      answerIndexes.map((index) => {
         return (
           <FormalOption
             index={index}
