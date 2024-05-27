@@ -1,11 +1,8 @@
-import { useState } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
-import AsyncSelect from "react-select/async";
-import { normalizedLowerCase } from "../../../../utils/utils";
+import { 
+  useState, useCallback, useEffect
+} from "react";
 import { useSelector } from "react-redux";
-
-const defaultPlaceHolder = "Seleccione o escriba una opción 🔎";
+import FormalOptions from "./FormalOptions";
 
 function InformalAnswer({
   button, setVote, label, id
@@ -59,71 +56,8 @@ function InformalOptions({
   )
 }
 
-function FormalOptionLabel({ index }) {
-  return (
-    <div className="mb-2">
-      <span className="has-text-white">Opción {index + 1}:</span>
-    </div>
-  )
-}
-
-function FormalOption({
-  index,
-  numAnswersSelected, currentAnswerSelected,
-  options, loadOptions, placeHolder,
-  selectAnswers,
-}) {
-  return (
-    <div key={index} className="has-text-black mb-4">
-      <FormalOptionLabel index={index} />
-      <div
-        className={numAnswersSelected < index ? "not-clickable" : ""}
-      >
-        <AsyncSelect
-          isDisabled={numAnswersSelected < index}
-          name={`select-${index}`}
-          defaultOptions={options}
-          loadOptions={loadOptions}
-          placeholder={placeHolder}
-          value={currentAnswerSelected ? currentAnswerSelected : ""}
-          onChange={(event) => {
-            selectAnswers(event, index);
-          }}
-          styles={{
-            control: (baseStyles) => ({
-              ...baseStyles,
-              backgroundColor:
-              numAnswersSelected < index ? "#bbc1c6" : "white",
-            }),
-            groupHeading: (provided, state) => ({
-              ...provided,
-              backgroundColor: "#0095d4",
-              color: "white",
-              padding: "10px 10px",
-              display: "flex",
-              fontSize: "14px",
-            }),
-            group: (provided, state) => {
-              if (state.label === "Candidaturas Oficiales") {
-                return {
-                  ...provided,
-                  backgroundColor: "#DFF6FF",
-                };
-              }
-            },
-            option: (base, { isFocused }) => ({
-              ...base,
-              backgroundColor: isFocused ? "#FFE8DF" : undefined,
-            }),
-          }}
-        />
-      </div>
-    </div>
-  )
-}
-
 function MixnetSelection({ question, addAnswer, numQuestion }) {
-  const isMixnetGroup = question.group_votes === "True";
+  const isGrouped = question.group_votes === "True";
   const otherOptionsName = "Otras Candidaturas";
 
   let answers = useSelector(
@@ -143,9 +77,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
   /** @state {boolean} answers text */
   const [blankButton, setBlankButton] = useState(false);
-
-  /** @state {string} placeholder for input select */
-  const [placeHolder, setPlaceHolder] = useState(defaultPlaceHolder);
 
   const includeBlankNull = question.include_blank_null === "True";
   const addAnswerCallback = useCallback(addAnswer, [addAnswer]);
@@ -173,7 +104,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         (close_option === "Voto Blanco" || close_option === "Voto Nulo")
       )
         return;
-      if (!isMixnetGroup) {
+      if (!isGrouped) {
         const optionValue = {
           value: close_option,
           label: close_option,
@@ -210,7 +141,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     addAnswerCallback,
     changeAllEncrypted,
     includeBlankNull,
-    isMixnetGroup,
+    isGrouped,
     numQuestion,
     question.closed_options,
   ]);
@@ -226,39 +157,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       const elemento = array.splice(indice, 1)[0];
       array.push(elemento);
     }
-  };
-
-  const filterOptions = useCallback(
-    (inputValue) => {
-      const inputNormalized = normalizedLowerCase(inputValue);
-      if (!isMixnetGroup) {
-        return options.filter((option) => {
-          const optionNormalized = normalizedLowerCase(option.label);
-          return (
-            inputNormalized.includes(optionNormalized) ||
-            optionNormalized.includes(inputNormalized)
-          );
-        });
-      }
-      const auxOptions = JSON.parse(JSON.stringify(options));
-      auxOptions.forEach((option) => {
-        option.options = option.options.filter((optionGroup) => {
-          const optionNormalized = normalizedLowerCase(optionGroup.label);
-          return (
-            inputNormalized.includes(optionNormalized) ||
-            optionNormalized.includes(inputNormalized)
-          );
-        });
-      });
-      return auxOptions;
-    },
-    [options, isMixnetGroup]
-  );
-
-  const loadOptions = (inputValue, callback) => {
-    setTimeout(() => {
-      callback(filterOptions(inputValue));
-    }, 1000);
   };
 
   const selectAnswers = useCallback(
@@ -292,7 +190,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       }
       actualSelected.isDisabled = true;
 
-      if (isMixnetGroup) {
+      if (isGrouped) {
         auxOptions.forEach((option) => {
           if (option.label === actualSelected.group) {
             option.options[actualSelected.position] = actualSelected;
@@ -310,7 +208,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       setAnswersSelected(auxAnswersSelected);
       addAnswerCallback(auxAnswersForEncrypt, numQuestion);
       setOptions(auxOptions);
-      setPlaceHolder(defaultPlaceHolder);
     },
     [
       answers,
@@ -319,7 +216,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       blankButton,
       options,
       addAnswerCallback,
-      isMixnetGroup,
+      isGrouped,
       changeAllEncrypted,
       question,
       numQuestion,
@@ -333,7 +230,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
     let auxOptions = [...options];
     answersSelected.forEach((answerSelected) => {
-      if (isMixnetGroup) {
+      if (isGrouped) {
         auxOptions.forEach((option) => {
           if (option.label === answerSelected.group) {
             answerSelected.isDisabled = false;
@@ -353,19 +250,12 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
   return (
     <>
-      {[...Array(parseInt(question.max_answers)).keys()].map((index) => {
-        return (
-          <FormalOption
-            index={index}
-            numAnswersSelected={answersSelected.length}
-            currentAnswerSelected={answersSelected[index]}
-            options={options}
-            loadOptions={loadOptions}
-            placeHolder={placeHolder}
-            selectAnswers={selectAnswers}
-          />
-        );
-      })}
+      <FormalOptions
+        answerIndexes={[...Array(parseInt(question.max_answers)).keys()]}
+        answersSelected={answersSelected}
+        options={options}
+        selectAnswers={selectAnswers}
+      />
       {includeBlankNull && (
         <InformalOptions
           blankButton={blankButton}
@@ -382,7 +272,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
           setBlankVote={(event) => {
             setBlankButton(event.target.checked);
             setNullButton(false);
-            setPlaceHolder(defaultPlaceHolder);
             if (event.target.checked) {
               resetSelectedOptions();
             }
