@@ -1,65 +1,17 @@
-import { 
+import {
   useState, useCallback, useEffect
 } from "react";
 import { useSelector } from "react-redux";
 import FormalOptions from "./FormalOptions";
-
-function InformalAnswer({
-  button, setVote, label, id
-}){
-  return (
-    <div>
-      <label
-        id=""
-        className={
-          "d-inline-flex align-items-center radio question-answer question-answer-enabled px-3 py-2  " +
-          (button ? "answer-selected" : "")
-        }
-      >
-        <input
-          className="custom-answer"
-          type="radio"
-          id={id}
-          name={`vote_${id}`}
-          checked={button}
-          onChange={(event) => {
-            setVote(event);
-          }}
-        />
-        <span className="is-size-5">{label}</span>
-      </label>
-    </div>
-  )
-}
-
-function InformalOptions({
-  blankButton, nullButton,
-  setBlankVote, setNullVote,
-}) {
-
-  return (
-    <div>
-      {" "}
-      <InformalAnswer
-        button={blankButton}
-        setVote={setBlankVote}
-        label="Voto Blanco"
-        id="blank"
-      />
-      <InformalAnswer
-        button={nullButton}
-        setVote={setNullVote}
-        label="Voto Nulo"
-        id="null"
-      />
-    </div>
-  )
-}
+import InformalOptions from "./InformalOptions";
 
 function MixnetSelection({ question, addAnswer, numQuestion }) {
   const isGrouped = question.group_votes === "True";
   const otherOptionsName = "Otras Candidaturas";
 
+  const {
+    max_answers: maxAnswers,
+  } = question
   let answers = useSelector(
     (state) => state.booth.answers
   )[numQuestion] || [];
@@ -67,16 +19,12 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   const numOfOptions = question.closed_options.length
 
   /** @state {array} array with options for react-select */
-  const [options, setOptions] = useState([]);
-
+  const [candidaturesObjs, setCandidaturesObjs] = useState([]);
   /** @state {array} array with answers selected */
-  const [answersSelected, setAnswersSelected] = useState([]);
+  const [formalAnswersSelected, setFormalAnswersSelected] = useState([]);
 
-  /** @state {boolean} answers text */
-  const [nullButton, setNullButton] = useState(false);
-
-  /** @state {boolean} answers text */
-  const [blankButton, setBlankButton] = useState(false);
+  // guarda false, id nulo o id blanco
+  const [informalAnswersSelected, setInformalAnswersSelected] = useState(0);
 
   const includeBlankNull = question.include_blank_null === "True";
   const addAnswerCallback = useCallback(addAnswer, [addAnswer]);
@@ -84,7 +32,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   const changeAllEncrypted = useCallback(
     (number) => {
       let auxAnswersForEncrypt = [];
-      for (let i = 0; i < question.max_answers; i++) {
+      for (let i = 0; i < maxAnswers; i++) {
         auxAnswersForEncrypt.push(number);
       }
       addAnswerCallback(auxAnswersForEncrypt, numQuestion);
@@ -135,7 +83,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       }
     });
     moveToFinal(auxOptions, (element) => element.label === otherOptionsName);
-    setOptions(auxOptions);
+    setCandidaturesObjs(auxOptions);
     addAnswerCallback(auxAnswersForEncrypt, numQuestion);
   }, [
     addAnswerCallback,
@@ -159,7 +107,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     }
   };
 
-  const selectAnswers = useCallback(
+  const selectFormalAnswers = useCallback(
     (event, index) => {
       /**
        * Select answers disabling the option
@@ -168,16 +116,15 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
        * @param {index} index answers
        */
 
-      let auxOptions = [...options];
-      let auxAnswersSelected = [...answersSelected];
+      let auxOptions = [...candidaturesObjs];
+      let auxAnswersSelected = [...formalAnswersSelected];
       let auxAnswersForEncrypt = [...answers];
 
       let previousSelected = auxAnswersSelected[index];
       let actualSelected = event;
 
-      if (nullButton || blankButton) {
-        setNullButton(false);
-        setBlankButton(false);
+      if (informalAnswersSelected) {
+        setInformalAnswersSelected(false)
         auxAnswersForEncrypt = [...changeAllEncrypted(
           question.closed_options.length
         )];
@@ -205,16 +152,15 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
           auxOptions[previousSelected.key] = previousSelected;
         }
       }
-      setAnswersSelected(auxAnswersSelected);
+      setFormalAnswersSelected(auxAnswersSelected);
       addAnswerCallback(auxAnswersForEncrypt, numQuestion);
-      setOptions(auxOptions);
+      setCandidaturesObjs(auxOptions);
     },
     [
       answers,
-      answersSelected,
-      nullButton,
-      blankButton,
-      options,
+      formalAnswersSelected,
+      informalAnswersSelected,
+      candidaturesObjs,
       addAnswerCallback,
       isGrouped,
       changeAllEncrypted,
@@ -223,13 +169,13 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     ]
   );
 
-  function resetSelectedOptions() {
+  function resetSelectedFormalAnswers() {
     /**
-     * Delete all options selected
+     * Delete the selected formal options
      */
 
-    let auxOptions = [...options];
-    answersSelected.forEach((answerSelected) => {
+    let auxOptions = [...candidaturesObjs];
+    formalAnswersSelected.forEach((answerSelected) => {
       if (isGrouped) {
         auxOptions.forEach((option) => {
           if (option.label === answerSelected.group) {
@@ -243,44 +189,33 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         auxOptions[answerSelected.key] = newAnswer;
       }
     });
-    setAnswersSelected([]);
-    addAnswerCallback([], numQuestion);
-    setOptions(auxOptions);
+    setFormalAnswersSelected([]);
+    setCandidaturesObjs(auxOptions);
   }
 
   return (
-    <>
+    <div>
       <FormalOptions
-        answerIndexes={[...Array(parseInt(question.max_answers)).keys()]}
-        answersSelected={answersSelected}
-        options={options}
-        selectAnswers={selectAnswers}
+        answerIndexes={[...Array(parseInt(maxAnswers)).keys()]}
+        answersSelected={formalAnswersSelected}
+        options={candidaturesObjs}
+        selectAnswers={selectFormalAnswers}
       />
       {includeBlankNull && (
         <InformalOptions
-          blankButton={blankButton}
-          nullButton={nullButton}
-          setNullVote={(event) => {
-            setNullButton(event.target.checked);
-            setBlankButton(false);
-            if (event.target.checked) {
-              resetSelectedOptions();
+          answerSelected={informalAnswersSelected}
+          selectAnswers={(informalId) => {
+            setInformalAnswersSelected(informalId)
+            if (formalAnswersSelected.length !== 0) {
+              resetSelectedFormalAnswers();
             }
-            const newAns = changeAllEncrypted(numOfOptions + 1);
-            addAnswerCallback(newAns, numQuestion)
-          }}
-          setBlankVote={(event) => {
-            setBlankButton(event.target.checked);
-            setNullButton(false);
-            if (event.target.checked) {
-              resetSelectedOptions();
-            }
-            const newAns = changeAllEncrypted(numOfOptions);
+            const newAns = changeAllEncrypted(informalId);
             addAnswerCallback(newAns, numQuestion);
           }}
+          numOfOptions={numOfOptions}
         />
       )}
-    </>
+    </div>
   );
 }
 
