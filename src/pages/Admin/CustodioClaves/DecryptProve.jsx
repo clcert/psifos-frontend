@@ -23,6 +23,7 @@ function DecryptProve() {
   let POINTS;
   let ELECTION;
   let TRUSTEE;
+  let TRUSTEE_CRYPTO
   let DESCRIPTIONS = {};
   let WORKERS = {};
   let RESULT_WORKERS = {};
@@ -87,6 +88,7 @@ function DecryptProve() {
     worker.postMessage({
       params: PARAMS,
       trustee: TRUSTEE,
+      trustee_crypto: TRUSTEE_CRYPTO,
       election: ELECTION,
       secretKey: sk,
       certificates: CERTIFICATES,
@@ -158,6 +160,7 @@ function DecryptProve() {
         POINTS = JSON.parse(data.points);
         ELECTION = data.election;
         TRUSTEE = data.trustee;
+        TRUSTEE_CRYPTO = data.trustee_crypto;
 
         if (!sk) {
           setFeedbackMessage("Formato de archivo incorrecto");
@@ -217,7 +220,7 @@ function DecryptProve() {
       setTimeout(() => {
         handlerDecrypt(sk);
       }, 500);
-    } catch {
+    } catch(err) {
       setFeedbackMessage("Clave incorrecta");
       setActualStep(0);
     }

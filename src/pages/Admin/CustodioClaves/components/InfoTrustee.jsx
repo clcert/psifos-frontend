@@ -1,7 +1,7 @@
-function InfoTrustee(props) {
+function InfoTrustee({trustee_crypto}) {
   return (
     <div>
-      {props.trustee.decryptions ? (
+      {trustee_crypto.decryptions ? (
         <p
           id="decryption-finish"
           className="has-text-weight-bold is-size-5 status-decryption is-flex is-flex-direction-column"
@@ -11,7 +11,7 @@ function InfoTrustee(props) {
       ) : (
         <p
           id={
-            props.trustee.decryptions ? "decryption-finish" : "decryption-wait"
+            trustee_crypto.decryptions ? "decryption-finish" : "decryption-wait"
           }
           className="has-text-weight-bold is-size-5 status-decryption is-flex is-flex-direction-column"
         >

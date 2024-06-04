@@ -22,6 +22,7 @@ import ModalResultsRelease from "./component/ModalReleaseResults";
 import { useDispatch } from "react-redux";
 import { setElection } from "../../../store/slices/electionSlice";
 import { useSelector } from "react-redux";
+import { getTrustees } from "../../../services/trustee";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
@@ -63,6 +64,8 @@ function AdministrationPanel(props) {
 
   /** @state {string} type feedback for admin */
   const [typeFeedback, setTypeFeedback] = useState("");
+
+  const [trustees, setTrustees] = useState([]); // eslint-disable-line no-unused-vars
 
   const interTallyRef = useRef(null);
 
@@ -123,6 +126,14 @@ function AdministrationPanel(props) {
       clearInterval(interTallyRef.current);
     }
   }, [election.election_status, tallyHandler]);
+
+  useEffect(() => {
+    getTrustees(shortName).then((res) => {
+      const { jsonResponse } = res;
+      setTrustees(jsonResponse.trustees);
+    });
+  }, [shortName]);
+
   return (
     <>
       <div id="content-home-admin">
@@ -182,6 +193,7 @@ function AdministrationPanel(props) {
                 <div className="column">
                   <CardInfo
                     election={election}
+                    trustees={trustees}
                     electionStep={election.election_status}
                     updateInfo={updateInfo}
                     totalVoters={totalVoters}

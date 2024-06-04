@@ -12,7 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
 import { useCallback, useEffect, useState } from "react";
 
-import { getTrusteeHome } from "../../../services/trustee";
+import { getTrusteeCrypto } from "../../../services/trustee";
 import { getEgParams } from "../../../services/crypto";
 import { useSelector } from "react-redux";
 
@@ -41,6 +41,8 @@ function Keygenerator(props) {
   const [actualStep, setActualStep] = useState(0);
 
   const [trustee, setTrustee] = useState("");
+
+  const [trusteeCrypto, setTrusteeCrypto] = useState("");
 
   const [interval, setInterval] = useState(null);
 
@@ -77,10 +79,12 @@ function Keygenerator(props) {
   useEffect(() => {
     sjcl.random.startCollectors();
     /** Get trustee info */
-    getTrusteeHome(shortName, uuidTrustee).then((data) => {
-      const trustee_aux = data.jsonResponse.trustee;
-      setActualStep(trustee_aux.current_step);
-      setTrustee(trustee_aux);
+    getTrusteeCrypto(shortName, uuidTrustee).then((data) => {
+      const trustee = data.jsonResponse.trustee;
+      const trustee_crypto = data.jsonResponse.trustee_crypto;
+      setActualStep(trustee_crypto.current_step);
+      setTrustee(trustee);
+      setTrusteeCrypto(trustee_crypto);
       /** Set actual step for trustee */
       let eg_params_json = "";
       getEgParams(shortName).then((data) => {
@@ -92,16 +96,16 @@ function Keygenerator(props) {
           sjcl.random.addEntropy(randomness);
           let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
 
-          elgamal_params.trustee_id = trustee_aux.trustee_id;
+          elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
           helios_c.trustee = helios_c.trustee_create(elgamal_params);
           setElGamalParams(elgamal_params);
           BigInt.setup(function () {
             elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
-            elgamal_params.trustee_id = trustee_aux.trustee_id;
+            elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
             helios_c.trustee = helios_c.trustee_create(elgamal_params);
           });
           setEnabledButtonInit(true);
-          set_step_init(trustee_aux.current_step);
+          set_step_init(trustee_crypto.current_step);
         });
       });
     });
@@ -181,7 +185,7 @@ function Keygenerator(props) {
   }
 
   function init_process() {
-    TRUSTEE_STEP = trustee.current_step;
+    TRUSTEE_STEP = trusteeCrypto.current_step;
     setEnabledButtonInit(false);
     total_process();
     setInterval(
@@ -254,7 +258,7 @@ function Keygenerator(props) {
 
           BigInt.setup(function () {
             helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
-            helios_c.params.trustee_id = trustee.trustee_id;
+            helios_c.params.trustee_id = trusteeCrypto.trustee_election_id;
             helios_c.certificates = JSON.parse(data_step.certificates);
           });
 
@@ -285,7 +289,7 @@ function Keygenerator(props) {
           sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
             helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
-            helios_c.params.trustee_id = trustee.trustee_id;
+            helios_c.params.trustee_id = trusteeCrypto.trustee_election_id;
             helios_c.certificates = JSON.parse(data_step.certificates);
             COEFFICIENTS = JSON.parse(data_step.coefficients);
             helios_c.points = JSON.parse(data_step.points);
@@ -317,7 +321,7 @@ function Keygenerator(props) {
           sjcl.random.addEntropy(randomness);
           BigInt.setup(function () {
             helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
-            helios_c.params.trustee_id = trustee.trustee_id;
+            helios_c.params.trustee_id = trusteeCrypto.trustee_election_id;
             helios_c.certificates = JSON.parse(data_step.certificates);
             COEFFICIENTS = JSON.parse(data_step.coefficents);
             helios_c.points = JSON.parse(data_step.points);
@@ -391,7 +395,7 @@ function Keygenerator(props) {
     });
     if (resp.status === 200) {
       TRUSTEE_STEP = 1;
-      trustee.current_step = 1;
+      trusteeCrypto.current_step = 1;
       setActualStep(1);
       setActualPhase(2);
       EXECUTE = false;

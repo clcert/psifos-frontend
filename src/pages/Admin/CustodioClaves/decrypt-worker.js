@@ -57,6 +57,7 @@ function decrypt(sk, tally, electionPk, params, certificates, points) {
 onmessage = function (event) {
   const params = event.data.params;
   const trustee = event.data.trustee;
+  const trustee_crypto = event.data.trustee_crypto;
   const election = event.data.election;
   const secretKey = event.data.secretKey;
   const certificates = event.data.certificates;
@@ -65,7 +66,7 @@ onmessage = function (event) {
 
   BigInt.setup(function () {
     let PARAMS = ElGamal.Params.fromJSONObject(params);
-    PARAMS.trustee_id = trustee.trustee_id;
+    PARAMS.trustee_id = trustee_crypto.trustee_election_id;
 
     let ELECTION_JSON = election;
     let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(

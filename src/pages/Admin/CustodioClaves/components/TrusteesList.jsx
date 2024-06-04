@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getTrustees } from "../../../../services/trustee";
 import InfoTrustee from "./InfoTrustee";
 import { electionStatus } from "../../../../constants";
+import { searchTrusteeCrypto } from "../../../../utils/utils";
 
 function TrusteesList(props) {
   /** @state {array} trustees list */
@@ -53,6 +54,7 @@ function TrusteesList(props) {
         </div>
       )}
       {trustees.map((t, index) => {
+        const trustee_crypto = searchTrusteeCrypto(t, props.election.id);
         return (
           <div className="box border-style-box" key={t.name}>
             <div className="level mb-0">
@@ -81,11 +83,11 @@ function TrusteesList(props) {
               </tt>
             </p>
 
-            {t.public_key_hash ? (
+            {trustee_crypto.public_key_hash ? (
               <div className="mt-4">
                 Código de Clave Pública:{" "}
                 <p className="overflow-auto">
-                  <tt>{t.public_key_hash}</tt>
+                  <tt>{trustee_crypto.public_key_hash}</tt>
                 </p>
               </div>
             ) : (
@@ -98,7 +100,7 @@ function TrusteesList(props) {
               props.election.election_status ===
                 electionStatus.decryptionsCombined ||
               props.election.election_status ===
-                electionStatus.resultsReleased) && <InfoTrustee trustee={t} />}
+                electionStatus.resultsReleased) && <InfoTrustee trustee_crypto={trustee_crypto} />}
           </div>
         );
       })}

@@ -33,19 +33,20 @@ function CardInfo({
   updateInfo,
   totalVoters,
   totalVotes,
+  trustees = [],
 }) {
   /** @state {num} number of decryptions */
   const [decryptionNumber, setDecryptionNumber] = useState(0);
 
   useEffect(() => {
     let number_decryptions = 0;
-    election.trustees.forEach((trustee) => {
+    trustees.forEach((trustee) => {
       if (trustee.decryptions !== "") {
         number_decryptions++;
       }
     });
     setDecryptionNumber(number_decryptions);
-  }, [election.trustees, electionStep]);
+  }, [trustees, electionStep]);
 
   return (
     <div className="box ">
@@ -81,12 +82,12 @@ function CardInfo({
           name="Peso máximo de votantes"
           value={election.max_weight}
         />
-        <DisplayStats name="Numero Custodios" value={election.trustees.length} />
+        <DisplayStats name="Numero Custodios" value={election.total_trustees} />
         {electionStep === "Tally computed" ||
           (electionStep === "Decryptions uploaded" && (
             <DisplayStats
               name="Desencriptaciones Parciales"
-              value={decryptionNumber / election.trustees.length}
+              value={decryptionNumber / election.total_trustees}
             />
           ))}
 
