@@ -5,6 +5,8 @@ import { backendInfoIp } from "../../../../server";
 import BarPsifosGraph from "../Graphs/BarPsifosGraph";
 import NotAvalaibleMessage from "../../../../component/Messages/NotAvailableMessage";
 import ClassicSelector from "../../../../component/Selectors/classicSelector";
+import Spinner from "../../../../component/OthersComponents/Spinner";
+import { requestCountDates } from "../../../Booth/Panel/statistics/components/client";
 
 function TimeOptions({ handleDeltaTime, deltaTime }) {
   const options = {
@@ -28,68 +30,51 @@ function TimeOptions({ handleDeltaTime, deltaTime }) {
   );
 }
 
+function ShowStatistics({votesForTime}) {
+  return (
+    <div className="is-flex is-align-items-center is-flex-direction-column">
+      <BarPsifosGraph
+        data={votesForTime}
+        label="Cantidad de votos"
+        title="Votos a traves del tiempo"
+        onlyHour={true}
+      />
+    </div>
+  )
+}
+
 function VotesByTime(props) {
-  /** Section dedicated to graphing the number of votes by time */
-
-  /** @state {number} delta time for count votes */
   const [deltaTime, setDeltaTime] = useState(60);
-
-  /** @state {json} count votes of election */
   const [votesForTime, setVotesForTime] = useState({});
-
-  /** @state {bool} load state fetch */
   const [load, setLoad] = useState(false);
-
-  /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
   const getCountDates = useCallback(async () => {
-    const resp = await fetch(backendInfoIp + "/" + shortName + "/count-dates", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        minutes: deltaTime,
-      }),
-    });
-    if (resp.status === 200) {
-      const jsonResponse = await resp.json();
-      setVotesForTime(jsonResponse);
-      setLoad(true);
-    }
+    requestCountDates(shortName, deltaTime, setVotesForTime, setLoad)
   }, [deltaTime, shortName]);
 
   useEffect(() => {
     getCountDates();
   }, [getCountDates, deltaTime]);
 
-  function handleDeltaTime(value) {
-    setDeltaTime(parseInt(value));
-  }
-
   return (
     <>
       {Object.keys(votesForTime).length !== 0 ? (
         <div className="chart-container" style={{ overflowX: "auto" }}>
-          <div className="is-flex is-align-items-center is-flex-direction-column">
-            <BarPsifosGraph
-              data={votesForTime}
-              label="Cantidad de votos"
-              title="Votos a traves del tiempo"
-              onlyHour={true}
-            />
-          </div>
-          <TimeOptions handleDeltaTime={handleDeltaTime} deltaTime={deltaTime} />
+          <ShowStatistics
+            votesForTime={votesForTime}
+          />
+          <TimeOptions
+            handleDeltaTime={(value) => setDeltaTime(parseInt(value))}
+            deltaTime={deltaTime}
+          />
         </div>
       ) : load ? (
         <div className="d-flex is-justify-content-center">
           <NotAvalaibleMessage message="Sin votos registrados" />
         </div>
       ) : (
-        <div className="d-flex justify-content-center pt-4">
-          <div className="spinner-animation"></div>
-        </div>
+        <Spinner />
       )}
     </>
   );
