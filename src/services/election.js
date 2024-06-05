@@ -111,6 +111,27 @@ async function getElectionResume(shortName) {
   }
 }
 
+async function getCountDates(shortName, deltaTime) {
+  /**
+   * async function to get the number of votes by date
+   */
+
+  const resp = await fetch(backendInfoIp + "/" + shortName + "/count-dates", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      minutes: deltaTime,
+    }),
+  });
+
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  }
+}
+
 async function initElection(shortName) {
   /**
    * Init election
@@ -202,6 +223,7 @@ export {
   getStats,
   getStatsGroup,
   getElectionResume,
+  getCountDates,
   initElection,
   closeElection,
   computeTally,

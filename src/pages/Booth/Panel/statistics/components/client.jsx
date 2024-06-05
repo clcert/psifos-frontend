@@ -1,5 +1,5 @@
 import {
-    getStats, getElectionPublic, getElectionResume,
+    getStats, getElectionPublic, getElectionResume, getCountDates,
 } from "../../../../../services/election";
 import { logout } from "../../../../../utils/utils";
 
@@ -40,4 +40,15 @@ export const requestElectionResume = (shortName, setWeightsInit, setWeightsElect
           logout();
         }
     }, []);
+}
+
+export const requestCountDates = (
+    shortName, deltaTime, setVotesForTime,
+) => {
+    getCountDates(shortName, deltaTime).then((election) => {
+        const { resp, jsonResponse } = election;
+        if (resp.status === 200) {
+            setVotesForTime(jsonResponse);
+        }
+    }, [])
 }
