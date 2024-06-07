@@ -11,20 +11,20 @@ export default function VotesByTime({election}) {
     const [votesForTime, setVotesForTime] = useState({});
     const { shortName } = useParams();
 
-    const getCountDates = useCallback(async () => {
+    const initComponent = useCallback(async () => {
         requestCountDates(shortName, deltaTime, setVotesForTime)
     }, [deltaTime, shortName]);
 
     useEffect(() => {
-        getCountDates();
-    }, [getCountDates, deltaTime]);
+        initComponent();
+    }, [initComponent]);
 
     const isSettingUp = election && isSettingUpElection(election.election_status)
     return (
         <ShowStatistics
             notAvailableMessage="La elección aun no comienza"
             showNotAvailableMessage={isSettingUp}
-            isLoadData={Boolean(election && votesForTime)}
+            isLoadData={election && Object.keys(votesForTime).length!==0}
             statisticsComponent={<VotesByTimeStats
                 deltaTime={deltaTime}
                 handleDeltaTime={setDeltaTime}

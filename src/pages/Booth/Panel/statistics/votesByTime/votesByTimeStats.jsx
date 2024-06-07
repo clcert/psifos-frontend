@@ -1,21 +1,13 @@
 import BarPsifosGraph from "../../../../Admin/Statistics/Graphs/BarPsifosGraph";
 import ClassicSelector from "../../../../../component/Selectors/classicSelector";
-
+import { deltaTimeOptions, parseDateTimeStr } from "./utils";
 
 function TimeSelector({ handleDeltaTime, deltaTime }) {
-  const options = {
-    "1": "1 minuto",
-    "30": "30 minutos",
-    "60": "1 hora",
-    "120": "2 horas",
-    "240": "4 horas",
-    "1440": "1 Día",
-  }
   return (
     <div style={{marginTop: '30px'}}>
       <ClassicSelector
         handleChange={handleDeltaTime}
-        options={options}
+        options={deltaTimeOptions}
         value={deltaTime}
         selectorName="delta-time"
         selectorLabel="Escala de tiempo:"
@@ -25,12 +17,34 @@ function TimeSelector({ handleDeltaTime, deltaTime }) {
 }
 
 function TimeStats({ votesForTime }) {
+  const {accVotesForTime} = Object.keys(votesForTime).reduce(({acc, accVotesForTime}, currentTime) => {
+    const currentVotes = acc + votesForTime[currentTime]
+    return {
+      acc: currentVotes,
+      accVotesForTime: {
+        ...accVotesForTime,
+        [currentTime]: currentVotes
+      }
+    }
+  }, {
+    acc: 0,
+    accVotesForTime: {}
+  })
+
+  
+
   return (
     <div className="is-flex is-align-items-center is-flex-direction-column">
       <BarPsifosGraph
         data={votesForTime}
         label="Cantidad de votos"
-        title="Votos a traves del tiempo"
+        title="Ingreso de votos en el tiempo"
+        onlyHour={true}
+      />
+      <BarPsifosGraph
+        data={accVotesForTime}
+        label="Cantidad de votos"
+        title="Votos acumulados en el tiempo"
         onlyHour={true}
       />
     </div>
@@ -42,12 +56,17 @@ export default function VotesByTimeStats({
 }) {
   return (
     <div className="chart-container" style={{ overflowX: "auto" }}>
-        <TimeStats
-            votesForTime={votesForTime}
-        />
         <TimeSelector
             handleDeltaTime={(value) => handleDeltaTime(parseInt(value))}
             deltaTime={deltaTime}
+        />
+        <TimeStats
+            votesForTime={Object.keys(votesForTime).reduce((acc, key) => {
+              return {
+                ...acc,
+                [parseDateTimeStr(key, deltaTime)]: votesForTime[key]
+              }
+          }, {})}
         />
     </div>
   );

@@ -6,17 +6,18 @@ export default function ShowStatistics({
     showNotAvailableMessage, isLoadData,
 }) {
     return (
-        isLoadData ? (
-            showNotAvailableMessage ? <div
+        showNotAvailableMessage ? (
+            <div
                 className="not-available-statistic-message-container"
             >
                 <NotAvailableMessage
                     message={notAvailableMessage}
                 />
             </div>
-            : (
+        ) : (
+            isLoadData ? (
                 statisticsComponent
-            )
-        ) : <Spinner />
+            ) : <Spinner />
+        )
     )
 }

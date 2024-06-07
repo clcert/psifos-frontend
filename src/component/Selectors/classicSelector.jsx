@@ -4,7 +4,9 @@ export default function ClassicSelector({
     const optionsArray = Object.entries(options);
     return (
       <div className="selector-container">
-        {selectorLabel && <label>{selectorLabel}</label>}
+        {selectorLabel && <label style={{marginRight: "10px"}}>
+          {selectorLabel}
+        </label>}
         <div className="control">
           <div className="select">
             <select

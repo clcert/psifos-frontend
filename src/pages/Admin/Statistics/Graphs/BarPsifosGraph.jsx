@@ -26,12 +26,8 @@ function BarPsifosGraph({ data, label, title, onlyHour }) {
   const [options, setOptions] = useState({});
   
   useEffect(() => {
-    const labels = Object.keys(data).map((label) => {
-      if (onlyHour) return label.split(" ")[1].split(":").slice(0,2).join(":");
-      else return label;
-    });
     const dataAux = {
-      labels,
+      labels: Object.keys(data),
       datasets: [
         {
           label: label,
