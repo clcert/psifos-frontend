@@ -6,10 +6,9 @@ import ShowStatistics from "../components/showStatistics";
 import VotesByTimeStats from "./votesByTimeStats";
 import { isSettingUpElection } from "../../../../../utils";
 
-export default function VotesByTime({election}) {
+export default function VotesByTime({shortName, election}) {
     const [deltaTime, setDeltaTime] = useState(60);
     const [votesForTime, setVotesForTime] = useState({});
-    const { shortName } = useParams();
 
     const initComponent = useCallback(async () => {
         requestCountDates(shortName, deltaTime, setVotesForTime)
