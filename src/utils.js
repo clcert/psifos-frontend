@@ -4,6 +4,8 @@ export const isOpenLoginElection = (loginType) => loginType === "Open"
 
 export const isSettingUpElection = (status) => status === "Setting up"
 
+export const isStartedElection = (status) => status === "Started"
+
 export const isMixNetQuestion = (q) => q === "mixnet_question";
 
 export const isClosedQuestion = (q) => q === "closed_question";

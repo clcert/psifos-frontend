@@ -1,13 +1,19 @@
-import { isSettingUpElection, isOpenLoginElection } from "../../../../../utils"
+import { isSettingUpElection, isStartedElection } from "../../../../../utils"
 import ShowStatistics from "../components/showStatistics"
 import VotersCharacteristicsStats from "./votersCharacteristicsStats"
 
 export default function VotersCharacteristics({ election }) {
+  const status = election && election.election_status
+  const settingUp = status && isSettingUpElection(status)
+  const started = status && isStartedElection(status)
   return(
     <ShowStatistics
-        notAvailableMessage="La elección aun no comienza"
+        notAvailableMessage={
+          (settingUp && "La elección aun no comienza")
+          || (started && "La elección aun no finaliza")
+        }
         showNotAvailableMessage={
-            election && isSettingUpElection(election.election_status)
+            election && (settingUp || started)
         }
         isLoadData={Boolean(election)}
         statisticsComponent={<VotersCharacteristicsStats
