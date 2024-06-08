@@ -137,6 +137,7 @@ export const tallyNames = [
 ];
 
 export const principalBlue = "#0E4B90";
+export const transparentPrincipalBlue = "rgb(14, 75, 144, 0.5)";
 
 export const principalLightBlue = "#84C8EF";
 

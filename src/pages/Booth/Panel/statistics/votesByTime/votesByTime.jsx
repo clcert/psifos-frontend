@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { requestCountDates } from "../components/client";
 import ShowStatistics from "../components/showStatistics";
 import VotesByTimeStats from "./votesByTimeStats";

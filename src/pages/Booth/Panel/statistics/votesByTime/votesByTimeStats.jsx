@@ -17,7 +17,7 @@ function TimeSelector({ handleDeltaTime, deltaTime }) {
 }
 
 function TimeStats({ votesForTime }) {
-  const {accVotesForTime} = Object.keys(votesForTime).reduce(({acc, accVotesForTime}, currentTime) => {
+  const { accVotesForTime } = Object.keys(votesForTime).reduce(({acc, accVotesForTime}, currentTime) => {
     const currentVotes = acc + votesForTime[currentTime]
     return {
       acc: currentVotes,
@@ -30,8 +30,6 @@ function TimeStats({ votesForTime }) {
     acc: 0,
     accVotesForTime: {}
   })
-
-  
 
   return (
     <div className="is-flex is-align-items-center is-flex-direction-column">
