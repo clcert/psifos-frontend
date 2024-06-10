@@ -183,7 +183,7 @@ class Heliosc {
       }
     } else {
       console.log("SUCCESS!");
-      this.cont();
+      this.cont.prepareUpload();
     }
   }
 
