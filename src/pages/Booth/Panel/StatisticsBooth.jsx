@@ -28,7 +28,7 @@ function StatisticsBooth() {
     "Caracterización del padrón": <RollCharacteristics
       election={election}
     />,
-    "Caracterización de los votantes": <VotersCharacteristics
+    "Caracterización de los votos recibidos": <VotersCharacteristics
       election={election}
     />,
     "Distribución de los votos en el tiempo": <VotesByTime

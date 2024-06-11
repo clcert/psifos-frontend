@@ -10,8 +10,8 @@ function FullStats({
     <Statistic
         title="Participantes en el padrón"
         pieChartData={{
-          "Votan": totalVotes,
-          "Se abstienen": totalVoters-totalVotes,
+          "Votaron": totalVotes,
+          "No han votado": totalVoters-totalVotes,
         }}
         tableData={{
           "Votos recibidos": totalVotes,
