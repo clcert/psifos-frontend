@@ -64,13 +64,13 @@ export default function CustodioHome() {
             <div>
               {trusteesCrypto.map((trusteeCrypto, index) => {
                 return (
-                <Link to={`/psifos/${trusteeCrypto.election_name}/trustee/${uuidTrustee}/home`}>
+                <Link to={`/psifos/${trusteeCrypto.election_short_name}/trustee/${uuidTrustee}/home`}>
                   <div
                     onClick={handlerClick}
                     class="box border-style-box"
                     key={index}
                   >
-                    <h1>{trusteeCrypto.election_name}</h1>
+                    <h1>{trusteeCrypto.election_short_name}</h1>
                   </div>
                   </Link>
                 );

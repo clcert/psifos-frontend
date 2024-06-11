@@ -7,9 +7,12 @@ import { backendOpIP } from "../server";
 import { getTrusteeCrypto } from "../services/trustee";
 import { getEgParams } from "../services/crypto";
 
-export default class KeyGenerator {
+import Crypto from "./Crypto";
+
+export default class KeyGenerator extends Crypto {
   constructor(shortName, uuidTrustee, { reactFunctions } = {}) {
-    this.reactFunctions = reactFunctions;
+    
+    super({ reactFunctions });
 
     this.shortName = shortName;
     this.uuidTrustee = uuidTrustee;
@@ -33,12 +36,6 @@ export default class KeyGenerator {
     this.acknowledgerPk = {};
 
     this.checkAcksPk = {};
-  }
-
-  reactFunction(functionName, params) {
-    if (functionName in this.reactFunctions) {
-      this.reactFunctions[functionName](params);
-    }
   }
 
   initParams() {
