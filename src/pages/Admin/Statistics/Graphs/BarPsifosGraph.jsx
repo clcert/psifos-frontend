@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
-import { transparentPrincipalBlue } from "../../../../constants";
+import { transparentPrincipalBlue } from "../../../../colors";
 
 import {
   Chart as ChartJS,

@@ -1,4 +1,4 @@
-import { gradientPalettes } from "./constants";
+import { gradientPalettes } from "./colors";
 
 export const isOpenLoginElection = (loginType) => loginType === "Open"
 

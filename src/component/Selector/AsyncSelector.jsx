@@ -1,10 +1,7 @@
 import AsyncSelect from "react-select/async";
-
-const colors = {
-    disableGray: "#bbc1c6",
-    lightBlue: "#0095d4",
-    lightOrange: "#FFE8DF",
-}
+import {
+    disabledGray, mediumBlue, lightOrange,
+} from "../../colors";
 
 export default function AsyncSelector(props) {
     return (
@@ -14,11 +11,11 @@ export default function AsyncSelector(props) {
                 control: (baseStyles) => ({
                     ...baseStyles,
                     backgroundColor:
-                    props.isDisabled ? colors.disableGray : "white",
+                    props.isDisabled ? disabledGray : "white",
                 }),
                 groupHeading: (provided, state) => ({
                     ...provided,
-                    backgroundColor: colors.lightBlue,
+                    backgroundColor: mediumBlue,
                     color: "white",
                     padding: "10px 10px",
                     display: "flex",
@@ -26,7 +23,7 @@ export default function AsyncSelector(props) {
                 }),
                 option: (base, { isFocused }) => ({
                     ...base,
-                    backgroundColor: isFocused ? colors.lightOrange : undefined,
+                    backgroundColor: isFocused ? lightOrange : undefined,
                 }),
             }}
         />
