@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { backendInfoIp } from "../../../server";
 import { events } from "../../../constants";
-import NotAvalaibleMessage from "../components/NotAvalaibleMessage";
+import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage";
 import MoreInfoTooltip from "../../../component/MoreInfo/MoreInfoTooltip";
 
 function EventHeader({ event, descript }) {

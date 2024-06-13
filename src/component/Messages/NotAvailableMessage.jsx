@@ -1,4 +1,4 @@
-export default function NotAvalaibleMessage({message, note}) {
+export default function NotAvailableMessage({message, note}) {
     return (
         <div
             className="box has-text-centered"

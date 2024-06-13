@@ -21,6 +21,7 @@ async function getElection(shortName) {
     logout();
   }
 }
+
 async function getElectionPublic(shortName) {
   /**
    * async function to get the election data
@@ -107,6 +108,27 @@ async function getElectionResume(shortName) {
     return { resp: resp, jsonResponse: jsonResponse };
   } else if (resp.status === 401) {
     logout();
+  }
+}
+
+async function getCountDates(shortName, deltaTime) {
+  /**
+   * async function to get the number of votes by date
+   */
+
+  const resp = await fetch(backendInfoIp + "/" + shortName + "/count-dates", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      minutes: deltaTime,
+    }),
+  });
+
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
   }
 }
 
@@ -201,6 +223,7 @@ export {
   getStats,
   getStatsGroup,
   getElectionResume,
+  getCountDates,
   initElection,
   closeElection,
   computeTally,

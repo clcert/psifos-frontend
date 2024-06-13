@@ -6,7 +6,7 @@ import PreviousButton from "../../components/Buttons/PreviousButton";
 import QuestionHeader from "./QuestionHeader";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
-import MixnetSelection from "./MixnetSelection";
+import MixnetSelection from "./MixnetSelection/MixnetSelection.jsx";
 import { answersRestrictionText } from "./utils.js";
 import {
   permanentOptionsList,
