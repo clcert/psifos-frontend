@@ -1,7 +1,7 @@
-import { BigInt } from "../../../static/booth/js/jscrypto/bigint";
-import { ElGamal } from "../../../static/booth/js/jscrypto/elgamal";
-import { helios_c } from "../../../static/booth/js/jscrypto/heliosc-trustee";
-import Tally from "../../../static/booth/js/jscrypto/tally";
+import { BigInt } from "../static/booth/js/jscrypto/bigint";
+import { ElGamal } from "../static/booth/js/jscrypto/elgamal";
+import { helios_c } from "../static/booth/js/jscrypto/heliosc-trustee";
+import Tally from "../static/booth/js/jscrypto/tally";
 
 /**
  * Create a ElGamal secretKey object with sk and params
