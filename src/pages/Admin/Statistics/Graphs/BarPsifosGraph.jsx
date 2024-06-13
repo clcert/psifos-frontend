@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
+import { transparentPrincipalBlue } from "../../../../colors";
 
 import {
   Chart as ChartJS,
@@ -26,18 +27,14 @@ function BarPsifosGraph({ data, label, title, onlyHour }) {
   const [options, setOptions] = useState({});
   
   useEffect(() => {
-    const labels = Object.keys(data).map((label) => {
-      if (onlyHour) return label.split(" ")[1].split(":").slice(0,2).join(":");
-      else return label;
-    });
     const dataAux = {
-      labels,
+      labels: Object.keys(data),
       datasets: [
         {
           label: label,
           data: Object.values(data),
-          borderColor: "rgb(0, 76, 148)",
-          backgroundColor: "rgba(0, 76, 148, 0.5)",
+          borderColor: transparentPrincipalBlue,
+          backgroundColor: transparentPrincipalBlue,
         },
       ],
     };

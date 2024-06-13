@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getStats } from "../../../services/election";
 import { electionStatus } from "../../../constants";
-import NotAvalaibleMessage from "../components/NotAvalaibleMessage"
+import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage";
 import Step1Descript from "./VerifyInstructions/Step1Descript"
 import Step2Descript from "./VerifyInstructions/Step2Descript"
 import Step3Descript from "./VerifyInstructions/Step3Descript"
