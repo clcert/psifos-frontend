@@ -1,6 +1,4 @@
-# helios-front
+# Psifos Voting - Frontend
 
-## How to run with Docker (Development server)
-
-* Rename `.env.development` to `.env` and set the corresponding variables
-* Execute `docker compose up frontend-dev`
+This repositry contains the code of the frontend module of the project Psifos Voting.
+Psifos Voting is a remote electronic voting system based on [Helios](https://vote.heliosvoting.org/)
