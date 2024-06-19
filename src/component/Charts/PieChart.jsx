@@ -10,7 +10,9 @@ const renderChartData = (dataObj) => {
   )
 }
 
-export default function PieChart({ data, legendPosition, chartPosition }) {
+export default function PieChart({
+  data, legendPosition, chartPosition, mediaChartPosition,
+}) {
   const renderedData = renderChartData(data)
   const options = {
       tooltip: {
@@ -22,6 +24,9 @@ export default function PieChart({ data, legendPosition, chartPosition }) {
       },
       series: [
         {
+          label: {
+            show: false,
+          },
           type: 'pie',
           radius: ['30%'],
           color: getGradientPalette(renderedData.length),
@@ -29,6 +34,23 @@ export default function PieChart({ data, legendPosition, chartPosition }) {
           ...chartPosition
         }
       ],
+      media: [
+        {
+          query: { minAspectRatio: 0.5 },
+          option: {
+            series: [
+              chartPosition,
+            ]
+          }
+        },
+        {
+          option: {
+            series: [
+              mediaChartPosition,
+            ]
+          }
+        }
+      ]
   };
   return (
       <ReactEcharts option={options} />
