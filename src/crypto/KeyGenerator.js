@@ -1,7 +1,7 @@
 import { BigInt } from "../static/booth/js/jscrypto/bigint";
 import { sjcl } from "../static/booth/js/jscrypto/sjcl";
 import { ElGamal } from "../static/booth/js/jscrypto/elgamal";
-import { helios_c } from "../static/booth/js/jscrypto/heliosc-trustee";
+import Heliosc, { helios_c } from "../static/booth/js/jscrypto/heliosc-trustee";
 import { backendOpIP } from "../server";
 
 import { getTrusteeCrypto } from "../services/trustee";
@@ -30,6 +30,7 @@ export default class KeyGenerator extends Crypto {
     this.acks = [];
     this.ack2 = [];
     this.interval = null;
+    this.helios_c = new Heliosc();
 
     this.derivatorPk = {};
 
@@ -60,23 +61,25 @@ export default class KeyGenerator extends Crypto {
           let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
 
           elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
-          helios_c.trustee = helios_c.trustee_create(elgamal_params);
+          this.helios_c.trustee = this.helios_c.trustee_create(elgamal_params);
           this.elGamalParams = elgamal_params;
+          const self = this;
           BigInt.setup(function () {
             elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
             elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
-            helios_c.trustee = helios_c.trustee_create(elgamal_params);
+            self.helios_c.trustee = self.helios_c.trustee_create(elgamal_params);
           });
           this.reactFunction("setEnabledButtonInit", true);
           this.setStepInit(trustee_crypto.current_step);
+          console.log("Trustee Crypto", this);
         });
       });
     });
   }
 
   derivatorCoeff(i) {
-    if (i <= helios_c.params.t) {
-      this.coefficents[i] = helios_c.trustee.generate_coefficient(i);
+    if (i <= this.helios_c.params.t) {
+      this.coefficents[i] = this.helios_c.trustee.generate_coefficient(i);
       this.derivatorCoeff(i + 1);
     } else {
       this.derivatorPoint(0);
@@ -84,17 +87,17 @@ export default class KeyGenerator extends Crypto {
   }
 
   derivatorPoint(i) {
-    if (i < parseInt(helios_c.params.l)) {
+    if (i < parseInt(this.helios_c.params.l)) {
       var id = i + 1;
-      this.derivatorPk.y = new BigInt(helios_c.certificates[i].encryption_key);
-      helios_c.points[i] = helios_c.trustee.generate_point(
+      this.derivatorPk.y = new BigInt(this.helios_c.certificates[i].encryption_key);
+      this.helios_c.points[i] = this.helios_c.trustee.generate_point(
         id,
         this.derivatorPk
       );
       this.derivatorPoint(i + 1);
     } else {
       const coefficients = JSON.stringify(this.coefficents);
-      const points = JSON.stringify(helios_c.points);
+      const points = JSON.stringify(this.helios_c.points);
       this.sendStep(
         1,
         JSON.stringify({ coefficients: coefficients, points: points })
@@ -104,22 +107,22 @@ export default class KeyGenerator extends Crypto {
 
   derivatorStart() {
     this.derivatorPk = {
-      g: helios_c.params.g,
-      p: helios_c.params.p,
-      q: helios_c.params.q,
+      g: this.helios_c.params.g,
+      p: this.helios_c.params.p,
+      q: this.helios_c.params.q,
     };
     this.derivatorCoeff(0);
   }
 
   acknowledgerTrustee(i) {
-    if (i < parseInt(helios_c.params.l)) {
+    if (i < parseInt(this.helios_c.params.l)) {
       var id = i + 1;
       var pk = this.acknowledgerPk;
-      pk.y = new BigInt(helios_c.certificates[i].signature_key);
-      var ack = helios_c.trustee.check_point(
+      pk.y = new BigInt(this.helios_c.certificates[i].signature_key);
+      var ack = this.helios_c.trustee.check_point(
         id,
         pk,
-        helios_c.points[i],
+        this.helios_c.points[i],
         this.coefficents[i]
       );
       if (ack) {
@@ -137,26 +140,24 @@ export default class KeyGenerator extends Crypto {
 
   acknowledgerStart() {
     this.acknowledgerPk = {
-      g: helios_c.params.g,
-      p: helios_c.params.p,
-      q: helios_c.params.q,
+      g: this.helios_c.params.g,
+      p: this.helios_c.params.p,
+      q: this.helios_c.params.q,
     };
     this.acknowledgerTrustee(0);
   }
 
   checkAcksTrustee(i) {
-    if (i < parseInt(helios_c.params.l)) {
+    if (i < parseInt(this.helios_c.params.l)) {
       var id = i + 1;
       const checkAcksPkAux = this.checkAcksPk;
-      const sentAux = this.sent;
-      const ack2Aux = this.ack2;
-      const checkAcksTrusteeAux = this.checkAcksTrustee;
+      const self = this;
       setTimeout(function () {
         var pk = checkAcksPkAux;
-        pk.y = new BigInt(helios_c.certificates[i].signature_key);
-        if (helios_c.trustee.check_ack(id, pk, sentAux[i], ack2Aux[i])) {
+        pk.y = new BigInt(self.helios_c.certificates[i].signature_key);
+        if (self.helios_c.trustee.check_ack(id, pk, self.sent[i], self.ack2[i])) {
           setTimeout(function () {
-            checkAcksTrusteeAux(i + 1);
+            self.checkAcksTrustee(i + 1);
           }, 500);
         } else {
           console.log("Trustee #" + id + " did not acknowledge!");
@@ -169,9 +170,9 @@ export default class KeyGenerator extends Crypto {
 
   checkAcksStart() {
     this.checkAcksPk = {
-      g: helios_c.params.g,
-      p: helios_c.params.p,
-      q: helios_c.params.q,
+      g: this.helios_c.params.g,
+      p: this.helios_c.params.p,
+      q: this.helios_c.params.q,
     };
     this.checkAcksTrustee(0);
   }
@@ -330,7 +331,7 @@ export default class KeyGenerator extends Crypto {
         this.shortName +
         ".txt"
     );
-    this.reactFunction("setSecretKey", helios_c.secret_key);
+    this.reactFunction("setSecretKey", this.helios_c.secret_key);
     this.reactFunction(
       "setProcessFeedback",
       "Para continuar, debe subir el archivo recién descargado. Recuerde guardar adecuadamente el archivo en su computador y respaldarlo."
@@ -353,16 +354,17 @@ export default class KeyGenerator extends Crypto {
           const randomness = data_randomnes;
           sjcl.random.addEntropy(randomness);
           const trusteeCryptoAux = this.trusteeCrypto;
+          const self = this;
           BigInt.setup(function () {
-            helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
-            helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
-            helios_c.certificates = JSON.parse(data_step.certificates);
+            self.helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
+            self.helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
+            self.helios_c.certificates = JSON.parse(data_step.certificates);
           });
 
-          helios_c.ui_validator_start();
-          const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
-          helios_c.trustee = loadKey.trustee;
-          helios_c.secret_key = loadKey.key;
+          this.helios_c.ui_validator_start();
+          const loadKey = this.helios_c.ui_load_secret_key(this.helios_c.secret_key);
+          this.helios_c.trustee = loadKey.trustee;
+          this.helios_c.secret_key = loadKey.key;
           this.derivatorStart();
         });
       });
@@ -386,18 +388,19 @@ export default class KeyGenerator extends Crypto {
           sjcl.random.addEntropy(randomness);
           let trusteeCryptoAux = this.trusteeCrypto;
           let coefficentsAux = this.coefficents;
+          const self = this;
           BigInt.setup(function () {
-            helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
-            helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
-            helios_c.certificates = JSON.parse(data_step.certificates);
+            self.helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
+            self.helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
+            self.helios_c.certificates = JSON.parse(data_step.certificates);
             coefficentsAux = JSON.parse(data_step.coefficients);
             helios_c.points = JSON.parse(data_step.points);
           });
           this.coefficents = coefficentsAux;
-          helios_c.ui_validator_start();
-          const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
-          helios_c.trustee = loadKey.trustee;
-          helios_c.secret_key = loadKey.key;
+          this.helios_c.ui_validator_start();
+          const loadKey = this.helios_c.ui_load_secret_key(this.helios_c.secret_key);
+          this.helios_c.trustee = loadKey.trustee;
+          this.helios_c.secret_key = loadKey.key;
           this.acknowledgerStart();
         });
       });
@@ -423,35 +426,40 @@ export default class KeyGenerator extends Crypto {
           let sentAux = this.sent;
           let ack2Aux = this.ack2;
           let trusteeCryptoAux = this.trusteeCrypto;
+          const self = this;
           BigInt.setup(function () {
-            helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
-            helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
-            helios_c.certificates = JSON.parse(data_step.certificates);
+            self.helios_c.params = ElGamal.Params.fromJSONObject(JSON.parse(params));
+            self.helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
+            self.helios_c.certificates = JSON.parse(data_step.certificates);
             coefficentsAux = JSON.parse(data_step.coefficents);
-            helios_c.points = JSON.parse(data_step.points);
+            self.helios_c.points = JSON.parse(data_step.points);
             sentAux = JSON.parse(data_step.points_sent);
             ack2Aux = JSON.parse(data_step.acks);
           });
           this.coefficents = coefficentsAux;
           this.sent = sentAux;
           this.ack2 = ack2Aux;
-          helios_c.ui_validator_start();
+          this.helios_c.ui_validator_start();
 
-          const loadKey = helios_c.ui_load_secret_key(helios_c.secret_key);
+          const loadKey = this.helios_c.ui_load_secret_key(this.helios_c.secret_key);
 
-          helios_c.trustee = loadKey.trustee;
-          helios_c.secret_key = loadKey.key;
+          this.helios_c.trustee = loadKey.trustee;
+          this.helios_c.secret_key = loadKey.key;
           this.checkAcksStart();
 
-          helios_c.ui_share_start(this);
+          this.helios_c.ui_share_start(this);
         });
       });
     });
   }
 
+  getSecretKey() {
+    return this.helios_c.secret_key;
+  }
+
   generateKeyPair() {
     try {
-      helios_c.trustee = helios_c.trustee_create(this.elGamalParams);
+      this.helios_c.trustee = this.helios_c.trustee_create(this.elGamalParams);
       this.setupPublicKeyAndProf();
       return true;
     } catch (e) {
@@ -461,9 +469,9 @@ export default class KeyGenerator extends Crypto {
   }
 
   setupPublicKeyAndProf() {
-    this.certificate = helios_c.trustee.generate_certificate();
+    this.certificate = this.helios_c.trustee.generate_certificate();
     this.certificateCache = this.certificate;
-    helios_c.secret_key = helios_c.trustee.get_secret_key();
+    this.helios_c.secret_key = this.helios_c.trustee.get_secret_key();
     //this.storage.setItem('key', SECRET_KEY);
   }
 
@@ -471,7 +479,7 @@ export default class KeyGenerator extends Crypto {
     var element = document.createElement("a");
     const fileContent = {
       trustee: this.trustee.name,
-      private_key: helios_c.secret_key,
+      private_key: this.helios_c.secret_key,
     };
     element.setAttribute(
       "href",
@@ -541,10 +549,10 @@ export default class KeyGenerator extends Crypto {
 
   prepareUpload() {
     var pk = {
-      g: helios_c.params.g.toString(),
-      p: helios_c.params.p.toString(),
-      q: helios_c.params.q.toString(),
-      y: helios_c.params.g.modPow(helios_c.sum, helios_c.params.p).toString(),
+      g: this.helios_c.params.g.toString(),
+      p: this.helios_c.params.p.toString(),
+      q: this.helios_c.params.q.toString(),
+      y: this.helios_c.params.g.modPow(this.helios_c.sum, this.helios_c.params.p).toString(),
     };
     const verification_key = JSON.stringify(pk);
     this.sendStep(
@@ -566,7 +574,8 @@ export default class KeyGenerator extends Crypto {
   }
 
   checkSk(key) {
-    if (key === helios_c.secret_key) {
+    console.log(key === this.helios_c.secret_key)
+    if (key === this.helios_c.secret_key) {
       this.sendPublicKey();
       this.initProcess();
     } else {

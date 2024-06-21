@@ -17,7 +17,7 @@ import { Random } from "./random";
 import { BigInt } from "./bigint";
 import { BigInteger } from "./jsbn";
 
-class Heliosc {
+export default class Heliosc {
   constructor() {
     this.params = {};
     this.certificates = {};
@@ -169,7 +169,6 @@ class Heliosc {
     if (i < this.params.l) {
       let id = i + 1;
       console.log("Decrypting point shared with trustee #" + id + "...");
-      console.log(helios_c.points)
 
       let pk = { g: this.params.g, p: this.params.p, q: this.params.q };
       pk.y = new BigInt(this.certificates[i].signature_key);

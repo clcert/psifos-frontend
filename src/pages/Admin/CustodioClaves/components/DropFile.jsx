@@ -2,14 +2,8 @@ export default function DropFile(props) {
   const checkFile = (text) => {
     try {
       const content = JSON.parse(text);
-      if (
-        content.hasOwnProperty("trustee") &&
-        content.hasOwnProperty("private_key")
-      ) {
-        return content.private_key;
-      } else {
-        return "";
-      }
+      return content;
+      
     } catch (err) {
       return "";
     }

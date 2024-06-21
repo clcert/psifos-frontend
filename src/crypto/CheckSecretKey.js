@@ -25,7 +25,7 @@ export default class CheckSecretKey extends Crypto {
   checkSk(sk) {
     if (!sk) {
       this.reactFunction('setFeedbackMessage', "Archivo de formato incorrecto.");
-      return;
+      return "Archivo de formato incorrecto."
     }
     let params = ElGamal.Params.fromJSONObject(this.elGamalParams);
     let trustee_aux = helios_c.trustee_create(params, sk);
@@ -38,8 +38,10 @@ export default class CheckSecretKey extends Crypto {
     }
     if (key_ok_p) {
       this.reactFunction('setFeedbackMessage', "Clave verificada exitosamente ✔");
+      return "Clave verificada exitosamente ✔"
     } else {
       this.reactFunction('setFeedbackMessage', "Tu clave privada está incorrecta.");
+      return "Tu clave privada está incorrecta."
     }
   }
 }
