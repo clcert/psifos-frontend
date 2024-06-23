@@ -34,9 +34,7 @@ export default class DecryptAndProve extends Crypto {
       backendOpIP +
       "/" +
       this.shortName +
-      "/trustee/" +
-      this.uuidTrustee +
-      "/decrypt-and-prove";
+      "/trustee/decrypt-and-prove";
     const response = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -54,9 +52,7 @@ export default class DecryptAndProve extends Crypto {
       backendOpIP +
       "/" +
       this.shortName +
-      "/trustee/" +
-      this.uuidTrustee +
-      "/decrypt-and-prove";
+      "/trustee/decrypt-and-prove";
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",

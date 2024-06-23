@@ -14,7 +14,7 @@ export default class CheckSecretKey extends Crypto {
   }
 
   initParams() {
-    getCheckSk(this.shortName, this.uuidTrustee).then((data) => {
+    getCheckSk(this.shortName).then((data) => {
       this.certificates = data;
     });
     getEgParams(this.shortName).then((data) => {

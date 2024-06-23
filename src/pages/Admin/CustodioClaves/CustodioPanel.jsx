@@ -109,7 +109,7 @@ export default function CustodioHome() {
   const { uuidTrustee } = useParams();
 
   useEffect(() => {
-    getTrusteePanel(uuidTrustee).then((data) => {
+    getTrusteePanel().then((data) => {
       try {
         const { resp, jsonResponse } = data;
         setLoad(true);

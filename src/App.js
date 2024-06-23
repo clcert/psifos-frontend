@@ -211,7 +211,7 @@ function App() {
         />
 
         <Route
-          path="trustee/:uuidTrustee/panel"
+          path="trustee/panel"
           element={<CustodioPanel />}
         />
 

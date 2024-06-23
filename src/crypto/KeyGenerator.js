@@ -208,9 +208,7 @@ export default class KeyGenerator extends Crypto {
       backendOpIP +
       "/" +
       this.shortName +
-      "/trustee/" +
-      this.uuidTrustee +
-      "/step-" +
+      "/trustee/step-" +
       step;
 
     const resp = await fetch(url, {
@@ -245,8 +243,6 @@ export default class KeyGenerator extends Crypto {
       "/" +
       this.shortName +
       "/trustee/" +
-      this.uuidTrustee +
-      "/" +
       step;
 
     const resp = await fetch(url, {
@@ -267,9 +263,7 @@ export default class KeyGenerator extends Crypto {
       backendOpIP +
       "/" +
       this.shortName +
-      "/trustee/" +
-      this.uuidTrustee +
-      "/get-step";
+      "/trustee/get-step";
 
     const resp = await fetch(url, {
       method: "GET",
@@ -497,9 +491,7 @@ export default class KeyGenerator extends Crypto {
       backendOpIP +
       "/" +
       this.shortName +
-      "/trustee/" +
-      this.uuidTrustee +
-      "/upload-pk";
+      "/trustee/upload-pk";
 
     const resp = await fetch(url, {
       method: "POST",
