@@ -10,12 +10,11 @@ import { getEgParams } from "../services/crypto";
 import Crypto from "./Crypto";
 
 export default class KeyGenerator extends Crypto {
-  constructor(shortName, uuidTrustee, { reactFunctions } = {}) {
+  constructor(shortName, { reactFunctions } = {}) {
     
     super({ reactFunctions });
 
     this.shortName = shortName;
-    this.uuidTrustee = uuidTrustee;
     this.actualStep = 0;
     this.trustee = {};
     this.trusteeCrypto = {};
@@ -42,7 +41,7 @@ export default class KeyGenerator extends Crypto {
   initParams() {
     sjcl.random.startCollectors();
     /** Get trustee info */
-    getTrusteeCrypto(this.shortName, this.uuidTrustee).then((data) => {
+    getTrusteeCrypto(this.shortName).then((data) => {
       const trustee = data.jsonResponse.trustee;
       const trustee_crypto = data.jsonResponse.trustee_crypto;
       this.trustee = trustee;

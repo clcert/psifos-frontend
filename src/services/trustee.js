@@ -44,7 +44,7 @@ async function getTrusteePanel() {
   return { resp: resp, jsonResponse: jsonResponse };
 }
 
-async function getTrusteeCrypto(shortName, uuidTrustee) {
+async function getTrusteeCrypto(shortName) {
   const url = backendOpIP + "/" + shortName + "/trustee/crypto";
   const resp = await fetch(url, {
     method: "GET",
