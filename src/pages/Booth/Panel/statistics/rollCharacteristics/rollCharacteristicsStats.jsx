@@ -64,9 +64,9 @@ function Stats({
     <div>
       <WeightStats
         peopleByWeight={{
-          '1': votersByWeight['8.0'],
-          '1/2': votersByWeight['4.0'],
-          '1/8': votersByWeight['1.0'],
+          '1': votersByWeight['8.0'] || 0,
+          '1/2': votersByWeight['4.0'] || 0,
+          '1/8': votersByWeight['1.0'] || 0,
         }}
       />
       {votersByGender && <GenderStats
