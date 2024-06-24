@@ -23,7 +23,12 @@ const getTrusteeStatus = (crypto) => {
   return "Llaves aun no generadas";
 };
 
-function CustodioSelector({ trusteeCrypto, index, setElectionsSelected, isDisabled}) {
+function CustodioSelector({
+  trusteeCrypto,
+  index,
+  setElectionsSelected,
+  isDisabled,
+}) {
   const handlerSelector = (e) => {
     setElectionsSelected((prev) => [...prev, e.target.value]);
   };
@@ -59,12 +64,22 @@ function NoElectionDisplay() {
   );
 }
 
+function ButtonAction({ text, onClick }) {
+  return (
+    <button
+      className="button-custom home-admin-button is-size-7-mobile button ml-2"
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  );
+}
+
 function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
   const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
 
   const prepareToSynchronize = () => {
-    console.log(electionsSelected);
     const elections = [];
     electionsSelected.forEach((shortName) => {
       const key = new KeyGenerator(shortName);
@@ -72,6 +87,10 @@ function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
       elections.push(key);
     });
     setElectionsCrypto(elections);
+  };
+
+  const resetSync = () => {
+    setElectionsCrypto([]);
   };
 
   const generateMultipleKeys = () => {
@@ -106,12 +125,15 @@ function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
   return (
     <>
       <div className="mb-4">
-        <button
-          className="button-custom home-admin-button is-size-7-mobile button ml-2"
-          onClick={prepareToSynchronize}
-        >
-          Seleccionar Elecciones
-        </button>
+        {cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && (
+          <ButtonAction
+            text="Seleccionar Elecciones"
+            onClick={prepareToSynchronize}
+          />
+        )}
+        {electionsCrypto.length > 0 && (
+          <ButtonAction text="Volver" onClick={resetSync} />
+        )}
         {electionsCrypto.length > 0 && (
           <button
             className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
@@ -153,6 +175,11 @@ function CheckSkSection({ cryptoCheckKey, setFeedbackMessage }) {
       setElectionsCrypto((prev) => [...prev, key]);
     });
   };
+
+  const resetCheckSk = () => {
+    setElectionsCrypto([]);
+  };
+
   const checkSk = (secretKeyArray) => {
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
@@ -165,12 +192,15 @@ function CheckSkSection({ cryptoCheckKey, setFeedbackMessage }) {
   return (
     <>
       <div className="mb-4">
-        <button
-          className="button-custom home-admin-button is-size-7-mobile button ml-2"
-          onClick={prepareToCheckSk}
-        >
-          Seleccionar Elecciones
-        </button>
+        {cryptoCheckKey.length > 0 && electionsCrypto.length === 0 && (
+          <ButtonAction
+            text="Seleccionar Elecciones"
+            onClick={prepareToCheckSk}
+          />
+        )}
+        {electionsCrypto.length > 0 && (
+          <ButtonAction text="Volver" onClick={resetCheckSk} />
+        )}
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={checkSk} />}
       {cryptoCheckKey.length > 0 ? (
@@ -202,6 +232,11 @@ function DecryptProveSection({ cryptoDecryptProve }) {
       setElectionsCrypto((prev) => [...prev, key]);
     });
   };
+
+  const resetDecrypt = () => {
+    setElectionsCrypto([]);
+  };
+
   const decrypt = (secretKeyArray) => {
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
@@ -213,12 +248,15 @@ function DecryptProveSection({ cryptoDecryptProve }) {
   return (
     <>
       <div className="mb-4">
-        <button
-          className="button-custom home-admin-button is-size-7-mobile button ml-2"
-          onClick={prepareToDecrypt}
-        >
-          Seleccionar Elecciones
-        </button>
+        {cryptoDecryptProve.length > 0 && electionsCrypto.length === 0 && (
+          <ButtonAction
+            text="Seleccionar Elecciones"
+            onClick={prepareToDecrypt}
+          />
+        )}
+        {electionsCrypto.length > 0 && (
+          <ButtonAction text="Volver" onClick={resetDecrypt} />
+        )}
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
       {cryptoDecryptProve.length > 0 ? (
