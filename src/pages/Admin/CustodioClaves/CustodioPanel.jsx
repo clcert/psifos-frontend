@@ -23,7 +23,7 @@ const getTrusteeStatus = (crypto) => {
   return "Llaves aun no generadas";
 };
 
-function CustodioSelector({ trusteeCrypto, index, setElectionsSelected }) {
+function CustodioSelector({ trusteeCrypto, index, setElectionsSelected, isDisabled}) {
   const handlerSelector = (e) => {
     setElectionsSelected((prev) => [...prev, e.target.value]);
   };
@@ -32,13 +32,12 @@ function CustodioSelector({ trusteeCrypto, index, setElectionsSelected }) {
     <div className="box border-style-box my-4 p-2" key={index}>
       <input
         type="checkbox"
-        id="vehicle1"
-        name="vehicle1"
         onChange={handlerSelector}
+        disabled={isDisabled}
         value={trusteeCrypto.election_short_name}
       />
-      <p>{getTrusteeStatus(trusteeCrypto)}</p>
       <h1>{trusteeCrypto.election_short_name}</h1>
+      <p>{getTrusteeStatus(trusteeCrypto)}</p>
     </div>
   );
 }
@@ -52,11 +51,20 @@ function ElectionDisplay({ trusteeCrypto }) {
   );
 }
 
+function NoElectionDisplay() {
+  return (
+    <div className="box border-style-box my-4 p-2 py-4">
+      <h1>No hay elecciones disponibles</h1>
+    </div>
+  );
+}
+
 function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
   const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
 
   const prepareToSynchronize = () => {
+    console.log(electionsSelected);
     const elections = [];
     electionsSelected.forEach((shortName) => {
       const key = new KeyGenerator(shortName);
@@ -104,25 +112,32 @@ function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
         >
           Seleccionar Elecciones
         </button>
-        <button
-          className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
-          onClick={generateMultipleKeys}
-        >
-          Generar claves
-        </button>
+        {electionsCrypto.length > 0 && (
+          <button
+            className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
+            onClick={generateMultipleKeys}
+          >
+            Generar claves
+          </button>
+        )}
       </div>
-      <DropFile setText={synchronize} />
-      {cryptoGenerateKey.map((trusteeCrypto, index) => {
-        return (
-          <CustodioSelector
-            key={index}
-            trusteeCrypto={trusteeCrypto}
-            index={index}
-            setElectionsSelected={setElectionsSelected}
-            electionsSelected={electionsSelected}
-          />
-        );
-      })}
+      {electionsCrypto.length > 0 && <DropFile setText={synchronize} />}
+      {cryptoGenerateKey.length > 0 ? (
+        cryptoGenerateKey.map((trusteeCrypto, index) => {
+          return (
+            <CustodioSelector
+              key={index}
+              trusteeCrypto={trusteeCrypto}
+              isDisabled={electionsCrypto.length > 0}
+              index={index}
+              setElectionsSelected={setElectionsSelected}
+              electionsSelected={electionsSelected}
+            />
+          );
+        })
+      ) : (
+        <NoElectionDisplay />
+      )}
     </>
   );
 }
@@ -157,17 +172,22 @@ function CheckSkSection({ cryptoCheckKey, setFeedbackMessage }) {
           Seleccionar Elecciones
         </button>
       </div>
-      <DropFile setText={checkSk} />
-      {cryptoCheckKey.map((trusteeCrypto, index) => {
-        return (
-          <CustodioSelector
-            key={index}
-            trusteeCrypto={trusteeCrypto}
-            index={index}
-            setElectionsSelected={setElectionsSelected}
-          />
-        );
-      })}
+      {electionsCrypto.length > 0 && <DropFile setText={checkSk} />}
+      {cryptoCheckKey.length > 0 ? (
+        cryptoCheckKey.map((trusteeCrypto, index) => {
+          return (
+            <CustodioSelector
+              key={index}
+              trusteeCrypto={trusteeCrypto}
+              isDisabled={electionsCrypto.length > 0}
+              index={index}
+              setElectionsSelected={setElectionsSelected}
+            />
+          );
+        })
+      ) : (
+        <NoElectionDisplay />
+      )}
     </>
   );
 }
@@ -200,17 +220,22 @@ function DecryptProveSection({ cryptoDecryptProve }) {
           Seleccionar Elecciones
         </button>
       </div>
-      <DropFile setText={decrypt} />
-      {cryptoDecryptProve.map((trusteeCrypto, index) => {
-        return (
-          <CustodioSelector
-            key={index}
-            trusteeCrypto={trusteeCrypto}
-            index={index}
-            setElectionsSelected={setElectionsSelected}
-          />
-        );
-      })}
+      {electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
+      {cryptoDecryptProve.length > 0 ? (
+        cryptoDecryptProve.map((trusteeCrypto, index) => {
+          return (
+            <CustodioSelector
+              key={index}
+              trusteeCrypto={trusteeCrypto}
+              isDisabled={electionsCrypto.length > 0}
+              index={index}
+              setElectionsSelected={setElectionsSelected}
+            />
+          );
+        })
+      ) : (
+        <NoElectionDisplay />
+      )}
     </>
   );
 }
@@ -293,7 +318,7 @@ export default function CustodioHome() {
           </div>
         </section>
 
-        <section className="section" id="medium-section">
+        <section className="section voters-section">
           <div className="container has-text-centered is-max-desktop">
             <div className="d-flex ">
               <Tabs
