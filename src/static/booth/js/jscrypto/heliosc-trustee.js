@@ -172,11 +172,11 @@ export default class Heliosc {
 
       let pk = { g: this.params.g, p: this.params.p, q: this.params.q };
       pk.y = new BigInt(this.certificates[i].signature_key);
-      let point = this.trustee.decrypt_point(id, pk, helios_c.points[i]);
+      let point = this.trustee.decrypt_point(id, pk, this.cont.helios_c.points[i]);
       if (point) {
         this.sum = this.sum.add(point).mod(pk.q);
 
-        this.ui_share_trustee(i + 1, helios_c.points);
+        this.ui_share_trustee(i + 1, this.cont.helios_c.points);
       } else {
         console.log("Point from trustee #" + id + " is not properly signed!");
       }

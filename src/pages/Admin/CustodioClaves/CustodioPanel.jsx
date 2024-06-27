@@ -75,14 +75,34 @@ function ButtonAction({ text, onClick }) {
   );
 }
 
-function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
+function SynchronizeSection({
+  cryptoGenerateKey,
+  setCryptoGenerateKey,
+  initPanel,
+}) {
   const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
+  const [feedback, setFeedback] = useState([]);
+
+  const setSteps = (index, value) => {
+    setFeedback((prev) => {
+      const newFeedback = [...prev]; // Crear una nueva copia del estado anterior
+      newFeedback[index] = value; // Actualizar la copia
+      return newFeedback; // Retornar la nueva copia
+    });
+    if (value === 'Generación de claves completada con éxito') {
+      setCryptoGenerateKey((prev) => {
+        const newCrypto = [...prev];
+        newCrypto[index] = null;
+        return newCrypto;
+      });
+    }
+  };
 
   const prepareToSynchronize = () => {
     const elections = [];
-    electionsSelected.forEach((shortName) => {
-      const key = new KeyGenerator(shortName);
+    electionsSelected.forEach((shortName, index) => {
+      const key = new KeyGenerator(shortName, index, setSteps);
       key.initParams();
       elections.push(key);
     });
@@ -101,6 +121,7 @@ function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
         election_name: electionCrypto.shortName,
         secret_key: electionCrypto.getSecretKey(),
       });
+      setSteps(electionCrypto.index, " - Clave generada");
     });
     var element = document.createElement("a");
     element.setAttribute(
@@ -143,10 +164,22 @@ function SynchronizeSection({ cryptoGenerateKey, initPanel }) {
           </button>
         )}
       </div>
+
       {electionsCrypto.length > 0 && <DropFile setText={synchronize} />}
+      <div class="my-4">
+        {feedback.map((value, index) => {
+          return (
+            <div key={index}>
+              <h3>
+                {electionsCrypto[index].shortName} {value}
+              </h3>
+            </div>
+          );
+        })}
+      </div>
       {cryptoGenerateKey.length > 0 ? (
         cryptoGenerateKey.map((trusteeCrypto, index) => {
-          return (
+          return trusteeCrypto && (
             <CustodioSelector
               key={index}
               trusteeCrypto={trusteeCrypto}
@@ -376,6 +409,7 @@ export default function CustodioHome() {
               <div>
                 <SynchronizeSection
                   cryptoGenerateKey={cryptoGenerateKey}
+                  setCryptoGenerateKey={setCryptoGenerateKey}
                   initPanel={initPanel}
                 />
               </div>
