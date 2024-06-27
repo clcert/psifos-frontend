@@ -90,7 +90,7 @@ function SynchronizeSection({
       newFeedback[index] = value; // Actualizar la copia
       return newFeedback; // Retornar la nueva copia
     });
-    if (value === 'Generación de claves completada con éxito') {
+    if (value === "Generación de claves completada con éxito") {
       setCryptoGenerateKey((prev) => {
         const newCrypto = [...prev];
         newCrypto[index] = null;
@@ -179,15 +179,17 @@ function SynchronizeSection({
       </div>
       {cryptoGenerateKey.length > 0 ? (
         cryptoGenerateKey.map((trusteeCrypto, index) => {
-          return trusteeCrypto && (
-            <CustodioSelector
-              key={index}
-              trusteeCrypto={trusteeCrypto}
-              isDisabled={electionsCrypto.length > 0}
-              index={index}
-              setElectionsSelected={setElectionsSelected}
-              electionsSelected={electionsSelected}
-            />
+          return (
+            trusteeCrypto && (
+              <CustodioSelector
+                key={index}
+                trusteeCrypto={trusteeCrypto}
+                isDisabled={electionsCrypto.length > 0}
+                index={index}
+                setElectionsSelected={setElectionsSelected}
+                electionsSelected={electionsSelected}
+              />
+            )
           );
         })
       ) : (
@@ -197,9 +199,10 @@ function SynchronizeSection({
   );
 }
 
-function CheckSkSection({ cryptoCheckKey, setFeedbackMessage }) {
+function CheckSkSection({ cryptoCheckKey }) {
   const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
+  const [feedback, setFeedback] = useState([]);
 
   const prepareToCheckSk = () => {
     electionsSelected.forEach((shortName) => {
@@ -214,12 +217,13 @@ function CheckSkSection({ cryptoCheckKey, setFeedbackMessage }) {
   };
 
   const checkSk = (secretKeyArray) => {
+    setFeedback([]);
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
         (secretKey) => secretKey.election_name === electionCrypto.shortName
       );
-      const message = electionCrypto.checkSk(secretKey.secret_key);
-      setFeedbackMessage((prev) => [...prev, message]);
+      const message = `${electionCrypto.shortName}: ${electionCrypto.checkSk(secretKey.secret_key)}`;
+      setFeedback((prev) => [...prev, message]);
     });
   };
   return (
@@ -236,6 +240,13 @@ function CheckSkSection({ cryptoCheckKey, setFeedbackMessage }) {
         )}
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={checkSk} />}
+      {feedback.length > 0 && (
+        <div className="mt-4">
+          {feedback.map((message, index) => {
+            return <h3 key={index}>{message}</h3>;
+          })}
+        </div>
+      )}
       {cryptoCheckKey.length > 0 ? (
         cryptoCheckKey.map((trusteeCrypto, index) => {
           return (
@@ -324,8 +335,6 @@ export default function CustodioHome() {
   const [cryptoCheckKey, setCryptoCheckKey] = useState([]);
   const [cryptoDecryptProve, setCryptoDecryptProve] = useState([]);
 
-  const [feedbackMessage, setFeedbackMessage] = useState([]);
-
   const tabs = [
     "General",
     "Sincronización",
@@ -397,13 +406,6 @@ export default function CustodioHome() {
                 setActualTab={setActualTab}
                 tabs={tabs}
               />
-              {feedbackMessage.length > 0 && (
-                <div className="mt-4">
-                  {feedbackMessage.map((message, index) => {
-                    return <p key={index}>{message}</p>;
-                  })}
-                </div>
-              )}
             </div>
             {actualTab === 1 && (
               <div>
@@ -416,10 +418,7 @@ export default function CustodioHome() {
             )}
             {actualTab === 2 && (
               <div>
-                <CheckSkSection
-                  cryptoCheckKey={cryptoCheckKey}
-                  setFeedbackMessage={setFeedbackMessage}
-                />
+                <CheckSkSection cryptoCheckKey={cryptoCheckKey} />
               </div>
             )}
             {actualTab === 3 && (
