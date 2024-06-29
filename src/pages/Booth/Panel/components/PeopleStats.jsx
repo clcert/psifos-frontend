@@ -1,9 +1,11 @@
 import Statistic from "../statistics/components/statistic"
 
-export function WeightStats({ peopleByWeight }) {
+export function WeightStats({
+  peopleByWeight, groupName,
+}) {
     return (
       <Statistic
-          title="Ponderaciones"
+          title={!groupName ? "Ponderaciones" : `Ponderaciones en ${groupName.toLowerCase()}`}
           pieChartData={peopleByWeight}
           tableData={
             {
@@ -25,10 +27,10 @@ export function GenderStats({ peopleByGender }) {
     )
 }
 
-export function JobsStats({ peopleByJob }) {
+export function GroupStats({ peopleByJob }) {
     return (
       <Statistic
-        title="Rol"
+        title="Grupos"
         pieChartData={peopleByJob}
         tableData={peopleByJob}
       />

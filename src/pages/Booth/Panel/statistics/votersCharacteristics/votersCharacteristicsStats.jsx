@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { WeightStats, GenderStats, JobsStats } from "../../components/PeopleStats"
+import { WeightStats, GenderStats, GroupStats } from "../../components/PeopleStats"
 import SimpleHorizontalTable from "../../../../../component/Tables/HorizontalTable"
 import ClassicSelector from "../../../../../component/Selectors/classicSelector"
 import { isOpenLoginElection } from "../../../../../utils"
@@ -61,7 +61,6 @@ function Header({
 function Stats({
   votersByWeight, votersByGender, votersByJob,
 }) {
-  console.log('aq',votersByWeight)
   return (
     <div>
       <WeightStats
@@ -78,7 +77,7 @@ function Stats({
           'Otro': votersByGender['other'],
         }}
       />}
-      {votersByJob && <JobsStats
+      {votersByJob && <GroupStats
         peopleByJob={{
           'Estudiantes': votersByJob['student'],
           'Funcionarios': votersByJob['worker'],

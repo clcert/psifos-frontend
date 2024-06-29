@@ -1,22 +1,17 @@
 import { useState } from "react"
-import { WeightStats, GenderStats, JobsStats } from "../../components/PeopleStats"
+import { WeightStats, GenderStats, GroupStats } from "../../components/PeopleStats"
 import SimpleHorizontalTable from "../../../../../component/Tables/HorizontalTable"
 import ClassicSelector from "../../../../../component/Selectors/classicSelector"
+import {
+  getGroupNamesObj, getDataPerGroup, getVotersByGroup,
+} from "../utils"
 
-const getGroupNames = (votersByWeightPerGroup) => votersByWeightPerGroup.reduce(
-  (acc, groupData, id) => {
-    return {
-      ...acc, [id]: groupData.group
-    }
-  }, {}
-)
-
-function NumOfVoters({numOfVoters}) {
+function NumOfVoters({ groupName, numOfVoters }) {
   return (
     <div>
       <SimpleHorizontalTable
         contentPerRow={[{
-          header: "Personas en el padrón",
+          header: `Personas en ${groupName.toLowerCase()}`,
           value: numOfVoters,
         }]}
       />
@@ -40,34 +35,40 @@ function Selector({
 }
 
 function Header({
-  grouped, totalVoters,
+  groupedElection, totalVoters,
   handleSelector, selectedGroup, selectorOptions,
 }) {
   return (
     <div className="statistic-header-container">
       <NumOfVoters
+        groupName={selectorOptions[selectedGroup]}
         numOfVoters={totalVoters}
       />
-      {/*grouped && <Selector
+      {groupedElection && <Selector
         handleChange={handleSelector}
         selectedValue={selectedGroup}
         options={selectorOptions}
-      */}
+      />}
     </div>
   )
 }
 
 function Stats({
-  votersByWeight, votersByGender, votersByJob,
+  votersByWeight, votersByGender, votersByGroup, groupName,
 }) {
+  console.log('votersByGroup', votersByGroup)
   return (
     <div>
+      {votersByGroup && <GroupStats
+        peopleByJob={votersByGroup}
+      />}
       <WeightStats
         peopleByWeight={{
           '1': votersByWeight['8.0'] || 0,
           '1/2': votersByWeight['4.0'] || 0,
           '1/8': votersByWeight['1.0'] || 0,
         }}
+        groupName={groupName}
       />
       {votersByGender && <GenderStats
         peopleByGender={{
@@ -76,45 +77,65 @@ function Stats({
           'Otro': votersByGender['other'],
         }}
       />}
-      {votersByJob && <JobsStats
-        peopleByJob={{
-          'Estudiantes': votersByJob['student'],
-          'Funcionarios': votersByJob['worker'],
-          'Académicos': votersByJob['professor'],
-        }}
-      />} 
+    </div>
+  )
+}
+
+function FullStats ({
+  groupedElection, dataPerGroup
+}) {
+  const [selectedIdGroup, setSelectedIdGroup] = useState("1")
+  const showingRollGroup = selectedIdGroup === "1" 
+
+  // Contains the roll group
+  const votersByGroup = getVotersByGroup(dataPerGroup)
+  const groupNamesObj = getGroupNamesObj(Object.keys(dataPerGroup))
+  const selectedGroupName = groupNamesObj[selectedIdGroup]
+  const selectedGroupData = dataPerGroup[selectedGroupName]
+
+  return (
+    <div>
+      <Header
+        groupedElection={groupedElection}
+        totalVoters={selectedGroupData.voters}
+        handleSelector={setSelectedIdGroup}
+        selectedGroup={selectedIdGroup}
+        selectorOptions={groupNamesObj}
+      />
+      <Stats
+        votersByWeight={selectedGroupData.weights}
+        votersByGender={false}
+        votersByGroup={
+          groupedElection && showingRollGroup && (
+            Object.fromEntries(
+              Object.entries(votersByGroup).slice(1)
+            )
+          )
+        }
+        groupName={!showingRollGroup && selectedGroupName}
+      />
     </div>
   )
 }
 
 export default function RollCharacteristicsStats({ election }) {
-  const [selectedGroup, setSelectedGroup] = useState("1")
   const {
-    grouped,
+    grouped: groupedElection,
     voters_by_weight_init: votersCharString,
     total_voters: totalVoters,
   } = election
 
   const votersChar = JSON.parse(votersCharString)
   const {
-    voters_by_weight_init: votersByWeight,
+    voters_by_weight_init: votersByWeightInit,
     voters_by_weight_init_grouped: votersByWeightPerGroup,
   } = votersChar
+
+  const dataPerGroup = getDataPerGroup(votersByWeightPerGroup)
   return(
-    <div>
-      <Header
-        grouped={grouped}
-        totalVoters={totalVoters}
-        handleSelector={setSelectedGroup}
-        selectedGroup={selectedGroup}
-        selectorOptions={getGroupNames(votersByWeightPerGroup)}
-      />
-      <Stats
-        votersByWeight={votersByWeight}
-        election={election}
-        votersByGender={false}
-        votersByJob={false}
-      />
-    </div>
+    <FullStats
+      dataPerGroup={dataPerGroup}
+      groupedElection={groupedElection}
+    />
   )
 }
