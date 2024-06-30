@@ -1,6 +1,6 @@
 import { sumIntoArray } from "../../../../utils"
 
-const ROLL_GROUP = "Padrón"
+export const ROLL_GROUP = "Padrón"
 
 export const getDataPerGroup = (votersByWeightPerGroup) => votersByWeightPerGroup.reduce((acc, data) => {
     const votersInGroup = sumIntoArray(Object.values(data.weights))
@@ -28,19 +28,3 @@ export const getDataPerGroup = (votersByWeightPerGroup) => votersByWeightPerGrou
         },
     }
   })
-
-export const getGroupNamesObj = (groupsNames) => groupsNames.reduce(
-    (acc, groupName, id) => {
-      return {
-        ...acc, [id+1]: groupName
-      }
-    }, {}
-  )
-
-export const getVotersByGroup = (dataPerGroup) => Object.entries(dataPerGroup).reduce(
-    (acc, [group, groupData]) => {
-      return {
-        ...acc, [group]: groupData.voters
-      }
-    }, {}
-  )
