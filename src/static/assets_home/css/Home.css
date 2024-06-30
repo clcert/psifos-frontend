@@ -13512,21 +13512,35 @@ Consult
   justify-content: center;
 }
 
+.statistic-container {
+  width: 100%;
+  margin-bottom: 3%;
+}
+
 .statistic-content-container {
   display: flex;
   column-gap: 5px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .statistic-pie-chart-container {
-  flex-grow: 1;
-  height: 120px;
-  min-width: 300px;
+  position: relative !important;
+  min-width: 260px;
+  overflow: hidden;
+  margin: 5px;
+  padding: 0;
+  height: 100px !important;
+  display: flex;
+  align-items: center;
+
+  .echarts-for-react {
+    width: 100%;
+  }
 }
 
 .statistic-table-container {
   flex-grow: 1;
-  min-width: 300px;
 }
 
 .statistic-header-container {

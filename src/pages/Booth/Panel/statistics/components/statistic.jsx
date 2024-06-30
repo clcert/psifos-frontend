@@ -15,7 +15,7 @@ export default function Statistic({
     title, pieChartData, tableData,
 }) {
     return (
-      <div className="box" style={{width: '100%'}}>
+      <div className="box statistic-container">
         <SectionTitle
           title={title}
         />
@@ -24,13 +24,14 @@ export default function Statistic({
             <PieChart
               data={pieChartData}
               legendPosition={{
-                left: '40%',
-                top: '10%',
-                align: 'left',
-                center: ['20%', '20%'],
+                right: 'right',
+                top: 'center'
               }}
               chartPosition={{
-                center: ['15%', '23%'],
+                center: ['15%', '50%'],
+              }}
+              mediaChartPosition={{
+                center: ['50%', '50%'],
               }}
             />
           </div>

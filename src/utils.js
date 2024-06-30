@@ -38,3 +38,7 @@ export const roundNumber = (originalNum, round) => {
     }
     return originalNum
 }
+
+export const sumIntoArray = (arr) => arr.reduce((acc, num) => {
+    return num + acc
+  }, 0)
