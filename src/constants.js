@@ -72,8 +72,8 @@ export const electionStatus = {
 
 export const electionStatusTranslate = {
   "Setting up": "En configuración",
-  Started: "Iniciada",
-  Ended: "Finalizada",
+  "Started": "Iniciada",
+  "Ended": "Finalizada",
   "Computing Tally": "Computando tally",
   "Tally computed": "Tally computado",
   "Decryptions uploaded": "Desencriptaciones subidas",

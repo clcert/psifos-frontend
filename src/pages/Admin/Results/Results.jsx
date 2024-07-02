@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getElectionPublic } from "../../../services/election";
-import NotAvalaibleMessage from "../../Booth/components/NotAvalaibleMessage";
+import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage";
 import { electionStatus } from "../../../constants";
 import CalculatedResults from "./CalculatedResults";
 import { parseResult } from "./parseResult";
