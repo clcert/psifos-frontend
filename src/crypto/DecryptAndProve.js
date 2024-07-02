@@ -4,11 +4,12 @@ import Crypto from "./Crypto";
 import { getEgParams } from "../services/crypto";
 
 export default class DecryptAndProve extends Crypto {
-  constructor(shortName, uuidTrustee, { reactFunctions } = {}) {
+  constructor(shortName, index, setFeedbacks, { reactFunctions } = {}) {
     super({ reactFunctions });
 
     this.shortName = shortName;
-    this.uuidTrustee = uuidTrustee;
+    this.setFeedbacks = setFeedbacks;
+    this.index = index;
 
     this.params = null;
     this.certificates = null;
@@ -48,6 +49,7 @@ export default class DecryptAndProve extends Crypto {
 
   async sendDecrypt(descriptions) {
     this.reactFunction("setFeedbackMessage", "Enviando información...");
+    this.setFeedbacks(this.index, "Enviando información...");
     const url =
       backendOpIP +
       "/" +
@@ -66,12 +68,17 @@ export default class DecryptAndProve extends Crypto {
         "setFeedbackMessage",
         "Desencriptación Parcial Completada ✓"
       );
+      this.setFeedbacks(this.index, "Desencriptación Parcial Completada ✓");
       this.reactFunction("setActualStep", 2);
       const jsonResponse = await response.json();
       return jsonResponse;
     } else {
       this.reactFunction(
         "setFeedbackMessage",
+        "Error al enviar información, intente nuevamente"
+      );
+      this.setFeedbacks(
+        this.index,
         "Error al enviar información, intente nuevamente"
       );
       this.reactFunction("setActualStep", 0);
@@ -167,6 +174,7 @@ export default class DecryptAndProve extends Crypto {
             "setFeedbackMessage",
             "Formato de archivo incorrecto"
           );
+          this.setFeedbacks(this.index, "Formato de archivo incorrecto");
           this.reactFunction("setActualStep", 0);
           return;
         }

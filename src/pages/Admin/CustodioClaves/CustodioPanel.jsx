@@ -269,10 +269,19 @@ function CheckSkSection({ cryptoCheckKey }) {
 function DecryptProveSection({ cryptoDecryptProve }) {
   const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
+  const [feedback, setFeedback] = useState([]);
+
+  const setFeedbacks = (index, value) => {
+    setFeedback((prev) => {
+      const newFeedback = [...prev]; // Crear una nueva copia del estado anterior
+      newFeedback[index] = value; // Actualizar la copia
+      return newFeedback; // Retornar la nueva copia
+    });
+  };
 
   const prepareToDecrypt = () => {
-    electionsSelected.forEach((shortName) => {
-      const key = new DecryptAndProve(shortName);
+    electionsSelected.forEach((shortName, index) => {
+      const key = new DecryptAndProve(shortName, index, setFeedbacks);
       setElectionsCrypto((prev) => [...prev, key]);
     });
   };
@@ -303,6 +312,17 @@ function DecryptProveSection({ cryptoDecryptProve }) {
         )}
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
+      <div class="my-4">
+        {feedback.map((value, index) => {
+          return (
+            <div key={index}>
+              <h3>
+                {electionsCrypto[index].shortName} {value}
+              </h3>
+            </div>
+          );
+        })}
+      </div>  
       {cryptoDecryptProve.length > 0 ? (
         cryptoDecryptProve.map((trusteeCrypto, index) => {
           return (

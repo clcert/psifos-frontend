@@ -394,7 +394,7 @@ export default class KeyGenerator extends Crypto {
             self.helios_c.params.trustee_id = trusteeCryptoAux.trustee_election_id;
             self.helios_c.certificates = JSON.parse(data_step.certificates);
             coefficentsAux = JSON.parse(data_step.coefficients);
-            helios_c.points = JSON.parse(data_step.points);
+            self.helios_c.points = JSON.parse(data_step.points);
           });
           this.coefficents = coefficentsAux;
           this.helios_c.ui_validator_start();
@@ -573,9 +573,9 @@ export default class KeyGenerator extends Crypto {
   }
 
   checkSk(key) {
-    console.log(key === this.helios_c.secret_key)
+    this.helios_c.secret_key = key;
     if (key === this.helios_c.secret_key) {
-      this.sendPublicKey();
+      if(this.trusteeCrypto.current_step === 0) this.sendPublicKey();
       this.initProcess();
     } else {
       this.reactFunction('setProcessFeedback', "Archivo incorrecto, inténtelo nuevamente");
