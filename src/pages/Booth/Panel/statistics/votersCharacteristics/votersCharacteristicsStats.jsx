@@ -1,6 +1,6 @@
 import SimpleHorizontalTable from "../../../../../component/Tables/HorizontalTable"
 import { isOpenLoginElection } from "../../../../../utils"
-import { getDataPerGroup } from "../utils"
+import { getDataPerGroup, ROLL_GROUP } from "../utils"
 import { PeopleStats } from "../components/PeopleStats"
 
 function NumOfVoters({numOfVoters}) {
@@ -45,14 +45,14 @@ export default function VotersCharacteristicsStats({ loginType, election }) {
       dataPerGroup={dataPerGroup}
       groupedElection={groupedElection}
       getCountTitle={
-        (groupName) => groupName
+        (groupName) => groupName && groupName !== ROLL_GROUP
         ? `Votantes en ${groupName.toLowerCase()}`
         : "Votantes"
       }
       groupsTitle="Votantes por grupo"
       gendersTitle="Géneros"
       getWeightsTitle={
-        (groupName) => groupName
+        (groupName) => groupName && groupName !== ROLL_GROUP
         ? `Ponderaciones en ${groupName.toLowerCase()}`
         : "Ponderaciones entre los votantes"
       }
