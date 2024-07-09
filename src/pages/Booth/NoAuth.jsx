@@ -3,8 +3,18 @@ import TitlePsifos from "../../component/OthersComponents/TitlePsifos";
 import { InfoChannels } from "../../component/ShortNavBar/ModalHelp";
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function NoAuth({ addressLogout, title, message }) {
+  useEffect(() => {
+    (function(w, d, s, u) {
+      w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+      var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+      j.async = true; j.src = 'https://chat.labs.clcert.cl/livechat/rocketchat-livechat.min.js?_=201903270000';
+      h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.labs.clcert.cl/livechat');
+  }, [])
+
   return (
     <div id="content" className="parallax-01">
       <section className="parallax hero is-medium">
