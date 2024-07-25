@@ -63,7 +63,7 @@ function PsifosTable({ data, election }) {
                   key={`row${indexRow}`}
                   content={election.normalization && indexRow === 1
                     ? parseFloat((fila[row] / election.max_weight)).toString().replace(".", ",")
-                    : fila[row]}
+                    : (indexRow === 2 ? fila[row].replace(".", ",") : fila[row])}
                 />
               ))}
             </tr>
