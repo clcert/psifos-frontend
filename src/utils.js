@@ -2,6 +2,8 @@ import { gradientPalettes } from "./colors";
 
 export const isOpenLoginElection = (loginType) => loginType === "Open"
 
+export const isSemiPublicLoginElection = (loginType) => loginType === "Semi Public"
+
 export const isSettingUpElection = (status) => status === "Setting up"
 
 export const isStartedElection = (status) => status === "Started"

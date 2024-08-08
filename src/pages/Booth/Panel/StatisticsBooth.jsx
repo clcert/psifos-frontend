@@ -6,6 +6,14 @@ import Participation from "./statistics/participation/participation";
 // import VotersCharacteristics from "./statistics/votersCharacteristics/votersCharacteristics";
 import VotesByTime from "./statistics/votesByTime/votesByTime";
 import { requestElectionPublic } from "./statistics/components/client";
+import {
+  isOpenLoginElection, isSemiPublicLoginElection,
+} from "../../../utils";
+
+const showCompleatStatistic = (loginType) => (
+  !isOpenLoginElection(loginType)
+  && !isSemiPublicLoginElection(loginType)
+)
 
 function StatisticsBooth() {
   const [actualTab, setActualTab] = useState(0);
@@ -36,10 +44,19 @@ function StatisticsBooth() {
       election={election}
     />,
   }
-  const tabsNames = Object.keys(tabsAndComponents)
+
+  let tabsNames = Object.keys(tabsAndComponents)
+  console.log(election && showCompleatStatistic(election.election_login_type))
+  if (election && !showCompleatStatistic(election.election_login_type)) {
+    tabsNames = tabsNames.filter((name) => (
+      name !== "Caracterización del padrón"
+      && name !== "Caracterización de los votos recibidos"
+    ))
+    console.log('aber')
+  }
 
   return (
-    <div className="chart-container">
+    election && <div className="chart-container">
       <Tabs
         actualTab={actualTab}
         setActualTab={setActualTab}
