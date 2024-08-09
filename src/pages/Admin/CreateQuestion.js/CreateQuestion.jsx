@@ -41,7 +41,8 @@ function CreateQuestion(props) {
 
   const initComponent = useCallback((election) => {
     if (election.questions !== null) {
-      setQuestions(JSON.parse(election.questions));
+      const processedQuestions = processQuestions(election.questions);
+      setQuestion(processedQuestions);
     }
     setDisabledEdit(election.election_status !== electionStatus.settingUp);
   }, []);
@@ -62,15 +63,13 @@ function CreateQuestion(props) {
      * add new question to array allowing rendering
      */
     let questionAux = question.concat({
-      key: questionCantidad,
-      q_type: "closed_question",
+      q_num: questionCantidad,
+      q_type: "CLOSED",
       q_text: "",
       q_description: "",
       total_options: 0,
       total_closed_options: 0,
       closed_options: [],
-      open_option_max_size: 50,
-      total_open_options: 0,
       num_of_winners: 1,
       min_answers: 1,
       max_answers: 1,
@@ -82,52 +81,32 @@ function CreateQuestion(props) {
     setQuestionCantidad(questionCantidad + 1);
   }
 
-  function setQuestions(questions) {
-    /**
-     * add keys to the question
-     * @param {object} question
-     * @returns {object} question with keys
-     */
-    questions.forEach((question, index) => {
-      question.key = index;
-      question.q_type = question.q_type ? question.q_type : "closed_question";
-      question.q_text = question.q_text ? question.q_text : "";
-      question.q_description = question.q_description
-        ? question.q_description
-        : "";
-      question.total_options = question.total_options
-        ? question.total_options
-        : 3;
-      question.total_closed_options = question.total_closed_options
-        ? question.total_closed_options
-        : 2;
-      question.closed_options = question.closed_options
-        ? question.closed_options
-        : [];
-      question.open_option_max_size = question.open_option_max_size
-        ? question.open_option_max_size
-        : 50;
-      question.total_open_options = question.total_open_options
-        ? question.total_open_options
-        : 1;
-      question.num_of_winners = question.num_of_winners || 1;
-      question.min_answers = question.min_answers || 1;
-      question.max_answers = question.max_answers || 1;
-      question.include_blank_null =
-        question.include_blank_null === "True" ? true : false;
-      question.group_votes = question.group_votes === "True" ? true : false;
-    });
-    setQuestion(questions);
-  }
+  const processQuestions = (questions) => {
+    return questions.map((question, index) => ({
+      ...question, // Copia todas las propiedades de la pregunta original
+      q_num: index,
+      q_type: question.q_type || "CLOSED",
+      q_text: question.q_text || "",
+      q_description: question.q_description || "",
+      total_options: question.total_options || 3,
+      total_closed_options: question.total_closed_options || 2,
+      closed_options: JSON.parse(question.closed_options) || [],
+      num_of_winners: question.num_of_winners || 1,
+      min_answers: question.min_answers || 1,
+      max_answers: question.max_answers || 1,
+      include_blank_null: question.include_blank_null === "True" ? true : false,
+      group_votes: question.group_votes === "True" ? true : false,
+    }));
+  };
 
-  function removeQuestion(key) {
+  function removeQuestion(q_num) {
     /**
      * remove a question from array
-     * @param {number} key
+     * @param {number} q_num
      */
     let newQuestion = [];
     for (let i = 0; i < question.length; i++) {
-      if (question[i].key !== key) {
+      if (question[i].q_num !== q_num) {
         newQuestion.push(question[i]);
       }
     }
@@ -144,7 +123,7 @@ function CreateQuestion(props) {
     newValue.total_options = newValue.closed_options.length;
     let auxQuestion = [...question];
     for (let i = 0; i < auxQuestion.length; i++) {
-      if (auxQuestion[i].key === key) {
+      if (auxQuestion[i].q_num === key) {
         auxQuestion[i] = newValue;
       }
       setQuestion(auxQuestion);
@@ -249,11 +228,11 @@ function CreateQuestion(props) {
                 key={index}
                 election={election}
                 disabledEdit={disabledEdit}
-                questionId={item.key}
+                questionId={item.q_num}
                 question={item}
                 updateQuestions={updateQuestions}
                 remove={() => {
-                  removeQuestion(item.key);
+                  removeQuestion(item.q_num);
                 }}
                 checkOptions={(state) => {
                   setOptionsChecked(state);

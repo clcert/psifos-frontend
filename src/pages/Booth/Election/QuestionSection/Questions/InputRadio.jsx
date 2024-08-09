@@ -38,8 +38,9 @@ function InputRadio({
   question,
   questionId,
 }) {
-  const { include_blank_null, closed_options } = question;
+  const { include_blank_null } = question;
   const includeInformalAns = include_blank_null === "True";
+  const closed_options = JSON.parse(question.closed_options);
 
   let answers = useSelector((state) => state.booth.answers)[questionId];
   answers = answers ? answers : [];

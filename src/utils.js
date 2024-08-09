@@ -6,11 +6,11 @@ export const isSettingUpElection = (status) => status === "Setting up"
 
 export const isStartedElection = (status) => status === "Started"
 
-export const isMixNetQuestion = (q) => q === "mixnet_question";
+export const isMixNetQuestion = (q) => q === "MIXNET";
 
-export const isClosedQuestion = (q) => q === "closed_question";
+export const isClosedQuestion = (q) => q === "CLOSED";
 
-export const isSTVQuestion = (q) => q === "stvnc_question";
+export const isSTVQuestion = (q) => q === "STVNC";
 
 export const usesMixNetTally = (q) => isMixNetQuestion(q) || isSTVQuestion(q);
 

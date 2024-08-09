@@ -25,13 +25,13 @@ import { setAnswers } from "../../../../store/slices/boothSlice.js";
 const getDefaultAnswer = (currentQuestion) => {
   const getEmptyArray = (_) => [];
   const defaultAnswer = {
-    stvnc_question: (actualQuestion) => {
+    STVNC: (actualQuestion) => {
       return actualQuestion.closed_options.reduce((accumulator, _, index) => {
         return [...accumulator, index];
       }, []);
     },
-    mixnet_question: getEmptyArray,
-    closed_question: getEmptyArray,
+    MIXNET: getEmptyArray,
+    CLOSED: getEmptyArray,
   };
   return defaultAnswer[currentQuestion.q_type](currentQuestion);
 };
@@ -51,7 +51,6 @@ function QuestionSelectionBox({
     question: question,
     election: election,
   };
-
   return (
     <div key={index} style={{ display: "block" }}>
       {showAlert && <AlertQuestions message={messageAlert} />}

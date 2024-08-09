@@ -5,6 +5,8 @@ function InputCheckbox(props) {
   answers = answers ? answers : [];
   const includeBlankNull = props.question.include_blank_null === "True";
 
+  const closed_options = JSON.parse(props.question.closed_options);
+
   const disabledCondition = (index) => {
     return (
       parseInt(props.question.max_answers) === answers.length &&
@@ -16,7 +18,7 @@ function InputCheckbox(props) {
     let value = parseInt(event.target.value);
     let answersAux = [...answers];
 
-    const questionsLength = props.question.closed_options.length;
+    const questionsLength = closed_options.length;
     if (
       includeBlankNull &&
       (answersAux.includes(questionsLength - 2) ||
@@ -35,7 +37,7 @@ function InputCheckbox(props) {
 
   return (
     <div>
-      {props.question.closed_options.map((key, index) => {
+      {closed_options.map((key, index) => {
         if (
           !includeBlankNull ||
           index < props.question.closed_options.length - 2

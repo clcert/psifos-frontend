@@ -12,10 +12,10 @@ class EncryptedAnswerFactory {
 
   create(type, question, answer, pk, progress) {
     const question_types = {
-      "open_question": EncryptedOpenAnswer,
-      "closed_question": EncryptedCloseAnswer,
-      "mixnet_question": EncryptedMixnetAnswer,
-      "stvnc_question": EncryptedStvncAnswer,
+      "OPEN": EncryptedOpenAnswer,
+      "CLOSED": EncryptedCloseAnswer,
+      "MIXNET": EncryptedMixnetAnswer,
+      "STVNC": EncryptedStvncAnswer,
     }
     if (Object.keys(question_types).includes(type)) {
       return new question_types[type](question, answer, pk, progress);
