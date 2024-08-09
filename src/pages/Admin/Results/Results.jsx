@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getElectionPublic } from "../../../services/election";
-import NotAvalaibleMessage from "../../Booth/components/NotAvalaibleMessage";
+import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage";
 import { electionStatus } from "../../../constants";
 import CalculatedResults from "./CalculatedResults";
 import { parseResult } from "./parseResult";
@@ -116,7 +116,8 @@ function Results({ isAdmin = false }) {
     const result = groupedResults.find((element) => {
       return element.group === group;
     });
-    handleGroupResults(questions, result);
+
+     if(result) handleGroupResults(questions, result);
   }, [group, groupedResults, questions]);
 
   useEffect(() => {

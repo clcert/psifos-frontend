@@ -71,11 +71,11 @@ function UploadModal(props) {
               <h1 className="title">Subir Votantes</h1>
               <div className="field">
                 <label className="label label-form-election">
-                  Suba el archivo csv..
+                  Suba el archivo csv
                 </label>
                 <div className="control">
                   <input
-                    className="input input-calendar"
+                    className="input"
                     type="file"
                     id="fileinput"
                     placeholder="Fecha de inicio"

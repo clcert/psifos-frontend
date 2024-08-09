@@ -91,7 +91,7 @@ function ValidatedVote(props) {
   }
 
   function exit() {
-    window.location.href = frontIP;
+    window.location.href = "https://participa.uchile.cl";
   }
 
   return (

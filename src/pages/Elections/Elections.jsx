@@ -46,7 +46,7 @@ function Elections () {
           </div>
         </div>
       </section>
-      <FooterParticipa message="Participa UChile - 2023 - Universidad de Chile" />
+      <FooterParticipa message="SEGURIDAD ∙ TRANSPARENCIA ∙ VERIFICACIÓN" />
       <section className="hero">
         <div className="hero-body bottom-hero py-4"></div>
       </section>

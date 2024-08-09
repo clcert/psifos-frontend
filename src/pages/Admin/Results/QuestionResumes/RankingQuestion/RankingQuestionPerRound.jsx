@@ -8,10 +8,12 @@ function RoundChart({
     const visualMapRankingChart = {
       orient: 'horizontal',
       left: 'center',
+      min: Math.min(...values),
+      max: Math.max(...values),
       text: ['Mayor puntaje', 'Menor puntaje'],
       dimension: 0,
       inRange: {
-          color: ['#0E4B90', '#068FCF', '#39D0FF']
+        color: ['#0E4B90', '#068FCF', '#39D0FF']
       }
     }
     return (

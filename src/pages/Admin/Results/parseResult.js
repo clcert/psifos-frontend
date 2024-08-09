@@ -42,7 +42,8 @@ const parseRankingResult = (question, result) => {
     const fixedJsonString = result[0]
     .replace(/'/g, '"')
     .replace(/None/g, 'null')
-    .replace(/(?<!['"])(\b\d+\b)(?=.)/g,  '"$1"');
+    .replace(/\{([^{}"':]+):/g, '{"$1":')
+    .replace(/, (\d+)(?=:)/g, ', "$1"');
     const jsObject = JSON.parse(fixedJsonString);
 
     jsObject['ncandidates'] = parseInt(question['total_options'], 10)
