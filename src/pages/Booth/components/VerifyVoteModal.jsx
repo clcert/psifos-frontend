@@ -21,7 +21,8 @@ function VerifyVoteModal(props) {
     if (jsonResponse.cast_at !== null && resp.status === 200) {
       props.setVoteVerificates(true);
       props.afterVerify();
-    } else if (jsonResponse.invalidated_at !== null) {
+
+    } else if (jsonResponse.invalidated_at !== null || jsonResponse.verified === false) {
       props.setVoteVerificates(false);
       props.afterVerify();
     }
