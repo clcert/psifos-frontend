@@ -44,3 +44,11 @@ export const roundNumber = (originalNum, round) => {
 export const sumIntoArray = (arr) => arr.reduce((acc, num) => {
     return num + acc
   }, 0)
+
+export const filterObj = (obj, filterFunction) => {
+    return Object.fromEntries(
+      Object.entries(obj).filter(
+        ([key, value]) => filterFunction(key, value)
+      )
+    )
+  }

@@ -87,6 +87,7 @@ export function PeopleStats ({
   groupedElection, dataPerGroup,
   getCountTitle, getWeightsTitle,
   groupsTitle, gendersTitle,
+  normalizeWeights, maxWeight,
 }) {
   const [selectedIdGroup, setSelectedIdGroup] = useState("1")
   const inRollGroup = selectedIdGroup === "1" 
@@ -116,7 +117,9 @@ export function PeopleStats ({
           groupedElection && inRollGroup && votersByGroup
         }
         weights={
-          getWeightsObject(selectedGroupData.weights)
+          getWeightsObject(
+            selectedGroupData.weights, normalizeWeights, maxWeight
+          )
         }
         genders={
           getGendersObject(selectedGroupData.genders)
