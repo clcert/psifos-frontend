@@ -40,6 +40,11 @@ function generateExcludedProofs(answers, indexesMarked, choices, randomness) {
   let ciphertexts = {};
   let joint_randomness = {};
   for (let group in groups) {
+
+    if(groups[group].length === 1){
+      continue;
+    }
+
     ciphertexts[group] = 1;
     joint_randomness[group] = BigInt.ZERO;
     for (let i = 0; i < groups[group].length; i++) {
@@ -56,6 +61,13 @@ function generateExcludedProofs(answers, indexesMarked, choices, randomness) {
   let excludedProofs = [];
   let j = 0;
   for (let group in groups) {
+
+    if(groups[group].length === 1){
+      excludedProofs[j] = [];
+      j += 1;
+      continue;
+    }
+
     const zero_one_plaintexts = UTILS.generate_plaintexts(
       ELECTION.public_key,
       0,
