@@ -81,7 +81,12 @@ function InputCheckbox(props) {
                       : false
                   }
                 />
-                <span className={"is-size-5"}> {key} </span>
+                <div className="ml-1 is-flex is-flex-direction-column">
+                  {key.split("(").map((candidateInfo, index) => (
+                    (index === 0) ? <span className={"is-size-5"}> {candidateInfo} </span> : 
+                    <span className={"is-size-6"}> {"(" + candidateInfo} </span>
+                  ))}
+                </div>
               </label>
             </div>
           );
