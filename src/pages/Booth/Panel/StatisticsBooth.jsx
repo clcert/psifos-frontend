@@ -5,6 +5,7 @@ import Participation from "./statistics/participation/participation";
 // import RollCharacteristics from "./statistics/rollCharacteristics/rollCharacteristics";
 // import VotersCharacteristics from "./statistics/votersCharacteristics/votersCharacteristics";
 import VotesByTime from "./statistics/votesByTime/votesByTime";
+import Weights from "./statistics/weights/weights";
 import { requestElectionPublic } from "./statistics/components/client";
 import {
   isOpenLoginElection, isSemiPublicLoginElection,
@@ -35,7 +36,7 @@ const getTabs = (election, shortName) => {
       hideWhenUngrouped: true,
     },
     "Ponderaciones": {
-      component: <VotersCharacteristics
+      component: <Weights
         election={election}
       />,
       hideWhenNoPoll: true,
