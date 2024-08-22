@@ -9,9 +9,9 @@ class TallyFactory {
 
   create(tally_type, computed, num_tallied, public_key, question, raw_tally) {
     const tally_types_obj = {
-      "homomorphic": HomomorphicTally,
-      "mixnet": MixnetTally,
-      "stvnc": MixnetTally,
+      "CLOSED": HomomorphicTally,
+      "MIXNET": MixnetTally,
+      "STVNC": MixnetTally,
     };
 
     return Object.keys(tally_types_obj).includes(tally_type) && new tally_types_obj[tally_type](

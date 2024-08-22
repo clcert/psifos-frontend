@@ -13,7 +13,7 @@ const parseClosedResult = (question, votesPerAns, includeWhiteNull) => {
     const nCastVotes = noNullWhiteAns.reduce((n, a) => n + parseInt(a), 0);
 
     let result = [];
-    question.closed_options.forEach((answer, index) => {
+    JSON.parse(question.closed_options).forEach((answer, index) => {
         const obj = {
         Respuesta: answer,
         Votos: parseInt(votesPerAns[index]),
