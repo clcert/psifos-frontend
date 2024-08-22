@@ -79,7 +79,7 @@ function InputSelection(props) {
                   blankVote(event);
                 }}
               />
-              <span className="is-size-5"> {whiteOptionText} </span>
+              <span className="is-size-5 ml-1"> {whiteOptionText} </span>
             </label>
           </div>
           <div className="mt-2">
@@ -100,7 +100,7 @@ function InputSelection(props) {
                   nullVote(event);
                 }}
               />
-              <span className="is-size-5"> {nullOptionText} </span>
+              <span className="is-size-5 ml-1"> {nullOptionText} </span>
             </label>
           </div>
         </>

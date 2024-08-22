@@ -9,7 +9,7 @@ export const getPercentage = (frec, total) => {
   /* if (Math.floor(dec) !== Math.ceil(dec)) {
     dec = dec.toFixed(2);
   } */
-  return dec.toFixed(2).toString() + "%";
+  return dec.toFixed(2).toString().replace(".", ",") + "%";
 };
 
 export const getResponseWithoutGroup = (response) => {

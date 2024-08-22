@@ -56,6 +56,7 @@ function MixnetAnswersSetup({
   closedOptions,
   handleFileChange,
   handleDownloadFile,
+  q_num
 }) {
   return (
     <div>
@@ -64,7 +65,7 @@ function MixnetAnswersSetup({
           <label className="label">Archivo de preguntas</label>{" "}
           <input
             disabled={disabledEdit}
-            id="fileinput"
+            id={"fileinput_" + q_num}
             type="file"
             onChange={handleFileChange}
           />{" "}
@@ -118,7 +119,7 @@ function AnswersSetup(props) {
   }
 
   function filesToString() {
-    const input = document.getElementById("fileinput");
+    const input = document.getElementById("fileinput_" + props.questionId);
     var reader = new FileReader();
     reader.onload = function () {
       let newAns = reader.result.split("\n");
@@ -150,6 +151,7 @@ function AnswersSetup(props) {
           handleFileChange={filesToString}
           closedOptions={props.question.closed_options}
           handleDownloadFile={downloadFile}
+          q_num={props.questionId}
         />
       )}
     </>
