@@ -15,9 +15,9 @@ export default function WeightsTable({
       >
         <Thead>
           <Tr>
-            <Th>PONDERADOR</Th>
-            <Th className="has-text-centered">Votantes en apertura</Th>
-            <Th className="has-text-centered">Votos Recibidos</Th>
+            <Th className="has-text-centered">PONDERADOR</Th>
+            <Th className="has-text-centered">Votantes en padrón</Th>
+            <Th className="has-text-centered">Votos recibidos</Th>
             <Th className="has-text-centered">Votos a contar (1)</Th>
           </Tr>
         </Thead>
@@ -27,18 +27,18 @@ export default function WeightsTable({
             .map((key) => (
               <Tr key={key}>
                 <Td
-                  className="has-text-centered"
+                  className="has-text-centered is-vcentered is-size-5"
                   style={{ backgroundColor: "#009391", color: "white" }}
                 >
-                  {key}
+                  {parseFloat(key).toString().replace(".", ",")}
                 </Td>
-                <Td className="has-text-centered">
+                <Td className="has-text-centered is-vcentered">
                   {weightsInit[key] ? weightsInit[key] : 0}
                 </Td>
-                <Td className="has-text-centered">
+                <Td className="has-text-centered is-vcentered">
                   {weightsEnd[key] ? weightsEnd[key] : 0}
                 </Td>
-                <Td className="has-text-centered">
+                <Td className="has-text-centered is-vcentered">
                   {weightsElection[key] ? weightsElection[key] : 0}
                 </Td>
               </Tr>
