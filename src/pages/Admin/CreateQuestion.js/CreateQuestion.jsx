@@ -75,6 +75,7 @@ function CreateQuestion(props) {
       min_answers: 1,
       max_answers: 1,
       include_blank_null: true,
+      excluding_groups: false,
       group_votes: false,
     });
 
@@ -115,6 +116,7 @@ function CreateQuestion(props) {
       question.max_answers = question.max_answers || 1;
       question.include_blank_null =
         question.include_blank_null === "True" ? true : false;
+      question.excluding_groups = question.excluding_groups === "True" ? true : false;
       question.group_votes = question.group_votes === "True" ? true : false;
     });
     setQuestion(questions);

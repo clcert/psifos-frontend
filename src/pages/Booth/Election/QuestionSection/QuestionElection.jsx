@@ -212,6 +212,7 @@ function QuestionElection(props) {
         setMessageAlert(
           "Debe " + answersRestrictionText(min_answers, max_answers)
         );
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return false;
       }
     }
