@@ -13507,6 +13507,11 @@ Consult
   margin: 2% 0;
 }
 
+.participation-without-poll {
+  margin: 3% 0;
+  font-weight: bold;
+}
+
 .not-available-statistic-message-container {
   display: flex;
   justify-content: center;

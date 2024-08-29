@@ -23,6 +23,8 @@ export default function VotersCharacteristicsStats({ loginType, election }) {
     grouped: groupedElection,
     voters_by_weight_end: votersCharString,
     total_voters: totalVoters,
+    normalization: normalizeWeights,
+    max_weight: maxWeight,
   } = election
 
   if (!showCompleatStatistic) {
@@ -35,7 +37,6 @@ export default function VotersCharacteristicsStats({ loginType, election }) {
 
   const votersChar = JSON.parse(votersCharString)
   const {
-    voters_by_weight_end: votersByWeight,
     voters_by_weight_end_grouped: votersByWeightPerGroup,
   } = votersChar
 
@@ -56,6 +57,8 @@ export default function VotersCharacteristicsStats({ loginType, election }) {
         ? `Ponderaciones en ${groupName.toLowerCase()}`
         : "Ponderaciones entre los votantes"
       }
+      normalizeWeights={normalizeWeights}
+      maxWeight={maxWeight}
     />
   )
 }

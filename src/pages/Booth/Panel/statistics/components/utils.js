@@ -27,10 +27,35 @@ export const getGendersObject = (votersByGender) => {
     }
   }
 
-export const getWeightsObject = (votersByWeight) => {
-    return votersByWeight && {
-      '1': votersByWeight['8.0'] || 0,
-      '1/2': votersByWeight['4.0'] || 0,
-      '1/8': votersByWeight['1.0'] || 0,
-    }
+function decimalToFraction(decimal) {
+  const tolerance = 1.0E-6;
+  let numerator = 1;
+  let denominator = 1;
+  let fraction = 1;
+
+  while (Math.abs(fraction - decimal) > tolerance) {
+      if (fraction < decimal) {
+          numerator++;
+      } else {
+          denominator++;
+          numerator = Math.round(decimal * denominator);
+      }
+      fraction = numerator / denominator;
+  }
+  
+  return numerator !== denominator ? `${numerator}/${denominator}` : '1'
+}
+
+export const getWeightsObject = (
+  votersByWeight, mustNormalize, maxWeight,
+) => {
+    return Object.keys(votersByWeight).reduce(
+      (acc, weight) => {
+        const intWeight = parseInt(weight, 10)
+        const key = mustNormalize ? decimalToFraction(intWeight/maxWeight) : intWeight
+        return {
+          ...acc,
+          [key]: votersByWeight[weight] || 0
+        }
+    }, {})
   }

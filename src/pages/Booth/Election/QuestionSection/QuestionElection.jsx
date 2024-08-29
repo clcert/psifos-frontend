@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import selectImg from "../../../../static/booth/svg/select-img.svg";
+// import selectImg from "../../../../static/booth/svg/select-img.svg";
 import FinishButton from "../../components/Buttons/FinishButton";
 import NextButton from "../../components/Buttons/NextButton";
 import PreviousButton from "../../components/Buttons/PreviousButton";
@@ -99,6 +99,7 @@ function PreviousButtonBox({
   );
 }
 
+/*
 function SelectFigureBox() {
   return (
     <div className="column is-hidden-mobile pb-0">
@@ -108,6 +109,7 @@ function SelectFigureBox() {
     </div>
   );
 }
+*/
 
 function ContinueButtonBox({
   isNextButtonBool,
