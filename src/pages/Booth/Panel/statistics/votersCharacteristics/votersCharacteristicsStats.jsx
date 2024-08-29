@@ -37,7 +37,6 @@ export default function VotersCharacteristicsStats({ loginType, election }) {
 
   const votersChar = JSON.parse(votersCharString)
   const {
-    voters_by_weight_end: votersByWeight,
     voters_by_weight_end_grouped: votersByWeightPerGroup,
   } = votersChar
 

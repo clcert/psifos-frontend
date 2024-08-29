@@ -43,7 +43,7 @@ function decimalToFraction(decimal) {
       fraction = numerator / denominator;
   }
   
-  return numerator != denominator ? `${numerator}/${denominator}` : '1'
+  return numerator !== denominator ? `${numerator}/${denominator}` : '1'
 }
 
 export const getWeightsObject = (
