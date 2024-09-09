@@ -1,5 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from '@dnd-kit/utilities';
+import OptionTooltip from "./OptionTooltip"
 
 function ItemBasics({
   children, dragOverlay, itemType,
@@ -36,7 +37,9 @@ export function Item({
   )
 }
 
-function ItemEnvironment({ children, id }){
+function ItemEnvironment({
+  children, id, dragging,
+}){
   const {
     attributes,
     listeners,
@@ -59,31 +62,46 @@ function ItemEnvironment({ children, id }){
       {...attributes}
       {...listeners}
     >
-      {children}
+      <OptionTooltip
+        hidden={dragging}
+      >
+        {children}
+      </OptionTooltip>
     </div>
   );
 };
 
-export function RankableItem({ id, label }) {
+export function RankableItem({
+  id, label, dragging,
+}) {
   return (
-    <ItemEnvironment id={id}>
-      <Item
-        id={id}
-        label={label}
-        itemType="rankable"
-      />
+    <ItemEnvironment
+      id={id}
+      dragging={dragging}
+    >
+        <Item
+          id={id}
+          label={label}
+          itemType="rankable"
+        />
     </ItemEnvironment>
   );
 };
 
-export function RankedItem({ id, label }) {
+export function RankedItem({
+  id, label, dragging, dragOverlay,
+}) {
   return (
-    <ItemEnvironment id={id}>
-      <Item
-        id={id}
-        label={label}
-        itemType="ranked"
-      />
+    <ItemEnvironment
+      id={id}
+      dragging={dragging}
+    >
+        <Item
+          id={id}
+          label={label}
+          itemType="ranked"
+          dragOverlay={dragOverlay}
+        />
     </ItemEnvironment>
   );
 };

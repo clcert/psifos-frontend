@@ -1,7 +1,8 @@
 import { Tooltip } from 'react-tooltip'
 
 export default function MoreInfoTooltip({
-  children, descript, place="bottom",
+  children, descript, render,
+  hidden, place="bottom",
 }){
   return (
     <>
@@ -12,7 +13,11 @@ export default function MoreInfoTooltip({
       >
         {children}
       </div>
-      <Tooltip id="my-tooltip" place={place}/>
+      {!hidden && <Tooltip
+        id="my-tooltip"
+        place={place}
+        render={render}
+      />}
     </>
   )
 }

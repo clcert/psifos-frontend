@@ -8,8 +8,8 @@ import {
 
 import { RankableItem, RankedItem } from "./RankableItem";
 
-function SecretMessage({ condition, message }){
-    return condition &&
+function SecretMessage({ hidden, message }){
+    return !hidden &&
         <div className="ranking-secret-message">
             {message}
         </div>
@@ -17,7 +17,7 @@ function SecretMessage({ condition, message }){
 
 
 export function SortedDroppable({
-    id, items, labels,
+    id, items, labels, activeId,
 }){
     const { setNodeRef } = useDroppable({ id })
     return (
@@ -36,10 +36,11 @@ export function SortedDroppable({
                         key={item}
                         id={item}
                         label={labels[item-1]}
+                        dragging={activeId}
                     />
                 ))}
                 <SecretMessage
-                    condition={items.length === 0}
+                    hidden={items.length !== 0}
                     message="(Ordena las opciones de mayor a menor preferencia deslizándolas a esta zona)"
                 />
             </ul>
@@ -48,7 +49,7 @@ export function SortedDroppable({
 }
   
 export function UnsortedDroppable({
-    id, items, labels,
+    id, items, labels, activeId,
 }){
     const { setNodeRef } = useDroppable({ id });
     return (
@@ -66,10 +67,11 @@ export function UnsortedDroppable({
                         key={item}
                         id={item}
                         label={labels[item-1]}
+                        dragging={activeId}
                     />
                 ))}
                 <SecretMessage
-                    condition={items.length === 0}
+                    hidden={items.length !== 0}
                     message="(Todas las opciones fueron rankeadas)"
                 />
             </div>

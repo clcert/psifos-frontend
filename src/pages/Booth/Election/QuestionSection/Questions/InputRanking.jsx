@@ -20,6 +20,57 @@ import {
   removeAtIndex, insertAtIndex, arrayMove, getEnumerateList
 } from "./utils";
 
+const moveBetweenContainers = (
+  items,
+  activeContainer,
+  activeIndex,
+  overContainer,
+  overIndex,
+  item
+) => {
+  return {
+    ...items,
+    [activeContainer]: removeAtIndex(items[activeContainer], activeIndex),
+    [overContainer]: insertAtIndex(items[overContainer], overIndex, item),
+  };
+}
+
+function SortedSection ({
+  indices, items, activeId, answerLabels,
+}) {
+  return (
+    <div className="ranked__container">
+      <RankingIndices
+        indices={indices}
+      />
+      <div className="ranking__opt_col">
+        <SortedDroppable
+          id="rankedItems"
+          items={items}
+          activeId={activeId}
+          key="rankedItems"
+          labels={answerLabels}
+        />
+      </div>
+    </div>
+  )
+}
+
+function UnsortedSection ({
+  items, activeId, answerLabels,
+}) {
+  return (
+    <div className="is-bordered ranking__opt_lake" >
+      <UnsortedDroppable
+        id="notRankedItems"
+        items={items}
+        activeId={activeId}
+        key="notRankedItems"
+        labels={answerLabels}
+      />
+    </div>
+  )
+}
 
 function RankingDndContext({
   children, activeIdHandler,
@@ -34,21 +85,6 @@ function RankingDndContext({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  const moveBetweenContainers = (
-    items,
-    activeContainer,
-    activeIndex,
-    overContainer,
-    overIndex,
-    item
-  ) => {
-    return {
-      ...items,
-      [activeContainer]: removeAtIndex(items[activeContainer], activeIndex),
-      [overContainer]: insertAtIndex(items[overContainer], overIndex, item)
-    };
-  };
 
   const handleDragStart = ({ active }) => activeIdHandler(active.id);
 
@@ -193,36 +229,25 @@ function InputRanking({
         style={{display: "flex", flexDirection: "column", width: "100%"}}
         onClick={clickHandler}
       >
-        <div className="ranked__container">
-          <RankingIndices
-            indices={getEnumerateList([
-              ...itemGroups["rankedItems"],
-              ...itemGroups["notRankedItems"]
-            ]).slice(0, maxAnswers)}
-          />
-          <div className="ranking__opt_col">
-            <SortedDroppable
-              id="rankedItems"
-              items={itemGroups["rankedItems"]}
-              activeId={activeId}
-              key="rankedItems"
-              labels={answerLabels}
-            />
-          </div>
-        </div>
-        <div className="is-bordered ranking__opt_lake" >
-          <UnsortedDroppable
-            id="notRankedItems"
-            items={itemGroups["notRankedItems"]}
-            activeId={activeId}
-            key="notRankedItems"
-            labels={answerLabels}
-          />
-        </div>
+        <SortedSection
+          indices={getEnumerateList([
+            ...itemGroups["rankedItems"],
+            ...itemGroups["notRankedItems"]
+          ]).slice(0, maxAnswers)}
+          items={itemGroups["rankedItems"]}
+          activeId={activeId}
+          answerLabels={answerLabels}
+        />
+        <UnsortedSection
+          items={itemGroups["notRankedItems"]}
+          activeId={activeId}
+          answerLabels={answerLabels}
+        />
         <DragOverlay>
           {activeId && <RankedItem
             id={activeId}
             label={answerLabels[activeId-1]}
+            dragging
             dragOverlay
           />}
         </DragOverlay>
