@@ -17,7 +17,7 @@ function SecretMessage({ hidden, message }){
 
 
 export function SortedDroppable({
-    id, items, labels, activeId,
+    id, items, labels, activeId, answerDescriptions,
 }){
     const { setNodeRef } = useDroppable({ id })
     return (
@@ -37,6 +37,7 @@ export function SortedDroppable({
                         id={item}
                         label={labels[item-1]}
                         dragging={activeId}
+                        answerDescription={answerDescriptions[item-1]}
                     />
                 ))}
                 <SecretMessage
@@ -49,7 +50,7 @@ export function SortedDroppable({
 }
   
 export function UnsortedDroppable({
-    id, items, labels, activeId,
+    id, items, labels, activeId, answerDescriptions,
 }){
     const { setNodeRef } = useDroppable({ id });
     return (
@@ -68,6 +69,7 @@ export function UnsortedDroppable({
                         id={item}
                         label={labels[item-1]}
                         dragging={activeId}
+                        answerDescription={answerDescriptions[item-1]}
                     />
                 ))}
                 <SecretMessage

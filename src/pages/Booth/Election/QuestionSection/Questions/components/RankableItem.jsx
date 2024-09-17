@@ -38,7 +38,7 @@ export function Item({
 }
 
 function ItemEnvironment({
-  children, id, dragging,
+  children, id, dragging, answerDescription,
 }){
   const {
     attributes,
@@ -64,6 +64,7 @@ function ItemEnvironment({
     >
       <OptionTooltip
         hidden={dragging}
+        answerDescription={answerDescription}
       >
         {children}
       </OptionTooltip>
@@ -72,12 +73,13 @@ function ItemEnvironment({
 };
 
 export function RankableItem({
-  id, label, dragging,
+  id, label, dragging, answerDescription,
 }) {
   return (
     <ItemEnvironment
       id={id}
       dragging={dragging}
+      answerDescription={answerDescription}
     >
         <Item
           id={id}
@@ -89,12 +91,13 @@ export function RankableItem({
 };
 
 export function RankedItem({
-  id, label, dragging, dragOverlay,
+  id, label, dragging, dragOverlay, answerDescription,
 }) {
   return (
     <ItemEnvironment
       id={id}
       dragging={dragging}
+      answerDescription={answerDescription}
     >
         <Item
           id={id}

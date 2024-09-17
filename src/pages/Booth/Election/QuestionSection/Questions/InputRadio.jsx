@@ -5,7 +5,6 @@ export function OptionInputRadio({
   optionLabel,
   isSelected,
   inputHandler,
-  isBordered = false,
 }) {
   return (
     <div key={optionId} className="mt-2">
@@ -23,6 +22,8 @@ export function OptionInputRadio({
           name={"answer_" + questionId}
           value={optionId}
           onClick={inputHandler}
+          onChange={() => console.log('changed answer')}
+          checked={isSelected}
         />
         <span className="is-size-5">{optionLabel}</span>
       </label>
@@ -31,9 +32,6 @@ export function OptionInputRadio({
 }
 
 function InputRadio({
-  setAnswers,
-  setBlankButton,
-  setNullButton,
   addAnswer,
   question,
   questionId,

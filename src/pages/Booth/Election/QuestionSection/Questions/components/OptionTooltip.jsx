@@ -1,11 +1,10 @@
 import MoreInfoTooltip from "../../../../../../component/MoreInfo/MoreInfoTooltip";
-import foto from "./foto-voto.png"
 
-function OptionImage(){
+function OptionImage({src}){
     return (
       <div>
         <img
-          src={foto} width={200} height={200}
+          src={src} width={200} height={200}
           style={{pointerEvents: 'none'}}
         />
       </div>
@@ -13,13 +12,17 @@ function OptionImage(){
   }
 
 export default function OptionTooltip ({
-    children, hidden=false,
+    children, hidden, answerDescription,
 }) {
     return (
         <MoreInfoTooltip
-          render={() => <OptionImage />}
+          render={() => <OptionImage
+            src={
+              `data:image/jpeg;base64,${answerDescription}`
+            }
+          />}
           place="top"
-          hidden={hidden}
+          hidden={Boolean(hidden)}
         >
           {children}
         </MoreInfoTooltip>

@@ -37,6 +37,7 @@ const moveBetweenContainers = (
 
 function SortedSection ({
   indices, items, activeId, answerLabels,
+  answerDescriptions,
 }) {
   return (
     <div className="ranked__container">
@@ -50,6 +51,7 @@ function SortedSection ({
           activeId={activeId}
           key="rankedItems"
           labels={answerLabels}
+          answerDescriptions={answerDescriptions}
         />
       </div>
     </div>
@@ -57,7 +59,7 @@ function SortedSection ({
 }
 
 function UnsortedSection ({
-  items, activeId, answerLabels,
+  items, activeId, answerLabels, answerDescriptions,
 }) {
   return (
     <div className="is-bordered ranking__opt_lake" >
@@ -67,6 +69,7 @@ function UnsortedSection ({
         activeId={activeId}
         key="notRankedItems"
         labels={answerLabels}
+        answerDescriptions={answerDescriptions}
       />
     </div>
   )
@@ -186,13 +189,13 @@ function RankingDndContext({
 }
 
 function InputRanking({
-  answers, answersHandler, answerLabels,
-  clickHandler, maxAnswers, options,
-  
+  optionIds, optionLabels, optionImages,
+  rankedAnswers, rankingHandler,
+  maxAnswers,
 }) {
   const initialItemGroups = {
     rankedItems: [],
-    notRankedItems: options.map((id) => id + 1),
+    notRankedItems: optionIds.map((id) => id + 1),
   }
 
   const [itemGroups, setItemGroups] = useState(initialItemGroups);
@@ -200,17 +203,17 @@ function InputRanking({
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
-    answersHandler(itemGroups.rankedItems)
+    rankingHandler(itemGroups.rankedItems)
   }, [itemGroups]);
 
   useEffect(() => {
     if (
-      answers.length === 0 && itemGroups.rankedItems.length !== 0
+      rankedAnswers.length === 0 && itemGroups.rankedItems.length !== 0
     ) {
       setItemGroups(initialItemGroups)
       setActiveId(null)
     }
-  }, [answers]);
+  }, [rankedAnswers]);
 
   return (
     <RankingDndContext
@@ -226,8 +229,9 @@ function InputRanking({
       }}
     >
       <div
-        style={{display: "flex", flexDirection: "column", width: "100%"}}
-        onClick={clickHandler}
+        style={{
+          display: "flex", flexDirection: "column", width: "100%"
+        }}
       >
         <SortedSection
           indices={getEnumerateList([
@@ -236,17 +240,19 @@ function InputRanking({
           ]).slice(0, maxAnswers)}
           items={itemGroups["rankedItems"]}
           activeId={activeId}
-          answerLabels={answerLabels}
+          answerLabels={optionLabels}
+          answerDescriptions={optionImages}
         />
         <UnsortedSection
           items={itemGroups["notRankedItems"]}
           activeId={activeId}
-          answerLabels={answerLabels}
+          answerLabels={optionLabels}
+          answerDescriptions={optionImages}
         />
         <DragOverlay>
           {activeId && <RankedItem
             id={activeId}
-            label={answerLabels[activeId-1]}
+            label={optionLabels[activeId-1]}
             dragging
             dragOverlay
           />}
