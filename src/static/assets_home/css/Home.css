@@ -13575,6 +13575,11 @@ Consult
   align-items: center;
 }
 
+.options-text-container {
+  text-align: left;
+  margin: 1rem;
+}
+
 .options-images-container {
   display: flex;
   flex-wrap: wrap;

@@ -20,6 +20,19 @@ export default function GenericModal ({
                 </div>
                     {children}
                 </section>
+                <div
+                    className="modal-footer"
+                    style={{
+                        background: "white", borderRadius: "0",
+                    }}
+                >
+                    <button
+                        onClick={handleClose}
+                        className="is-medium question-button proceed-button"
+                    >
+                        Cerrar
+                    </button>
+                </div>
             </div>
         </div>
     )

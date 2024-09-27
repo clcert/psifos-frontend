@@ -5,27 +5,34 @@ function ShowOptions ({
     options, optionsImages,
 }) {
     return (
-      <div
-        className="options-images-container"
-      >
-        {options.map((option, index) => {
-          return (
-            <div
-              key={option}
-              className="option-image-container"
-            >
-              <b>
-                {option}
-              </b>
-              <img
-                src={`data:image/jpeg;base64,${optionsImages[index]}`}
-                width={180}
-                height={180}
-                style={{pointerEvents: 'none'}}
-              />
-            </div>
+      <div>
+        <div
+          className="options-text-container"
+        >
+          A continuación, se muestran los diseños asociados a cada opción. Para señalar sus preferencias, presione el botón en la parte inferior.
+        </div>
+        <div
+          className="options-images-container"
+        >
+          {options.map((option, index) => {
+            return (
+              <div
+                key={option}
+                className="option-image-container"
+              >
+                <b>
+                  {option}
+                </b>
+                <img
+                  src={`data:image/jpeg;base64,${optionsImages[index]}`}
+                  width={180}
+                  height={180}
+                  style={{pointerEvents: 'none'}}
+                />
+              </div>
           )
         })}
+        </div>
       </div>
     )
   }
@@ -33,7 +40,7 @@ function ShowOptions ({
 export default function QuestionOptionsDetail ({
     options, optionsImages,
   }) {
-    const [showDetail, setShowDetail] = useState(false);
+    const [showDetail, setShowDetail] = useState(true);
     return (
       <div>
         <div
