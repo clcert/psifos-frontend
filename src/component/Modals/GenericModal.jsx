@@ -15,7 +15,7 @@ export default function GenericModal ({
                 >
                     <i className="fa-solid fa-xmark"/>
                 </div>
-                <div className="modal-header">
+                <div className="modal-header py-2">
                     <h2>{title}</h2>
                 </div>
                     {children}
