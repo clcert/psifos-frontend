@@ -65,6 +65,7 @@ function ItemEnvironment({
       <OptionTooltip
         hidden={dragging}
         answerDescription={answerDescription}
+        id={id}
       >
         {children}
       </OptionTooltip>

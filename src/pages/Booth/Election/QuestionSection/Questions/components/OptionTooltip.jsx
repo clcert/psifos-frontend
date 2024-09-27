@@ -12,7 +12,7 @@ function OptionImage({src}){
   }
 
 export default function OptionTooltip ({
-    children, hidden, answerDescription,
+    children, hidden, answerDescription, id,
 }) {
     return (
         <MoreInfoTooltip
@@ -23,6 +23,7 @@ export default function OptionTooltip ({
           />}
           place="top"
           hidden={Boolean(hidden)}
+          id={id}
         >
           {children}
         </MoreInfoTooltip>
