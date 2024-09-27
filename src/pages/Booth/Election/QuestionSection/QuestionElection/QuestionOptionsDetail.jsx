@@ -9,7 +9,7 @@ function ShowOptions ({
         <div
           className="options-text-container"
         >
-          A continuación, se muestran los diseños asociados a cada opción. Para señalar sus preferencias, presione el botón en la parte inferior.
+          A continuación, se presentan los diseños correspondientes a cada opción. Para indicar sus preferencias, haga clic en el botón ubicado en la parte inferior.
         </div>
         <div
           className="options-images-container"
