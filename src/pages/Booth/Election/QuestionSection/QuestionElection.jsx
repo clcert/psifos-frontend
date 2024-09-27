@@ -48,7 +48,7 @@ function QuestionSelectionBox({
   const {
     closed_options: closedOptions,
     include_blank_null: includeInformalAns,
-    closed_options_specifications: formalOptionsImages,
+    options_specifications: formalOptionsImages,
     q_type: questionType,
   } = question
 

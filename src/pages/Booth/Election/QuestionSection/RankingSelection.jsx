@@ -36,7 +36,7 @@ const RankingSelection = ({
 }) => {
   const {
     closed_options,
-    closed_options_specifications: formalOptionsImages,
+    options_specifications: formalOptionsImages,
     include_blank_null,
     max_answers,
   } = question
