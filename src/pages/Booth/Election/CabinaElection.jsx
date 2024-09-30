@@ -113,6 +113,20 @@ function CabinaElection(props) {
     props.preview
   );
 
+  const sendVote = () => {
+    setModalVerify(true);
+    BOOTH_PSIFOS.sendJson(shortName).then((res) => {
+      setVoteHash(res.vote_hash);
+
+      // Caso en que el voto no se haya realizado correctamente
+      if(res.verified === false){
+        setVoteVerificates(false);
+        setModalVerify(false);
+        setActualPhase(4);
+      }
+    });
+  }
+
   const phases = {
     1: {
       sectionClass: "parallax-02",
@@ -148,12 +162,7 @@ function CabinaElection(props) {
             setActualQuestion(question);
             setActualPhase(1);
           }}
-          sendVote={() => {
-            setModalVerify(true);
-            BOOTH_PSIFOS.sendJson(shortName).then((res) => {
-              setVoteHash(res);
-            });
-          }}
+          sendVote={sendVote}
           afterVerify={() => {
             setModalVerify(false);
             setActualPhase(4);

@@ -6,6 +6,7 @@
 import { HELIOS } from "./jscrypto/helios";
 import { BigInt } from "./jscrypto/bigint";
 import { ElGamal } from "./jscrypto/elgamal";
+import { UTILS } from "./jscrypto/helios";
 import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
 
 var console = {
@@ -20,6 +21,76 @@ function do_setup(message) {
   console.log("setting up worker");
 
   ELECTION = HELIOS.Election.fromJSONString(message.election);
+}
+
+function generateExcludedProofs(answers, indexesMarked, choices, randomness) {
+  let groups = {};
+  const regExp = /\(([^)]+)\)/;
+  answers.forEach((item, index) => {
+    const aux = regExp.exec(item);
+
+    if (aux != null) {
+      if (groups[aux[1]]) {
+        groups[aux[1]].push(index);
+      } else {
+        groups[aux[1]] = [index];
+      }
+    }
+  });
+  let ciphertexts = {};
+  let joint_randomness = {};
+  for (let group in groups) {
+
+    if(groups[group].length === 1){
+      continue;
+    }
+
+    ciphertexts[group] = 1;
+    joint_randomness[group] = BigInt.ZERO;
+    for (let i = 0; i < groups[group].length; i++) {
+      let index = groups[group][i];
+      let ct = choices[index];
+      // let ct = ElGamal.Ciphertext.fromJSONObject(choices[index], ELECTION.public_key);
+      ciphertexts[group] = ct.multiply(ciphertexts[group]);
+      let r = BigInt.fromInt(randomness[index]);
+      joint_randomness[group] = r
+        .add(joint_randomness[group])
+        .mod(ELECTION.public_key.q);
+    }
+  }
+  let excludedProofs = [];
+  let j = 0;
+  for (let group in groups) {
+
+    if(groups[group].length === 1){
+      excludedProofs[j] = [];
+      j += 1;
+      continue;
+    }
+
+    const zero_one_plaintexts = UTILS.generate_plaintexts(
+      ELECTION.public_key,
+      0,
+      1
+    );
+    let plaintext_index = 0;
+    for (let i = 0; i < indexesMarked.length; i++) {
+      let indexMarked = indexesMarked[i];
+      if (groups[group].includes(Number(indexMarked))) {
+        plaintext_index = BigInt.ONE;
+      }
+    }
+    excludedProofs[j] = ciphertexts[group]
+      .generateDisjunctiveProof(
+        zero_one_plaintexts,
+        plaintext_index,
+        joint_randomness[group],
+        ElGamal.disjunctive_challenge_generator
+      )
+      .toJSONObject();
+    j += 1;
+  }
+  return excludedProofs;
 }
 
 function do_encrypt(message) {
@@ -42,10 +113,20 @@ function do_encrypt(message) {
     ELECTION.public_key
   );
   data.encrypted_answer = encrypted_answer.toJSONObject(true);
-
+  const excluding_groups =
+    ELECTION.questions[message.q_num].excluding_groups === "True";
+  if (excluding_groups) {
+    const excludedProofs = generateExcludedProofs(
+      ELECTION.questions[message.q_num].closed_options,
+      message.answer,
+      encrypted_answer.choices,
+      encrypted_answer.randomness
+    );
+    data.excluded_proofs = excludedProofs;
+  }
 
   let encrypted_open_answer = null;
-  if (message.q_type === "open_questionn") {
+  if (message.q_type === "open_question") {
     data.enc_ans_type = "encrypted_open_answer";
     console.log("encrypting open answer for question " + message.q_num);
     let encrypt_open_answer = (answer) => {

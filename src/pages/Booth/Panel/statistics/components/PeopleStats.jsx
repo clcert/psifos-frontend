@@ -7,6 +7,20 @@ import {
   getGendersObject, getWeightsObject,
 } from "./utils"
 
+const getWeightsTableData = (weights) => {
+  const weightsPairs = Object.entries(weights)
+  const sortedPairs = weightsPairs.sort((x, y) => {
+    return eval(y[0]) - eval(x[0]);
+  });
+  return (
+    Object.fromEntries(
+      sortedPairs.map(([key, value]) => {
+        return [`Personas con ponderación ${key}`, value];
+      })
+    )
+  )
+}
+
 function NumOfVoters({ countTitle, numOfVoters }) {
   return (
     <div>
@@ -68,11 +82,7 @@ function Stats({
       <Statistic
         title={weightsTitle}
         pieChartData={weights}
-        tableData={Object.fromEntries(
-          Object.entries(weights).map(([key, value]) => {
-            return [`Personas con ponderación ${key}`, value];
-          })
-        )}
+        tableData={getWeightsTableData(weights)}
       />
       {genders && <Statistic
         title={gendersTitle}
@@ -87,6 +97,7 @@ export function PeopleStats ({
   groupedElection, dataPerGroup,
   getCountTitle, getWeightsTitle,
   groupsTitle, gendersTitle,
+  normalizeWeights, maxWeight,
 }) {
   const [selectedIdGroup, setSelectedIdGroup] = useState("1")
   const inRollGroup = selectedIdGroup === "1" 
@@ -116,7 +127,9 @@ export function PeopleStats ({
           groupedElection && inRollGroup && votersByGroup
         }
         weights={
-          getWeightsObject(selectedGroupData.weights)
+          getWeightsObject(
+            selectedGroupData.weights, normalizeWeights, maxWeight
+          )
         }
         genders={
           getGendersObject(selectedGroupData.genders)

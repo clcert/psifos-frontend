@@ -32,7 +32,7 @@ function QuestionTitle({ index, text }) {
   return (
     <div key={index} className="is-size-5 question">
       <span className="has-text-info question-number">
-        Pregunta n°{index + 1}
+        Pregunta #{index + 1}
         {":"}
       </span>
       <div> {text} </div>

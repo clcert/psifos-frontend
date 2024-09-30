@@ -4,6 +4,13 @@ function InputCheckbox(props) {
   let answers = useSelector((state) => state.booth.answers)[props.index];
   answers = answers ? answers : [];
   const includeBlankNull = props.question.include_blank_null === "True";
+  const excludeGroups = props.question.excluding_groups === "True";
+
+  const getGroup = (ans) => {
+    const regex = /\((.*?)\)/;
+    const group = ans.match(regex);
+    return group ? group[1] : null;
+  };
 
   const closed_options = JSON.parse(props.question.closed_options);
 
@@ -26,7 +33,6 @@ function InputCheckbox(props) {
     ) {
       answersAux = [];
     }
-
     if (event.target.checked && !answers.includes(value)) {
       answersAux.push(value);
     } else if (!event.target.checked && answers.includes(value)) {
@@ -34,6 +40,13 @@ function InputCheckbox(props) {
     }
     return answersAux;
   }
+
+  const excludeGroupsDisabled = (value) => {
+    const group = getGroup(value);
+    return answers.some((ans) => {
+      return getGroup(props.question.closed_options[ans]) === group;
+    });
+  };
 
   return (
     <div>
@@ -65,9 +78,18 @@ function InputCheckbox(props) {
                     let ans = addAnswer(e, props.index);
                     props.addAnswer(ans, props.index);
                   }}
-                  disabled={isDisabled}
+                  disabled={
+                    isDisabled || excludeGroups
+                      ? (excludeGroupsDisabled(key) && !answers.includes(index))
+                      : false
+                  }
                 />
-                <span className={"is-size-5"}> {key} </span>
+                <div className="ml-1 is-flex is-flex-direction-column">
+                  {key.split("(").map((candidateInfo, index) => (
+                    (index === 0) ? <span className={"is-size-5"}> {candidateInfo} </span> : 
+                    <span className={"is-size-6"}> {"(" + candidateInfo} </span>
+                  ))}
+                </div>
               </label>
             </div>
           );
