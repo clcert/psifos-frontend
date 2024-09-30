@@ -90,7 +90,7 @@ function CreateQuestion(props) {
       q_description: question.q_description || "",
       total_options: question.total_options || 3,
       total_closed_options: question.total_closed_options || 2,
-      closed_options: JSON.parse(question.closed_options) || [],
+      closed_options: question.closed_options_list || [],
       num_of_winners: question.num_of_winners || 1,
       min_answers: question.min_answers || 1,
       max_answers: question.max_answers || 1,

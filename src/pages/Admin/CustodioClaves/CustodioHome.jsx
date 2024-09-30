@@ -17,6 +17,7 @@ function CustodioHome(props) {
   const [election, setElection] = useState([]);
   const [load, setLoad] = useState(false);
   const [auth, setAuth] = useState(false);
+  const [decryptions, setDecryptions] = useState(null);
   const [noAuthMessage, setNoAuthMessage] = useState("");
 
   /** @state {bool}  */
@@ -36,7 +37,7 @@ function CustodioHome(props) {
   const disabledButton3 = Boolean(
     trustee.current_step === 4 &&
       election.election_status === "Tally computed" &&
-      trustee.decryptions === null
+      decryptions.length === 0
       ? false
       : true
   );
@@ -60,6 +61,7 @@ function CustodioHome(props) {
           setAuth(true);
           setTrustee(jsonResponse.trustee);
           setElection(jsonResponse.election);
+          setDecryptions(jsonResponse.decryptions);
         } else {
           const message =
             jsonResponse.detail in typeErrors

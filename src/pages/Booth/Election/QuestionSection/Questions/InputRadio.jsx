@@ -40,7 +40,7 @@ function InputRadio({
 }) {
   const { include_blank_null } = question;
   const includeInformalAns = include_blank_null === "True";
-  const closed_options = JSON.parse(question.closed_options);
+  const closed_options = question.closed_options_list;
 
   let answers = useSelector((state) => state.booth.answers)[questionId];
   answers = answers ? answers : [];

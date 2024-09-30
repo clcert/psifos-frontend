@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function InputSelection(props) {
 
-  const closed_options = JSON.parse(props.question.closed_options);
+  const closed_options = props.question.closed_options_list;
 
   let answers = useSelector((state) => state.booth.answers)[props.index];
   answers = answers ? answers : [];

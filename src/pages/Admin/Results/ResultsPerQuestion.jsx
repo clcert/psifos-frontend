@@ -84,7 +84,7 @@ function BoxPerQuestion({ question, index, election, result }) {
         question={question}
       />
       {
-        question.include_blank_null === "True" &&
+        question.include_blank_null === "1" &&
         !isARankingTally(question.tally_type) && (
           <PercentageOptions
             handleChange={(e) => setPercentageOption(e.target.value)}

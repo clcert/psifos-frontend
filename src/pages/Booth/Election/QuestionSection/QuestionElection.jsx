@@ -187,7 +187,7 @@ function QuestionElection(props) {
     const currentQuestion = questions[index];
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
-    const options = currentQuestion.closed_options;
+    const options = currentQuestion.closed_options_list;
     return !preferentialRankingTallyNames.includes(currentQuestion.tally_type)
       ? checkNumAnswers(numCheckedIndex, options, checkedIndex, currentQuestion)
       : true;

@@ -9,7 +9,7 @@ class TallyFactory {
 
   create(tally_type, computed, num_tallied, public_key, question, raw_tally) {
     const tally_types_obj = {
-      "CLOSED": HomomorphicTally,
+      "HOMOMORPHIC": HomomorphicTally,
       "MIXNET": MixnetTally,
       "STVNC": MixnetTally,
     };
