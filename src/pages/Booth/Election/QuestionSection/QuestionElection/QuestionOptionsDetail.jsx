@@ -25,8 +25,8 @@ function ShowOptions ({
                 </b>
                 <img
                   src={`data:image/jpeg;base64,${optionsImages[index]}`}
-                  width={180}
-                  height={180}
+                  width={360}
+                  height={360}
                   style={{pointerEvents: 'none'}}
                 />
               </div>

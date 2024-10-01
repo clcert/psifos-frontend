@@ -4,7 +4,7 @@ function OptionImage({src}){
     return (
       <div>
         <img
-          src={src} width={200} height={200}
+          src={src} width={300} height={300}
           style={{pointerEvents: 'none'}}
         />
       </div>
