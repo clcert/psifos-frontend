@@ -135,3 +135,5 @@ export const tallyNames = [
   ...firstMajorityTallyNames,
   ...preferentialRankingTallyNames,
 ];
+
+export const informalOptions = ["Voto Blanco", "Voto Nulo"]
