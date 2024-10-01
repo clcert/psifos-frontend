@@ -15,7 +15,7 @@ function InputSelection(props) {
 
   const nullValue = closed_options.length - 1;
   const blankValue = closed_options.length - 2;
-  const includeBlankNull = props.question.include_blank_null === "True";
+  const includeBlankNull = props.question.include_blank_null;
 
   const { whiteOptionText, nullOptionText } = permanentOptions;
 

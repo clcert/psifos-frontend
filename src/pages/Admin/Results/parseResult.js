@@ -8,12 +8,11 @@ import { permanentOptionsList } from "../../../constants";
 
 const parseClosedResult = (question, votesPerAns, includeWhiteNull) => {
     const noNullWhiteAns =
-        includeWhiteNull === "True" ? votesPerAns.slice(0, -2) : votesPerAns;
+        includeWhiteNull ? votesPerAns.slice(0, -2) : votesPerAns;
     const nValidVotes = votesPerAns.reduce((n, a) => n + parseInt(a), 0);
     const nCastVotes = noNullWhiteAns.reduce((n, a) => n + parseInt(a), 0);
-
     let result = [];
-    JSON.parse(question.closed_options).forEach((answer, index) => {
+    question.closed_options_list.forEach((answer, index) => {
         const obj = {
         Respuesta: answer,
         Votos: parseInt(votesPerAns[index]),

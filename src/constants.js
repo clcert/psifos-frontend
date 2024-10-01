@@ -93,9 +93,9 @@ export const permanentOptionsList = Object.values(permanentOptions);
 export const questionsInfo = [
   {
     // puedo marcan entre min y max candidatos
-    type: "CLOSED",
+    type: "HOMOMORPHIC",
     name: "Pregunta cerrada",
-    tally_name: "CLOSED",
+    tally_name: "HOMOMORPHIC",
     tally_type: "first_majority",
   },
   {

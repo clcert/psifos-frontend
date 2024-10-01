@@ -19,8 +19,8 @@ function PercentageOptions({ handleChange, currentValue }) {
             id="time"
             value={currentValue}
           >
-            <option value="votosValidos">Si</option>
-            <option value="votosEmitidos">No</option>
+            <option value="votosEmitidos">Si</option>
+            <option value="votosValidos">No</option>
           </select>
         </div>
       </div>
@@ -47,13 +47,13 @@ function ClosedQuestionResume({ result, question, election }) {
         <PsifosTable
           election={election}
           data={
-            question.include_blank_null === "True"
+            question.include_blank_null
               ? result.slice(0, -2)
               : result
           }
         />
       </div>
-      {question.include_blank_null === "True" && (
+      {question.include_blank_null && (
         <div className="column justify-content-center">
           <PsifosTable election={election} data={result.slice(-2)} />
         </div>
@@ -73,7 +73,7 @@ function QuestionResume(props) {
 }
 
 function BoxPerQuestion({ question, index, election, result }) {
-  const [percentageOption, setPercentageOption] = useState("votosEmitidos");
+  const [percentageOption, setPercentageOption] = useState("votosValidos");
   const resultByOption = updateResult(result, question, percentageOption);
   return (
     <div className="box question-box-results" id="question-box-results">
@@ -84,7 +84,7 @@ function BoxPerQuestion({ question, index, election, result }) {
         question={question}
       />
       {
-        question.include_blank_null === "1" &&
+        question.include_blank_null &&
         !isARankingTally(question.tally_type) && (
           <PercentageOptions
             handleChange={(e) => setPercentageOption(e.target.value)}
