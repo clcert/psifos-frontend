@@ -58,6 +58,7 @@ export default function QuestionOptionsDetail ({
           showModal={showDetail}
           handleClose={() => setShowDetail(false)}
           title="Detalle de las opciones"
+          closeButtonText="Elegir Preferencias"
         >
           <ShowOptions
             options={options}

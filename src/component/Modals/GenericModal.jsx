@@ -1,5 +1,5 @@
 export default function GenericModal ({
-    children, showModal, handleClose, title,
+    children, showModal, handleClose, title, closeButtonText
 }) {
     return (
         <div
@@ -30,7 +30,7 @@ export default function GenericModal ({
                         onClick={handleClose}
                         className="is-medium question-button proceed-button"
                     >
-                        Cerrar
+                        {closeButtonText}
                     </button>
                 </div>
             </div>
