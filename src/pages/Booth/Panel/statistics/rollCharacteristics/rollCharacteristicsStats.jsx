@@ -6,12 +6,12 @@ export default function RollCharacteristicsStats({ election }) {
   const {
     grouped: groupedElection,
     voters_by_weight_init: votersCharString,
-    total_voters: totalVoters,
+    normalization: normalizeWeights,
+    max_weight: maxWeight,
   } = election
 
   const votersChar = JSON.parse(votersCharString)
   const {
-    voters_by_weight_init: votersByWeightInit,
     voters_by_weight_init_grouped: votersByWeightPerGroup,
   } = votersChar
 
@@ -32,6 +32,8 @@ export default function RollCharacteristicsStats({ election }) {
         ? `Ponderaciones en ${groupName.toLowerCase()}`
         : "Ponderaciones en el padrón"
       }
+      normalizeWeights={normalizeWeights}
+      maxWeight={maxWeight}
     />
   )
 }

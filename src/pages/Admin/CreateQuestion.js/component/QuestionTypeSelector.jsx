@@ -1,9 +1,7 @@
 import { questionsInfo } from "../../../../constants";
 
 export default function QuestionTypeSelector({
-  disabledEdit,
-  handleChange,
-  typeQuestion,
+  disabledEdit, handleChange, questionType,
 }) {
   return (
     <div className="field">
@@ -15,7 +13,7 @@ export default function QuestionTypeSelector({
             disabled={disabledEdit}
             className="mr-2"
             onChange={handleChange}
-            value={typeQuestion}
+            value={questionType}
           >
             {questionsInfo.map((q, index) => (
               <option key={index} value={q.type}>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import InputCheckbox from "./Questions/InputCheckbox";
 import InputRadio from "./Questions/InputRadio";
 import { permanentOptions } from "../../../../constants";
