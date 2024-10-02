@@ -55,7 +55,7 @@ function InfoBoothView() {
         {activeNumber === 2 && <LoggerBoth />}
         {activeNumber === 3 && <Results />}
         {activeNumber === 4 && <VerifyElection
-          includesMnQuestion={election.questions.includes("mixnet_question")}
+          includesMnQuestion={election.questions.includes("mixnet") || election.questions.includes("stvnc")}
         />}
       </section>
 

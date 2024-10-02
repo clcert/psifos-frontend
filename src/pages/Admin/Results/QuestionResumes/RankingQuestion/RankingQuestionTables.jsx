@@ -5,8 +5,8 @@ function WinnerList({ winners }) {
       <div>
         {winners.map((winner) => {
           return (
-            <div className="is-size-7" key={winner}>
-              - {winner}
+            <div className="is-size-5" key={winner}>
+              {winner}
             </div>
           )
         })}
@@ -19,19 +19,19 @@ const getAlgorithmTableElements = (
 ) => {
     return [
         {
-          header: "Algoritmo de conteo",
+          header: "Algoritmo de Conteo",
           value: "STV",
         }, {
-          header: "Número de candidatos",
+          header: "Número de Candidatos",
           value: ncandidates,
         }, {
-          header: "Escaños disponibles",
+          header: "Escaños Disponibles",
           value: nwinners,
         }, {
           header: "Cuota",
           value: quota || 0,
         }, {
-          header: "Número de rondas",
+          header: "Número de Rondas",
           value: nrounds,
         },
     ]
@@ -41,7 +41,7 @@ const getResultsTableElements = (
     winners, includeInformals, nullvotes, blankvotes
 ) => {
     let resultsTable = [{
-        header: "Conjunto seleccionado",
+        header: "Opciones Seleccionadas",
         value: <WinnerList winners={winners} />,
         alignTextLeft: true,
       },
@@ -50,10 +50,10 @@ const getResultsTableElements = (
     if (includeInformals) {
         resultsTable = [
         {
-            header: "Votos nulos",
+            header: "Votos Nulos",
             value: nullvotes,
         }, {
-            header: "Votos blancos",
+            header: "Votos Blancos",
             value: blankvotes,
         },
         ...resultsTable
