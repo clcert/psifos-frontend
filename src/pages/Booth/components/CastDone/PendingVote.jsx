@@ -10,10 +10,10 @@ function PendingVote(props) {
       </p>
       <p className="subtitle has-text-black send-text">
         Para asegurarte de que tu voto ha sido validado, por favor contactar a
-        la mesa de ayuda:
+        la mesa de ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i class="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
       </p>
 
-      <ul
+      {/* <ul
         className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-flex-start"
         id="help-desk-list"
       >
@@ -73,7 +73,7 @@ function PendingVote(props) {
             @participaUChile
           </a>
         </li>
-      </ul>
+      </ul> */}
 
       {/* <p className="subtitle has-text-black mb-0">
         Código de Papeleta:
