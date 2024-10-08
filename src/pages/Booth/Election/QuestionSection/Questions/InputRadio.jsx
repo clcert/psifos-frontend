@@ -31,15 +31,12 @@ export function OptionInputRadio({
 }
 
 function InputRadio({
-  setAnswers,
-  setBlankButton,
-  setNullButton,
   addAnswer,
   question,
   questionId,
 }) {
   const { include_blank_null } = question;
-  const includeInformalAns = include_blank_null === "True";
+  const includeInformalAns = include_blank_null;
   const closed_options = question.closed_options_list;
 
   let answers = useSelector((state) => state.booth.answers)[questionId];
