@@ -37,10 +37,9 @@ function NoAuth({ addressLogout, title, message }) {
               ¿Tiene dudas o problemas con su elección?
             </span>
             <br />
-            Puede utilizar cualquiera de los siguientes canales para
-            contactarnos:
+            Puede contactarse con la mesa de ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i class="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
           </p>
-          <InfoChannels />
+          {/* <InfoChannels /> */}
         </div>
 
         <div className="d-flex justify-content-center pb-3">
