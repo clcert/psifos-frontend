@@ -34,22 +34,22 @@ const RankingSelection = ({
   question, addAnswer, index
 }) => {
   const {
-    closed_options,
+    closed_options_list,
     include_blank_null,
     max_answers,
   } = question
-  const options = Array.from(closed_options.keys());
-  const includeInformalAns = include_blank_null === "True";
+  const options = Array.from(closed_options_list.keys());
+  const includeInformalAns = include_blank_null;
   const optionIds = includeInformalAns ? options.slice(0, -2) : options;
-  const optionLabels = includeInformalAns ? closed_options.slice(0, -2) : closed_options;
+  const optionLabels = includeInformalAns ? closed_options_list.slice(0, -2) : closed_options_list;
   const maxAnswers = parseInt(max_answers, 10)
   
   const [rankedAnswers, setRankedAnswers] = useState([]);
   const [informalAnswer, setInformalAnswer] = useState(undefined);
   const [answers, setAnswers] = useState(rankedAnswers);
 
-  const blankId = getBlankAnswerId(closed_options)
-  const nullId = getNullAnswerId(closed_options)
+  const blankId = getBlankAnswerId(closed_options_list)
+  const nullId = getNullAnswerId(closed_options_list)
 
   const padAnswers = (answers) => {
     const desiredLength = maxAnswers; // max_ans >= ans.length
@@ -134,7 +134,7 @@ const RankingSelection = ({
               }
             }
             optionIds={[blankId, nullId]}
-            optionLabels={closed_options.slice(-2)}
+            optionLabels={closed_options_list.slice(-2)}
           />
         }
       </div>
