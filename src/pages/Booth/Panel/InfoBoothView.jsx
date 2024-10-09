@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { json, useParams } from "react-router-dom";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
@@ -23,6 +23,7 @@ function InfoBoothView() {
     getElectionPublic(shortName).then((data) => {
       const { jsonResponse } = data;
       setElection(jsonResponse);
+      setActiveNumber(jsonResponse.election_status.includes("released") ? 3 : 0);
     });
   }, [shortName]);
 
