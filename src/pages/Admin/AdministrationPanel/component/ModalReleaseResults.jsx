@@ -12,7 +12,7 @@ function ModalResultsRelease(props) {
       },
     });
     if (response.status === 200) {
-      props.feedback("La elección ha libreado los resultados con exito!", "is-success");
+      props.feedback("La elección ha liberado los resultados con exito!", "is-success");
       props.onHide();
     } else {
       props.feedback(
