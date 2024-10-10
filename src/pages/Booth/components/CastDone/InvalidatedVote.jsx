@@ -7,9 +7,9 @@ function InvalidatedVote(props) {
       <p className="subtitle has-text-black send-text">
         Ha surgido un problema. El voto recibido no es válido. Intenta votar
         nuevamente, y si el problema persiste, por favor contacta a la mesa de
-        ayuda:
+        ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i class="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
       </p>
-      <ul
+      {/* <ul
         className="mb-5 is-size-4 is-flex is-flex-direction-column is-align-items-flex-start"
         id="help-desk-list"
       >
@@ -69,7 +69,7 @@ function InvalidatedVote(props) {
             @participaUChile
           </a>
         </li>
-      </ul>
+      </ul> */}
 
       <a href="https://participa.uchile.cl/">
         <button className="button is-medium my-4" id="back-vote-button">

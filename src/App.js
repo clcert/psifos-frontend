@@ -9,7 +9,7 @@ import HomeAdmin from "./pages/Admin/Home/HomeAdmin";
 import AdministrationPanel from "./pages/Admin/AdministrationPanel/AdministrationPanel";
 import Login from "./pages/Admin/Login/Login";
 import CreateElection from "./pages/Admin/CreateElection/CreateElection";
-import CreateQuestion from "./pages/Admin/CreateQuestion.js/CreateQuestion";
+import ViewQuestions from "./pages/Admin/CreateQuestion.js/ViewQuestions";
 import Consult from "./pages/Booth/Consult/Consult";
 import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
@@ -118,7 +118,7 @@ function App() {
             path=":shortName/create-question/"
             element={
               <RequireAuth>
-                <CreateQuestion />
+                <ViewQuestions />
               </RequireAuth>
             }
           />

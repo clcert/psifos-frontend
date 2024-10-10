@@ -14,7 +14,7 @@ function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
         <span key={index}>
           {(
             isSTVQuestion(questionType)
-            ? `[${index+1}.] `
+            ? `Posición ${index+1}°: `
             : "[ ✓ ] "
           ) + (
             isMixNetQuestion(questionType) && answer.split(",").length > 1

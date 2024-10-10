@@ -1,12 +1,13 @@
 import InputRanking from "./Questions/InputRanking";
 import { OptionInputRadio } from "./Questions/InputRadio";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   getBlankAnswerId, getNullAnswerId,
 } from "../../../../utils";
+import { getFormalOptions } from "../../../Elections/utils";
 
 function InformalInput({
-  questionId, ans, ansHandler,
+  questionId, selectedAnswer, selectingHandler,
   optionIds, optionLabels,
 }) {
   return (
@@ -18,9 +19,9 @@ function InformalInput({
             optionId={key}
             questionId={questionId}
             optionLabel={optionLabels[index]}
-            isSelected={ans === key}
+            isSelected={selectedAnswer === key}
             isBordered={true}
-            inputHandler={(e) => ansHandler(
+            inputHandler={(e) => selectingHandler(
               parseInt(e.target.value)
             )}
           />
@@ -31,22 +32,23 @@ function InformalInput({
 }
 
 const RankingSelection = ({
-  question, addAnswer, index
+  question, addAnswer, index: questionId
 }) => {
   const {
     closed_options_list,
+    options_specifications: formalOptionsImages,
     include_blank_null,
     max_answers,
   } = question
-  const options = Array.from(closed_options_list.keys());
-  const includeInformalAns = include_blank_null;
-  const optionIds = includeInformalAns ? options.slice(0, -2) : options;
-  const optionLabels = includeInformalAns ? closed_options_list.slice(0, -2) : closed_options_list;
+  const includeInformalOptions = include_blank_null;
   const maxAnswers = parseInt(max_answers, 10)
+
+  const optionIds = Array.from(closed_options_list.keys());
+  const formalOptionIds = getFormalOptions(optionIds, includeInformalOptions)
+  const formalOptionLabels = getFormalOptions(closed_options_list, includeInformalOptions)
   
   const [rankedAnswers, setRankedAnswers] = useState([]);
-  const [informalAnswer, setInformalAnswer] = useState(undefined);
-  const [answers, setAnswers] = useState(rankedAnswers);
+  const [selectedInformalAnswer, setSelectedInformalAnswer] = useState(undefined);
 
   const blankId = getBlankAnswerId(closed_options_list)
   const nullId = getNullAnswerId(closed_options_list)
@@ -65,72 +67,43 @@ const RankingSelection = ({
     }
   }
 
-  const [BChangedByA, setBChangedByA] = useState(false)
-  const [AChangedByB, setAChangedByB] = useState(false)
-
-  useEffect(() => {
-    if (!AChangedByB) {
-      setAnswers(rankedAnswers)
-      if (informalAnswer) {
-        setBChangedByA(true)
-        setInformalAnswer(undefined)
-      }
-    }
-    else {
-      setAChangedByB(false)
-    }
-  }, [rankedAnswers]); // a.k.a A
-
-  useEffect(() => {
-    if (!BChangedByA) {
-      if (rankedAnswers.length === 0) {
-        if (informalAnswer){
-          setAnswers([informalAnswer])
-        }
-        else { // es undefined 
-          setAnswers(rankedAnswers)
-        }
-      }
-      else {
-        setAChangedByB(true)
-        setAnswers([informalAnswer])
-        setRankedAnswers([])
-      }
-    }
-    else {
-      setBChangedByA(false)
-    }
-  }, [informalAnswer]); // a.k.a B
-
-  useEffect(() => {
-    addAnswer(padAnswers(answers), index)
-  }, [answers]);
+  const setFinalAnswer = (ans) => {
+    addAnswer(padAnswers(ans), questionId)
+  }
 
   return (
     <div>
       <div>
         <InputRanking
-          answers={rankedAnswers}
-          answersHandler={(ans) => setRankedAnswers(
-            ans.map((item) => item-1)
-          )}
-          answerLabels={optionLabels}
-          clickHandler={() => (
-            answers.length === 1 &&
-            answers[0] === informalAnswer
-          ) && setInformalAnswer(undefined)}
+          optionIds={formalOptionIds}
+          optionLabels={formalOptionLabels}
+          optionImages={formalOptionsImages}
+          rankedAnswers={rankedAnswers}
+          rankingHandler={(ans) => {
+            const newAns = ans.map((item) => item-1)
+            if (newAns.length > 0) {
+              setRankedAnswers(newAns)
+              selectedInformalAnswer && setSelectedInformalAnswer(undefined)
+              setFinalAnswer(newAns)
+            }
+          }}
           maxAnswers={maxAnswers}
-          options={optionIds}
         />
-        {includeInformalAns &&
+        {includeInformalOptions &&
           <InformalInput
-            questionId={index}
-            ans={informalAnswer}
-            ansHandler={
+            questionId={questionId}
+            selectedAnswer={selectedInformalAnswer}
+            selectingHandler={
               (e) => {
-                informalAnswer === e ?
-                setInformalAnswer(undefined) :
-                setInformalAnswer(e)
+                if (selectedInformalAnswer === e) {
+                  setSelectedInformalAnswer(undefined)
+                  setFinalAnswer([])
+                }
+                else {
+                  setSelectedInformalAnswer(e)
+                  rankedAnswers.length > 0 && setRankedAnswers([])
+                  setFinalAnswer([e])
+                }
               }
             }
             optionIds={[blankId, nullId]}

@@ -26,6 +26,15 @@ function InfoBoothView() {
     });
   }, [shortName]);
 
+  useEffect(() => {
+    (function(w, d, s, u) {
+      w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+      var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+      j.async = true; j.src = 'https://chat.labs.clcert.cl/livechat/rocketchat-livechat.min.js?_=201903270000';
+      h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.labs.clcert.cl/livechat');
+  }, [])
+
   return (
     <div id="content-home-admin">
       <section id="header-section" className="parallax hero is-medium">
@@ -55,7 +64,7 @@ function InfoBoothView() {
         {activeNumber === 2 && <LoggerBoth />}
         {activeNumber === 3 && <Results />}
         {activeNumber === 4 && <VerifyElection
-          includesMnQuestion={election.questions.includes("mixnet_question")}
+          includesMnQuestion={election.questions.includes("mixnet") || election.questions.includes("stvnc")}
         />}
       </section>
 
