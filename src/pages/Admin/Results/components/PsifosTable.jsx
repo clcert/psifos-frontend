@@ -25,14 +25,15 @@ function PsifosTable({ data, election }) {
     ascendente: true,
   });
 
-  const arbitraryEl = data[0];
+  const arbitraryEl = tableData[0];
   const dataKeys = Object.keys(arbitraryEl);
   const intDataKeys = dataKeys.filter(
     (item) => typeof arbitraryEl[item] === "number"
   );
 
-  useEffect(() => setTableData(data)
-  , [data])
+  useEffect(() => {
+    setTableData(data);
+  }, [data])
 
   return (
     <table className="pretty table is-hoverable voters-table">
@@ -45,7 +46,7 @@ function PsifosTable({ data, election }) {
               nameRow={row}
               data={data}
               hideZeros={intDataKeys.includes(row)}
-              setFilteredData={(table) => setTableData(table)}
+              setFilteredData={(d) => setTableData(d)}
               ordenamiento={ordenamiento}
               setOrdenamiento={(newOrdenamiento) =>
                 setOrdenamiento(newOrdenamiento)

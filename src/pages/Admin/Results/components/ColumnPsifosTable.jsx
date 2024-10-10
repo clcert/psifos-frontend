@@ -70,8 +70,8 @@ export default function ColumnPsifosTable({
 
       // Si es un porcentaje le quitamos el formateo
       if (typeof firstValue === "string" && firstValue.includes("%")) {
-        firstValue = parseInt(firstValue.replace(".", "").replace("%", ""));
-        secondValue = secondValue.replace(".", "").replace("%", "");
+        firstValue = parseInt(firstValue.replace(",", "").replace("%", ""));
+        secondValue = secondValue.replace(",", "").replace("%", "");
       }
 
       // Comparamos los valores
@@ -127,32 +127,8 @@ export default function ColumnPsifosTable({
   }
 
   return (
-    <th ref={ref} className="has-text-centered" key={nameRow}>
+    <th ref={ref} className="has-text-centered is-clickable" key={nameRow}>
       <span onClick={() => sortData()}>{nameRow}</span>
-      {hideZeros && (
-        <div className="dropdown mx-2">
-          <button className="button-undesigned" onClick={() => openButton()}>
-            <i className="fa-solid fa-caret-down table-header-icon"/>
-          </button>
-          <ul className={"dropdown-menu " + (!buttonActive ? "d-none" : "")}>
-            <li>
-              <div className="form-check form-switch ml-4">
-                <input
-                  checked={isFilterCeros}
-                  onChange={(e) => {
-                    handlerFilterCeros(e.target.checked);
-                  }}
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckDefault"
-                />
-                <label className="form-check-label">Valores cero</label>
-              </div>
-            </li>
-          </ul>
-        </div>
-      )}
       {ordenamiento.column === nameRow && (ordenamiento.ascendente ? "▲" : "▼")}
     </th>
   );
