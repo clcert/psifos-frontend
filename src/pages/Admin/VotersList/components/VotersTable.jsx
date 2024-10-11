@@ -129,7 +129,7 @@ function VotersTable({
             id="ballot_searched"
             name="q"
             className="input_search"
-            placeholder="Buscar votante por nombre..."
+            placeholder="Buscar votante por nombre o username..."
             value={voterToSearch}
             onChange={(e) => {
               setVoterToSearch(e.target.value);
