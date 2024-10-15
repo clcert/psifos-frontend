@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getStats, getStatsGroup } from "../../../../services/election";
+import { getStats, getStatsGroup, getEvents } from "../../../../services/election";
 import { getPercentage } from "../../utils";
 import SimpleHorizontalTable from "../../../../component/Tables/HorizontalTable";
 
@@ -10,6 +10,9 @@ export default function ResumeTable({ grouped = false, group = "" }) {
 
   /** @state {int} number of votes in the election  */
   const [totalVotes, setTotalVotes] = useState(0);
+
+  const [startTime, setStartTime] = useState("");
+  const [closeTime, setCloseTime] = useState("");
 
   /** @urlParam {string} uuid of election */
   const { shortName } = useParams();
@@ -28,6 +31,16 @@ export default function ResumeTable({ grouped = false, group = "" }) {
         setTotalVotes(jsonResponse.num_casted_votes);
       });
     }
+    getEvents(shortName).then((data) => {
+      for (const event of data.jsonResponse) {
+        if (event.event == "voting_started") {
+          setStartTime(event.created_at);
+        }
+        if (event.event == "voting_stopped") {
+          setCloseTime(event.created_at);
+        }
+      }
+    })
   }, [group, grouped, shortName]);
 
   useEffect(() => {
@@ -47,9 +60,26 @@ export default function ResumeTable({ grouped = false, group = "" }) {
     },
   ]
 
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'};
+
+  const contentPerRowTimes = [
+    {
+      header: "Hora de Apertura",
+      value: new Date(startTime).toLocaleDateString("es-CL", options),
+    }, {
+      header: "Hora de Cierre",
+      value: new Date(closeTime).toLocaleDateString("es-CL", options),
+    },
+  ]
+
   return (
-    <div className="d-flex disable-text-selection row justify-content-md-center">
-      <SimpleHorizontalTable contentPerRow={contentPerRow} />
+    <div>
+      <div className="d-flex disable-text-selection row justify-content-md-center">
+        <SimpleHorizontalTable contentPerRow={contentPerRowTimes} />
+      </div>
+      <div className="d-flex disable-text-selection row justify-content-md-center">
+        <SimpleHorizontalTable contentPerRow={contentPerRow} />
+      </div>
     </div>
   );
 }

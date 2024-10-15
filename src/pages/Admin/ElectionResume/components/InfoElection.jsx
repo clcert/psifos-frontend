@@ -25,7 +25,7 @@ function InfoElection(props) {
             {props.weightsEnd && props.weightsInit ? (
               <>
                 <>
-                  <StyledTitle title="Apertura de Urna"/>
+                  <StyledTitle title="Datos Generales"/>
                   <ResumeTable />
                 </>
                 {props.maxWeight && props.maxWeight !== 1 && (
@@ -34,7 +34,7 @@ function InfoElection(props) {
                     <WeightsTable
                       weightsInit={props.weightsInit.voters_by_weight_init}
                       weightsEnd={props.weightsEnd.voters_by_weight_end}
-                      weightsElection={props.weightsElection}
+                      weightsElection={props.weightsElection.voters_by_weight}
                     />
                   </>
                 )}
