@@ -143,8 +143,8 @@ HELIOS.Election = Election;
 
 HELIOS.Election.fromJSONString = function (raw_json) {
   var json_object = JSON.parse(raw_json);
-  json_object.questions = JSON.parse(json_object.questions);
-  json_object.public_key = JSON.parse(json_object.public_key);
+  json_object.questions = json_object.questions;
+  json_object.public_key = json_object.public_key;
 
   // let's hash the raw_json
   var election = HELIOS.Election.fromJSONObject(json_object);

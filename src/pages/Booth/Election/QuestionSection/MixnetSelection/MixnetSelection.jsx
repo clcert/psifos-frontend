@@ -16,7 +16,8 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     (state) => state.booth.answers
   )[numQuestion] || [];
 
-  const numOfOptions = question.closed_options.length
+  const closed_options = question.closed_options_list;
+  const numOfOptions = closed_options.length
 
   /** @state {array} array with options for react-select */
   const [candidaturesObjs, setCandidaturesObjs] = useState([]);
@@ -26,7 +27,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   // guarda false, id nulo o id blanco
   const [informalAnswersSelected, setInformalAnswersSelected] = useState(0);
 
-  const includeBlankNull = question.include_blank_null === "True";
+  const includeBlankNull = question.include_blank_null;
   const addAnswerCallback = useCallback(addAnswer, [addAnswer]);
 
   const changeAllEncrypted = useCallback(
@@ -43,10 +44,10 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
   const initComponent = useCallback(() => {
     const auxAnswersForEncrypt = changeAllEncrypted(
-      question.closed_options.length
+      numOfOptions
     );
     const auxOptions = [];
-    question.closed_options.forEach((close_option, index) => {
+    closed_options.forEach((close_option, index) => {
       if (
         includeBlankNull &&
         (close_option === "Voto Blanco" || close_option === "Voto Nulo")
@@ -91,7 +92,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     includeBlankNull,
     isGrouped,
     numQuestion,
-    question.closed_options,
+    closed_options,
   ]);
 
   useEffect(() => {
@@ -126,7 +127,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       if (informalAnswersSelected) {
         setInformalAnswersSelected(false)
         auxAnswersForEncrypt = [...changeAllEncrypted(
-          question.closed_options.length
+          numOfOptions
         )];
       }
       auxAnswersSelected[index] = event;

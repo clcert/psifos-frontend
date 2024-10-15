@@ -36,7 +36,7 @@ function Status({
             </span>
           </div>
         )}
-      {election.questions === null &&
+      {election.questions && election.questions.length === 0 &&
         electionStep === electionStatus.settingUp && (
           <div className="content-card-admin">
             <span className="panel-text-sect">

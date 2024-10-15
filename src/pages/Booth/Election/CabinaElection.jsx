@@ -93,7 +93,7 @@ function CabinaElection(props) {
 
   useEffect(() => {
     if (props.electionData.questions) {
-      const questionsFetch = JSON.parse(props.electionData.questions);
+      const questionsFetch = props.electionData.questions;
       questionsFetch.include_blank_null =
         questionsFetch.include_blank_null === "True" ? true : false;
       setQuestions(questionsFetch);

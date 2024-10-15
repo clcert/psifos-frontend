@@ -23,6 +23,7 @@ function DecryptProve() {
   let POINTS;
   let ELECTION;
   let TRUSTEE;
+  let ENCRYPTED_TALLY;
   let DESCRIPTIONS = {};
   let WORKERS = {};
   let RESULT_WORKERS = {};
@@ -129,7 +130,6 @@ function DecryptProve() {
           DESCRIPTIONS[group][q_num] = factor_proofs;
           QUESTIONS_COMPLETE[group] = QUESTIONS_COMPLETE[group] + 1;
         }
-        console.log(QUESTIONS_COMPLETE[group], TOTAL_TALLY[group]);
         // En caso de que terminamos todas las preguntas
         if (QUESTIONS_COMPLETE[group] === TOTAL_TALLY[group]) {
           FINAL_TALLY.push({
@@ -144,7 +144,6 @@ function DecryptProve() {
   };
 
   const check_and_send = () => {
-    console.log(LENGTH_TALLY, FINAL_TALLY.length);
     if (LENGTH_TALLY === FINAL_TALLY.length) {
       sendDecrypt(FINAL_TALLY);
     }
@@ -158,24 +157,32 @@ function DecryptProve() {
         POINTS = JSON.parse(data.points);
         ELECTION = data.election;
         TRUSTEE = data.trustee;
-
+        ENCRYPTED_TALLY = data.encrypted_tally;
         if (!sk) {
           setFeedbackMessage("Formato de archivo incorrecto");
           setActualStep(0);
           return;
         }
-        let tallyGrouped = JSON.parse(ELECTION.encrypted_tally);
-        LENGTH_TALLY = tallyGrouped.filter((element) => {
-          return element.with_votes === "True";
-        }).length;
-        tallyGrouped.forEach((element) => {
+
+        const groupedTally = ENCRYPTED_TALLY.reduce((acc, item) => {
+          // Si el grupo aún no existe en el acumulador, lo creamos
+          if (!acc[item.group]) {
+              acc[item.group] = [];
+          }
+          // Añadimos el item al grupo correspondiente
+          acc[item.group].push(item);
+          return acc;
+        }, {});
+        LENGTH_TALLY = Object.keys(groupedTally).length;
+
+        Object.entries(groupedTally).forEach(([group, items]) => {;
           try {
-            if (element.with_votes === "True") {
-              doTally(element.tally, sk, element.group, element.with_votes);
+            if (items[0].with_votes) {
+              doTally(items, sk, group, items[0].with_votes);
             }
           } catch (e) {
-            console.error("error");
-          }
+            console.error(e);
+          }  
         });
       });
     });
@@ -189,6 +196,7 @@ function DecryptProve() {
     WORKERS_QUESTIONS[group] = [];
     DESCRIPTIONS[group] = [];
     tally.forEach((t, q_num) => {
+      t.tally = JSON.parse(t.tally);
       const size = Math.ceil(t.tally.length / TOTAL_WORKERS);
       WORKERS[group][q_num] = 0;
 

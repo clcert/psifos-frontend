@@ -74,7 +74,7 @@ export default function QuestionCard({
   const [answerObjects, setAnswerObjects] = useState([]);
   const [imageObjects, setImageObjects] = useState([]);
   const [questionNumber, setQuestionNumber] = useState(1);
-  const [questionType, setQuestionType] = useState("unic");
+  const [questionType, setQuestionType] = useState("CLOSED");
   const [includesInformalAns, setIncludesInformalAns] = useState(include_blank_null);
   const [numberOfWinners, setNumberOfWinners] = useState(true);
 

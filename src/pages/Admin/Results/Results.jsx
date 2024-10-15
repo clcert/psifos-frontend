@@ -50,7 +50,7 @@ function Results({ isAdmin = false }) {
       result.push(
         parseResult(
           element,
-          resultObject[q_num].ans_results,
+          resultObject[q_num],
           questionsObject[q_num].include_blank_null
         )
       );
@@ -65,7 +65,7 @@ function Results({ isAdmin = false }) {
       result.push(
         parseResult(
           element,
-          resultObject.result[q_num].ans_results,
+          resultObject.result[q_num],
           questionsObject[q_num].include_blank_null
         )
       );
@@ -84,16 +84,16 @@ function Results({ isAdmin = false }) {
           jsonResponse.election_status === electionStatus.resultsReleased ||
           jsonResponse.election_status === electionStatus.decryptionsCombined
         ) {
-          const questionsObject = JSON.parse(jsonResponse.questions);
-          const resultObject = JSON.parse(jsonResponse.result);
-          setGroupedResults(resultObject.results_grouped);
-          setTotalResults(resultObject.results_total);
+          const questionsObject = jsonResponse.questions;
+          const resultObject = jsonResponse.result;
+          setGroupedResults(resultObject.grouped_result);
+          setTotalResults(resultObject.total_result);
           setResultGroups(resultObject);
-          handleTotalResults(questionsObject, resultObject.results_total);
-          let result = resultObject.results_grouped.find((element) => {
+          handleTotalResults(questionsObject, resultObject.total_result);
+          let result = resultObject.grouped_result.find((element) => {
             return element.group === "Sin grupo";
           });
-          if (!result) result = resultObject.results_grouped[0];
+          if (!result) result = resultObject.grouped_result[0];
           handleGroupResults(questionsObject, result);
         }
       }
@@ -102,7 +102,7 @@ function Results({ isAdmin = false }) {
   }, [shortName]);
 
   const setResultGroups = (groupedResults) => {
-    const auxResult = groupedResults.results_grouped.map((result) => {
+    const auxResult = groupedResults.grouped_result.map((result) => {
       return result.group;
     });
     setGroups(auxResult);
