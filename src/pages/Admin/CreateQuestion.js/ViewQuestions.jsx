@@ -104,7 +104,7 @@ export default function ViewQuestions(props) {
     
     let auxQuestionList = [...questionList];
     for (let i = 0; i < auxQuestionList.length; i++) {
-      if (auxQuestionList[i].key === key) {
+      if (auxQuestionList[i].q_num === key) {
         auxQuestionList[i] = newValue;
       }
       setQuestionList(auxQuestionList);
