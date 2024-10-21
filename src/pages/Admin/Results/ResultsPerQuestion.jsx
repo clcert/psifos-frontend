@@ -19,8 +19,8 @@ function PercentageOptions({ handleChange, currentValue }) {
             id="time"
             value={currentValue}
           >
-            <option value="votosEmitidos">Si</option>
-            <option value="votosValidos">No</option>
+            <option value="votosValidos">Si</option>
+            <option value="votosEmitidos">No</option>
           </select>
         </div>
       </div>
@@ -42,8 +42,8 @@ function QuestionTitle({ index, text }) {
 
 function ClosedQuestionResume({ result, question, election }) {
   return (
-    <div className="disable-text-selection justify-content-md-center columns question-columns">
-      <div className="column justify-content-center">
+    <div className="disable-text-selection justify-content-md-center question-columns">
+      <div className="column justify-content-center pb-0">
         <PsifosTable
           election={election}
           data={
@@ -73,7 +73,7 @@ function QuestionResume(props) {
 }
 
 function BoxPerQuestion({ question, index, election, result }) {
-  const [percentageOption, setPercentageOption] = useState("votosValidos");
+  const [percentageOption, setPercentageOption] = useState("votosEmitidos");
   const resultByOption = updateResult(result, question, percentageOption);
   return (
     <div className="box question-box-results" id="question-box-results">

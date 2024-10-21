@@ -130,15 +130,17 @@ function Results({ isAdmin = false }) {
         (election.election_status === electionStatus.resultsReleased ||
         (election.election_status === electionStatus.decryptionsCombined &&
           isAdmin) ? (
-          <CalculatedResults
-            election={election}
-            questions={questions}
-            totalResults={totalResults}
-            groupResult={groupResult}
-            group={group}
-            groups={groups}
-            setGroup={setGroup}
-          />
+          <div className="container">
+            <CalculatedResults
+              election={election}
+              questions={questions}
+              totalResults={totalResults}
+              groupResult={groupResult}
+              group={group}
+              groups={groups}
+              setGroup={setGroup}
+            />
+          </div>
         ) : (
           <NoCalculatedResults getElectionResult={getElectionResult} />
         ))}
