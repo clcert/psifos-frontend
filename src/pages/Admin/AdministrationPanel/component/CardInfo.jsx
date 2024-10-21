@@ -101,7 +101,7 @@ function CardInfo({
           condition={election.election_login_type === electionLoginType.close_p}
         />
         <DisplayTicket
-          name="Aleatorizar respuestas"
+          name="Aleatorizar opciones"
           condition={election.randomize_answer_order}
         />
         <DisplayTicket name="Elección agrupada" condition={election.grouped} />

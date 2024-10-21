@@ -72,7 +72,7 @@ const updateClosedResult = (result, question, percentageConfig) => {
         } = currentValue
 
         const infoGeneral = {
-            'Respuesta': question.q_type === "mixnet_question"
+            'Opción': question.q_type === "mixnet_question"
             ? getResponseWithoutGroup(Respuesta)
             : Respuesta,
             Votos,

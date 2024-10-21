@@ -23,7 +23,7 @@ export default function MixnetAnswersSetup({
             <div>
               <div className="mb-2">
                 <span onClick={handleDownloadFile}>
-                  Existen un total de {closedOptions.length} respuestas
+                  Existen un total de {closedOptions.length} opciones
                   registradas.
                 </span>
               </div>
