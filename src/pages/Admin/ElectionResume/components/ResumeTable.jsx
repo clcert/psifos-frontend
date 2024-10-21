@@ -33,10 +33,10 @@ export default function ResumeTable({ grouped = false, group = "" }) {
     }
     getEvents(shortName).then((data) => {
       for (const event of data.jsonResponse) {
-        if (event.event == "voting_started") {
+        if (event.event === "voting_started") {
           setStartTime(event.created_at);
         }
-        if (event.event == "voting_stopped") {
+        if (event.event === "voting_stopped") {
           setCloseTime(event.created_at);
         }
       }

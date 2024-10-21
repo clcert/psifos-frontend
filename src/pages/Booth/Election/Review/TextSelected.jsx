@@ -37,7 +37,6 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
         )
         return (
           <ShowAnswer
-            key={index}
             questionType={questionType}
             indexAnswer={indexAnswer}
             numOptions={closedOptions.length}
