@@ -34,7 +34,7 @@ function DecryptProve() {
     : 1;
   let QUESTIONS_COMPLETE = {};
   let TOTAL_TALLY = {};
-  let LENGTH_TALLY;
+  let LENGTH_TALLY = 0;
 
   const getDecrypt = useCallback(async () => {
     const url =
@@ -173,8 +173,11 @@ function DecryptProve() {
           acc[item.group].push(item);
           return acc;
         }, {});
-        LENGTH_TALLY = Object.keys(groupedTally).length;
-
+        Object.entries(groupedTally).forEach(([_, items]) => {
+          if(items[0].with_votes) {
+            LENGTH_TALLY += 1;
+          }
+        });
         Object.entries(groupedTally).forEach(([group, items]) => {;
           try {
             if (items[0].with_votes) {
