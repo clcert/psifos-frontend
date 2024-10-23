@@ -93,7 +93,10 @@ function Results({ isAdmin = false }) {
           let result = resultObject.grouped_result.find((element) => {
             return element.group === "Sin grupo";
           });
-          if (!result) result = resultObject.grouped_result[0];
+          if (!result){
+            result = resultObject.grouped_result[0];
+            setGroup(result.group);
+          } 
           handleGroupResults(questionsObject, result);
         }
       }
