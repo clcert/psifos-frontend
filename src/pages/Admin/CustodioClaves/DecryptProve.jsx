@@ -1,14 +1,14 @@
 import { useCallback, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
+import { getEgParams } from "../../../services/crypto";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
-import imageTrustees from "../../../static/svg/trustees2.svg";
-import { getEgParams } from "../../../services/crypto";
 import DropFile from "./components/DropFile";
 import ModalDecrypt from "./components/ModalDecrypt";
+import imageTrustees from "../../../static/svg/trustees2.svg";
 
 function DecryptProve() {
   const [actualStep, setActualStep] = useState(0);
@@ -37,13 +37,7 @@ function DecryptProve() {
   let LENGTH_TALLY = 0;
 
   const getDecrypt = useCallback(async () => {
-    const url =
-      backendOpIP +
-      "/" +
-      shortName +
-      "/trustee/" +
-      uuidTrustee +
-      "/decrypt-and-prove";
+    const url = `${backendOpIP}/${shortName}/trustee/${uuidTrustee}/decrypt-and-prove`;
     const response = await fetch(url, {
       method: "GET",
       credentials: "include",
@@ -55,33 +49,31 @@ function DecryptProve() {
     return jsonResponse;
   }, [shortName, uuidTrustee]);
 
-  async function sendDecrypt(descriptions) {
+  const sendDecrypt = useCallback(async (descriptions) => {
     setFeedbackMessage("Enviando información...");
-    const url =
-      backendOpIP +
-      "/" +
-      shortName +
-      "/trustee/" +
-      uuidTrustee +
-      "/decrypt-and-prove";
-    const response = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(descriptions),
-    });
-    if (response.status === 200) {
-      setFeedbackMessage("Desencriptación Parcial Completada ✓");
-      setActualStep(2);
-      const jsonResponse = await response.json();
-      return jsonResponse;
-    } else {
-      setFeedbackMessage("Error al enviar información, intente nuevamente");
+    const url = `${backendOpIP}/${shortName}/trustee/${uuidTrustee}/decrypt-and-prove`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(descriptions),
+      });
+      if (response.ok) {
+        setFeedbackMessage("Desencriptación Parcial Completada ✓");
+        setActualStep(2);
+        const jsonResponse = await response.json();
+        return jsonResponse;
+      } else {
+        throw new Error("Error al enviar información, intente nuevamente");
+      }
+    } catch (error) {
+      setFeedbackMessage(error.message);
       setActualStep(0);
     }
-  }
+  }, [shortName, uuidTrustee]);
 
   const createWorker = (bash, sk, q_num, worker_num, group, with_votes) => {
     const worker = new Worker(new URL("./decrypt-worker.js", import.meta.url));
@@ -149,46 +141,46 @@ function DecryptProve() {
     }
   };
 
-  const handlerDecrypt = (sk) => {
-    getEgParams(shortName).then((eg_params) => {
-      getDecrypt().then((data) => {
-        PARAMS = JSON.parse(eg_params);
-        CERTIFICATES = JSON.parse(data.certificates);
-        POINTS = JSON.parse(data.points);
-        ELECTION = data.election;
-        TRUSTEE = data.trustee;
-        ENCRYPTED_TALLY = data.encrypted_tally;
-        if (!sk) {
-          setFeedbackMessage("Formato de archivo incorrecto");
-          setActualStep(0);
-          return;
-        }
+  const handlerDecrypt = async (sk) => {
+    try {
+      const eg_params = await getEgParams(shortName);
+      const data = await getDecrypt();
 
-        const groupedTally = ENCRYPTED_TALLY.reduce((acc, item) => {
-          // Si el grupo aún no existe en el acumulador, lo creamos
-          if (!acc[item.group]) {
-              acc[item.group] = [];
-          }
-          // Añadimos el item al grupo correspondiente
-          acc[item.group].push(item);
-          return acc;
-        }, {});
-        Object.entries(groupedTally).forEach(([_, items]) => {
-          if(items[0].with_votes) {
-            LENGTH_TALLY += 1;
-          }
-        });
-        Object.entries(groupedTally).forEach(([group, items]) => {;
-          try {
-            if (items[0].with_votes) {
-              doTally(items, sk, group, items[0].with_votes);
-            }
-          } catch (e) {
-            console.error(e);
-          }  
-        });
+      PARAMS = JSON.parse(eg_params);
+      CERTIFICATES = JSON.parse(data.certificates);
+      POINTS = JSON.parse(data.points);
+      ELECTION = data.election;
+      TRUSTEE = data.trustee;
+      ENCRYPTED_TALLY = data.encrypted_tally;
+
+      if (!sk) {
+        setFeedbackMessage("Formato de archivo incorrecto");
+        setActualStep(0);
+        return;
+      }
+
+      const groupedTally = ENCRYPTED_TALLY.reduce((acc, item) => {
+        if (!acc[item.group]) {
+          acc[item.group] = [];
+        }
+        acc[item.group].push(item);
+        return acc;
+      }, {});
+
+      Object.values(groupedTally).forEach((items) => {
+        if (items[0].with_votes) {
+          LENGTH_TALLY += 1;
+        }
       });
-    });
+
+      for (const [group, items] of Object.entries(groupedTally)) {
+        if (items[0].with_votes) {
+          doTally(items, sk, group, items[0].with_votes);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const doTally = (tally, sk, group, with_votes) => {
@@ -198,38 +190,38 @@ function DecryptProve() {
     RESULT_WORKERS[group] = [];
     WORKERS_QUESTIONS[group] = [];
     DESCRIPTIONS[group] = [];
+
     tally.forEach((t, q_num) => {
       t.tally = JSON.parse(t.tally);
       const size = Math.ceil(t.tally.length / TOTAL_WORKERS);
       WORKERS[group][q_num] = 0;
-
-      // Caso de tally pequeño, solo un hilo de ejecución
       RESULT_WORKERS[group][q_num] = [];
-      if (size < 10) {
-        WORKERS_QUESTIONS[group][q_num] = 1;
-        createWorker(t, sk, q_num, 0, group, with_votes);
-      } else {
-        // Seteamos la cantidad total de workers
-        WORKERS_QUESTIONS[group][q_num] = TOTAL_WORKERS;
 
-        for (let i = 0; i < TOTAL_WORKERS; i++) {
-          // Copiamos el tally y repartimos el arreglo
-          let bash = { ...t };
-          bash.tally = t.tally.slice(size * i, size * (i + 1));
-          createWorker(bash, sk, q_num, i, group, with_votes);
-        }
+      const workerCount = size < 10 ? 1 : TOTAL_WORKERS;
+      WORKERS_QUESTIONS[group][q_num] = workerCount;
+
+      for (let i = 0; i < workerCount; i++) {
+        const bash = size < 10 ? t : { ...t, tally: t.tally.slice(size * i, size * (i + 1)) };
+        createWorker(bash, sk, q_num, i, group, with_votes);
       }
     });
   };
   const decrypt = async (sk) => {
-    try {
-      setFeedbackMessage("Generando desencriptado parcial...");
-      setActualStep(1);
-      setTimeout(() => {
-        handlerDecrypt(sk);
-      }, 500);
-    } catch {
+    if (!sk) {
       setFeedbackMessage("Clave incorrecta");
+      setActualStep(0);
+      return;
+    }
+
+    setFeedbackMessage("Generando desencriptado parcial...");
+    setActualStep(1);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await handlerDecrypt(sk);
+    } catch (error) {
+      console.error(error);
+      setFeedbackMessage("Error al generar desencriptado parcial");
       setActualStep(0);
     }
   };
@@ -261,36 +253,25 @@ function DecryptProve() {
               {feedbackMessage}
               <i
                 className={
-                  "ml-2 " + (actualStep === 1 && "fa-solid fa-spinner fa-spin")
+                  "ml-2 " + (actualStep === 1 ? "fa-solid fa-spinner fa-spin" : "")
                 }
               ></i>
             </p>
-            {actualStep < 2 && (
               <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
                 <button className="button is-link mx-sm-2 mt-2">
                   <Link
                     id="go-home-trustee"
                     style={{ textDecoration: "None", color: "white" }}
-                    to={`/psifos/${shortName}/trustee/${uuidTrustee}/home`}
+                  to={
+                    actualStep < 2
+                      ? `/psifos/${shortName}/trustee/${uuidTrustee}/home`
+                      : `/psifos/booth/${shortName}/public-info`
+                  }
                   >
-                    Volver atrás
+                  {actualStep < 2 ? "Volver atrás" : "Ir al Portal de Información"}
                   </Link>
                 </button>
               </div>
-            )}
-            {actualStep === 2 && (
-              <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-                <button className="button is-link mx-sm-2 mt-2">
-                  <Link
-                    id="go-home-trustee"
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={`/psifos/booth/${shortName}/public-info`}
-                  >
-                    Ir al Portal de Información
-                  </Link>
-                </button>
-              </div>
-            )}
             <div className="mt-4"></div>
           </div>
         </div>
