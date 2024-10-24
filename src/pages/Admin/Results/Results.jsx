@@ -76,7 +76,8 @@ function Results({ isAdmin = false }) {
 
   const getElectionResult = useCallback(async () => {
     setLoad(false);
-    getElectionPublic(shortName).then((election) => {
+    try {
+      const election = await getElectionPublic(shortName);
       const { resp, jsonResponse } = election;
       if (resp.status === 200) {
         setElection(jsonResponse);
@@ -90,18 +91,19 @@ function Results({ isAdmin = false }) {
           setTotalResults(resultObject.total_result);
           setResultGroups(resultObject);
           handleTotalResults(questionsObject, resultObject.total_result);
-          let result = resultObject.grouped_result.find((element) => {
-            return element.group === "Sin grupo";
-          });
-          if (!result){
+          let result = resultObject.grouped_result.find((element) => element.group === "Sin grupo");
+          if (!result) {
             result = resultObject.grouped_result[0];
             setGroup(result.group);
           } 
           handleGroupResults(questionsObject, result);
         }
       }
+    } catch (error) {
+      console.error("Failed to fetch election results:", error);
+    } finally {
       setLoad(true);
-    });
+    }
   }, [shortName]);
 
   const setResultGroups = (groupedResults) => {
@@ -128,25 +130,28 @@ function Results({ isAdmin = false }) {
   }, [initComponent]);
   return (
     <>
-      {!load && <div className="spinner-animation"></div>}
-      {load &&
-        (election.election_status === electionStatus.resultsReleased ||
-        (election.election_status === electionStatus.decryptionsCombined &&
-          isAdmin) ? (
-          <div className="container">
-            <CalculatedResults
-              election={election}
-              questions={questions}
-              totalResults={totalResults}
-              groupResult={groupResult}
-              group={group}
-              groups={groups}
-              setGroup={setGroup}
-            />
-          </div>
-        ) : (
-          <NoCalculatedResults getElectionResult={getElectionResult} />
-        ))}
+      {!load ? (
+        <div className="spinner-animation"></div>
+      ) : (
+        <>
+          {election.election_status === electionStatus.resultsReleased ||
+          (election.election_status === electionStatus.decryptionsCombined && isAdmin) ? (
+            <div className="container">
+              <CalculatedResults
+                election={election}
+                questions={questions}
+                totalResults={totalResults}
+                groupResult={groupResult}
+                group={group}
+                groups={groups}
+                setGroup={setGroup}
+              />
+            </div>
+          ) : (
+            <NoCalculatedResults getElectionResult={getElectionResult} />
+          )}
+        </>
+      )}
     </>
   );
 }
