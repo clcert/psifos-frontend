@@ -13,7 +13,7 @@ export default function ClosedAnswersSetup({
       <>
         {" "}
         <div>
-          <div className="create-title mb-1">Respuestas</div>
+          <div className="create-title mb-1">Opciones</div>
           <div id="create-questions">
             {answersWithKey.map((item, index) => {
               return (

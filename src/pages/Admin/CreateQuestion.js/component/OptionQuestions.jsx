@@ -41,11 +41,11 @@ export function DescriptionInput({
 function MinOfAnsInput(props) {
   return (
     <CotedInput
-      label="Cantidad mínima de respuestas"
+      label="Cantidad mínima de opciones"
       inputId={`question-${props.questionId}-min-answers`}
       placeholder="Mínimo"
       minCoteWarningMessage="Debe introducir un número mayor que 0"
-      maxCoteWarningMessage="Debe introducir un número menor a la cantidad de respuestas"
+      maxCoteWarningMessage="Debe introducir un número menor a la cantidad de opciones"
       {...props}
     />
   );
@@ -54,11 +54,11 @@ function MinOfAnsInput(props) {
 function MaxOfAnsInput(props) {
   return (
     <CotedInput
-      label="Cantidad máxima de respuestas"
+      label="Cantidad máxima de opciones"
       inputId={`question-${props.questionId}-max-answers`}
       placeholder="Máximo"
       minCoteWarningMessage="Debe introducir un número mayor que 0 y menor que el mínimo"
-      maxCoteWarningMessage="Debe introducir un número menor o igual a la cantidad de respuestas"
+      maxCoteWarningMessage="Debe introducir un número menor o igual a la cantidad de opciones"
       {...props}
     />
   );

@@ -2,10 +2,16 @@ import { useEffect, useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
 function StyledCell({content}) {
+  var percentageBackground = "";
+  if (content.toString().includes("%")) {
+    let color = "#a5a5ffc4";
+    let amount = content.replace(",", ".").split("%")[0]
+    percentageBackground = "linear-gradient(90deg," + color + " " + amount + "%, white 0%)";
+  }
   return (
     <td
       style={{
-        width: "180px", wordBreak: "break-word",
+        width: "180px", wordBreak: "break-word", background: percentageBackground
       }}
       className={
         typeof content === 'number' || !isNaN(parseInt(content))

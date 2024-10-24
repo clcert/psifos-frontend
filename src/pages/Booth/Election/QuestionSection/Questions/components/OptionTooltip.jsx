@@ -6,6 +6,7 @@ function OptionImage({src}){
         <img
           src={src} width={300} height={300}
           style={{pointerEvents: 'none'}}
+          alt="Opción"
         />
       </div>
     )

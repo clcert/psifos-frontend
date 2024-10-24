@@ -129,6 +129,30 @@ export default function ColumnPsifosTable({
   return (
     <th ref={ref} className="has-text-centered is-clickable" key={nameRow}>
       <span onClick={() => sortData()}>{nameRow}</span>
+      {!data[0]["Opción"].includes("Blanco") && hideZeros && (
+        <div className="dropdown mx-2">
+          <button className="button-undesigned" onClick={() => openButton()}>
+            <i className="fa-solid fa-gear table-header-icon"/>
+          </button>
+          <ul className={"dropdown-menu " + (!buttonActive ? "d-none" : "")}>
+            <li>
+              <div className="form-check form-switch ml-4">
+                <input
+                  checked={isFilterCeros}
+                  onChange={(e) => {
+                    handlerFilterCeros(e.target.checked);
+                  }}
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                />
+                <label className="form-check-label">Cero Votos</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      )}
       {ordenamiento.column === nameRow && (ordenamiento.ascendente ? "▲" : "▼")}
     </th>
   );

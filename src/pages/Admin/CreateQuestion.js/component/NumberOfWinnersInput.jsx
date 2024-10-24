@@ -13,7 +13,7 @@ export default function NumberOfWinnersInput({
                     inputId={`question-${props.questionId}-number-of-winners`}
                     placeholder="Número de ganadores"
                     minCoteWarningMessage="Debe introducir un número mayor que 0"
-                    maxCoteWarningMessage="Debe introducir un número menor o igual a la cantidad de respuestas"
+                    maxCoteWarningMessage="Debe introducir un número menor o igual a la cantidad de opciones"
                     handleInput={(e) => {
                         const enteredValue = parseInt(e.target.value);
                         if (isNaN(enteredValue) || enteredValue >= 0) {

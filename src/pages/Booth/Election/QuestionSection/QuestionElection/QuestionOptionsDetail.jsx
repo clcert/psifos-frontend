@@ -28,6 +28,7 @@ function ShowOptions ({
                   width={360}
                   height={360}
                   style={{pointerEvents: 'none'}}
+                  alt="Opción"
                 />
               </div>
           )

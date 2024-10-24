@@ -193,7 +193,6 @@ function Keygenerator(props) {
 
   function total_process() {
     get_step().then((data) => {
-      console.log(TRUSTEE_STEP, data.status);
       if (TRUSTEE_STEP === data.status) {
         setActualStep(TRUSTEE_STEP);
 

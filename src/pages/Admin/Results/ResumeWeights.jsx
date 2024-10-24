@@ -75,6 +75,7 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
       const init = jsonInit.voters_by_weight_init_grouped.find(
         (element) => element.group === auxGroup
       );
+      if (!init) return;
       setWeightsInitGrouped(init.weights);
       const electionWeight = jsonElection.voters_by_weight_grouped.find(
         (element) => element.group === auxGroup
@@ -120,7 +121,7 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
               weightsEnd={weightsEndGrouped}
               weightsElection={weightsElectionGrouped}
             />
-          </>
+        </>
         )}
     </>
   );

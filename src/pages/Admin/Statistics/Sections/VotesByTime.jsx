@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { backendInfoIp } from "../../../../server";
 import BarPsifosGraph from "../Graphs/BarPsifosGraph";
 import NotAvalaibleMessage from "../../../../component/Messages/NotAvailableMessage";
 import ClassicSelector from "../../../../component/Selectors/classicSelector";
@@ -50,13 +49,13 @@ function VotesByTime(props) {
   const { shortName } = useParams();
 
   const getCountDates = useCallback(async () => {
-    requestCountDates(shortName, deltaTime, setVotesForTime, setLoad)
+    requestCountDates(shortName, deltaTime, setVotesForTime)
+    setLoad(true);
   }, [deltaTime, shortName]);
 
   useEffect(() => {
     getCountDates();
   }, [getCountDates, deltaTime]);
-
   return (
     <>
       {Object.keys(votesForTime).length !== 0 ? (

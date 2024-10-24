@@ -39,11 +39,13 @@ function CardInfo({
 
   useEffect(() => {
     let number_decryptions = 0;
-    election.trustees.forEach((trustee) => {
-      if (trustee.decryptions !== "") {
-        number_decryptions++;
-      }
-    });
+    if (election.trustees) {
+      election.trustees.forEach((trustee) => {
+        if (trustee.decryptions !== "") {
+          number_decryptions++;
+        }
+      });
+    }
     setDecryptionNumber(number_decryptions);
   }, [election.trustees, electionStep]);
 
@@ -81,7 +83,7 @@ function CardInfo({
           name="Peso máximo de votantes"
           value={election.max_weight}
         />
-        <DisplayStats name="Numero Custodios" value={election.trustees.length} />
+        <DisplayStats name="Numero Custodios" value={election.total_trustees} />
         {electionStep === "Tally computed" ||
           (electionStep === "Decryptions uploaded" && (
             <DisplayStats
@@ -99,7 +101,7 @@ function CardInfo({
           condition={election.election_login_type === electionLoginType.close_p}
         />
         <DisplayTicket
-          name="Aleatorizar respuestas"
+          name="Aleatorizar opciones"
           condition={election.randomize_answer_order}
         />
         <DisplayTicket name="Elección agrupada" condition={election.grouped} />

@@ -356,11 +356,11 @@ function CreateElection(props) {
                   type="checkbox"
                   className="mr-2"
                 />
-                Aleatorizar el orden de las respuestas
+                Aleatorizar el orden de las opciones
               </label>
             </div>
             <p className="help">
-              Actívelo si desea que las respuestas a las preguntas aparezcan en
+              Actívelo si desea que las opciones de las preguntas aparezcan en
               orden aleatorio para cada votante
             </p>
           </div>
