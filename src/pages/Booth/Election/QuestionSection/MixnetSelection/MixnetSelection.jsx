@@ -6,7 +6,7 @@ import FormalOptions from "./FormalOptions";
 import InformalOptions from "./InformalOptions";
 
 function MixnetSelection({ question, addAnswer, numQuestion }) {
-  const isGrouped = question.group_votes === "True";
+  const isGrouped = question.group_votes;
   const otherOptionsName = "Otras Candidaturas";
 
   const {
