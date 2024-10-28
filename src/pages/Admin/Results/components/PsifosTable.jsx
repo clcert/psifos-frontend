@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
-function StyledCell({content}) {
+function StyledCell({
+  column, 
+  content
+}) {
+  content = column == "column0" ? content.split(",")[0] : content
   var percentageBackground = "";
   if (content.toString().includes("%")) {
     let color = "#a5a5ffc4";
@@ -67,7 +71,7 @@ function PsifosTable({ data, election }) {
             <tr key={index}>
               {dataKeys.map((row, indexRow) => (
                 <StyledCell
-                  key={`row${indexRow}`}
+                  column={`column${indexRow}`}
                   content={election.normalization && indexRow === 1
                     ? parseFloat((fila[row] / election.max_weight)).toString().replace(".", ",")
                     : (indexRow === 2 ? fila[row].replace(".", ",") : fila[row])}
