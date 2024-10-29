@@ -36,16 +36,9 @@ export default function WeightsTable({
                   {weightsInit[key] ? weightsInit[key] : 0}
                 </Td>
 
-                {((key === "0.125" || key === "0.5") && (weightsEnd[key] <= 3)) && (
-                <Td className="has-text-centered is-vcentered has-background-danger">
-                  {weightsEnd[key] ? weightsEnd[key] : 0}
-                </Td>
-                )}
-                {((key !== "0.125" && key !== "0.5") || (weightsEnd[key] === undefined) || (weightsEnd[key] > 3)) && (
                 <Td className="has-text-centered is-vcentered">
                   {weightsEnd[key] ? weightsEnd[key] : 0}
                 </Td>
-                )}
 
                 <Td className="has-text-centered is-vcentered">
                   {weightsElection[key] ? weightsElection[key] : 0}
