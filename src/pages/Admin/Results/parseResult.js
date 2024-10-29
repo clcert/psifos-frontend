@@ -37,8 +37,8 @@ const parseClosedResult = (question, votesPerAns, includeWhiteNull) => {
 };
 
 const parseRankingResult = (question, result) => {
-    const options_list = question['closed_options']
-    const fixedJsonString = result[0]
+    const options_list = question['closed_options_list']
+    const fixedJsonString = result
     .replace(/'/g, '"')
     .replace(/None/g, 'null')
     .replace(/\{([^{}"':]+):/g, '{"$1":')
