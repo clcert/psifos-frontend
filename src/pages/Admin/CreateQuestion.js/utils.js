@@ -3,27 +3,27 @@ import { informalOptions } from "../../../constants";
 
 // CREATE QUESTION INTERFACE
 export const parseSavedQuestionList = (questions) => questions.map((question, index) => ({
-    key: index,
-    q_type: question.q_type ?? "closed_question",
+    q_num: index,
+    q_type: question.q_type ?? "CLOSED",
     q_text: question.q_text ?? "",
     q_description: question.q_description ?? "",
     total_options: question.total_options ?? 3,
     total_closed_options: question.total_closed_options ?? 2,
-    closed_options: question.closed_options ?? [],
+    closed_options: question.closed_options_list ?? [],
       options_specifications: question.options_specifications ?? [],
     open_option_max_size: question.open_option_max_size ?? 50,
     total_open_options: question.total_open_options ?? 0,
     num_of_winners: question.num_of_winners ?? 1,
     min_answers: question.min_answers ?? 1,
     max_answers: question.max_answers ?? 1,
-    include_blank_null: question.include_blank_null === "True",
-    excluding_groups: question.excluding_groups === "True",
-    group_votes: question.group_votes === "True",
+    include_blank_null: question.include_blank_null,
+    excluding_groups: question.excluding_groups,
+    group_votes: question.group_votes
 }))
 
-export const getDefaultQuestion = (key) => ({
-    key: key,
-    q_type: "closed_question",
+export const getDefaultQuestion = (q_num) => ({
+    q_num: q_num,
+    q_type: "CLOSED",
     q_text: "",
     q_description: "",
     total_options: 0,

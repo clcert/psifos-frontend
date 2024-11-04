@@ -21,27 +21,27 @@ const getTabs = (election, shortName) => {
       />,
 
     },
-    "Caracterización del padrón": {
-      component: <RollCharacteristics
-        election={election}
-      />,
-      hideWhenNoPoll: true,
-      hideWhenUngrouped: true,
-    },
-    "Caracterización de los votos recibidos": {
-      component: <VotersCharacteristics
-        election={election}
-      />,
-      hideWhenNoPoll: true,
-      hideWhenUngrouped: true,
-    },
-    "Ponderaciones": {
-      component: <Weights
-        election={election}
-      />,
-      hideWhenNoPoll: true,
-      hideWhenGrouped: true,
-    },
+    // "Caracterización del padrón": {
+    //   component: <RollCharacteristics
+    //     election={election}
+    //   />,
+    //   hideWhenNoPoll: true,
+    //   hideWhenUngrouped: true,
+    // },
+    // "Caracterización de los votos recibidos": {
+    //   component: <VotersCharacteristics
+    //     election={election}
+    //   />,
+    //   hideWhenNoPoll: true,
+    //   hideWhenUngrouped: true,
+    // },
+    // "Ponderaciones": {
+    //   component: <Weights
+    //     election={election}
+    //   />,
+    //   hideWhenNoPoll: true,
+    //   hideWhenGrouped: true,
+    // },
     "Distribución de los votos en el tiempo": {
       component: <VotesByTime
         shortName={shortName}

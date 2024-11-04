@@ -5,15 +5,17 @@ import { useSelector } from "react-redux";
 
 function InputSelection(props) {
 
+  const closed_options = props.question.closed_options_list;
+
   let answers = useSelector((state) => state.booth.answers)[props.index];
   answers = answers ? answers : [];
 
   const isMultipleSelection =
-    props.question.min_answers === "1" && props.question.max_answers === "1";
+    props.question.min_answers === 1 && props.question.max_answers === 1;
 
-  const nullValue = props.question.closed_options.length - 1;
-  const blankValue = props.question.closed_options.length - 2;
-  const includeBlankNull = props.question.include_blank_null === "True";
+  const nullValue = closed_options.length - 1;
+  const blankValue = closed_options.length - 2;
+  const includeBlankNull = props.question.include_blank_null;
 
   const { whiteOptionText, nullOptionText } = permanentOptions;
 

@@ -20,7 +20,7 @@ function SelectGroup({ group, groups, setGroup }) {
   return (
     <>
       <span className="mr-2">Selecciona el grupo:</span>
-      <div className="control d-inline-flex">
+      <div className="control d-lg-inline-flex">
         <div className="select">
           <select value={group} onChange={handleChange}>
             {groups.map((group) => {

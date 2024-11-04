@@ -37,7 +37,7 @@ export default function RankingQuestionResume({ result, question }) {
     talliesresumes: talliesResumes,
   } = result
   const {
-    closed_options: candidatesNames,
+    closed_options_list: candidatesNames,
   } = question
 
   const chartsData = parseResult(candidates, candidatesNames, roundResumes, talliesResumes)

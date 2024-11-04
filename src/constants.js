@@ -93,22 +93,22 @@ export const permanentOptionsList = Object.values(permanentOptions);
 export const questionsInfo = [
   {
     // puedo marcan entre min y max candidatos
-    type: "closed_question",
+    type: "CLOSED",
     name: "Pregunta cerrada",
-    tally_name: "homomorphic",
+    tally_name: "HOMOMORPHIC",
     tally_type: "first_majority",
   },
   {
     // lo mismo, pero cuando la lista de candidatos es muy grande
-    type: "mixnet_question",
+    type: "MIXNET",
     name: "Pregunta masiva",
-    tally_name: "mixnet",
+    tally_name: "MIXNET",
     tally_type: "first_majority",
   },
   {
-    type: "stvnc_question",
+    type: "STVNC",
     name: "Pregunta con ranking preferencial",
-    tally_name: "stvnc",
+    tally_name: "STVNC",
     tally_type: "preferential_ranking",
   },
 ];
