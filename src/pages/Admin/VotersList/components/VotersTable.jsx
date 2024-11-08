@@ -290,7 +290,7 @@ function VotersTable({
                               setVoterSelect((prevState) => ({
                                 ...prevState,
                                 voter_name: voter.voter_name,
-                                uuid: voter.uuid,
+                                voter_login_id: voter.voter_login_id,
                               }));
                               setDeleteVoterModal(true);
                             }}
