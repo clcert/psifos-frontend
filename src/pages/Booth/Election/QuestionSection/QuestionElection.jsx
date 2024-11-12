@@ -1,40 +1,34 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import selectImg from "../../../../static/booth/svg/select-img.svg";
-import FinishButton from "../../components/Buttons/FinishButton";
-import NextButton from "../../components/Buttons/NextButton";
-import PreviousButton from "../../components/Buttons/PreviousButton";
-import QuestionHeader from "./QuestionHeader";
+import QuestionHeader from "./QuestionElection/QuestionHeader.jsx";
 import ModalPercentage from "../../components/ModalPercentage";
 import AlertQuestions from "./Questions/AlertQuestions";
-import MixnetSelection from "./MixnetSelection/MixnetSelection.jsx";
 import { answersRestrictionText } from "./utils.js";
 import {
   permanentOptionsList,
   preferentialRankingTallyNames,
 } from "../../../../constants";
-import {
-  isMixNetQuestion,
-  isClosedQuestion,
-  isSTVQuestion,
-} from "../../../../utils";
-import RankingSelection from "./RankingSelection";
-import InputSelection from "./InputSelection";
+import { isSTVQuestion } from "../../../../utils";
+import { getFormalOptions } from "../../../Elections/utils.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setAnswers } from "../../../../store/slices/boothSlice.js";
+import QuestionButtons from "./QuestionElection/QuestionButtons.jsx";
+import QuestionOptionsDetail from "./QuestionElection/QuestionOptionsDetail.jsx";
+import QuestionInput from "./QuestionElection/QuestionInput.jsx";
 
 const getDefaultAnswer = (currentQuestion) => {
   const getEmptyArray = (_) => [];
   const defaultAnswer = {
-    stvnc_question: (actualQuestion) => {
+    STVNC: (actualQuestion) => {
       return actualQuestion.closed_options.reduce((accumulator, _, index) => {
         return [...accumulator, index];
       }, []);
     },
-    mixnet_question: getEmptyArray,
-    closed_question: getEmptyArray,
+    MIXNET: getEmptyArray,
+    CLOSED: getEmptyArray,
   };
   return defaultAnswer[currentQuestion.q_type](currentQuestion);
 };
+
 
 function QuestionSelectionBox({
   question,
@@ -51,92 +45,50 @@ function QuestionSelectionBox({
     question: question,
     election: election,
   };
+  const {
+    closed_options_list: closedOptions,
+    include_blank_null: includeInformalAns,
+    options_specifications: formalOptionsImages,
+    q_type: questionType,
+  } = question
 
   return (
     <div key={index} style={{ display: "block" }}>
-      {showAlert && <AlertQuestions message={messageAlert} />}
+      {showAlert && <AlertQuestions
+        message={messageAlert}
+      />}
+
       <QuestionHeader
         actualQuestion={index}
         totalQuestions={totalQuestions}
         questions={question}
       />
 
-      <div className="box has-text-left question-box has-text-white is-flex is-justify-content-center mb-3">
-        <div className="control control-box">
-          {isSTVQuestion(question.q_type) && (
-            <RankingSelection {...selectionProps} />
-          )}
-          {isClosedQuestion(question.q_type) && (
-            <InputSelection {...selectionProps} />
-          )}
-          {isMixNetQuestion(question.q_type) && (
-            <MixnetSelection numQuestion={index} {...selectionProps} />
-          )}
-        </div>
-      </div>
+      {isSTVQuestion(questionType) && <QuestionOptionsDetail
+        options={
+          getFormalOptions(closedOptions, includeInformalAns)
+        }
+        optionsImages={formalOptionsImages}
+      />}
+
+      <QuestionInput
+        questionType={questionType}
+        selectionProps={selectionProps}
+        index={index}
+      />
     </div>
   );
 }
 
-function PreviousButtonBox({
-  actualQuestion,
-  numQuestions,
-  handleAlert,
-  nextQuestion,
+export default function QuestionElection({
+  election,
+  actualQuestion, nextQuestion, questions,
+  encryptQuestions, isPreview, booth,
+  afterEncrypt,
 }) {
-  return (
-    actualQuestion !== 0 &&
-    actualQuestion < numQuestions && (
-      <div className="column is-flex left-button-column">
-        <PreviousButton
-          action={() => {
-            handleAlert(false);
-            nextQuestion(actualQuestion - 1);
-          }}
-        />
-      </div>
-    )
-  );
-}
-
-function SelectFigureBox() {
-  return (
-    <div className="column is-hidden-mobile pb-0">
-      <figure className="image select-img-wrapper">
-        <img id="select-final-img" src={selectImg} alt="" />
-      </figure>
-    </div>
-  );
-}
-
-function ContinueButtonBox({
-  isNextButtonBool,
-  answers,
-  nextButtonHandler,
-  finishButtonHandler,
-  isPreview,
-}) {
-  return (
-    <div className="column is-flex right-button-column">
-      {isNextButtonBool ? (
-        <NextButton action={nextButtonHandler} />
-      ) : (
-        <FinishButton
-          action={() => !isPreview && finishButtonHandler()}
-          answers={answers}
-        />
-      )}
-    </div>
-  );
-}
-
-function QuestionElection(props) {
+  const nQuestions = questions.length
   const dispatch = useDispatch();
   const answers = useSelector((state) => state.booth.answers);
-
-  /** Component for election questions */
-
-  /** @state {array} election answers */
 
   /** @state {boolean} percentage modal state */
   const [showModal, setShowModal] = useState(false);
@@ -155,7 +107,7 @@ function QuestionElection(props) {
      * Default arrays are included in each response
      */
     if (answers.length !== 0) return;
-    let answersAux = props.questions.reduce(
+    let answersAux = questions.reduce(
       (accumulator, currentValue, index) => {
         accumulator[index] = getDefaultAnswer(currentValue);
         return accumulator;
@@ -163,7 +115,7 @@ function QuestionElection(props) {
       []
     );
     dispatch(setAnswers(answersAux));
-  }, [answers, dispatch, props.questions]);
+  }, [answers, dispatch, questions]);
 
   const defaultAnswersRef = useRef(defaultAnswers);
 
@@ -184,11 +136,10 @@ function QuestionElection(props) {
      * Check if the number of answers is correct
      * If not, show the alert
      */
-    const { questions } = props;
     const currentQuestion = questions[index];
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
-    const options = currentQuestion.closed_options;
+    const options = currentQuestion.closed_options_list;
     return !preferentialRankingTallyNames.includes(currentQuestion.tally_type)
       ? checkNumAnswers(numCheckedIndex, options, checkedIndex, currentQuestion)
       : true;
@@ -212,6 +163,7 @@ function QuestionElection(props) {
         setMessageAlert(
           "Debe " + answersRestrictionText(min_answers, max_answers)
         );
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return false;
       }
     }
@@ -221,63 +173,53 @@ function QuestionElection(props) {
 
   return (
     <div>
-      {props.questions[props.actualQuestion] && (
+      {questions[actualQuestion] && (
         <QuestionSelectionBox
-          question={props.questions[props.actualQuestion]}
-          index={props.actualQuestion}
+          question={questions[actualQuestion]}
+          index={actualQuestion}
           showAlert={showAlert}
           messageAlert={messageAlert}
-          totalQuestions={props.questions.length}
+          totalQuestions={nQuestions}
           addAnswer={(answer, index) => {
             let answersAux = [...answers];
             answersAux[index] = answer;
             dispatch(setAnswers(answersAux));
           }}
-          election={props.election}
+          election={election}
         />
       )}
 
-      <div className="columns pt-1 pb-4 buttons-question">
-        <PreviousButtonBox
-          actualQuestion={props.actualQuestion}
-          numQuestions={props.questions.length}
-          handleAlert={setShowAlert}
-          nextQuestion={props.nextQuestion}
-        />
-
-        {/* <SelectFigureBox /> */}
-
-        <ContinueButtonBox
-          isNextButtonBool={
-            props.actualQuestion < props.questions.length - 1 && !finished
+      <QuestionButtons
+        actualQuestion={actualQuestion}
+        nextQuestion={nextQuestion}
+        answers={answers}
+        numQuestions={nQuestions}
+        isPreview={isPreview}
+        handleAlert={setShowAlert}
+        showNextButton={actualQuestion < nQuestions - 1 && !finished}
+        nextButtonHandler={() => {
+          if (checkAnswers(actualQuestion)) {
+            nextQuestion(actualQuestion + 1);
           }
-          answers={answers}
-          nextButtonHandler={() => {
-            if (checkAnswers(props.actualQuestion)) {
-              props.nextQuestion(props.actualQuestion + 1);
-            }
-          }}
-          finishButtonHandler={() => {
-            if (checkAnswers(props.actualQuestion)) {
-              props.encryptQuestions(answers);
-              setShowModal(true);
-              setFinished(true);
-            }
-          }}
-          isPreview={props.isPreview}
-        />
-      </div>
+        }}
+        finishButtonHandler={() => {
+          if (checkAnswers(actualQuestion)) {
+            encryptQuestions(answers);
+            setShowModal(true);
+            setFinished(true);
+          }
+        }}
+      />
 
       <ModalPercentage
-        booth={props.booth}
+        booth={booth}
         show={showModal}
         onHide={() => setShowModal(false)}
         afterEncrypt={() => {
-          props.afterEncrypt(props.booth.ballot.answers);
+          afterEncrypt(booth.ballot.answers);
           setShowModal(false);
         }}
       />
     </div>
   );
 }
-export default QuestionElection;

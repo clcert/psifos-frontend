@@ -129,7 +129,7 @@ function VotersTable({
             id="ballot_searched"
             name="q"
             className="input_search"
-            placeholder="Buscar votante por nombre..."
+            placeholder="Buscar votante por nombre o username..."
             value={voterToSearch}
             onChange={(e) => {
               setVoterToSearch(e.target.value);
@@ -290,7 +290,7 @@ function VotersTable({
                               setVoterSelect((prevState) => ({
                                 ...prevState,
                                 voter_name: voter.voter_name,
-                                uuid: voter.uuid,
+                                voter_login_id: voter.voter_login_id,
                               }));
                               setDeleteVoterModal(true);
                             }}

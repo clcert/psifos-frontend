@@ -14,7 +14,7 @@ function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
         <span key={index}>
           {(
             isSTVQuestion(questionType)
-            ? `[${index+1}.] `
+            ? `Posición ${index+1}°: `
             : "[ ✓ ] "
           ) + (
             isMixNetQuestion(questionType) && answer.split(",").length > 1
@@ -37,7 +37,6 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
         )
         return (
           <ShowAnswer
-            key={index}
             questionType={questionType}
             indexAnswer={indexAnswer}
             numOptions={closedOptions.length}
@@ -54,8 +53,8 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
 
 function TextSelected({ answer, question }) {
   const includeBlankNull = question.include_blank_null === "True";
-  const blankId = getBlankAnswerId(question.closed_options)
-  const nullId = getNullAnswerId(question.closed_options)
+  const blankId = getBlankAnswerId(question.closed_options_list)
+  const nullId = getNullAnswerId(question.closed_options_list)
   if (answer.length === 0) {
     return <p>[ ] Ninguna opción seleccionada</p>;
   }
@@ -77,7 +76,7 @@ function TextSelected({ answer, question }) {
     <ShowAnswersList
       currentAns={answer}
       questionType={question.q_type}
-      closedOptions={question.closed_options}
+      closedOptions={question.closed_options_list}
     />
   );
 }

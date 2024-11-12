@@ -33,7 +33,7 @@ function DeleteVoterModal(props) {
           "/" +
           shortName +
           "/voter/" +
-          props.voter.uuid +
+          props.voter.voter_login_id +
           "/delete",
         {
           method: "POST",

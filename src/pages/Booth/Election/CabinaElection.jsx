@@ -93,7 +93,7 @@ function CabinaElection(props) {
 
   useEffect(() => {
     if (props.electionData.questions) {
-      const questionsFetch = JSON.parse(props.electionData.questions);
+      const questionsFetch = props.electionData.questions;
       questionsFetch.include_blank_null =
         questionsFetch.include_blank_null === "True" ? true : false;
       setQuestions(questionsFetch);
@@ -105,6 +105,15 @@ function CabinaElection(props) {
     if (props.electionData.description) setModalDescription(true);
   }, [props.electionData.description]);
 
+  useEffect(() => {
+    (function(w, d, s, u) {
+      w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+      var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+      j.async = true; j.src = 'https://chat.labs.clcert.cl/livechat/rocketchat-livechat.min.js?_=201903270000';
+      h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.labs.clcert.cl/livechat');
+  }, [])
+  
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
 
   let BOOTH_PSIFOS = new BoothPsifos(
@@ -112,6 +121,20 @@ function CabinaElection(props) {
     election_metadata,
     props.preview
   );
+
+  const sendVote = () => {
+    setModalVerify(true);
+    BOOTH_PSIFOS.sendJson(shortName).then((res) => {
+      setVoteHash(res.vote_hash);
+
+      // Caso en que el voto no se haya realizado correctamente
+      if(res.verified === false){
+        setVoteVerificates(false);
+        setModalVerify(false);
+        setActualPhase(4);
+      }
+    });
+  }
 
   const phases = {
     1: {
@@ -148,12 +171,7 @@ function CabinaElection(props) {
             setActualQuestion(question);
             setActualPhase(1);
           }}
-          sendVote={() => {
-            setModalVerify(true);
-            BOOTH_PSIFOS.sendJson(shortName).then((res) => {
-              setVoteHash(res);
-            });
-          }}
+          sendVote={sendVote}
           afterVerify={() => {
             setModalVerify(false);
             setActualPhase(4);

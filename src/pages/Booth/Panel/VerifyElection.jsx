@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getStats } from "../../../services/election";
 import { electionStatus } from "../../../constants";
+import Spinner from "../../../component/OthersComponents/Spinner";
 import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage";
 import Step1Descript from "./VerifyInstructions/Step1Descript"
 import Step2Descript from "./VerifyInstructions/Step2Descript"
@@ -24,7 +25,7 @@ function EnabledVerification() {
 }
 
 function VerifyElection({ includesMnQuestion }) {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(undefined);
 
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
@@ -40,22 +41,24 @@ function VerifyElection({ includesMnQuestion }) {
   const finishedElection =
     status === electionStatus.resultsReleased;
   return (
-    <div>
-      {includesMnQuestion ? (
-        <NotAvalaibleMessage
-          message="¡En desarrollo!"
-          note="Esta elección calcula sus resultados utilizando Mix Network, por lo que no es posible realizar el proceso de verificación por el momento. Estamos trabajando para permitir el proceso de verificación en este tipo de elecciones a la brevedad."
-        />
-      ) : (
-        finishedElection ? (
-          <EnabledVerification />
-        ) : (
+    status ? (
+      <div>
+        {includesMnQuestion ? (
           <NotAvalaibleMessage
-            message="Elección no finalizada"
+            message="¡En desarrollo!"
+            note="Esta elección calcula sus resultados utilizando Mix Network, por lo que no es posible realizar el proceso de verificación por el momento. Estamos trabajando para permitir el proceso de verificación en este tipo de elecciones a la brevedad."
           />
-        )
-      )}
-    </div>
+        ) : (
+          finishedElection ? (
+            <EnabledVerification />
+          ) : (
+            <NotAvalaibleMessage
+              message="Elección no finalizada"
+            />
+          )
+        )}
+      </div>
+    ) : <Spinner />
   );
 }
 

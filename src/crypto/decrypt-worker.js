@@ -70,7 +70,7 @@ onmessage = function (event) {
 
     let ELECTION_JSON = election;
     let ELECTION_PK = ElGamal.PublicKey.fromJSONObject(
-      JSON.parse(ELECTION_JSON["public_key"])
+      ELECTION_JSON["public_key"]
     );
     let TALLY = Tally.createAllTally(tally, ELECTION_PK);
     decrypt(secretKey, TALLY, ELECTION_PK, PARAMS, certificates, points);

@@ -5,7 +5,6 @@ export function OptionInputRadio({
   optionLabel,
   isSelected,
   inputHandler,
-  isBordered = false,
 }) {
   return (
     <div key={optionId} className="mt-2">
@@ -23,6 +22,8 @@ export function OptionInputRadio({
           name={"answer_" + questionId}
           value={optionId}
           onClick={inputHandler}
+          onChange={() => console.log('changed answer')}
+          checked={isSelected}
         />
         <span className="is-size-5">{optionLabel}</span>
       </label>
@@ -31,15 +32,13 @@ export function OptionInputRadio({
 }
 
 function InputRadio({
-  setAnswers,
-  setBlankButton,
-  setNullButton,
   addAnswer,
   question,
   questionId,
 }) {
-  const { include_blank_null, closed_options } = question;
-  const includeInformalAns = include_blank_null === "True";
+  const { include_blank_null } = question;
+  const includeInformalAns = include_blank_null;
+  const closed_options = question.closed_options_list;
 
   let answers = useSelector((state) => state.booth.answers)[questionId];
   answers = answers ? answers : [];

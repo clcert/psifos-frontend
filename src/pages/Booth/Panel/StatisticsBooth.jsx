@@ -5,49 +5,100 @@ import Participation from "./statistics/participation/participation";
 import RollCharacteristics from "./statistics/rollCharacteristics/rollCharacteristics";
 import VotersCharacteristics from "./statistics/votersCharacteristics/votersCharacteristics";
 import VotesByTime from "./statistics/votesByTime/votesByTime";
+import Weights from "./statistics/weights/weights";
 import { requestElectionPublic } from "./statistics/components/client";
+import {
+  isOpenLoginElection, isSemiPublicLoginElection,
+  filterObj,
+} from "../../../utils";
 
-function StatisticsBooth() {
-  const [actualTab, setActualTab] = useState(0);
-  const { shortName } = useParams();
-  const [election, setElection] = useState(undefined);
+const getTabs = (election, shortName) => {
+  return {
+    "Participación": {
+      component: <Participation
+        shortName={shortName}
+        election={election}
+      />,
 
-  const initComponent = useCallback(() => {
-    requestElectionPublic(shortName, setElection)
-  }, []);
-
-  useEffect(() => {
-    initComponent();
-  }, [initComponent]);
-
-  const tabsAndComponents = {
-    "Participación": <Participation
-      shortName={shortName}
-      election={election}
-    />,
-    "Caracterización del padrón": <RollCharacteristics
-      election={election}
-    />,
-    "Caracterización de los votos recibidos": <VotersCharacteristics
-      election={election}
-    />,
-    "Distribución de los votos en el tiempo": <VotesByTime
-      shortName={shortName}
-      election={election}
-    />,
+    },
+    // "Caracterización del padrón": {
+    //   component: <RollCharacteristics
+    //     election={election}
+    //   />,
+    //   hideWhenNoPoll: true,
+    //   hideWhenUngrouped: true,
+    // },
+    // "Caracterización de los votos recibidos": {
+    //   component: <VotersCharacteristics
+    //     election={election}
+    //   />,
+    //   hideWhenNoPoll: true,
+    //   hideWhenUngrouped: true,
+    // },
+    // "Ponderaciones": {
+    //   component: <Weights
+    //     election={election}
+    //   />,
+    //   hideWhenNoPoll: true,
+    //   hideWhenGrouped: true,
+    // },
+    "Distribución de los votos en el tiempo": {
+      component: <VotesByTime
+        shortName={shortName}
+        election={election}
+      />,
+    },
   }
-  const tabsNames = Object.keys(tabsAndComponents)
+}
 
+const getFilteredTabs = (tabs, loginType, grouped) => {
+  if (isOpenLoginElection(loginType)
+    || isSemiPublicLoginElection(loginType)) {
+      return filterObj(tabs, (_, value) => !value.hideWhenNoPoll)
+  }
+  else if(grouped) {
+    return filterObj(tabs, (_, value) => !value.hideWhenGrouped)
+  }
+  return filterObj(tabs, (_, value) => !value.hideWhenUngrouped)
+}
+
+function StatisticSections({ election, shortName }) {
+  const [actualTab, setActualTab] = useState(0);
+  const {
+    election_login_type: loginType, grouped
+  } = election
+  const tabs = getTabs(election, shortName)
+  const filteredTabs = getFilteredTabs(tabs, loginType, grouped)
+  const tabNames = Object.keys(filteredTabs)
   return (
     <div className="chart-container">
       <Tabs
         actualTab={actualTab}
         setActualTab={setActualTab}
-        tabs={tabsNames}
+        tabs={tabNames}
       />
-      {tabsAndComponents[tabsNames[actualTab]]}
+      {filteredTabs[tabNames[actualTab]].component}
     </div>
   );
+}
+
+function StatisticsBooth() {
+  const [election, setElection] = useState(undefined);
+  const { shortName } = useParams();
+  const initComponent = useCallback(() => {
+    requestElectionPublic(shortName, setElection)
+  }, []);
+  
+  useEffect(() => {
+    initComponent();
+  }, [initComponent]);
+  
+  return (
+    election && <StatisticSections
+      election={election}
+      shortName={shortName}
+    />
+  )
 }
 
 export default StatisticsBooth;

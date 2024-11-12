@@ -2,15 +2,17 @@ import { gradientPalettes } from "./colors";
 
 export const isOpenLoginElection = (loginType) => loginType === "Open"
 
+export const isSemiPublicLoginElection = (loginType) => loginType === "Semi Public"
+
 export const isSettingUpElection = (status) => status === "Setting up"
 
 export const isStartedElection = (status) => status === "Started"
 
-export const isMixNetQuestion = (q) => q === "mixnet_question";
+export const isMixNetQuestion = (q) => q === "MIXNET";
 
-export const isClosedQuestion = (q) => q === "closed_question";
+export const isClosedQuestion = (q) => q === "CLOSED";
 
-export const isSTVQuestion = (q) => q === "stvnc_question";
+export const isSTVQuestion = (q) => q === "STVNC";
 
 export const usesMixNetTally = (q) => isMixNetQuestion(q) || isSTVQuestion(q);
 
@@ -38,3 +40,15 @@ export const roundNumber = (originalNum, round) => {
     }
     return originalNum
 }
+
+export const sumIntoArray = (arr) => arr.reduce((acc, num) => {
+    return num + acc
+  }, 0)
+
+export const filterObj = (obj, filterFunction) => {
+    return Object.fromEntries(
+      Object.entries(obj).filter(
+        ([key, value]) => filterFunction(key, value)
+      )
+    )
+  }

@@ -32,7 +32,7 @@ function QuestionTitle({ index, text }) {
   return (
     <div key={index} className="is-size-5 question">
       <span className="has-text-info question-number">
-        Pregunta n°{index + 1}
+        Pregunta #{index + 1}
         {":"}
       </span>
       <div> {text} </div>
@@ -42,18 +42,18 @@ function QuestionTitle({ index, text }) {
 
 function ClosedQuestionResume({ result, question, election }) {
   return (
-    <div className="disable-text-selection justify-content-md-center columns question-columns">
-      <div className="column justify-content-center">
+    <div className="disable-text-selection justify-content-md-center question-columns">
+      <div className="column justify-content-center pb-0">
         <PsifosTable
           election={election}
           data={
-            question.include_blank_null === "True"
+            question.include_blank_null
               ? result.slice(0, -2)
               : result
           }
         />
       </div>
-      {question.include_blank_null === "True" && (
+      {question.include_blank_null && (
         <div className="column justify-content-center">
           <PsifosTable election={election} data={result.slice(-2)} />
         </div>
@@ -84,7 +84,7 @@ function BoxPerQuestion({ question, index, election, result }) {
         question={question}
       />
       {
-        question.include_blank_null === "True" &&
+        question.include_blank_null &&
         !isARankingTally(question.tally_type) && (
           <PercentageOptions
             handleChange={(e) => setPercentageOption(e.target.value)}

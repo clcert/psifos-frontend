@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
-function StyledCell({content}) {
+function StyledCell({
+  column, 
+  content
+}) {
+  content = column == "column0" ? content.split(",")[0] : content
+  var percentageBackground = "";
+  if (content.toString().includes("%")) {
+    let color = "#a5a5ffc4";
+    let amount = content.replace(",", ".").split("%")[0]
+    percentageBackground = "linear-gradient(90deg," + color + " " + amount + "%, white 0%)";
+  }
   return (
     <td
       style={{
-        width: "180px", wordBreak: "break-word",
+        width: "180px", wordBreak: "break-word", background: percentageBackground
       }}
       className={
         typeof content === 'number' || !isNaN(parseInt(content))
@@ -25,14 +35,15 @@ function PsifosTable({ data, election }) {
     ascendente: true,
   });
 
-  const arbitraryEl = data[0];
+  const arbitraryEl = tableData[0];
   const dataKeys = Object.keys(arbitraryEl);
   const intDataKeys = dataKeys.filter(
     (item) => typeof arbitraryEl[item] === "number"
   );
 
-  useEffect(() => setTableData(data)
-  , [data])
+  useEffect(() => {
+    setTableData(data);
+  }, [data])
 
   return (
     <table className="pretty table is-hoverable voters-table">
@@ -45,7 +56,7 @@ function PsifosTable({ data, election }) {
               nameRow={row}
               data={data}
               hideZeros={intDataKeys.includes(row)}
-              setFilteredData={(table) => setTableData(table)}
+              setFilteredData={(d) => setTableData(d)}
               ordenamiento={ordenamiento}
               setOrdenamiento={(newOrdenamiento) =>
                 setOrdenamiento(newOrdenamiento)
@@ -60,10 +71,10 @@ function PsifosTable({ data, election }) {
             <tr key={index}>
               {dataKeys.map((row, indexRow) => (
                 <StyledCell
-                  key={`row${indexRow}`}
+                  column={`column${indexRow}`}
                   content={election.normalization && indexRow === 1
-                    ? parseFloat((fila[row] / election.max_weight)).toFixed(3)
-                    : fila[row]}
+                    ? parseFloat((fila[row] / election.max_weight)).toString().replace(".", ",")
+                    : (indexRow === 2 ? fila[row].replace(".", ",") : fila[row])}
                 />
               ))}
             </tr>

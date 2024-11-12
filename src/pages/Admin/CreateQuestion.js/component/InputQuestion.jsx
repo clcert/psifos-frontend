@@ -13,7 +13,10 @@ function InputQuestion(props) {
   }, [props.value]);
 
   return (
-    <div className="is-flex mb-2">
+    <div
+      className="is-flex mb-2"
+      style={{width: '100%'}}
+    >
       <input
         id={`question-${props.questionId}-text-option-${
           props.numberQuestion
@@ -25,7 +28,7 @@ function InputQuestion(props) {
         }}
         className="input"
         type="text"
-        placeholder="Respuesta"
+        placeholder="Opción"
       />
       <Button disabled={props.disabledEdit} onClick={props.delete}>
         X

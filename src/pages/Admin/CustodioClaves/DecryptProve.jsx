@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { backendOpIP } from "../../../server";
+import { getEgParams } from "../../../services/crypto";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import ImageFooter from "../../../component/Footers/ImageFooter";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
@@ -38,6 +39,19 @@ function DecryptProve() {
     } catch(err) {
       setFeedbackMessage("Clave incorrecta");
       setActualStep(0);
+      return;
+    }
+
+    setFeedbackMessage("Generando desencriptado parcial...");
+    setActualStep(1);
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await handlerDecrypt(sk);
+    } catch (error) {
+      console.error(error);
+      setFeedbackMessage("Error al generar desencriptado parcial");
+      setActualStep(0);
     }
   };
 
@@ -68,36 +82,25 @@ function DecryptProve() {
               {feedbackMessage}
               <i
                 className={
-                  "ml-2 " + (actualStep === 1 && "fa-solid fa-spinner fa-spin")
+                  "ml-2 " + (actualStep === 1 ? "fa-solid fa-spinner fa-spin" : "")
                 }
               ></i>
             </p>
-            {actualStep < 2 && (
               <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
                 <button className="button is-link mx-sm-2 mt-2">
                   <Link
                     id="go-home-trustee"
                     style={{ textDecoration: "None", color: "white" }}
-                    to={`/psifos/${shortName}/trustee/${uuidTrustee}/home`}
+                  to={
+                    actualStep < 2
+                      ? `/psifos/${shortName}/trustee/${uuidTrustee}/home`
+                      : `/psifos/booth/${shortName}/public-info`
+                  }
                   >
-                    Volver atrás
+                  {actualStep < 2 ? "Volver atrás" : "Ir al Portal de Información"}
                   </Link>
                 </button>
               </div>
-            )}
-            {actualStep === 2 && (
-              <div className="d-flex justify-content-center flex-sm-row flex-column-reverse mt-4">
-                <button className="button is-link mx-sm-2 mt-2">
-                  <Link
-                    id="go-home-trustee"
-                    style={{ textDecoration: "None", color: "white" }}
-                    to={`/psifos/booth/${shortName}/public-info`}
-                  >
-                    Ir al Portal de Información
-                  </Link>
-                </button>
-              </div>
-            )}
             <div className="mt-4"></div>
           </div>
         </div>
