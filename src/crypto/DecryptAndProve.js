@@ -159,74 +159,74 @@ export default class DecryptAndProve extends Crypto {
     }
   }
 
-  handlerDecrypt(sk) {
-    getEgParams(this.shortName).then((eg_params) => {
-      this.getDecrypt().then((data) => {
-        this.params = JSON.parse(eg_params);
-        this.certificates = JSON.parse(data.certificates);
-        this.points = JSON.parse(data.points);
-        this.election = data.election;
-        this.trustee = data.trustee;
-        this.trusteeCrypto = data.trustee_crypto;
+  handlerDecrypt = async (sk) => {
+    try {
+      const eg_params = await getEgParams(this.shortName);
+      const data = await this.getDecrypt();
 
-        if (!sk) {
-          this.reactFunction(
-            "setFeedbackMessage",
-            "Formato de archivo incorrecto"
-          );
-          this.setFeedbacks(this.index, "Formato de archivo incorrecto");
-          this.reactFunction("setActualStep", 0);
-          return;
+      this.params = JSON.parse(eg_params);
+      this.certificates = JSON.parse(data.certificates);
+      this.points = JSON.parse(data.points);
+      this.election = data.election;
+      this.trustee = data.trustee;
+      this.trusteeCrypto = data.trustee_crypto;
+      this.encryptedTally = data.encrypted_tally;
+
+      if (!sk) {
+        this.reactFunction(
+          "setFeedbackMessage",
+          "Formato de archivo incorrecto"
+        );
+        this.setFeedbacks(this.index, "Formato de archivo incorrecto");
+        this.reactFunction("setActualStep", 0);
+        return;
+      }
+
+      const groupedTally = this.encryptedTally.reduce((acc, item) => {
+        if (!acc[item.group]) {
+          acc[item.group] = [];
         }
-        let tallyGrouped = JSON.parse(this.election.encrypted_tally);
-        this.lengthTally = tallyGrouped.filter((element) => {
-          return element.with_votes === "True";
-        }).length;
-        tallyGrouped.forEach((element) => {
-          try {
-            if (element.with_votes === "True") {
-              this.doTally(
-                element.tally,
-                sk,
-                element.group,
-                element.with_votes
-              );
-            }
-          } catch (e) {
-            console.error("error");
-          }
-        });
-      });
-    });
-  }
+        acc[item.group].push(item);
+        return acc;
+      }, {});
 
-  doTally(tally, sk, group, with_votes) {
+      Object.values(groupedTally).forEach((items) => {
+        if (items[0].with_votes) {
+          this.lengthTally += 1;
+        }
+      });
+
+      for (const [group, items] of Object.entries(groupedTally)) {
+        if (items[0].with_votes) {
+          this.doTally(items, sk, group, items[0].with_votes);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  doTally = (tally, sk, group, with_votes) => {
     this.totalTally[group] = tally.length;
     this.questionsComplete[group] = 0;
     this.workers[group] = [];
     this.resultWorkers[group] = [];
     this.workersQuestions[group] = [];
     this.descriptions[group] = [];
+
     tally.forEach((t, q_num) => {
+      t.tally = JSON.parse(t.tally);
       const size = Math.ceil(t.tally.length / this.totalWorkers);
       this.workers[group][q_num] = 0;
-
-      // Caso de tally pequeño, solo un hilo de ejecución
       this.resultWorkers[group][q_num] = [];
-      if (size < 10) {
-        this.workersQuestions[group][q_num] = 1;
-        this.createWorker(t, sk, q_num, 0, group, with_votes);
-      } else {
-        // Seteamos la cantidad total de workers
-        this.workersQuestions[group][q_num] = this.totalWorkers;
 
-        for (let i = 0; i < this.totalWorkers; i++) {
-          // Copiamos el tally y repartimos el arreglo
-          let bash = { ...t };
-          bash.tally = t.tally.slice(size * i, size * (i + 1));
-          this.createWorker(bash, sk, q_num, i, group, with_votes);
-        }
+      const workerCount = size < 10 ? 1 : this.totalWorkers;
+      this.workersQuestions[group][q_num] = workerCount;
+
+      for (let i = 0; i < workerCount; i++) {
+        const bash = size < 10 ? t : { ...t, tally: t.tally.slice(size * i, size * (i + 1)) };
+        this.createWorker(bash, sk, q_num, i, group, with_votes);
       }
     });
-  }
+  };
 }

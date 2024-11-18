@@ -73,7 +73,6 @@ export default class KeyGenerator extends Crypto {
           });
           this.reactFunction("setEnabledButtonInit", true);
           this.setStepInit(trustee_crypto.current_step);
-          console.log("Trustee Crypto", this);
         });
       });
     });
@@ -227,7 +226,6 @@ export default class KeyGenerator extends Crypto {
       this.trusteeStep = this.trusteeStep + 1;
       this.execute = false;
       this.setSteps(this.index, "Paso " + step + " completada");
-      
       this.reactFunction('setProcessFeedback', "Paso " + step + " completada");
       this.setStepInit(this.trusteeStep);
     } else {
@@ -294,22 +292,27 @@ export default class KeyGenerator extends Crypto {
         this.actualStep = this.trusteeStep;
 
         if (this.trusteeStep === 1 && !this.execute) {
+          this.reactFunction('setProcessFeedback', `Ejecutando el Paso 2.${this.trusteeStep}`);
           this.setSteps(this.index, `Ejecutando el Paso 2.${this.trusteeStep}`);
           this.execute = true;
           this.step_1();
         } else if (this.trusteeStep === 2 && !this.execute) {
+          this.reactFunction('setProcessFeedback', "Ejecutando el Paso 2." + this.trusteeStep);
           this.setSteps(this.index, "Ejecutando el Paso 2." + this.trusteeStep);
           this.execute = true;
           this.step_2();
         } else if (this.trusteeStep === 3 && !this.execute) {
+          this.reactFunction('setProcessFeedback', "Ejecutando el Paso 2." + this.trusteeStep);
           this.setSteps(this.index, "Ejecutando el Paso 2." + this.trusteeStep);
           this.execute = true;
           this.step_3();
         } else if (this.trusteeStep === 4) {
+          this.reactFunction('setProcessFeedback', "Generación de claves completada con éxito");
           this.setSteps(this.index, "Generación de claves completada con éxito");
           window.clearInterval(this.interval);
         }
       } else {
+        this.reactFunction('setProcessFeedback', "Los otros trustee aún no completan la etapa");
         this.setSteps(this.index, "Los otros trustee aún no completan la etapa");
       }
     });
@@ -493,24 +496,19 @@ export default class KeyGenerator extends Crypto {
   }
 
   async sendPublicKey() {
-    const url =
-      backendOpIP +
-      "/" +
-      this.shortName +
-      "/trustee/upload-pk";
+    const url = `${backendOpIP}/${this.shortName}/trustee/upload-pk`;
 
     const resp = await fetch(url, {
       method: "POST",
       credentials: "include",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         public_key_json: JSON.stringify(this.certificateCache),
       }),
     });
+
     if (resp.status === 200) {
       this.trusteeStep = 1;
       this.trusteeCrypto.current_step = 1;

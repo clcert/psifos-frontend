@@ -21,14 +21,11 @@ function DecryptProve() {
 
   const key = useRef(
     new DecryptAndProve(shortName, uuidTrustee, {
-      reactFunctions: {
         setActualStep: setActualStep,
         setFeedbackMessage: setFeedbackMessage,
       },
-    })
+    )
   );
-
- 
   const decrypt = async (sk) => {
     try {
       setFeedbackMessage("Generando desencriptado parcial...");
@@ -47,7 +44,7 @@ function DecryptProve() {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      await handlerDecrypt(sk);
+      await key.current.handlerDecrypt(sk);
     } catch (error) {
       console.error(error);
       setFeedbackMessage("Error al generar desencriptado parcial");

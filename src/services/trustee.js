@@ -54,4 +54,18 @@ async function getTrusteeCrypto(shortName) {
   return { resp: resp, jsonResponse: jsonResponse };
 }
 
-export { getTrustee, getTrustees, getTrusteePanel, getTrusteeCrypto };
+async function getDecryption(shortName, trusteUuid) {
+  const url = backendOpIP + "/" + shortName + "/trustee/" + trusteUuid + "/get-decryptions";
+  const token = localStorage.getItem("token");
+  const resp = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+  const jsonResponse = await resp.json();
+  return { resp: resp, jsonResponse: jsonResponse };
+}
+
+export { getTrustee, getTrustees, getTrusteePanel, getTrusteeCrypto, getDecryption };

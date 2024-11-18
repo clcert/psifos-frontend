@@ -35,16 +35,14 @@ function Keygenerator(props) {
   const { shortName, uuidTrustee } = useParams();
   const key = useRef(
     new KeyGenerator(shortName, uuidTrustee, {
-      reactFunctions: {
         setActualStep: setActualStep,
         setProcessFeedback: setProcessFeedback,
         setActualPhase: setActualPhase,
         setEnabledButtonInit: setEnabledButtonInit,
         setSecretKey: setSecretKey,
       },
-    })
+    )
   );
-
   useEffect(() => {
     key.current.initParams();
   }, []);
@@ -58,13 +56,12 @@ function Keygenerator(props) {
   };
 
   const init_process = () => {
-    key.initProcess();
+    key.current.initProcess();
   };
 
   const downloadKey = () => {
     key.current.downloadKey();
   };
-
 
   return (
     <div id="content-home-admin">

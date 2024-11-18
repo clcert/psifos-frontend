@@ -24,20 +24,6 @@ function TrusteesList(props) {
     initComponent();
   }, [initComponent]);
 
-  useEffect(
-    function effectFunction() {
-      let interval = setInterval(() => {
-        getTrustees(shortName).then((trustees) => {
-          setTrustees(trustees.jsonResponse);
-        });
-      }, 5000);
-      return () => {
-        clearInterval(interval);
-      };
-    },
-    [trustees, shortName]
-  );
-
   if (isLoading) {
     return (
       <div className="d-flex justify-content-center pt-4">
@@ -83,7 +69,7 @@ function TrusteesList(props) {
               </tt>
             </p>
 
-            {trustee_crypto.public_key_hash ? (
+            {trustee_crypto && trustee_crypto.public_key_hash ? (
               <div className="mt-4">
                 Código de Clave Pública:{" "}
                 <p className="overflow-auto">
@@ -100,7 +86,7 @@ function TrusteesList(props) {
               props.election.election_status ===
                 electionStatus.decryptionsCombined ||
               props.election.election_status ===
-                electionStatus.resultsReleased) && <InfoTrustee trustee_crypto={trustee_crypto} />}
+                electionStatus.resultsReleased) && <InfoTrustee trustee={t} />}
           </div>
         );
       })}
