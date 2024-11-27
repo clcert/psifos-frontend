@@ -61,6 +61,8 @@ export const permanentOptions = {
 
 export const electionStatus = {
   settingUp: "Setting up",
+  readyForKeyGeneration: "Ready for key generation",
+  readyForOpening: "Ready for opening",
   started: "Started",
   ended: "Ended",
   computingTally: "Computing Tally",
