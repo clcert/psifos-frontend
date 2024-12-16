@@ -14,9 +14,9 @@ const filterOptions = (inputValue, options, isGrouped) => {
     const auxOptions = JSON.parse(JSON.stringify(options));
     auxOptions.forEach((option) => {
       option.options = option.options.filter((optionGroup) => {
-        return options.filter((option) => matchingStrings(
+        return matchingStrings(
           inputNormalized, normalizedLowerCase(optionGroup.label)
-        ))
+        )
       });
     });
     return auxOptions;
@@ -60,7 +60,7 @@ function FormalOption({
 
 export default function FormalOptions({
     answerIndexes, answersSelected,
-    options, selectAnswers,
+    options, selectAnswers, isGrouped,
   
   }) {
     return(
@@ -72,6 +72,7 @@ export default function FormalOptions({
             currentAnswerSelected={answersSelected[index]}
             options={options}
             selectAnswers={selectAnswers}
+            isGrouped={isGrouped}
           />
         );
       })
