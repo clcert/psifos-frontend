@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import ColumnPsifosTable from "./ColumnPsifosTable";
 
-function StyledCell({content}) {
+function StyledCell({
+  column, 
+  content
+}) {
+  content = column == "column0" ? content.split(",")[0] : content
+  var percentageBackground = "";
+  if (content.toString().includes("%")) {
+    let color = "#a5a5ffc4";
+    let amount = content.replace(",", ".").split("%")[0]
+    percentageBackground = "linear-gradient(90deg," + color + " " + amount + "%, white 0%)";
+  }
   return (
     <td
       style={{
-        width: "180px", wordBreak: "break-word",
+        width: "180px", wordBreak: "break-word", background: percentageBackground
       }}
       className={
         typeof content === 'number' || !isNaN(parseInt(content))
@@ -61,7 +71,7 @@ function PsifosTable({ data, election }) {
             <tr key={index}>
               {dataKeys.map((row, indexRow) => (
                 <StyledCell
-                  key={`row${indexRow}`}
+                  column={`column${indexRow}`}
                   content={election.normalization && indexRow === 1
                     ? parseFloat((fila[row] / election.max_weight)).toString().replace(".", ",")
                     : (indexRow === 2 ? fila[row].replace(".", ",") : fila[row])}

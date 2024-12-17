@@ -28,7 +28,7 @@ function InputQuestion(props) {
         }}
         className="input"
         type="text"
-        placeholder="Respuesta"
+        placeholder="Opción"
       />
       <Button disabled={props.disabledEdit} onClick={props.delete}>
         X

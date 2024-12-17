@@ -1,7 +1,7 @@
 function InfoTrustee(props) {
   return (
     <div>
-      {props.trustee.decryptions ? (
+      {props.trustee.current_step === 5 ? (
         <p
           id="decryption-finish"
           className="has-text-weight-bold is-size-5 status-decryption is-flex is-flex-direction-column"

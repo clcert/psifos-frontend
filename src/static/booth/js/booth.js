@@ -132,7 +132,7 @@ class BoothPsifos {
     this.election.question_answer_orderings = [];
     this.election.questions.forEach(
       function (question, i) {
-        var ordering = new Array(question.closed_options.length);
+        var ordering = new Array(question.closed_options_list.length);
 
         // initialize array so it is the identity permutation
         ordering.forEach(function (answer, j) {
@@ -232,7 +232,6 @@ class BoothPsifos {
       this.encrypted_ballot_hash = b64_sha256(this.encrypted_vote_json); // this.encrypted_ballot.get_hash();
       //window.setTimeout(show_cast, 0);
     }.bind(this);
-    console.log(this.encrypted_vote_json);
     window.setTimeout(do_hash, 0);
   }
 

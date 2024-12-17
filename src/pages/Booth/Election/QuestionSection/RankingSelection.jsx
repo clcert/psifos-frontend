@@ -35,23 +35,23 @@ const RankingSelection = ({
   question, addAnswer, index: questionId
 }) => {
   const {
-    closed_options,
+    closed_options_list,
     options_specifications: formalOptionsImages,
     include_blank_null,
     max_answers,
   } = question
-  const includeInformalOptions = include_blank_null === "True";
+  const includeInformalOptions = include_blank_null;
   const maxAnswers = parseInt(max_answers, 10)
 
-  const optionIds = Array.from(closed_options.keys());
+  const optionIds = Array.from(closed_options_list.keys());
   const formalOptionIds = getFormalOptions(optionIds, includeInformalOptions)
-  const formalOptionLabels = getFormalOptions(closed_options, includeInformalOptions)
+  const formalOptionLabels = getFormalOptions(closed_options_list, includeInformalOptions)
   
   const [rankedAnswers, setRankedAnswers] = useState([]);
   const [selectedInformalAnswer, setSelectedInformalAnswer] = useState(undefined);
 
-  const blankId = getBlankAnswerId(closed_options)
-  const nullId = getNullAnswerId(closed_options)
+  const blankId = getBlankAnswerId(closed_options_list)
+  const nullId = getNullAnswerId(closed_options_list)
 
   const padAnswers = (answers) => {
     const desiredLength = maxAnswers; // max_ans >= ans.length
@@ -107,7 +107,7 @@ const RankingSelection = ({
               }
             }
             optionIds={[blankId, nullId]}
-            optionLabels={closed_options.slice(-2)}
+            optionLabels={closed_options_list.slice(-2)}
           />
         }
       </div>

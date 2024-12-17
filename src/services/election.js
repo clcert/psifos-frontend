@@ -74,6 +74,22 @@ async function getStats(shortName) {
   }
 }
 
+async function getEvents(shortName) {
+  const resp = await fetch(
+    backendInfoIp + "/election/" + shortName + "/election-logs",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+  }
+}
+
 async function getStatsGroup(shortName, group) {
   group = group === "Sin grupo" ? "" : group;
   const resp = await fetch(backendInfoIp + "/get-election-group-stats/" + shortName, {
@@ -222,6 +238,7 @@ export {
   getElections,
   getStats,
   getStatsGroup,
+  getEvents,
   getElectionResume,
   getCountDates,
   initElection,

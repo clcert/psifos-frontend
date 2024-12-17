@@ -54,7 +54,7 @@ export default function ViewQuestions(props) {
   const initComponent = useCallback((election) => {
     election.questions !== null && setQuestionList(
       parseSavedQuestionList(
-        JSON.parse(election.questions)
+        election.questions
       )
     )
     setDisabledEdit(election.election_status !== electionStatus.settingUp);
@@ -104,7 +104,7 @@ export default function ViewQuestions(props) {
     
     let auxQuestionList = [...questionList];
     for (let i = 0; i < auxQuestionList.length; i++) {
-      if (auxQuestionList[i].key === key) {
+      if (auxQuestionList[i].q_num === key) {
         auxQuestionList[i] = newValue;
       }
       setQuestionList(auxQuestionList);

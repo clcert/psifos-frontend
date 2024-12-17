@@ -8,12 +8,11 @@ import { permanentOptionsList } from "../../../constants";
 
 const parseClosedResult = (question, votesPerAns, includeWhiteNull) => {
     const noNullWhiteAns =
-        includeWhiteNull === "True" ? votesPerAns.slice(0, -2) : votesPerAns;
+        includeWhiteNull ? votesPerAns.slice(0, -2) : votesPerAns;
     const nValidVotes = votesPerAns.reduce((n, a) => n + parseInt(a), 0);
     const nCastVotes = noNullWhiteAns.reduce((n, a) => n + parseInt(a), 0);
-
     let result = [];
-    question.closed_options.forEach((answer, index) => {
+    question.closed_options_list.forEach((answer, index) => {
         const obj = {
         Respuesta: answer,
         Votos: parseInt(votesPerAns[index]),
@@ -38,8 +37,8 @@ const parseClosedResult = (question, votesPerAns, includeWhiteNull) => {
 };
 
 const parseRankingResult = (question, result) => {
-    const options_list = question['closed_options']
-    const fixedJsonString = result[0]
+    const options_list = question['closed_options_list']
+    const fixedJsonString = result
     .replace(/'/g, '"')
     .replace(/None/g, 'null')
     .replace(/\{([^{}"':]+):/g, '{"$1":')
@@ -73,7 +72,7 @@ const updateClosedResult = (result, question, percentageConfig) => {
         } = currentValue
 
         const infoGeneral = {
-            'Respuesta': question.q_type === "mixnet_question"
+            'Opción': question.q_type === "mixnet_question"
             ? getResponseWithoutGroup(Respuesta)
             : Respuesta,
             Votos,

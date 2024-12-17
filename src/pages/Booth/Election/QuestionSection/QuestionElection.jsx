@@ -18,13 +18,13 @@ import QuestionInput from "./QuestionElection/QuestionInput.jsx";
 const getDefaultAnswer = (currentQuestion) => {
   const getEmptyArray = (_) => [];
   const defaultAnswer = {
-    stvnc_question: (actualQuestion) => {
+    STVNC: (actualQuestion) => {
       return actualQuestion.closed_options.reduce((accumulator, _, index) => {
         return [...accumulator, index];
       }, []);
     },
-    mixnet_question: getEmptyArray,
-    closed_question: getEmptyArray,
+    MIXNET: getEmptyArray,
+    CLOSED: getEmptyArray,
   };
   return defaultAnswer[currentQuestion.q_type](currentQuestion);
 };
@@ -46,7 +46,7 @@ function QuestionSelectionBox({
     election: election,
   };
   const {
-    closed_options: closedOptions,
+    closed_options_list: closedOptions,
     include_blank_null: includeInformalAns,
     options_specifications: formalOptionsImages,
     q_type: questionType,
@@ -139,7 +139,7 @@ export default function QuestionElection({
     const currentQuestion = questions[index];
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
-    const options = currentQuestion.closed_options;
+    const options = currentQuestion.closed_options_list;
     return !preferentialRankingTallyNames.includes(currentQuestion.tally_type)
       ? checkNumAnswers(numCheckedIndex, options, checkedIndex, currentQuestion)
       : true;

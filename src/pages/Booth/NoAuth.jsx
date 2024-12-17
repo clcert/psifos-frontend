@@ -1,6 +1,5 @@
 import ElectionCode from "../../component/Footers/ElectionCode";
 import TitlePsifos from "../../component/OthersComponents/TitlePsifos";
-import { InfoChannels } from "../../component/ShortNavBar/ModalHelp";
 import MyNavbar from "../../component/ShortNavBar/MyNavbar";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";

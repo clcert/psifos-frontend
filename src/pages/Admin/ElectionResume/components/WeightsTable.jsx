@@ -35,9 +35,11 @@ export default function WeightsTable({
                 <Td className="has-text-centered is-vcentered">
                   {weightsInit[key] ? weightsInit[key] : 0}
                 </Td>
+
                 <Td className="has-text-centered is-vcentered">
                   {weightsEnd[key] ? weightsEnd[key] : 0}
                 </Td>
+
                 <Td className="has-text-centered is-vcentered">
                   {weightsElection[key] ? weightsElection[key] : 0}
                 </Td>
