@@ -90,11 +90,6 @@ function CardInfo({
               value={decryptionNumber / election.total_trustees}
             />
           ))}
-
-        <DisplayTicket
-          name="Esconder nombre de los votantes"
-          condition={election.obscure_voter_names}
-        />
         <DisplayTicket
           name="Elección privada"
           condition={election.election_login_type === electionLoginType.close_p}

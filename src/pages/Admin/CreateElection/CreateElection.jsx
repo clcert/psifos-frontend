@@ -30,7 +30,6 @@ function CreateElection(props) {
     description: "",
     type: "election",
     max_weight: 1,
-    obscure_voter_names: false,
     randomized_options: false,
     voters_login_type: "close_p",
     normalized: false,
@@ -58,7 +57,6 @@ function CreateElection(props) {
       description: election.description,
       type: election.type.toLocaleLowerCase(),
       max_weight: election.max_weight,
-      obscure_voter_names: election.obscure_voter_names,
       randomized_options: election.randomized_options,
       voters_login_type: electionType[election.voters_login_type],
       normalized: election.normalized,
@@ -315,30 +313,6 @@ function CreateElection(props) {
             <p className="help">
               {" "}
               El máximo valor que puede tener el peso de uno de los votantes.
-            </p>
-          </div>
-          <div className="field">
-            <div className="control">
-              <label className="checkbox">
-                <input
-                  disabled={disabledEdit}
-                  onChange={(e) => {
-                    setElectionParams({
-                      ...electionParams,
-                      obscure_voter_names: e.target.checked,
-                    });
-                  }}
-                  checked={electionParams.obscure_voter_names}
-                  type="checkbox"
-                  className="mr-2"
-                />
-                Esconder nombres de los votantes
-              </label>
-            </div>
-            <p className="help">
-              {
-                "Actívelo si desea que la identidad de los votantes sea remplazada por alias en el centro de rastreo de papeletas (e.g. V12)."
-              }
             </p>
           </div>
           <div className="field">
