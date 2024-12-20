@@ -1,38 +1,7 @@
-import { getDecryption } from "../../../../services/trustee";
-import { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { trusteeStep } from "../../../../constants";
 
 function InfoTrustee({ trustee }) {
-  const [decryption, setDecryption] = useState([]);
-
-  const { shortName } = useParams();
-
-  const initComponent = useCallback(() => {
-    getDecryption(shortName, trustee.uuid).then((decryption) => {
-      setDecryption(decryption.jsonResponse);
-    });
-  }, [shortName, trustee.uuid]);
-
-  useEffect(() => {
-    initComponent();
-  }
-  , [initComponent]);
-
-  useEffect(
-    function effectFunction() {
-      let interval = setInterval(() => {
-        getDecryption(shortName, trustee.uuid).then((decryption) => {
-          setDecryption(decryption.jsonResponse);
-        });
-      }, 5000);
-      return () => {
-        clearInterval(interval);
-      };
-    },
-    [decryption, shortName]
-  );
-
-  const hasDecryption = decryption && decryption.length > 0;
+  const hasDecryption = trustee.current_step === trusteeStep.decryptions_sent;
 
   return (
     <div>

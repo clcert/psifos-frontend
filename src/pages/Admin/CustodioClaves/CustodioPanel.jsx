@@ -12,10 +12,10 @@ import DropFile from "./components/DropFile";
 import CheckSecretKey from "../../../crypto/CheckSecretKey";
 import DecryptAndProve from "../../../crypto/DecryptAndProve";
 import Tabs from "../component/Tabs";
-import { electionStatus } from "../../../constants";
+import { electionStatus, trusteeStep } from "../../../constants";
 
 const getTrusteeStatus = (crypto) => {
-  if (crypto.election_status === electionStatus.settingUp) {
+  if (crypto.status === electionStatus.settingUp) {
     return "Elección en configuración";
   }
   if (crypto.decryptions) {
@@ -188,7 +188,7 @@ function SynchronizeSection({
               <CustodioSelector
                 key={index}
                 trusteeCrypto={trusteeCrypto}
-                isDisabled={electionsCrypto.length > 0 || trusteeCrypto.election_status === electionStatus.settingUp}
+                isDisabled={electionsCrypto.length > 0 || trusteeCrypto.status === trusteeStep.config_step}
                 index={index}
                 setElectionsSelected={setElectionsSelected}
                 electionsSelected={electionsSelected}

@@ -72,6 +72,16 @@ export const electionStatus = {
   resultsReleased: "Results released",
 };
 
+export const trusteeStep = {
+  config_step: 0,
+  secret_key_step: 1,
+  certificates_step: 2,
+  coefficients_step: 3,
+  points_step: 4,
+  waiting_decryptions: 5,
+  decryptions_sent: 6,
+}
+
 export const electionStatusTranslate = {
   "Setting up": "En configuración",
   "Started": "Iniciada",

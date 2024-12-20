@@ -91,7 +91,7 @@ function CustodioClaves(props) {
               </div>
             </div>
           </div>
-          {election.election_status === "Setting up" && (
+          {election.status === "Setting up" && (
             <>
               <div className="d-flex justify-center flex-column">
                 <div>

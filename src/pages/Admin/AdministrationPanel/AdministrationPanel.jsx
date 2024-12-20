@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, createContext } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../utils/utils";
 import { getElection, getStats } from "../../../services/election";
-import { getTrustees } from "../../../services/trustee";
-import { setElection } from "../../../store/slices/electionSlice";
+import { getTotalTrustees, getTrustees } from "../../../services/trustee";
+import { setElection, setTotalTrustees, setTotalVoters } from "../../../store/slices/electionSlice";
 import { electionStatus } from "../../../constants";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
@@ -24,17 +24,20 @@ import ModalResultsRelease from "./component/ModalReleaseResults";
 import ModalGenerationKey from "./component/ModalGenerationKey";
 import ModalOpeningReady from "./component/ModalOpeningReady";
 import ModalBackToSetting from "./component/ModalBackToSetting";
+import { getTotalVoters } from "../../../services/voters";
 
 /**
  * Main view of the administrator panel where you can modify the parameters of an election
  */
+
+export const StateContext = createContext();
 function AdministrationPanel() {
   const dispatch = useDispatch();
   const election = useSelector((state) => state.election.actualElection);
+  const totalVoters = useSelector((state) => state.election.totalVoters);
   const { shortName } = useParams();
 
   const [extendElectionModal, setExtendElectionModal] = useState(false);
-  const [totalVoters, setTotalVoters] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const [freezeModal, setFreezeModal] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
@@ -53,12 +56,20 @@ function AdministrationPanel() {
 
   const interTallyRef = useRef(null);
 
-  const updateInfo = useCallback(() => {
-    getStats(shortName).then((res) => {
-      const { jsonResponse } = res;
-      setTotalVoters(jsonResponse.total_voters);
-      setTotalVotes(jsonResponse.num_casted_votes);
-    });
+  const updateInfo = useCallback(async () => {
+    try {
+      const [statsRes, votersRes, trusteesRes] = await Promise.all([
+        getStats(shortName),
+        getTotalVoters(shortName),
+        getTotalTrustees(shortName),
+      ]);
+
+      setTotalVotes(statsRes.jsonResponse.num_casted_votes);
+      dispatch(setTotalVoters(votersRes.jsonResponse.total_voters));
+      dispatch(setTotalTrustees(trusteesRes.jsonResponse.total_trustees));
+    } catch (error) {
+      console.error("Failed to update info:", error);
+    }
   }, [shortName]);
 
   const updateElection = useCallback(async () => {
@@ -91,13 +102,13 @@ function AdministrationPanel() {
   useEffect(() => {
     if (
       interTallyRef.current === null &&
-      election.election_status === electionStatus.computingTally
+      election.status === electionStatus.computingTally
     ) {
       tallyHandler();
     } else {
       clearInterval(interTallyRef.current);
     }
-  }, [election.election_status, tallyHandler]);
+  }, [election.status, tallyHandler]);
 
   useEffect(() => {
     getTrustees(shortName).then((res) => {
@@ -119,7 +130,7 @@ function AdministrationPanel() {
           dispatch(
             setElection({
               ...election,
-              election_status: electionStatus.started,
+              status: electionStatus.started,
             })
           )
         }
@@ -134,7 +145,7 @@ function AdministrationPanel() {
         onHide={() => setCloseModal(false)}
         endChange={() =>
           dispatch(
-            setElection({ ...election, election_status: electionStatus.ended })
+            setElection({ ...election, status: electionStatus.ended })
           )
         }
         feedback={(message, type) => {
@@ -150,7 +161,7 @@ function AdministrationPanel() {
           dispatch(
             setElection({
               ...election,
-              election_status: electionStatus.computingTally,
+              status: electionStatus.computingTally,
             })
           )
         }
@@ -167,7 +178,7 @@ function AdministrationPanel() {
           dispatch(
             setElection({
               ...election,
-              election_status: electionStatus.decryptionsCombined,
+              status: electionStatus.decryptionsCombined,
             })
           )
         }
@@ -193,7 +204,7 @@ function AdministrationPanel() {
           dispatch(
             setElection({
               ...election,
-              election_status: electionStatus.readyForKeyGeneration,
+              status: electionStatus.readyForKeyGeneration,
             })
           )
         }
@@ -206,7 +217,7 @@ function AdministrationPanel() {
           dispatch(
             setElection({
               ...election,
-              election_status: electionStatus.readyForOpening,
+              status: electionStatus.readyForOpening,
             })
           )
         }
@@ -221,7 +232,7 @@ function AdministrationPanel() {
           dispatch(
             setElection({
               ...election,
-              election_status: electionStatus.settingUp,
+              status: electionStatus.settingUp,
             })
           )
         }
@@ -283,7 +294,7 @@ function AdministrationPanel() {
                   />
                   <CardSteps
                     election={election}
-                    electionStep={election.election_status}
+                    electionStep={election.status}
                     freezeModal={() => setFreezeModal(true)}
                     generationReadyModal={() => setGenerationReadyModal(true)}
                     openingReadyModal={() => setOpeningReadyModal(true)}
@@ -299,7 +310,7 @@ function AdministrationPanel() {
                   <CardInfo
                     election={election}
                     trustees={trustees}
-                    electionStep={election.election_status}
+                    electionStep={election.status}
                     updateInfo={updateInfo}
                     totalVoters={totalVoters}
                     totalVotes={totalVotes}

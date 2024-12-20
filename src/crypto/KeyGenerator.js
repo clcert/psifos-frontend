@@ -8,6 +8,7 @@ import { getTrusteeCrypto } from "../services/trustee";
 import { getEgParams } from "../services/crypto";
 
 import Crypto from "./Crypto";
+import { trusteeStep } from "../constants";
 
 export default class KeyGenerator extends Crypto {
   constructor(shortName, index, setSteps, { reactFunctions } = {}) {
@@ -15,7 +16,6 @@ export default class KeyGenerator extends Crypto {
     super({ reactFunctions });
 
     this.shortName = shortName;
-    this.actualStep = 0;
     this.trustee = {};
     this.trusteeCrypto = {};
     this.elGamalParams = {};
@@ -222,7 +222,6 @@ export default class KeyGenerator extends Crypto {
     });
 
     if (resp.status === 200) {
-      this.actualStep = this.trusteeStep + 1;
       this.trusteeStep = this.trusteeStep + 1;
       this.execute = false;
       this.setSteps(this.index, "Paso " + step + " completada");
@@ -289,24 +288,23 @@ export default class KeyGenerator extends Crypto {
   totalProcess() {
     this.getStep().then((data) => {
       if (this.trusteeStep === data.status) {
-        this.actualStep = this.trusteeStep;
 
-        if (this.trusteeStep === 1 && !this.execute) {
+        if (this.trusteeStep === trusteeStep.certificates_step && !this.execute) {
           this.reactFunction('setProcessFeedback', `Ejecutando el Paso 2.${this.trusteeStep}`);
           this.setSteps(this.index, `Ejecutando el Paso 2.${this.trusteeStep}`);
           this.execute = true;
           this.step_1();
-        } else if (this.trusteeStep === 2 && !this.execute) {
+        } else if (this.trusteeStep === trusteeStep.coefficients_step && !this.execute) {
           this.reactFunction('setProcessFeedback', "Ejecutando el Paso 2." + this.trusteeStep);
           this.setSteps(this.index, "Ejecutando el Paso 2." + this.trusteeStep);
           this.execute = true;
           this.step_2();
-        } else if (this.trusteeStep === 3 && !this.execute) {
+        } else if (this.trusteeStep === trusteeStep.points_step && !this.execute) {
           this.reactFunction('setProcessFeedback', "Ejecutando el Paso 2." + this.trusteeStep);
           this.setSteps(this.index, "Ejecutando el Paso 2." + this.trusteeStep);
           this.execute = true;
           this.step_3();
-        } else if (this.trusteeStep === 4) {
+        } else if (this.trusteeStep === trusteeStep.waiting_decryptions) {
           this.reactFunction('setProcessFeedback', "Generación de claves completada con éxito");
           this.setSteps(this.index, "Generación de claves completada con éxito");
           window.clearInterval(this.interval);
@@ -328,7 +326,7 @@ export default class KeyGenerator extends Crypto {
     this.generateKeyPair();
     this.downloadSkToFile(
       "trustee_key_" +
-        this.trustee.trustee_login_id +
+        this.trustee.username +
         "_" +
         this.shortName +
         ".txt"
@@ -510,8 +508,8 @@ export default class KeyGenerator extends Crypto {
     });
 
     if (resp.status === 200) {
-      this.trusteeStep = 1;
-      this.trusteeCrypto.current_step = 1;
+      this.trusteeStep = trusteeStep.certificates_step;
+      this.trusteeCrypto.current_step = trusteeStep.certificates_step;
       this.reactFunction("setActualStep", 1);
       this.reactFunction("setActualPhase", 2);
       this.execute = false;
@@ -521,7 +519,7 @@ export default class KeyGenerator extends Crypto {
 
   setStepInit(step) {
     this.reactFunction("setActualStep", step);
-    if (step === 4) {
+    if (step === trusteeStep.waiting_decryptions) {
       this.reactFunction("setActualPhase", 3);
       this.reactFunction("setEnabledButtonInit", false);
       this.setSteps(this.index, "¡Sincronización terminada!");
@@ -573,7 +571,7 @@ export default class KeyGenerator extends Crypto {
   checkSk(key) {
     this.helios_c.secret_key = key;
     if (key === this.helios_c.secret_key) {
-      if(this.trusteeCrypto.current_step === 0) this.sendPublicKey();
+      if(this.trusteeCrypto.current_step === trusteeStep.secret_key_step) this.sendPublicKey();
       this.initProcess();
     } else {
       this.reactFunction('setProcessFeedback', "Archivo incorrecto, inténtelo nuevamente");

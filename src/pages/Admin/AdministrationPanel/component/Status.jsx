@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { electionLoginType, electionStatus } from "../../../../constants";
+import { electionLoginType, electionStatus, trusteeStep } from "../../../../constants";
+import { useSelector } from "react-redux";
 
 function Status({
   election,
@@ -12,12 +13,18 @@ function Status({
   tallyModal,
   releaseModal,
   combineTallyModal,
+  totalVoters,
+  totalTrustees,
 }) {
+  const defaultTotalVoters = useSelector((state) => state.election.totalVoters);
+  const defaultTotalTrustees = useSelector((state) => state.election.totalTrustees);
 
+  totalVoters = totalVoters ?? defaultTotalVoters;
+  totalTrustees = totalTrustees ?? defaultTotalTrustees;
 
   const checkTrustees = () => {
     const hasInvalidTrustee = election.trustees && election.trustees.some((trustee) => {
-      if (trustee.current_step !== 4) {
+      if (trustee.current_step !== trusteeStep.waiting_decryptions) {
         return true;
       }
       return false;
@@ -25,19 +32,19 @@ function Status({
     return !hasInvalidTrustee;
   }
 
-  const electionStep = election.election_status;
+  const electionStep = election.status;
   const canCombineDecryptions =
-    electionStep === "Decryptions uploaded" ||
-    (electionStep === "Tally computed" &&
+    electionStep === electionStatus.decryptionsUploaded ||
+    (electionStep === electionStatus.tallyComputed &&
       election.decryptions_uploaded >=
-        Math.floor(election.total_trustees / 2) + 1);
+        Math.floor(totalTrustees / 2) + 1);
 
   const keyGenerationReady =
-    electionStep === "Setting up" &&
-    election.total_trustees > 0 &&
+    electionStep === electionStatus.settingUp &&
+    (totalVoters > 0 || electionLoginType.close_p !== election.voters_login_type) &&
+    totalTrustees > 0 &&
     election.questions &&
-    election.questions.length > 0 &&
-    election.total_voters > 0;
+    election.questions.length > 0
 
   const openingReady = electionStep === electionStatus.readyForKeyGeneration && checkTrustees();
 
@@ -50,12 +57,11 @@ function Status({
       </span>
     </div>
   );
-
   return (
     <>
-      {!election.total_voters > 0 &&
-        election.election_login_type === electionLoginType.close_p &&
-        electionStep === "Setting up" &&
+      {totalVoters === 0 &&
+        election.voters_login_type === electionLoginType.close_p &&
+        electionStep === electionStatus.settingUp &&
         renderLink(
           "button-add-voters",
           () => uploadModalonClick(true),
@@ -73,7 +79,7 @@ function Status({
           "Añadir preguntas"
         )}
 
-      {election.total_trustees === 0 &&
+      {totalTrustees === 0 &&
         electionStep === electionStatus.settingUp &&
         renderLink(
           "button-add-trustee",
@@ -82,7 +88,7 @@ function Status({
           "Añadir custodios"
         )}
 
-      {electionStep === "Ready for opening" &&
+      {electionStep === electionStatus.readyForOpening &&
         renderLink("init-election", freezeModal, "", "Iniciar elección")}
 
       {keyGenerationReady &&
@@ -96,13 +102,13 @@ function Status({
       {openingReady &&
         renderLink("generate-keys", openingReadyModal, "", "Cerrar generación de claves")}
 
-      {electionStep === "Started" &&
+      {electionStep === electionStatus.started &&
         renderLink("close-election", closeModal, "", "Cerrar elección")}
 
-      {electionStep === "Ended" &&
+      {electionStep === electionStatus.ended &&
         renderLink("compute-tally", tallyModal, "", "Computar Tally")}
 
-      {electionStep === "Ready for key generation"  && !openingReady && (
+      {electionStep === electionStatus.readyForKeyGeneration  && !openingReady && (
         <div className="content-card-admin">
           <span className="panel-text-sect">
             Esperando generación de claves...{" "}

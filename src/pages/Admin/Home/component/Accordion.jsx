@@ -17,8 +17,8 @@ function Accordion({ election }) {
       [electionStatus.readyForOpening]: "Apertura de elección",
       "Started": "En curso",
     };
-    setStateElection(statusMap[election.election_status] || "Finalizada");
-  }, [election.election_status]);
+    setStateElection(statusMap[election.status] || "Finalizada");
+  }, [election.status]);
 
   useEffect(() => {
     bulmaCollapsible.attach(".is-collapsible", {

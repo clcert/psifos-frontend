@@ -107,23 +107,43 @@ async function getStatsGroup(shortName, group) {
   }
 }
 
-async function getElectionResume(shortName) {
-  /**
-   * async function to get the election data
-   */
-
-  const resp = await fetch(backendInfoIp + "/" + shortName + "/resume", {
+async function getVotersInit(shortName) {
+  const resp = await fetch(`${backendInfoIp}/${shortName}/voters-by-weight-init/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp, jsonResponse };
+  }
+}
 
+async function getVotesInit(shortName) {
+  const resp = await
+    await fetch(`${backendInfoIp}/${shortName}/votes-by-weight-init/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   if (resp.status === 200) {
     const jsonResponse = await resp.json();
     return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 401) {
-    logout();
+  }
+}
+
+async function getVotesEnd(shortName) {
+  const resp = await fetch(`${backendInfoIp}/${shortName}/votes-by-weight-end/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (resp.status === 200) {
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
   }
 }
 
@@ -239,7 +259,9 @@ export {
   getStats,
   getStatsGroup,
   getEvents,
-  getElectionResume,
+  getVotersInit,
+  getVotesInit,
+  getVotesEnd,
   getCountDates,
   initElection,
   closeElection,

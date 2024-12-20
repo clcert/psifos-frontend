@@ -73,7 +73,7 @@ function CardInfo({
         <DisplayStats
           name="Tipo de votación"
           value={
-            election.election_type === "Election" ? "Elección" : "Consulta"
+            election.type === "Election" ? "Elección" : "Consulta"
           }
         />
         <DisplayStats name="Cantidad de votantes" value={totalVoters} />

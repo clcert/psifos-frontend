@@ -215,8 +215,8 @@ export default class DecryptAndProve extends Crypto {
     this.descriptions[group] = [];
 
     tally.forEach((t, q_num) => {
-      t.tally = JSON.parse(t.tally);
-      const size = Math.ceil(t.tally.length / this.totalWorkers);
+      t.encrypted_tally = JSON.parse(t.encrypted_tally);
+      const size = Math.ceil(t.encrypted_tally.length / this.totalWorkers);
       this.workers[group][q_num] = 0;
       this.resultWorkers[group][q_num] = [];
 
@@ -224,7 +224,7 @@ export default class DecryptAndProve extends Crypto {
       this.workersQuestions[group][q_num] = workerCount;
 
       for (let i = 0; i < workerCount; i++) {
-        const bash = size < 10 ? t : { ...t, tally: t.tally.slice(size * i, size * (i + 1)) };
+        const bash = size < 10 ? t : { ...t, tally: t.encrypted_tally.slice(size * i, size * (i + 1)) };
         this.createWorker(bash, sk, q_num, i, group, with_votes);
       }
     });

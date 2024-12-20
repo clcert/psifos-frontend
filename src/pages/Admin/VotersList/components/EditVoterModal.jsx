@@ -28,8 +28,8 @@ function EditVoterModal(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          voter_login_id: infoVoter.login,
-          voter_weight: infoVoter.weight,
+          username: infoVoter.login,
+          weight_init: infoVoter.weight,
         }),
       }
     );
@@ -45,8 +45,8 @@ function EditVoterModal(props) {
   useEffect(() => {
     setInfoVoter({
       ...infoVoter,
-      login: props.voter.voter_login_id,
-      weight: props.voter.voter_weight,
+      login: props.voter.username,
+      weight: props.voter.weight_init,
     });
   }, [props.voter]);
 
@@ -112,7 +112,7 @@ function EditVoterModal(props) {
                 setFeedbackMessage("");
                 props.setVoterSelect((prevState) => ({
                   ...prevState,
-                  voter_name: "",
+                  name: "",
                 }));
                 props.onHide();
               }}

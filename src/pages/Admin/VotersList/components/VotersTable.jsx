@@ -98,7 +98,7 @@ function VotersTable({
     (voters) => {
       const auxVoters = voters.filter((voter) => {
         if (!voter.cast_vote) return false;
-        return voter.cast_vote.vote_hash === voterByHash.trim();
+        return voter.cast_vote.encrypted_ballot_hash === voterByHash.trim();
       });
       setVoters(auxVoters);
     },
@@ -223,7 +223,7 @@ function VotersTable({
                 <Th className="has-text-centered">Votante</Th>
                 <Th className="has-text-centered">Código de papeleta</Th>
                 <Th className="has-text-centered">Ponderador</Th>
-                {election.grouped && (
+                {election.grouped_voters && (
                   <Th className="has-text-centered">Grupo</Th>
                 )}
                 <Th className="has-text-centered">Acciones</Th>
@@ -231,32 +231,32 @@ function VotersTable({
             </Thead>
             {voters.map((voter, index) => {
               const voterHash = voter.cast_vote
-                ? voter.cast_vote.vote_hash
+                ? voter.cast_vote.encrypted_ballot_hash
                 : "-";
               return (
                 <Tbody key={index}>
                   <Tr>
                     <Td className="align-middle has-text-centered">
-                      {voter.voter_login_id}
+                      {voter.username}
                     </Td>
 
                     <Td className="align-middle has-text-centered">
-                      {voter.voter_name}
+                      {voter.name}
                     </Td>
                     <Td className="align-middle has-text-centered">
                       <span className="urna-voter-hash">{voterHash}</span>
                     </Td>
                     <Td className="align-middle has-text-centered">
-                      {election.normalization ? (
+                      {election.normalizated ? (
                         <span>
                           {parseFloat(
-                            (voter.voter_weight / election.max_weight).toFixed(
+                            (voter.weight_init / election.max_weight).toFixed(
                               3
                             )
                           )}
                         </span>
                       ) : (
-                        <span>{voter.voter_weight} </span>
+                        <span>{voter.weight_init} </span>
                       )}
                     </Td>
                     {election.grouped && (
@@ -273,10 +273,9 @@ function VotersTable({
                           onClick={() => {
                             setVoterSelect((prevState) => ({
                               ...prevState,
-                              voter_name: voter.voter_name,
-                              uuid: voter.uuid,
-                              voter_login_id: voter.voter_login_id,
-                              voter_weight: voter.voter_weight,
+                              name: voter.name,
+                              username: voter.username,
+                              weight_init: voter.weight_init,
                             }));
                             setEditVoterModal(true);
                           }}
@@ -289,8 +288,8 @@ function VotersTable({
                             onClick={() => {
                               setVoterSelect((prevState) => ({
                                 ...prevState,
-                                voter_name: voter.voter_name,
-                                voter_login_id: voter.voter_login_id,
+                                name: voter.name,
+                                username: voter.username,
                               }));
                               setDeleteVoterModal(true);
                             }}
