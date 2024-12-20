@@ -100,7 +100,7 @@ function CardElection(props) {
         const statsRes = await getStats(props.election.short_name);
         const votersRes = await getTotalVoters(props.election.short_name);
         setTotalVotes(statsRes.jsonResponse.num_casted_votes);
-        setTotalVoters(votersRes.jsonResponse.num_voters);
+        setTotalVoters(votersRes.jsonResponse.total_voters);
       } catch (error) {
         console.error("Failed to fetch election stats or voters", error);
       }
