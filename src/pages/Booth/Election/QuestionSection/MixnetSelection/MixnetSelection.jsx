@@ -200,6 +200,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
         answersSelected={formalAnswersSelected}
         options={candidaturesObjs}
         selectAnswers={selectFormalAnswers}
+        isGrouped={isGrouped}
       />
       {includeBlankNull && (
         <InformalOptions
