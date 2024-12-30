@@ -44,10 +44,12 @@ function Results({ isAdmin = false }) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
-  const handleTotalResults = (questionsObject, resultObject) => {
+  const handleResults = (questionsObject, resultObject, setResult) => {
     let result = [];
     questionsObject.forEach((element, q_num) => {
-      element.formal_options = element.formal_options.concat(informalOptions);
+      element.formal_options = element.formal_options.includes("Voto Blanco")
+        ? element.formal_options
+        : element.formal_options.concat(informalOptions);
       result.push(
         parseResult(
           element,
@@ -56,24 +58,16 @@ function Results({ isAdmin = false }) {
         )
       );
     });
-    setTotalResults(result);
+    setResult(result);
     setQuestions(questionsObject);
   };
 
+  const handleTotalResults = (questionsObject, resultObject) => {
+    handleResults(questionsObject, resultObject, setTotalResults);
+  };
+
   const handleGroupResults = (questionsObject, resultObject) => {
-    let result = [];
-    questionsObject.forEach((element, q_num) => {
-      element.formal_options = element.formal_options.concat(informalOptions);
-      result.push(
-        parseResult(
-          element,
-          resultObject.result[q_num],
-          questionsObject[q_num].include_informal_options
-        )
-      );
-    });
-    setGroupResult(result);
-    setQuestions(questionsObject);
+    handleResults(questionsObject, resultObject.result, setGroupResult);
   };
 
   const getElectionResult = useCallback(async () => {
@@ -91,7 +85,7 @@ function Results({ isAdmin = false }) {
           const resultObject = jsonResponse.result;
           setGroupedResults(resultObject.grouped_result);
           setTotalResults(resultObject.total_result);
-          setResultGroups(resultObject);
+          setResultGroups(resultObject.grouped_result);
           handleTotalResults(questionsObject, resultObject.total_result);
           let result = resultObject.grouped_result.find((element) => element.group === "Sin grupo");
           if (!result) {
@@ -109,7 +103,7 @@ function Results({ isAdmin = false }) {
   }, [shortName]);
 
   const setResultGroups = (groupedResults) => {
-    const auxResult = groupedResults.grouped_result.map((result) => {
+    const auxResult = groupedResults.map((result) => {
       return result.group;
     });
     setGroups(auxResult);

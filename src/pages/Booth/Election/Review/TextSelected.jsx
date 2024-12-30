@@ -8,7 +8,7 @@ function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
   return (
     Boolean(answer) && (
       !isMixNetQuestion(questionType)
-      || indexAnswer < numOptions - 2
+      || indexAnswer < numOptions
     ) && (
       <React.Fragment key={index}>
         <span key={index}>
