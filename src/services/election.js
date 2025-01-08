@@ -252,6 +252,41 @@ async function combineDecryptions(shortName) {
   return resp
 }
 
+async function getQuestions(shortName) {
+  const resp = await fetch(backendInfoIp + "/" + shortName + "/get-questions", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const jsonResponse = await resp.json();
+  return { resp: resp, jsonResponse: jsonResponse };
+}
+
+async function electionHasQuestions(shortName) {
+  const url = backendInfoIp + "/" + shortName + "/election-has-questions";
+  const resp = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const jsonResponse = await resp.json();
+  return { resp: resp, jsonResponse: jsonResponse };
+}
+
+async function checkStatus(shortName) {
+  const url = backendInfoIp + "/" + shortName + "/check-status";
+  const resp = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const jsonResponse = await resp.json();
+  return { resp: resp, jsonResponse: jsonResponse };
+}
+
 export {
   getElection,
   getElectionPublic,
@@ -267,4 +302,7 @@ export {
   closeElection,
   computeTally,
   combineDecryptions,
+  getQuestions,
+  electionHasQuestions,
+  checkStatus
 };

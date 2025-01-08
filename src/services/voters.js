@@ -12,4 +12,16 @@ async function getTotalVoters(shortName) {
     return { resp: resp, jsonResponse: jsonResponse };
     }
 
-export { getTotalVoters };
+async function electionHasVoters(shortName) {
+    const url = backendInfoIp + "/" + shortName + "/election-has-voters";
+    const resp = await fetch(url, {
+        method: "GET",
+        headers: {
+        "Content-Type": "application/json",
+        },
+    });
+    const jsonResponse = await resp.json();
+    return { resp: resp, jsonResponse: jsonResponse };
+    }
+
+export { getTotalVoters, electionHasVoters };

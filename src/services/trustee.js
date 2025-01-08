@@ -78,4 +78,14 @@ async function getTotalTrustees(shortName) {
   return { resp: resp, jsonResponse: jsonResponse };
 }
 
-export { getTrustee, getTrustees, getTrusteePanel, getTrusteeCrypto, getDecryption, getTotalTrustees };
+async function electionHasTrustees(shortName) {
+  const url = backendInfoIp + "/" + shortName + "/election-has-trustees";
+  const resp = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+  const jsonResponse = await resp.json();
+  return { resp: resp, jsonResponse: jsonResponse };
+}
+
+export { getTrustee, getTrustees, getTrusteePanel, getTrusteeCrypto, getDecryption, getTotalTrustees, electionHasTrustees };

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getElection } from "../../../services/election";
+import { getElection, getQuestions } from "../../../services/election";
 import { useDispatch, useSelector } from "react-redux";
 import { setElection } from "../../../store/slices/electionSlice";
 import { electionStatus } from "../../../constants";
@@ -52,24 +52,32 @@ export default function ViewQuestions(props) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
-  const initComponent = useCallback((election) => {
-    election.questions !== null && setQuestionList(
+  const initComponent = useCallback((election, election_questions) => {
+    election_questions && setQuestionList(
       parseSavedQuestionList(
-        election.questions
+        election_questions
       )
     )
     setDisabledEdit(election.status !== electionStatus.settingUp);
   }, []);
 
   useEffect(() => {
-    if (Object.keys(election).length === 0) {
-      getElection(shortName).then((resp) => {
-        dispatch(setElection(resp.jsonResponse));
-        initComponent(resp.jsonResponse);
-      });
-    } else {
-      initComponent(election);
-    }
+    const fetchQuestionsAndElection = async () => {
+      try {
+        const questionsResp = await getQuestions(shortName);
+        if (Object.keys(election).length === 0) {
+          const electionResp = await getElection(shortName);
+          dispatch(setElection(electionResp.jsonResponse));
+          initComponent(electionResp.jsonResponse, electionResp.jsonResponse.questions);
+        } else {
+          initComponent(election, questionsResp.jsonResponse.questions);
+        }
+      } catch (error) {
+        console.error("Error fetching questions or election:", error);
+      }
+    };
+
+    fetchQuestionsAndElection();
   }, [shortName, dispatch, election, initComponent]);
 
   function addQuestion() {
