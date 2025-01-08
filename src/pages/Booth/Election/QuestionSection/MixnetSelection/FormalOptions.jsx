@@ -60,7 +60,7 @@ function FormalOption({
 
 export default function FormalOptions({
     answerIndexes, answersSelected,
-    options, selectAnswers, isGrouped
+    options, selectAnswers, isGrouped,
   
   }) {
     return(
