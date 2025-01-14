@@ -52,7 +52,7 @@ function InputCheckbox(props) {
       {formal_options.map((key, index) => {
         if (
           !includeBlankNull ||
-          index < props.question.formal_options.length - 2
+          index < props.question.formal_options.length
         ) {
           const isDisabled = disabledCondition(index);
           return (
