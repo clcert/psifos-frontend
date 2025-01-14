@@ -119,7 +119,11 @@ function SynchronizeSection({
 
   const generateMultipleKeys = () => {
     const keys = [];
+    var trusteeUsername = "";
     electionsCrypto.forEach((electionCrypto) => {
+      if (trusteeUsername === "") {
+        trusteeUsername = electionCrypto.trustee.username;
+      }
       electionCrypto.generateKeyPair();
       keys.push({
         election_name: electionCrypto.shortName,
@@ -132,7 +136,7 @@ function SynchronizeSection({
       "href",
       "data:text/plain;charset=utf-8," + JSON.stringify(keys)
     );
-    element.setAttribute("download", "keys.txt");
+    element.setAttribute("download", "LlavePrivada_" + trusteeUsername + ".key");
     element.style.display = "none";
     document.body.appendChild(element);
     element.click();
