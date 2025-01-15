@@ -28,8 +28,8 @@ function InputCheckbox(props) {
     const questionsLength = formal_options.length;
     if (
       includeBlankNull &&
-      (answersAux.includes(questionsLength - 2) ||
-        answersAux.includes(questionsLength - 1))
+      (answersAux.includes(questionsLength) ||
+        answersAux.includes(questionsLength + 1))
     ) {
       answersAux = [];
     }
