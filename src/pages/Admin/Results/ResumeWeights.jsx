@@ -100,10 +100,13 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
                 (grouped ? ` - ${group}` : "")
               }
             />
+            {console.log(weightsVotersInit)}
+            {console.log(weightsVotesInit)}
+            {console.log(weightsVotesEnd)}
             <WeightsTable
-              weightsInit={weightsVotersInit}
-              weightsEnd={weightsVotesInit}
-              weightsElection={weightsVotesEnd}
+              weightsInit={weightsVotersInit.voters_by_weight_init}
+              weightsEnd={weightsVotesInit.votes_by_weight}
+              weightsElection={weightsVotesEnd.votes_by_weight_end}
             />
         </>
         )}
