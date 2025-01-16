@@ -51,7 +51,7 @@ function UrnaTable({ election, electionVoters }) {
                     (hashUrl === voterHash ? "hash-selected" : "")
                   }
                 >
-                  {election.normalization ? (
+                  {election.normalized ? (
                     <span>
                       {parseFloat(
                         (voter.weight_init / election.max_weight).toFixed(3)

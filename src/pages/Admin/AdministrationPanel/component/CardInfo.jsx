@@ -101,7 +101,7 @@ function CardInfo({
         <DisplayTicket name="Elección agrupada" condition={election.grouped} />
         <DisplayTicket
           name="Normalización"
-          condition={election.normalization}
+          condition={election.normalized}
         />
       </div>
     </div>
