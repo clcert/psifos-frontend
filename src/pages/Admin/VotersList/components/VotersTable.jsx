@@ -247,7 +247,7 @@ function VotersTable({
                       <span className="urna-voter-hash">{voterHash}</span>
                     </Td>
                     <Td className="align-middle has-text-centered">
-                      {election.normalizated ? (
+                      {election.normalized ? (
                         <span>
                           {parseFloat(
                             (voter.weight_init / election.max_weight).toFixed(
@@ -259,7 +259,7 @@ function VotersTable({
                         <span>{voter.weight_init} </span>
                       )}
                     </Td>
-                    {election.grouped && (
+                    {election.grouped_voters && (
                       <Td className="align-middle has-text-centered">
                         {voter.group ? voter.group : "-"}
                       </Td>
