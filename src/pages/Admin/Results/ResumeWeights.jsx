@@ -28,13 +28,16 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
   const initComponent = useCallback(async () => {
     try {
       const votersInitResponse = await getVotersInit(shortName);
-      setWeightsVotersInit(votersInitResponse.jsonResponse);
+      setWeightsVotersInit(votersInitResponse.jsonResponse.voters_by_weight_init);
+      setGroupWeightsVotersInit(votersInitResponse.jsonResponse.voters_by_weight_init_grouped);
 
       const votesInitResponse = await getVotesInit(shortName);
-      setWeightsVotesInit(votesInitResponse.jsonResponse);
+      setWeightsVotesInit(votesInitResponse.jsonResponse.votes_by_weight);
+      setGroupWeightsVotesInit(votesInitResponse.jsonResponse.votes_by_weight_grouped);
 
       const votesEndResponse = await getVotesEnd(shortName);
-      setWeightsVotesEnd(votesEndResponse.jsonResponse);
+      setWeightsVotesEnd(votesEndResponse.jsonResponse.votes_by_weight_end);
+      setGroupWeightsVotesEnd(votesEndResponse.jsonResponse.votes_by_weight_end_grouped);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -49,26 +52,32 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
 
   /**
    * Searches for a group in the given JSON objects and sets the corresponding weights.
-   * @param {Object} jsonInit - The JSON object containing the initial weights grouped by voter group.
-   * @param {Object} jsonEnd - The JSON object containing the final weights grouped by voter group.
-   * @param {Object} jsonElection - The JSON object containing the election weights grouped by voter group.
+   * @param {Object} votersInit - The JSON object containing the initial weights grouped by voter group.
+   * @param {Object} votesInit - The JSON object containing the final weights grouped by voter group.
+   * @param {Object} votesEnd - The JSON object containing the election weights grouped by voter group.
    */
   const searchGroup = useCallback(
     (votersInit, votesInit, votesEnd) => {
+      console.log(votersInit)
+      console.log(votesInit)
+      console.log(votesEnd)
       const auxGroup = group === "Sin grupo" ? "" : group;
-      const groupVotersInit = votersInit.voters_by_weight_init_grouped.find(
+      const groupVotersInit = votersInit.find(
         (element) => element.group === auxGroup
       );
       if (!groupVotersInit) return;
-      setGroupWeightsVotersInit(groupVotersInit.weights);
-      const groupVotesInit = votesInit.votes_by_weight_end_grouped.find(
+      // setGroupWeightsVotersInit(groupVotersInit.weights);
+      setWeightsVotersInit(groupVotersInit.weights);
+      const groupVotesInit = votesInit.find(
         (element) => element.group === auxGroup
       );
-      setGroupWeightsVotesInit(groupVotesInit ? groupVotesInit.weights : {});
-      const groupVotesEnd = votesEnd.votes_by_weight_grouped.find(
+      // setGroupWeightsVotesInit(groupVotesInit ? groupVotesInit.weights : {});
+      setWeightsVotesInit(groupVotesInit ? groupVotesInit.weights : {});
+      const groupVotesEnd = votesEnd.find(
         (element) => element.group === auxGroup
       );
-      setGroupWeightsVotesEnd(groupVotesEnd ? groupVotesEnd.weights : {});
+      // setGroupWeightsVotesEnd(groupVotesEnd ? groupVotesEnd.weights : {});
+      setWeightsVotesEnd(groupVotesEnd ? groupVotesEnd.weights : {});
     },
     [group]
   );
@@ -76,14 +85,14 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
   const searchGroupState = useCallback(() => {
     if (
       group !== undefined &&
-      weightsVotersInit &&
-      weightsVotesInit &&
-      weightsVotesEnd
+      Object.keys(groupWeightsVotersInit).length > 0 &&
+      Object.keys(groupWeightsVotesInit).length > 0 &&
+      Object.keys(groupWeightsVotesEnd).length > 0
     )
-      searchGroup(weightsVotersInit, weightsVotesInit, weightsVotesEnd);
+      searchGroup(groupWeightsVotersInit, groupWeightsVotesInit, groupWeightsVotesEnd);
     else {
     }
-  }, [group, weightsVotersInit, weightsVotesInit, weightsVotesEnd, searchGroup]);
+  }, [group, groupWeightsVotersInit, groupWeightsVotesInit, groupWeightsVotesEnd, searchGroup]);
 
   useEffect(() => {
     searchGroupState();
@@ -91,8 +100,7 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
 
   return (
     <>
-      {Object.keys(weightsVotesInit).length > 0 &&
-        Object.keys(weightsVotesEnd).length > 0 && (
+      {(
           <>
             <CardTitle
               title={
@@ -100,14 +108,11 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
                 (grouped ? ` - ${group}` : "")
               }
             />
-            {console.log(weightsVotersInit)}
-            {console.log(weightsVotesInit)}
-            {console.log(weightsVotesEnd)}
-            <WeightsTable
-              weightsInit={weightsVotersInit.voters_by_weight_init}
-              weightsEnd={weightsVotesInit.votes_by_weight}
-              weightsElection={weightsVotesEnd.votes_by_weight_end}
-            />
+              <WeightsTable
+                weightsInit={weightsVotersInit}
+                weightsEnd={weightsVotesInit}
+                weightsElection={weightsVotesEnd}
+              />
         </>
         )}
     </>
