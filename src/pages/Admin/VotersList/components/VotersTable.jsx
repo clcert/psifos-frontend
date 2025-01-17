@@ -10,6 +10,7 @@ function VotersTable({
   setVoterSelect,
   setDeleteVoterModal,
   setEditVoterModal,
+  editVoterModal
 }) {
   const [voters, setVoters] = useState([]);
   const [totalVoters, setTotalVoters] = useState(0);
@@ -45,6 +46,9 @@ function VotersTable({
   );
 
   const initComponent = useCallback(() => {
+    if(editVoterModal) return;
+    
+    setIsLoading(true);
     getVoters(0);
     getStats(election.short_name).then((data) => {
       const { jsonResponse } = data;
@@ -52,7 +56,7 @@ function VotersTable({
       setTotalVotes(jsonResponse.num_casted_votes);
       setIsLoading(false);
     });
-  }, [election, getVoters]);
+  }, [election, getVoters, editVoterModal]);
 
   useEffect(() => {
     initComponent();

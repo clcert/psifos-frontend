@@ -105,6 +105,7 @@ function VotersList() {
               setVoterSelect={setVoterSelect}
               setDeleteVoterModal={setDeleteVoterModal}
               setEditVoterModal={setEditVoterModal}
+              editVoterModal={editVoterModal}
             />
           </div>
         ) : (
