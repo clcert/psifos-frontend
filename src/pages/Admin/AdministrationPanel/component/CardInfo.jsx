@@ -92,13 +92,13 @@ function CardInfo({
           ))}
         <DisplayTicket
           name="Elección privada"
-          condition={election.election_login_type === electionLoginType.close_p}
+          condition={election.voters_login_type === electionLoginType.close_p}
         />
         <DisplayTicket
           name="Aleatorizar opciones"
           condition={election.randomize_answer_order}
         />
-        <DisplayTicket name="Elección agrupada" condition={election.grouped} />
+        <DisplayTicket name="Elección agrupada" condition={election.grouped_voters} />
         <DisplayTicket
           name="Normalización"
           condition={election.normalized}

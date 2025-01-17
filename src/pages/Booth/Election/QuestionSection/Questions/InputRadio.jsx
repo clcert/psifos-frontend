@@ -25,7 +25,13 @@ export function OptionInputRadio({
           onChange={() => console.log('changed answer')}
           checked={isSelected}
         />
-        <span className="is-size-5">{optionLabel}</span>
+        {/* <span className="is-size-5">{optionLabel}</span> */}
+        <div className="ml-1 is-flex is-flex-direction-column">
+          {optionLabel.split("(").map((candidateInfo, index) => (
+            (index === 0) ? <span className={"is-size-5"}> {candidateInfo} </span> : 
+            <span className={"is-size-6"}> {"(" + candidateInfo} </span>
+          ))}
+        </div>
       </label>
     </div>
   );
