@@ -41,41 +41,39 @@ export default class KeyGenerator extends Crypto {
     this.checkAcksPk = {};
   }
 
-  initParams() {
+  async initParams() {
     sjcl.random.startCollectors();
-    /** Get trustee info */
-    getTrusteeCrypto(this.shortName).then((data) => {
-      const trustee = data.jsonResponse.trustee;
-      const trustee_crypto = data.jsonResponse.trustee_crypto;
+    try {
+      const trusteeData = await getTrusteeCrypto(this.shortName);
+      const trustee = trusteeData.jsonResponse.trustee;
+      const trustee_crypto = trusteeData.jsonResponse.trustee_crypto;
       this.trustee = trustee;
       this.trusteeCrypto = trustee_crypto;
       this.reactFunction("setActualStep", trustee_crypto.current_step);
 
-      /** Set actual step for trustee */
-      let eg_params_json = "";
-      getEgParams(this.shortName).then((data) => {
-        eg_params_json = JSON.parse(data);
+      const egParamsData = await getEgParams(this.shortName);
+      const eg_params_json = JSON.parse(egParamsData);
 
-        /** Set initial params */
-        this.getRandomness().then((data) => {
-          const randomness = data;
-          sjcl.random.addEntropy(randomness);
-          let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
+      const randomnessData = await this.getRandomness();
+      sjcl.random.addEntropy(randomnessData);
 
-          elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
-          this.helios_c.trustee = this.helios_c.trustee_create(elgamal_params);
-          this.elGamalParams = elgamal_params;
-          const self = this;
-          BigInt.setup(function () {
-            elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
-            elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
-            self.helios_c.trustee = self.helios_c.trustee_create(elgamal_params);
-          });
-          this.reactFunction("setEnabledButtonInit", true);
-          this.setStepInit(trustee_crypto.current_step);
-        });
+      let elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
+      elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
+      this.helios_c.trustee = this.helios_c.trustee_create(elgamal_params);
+      this.elGamalParams = elgamal_params;
+
+      const self = this;
+      BigInt.setup(function () {
+        elgamal_params = ElGamal.Params.fromJSONObject(eg_params_json);
+        elgamal_params.trustee_id = trustee_crypto.trustee_election_id;
+        self.helios_c.trustee = self.helios_c.trustee_create(elgamal_params);
       });
-    });
+
+      this.reactFunction("setEnabledButtonInit", true);
+      this.setStepInit(trustee_crypto.current_step);
+    } catch (error) {
+      console.error("Error initializing parameters:", error);
+    }
   }
 
   derivatorCoeff(i) {

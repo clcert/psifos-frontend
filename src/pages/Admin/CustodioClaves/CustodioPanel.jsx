@@ -68,11 +68,12 @@ function NoElectionDisplay() {
   );
 }
 
-function ButtonAction({ text, onClick }) {
+function ButtonAction({ text, onClick, disabled }) {
   return (
     <button
       className="button-custom home-admin-button is-size-7-mobile button ml-2"
       onClick={onClick}
+      disabled={disabled}
     >
       {text}
     </button>
@@ -86,6 +87,7 @@ function SynchronizeSection({
 }) {
   const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
+  const [initSynchronizeReady, setInitSynchronizeReady] = useState(false);
   const [feedback, setFeedback] = useState([]);
 
   const setSteps = (index, value) => {
@@ -103,14 +105,19 @@ function SynchronizeSection({
     }
   };
 
-  const prepareToSynchronize = () => {
+  const prepareToSynchronize = async () => {
     const elections = [];
-    electionsSelected.forEach((shortName, index) => {
+    setInitSynchronizeReady(true);
+    electionsSelected.forEach(async (shortName, index) => {
       const key = new KeyGenerator(shortName, index, setSteps);
-      key.initParams();
+      await key.initParams();
       elections.push(key);
+      if(index === electionsSelected.length - 1) {
+        setElectionsCrypto(elections);
+        setInitSynchronizeReady(false);
+        setSteps(index, " - Eleccion preparadas para la generación");
+      }
     });
-    setElectionsCrypto(elections);
   };
 
   const resetSync = () => {
@@ -158,13 +165,13 @@ function SynchronizeSection({
           <ButtonAction
             text="Seleccionar Elecciones"
             onClick={prepareToSynchronize}
+            disabled={initSynchronizeReady}
           />
         )}
         {electionsCrypto.length > 0 && (
           <ButtonAction text="Volver" onClick={resetSync} />
         )}
-        {electionsCrypto.length > 0 && (
-          <button
+          {electionsCrypto.length > 0 && (<button
             className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
             onClick={generateMultipleKeys}
           >
@@ -174,8 +181,8 @@ function SynchronizeSection({
       </div>
 
       {electionsCrypto.length > 0 && <DropFile setText={synchronize} />}
-      <div class="my-4">
-        {feedback.map((value, index) => {
+      <div className="my-4">
+        {electionsCrypto.length > 0 && feedback.map((value, index) => {
           return (
             <div key={index}>
               <h3>
@@ -185,6 +192,11 @@ function SynchronizeSection({
           );
         })}
       </div>
+      {initSynchronizeReady && (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-animation" />
+        </div>
+      )}
       {cryptoGenerateKey.length > 0 ? (
         cryptoGenerateKey.map((trusteeCrypto, index) => {
           return (
@@ -320,7 +332,7 @@ function DecryptProveSection({ cryptoDecryptProve }) {
         )}
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
-      <div class="my-4">
+      <div className="my-4">
         {feedback.map((value, index) => {
           return (
             <div key={index}>
