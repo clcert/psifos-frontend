@@ -94,16 +94,14 @@ function CabinaElection(props) {
   useEffect(() => {
     if (props.electionData.questions) {
       const questionsFetch = props.electionData.questions;
-      questionsFetch.include_informal_options =
-        questionsFetch.include_informal_options === "True" ? true : false;
       setQuestions(questionsFetch);
-      setNameElection(props.electionData.name);
+      setNameElection(props.electionData.election.long_name);
     }
   }, [props.electionData]);
 
   useEffect(() => {
-    if (props.electionData.description) setModalDescription(true);
-  }, [props.electionData.description]);
+    if (props.electionData.election.description) setModalDescription(true);
+  }, [props.electionData.election.description]);
 
   useEffect(() => {
     (function(w, d, s, u) {
@@ -116,8 +114,10 @@ function CabinaElection(props) {
   
   let election_metadata = require("../../../static/dummyData/electionMetadata.json");
 
+  let election_booth = props.electionData.election
+  election_booth.questions = props.electionData.questions
   let BOOTH_PSIFOS = new BoothPsifos(
-    JSON.stringify(props.electionData),
+    JSON.stringify(election_booth),
     election_metadata,
     props.preview
   );
@@ -141,7 +141,7 @@ function CabinaElection(props) {
       sectionClass: "parallax-02",
       stage: 1,
       component: <SelectionPhase
-        electionData={props.selectionData}
+        electionData={props.electionData}
         questions={questions}
         setActualPhase={setActualPhase}
         setAnswers={setAnswers}

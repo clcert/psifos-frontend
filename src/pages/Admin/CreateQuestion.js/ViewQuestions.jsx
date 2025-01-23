@@ -65,13 +65,7 @@ export default function ViewQuestions(props) {
     const fetchQuestionsAndElection = async () => {
       try {
         const questionsResp = await getQuestions(shortName);
-        if (Object.keys(election).length === 0) {
-          const electionResp = await getElection(shortName);
-          dispatch(setElection(electionResp.jsonResponse));
-          initComponent(electionResp.jsonResponse, electionResp.jsonResponse.questions);
-        } else {
-          initComponent(election, questionsResp.jsonResponse.questions);
-        }
+        initComponent(election, questionsResp.jsonResponse.questions);
       } catch (error) {
         console.error("Error fetching questions or election:", error);
       }

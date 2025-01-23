@@ -84,6 +84,8 @@ export const trusteeStep = {
 
 export const electionStatusTranslate = {
   "Setting up": "En configuración",
+  "Ready for key generation": "Listo para generación de claves",
+  "Ready for opening": "Listo para apertura",
   "Started": "Iniciada",
   "Ended": "Finalizada",
   "Computing Tally": "Computando tally",
