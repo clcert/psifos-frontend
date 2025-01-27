@@ -204,7 +204,7 @@ function SynchronizeSection({
               <CustodioSelector
                 key={index}
                 trusteeCrypto={trusteeCrypto}
-                isDisabled={electionsCrypto.length > 0 || trusteeCrypto.status === trusteeStep.config_step}
+                isDisabled={electionsCrypto.length > 0 || trusteeCrypto.current_step === trusteeStep.config_step}
                 index={index}
                 setElectionsSelected={setElectionsSelected}
                 electionsSelected={electionsSelected}
