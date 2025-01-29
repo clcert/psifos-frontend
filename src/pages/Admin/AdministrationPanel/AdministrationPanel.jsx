@@ -51,12 +51,14 @@ function AdministrationPanel() {
 
   const [feedback, setFeedback] = useState({ message: "", type: "" });
   const [load, setLoad] = useState(false);
+  const [loadCard, setLoadCard] = useState(false);
   const [totalVotes, setTotalVotes] = useState(0);
 
   const interTallyRef = useRef(null);
 
   const updateInfo = useCallback(async () => {
     try {
+      setLoadCard(true);
       const [statsRes, votersRes, trusteesRes] = await Promise.all([
         getStats(shortName),
         getTotalVoters(shortName),
@@ -66,6 +68,7 @@ function AdministrationPanel() {
       setTotalVotes(statsRes.jsonResponse.num_casted_votes);
       dispatch(setTotalVoters(votersRes.jsonResponse.total_voters));
       dispatch(setTotalTrustees(trusteesRes.jsonResponse.total_trustees));
+      setLoadCard(false);
     } catch (error) {
       console.error("Failed to update info:", error);
     }
@@ -212,6 +215,7 @@ function AdministrationPanel() {
                   updateInfo={updateInfo}
                   totalVoters={totalVoters}
                   totalVotes={totalVotes}
+                  isLoading={loadCard}
                 />
               </div>
             </div>
