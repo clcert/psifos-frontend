@@ -1,4 +1,4 @@
-import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.svg";
+import logoParticipa from "../../../static/new_home_assets/SVG/uparticipa-logo-usach.png";
 import { useState } from "react";
 import { Buffer } from "buffer";
 import { backendOpIP } from "../../../server";
@@ -76,11 +76,13 @@ function Login() {
       <section className="columns is-flex is-vcentered is-centered login-section parallax hero is-medium">
         <div className="container-login">
           <div className="container-content-login">
-            <img
-              className="login-logo"
-              src={logoParticipa}
-              alt="Logo Participa"
-            />
+            <div className="has-text-centered">
+              <img
+                className="login-logo"
+                src={logoParticipa}
+                alt="Logo Participa"
+              />
+            </div>
             <div className="container-login-title">Panel de administración</div>
             <div
               style={{ color: colorAlert }}
