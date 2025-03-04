@@ -32,7 +32,7 @@ function ResumedStats({ totalVotes, loginType }) {
         Esta elección tiene padrón abierto, por lo que cualquier persona puede votar.
       </div>}
       {isSemiPublicLoginElection(loginType) && <div className="participation-without-poll">
-        Esta elección tiene padrón semi abierto, por lo que cualquier persona con cuenta UChile puede votar.
+        Esta elección tiene padrón semi abierto, por lo que cualquier persona con cuenta USACH puede votar.
       </div>}
       <SimpleHorizontalTable
         contentPerRow={renderTableData({"Votos recibidos": totalVotes})}

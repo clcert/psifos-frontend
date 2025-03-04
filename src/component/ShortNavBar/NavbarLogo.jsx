@@ -1,4 +1,4 @@
-import logoConEscudo from "../../static/new_home_assets/SVG/logo-con-escudo.svg";
+import logoConEscudo from "../../static/new_home_assets/SVG/uparticipa-logo-usach.png";
 import $ from "jquery";
 function NavbarLogo(props) {
   return (

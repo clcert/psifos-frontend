@@ -6,7 +6,7 @@ function ModalInfo(props) {
         <section className="modal-card-body">
           <h1 className="is-3 modal-title">INFORMACIÓN</h1>
           <div className="modal-card-text">
-            Participa UChile es un proyecto impulsado por la Prorrectoría de la
+            UParticipa es un proyecto universitario, impulsado por la Prorrectoría de la
             Universidad de Chile y desarrollado por un equipo multidisciplinario
             de profesionales del Laboratorio de Criptografía Aplicada y
             Ciberseguridad (CLCERT) de la misma institución.<br /><br />
@@ -18,7 +18,7 @@ function ModalInfo(props) {
 
             Si tiene alguna pregunta o comentario sobre el sistema, por favor,
             no dude en contactarnos a través de correo electrónico
-            participa@uchile.cl.
+            participa@uchile.cl
           </div>
         </section>
         <footer className="modal-card-foot">
