@@ -1,20 +1,26 @@
-# pull official base image
-FROM node:16-alpine
+FROM node:18
 
-# set working directory
+# Instala dependencias del sistema
+RUN apt-get update && apt-get install -y build-essential
+
+# Configura el directorio de trabajo
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# install app dependencies
+# Copia los archivos de dependencias
 COPY package.json ./
 COPY package-lock.json ./
 
+# Instala las dependencias de Node.js
 RUN npm install
 
-# add app
+# Copia el resto de la aplicación
 COPY . ./
 
-# start app
-CMD ["npm", "start"]
+# Cambia la propiedad de los archivos al usuario `node`
+RUN chown -R node:node /app
+
+# Cambia el usuario a no-root
+USER node
+
+# Inicia la aplicación
+CMD ["npm", "run", "dev"]

@@ -3,8 +3,7 @@ import { UTILS } from "./helios";
 import { b64_sha256 } from "./sha2";
 
 import EncryptedAnswerFactory from "./encypted-answers";
-var _ = require("lodash");
-
+import _ from "lodash";
 class EncryptedVote {
   constructor(election, answers, progress) {
     // empty constructor

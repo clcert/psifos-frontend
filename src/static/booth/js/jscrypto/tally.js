@@ -1,7 +1,6 @@
 import { ElGamal } from "./elgamal";
 
-var _ = require("lodash");
-
+import _ from "lodash";
 class TallyFactory {
   /**
    * Class factory for creating a tally object.

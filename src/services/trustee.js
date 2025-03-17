@@ -72,7 +72,6 @@ async function getTotalTrustees(shortName) {
   const url = backendInfoIp + "/" + shortName + "/total-trustees";
   const resp = await fetch(url, {
     method: "GET",
-    credentials: "include",
   });
   const jsonResponse = await resp.json();
   return { resp: resp, jsonResponse: jsonResponse };

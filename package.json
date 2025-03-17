@@ -14,8 +14,10 @@
     "@testing-library/user-event": "~13.5.0",
     "bootstrap": "~5.2.3",
     "buffer": "~6.0.3",
+    "bulma": "^1.0.3",
     "bulma-accordion": "~2.0.1",
     "chart.js": "~3.9.1",
+    "crypto-browserify": "^3.12.0",
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "jquery": "~3.6.4",
@@ -31,7 +33,6 @@
     "react-redux": "^9.0.4",
     "react-router-dom": "~6.10.0",
     "react-router-hash-link": "~2.4.3",
-    "react-scripts": "^5.0.1",
     "react-select": "~5.7.2",
     "react-simple-timefield": "~3.3.1",
     "react-super-responsive-table": "~5.2.1",
@@ -40,16 +41,13 @@
     "redux-thunk": "^3.1.0",
     "rehype-raw": "~6.1.1",
     "remark-gfm": "~3.0.1",
-    "sass": "~1.62.0",
     "underscore": "~1.13.6",
-    "web-vitals": "~2.1.4",
-    "webpack-cli": "~4.10.0"
+    "web-vitals": "~2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -70,9 +68,11 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.3",
     "gulp-sass": "~5.1.0",
     "lodash": "~4.17.21",
-    "react-app-rewired": "~2.2.1",
-    "worker-loader": "~3.0.8"
+    "sass": "^1.85.1",
+    "vite": "^5.0.0",
+    "vite-plugin-node-polyfills": "^0.17.0"
   }
 }
