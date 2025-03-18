@@ -432,8 +432,8 @@ export default function CustodioHome() {
           <div className="hero-body pt-0 px-0 header-hero">
             <MyNavbar />
             <TitlePsifos
-              namePage="Portal de Custodio de Clave"
-              nameElection={`Custodio ${trustee.name}`}
+              namePage={`${trustee.name}`}
+              nameElection="Portal de Custodio de Clave"
             />
           </div>
         </section>
