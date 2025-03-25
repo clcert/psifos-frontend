@@ -31,7 +31,7 @@ function CustodioClaves(props) {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
   /** @state {string} shortName trustee  */
-  const [uuidTrustee, setUuidTrustee] = useState("");
+  const [usernameTrustee, setUsernameTrustee] = useState("");
 
   const location = useLocation();
 
@@ -154,8 +154,8 @@ function CustodioClaves(props) {
             </div>
           </div>
           <TrusteesList
-            deleteTrustee={(uuid) => {
-              setUuidTrustee(uuid);
+            deleteTrustee={(username) => {
+              setUsernameTrustee(username);
               setModalDelete(true);
             }}
             election={election}
@@ -175,7 +175,7 @@ function CustodioClaves(props) {
         show={modalDelete}
         onHide={() => setModalDelete(false)}
         shortName={shortName}
-        uuidTrustee={uuidTrustee}
+        usernameTrustee={usernameTrustee}
       />
     </div>
   );
