@@ -34,6 +34,7 @@ function CreateElection(props) {
     voters_login_type: "close_p",
     normalized: false,
     grouped_voters: false,
+    has_psifos_trustees: false,
   });
 
   /** @state {string} alert message  */
@@ -61,6 +62,7 @@ function CreateElection(props) {
       voters_login_type: electionType[election.voters_login_type],
       normalized: election.normalized,
       grouped_voters: election.grouped_voters,
+      has_psifos_trustees: election.has_psifos_trustees,
     };
     setElectionParams(params);
   }, []);
@@ -379,6 +381,28 @@ function CreateElection(props) {
             </div>
             <p className="help">
               Actívelo si desea que los votantes esten agrupados.
+            </p>
+          </div>
+          <div className="field">
+            <div className="control">
+              <label className="checkbox">
+                <input
+                  onChange={(e) => {
+                    setElectionParams({
+                      ...electionParams,
+                      has_psifos_trustees: e.target.checked,
+                    });
+                  }}
+                  checked={electionParams.has_psifos_trustees}
+                  type="checkbox"
+                  className="mr-2"
+                />
+                Custodio como servidor
+              </label>
+            </div>
+            <p className="help">
+              No sera necesario integrar custodios, el servidor de Psifos
+              actuara como custodio.
             </p>
           </div>
           <div className="row">

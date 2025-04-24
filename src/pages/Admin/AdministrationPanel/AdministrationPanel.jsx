@@ -143,7 +143,7 @@ function AdministrationPanel() {
       <ModalDeleteElection show={modals.deleteElectionModal} onHide={() => setModals((prev) => ({ ...prev, deleteElectionModal: false }))} shortName={shortName} />
       <ModalGenerationKey
         show={modals.generationReadyModal}
-        generationChange={() => dispatch(setElection({ ...election, status: electionStatus.readyForKeyGeneration }))}
+        generationChange={() => dispatch(setElection({ ...election, status: election.has_psifos_trustees ? electionStatus.readyForOpening : electionStatus.readyForKeyGeneration}))}
         onHide={() => setModals((prev) => ({ ...prev, generationReadyModal: false }))}
         shortName={shortName}
       />

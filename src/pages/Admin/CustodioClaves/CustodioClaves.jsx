@@ -16,6 +16,7 @@ import { getElection } from "../../../services/election";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useDispatch, useSelector } from "react-redux";
 import { setElection } from "../../../store/slices/electionSlice";
+import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage";
 
 function CustodioClaves(props) {
   const dispatch = useDispatch();
@@ -63,104 +64,107 @@ function CustodioClaves(props) {
       <SubNavbar active={4} />
 
       <section className="section voters-section">
-        <div className="container has-text-centered is-max-desktop">
-          {location.state && (
-            <div className="notification is-primary is-light">
-              {location.state.message}
-            </div>
-          )}
-          <div className="has-text-centered title is-size-4-mobile mt-2">
-            Panel de custodios
+        {election.has_psifos_trustees ? (
+          <div className="container has-text-centered is-max-desktop is-flex is-justify-content-center">
+            <NotAvalaibleMessage message="El servidor actuará como custodio" />
           </div>
-          <div
-            className="box has-text-centered border-style-box"
-            id="border-style-box"
-          >
-            <div className="has-text-left mb-0">
-              <div>
-                - Los custodios de claves son los responsables de desencriptar
-                el escrutinio de la elección.
+        ) : (
+          <div className="container has-text-centered is-max-desktop">
+            {location.state && (
+              <div className="notification is-primary is-light">
+                {location.state.message}
               </div>
-              <div className="mt-2">
-                - Cada custodio de clave generará un par de claves (pública y
-                privada), donde la clave pública es subida al servidor.
-              </div>
-              <div className="mt-2">
-                - Al momento de desencriptar el escrutinio, cada custodio de
-                claves proveerá su clave privada.
-              </div>
+            )}
+            <div className="has-text-centered title is-size-4-mobile mt-2">
+              Panel de custodios
             </div>
-          </div>
-          {election.status === "Setting up" && (
-            <>
-              <div className="d-flex justify-center flex-column">
+            <div
+              className="box has-text-centered border-style-box"
+              id="border-style-box"
+            >
+              <div className="has-text-left mb-0">
                 <div>
-                  <button
-                    id="add-trustee"
-                    className="button button-custom mb-4"
-                    onClick={() => {
-                      setModalCustodio(true);
-                    }}
-                  >
-                    AGREGAR CUSTODIO DE CLAVE
-                  </button>
+                  - Los custodios de claves son los responsables de desencriptar
+                  el escrutinio de la elección.
                 </div>
-                {!election.has_helios_trustee && (
+                <div className="mt-2">
+                  - Cada custodio de clave generará un par de claves (pública y
+                  privada), donde la clave pública es subida al servidor.
+                </div>
+                <div className="mt-2">
+                  - Al momento de desencriptar el escrutinio, cada custodio de
+                  claves proveerá su clave privada.
+                </div>
+              </div>
+            </div>
+            {election.status === "Setting up" && (
+              <>
+                <div className="d-flex justify-center flex-column">
                   <div>
                     <button
                       id="add-trustee"
                       className="button button-custom mb-4"
-                      onClick={() => {}}
+                      onClick={() => {
+                        setModalCustodio(true);
+                      }}
                     >
-                      Servidor como custodio
+                      AGREGAR CUSTODIO DE CLAVE
                     </button>
                   </div>
-                )}
-              </div>
-            </>
-          )}
-          <div
-            className="box has-text-centered border-style-box"
-            id="border-style-box"
-          >
-            <div>
-              <span>Link de conexión custodio: </span>
-              <CopyToClipboard
-                text={backendOpIP + "/trustee/login/panel"}
-                onCopy={() => setShowCopyMessage(true)}
-              >
-                <span>
-                  <span className="link-without-line">
-                    Copiar <i className="fa-solid fa-copy"></i>
-                  </span>
-                  {showCopyMessage && (
-                    <span className="alert-copy ml-2">Link copiado!</span>
+                  {!election.has_helios_trustee && (
+                    <div>
+                      <button
+                        id="add-trustee"
+                        className="button button-custom mb-4"
+                        onClick={() => {}}
+                      >
+                        Servidor como custodio
+                      </button>
+                    </div>
                   )}
+                </div>
+              </>
+            )}
+            <div
+              className="box has-text-centered border-style-box"
+              id="border-style-box"
+            >
+              <div>
+                <span>Link de conexión custodio: </span>
+                <CopyToClipboard
+                  text={backendOpIP + "/trustee/login/panel"}
+                  onCopy={() => setShowCopyMessage(true)}
+                >
+                  <span>
+                    <span className="link-without-line">
+                      Copiar <i className="fa-solid fa-copy"></i>
+                    </span>
+                    {showCopyMessage && (
+                      <span className="alert-copy ml-2">Link copiado!</span>
+                    )}
+                  </span>
+                </CopyToClipboard>
+              </div>
+              <div className="mt-2">
+                <span
+                  className="link-without-line font-caption"
+                  onClick={() => {
+                    window.open(backendOpIP + "/trustee/login/panel", "_blank");
+                  }}
+                >
+                  Click para ir al sitio web del custodio
                 </span>
-              </CopyToClipboard>
+              </div>
             </div>
-            <div className="mt-2">
-              <span
-                className="link-without-line font-caption"
-                onClick={() => {
-                  window.open(
-                    backendOpIP + "/trustee/login/panel",
-                    "_blank"
-                  );
-                }}
-              >
-                Click para ir al sitio web del custodio
-              </span>
-            </div>
+            <TrusteesList
+              deleteTrustee={(username) => {
+                setUsernameTrustee(username);
+                setModalDelete(true);
+              }}
+              election={election}
+            />
           </div>
-          <TrusteesList
-            deleteTrustee={(username) => {
-              setUsernameTrustee(username);
-              setModalDelete(true);
-            }}
-            election={election}
-          />
-        </div>
+        )}
       </section>
       <div>
         <ImageFooter imagePath={imageTrustees} />
