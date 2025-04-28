@@ -24,13 +24,12 @@ function InvalidLogginByTime(props) {
 
   useEffect(() => {
     async function getCountDates() {
-      const token = localStorage.getItem("token");
       const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           minutes: deltaTime,
           type_log: "voter_login_fail",

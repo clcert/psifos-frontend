@@ -11,6 +11,7 @@ async function getTrustee(uuidTrustee) {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
   const jsonResponse = await resp.json();
   return { resp: resp, jsonResponse: jsonResponse };
@@ -28,6 +29,7 @@ async function getTrustees(shortName) {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   const jsonResponse = await resp.json();

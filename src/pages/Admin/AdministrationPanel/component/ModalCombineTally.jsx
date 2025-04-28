@@ -3,13 +3,12 @@ import { backendOpIP } from "../../../../server";
 function ModalCombineTally(props) {
   async function combine() {
     const url = backendOpIP + "/" + props.shortName + "/combine-decryptions";
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       props.feedback(

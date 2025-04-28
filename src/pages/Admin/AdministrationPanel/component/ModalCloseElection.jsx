@@ -3,13 +3,12 @@ import { backendOpIP } from "../../../../server";
 function ModalCloseElection(props) {
   async function closeElection() {
     const url = backendOpIP + "/" + props.shortName + "/end-election";
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       props.feedback("La elección ha sido cerrada con exito!", "is-success");
