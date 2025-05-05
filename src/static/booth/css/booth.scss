@@ -1,12 +1,5 @@
 @charset "utf-8";
 
-@import "bulma/bulma.sass";
-
-// Import Bulma first
-@import "bulma";
-// Import Component main Sass File
-@import "~@creativebulma/bulma-collapsible";
-
 @font-face {
   font-family: Arial;
   src: url("../fonts/Arial.ttf");

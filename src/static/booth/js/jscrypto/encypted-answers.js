@@ -2,8 +2,7 @@ import { ElGamal } from "./elgamal";
 import { BigInt } from "./bigint";
 import { Random } from "./random";
 import { UTILS } from "./helios";
-var _ = require("lodash");
-
+import _ from "lodash";
 class EncryptedAnswerFactory {
   /**
    *  Factory for EncryptedAnswer

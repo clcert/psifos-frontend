@@ -49,7 +49,7 @@ function TrusteesList({ election, deleteTrustee }) {
               <span className="level-right">
                 <i
                   className="close-question fa-solid fa-trash"
-                  onClick={() => deleteTrustee(trustee.uuid)}
+                  onClick={() => deleteTrustee(trustee.username)}
                 />
               </span>
             )}

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 @font-face {
   font-family: Arial;
   src: url("../fonts/Arial.ttf");
@@ -12380,7 +12381,6 @@ a.has-text-danger-dark:focus {
 
 .card-content {
   position: relative;
-  background-color: #004c94;
   padding: 0;
   color: white;
   max-width: 100%;
@@ -12630,7 +12630,6 @@ Accordion
   width: 100%;
 }
 .accordion-a {
-  background-color: gainsboro;
   text-decoration: none !important;
 }
 

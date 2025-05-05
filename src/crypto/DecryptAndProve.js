@@ -3,6 +3,8 @@ import { backendOpIP } from "../server";
 import Crypto from "./Crypto";
 import { getEgParams } from "../services/crypto";
 
+import DecryptWorker from "./decrypt-worker?worker";
+
 export default class DecryptAndProve extends Crypto {
   constructor(shortName, index, setFeedbacks, { reactFunctions } = {}) {
     super({ reactFunctions });
@@ -86,7 +88,7 @@ export default class DecryptAndProve extends Crypto {
   }
 
   createWorker(bash, sk, q_num, worker_num, group, with_votes) {
-    const worker = new Worker(new URL("./decrypt-worker.js", import.meta.url));
+    const worker = new DecryptWorker();
     worker.postMessage({
       params: this.params,
       trustee: this.trustee,

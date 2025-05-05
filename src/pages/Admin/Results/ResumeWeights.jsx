@@ -58,9 +58,6 @@ export default function ResumeWeights({ group = undefined, grouped = false }) {
    */
   const searchGroup = useCallback(
     (votersInit, votesInit, votesEnd) => {
-      console.log(votersInit)
-      console.log(votesInit)
-      console.log(votesEnd)
       const auxGroup = group === "Sin grupo" ? "" : group;
       const groupVotersInit = votersInit.find(
         (element) => element.group === auxGroup

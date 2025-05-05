@@ -11,6 +11,7 @@ import CastDone from "../components/CastDone";
 import AuditSection from "./Review/AuditSection";
 import BoothPsifos from "../BoothPsifos";
 import DescriptionModal from "../components/DescriptionModal";
+import election_metadata from "../../../static/dummyData/electionMetadata.json";
 
 function SelectionPhase(props) {
   return(
@@ -112,8 +113,6 @@ function CabinaElection(props) {
     })(window, document, 'script', 'https://chat.labs.clcert.cl/livechat');
   }, [])
   
-  let election_metadata = require("../../../static/dummyData/electionMetadata.json");
-
   let election_booth = props.electionData.election
   election_booth.questions = props.electionData.questions
   let BOOTH_PSIFOS = new BoothPsifos(

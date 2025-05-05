@@ -5,6 +5,7 @@ import { BigInt } from "./jscrypto/bigint";
 import { b64_sha256 } from "./jscrypto/sha2";
 import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
 import EncryptedVote from "./jscrypto/encrypted-vote";
+import BoothWorker from "./boothworker-single.worker.js?worker"; // <- Nota el ?worker
 
 window.onbeforeunload = function (evt) {
   if (!BOOTH.started_p) return;
@@ -62,15 +63,12 @@ class BoothPsifos {
 
   setup_workers(election_raw_json) {
     // async?
-
     if (!this.synchronous) {
       // prepare spots for encrypted answers
       // and one worker per question
       this.encrypted_answers = [];
       this.answer_timestamps = [];
-      this.worker = new Worker(
-        new URL("./boothworker-single.worker.js", import.meta.url)
-      );
+      this.worker = new BoothWorker();
       this.worker.postMessage({
         type: "setup",
         election: election_raw_json,
