@@ -54,8 +54,8 @@ function CustodioSelector({
 function ElectionDisplay({ trusteeCrypto }) {
   return (
     <div className="box border-style-box my-4 p-2">
-      <p>{getTrusteeStatus(trusteeCrypto)}</p>
-      <h1>{trusteeCrypto.election_short_name}</h1>
+      <h3>{getTrusteeStatus(trusteeCrypto)}</h3>
+      <h2>{trusteeCrypto.election_short_name}</h2>
     </div>
   );
 }
@@ -163,7 +163,7 @@ function SynchronizeSection({
       <div className="mb-4">
         {cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && (
           <ButtonAction
-            text="Seleccionar Elecciones"
+            text="Generar Llaves de Elecciones Seleccionadas"
             onClick={prepareToSynchronize}
             disabled={initSynchronizeReady}
           />
@@ -175,7 +175,7 @@ function SynchronizeSection({
             className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
             onClick={generateMultipleKeys}
           >
-            Generar claves
+            Descargar Llave Privada
           </button>
         )}
       </div>
@@ -368,6 +368,7 @@ export default function CustodioHome() {
   const [trusteesCrypto, setTrusteesCrypto] = useState([]);
   const [noAuthMessage, setNoAuthMessage] = useState("");
   const [auth, setAuth] = useState(false);
+  const [showKeyGeneration, setShowKeyGeneration] = useState(false);
 
   const [actualTab, setActualTab] = useState(0);
 
@@ -375,11 +376,23 @@ export default function CustodioHome() {
   const [cryptoCheckKey, setCryptoCheckKey] = useState([]);
   const [cryptoDecryptProve, setCryptoDecryptProve] = useState([]);
 
+  const selectAllElectionsForKeyGeneration = () => {
+    var radios = document.getElementsByTagName('input');
+    for (let index = 0; index < radios.length; index++) {
+      if (radios[index].id.includes("keygeneration_")) {
+        radios[index].checked = true;
+      }
+    }
+  }
+
+  const handleShowKeyGeneration = () => {
+    setShowKeyGeneration(!showKeyGeneration);
+  }
+
   const tabs = [
-    "General",
-    "Sincronización",
-    "Chequear clave",
-    "Desencriptación",
+    "Generación de Llaves",
+    "Verificar Llave Privada",
+    "Desencriptación de Resultado",
   ];
 
   const setCrypto = (trusteesCrypto) => {
@@ -438,7 +451,7 @@ export default function CustodioHome() {
           </div>
         </section>
 
-        <section className="section voters-section">
+        {/* <section className="section voters-section">
           <div className="container has-text-centered is-max-desktop">
             <div className="d-flex ">
               <Tabs
@@ -447,7 +460,7 @@ export default function CustodioHome() {
                 tabs={tabs}
               />
             </div>
-            {actualTab === 1 && (
+            {actualTab === 0 && (
               <div>
                 <SynchronizeSection
                   cryptoGenerateKey={cryptoGenerateKey}
@@ -456,33 +469,122 @@ export default function CustodioHome() {
                 />
               </div>
             )}
-            {actualTab === 2 && (
+            {actualTab === 1 && (
               <div>
                 <CheckSkSection cryptoCheckKey={cryptoCheckKey} />
               </div>
             )}
-            {actualTab === 3 && (
+            {actualTab === 2 && (
               <div>
                 <DecryptProveSection cryptoDecryptProve={cryptoDecryptProve} />
               </div>
             )}
-            {actualTab === 0 && (
-              <div>
-                {trusteesCrypto.map((trusteeCrypto, index) => {
+          </div>
+        </section> */}
+
+        <section className="section voters-section">
+          <div className="container is-max-desktop">
+            <h1 className="title">Paso 1: Seleccionar Elecciones</h1>
+            <h1 className="subtitle">Selecciona las elecciones en la columna de la acción que deseas realizar</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Elección</th>
+                  <th className="has-text-centered">Generación de Llaves</th>
+                  <th className="has-text-centered">Verificación de Llaves</th>
+                  <th className="has-text-centered">Desencriptación de Resultado</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th className="has-text-centered"><button className="button" onClick={selectAllElectionsForKeyGeneration}>Seleccionar Todas</button></th>
+                  <th className="has-text-centered"><button className="button">Seleccionar Todas</button></th>
+                  <th className="has-text-centered"><button className="button">Seleccionar Todas</button></th>
+                </tr>
+              </tfoot>
+              <tbody>
+              {trusteesCrypto.length > 0 ? (
+                trusteesCrypto.map((trusteeCrypto, index) => {
                   return (
-                    <ElectionDisplay
-                      trusteeCrypto={trusteeCrypto}
-                      key={index}
-                    />
+                    trusteeCrypto && (
+                      <tr>
+                        <th>{trusteeCrypto.election_short_name}</th>
+                        <td className="has-text-centered">
+                          {trusteeCrypto.election_status == "Ready for key generation" && 
+                            (
+                              <input 
+                                type="radio"
+                                name={trusteeCrypto.election_short_name}
+                                value={"keygeneration_" + trusteeCrypto.election_short_name}
+                                id={"keygeneration_" + index}
+                              />
+                            )
+                          }
+                          {trusteeCrypto.election_status == "Ready for opening" && 
+                            (
+                              "✅"
+                            )
+                          }
+                        </td>
+                        <td className="has-text-centered">
+                        {trusteeCrypto.election_status == "Ready for opening" && 
+                          (
+                            <input 
+                              type="radio"
+                              name={trusteeCrypto.election_short_name}
+                              value={"verify_" + trusteeCrypto.election_short_name}
+                              id={"verify_" + index}
+                            />
+                          )
+                        }
+                        {trusteeCrypto.election_status == "Results released" && 
+                          (
+                            "✅"
+                          )
+                        }
+                        </td>
+                        <td className="has-text-centered">
+                        {trusteeCrypto.election_status == "Tally computed" && 
+                          (
+                            <input 
+                              type="radio"
+                              name={trusteeCrypto.election_short_name}
+                              value={"decrypt_" + trusteeCrypto.election_short_name}
+                              id={"decrypt_" + index}
+                            />
+                          )
+                        }
+                        {trusteeCrypto.current_step == 6 && 
+                          (
+                            "✅"
+                          )
+                        }
+                        </td>
+                      </tr>
+                    )
                   );
-                })}
-              </div>
-            )}
+                })
+              ) : (<div></div>)
+              }
+              </tbody>
+            </table>
+            <h1 className="title">Paso 2: Realizar Acción</h1>
+            <h1 className="subtitle">Aprieta el botón para iniciar el proceso</h1>
+            <div className="">
+              <button className="button is-medium" onClick={handleShowKeyGeneration}>
+                Generar Claves
+              </button>
+              {showKeyGeneration && 
+                <SynchronizeSection 
+                  cryptoGenerateKey={cryptoGenerateKey}
+                  setCryptoGenerateKey={setCryptoGenerateKey}/>
+                }
+            </div>
           </div>
         </section>
 
         <div>
-          <ImageFooter imagePath={imageTrustees} />
           <FooterParticipa message="SEGURIDAD ∙ TRANSPARENCIA ∙ VERIFICACIÓN" />
         </div>
       </div>
