@@ -22,7 +22,7 @@ function RequireAuth({ children }) {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // You can replace this with a spinner or any loading indicator
+    return <div className="spinner-animation"></div>;
   }
 
   return isLoggedIn ? children : <Navigate to="/psifos/admin/login" replace />;
