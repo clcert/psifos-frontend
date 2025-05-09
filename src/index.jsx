@@ -10,6 +10,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import store from "./store/index";
 import { Provider } from "react-redux";
 import crypto from 'crypto-browserify';
+import { ErrorProvider } from "./pages/General/ErrorPage";
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
@@ -17,9 +18,11 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+      <BrowserRouter>
+    <ErrorProvider>
+        <App />
+    </ErrorProvider>
+      </BrowserRouter>
   </Provider>,
 );
 

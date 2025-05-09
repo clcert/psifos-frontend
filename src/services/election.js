@@ -1,6 +1,5 @@
 import { backendInfoIp, backendOpIP } from "../server";
-import { logout } from "../utils/utils";
-
+import { checkResponse } from "./utils";
 async function getElection(shortName) {
   /**
    * async function to get the election data
@@ -13,13 +12,7 @@ async function getElection(shortName) {
       "Content-Type": "application/json",
     },
   });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-
-    return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 403) {
-    logout();
-  }
+  return checkResponse(resp);
 }
 
 async function getElectionPublic(shortName) {
@@ -33,10 +26,7 @@ async function getElectionPublic(shortName) {
       "Content-Type": "application/json",
     },
   });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getElections() {
@@ -52,13 +42,7 @@ async function getElections() {
       "Content-Type": "application/json",
     },
   });
-
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  } else if (resp.status === 403) {
-    logout();
-  }
+  return checkResponse(resp);
 }
 
 async function getStats(shortName) {
@@ -68,10 +52,7 @@ async function getStats(shortName) {
       "Content-Type": "application/json",
     },
   });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getEvents(shortName) {
@@ -84,10 +65,7 @@ async function getEvents(shortName) {
       },
     }
   );
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getStatsGroup(shortName, group) {
@@ -101,10 +79,7 @@ async function getStatsGroup(shortName, group) {
       group: group
     })
   });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getVotersInit(shortName) {
@@ -114,10 +89,7 @@ async function getVotersInit(shortName) {
       "Content-Type": "application/json",
     },
   });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp, jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getVotesInit(shortName) {
@@ -128,10 +100,7 @@ async function getVotesInit(shortName) {
         "Content-Type": "application/json",
       },
     });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getVotesEnd(shortName) {
@@ -141,10 +110,7 @@ async function getVotesEnd(shortName) {
       "Content-Type": "application/json",
     },
   });
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
 }
 
 async function getCountDates(shortName, deltaTime) {
@@ -162,10 +128,27 @@ async function getCountDates(shortName, deltaTime) {
     }),
   });
 
-  if (resp.status === 200) {
-    const jsonResponse = await resp.json();
-    return { resp: resp, jsonResponse: jsonResponse };
-  }
+  return checkResponse(resp);
+}
+
+async function getCountLogs(shortName, deltaTime, typeLog) {
+  /**
+   * async function to get the number of votes by date
+   */
+
+  const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      minutes: deltaTime,
+      type_log: typeLog,
+    }),
+  });
+
+  return checkResponse(resp);
 }
 
 async function initElection(shortName) {
@@ -183,10 +166,7 @@ async function initElection(shortName) {
     },
   });
 
-  if (resp.status === 403) {
-    logout();
-  }
-  return resp
+  return checkResponse(resp);
 }
 
 async function closeElection(shortName) {
@@ -204,10 +184,7 @@ async function closeElection(shortName) {
     },
   });
 
-  if (resp.status === 403) {
-    logout();
-  }
-  return resp
+  return checkResponse(resp);
 }
 
 async function computeTally(shortName) {
@@ -225,10 +202,7 @@ async function computeTally(shortName) {
     },
   });
 
-  if (resp.status === 403) {
-    logout();
-  }
-  return resp
+  return checkResponse(resp);
 }
 
 async function combineDecryptions(shortName) {
@@ -246,10 +220,7 @@ async function combineDecryptions(shortName) {
     },
   });
 
-  if (resp.status === 403) {
-    logout();
-  }
-  return resp
+  return checkResponse(resp);
 }
 
 async function getQuestions(shortName) {
@@ -271,8 +242,7 @@ async function electionHasQuestions(shortName) {
       "Content-Type": "application/json",
     },
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 async function checkStatus(shortName) {
@@ -283,8 +253,7 @@ async function checkStatus(shortName) {
       "Content-Type": "application/json",
     },
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 export {
@@ -298,6 +267,7 @@ export {
   getVotesInit,
   getVotesEnd,
   getCountDates,
+  getCountLogs,
   initElection,
   closeElection,
   computeTally,

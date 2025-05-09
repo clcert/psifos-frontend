@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { backendOpIP } from "../../../../server";
 import LinePsifosGraph from "../Graphs/LinePsifosGraph";
+import { getCountLogs } from "../../../../services/election";
+import { useError } from "../../../General/ErrorPage";
 
 function InvalidLogginByTime(props) {
   /** Section dedicated to graphing the number of voter invalid logging by time */
@@ -22,27 +23,24 @@ function InvalidLogginByTime(props) {
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
 
+  /** @state {function} function to show error */
+  const { setHasError } = useError();
+
   useEffect(() => {
     async function getCountDates() {
-      const token = localStorage.getItem("token");
-      const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          minutes: deltaTime,
-          type_log: "voter_login_fail",
-        }),
-      });
-      if (resp.status === 200) {
-        const jsonResponse = await resp.json();
+      try {
+        const response = await getCountLogs(shortName, deltaTime, "voter_login_fail");
+        const { jsonResponse } = response;
         if (Object.keys(jsonResponse).length !== 0) {
           setLogginFailForTime(jsonResponse.count_logs);
           setLogginInvalidTotal(jsonResponse.total_logs);
         }
         setLoad(true);
+      }
+      catch (error) {
+        console.error("Error fetching data:", error);
+        setHasError(true);
+        setLoad(false);
       }
     }
     getCountDates();

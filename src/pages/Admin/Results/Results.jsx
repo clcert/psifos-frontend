@@ -7,6 +7,7 @@ import NotAvalaibleMessage from "../../../component/Messages/NotAvailableMessage
 import { electionStatus, informalOptions } from "../../../constants";
 import CalculatedResults from "./CalculatedResults";
 import { parseResult } from "./parseResult";
+import { useError } from "../../General/ErrorPage";
 
 function NoCalculatedResults({ getElectionResult }) {
   return (
@@ -43,6 +44,9 @@ function Results({ isAdmin = false }) {
 
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
+
+  /** @state {function} function to show error */
+  const { setHasError } = useError();
 
   const handleResults = (questionsObject, resultObject, setResult) => {
     let result = [];
@@ -96,6 +100,7 @@ function Results({ isAdmin = false }) {
         }
       }
     } catch (error) {
+      setHasError(true);
       console.error("Failed to fetch election results:", error);
     } finally {
       setLoad(true);

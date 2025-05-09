@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { backendOpIP } from "../../../../server";
 import LinePsifosGraph from "../Graphs/LinePsifosGraph";
+import { getCountLogs } from "../../../../services/election";
+import { useError } from "../../../General/ErrorPage";
 
 function LogginByTime(props) {
   /** Section dedicated to graphing the number of voter logging by time */
@@ -21,27 +22,22 @@ function LogginByTime(props) {
 
   /** @urlParam {string} uuid of election */
   const { shortName } = useParams();
+  
+  /** @state {function} function to show error */
+  const { setHasError } = useError();
 
   const getCountDates = useCallback(async () => {
-    const token = localStorage.getItem("token");
-    const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        minutes: deltaTime,
-        type_log: "voter_login",
-      }),
-    });
-    if (resp.status === 200) {
-      const jsonResponse = await resp.json();
+    try {
+      const response = await getCountLogs(shortName, deltaTime, "voter_login");
+      const { jsonResponse } = response;
       if (Object.keys(jsonResponse).length !== 0) {
         setLogginForTime(jsonResponse.count_logs);
         setTotalLoggin(jsonResponse.total_logs);
       }
       setLoad(true);
+    }
+    catch (error) {
+      setHasError(true);
     }
   }, [deltaTime, shortName]);
 

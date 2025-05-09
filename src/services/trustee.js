@@ -1,4 +1,5 @@
 import { backendInfoIp, backendOpIP } from "../server";
+import { checkResponse } from "./utils"
 
 async function getTrustee(uuidTrustee) {
   /**
@@ -12,8 +13,7 @@ async function getTrustee(uuidTrustee) {
       "Content-Type": "application/json",
     },
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 async function getTrustees(shortName) {
@@ -30,8 +30,7 @@ async function getTrustees(shortName) {
     },
   });
 
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 async function getTrusteePanel() {
@@ -50,8 +49,7 @@ async function getTrusteeCrypto(shortName) {
     method: "GET",
     credentials: "include",
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 async function getDecryption(shortName, trusteUuid) {
@@ -64,8 +62,7 @@ async function getDecryption(shortName, trusteUuid) {
       "Content-Type": "application/json",
     },
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 async function getTotalTrustees(shortName) {
@@ -83,8 +80,7 @@ async function electionHasTrustees(shortName) {
     method: "GET",
     credentials: "include",
   });
-  const jsonResponse = await resp.json();
-  return { resp: resp, jsonResponse: jsonResponse };
+  return checkResponse(resp);
 }
 
 export { getTrustee, getTrustees, getTrusteePanel, getTrusteeCrypto, getDecryption, getTotalTrustees, electionHasTrustees };

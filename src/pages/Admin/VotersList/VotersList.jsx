@@ -11,6 +11,7 @@ import DeleteModal from "./components/DeleteModal";
 import { getElection } from "../../../services/election";
 import DeleteVoterModal from "./components/DeleteVoterModal";
 import EditVoterModal from "./components/EditVoterModal";
+import { useError } from "../../General/ErrorPage";
 
 function VotersList() {
   /**
@@ -48,17 +49,23 @@ function VotersList() {
   /** @urlParam {shortName} election shortName */
   const { shortName } = useParams();
 
-  useEffect(
-    function effectFunction() {
-      getElection(shortName).then((election) => {
-        const { jsonResponse } = election;
-        setElection(jsonResponse);
-        setElectionOpenReg(jsonResponse.openreg);
-        setLoad(true);
-      });
-    },
-    [shortName]
-  );
+  /** @state {function} function to show error */
+  const { setHasError } = useError();
+
+  const initComponent = async () => {
+    try {
+      const response = await getElection(shortName);
+      setElection(response.jsonResponse);
+      setElectionOpenReg(response.jsonResponse.openreg);
+      setLoad(true);
+    } catch (error) {
+      setHasError(true);
+    }
+  };
+
+  useEffect(() => {
+    initComponent();
+  }, [shortName]);
 
   return (
     <div id="content-home-admin">

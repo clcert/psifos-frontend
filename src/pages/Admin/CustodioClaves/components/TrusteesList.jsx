@@ -3,16 +3,23 @@ import { useParams } from "react-router-dom";
 import { getTrustees } from "../../../../services/trustee";
 import InfoTrustee from "./InfoTrustee";
 import { electionStatus } from "../../../../constants";
+import { useError } from "../../../General/ErrorPage";
 
 function TrusteesList({ election, deleteTrustee }) {
   const [trustees, setTrustees] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { shortName } = useParams();
+  const { setHasError } = useError();
 
   const fetchTrustees = useCallback(async () => {
-    const response = await getTrustees(shortName);
-    setTrustees(response.jsonResponse);
-    setIsLoading(false);
+    try {
+      const response = await getTrustees(shortName);
+      setTrustees(response.jsonResponse);
+      setIsLoading(false);
+    }
+    catch (error) {
+      setHasError(true);
+    }
   }, [shortName]);
 
   useEffect(() => {

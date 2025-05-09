@@ -24,6 +24,7 @@ import ModalResultsRelease from "./component/ModalReleaseResults";
 import ModalGenerationKey from "./component/ModalGenerationKey";
 import ModalOpeningReady from "./component/ModalOpeningReady";
 import ModalBackToSetting from "./component/ModalBackToSetting";
+import { useError } from '../../General/ErrorPage';
 import { getTotalVoters } from "../../../services/voters";
 
 export const StateContext = createContext();
@@ -34,6 +35,7 @@ function AdministrationPanel() {
   const totalVoters = useSelector((state) => state.election.totalVoters);
   const totalTrustees = useSelector((state) => state.election.totalTrustees);
   const { shortName } = useParams();
+  const { setHasError } = useError();
 
   const [modals, setModals] = useState({
     extendElectionModal: false,
@@ -75,12 +77,18 @@ function AdministrationPanel() {
   }, [shortName, dispatch]);
 
   const updateElection = useCallback(async () => {
-    const election = await getElection(shortName);
-    const { resp, jsonResponse } = election;
-    if (resp.status === 200) {
-      dispatch(setElection(jsonResponse));
-    } else if (resp.status === 401) {
-      logout();
+    try{
+      const election = await getElection(shortName);
+      const { resp, jsonResponse } = election;
+      if (resp.status === 200) {
+        dispatch(setElection(jsonResponse));
+      } else if (resp.status === 401) {
+        logout();
+      }
+    }
+    catch (error) {
+      console.error("Failed to update election:", error);
+      setHasError(true);
     }
   }, [shortName, dispatch]);
 

@@ -13,7 +13,6 @@ import ViewQuestions from "./pages/Admin/CreateQuestion.js/ViewQuestions";
 import Consult from "./pages/Booth/Consult/Consult";
 import CustodioHome from "./pages/Admin/CustodioClaves/CustodioHome";
 import Keygenerator from "./pages/Admin/CustodioClaves/Keygenerator";
-import { Navigate } from "react-router-dom";
 import RequireAuth from "./pages/Auth/RequireAuth";
 import CreateCustodio from "./pages/Admin/CustodioClaves/CreateCustodio";
 import Booth from "./pages/Booth/Booth";
@@ -24,6 +23,7 @@ import Statistics from "./pages/Admin/Statistics/Statistics";
 import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
 import Elections from "./pages/Elections/Elections";
+import NotFound from "./pages/General/NotFound";
 import { useEffect } from "react";
 
 function App() {
@@ -229,6 +229,7 @@ function App() {
           element={<DecryptProve />}
         />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

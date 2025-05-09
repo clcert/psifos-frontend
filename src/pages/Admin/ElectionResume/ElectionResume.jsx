@@ -6,6 +6,7 @@ import ElectionCode from "../../../component/Footers/ElectionCode";
 import NavbarAdmin from "../../../component/ShortNavBar/NavbarAdmin";
 import { useParams } from "react-router";
 import { useEffect, useState, useCallback } from "react";
+import { useError } from '../../General/ErrorPage';
 import SubNavbar from "../component/SubNavbar";
 import {
   getStats, getElectionPublic,
@@ -35,6 +36,9 @@ function ElectionResume() {
 
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
+
+  /** @state {function} function to show error */
+  const { setHasError } = useError();
 
   const getElectionResult = useCallback(async () => {
     getElectionPublic(shortName).then((election) => {
@@ -67,6 +71,7 @@ function ElectionResume() {
         setNameElection(statsData.jsonResponse.name);
       } catch (error) {
         console.error("Error fetching data", error);
+        setHasError(true);
       } finally {
         setLoad(true);
       }

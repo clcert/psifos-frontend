@@ -16,10 +16,13 @@ import { getElection } from "../../../services/election";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useDispatch, useSelector } from "react-redux";
 import { setElection } from "../../../store/slices/electionSlice";
+import { useError } from '../../General/ErrorPage';
+
 
 function CustodioClaves(props) {
   const dispatch = useDispatch();
   const election = useSelector((state) => state.election.actualElection);
+  const { setHasError } = useError();
 
   /** @state {boolean} state of modal with create info  */
   const [modalCustodio, setModalCustodio] = useState(false);
@@ -38,9 +41,15 @@ function CustodioClaves(props) {
   const { shortName } = useParams();
 
   const initComponent = useCallback(() => {
-    getElection(shortName).then((election) => {
-      dispatch(setElection(election.jsonResponse));
-    });
+    try {
+      getElection(shortName).then((election) => {
+        dispatch(setElection(election.jsonResponse));
+      });
+    }
+    catch (error) {
+      setHasError(true);
+    }
+      
   }, [shortName, dispatch]);
 
   useEffect(() => {

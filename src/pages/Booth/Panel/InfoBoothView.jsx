@@ -11,6 +11,8 @@ import SubNavbarBooth from "./components/SubNavbarBooth";
 import LoggerBoth from "./LoggerBooth";
 import StatisticsBooth from "./StatisticsBooth";
 import VerifyElection from "./VerifyElection";
+import { useError } from "../../General/ErrorPage";
+import { use } from "react";
 
 function InfoBoothView() {
   const [election, setElection] = useState("");
@@ -18,13 +20,25 @@ function InfoBoothView() {
 
   /** @urlParam {string} shortName of election */
   const { shortName } = useParams();
+  /** @state {function} function to show error */
+  const { setHasError } = useError();
+
+  const initComponent = async () => {
+    try {
+      const response = await getElectionPublic(shortName);
+      setElection(response.jsonResponse);
+      setActiveNumber(
+        response.jsonResponse.status.includes("released") ? 3 : 0
+      );
+    }
+    catch (error) {
+      setHasError(true);
+      console.error("Error fetching election data:", error);
+    }
+  }
 
   useEffect(() => {
-    getElectionPublic(shortName).then((data) => {
-      const { jsonResponse } = data;
-      setElection(jsonResponse);
-      setActiveNumber(jsonResponse.status.includes("released") ? 3 : 0);
-    });
+    initComponent();
   }, [shortName]);
 
   useEffect(() => {
