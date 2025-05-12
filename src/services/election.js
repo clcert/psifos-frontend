@@ -4,13 +4,12 @@ async function getElection(shortName) {
   /**
    * async function to get the election data
   */
-   const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/get-election/" + shortName, {
     method: "GET",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
   return checkResponse(resp);
 }
@@ -34,13 +33,12 @@ async function getElections() {
    * Get all elections for the current admin
    */
 
-  const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/get-elections", {
     method: "GET",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
   return checkResponse(resp);
 }
@@ -156,14 +154,13 @@ async function initElection(shortName) {
    * Init election
    */
 
-  const token = localStorage.getItem("token");
   const url = backendOpIP + "/" + shortName + "/start-election";
   const resp = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   return checkResponse(resp);
@@ -174,14 +171,13 @@ async function closeElection(shortName) {
    * Init election
    */
 
-  const token = localStorage.getItem("token");
   const url = backendOpIP + "/" + shortName + "/end-election";
   const resp = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   return checkResponse(resp);
@@ -192,14 +188,13 @@ async function computeTally(shortName) {
    * Compute tally election
    */
 
-  const token = localStorage.getItem("token");
   const url = backendOpIP + "/" + shortName + "/compute-tally";
   const resp = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   return checkResponse(resp);
@@ -210,14 +205,13 @@ async function combineDecryptions(shortName) {
    * Combine decryptions
    */
 
-  const token = localStorage.getItem("token");
   const url = backendOpIP + "/" + shortName + "/combine-decryptions";
   const resp = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   return checkResponse(resp);

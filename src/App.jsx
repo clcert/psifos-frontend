@@ -53,16 +53,7 @@ function App() {
       t = setTimeout(logout, 600000);
     }
   }
-  /**
-   * get token from localStorage
-   * @returns {string} token
-   */
-  function getToken() {
-    const tokenString = localStorage.getItem("token");
-    return tokenString;
-  }
 
-  const token = getToken();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,22 +74,13 @@ function App() {
         {/** Route for home page */}
 
         {/** init route for login */}
-        {token ? (
-          <Route path="" element={<Navigate replace to="admin/home" />} />
-        ) : (
-          <Route path="" element={<Login />} />
-        )}
+   
+        <Route path="" element={<Login />} />
+     
 
         {/** Routes for admin page */}
         <Route path="admin">
-          {token ? (
-            <Route
-              path="login"
-              element={<Navigate replace to="/psifos/admin/home" />}
-            />
-          ) : (
-            <Route path="login" element={<Login />} />
-          )}
+        <Route path="login" element={<Login />} />
           <Route
             path="home"
             element={

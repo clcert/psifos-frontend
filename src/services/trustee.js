@@ -12,6 +12,7 @@ async function getTrustee(uuidTrustee) {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
   return checkResponse(resp);
 }
@@ -28,6 +29,7 @@ async function getTrustees(shortName) {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   return checkResponse(resp);

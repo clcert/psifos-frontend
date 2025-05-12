@@ -39,14 +39,13 @@ function CreateCustodio() {
     /**
      * fetch POST create a new custodio
      */
-    const token = localStorage.getItem("token");
     const url = backendOpIP + "/" + shortName + "/create-trustee";
     const resp = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         name: name,
         username: login_id,

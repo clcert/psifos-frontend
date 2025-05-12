@@ -17,16 +17,14 @@ function EditVoterModal(props) {
   const { shortName } = useParams();
 
   async function editVoter() {
-    const token = localStorage.getItem("token");
     const resp = await fetch(
       backendOpIP + "/" + shortName + "/voters/edit",
       {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + token,
-
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           username: infoVoter.username,
           old_username: infoVoter.old_username,

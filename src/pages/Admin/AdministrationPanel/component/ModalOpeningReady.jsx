@@ -7,13 +7,12 @@ function ModalOpeningReady(props) {
 
   async function deleteElection() {
     const url = backendOpIP + "/" + props.shortName + "/ready-opening";
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       setFeedback("La votación esta lista para la generación de claves");

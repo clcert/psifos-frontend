@@ -1,7 +1,6 @@
 import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.svg";
 import { useState } from "react";
-import { Buffer } from "buffer";
-import { backendOpIP } from "../../../server";
+import loginFetch from "../../../services/login";
 
 function Login() {
   /**
@@ -20,16 +19,6 @@ function Login() {
   /** @state {boolean} color alert */
   const [colorAlert, setColorAlert] = useState("");
 
-  function setToken(userToken) {
-    /**
-     * set token in localStorage
-     * @param {string} userToken info with token
-     */
-
-    localStorage.setItem("token", userToken["token"]);
-    window.location.href = "/psifos/admin/home";
-  }
-
   function setUser(user) {
     /**
      * set user in localStorage
@@ -39,29 +28,16 @@ function Login() {
   }
 
   async function login() {
-    /**
-     * async function for login admin
-     */
-
-    let url = backendOpIP + "/login";
-    let encoded = Buffer.from(username + ":" + password);
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: "Basic " + encoded.toString("base64"),
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (resp.status === 201) {
-      const data = await resp.json();
-      setColorAlert("green");
-      setAlertMessage("Inicio exitoso!");
-      setUser(username);
-      setToken(data);
-    } else {
+    const response = await loginFetch(username, password);
+    const { resp, jsonResponse } = response;
+    if (resp.status === 200) {
+      setUser(jsonResponse.user);
+      localStorage.setItem("token", jsonResponse.token);
+      window.location.href = "/psifos/admin/home";
+    }
+    else {
+      setAlertMessage("Usuario o clave incorrecta");
       setColorAlert("red");
-      setAlertMessage("Usuario o contraseña incorrectos!");
     }
   }
 

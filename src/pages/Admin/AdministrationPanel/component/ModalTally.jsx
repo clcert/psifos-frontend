@@ -3,13 +3,12 @@ import { backendOpIP } from "../../../../server";
 function ModalTally(props) {
   async function computeTally() {
     const url = backendOpIP + "/" + props.shortName + "/compute-tally";
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       props.feedback(
