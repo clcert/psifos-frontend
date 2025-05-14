@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useDeferredValue, useEffect, useState } from "react";
 import { getTrusteePanel } from "../../../services/trustee";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
@@ -81,11 +81,12 @@ function ButtonAction({ text, onClick, disabled }) {
 }
 
 function SynchronizeSection({
+  electionsSelected,
   cryptoGenerateKey,
   setCryptoGenerateKey,
   initPanel,
 }) {
-  const [electionsSelected, setElectionsSelected] = useState([]);
+  // const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
   const [initSynchronizeReady, setInitSynchronizeReady] = useState(false);
   const [feedback, setFeedback] = useState([]);
@@ -112,7 +113,7 @@ function SynchronizeSection({
       const key = new KeyGenerator(shortName, index, setSteps);
       await key.initParams();
       elections.push(key);
-      if(index === electionsSelected.length - 1) {
+      if (index === electionsSelected.length - 1) {
         setElectionsCrypto(elections);
         setInitSynchronizeReady(false);
         setSteps(index, " - Eleccion preparadas para la generación");
@@ -125,6 +126,7 @@ function SynchronizeSection({
   };
 
   const generateMultipleKeys = () => {
+    console.log(electionsCrypto);
     const keys = [];
     var trusteeUsername = "";
     electionsCrypto.forEach((electionCrypto) => {
@@ -158,25 +160,38 @@ function SynchronizeSection({
       electionCrypto.checkSk(secretKey.secret_key);
     });
   };
+
+  useEffect(() => {
+    if (cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && !initSynchronizeReady) {
+      prepareToSynchronize();
+    }
+  }, [cryptoGenerateKey, electionsCrypto, initSynchronizeReady]);
+
+  useEffect(() => {
+    if (electionsCrypto.length > 0 && !initSynchronizeReady) {
+      generateMultipleKeys();
+    }
+  }, [initSynchronizeReady, electionsCrypto])
+  
   return (
     <>
       <div className="mb-4">
-        {cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && (
+        {/* {cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && (
           <ButtonAction
             text="Generar Llaves de Elecciones Seleccionadas"
             onClick={prepareToSynchronize}
             disabled={initSynchronizeReady}
           />
-        )}
+        )} */}
         {electionsCrypto.length > 0 && (
           <ButtonAction text="Volver" onClick={resetSync} />
         )}
-          {electionsCrypto.length > 0 && (<button
-            className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
-            onClick={generateMultipleKeys}
-          >
-            Descargar Llave Privada
-          </button>
+        {electionsCrypto.length > 0 && (<button
+          className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
+          onClick={generateMultipleKeys}
+        >
+          Descargar Llave Privada
+        </button>
         )}
       </div>
 
@@ -196,24 +211,6 @@ function SynchronizeSection({
         <div className="d-flex justify-content-center">
           <div className="spinner-animation" />
         </div>
-      )}
-      {cryptoGenerateKey.length > 0 ? (
-        cryptoGenerateKey.map((trusteeCrypto, index) => {
-          return (
-            trusteeCrypto && (
-              <CustodioSelector
-                key={index}
-                trusteeCrypto={trusteeCrypto}
-                isDisabled={electionsCrypto.length > 0 || trusteeCrypto.current_step === trusteeStep.config_step}
-                index={index}
-                setElectionsSelected={setElectionsSelected}
-                electionsSelected={electionsSelected}
-              />
-            )
-          );
-        })
-      ) : (
-        <NoElectionDisplay />
       )}
     </>
   );
@@ -342,7 +339,7 @@ function DecryptProveSection({ cryptoDecryptProve }) {
             </div>
           );
         })}
-      </div>  
+      </div>
       {cryptoDecryptProve.length > 0 ? (
         cryptoDecryptProve.map((trusteeCrypto, index) => {
           return (
@@ -369,7 +366,7 @@ export default function CustodioHome() {
   const [noAuthMessage, setNoAuthMessage] = useState("");
   const [auth, setAuth] = useState(false);
   const [showKeyGeneration, setShowKeyGeneration] = useState(false);
-
+  const [electionsSelected, setElectionsSelected] = useState([])
   const [actualTab, setActualTab] = useState(0);
 
   const [cryptoGenerateKey, setCryptoGenerateKey] = useState([]);
@@ -386,6 +383,12 @@ export default function CustodioHome() {
   }
 
   const handleShowKeyGeneration = () => {
+    var radios = document.getElementsByTagName('input');
+    for (let index = 0; index < radios.length; index++) {
+      if (radios[index].checked && radios[index].id.includes("keygeneration_")) {
+        setElectionsSelected((prev) => [...prev, cryptoGenerateKey[index]["election_short_name"]]);
+      }
+    }
     setShowKeyGeneration(!showKeyGeneration);
   }
 
@@ -504,69 +507,69 @@ export default function CustodioHome() {
                 </tr>
               </tfoot>
               <tbody>
-              {trusteesCrypto.length > 0 ? (
-                trusteesCrypto.map((trusteeCrypto, index) => {
-                  return (
-                    trusteeCrypto && (
-                      <tr>
-                        <th>{trusteeCrypto.election_short_name}</th>
-                        <td className="has-text-centered">
-                          {trusteeCrypto.election_status == "Ready for key generation" && 
-                            (
-                              <input 
-                                type="radio"
-                                name={trusteeCrypto.election_short_name}
-                                value={"keygeneration_" + trusteeCrypto.election_short_name}
-                                id={"keygeneration_" + index}
-                              />
-                            )
-                          }
-                          {trusteeCrypto.election_status == "Ready for opening" && 
-                            (
-                              "✅"
-                            )
-                          }
-                        </td>
-                        <td className="has-text-centered">
-                        {trusteeCrypto.election_status == "Ready for opening" && 
-                          (
-                            <input 
-                              type="radio"
-                              name={trusteeCrypto.election_short_name}
-                              value={"verify_" + trusteeCrypto.election_short_name}
-                              id={"verify_" + index}
-                            />
-                          )
-                        }
-                        {trusteeCrypto.election_status == "Results released" && 
-                          (
-                            "✅"
-                          )
-                        }
-                        </td>
-                        <td className="has-text-centered">
-                        {trusteeCrypto.election_status == "Tally computed" && 
-                          (
-                            <input 
-                              type="radio"
-                              name={trusteeCrypto.election_short_name}
-                              value={"decrypt_" + trusteeCrypto.election_short_name}
-                              id={"decrypt_" + index}
-                            />
-                          )
-                        }
-                        {trusteeCrypto.current_step == 6 && 
-                          (
-                            "✅"
-                          )
-                        }
-                        </td>
-                      </tr>
-                    )
-                  );
-                })
-              ) : (<div></div>)
-              }
+                {trusteesCrypto.length > 0 ? (
+                  trusteesCrypto.map((trusteeCrypto, index) => {
+                    return (
+                      trusteeCrypto && (
+                        <tr>
+                          <th>{trusteeCrypto.election_short_name}</th>
+                          <td className="has-text-centered">
+                            {trusteeCrypto.election_status === "Ready for key generation" &&
+                              (
+                                <input
+                                  type="radio"
+                                  name={trusteeCrypto.election_short_name}
+                                  value={"keygeneration_" + trusteeCrypto.election_short_name}
+                                  id={"keygeneration_" + index}
+                                />
+                              )
+                            }
+                            {trusteeCrypto.election_status === "Ready for opening" &&
+                              (
+                                "✅"
+                              )
+                            }
+                          </td>
+                          <td className="has-text-centered">
+                            {trusteeCrypto.election_status === "Ready for opening" &&
+                              (
+                                <input
+                                  type="radio"
+                                  name={trusteeCrypto.election_short_name}
+                                  value={"verify_" + trusteeCrypto.election_short_name}
+                                  id={"verify_" + index}
+                                />
+                              )
+                            }
+                            {trusteeCrypto.election_status === "Results released" &&
+                              (
+                                "✅"
+                              )
+                            }
+                          </td>
+                          <td className="has-text-centered">
+                            {trusteeCrypto.election_status === "Tally computed" &&
+                              (
+                                <input
+                                  type="radio"
+                                  name={trusteeCrypto.election_short_name}
+                                  value={"decrypt_" + trusteeCrypto.election_short_name}
+                                  id={"decrypt_" + index}
+                                />
+                              )
+                            }
+                            {trusteeCrypto.current_step === 6 &&
+                              (
+                                "✅"
+                              )
+                            }
+                          </td>
+                        </tr>
+                      )
+                    );
+                  })
+                ) : (<div></div>)
+                }
               </tbody>
             </table>
             <h1 className="title">Paso 2: Realizar Acción</h1>
@@ -575,11 +578,12 @@ export default function CustodioHome() {
               <button className="button is-medium" onClick={handleShowKeyGeneration}>
                 Generar Claves
               </button>
-              {showKeyGeneration && 
-                <SynchronizeSection 
+              {showKeyGeneration &&
+                <SynchronizeSection
+                  electionsSelected={electionsSelected}
                   cryptoGenerateKey={cryptoGenerateKey}
-                  setCryptoGenerateKey={setCryptoGenerateKey}/>
-                }
+                  setCryptoGenerateKey={setCryptoGenerateKey} />
+              }
             </div>
           </div>
         </section>
