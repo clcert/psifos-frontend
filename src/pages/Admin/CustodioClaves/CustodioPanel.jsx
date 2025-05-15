@@ -1,90 +1,20 @@
-import { useCallback, useDeferredValue, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getTrusteePanel } from "../../../services/trustee";
 import MyNavbar from "../../../component/ShortNavBar/MyNavbar";
 import TitlePsifos from "../../../component/OthersComponents/TitlePsifos";
-import ImageFooter from "../../../component/Footers/ImageFooter";
 import FooterParticipa from "../../../component/Footers/FooterParticipa";
-import imageTrustees from "../../../static/svg/trustees1.svg";
 import LoadPage from "../../../component/Loading/LoadPage";
 import NoAuth from "../../Booth/NoAuth";
 import KeyGenerator from "../../../crypto/KeyGenerator";
 import DropFile from "./components/DropFile";
 import CheckSecretKey from "../../../crypto/CheckSecretKey";
 import DecryptAndProve from "../../../crypto/DecryptAndProve";
-import Tabs from "../component/Tabs";
 import { electionStatus, trusteeStep } from "../../../constants";
-
-const getTrusteeStatus = (crypto) => {
-  if (crypto.status === electionStatus.settingUp) {
-    return "Elección en configuración";
-  }
-  if (crypto.decryptions) {
-    return "Desencriptaciones enviadas";
-  }
-  if (crypto.public_key) {
-    return "Llave generada";
-  }
-  return "Llaves aun no generadas";
-};
-
-function CustodioSelector({
-  trusteeCrypto,
-  index,
-  setElectionsSelected,
-  isDisabled,
-}) {
-  const handlerSelector = (e) => {
-    setElectionsSelected((prev) => [...prev, e.target.value]);
-  };
-
-  return (
-    <div className="box border-style-box my-4 p-2" key={index}>
-      <input
-        type="checkbox"
-        onChange={handlerSelector}
-        disabled={isDisabled}
-        value={trusteeCrypto.election_short_name}
-      />
-      <h1>{trusteeCrypto.election_short_name}</h1>
-      <p>{getTrusteeStatus(trusteeCrypto)}</p>
-    </div>
-  );
-}
-
-function ElectionDisplay({ trusteeCrypto }) {
-  return (
-    <div className="box border-style-box my-4 p-2">
-      <h3>{getTrusteeStatus(trusteeCrypto)}</h3>
-      <h2>{trusteeCrypto.election_short_name}</h2>
-    </div>
-  );
-}
-
-function NoElectionDisplay() {
-  return (
-    <div className="box border-style-box my-4 p-2 py-4">
-      <h1>No hay elecciones disponibles</h1>
-    </div>
-  );
-}
-
-function ButtonAction({ text, onClick, disabled }) {
-  return (
-    <button
-      className="button-custom home-admin-button is-size-7-mobile button ml-2"
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {text}
-    </button>
-  );
-}
 
 function SynchronizeSection({
   electionsSelected,
   cryptoGenerateKey,
   setCryptoGenerateKey,
-  initPanel,
 }) {
   // const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
@@ -121,12 +51,7 @@ function SynchronizeSection({
     });
   };
 
-  const resetSync = () => {
-    setElectionsCrypto([]);
-  };
-
   const generateMultipleKeys = () => {
-    console.log(electionsCrypto);
     const keys = [];
     var trusteeUsername = "";
     electionsCrypto.forEach((electionCrypto) => {
@@ -145,7 +70,10 @@ function SynchronizeSection({
       "href",
       "data:text/plain;charset=utf-8," + JSON.stringify(keys)
     );
-    element.setAttribute("download", "LlavePrivada_" + trusteeUsername + ".key");
+    element.setAttribute(
+      "download",
+      "LlavePrivada_" + trusteeUsername + ".key"
+    );
     element.style.display = "none";
     document.body.appendChild(element);
     element.click();
@@ -161,51 +89,35 @@ function SynchronizeSection({
     });
   };
 
-  useEffect(() => {
-    if (cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && !initSynchronizeReady) {
-      prepareToSynchronize();
-    }
-  }, [cryptoGenerateKey, electionsCrypto, initSynchronizeReady]);
-
-  useEffect(() => {
-    if (electionsCrypto.length > 0 && !initSynchronizeReady) {
-      generateMultipleKeys();
-    }
-  }, [initSynchronizeReady, electionsCrypto])
-  
   return (
     <>
       <div className="mb-4">
-        {/* {cryptoGenerateKey.length > 0 && electionsCrypto.length === 0 && (
-          <ButtonAction
-            text="Generar Llaves de Elecciones Seleccionadas"
-            onClick={prepareToSynchronize}
-            disabled={initSynchronizeReady}
-          />
-        )} */}
-        {electionsCrypto.length > 0 && (
-          <ButtonAction text="Volver" onClick={resetSync} />
-        )}
-        {electionsCrypto.length > 0 && (<button
-          className="button-custom home-admin-button btn-fixed-mobile is-size-7-mobile button ml-2"
-          onClick={generateMultipleKeys}
-        >
-          Descargar Llave Privada
+        <button className="button is-medium" onClick={prepareToSynchronize}>
+          Generar Claves
         </button>
+
+        {electionsCrypto.length > 0 && (
+          <button
+            className="button is-medium"
+            onClick={generateMultipleKeys}
+          >
+            Descargar Llave Privada
+          </button>
         )}
       </div>
 
       {electionsCrypto.length > 0 && <DropFile setText={synchronize} />}
       <div className="my-4">
-        {electionsCrypto.length > 0 && feedback.map((value, index) => {
-          return (
-            <div key={index}>
-              <h3>
-                {electionsCrypto[index].shortName} {value}
-              </h3>
-            </div>
-          );
-        })}
+        {electionsCrypto.length > 0 &&
+          feedback.map((value, index) => {
+            return (
+              <div key={index}>
+                <h3>
+                  {electionsCrypto[index].shortName} {value}
+                </h3>
+              </div>
+            );
+          })}
       </div>
       {initSynchronizeReady && (
         <div className="d-flex justify-content-center">
@@ -216,8 +128,7 @@ function SynchronizeSection({
   );
 }
 
-function CheckSkSection({ cryptoCheckKey }) {
-  const [electionsSelected, setElectionsSelected] = useState([]);
+function CheckSkSection({ electionsSelected, cryptoCheckKey }) {
   const [electionsCrypto, setElectionsCrypto] = useState([]);
   const [feedback, setFeedback] = useState([]);
 
@@ -228,33 +139,24 @@ function CheckSkSection({ cryptoCheckKey }) {
       setElectionsCrypto((prev) => [...prev, key]);
     });
   };
-
-  const resetCheckSk = () => {
-    setElectionsCrypto([]);
-  };
-
   const checkSk = (secretKeyArray) => {
     setFeedback([]);
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
         (secretKey) => secretKey.election_name === electionCrypto.shortName
       );
-      const message = `${electionCrypto.shortName}: ${electionCrypto.checkSk(secretKey.secret_key)}`;
+      const message = `${electionCrypto.shortName}: ${electionCrypto.checkSk(
+        secretKey.secret_key
+      )}`;
       setFeedback((prev) => [...prev, message]);
     });
   };
   return (
     <>
       <div className="mb-4">
-        {cryptoCheckKey.length > 0 && electionsCrypto.length === 0 && (
-          <ButtonAction
-            text="Seleccionar Elecciones"
-            onClick={prepareToCheckSk}
-          />
-        )}
-        {electionsCrypto.length > 0 && (
-          <ButtonAction text="Volver" onClick={resetCheckSk} />
-        )}
+        <button className="button is-medium" onClick={prepareToCheckSk}>
+          Verificar claves
+        </button>
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={checkSk} />}
       {feedback.length > 0 && (
@@ -264,27 +166,11 @@ function CheckSkSection({ cryptoCheckKey }) {
           })}
         </div>
       )}
-      {cryptoCheckKey.length > 0 ? (
-        cryptoCheckKey.map((trusteeCrypto, index) => {
-          return (
-            <CustodioSelector
-              key={index}
-              trusteeCrypto={trusteeCrypto}
-              isDisabled={electionsCrypto.length > 0}
-              index={index}
-              setElectionsSelected={setElectionsSelected}
-            />
-          );
-        })
-      ) : (
-        <NoElectionDisplay />
-      )}
     </>
   );
 }
 
-function DecryptProveSection({ cryptoDecryptProve }) {
-  const [electionsSelected, setElectionsSelected] = useState([]);
+function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
   const [electionsCrypto, setElectionsCrypto] = useState([]);
   const [feedback, setFeedback] = useState([]);
 
@@ -303,10 +189,6 @@ function DecryptProveSection({ cryptoDecryptProve }) {
     });
   };
 
-  const resetDecrypt = () => {
-    setElectionsCrypto([]);
-  };
-
   const decrypt = (secretKeyArray) => {
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
@@ -319,13 +201,9 @@ function DecryptProveSection({ cryptoDecryptProve }) {
     <>
       <div className="mb-4">
         {cryptoDecryptProve.length > 0 && electionsCrypto.length === 0 && (
-          <ButtonAction
-            text="Seleccionar Elecciones"
-            onClick={prepareToDecrypt}
-          />
-        )}
-        {electionsCrypto.length > 0 && (
-          <ButtonAction text="Volver" onClick={resetDecrypt} />
+          <button className="button is-medium" onClick={prepareToDecrypt}>
+            Desencriptar elecciones
+          </button>
         )}
       </div>
       {electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
@@ -340,258 +218,252 @@ function DecryptProveSection({ cryptoDecryptProve }) {
           );
         })}
       </div>
-      {cryptoDecryptProve.length > 0 ? (
-        cryptoDecryptProve.map((trusteeCrypto, index) => {
-          return (
-            <CustodioSelector
-              key={index}
-              trusteeCrypto={trusteeCrypto}
-              isDisabled={electionsCrypto.length > 0}
-              index={index}
-              setElectionsSelected={setElectionsSelected}
-            />
-          );
-        })
-      ) : (
-        <NoElectionDisplay />
-      )}
     </>
   );
 }
-
 export default function CustodioHome() {
   const [load, setLoad] = useState(false);
+  const [auth, setAuth] = useState(false);
   const [trustee, setTrustee] = useState({});
   const [trusteesCrypto, setTrusteesCrypto] = useState([]);
   const [noAuthMessage, setNoAuthMessage] = useState("");
-  const [auth, setAuth] = useState(false);
-  const [showKeyGeneration, setShowKeyGeneration] = useState(false);
-  const [electionsSelected, setElectionsSelected] = useState([])
-  const [actualTab, setActualTab] = useState(0);
+  const [electionsSelected, setElectionsSelected] = useState([]);
+  const [checkboxes, setCheckboxes] = useState({});
 
-  const [cryptoGenerateKey, setCryptoGenerateKey] = useState([]);
-  const [cryptoCheckKey, setCryptoCheckKey] = useState([]);
-  const [cryptoDecryptProve, setCryptoDecryptProve] = useState([]);
+  const [uiStates, setUIStates] = useState({
+    showKeyGeneration: false,
+    showVerifyKey: false,
+    showDecryptProve: false,
+  });
 
-  const selectAllElectionsForKeyGeneration = () => {
-    var radios = document.getElementsByTagName('input');
-    for (let index = 0; index < radios.length; index++) {
-      if (radios[index].id.includes("keygeneration_")) {
-        radios[index].checked = true;
-      }
+  const [cryptoState, setCryptoState] = useState({
+    generateKey: [],
+    checkKey: [],
+    decryptProve: [],
+  });
+
+  useEffect(() => {
+    const initialCheckboxes = {};
+    trusteesCrypto.forEach((_, index) => {
+      ["keygeneration_", "verify_", "decrypt_"].forEach(tag => {
+        initialCheckboxes[`${tag}${index}`] = false;
+      });
+    });
+    setCheckboxes(initialCheckboxes);
+  }, [trusteesCrypto]);
+
+  const toggleCheckbox = (id, tagName, shortName) => {
+    // Desactiva todos los checkboxes de las demás columnas
+    const otherTags = ["keygeneration_", "verify_", "decrypt_"].filter(t => t !== tagName);
+    const newCheckboxes = { ...checkboxes };
+    const newSelected = [];
+
+    trusteesCrypto.forEach((tc, idx) => {
+      otherTags.forEach(tag => {
+        newCheckboxes[`${tag}${idx}`] = false;
+      });
+    });
+
+    const currentChecked = !checkboxes[id];
+    newCheckboxes[id] = currentChecked;
+
+    if (currentChecked) {
+      newSelected.push(shortName);
     }
-  }
 
-  const handleShowKeyGeneration = () => {
-    var radios = document.getElementsByTagName('input');
-    for (let index = 0; index < radios.length; index++) {
-      if (radios[index].checked && radios[index].id.includes("keygeneration_")) {
-        setElectionsSelected((prev) => [...prev, cryptoGenerateKey[index]["election_short_name"]]);
-      }
-    }
-    setShowKeyGeneration(!showKeyGeneration);
-  }
+    setCheckboxes(newCheckboxes);
 
-  const tabs = [
-    "Generación de Llaves",
-    "Verificar Llave Privada",
-    "Desencriptación de Resultado",
-  ];
+    setUIStates({
+      showKeyGeneration: tagName === "keygeneration_",
+      showVerifyKey: tagName === "verify_",
+      showDecryptProve: tagName === "decrypt_",
+    });
 
-  const setCrypto = (trusteesCrypto) => {
-    trusteesCrypto.forEach((trusteeCrypto) => {
-      if (!trusteeCrypto.public_key) {
-        setCryptoGenerateKey((prev) => [...prev, trusteeCrypto]);
-      } else if (trusteeCrypto.public_key && !trusteeCrypto.decryptions) {
-        setCryptoDecryptProve((prev) => [...prev, trusteeCrypto]);
-      }
-      if (trusteeCrypto.public_key) {
-        setCryptoCheckKey((prev) => [...prev, trusteeCrypto]);
-      }
+    setElectionsSelected(currentChecked ? [shortName] : []);
+  };
+
+  const selectAllElections = (tagName) => {
+    const otherTags = ["keygeneration_", "verify_", "decrypt_"].filter(t => t !== tagName);
+    const newCheckboxes = { ...checkboxes };
+    
+    const newSelected = [];
+
+    trusteesCrypto.forEach((trusteeCrypto, index) => {
+      const id = `${tagName}${index}`;
+      newCheckboxes[id] = true;
+      newSelected.push(trusteeCrypto.election_short_name);
+
+      // Desmarcar otros tags
+      otherTags.forEach(tag => {
+        newCheckboxes[`${tag}${index}`] = false;
+      });
+    });
+
+    setCheckboxes(newCheckboxes);
+    setElectionsSelected(newSelected);
+
+    setUIStates({
+      showKeyGeneration: tagName === "keygeneration_",
+      showVerifyKey: tagName === "verify_",
+      showDecryptProve: tagName === "decrypt_",
     });
   };
 
-  const initPanel = useCallback(() => {
-    getTrusteePanel().then((data) => {
-      try {
-        const { resp, jsonResponse } = data;
-        setLoad(true);
-        if (resp.status === 200) {
-          setAuth(true);
-          setTrusteesCrypto(jsonResponse.trustee_crypto);
-          setCrypto(jsonResponse.trustee_crypto);
-          setTrustee(jsonResponse.trustee);
-        } else {
-          console.log("Error");
-          setNoAuthMessage(jsonResponse.detail);
+  const categorizeCrypto = (crypto) => {
+    const newCrypto = { generateKey: [], checkKey: [], decryptProve: [] };
+
+    crypto.forEach((item) => {
+      if (!item.public_key) {
+        newCrypto.generateKey.push(item);
+      } else {
+        newCrypto.checkKey.push(item);
+        if (!item.decryptions) {
+          newCrypto.decryptProve.push(item);
         }
-      } catch (error) {
-        console.log(error);
       }
     });
+    setCryptoState(newCrypto);
+  };
+
+  const initPanel = useCallback(async () => {
+    try {
+      const { resp, jsonResponse } = await getTrusteePanel();
+      setLoad(true);
+
+      if (resp.status === 200) {
+        setAuth(true);
+        setTrusteesCrypto(jsonResponse.trustee_crypto);
+        categorizeCrypto(jsonResponse.trustee_crypto);
+        setTrustee(jsonResponse.trustee);
+      } else {
+        setNoAuthMessage(jsonResponse.detail);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   useEffect(() => {
     initPanel();
   }, [initPanel]);
 
-  if (!load) {
-    return <LoadPage />;
-  }
+  if (!load) return <LoadPage />;
+  if (!auth)
+    return <NoAuth title="Custodio de Claves" message={noAuthMessage} />;
 
-  if (!auth) {
-    return <NoAuth title={"Custodio de Claves"} message={noAuthMessage} />;
-  } else {
-    return (
-      <div id="content-home-admin">
-        <section id="header-section" className="parallax hero is-medium">
-          <div className="hero-body pt-0 px-0 header-hero">
-            <MyNavbar />
-            <TitlePsifos
-              namePage={`${trustee.name}`}
-              nameElection="Portal de Custodio de Clave"
-            />
-          </div>
-        </section>
-
-        {/* <section className="section voters-section">
-          <div className="container has-text-centered is-max-desktop">
-            <div className="d-flex ">
-              <Tabs
-                actualTab={actualTab}
-                setActualTab={setActualTab}
-                tabs={tabs}
-              />
-            </div>
-            {actualTab === 0 && (
-              <div>
-                <SynchronizeSection
-                  cryptoGenerateKey={cryptoGenerateKey}
-                  setCryptoGenerateKey={setCryptoGenerateKey}
-                  initPanel={initPanel}
-                />
-              </div>
-            )}
-            {actualTab === 1 && (
-              <div>
-                <CheckSkSection cryptoCheckKey={cryptoCheckKey} />
-              </div>
-            )}
-            {actualTab === 2 && (
-              <div>
-                <DecryptProveSection cryptoDecryptProve={cryptoDecryptProve} />
-              </div>
-            )}
-          </div>
-        </section> */}
-
-        <section className="section voters-section">
-          <div className="container is-max-desktop">
-            <h1 className="title">Paso 1: Seleccionar Elecciones</h1>
-            <h1 className="subtitle">Selecciona las elecciones en la columna de la acción que deseas realizar</h1>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Elección</th>
-                  <th className="has-text-centered">Generación de Llaves</th>
-                  <th className="has-text-centered">Verificación de Llaves</th>
-                  <th className="has-text-centered">Desencriptación de Resultado</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th></th>
-                  <th className="has-text-centered"><button className="button" onClick={selectAllElectionsForKeyGeneration}>Seleccionar Todas</button></th>
-                  <th className="has-text-centered"><button className="button">Seleccionar Todas</button></th>
-                  <th className="has-text-centered"><button className="button">Seleccionar Todas</button></th>
-                </tr>
-              </tfoot>
-              <tbody>
-                {trusteesCrypto.length > 0 ? (
-                  trusteesCrypto.map((trusteeCrypto, index) => {
-                    return (
-                      trusteeCrypto && (
-                        <tr>
-                          <th>{trusteeCrypto.election_short_name}</th>
-                          <td className="has-text-centered">
-                            {trusteeCrypto.election_status === "Ready for key generation" &&
-                              (
-                                <input
-                                  type="radio"
-                                  name={trusteeCrypto.election_short_name}
-                                  value={"keygeneration_" + trusteeCrypto.election_short_name}
-                                  id={"keygeneration_" + index}
-                                />
-                              )
-                            }
-                            {trusteeCrypto.election_status === "Ready for opening" &&
-                              (
-                                "✅"
-                              )
-                            }
-                          </td>
-                          <td className="has-text-centered">
-                            {trusteeCrypto.election_status === "Ready for opening" &&
-                              (
-                                <input
-                                  type="radio"
-                                  name={trusteeCrypto.election_short_name}
-                                  value={"verify_" + trusteeCrypto.election_short_name}
-                                  id={"verify_" + index}
-                                />
-                              )
-                            }
-                            {trusteeCrypto.election_status === "Results released" &&
-                              (
-                                "✅"
-                              )
-                            }
-                          </td>
-                          <td className="has-text-centered">
-                            {trusteeCrypto.election_status === "Tally computed" &&
-                              (
-                                <input
-                                  type="radio"
-                                  name={trusteeCrypto.election_short_name}
-                                  value={"decrypt_" + trusteeCrypto.election_short_name}
-                                  id={"decrypt_" + index}
-                                />
-                              )
-                            }
-                            {trusteeCrypto.current_step === 6 &&
-                              (
-                                "✅"
-                              )
-                            }
-                          </td>
-                        </tr>
-                      )
-                    );
-                  })
-                ) : (<div></div>)
-                }
-              </tbody>
-            </table>
-            <h1 className="title">Paso 2: Realizar Acción</h1>
-            <h1 className="subtitle">Aprieta el botón para iniciar el proceso</h1>
-            <div className="">
-              <button className="button is-medium" onClick={handleShowKeyGeneration}>
-                Generar Claves
-              </button>
-              {showKeyGeneration &&
-                <SynchronizeSection
-                  electionsSelected={electionsSelected}
-                  cryptoGenerateKey={cryptoGenerateKey}
-                  setCryptoGenerateKey={setCryptoGenerateKey} />
-              }
-            </div>
-          </div>
-        </section>
-
-        <div>
-          <FooterParticipa message="SEGURIDAD ∙ TRANSPARENCIA ∙ VERIFICACIÓN" />
+  return (
+    <div id="content-home-admin">
+      <section id="header-section" className="parallax hero is-medium">
+        <div className="hero-body pt-0 px-0 header-hero">
+          <MyNavbar />
+          <TitlePsifos
+            namePage={trustee.name}
+            nameElection="Portal de Custodio de Clave"
+          />
         </div>
-      </div>
-    );
-  }
+      </section>
+
+      <section className="section voters-section">
+        <div className="container is-max-desktop">
+          <h1 className="title">Paso 1: Seleccionar Elecciones</h1>
+          <h2 className="subtitle">
+            Selecciona las elecciones en la columna de la acción que deseas
+            realizar
+          </h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Elección</th>
+                {["Generación de Llaves", "Verificación de Llaves", "Desencriptación de Resultado"].map((text, i) => (
+                  <th key={i} className="has-text-centered">
+                    <div>{text}</div>
+                    <button
+                      className="button is-small mt-2"
+                      onClick={() => selectAllElections(["keygeneration_", "verify_", "decrypt_"][i])}
+                    >
+                      Seleccionar Todas
+                    </button>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {trusteesCrypto.map((trusteeCrypto, index) => (
+                <tr key={index}>
+                  <th>{trusteeCrypto.election_short_name}</th>
+                  <td className="has-text-centered">
+                    {trusteeCrypto.election_status === electionStatus.readyForKeyGeneration ? (
+                      <input
+                        type="checkbox"
+                        name={trusteeCrypto.election_short_name}
+                        id={`keygeneration_${index}`}
+                        checked={checkboxes[`keygeneration_${index}`] || false}
+                        onChange={() => toggleCheckbox(`keygeneration_${index}`, "keygeneration_", trusteeCrypto.election_short_name)}
+                      />
+                    ) : (
+                      trusteeCrypto.current_step >= trusteeStep.points_step && "✅"
+                    )}
+                  </td>
+                  <td className="has-text-centered">
+                    {trusteeCrypto.current_step >= trusteeStep.points_step ? (
+                      <input
+                        type="checkbox"
+                        name={trusteeCrypto.election_short_name}
+                        id={`verify_${index}`}
+                        checked={checkboxes[`verify_${index}`] || false}
+                        onChange={() => toggleCheckbox(`verify_${index}`, "verify_", trusteeCrypto.election_short_name)}
+                      />
+                    ) : (
+                      trusteeCrypto.election_status === electionStatus.resultsReleased && "✅"
+                    )}
+                  </td>
+                  <td className="has-text-centered">
+                    {trusteeCrypto.election_status === electionStatus.tallyComputed ? (
+                      <input
+                        type="checkbox"
+                        name={trusteeCrypto.election_short_name}
+                        id={`decrypt_${index}`}
+                        checked={checkboxes[`decrypt_${index}`] || false}
+                        onChange={() => toggleCheckbox(`decrypt_${index}`, "decrypt_", trusteeCrypto.election_short_name)}
+                      />
+                    ) : (
+                      trusteeCrypto.current_step === 6 && "✅"
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h1 className="title">Paso 2: Realizar Acción</h1>
+          <h2 className="subtitle">Aprieta el botón para iniciar el proceso</h2>
+          <div>
+            {uiStates.showKeyGeneration && (
+              <SynchronizeSection
+                electionsSelected={electionsSelected}
+                cryptoGenerateKey={cryptoState.generateKey}
+                setCryptoGenerateKey={(val) =>
+                  setCryptoState((prev) => ({ ...prev, generateKey: val }))
+                }
+              />
+            )}
+            {uiStates.showVerifyKey && (
+              <CheckSkSection
+                electionsSelected={electionsSelected}
+                cryptoCheckKey={cryptoState.checkKey}
+              />
+            )}
+            {uiStates.showDecryptProve && (
+              <DecryptProveSection
+                electionsSelected={electionsSelected}
+                cryptoDecryptProve={cryptoState.decryptProve}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      <FooterParticipa message="SEGURIDAD ∙ TRANSPARENCIA ∙ VERIFICACIÓN" />
+    </div>
+  );
 }
