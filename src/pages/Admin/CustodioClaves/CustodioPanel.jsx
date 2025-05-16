@@ -145,6 +145,13 @@ function CheckSkSection({ electionsSelected, cryptoCheckKey }) {
       const secretKey = secretKeyArray.find(
         (secretKey) => secretKey.election_name === electionCrypto.shortName
       );
+      if(!secretKey) {
+        setFeedback((prev) => [
+          ...prev,
+          `${electionCrypto.shortName}: No se encontró la clave`,
+        ]);
+        return;
+      }
       const message = `${electionCrypto.shortName}: ${electionCrypto.checkSk(
         secretKey.secret_key
       )}`;
@@ -287,11 +294,19 @@ export default function CustodioHome() {
     const newCheckboxes = { ...checkboxes };
     
     const newSelected = [];
-
+    
     trusteesCrypto.forEach((trusteeCrypto, index) => {
+      const status = trusteeCrypto.current_step;
+      const tagsNameCondition = {
+        keygeneration_: status < trusteeStep.points_step,
+        verify_: status >= trusteeStep.points_step,
+        decrypt_: status === trusteeStep.waiting_decryptions,
+      }
       const id = `${tagName}${index}`;
       newCheckboxes[id] = true;
-      newSelected.push(trusteeCrypto.election_short_name);
+      if (tagsNameCondition[tagName]) {
+        newSelected.push(trusteeCrypto.election_short_name);
+      }
 
       // Desmarcar otros tags
       otherTags.forEach(tag => {
