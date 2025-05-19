@@ -222,8 +222,8 @@ export default class KeyGenerator extends Crypto {
     if (resp.status === 200) {
       this.trusteeStep = this.trusteeStep + 1;
       this.execute = false;
-      this.setSteps(this.index, "Paso " + step + " completada");
-      this.reactFunction('setProcessFeedback', "Paso " + step + " completada");
+      this.setSteps(this.index, ": Paso 2." + (step + 1) + " completado");
+      this.reactFunction('setProcessFeedback', ": Paso 2." + (step + 1) + " completado");
       this.setStepInit(this.trusteeStep);
     } else {
       this.reactFunction('setProcessFeedback', "Error al enviar la etapa " + step);
@@ -288,28 +288,28 @@ export default class KeyGenerator extends Crypto {
       if (this.trusteeStep === data.status) {
 
         if (this.trusteeStep === trusteeStep.certificates_step && !this.execute) {
-          this.reactFunction('setProcessFeedback', `Ejecutando el Paso 2.${this.trusteeStep}`);
-          this.setSteps(this.index, `Ejecutando el Paso 2.${this.trusteeStep}`);
+          this.reactFunction('setProcessFeedback', `: Ejecutando el Paso 2.${this.trusteeStep}`);
+          this.setSteps(this.index, `: Ejecutando el Paso 2.${this.trusteeStep}`);
           this.execute = true;
           this.step_1();
         } else if (this.trusteeStep === trusteeStep.coefficients_step && !this.execute) {
-          this.reactFunction('setProcessFeedback', "Ejecutando el Paso 2." + this.trusteeStep);
-          this.setSteps(this.index, "Ejecutando el Paso 2." + this.trusteeStep);
+          this.reactFunction('setProcessFeedback', ": Ejecutando el Paso 2." + this.trusteeStep);
+          this.setSteps(this.index, ": Ejecutando el Paso 2." + this.trusteeStep);
           this.execute = true;
           this.step_2();
         } else if (this.trusteeStep === trusteeStep.points_step && !this.execute) {
-          this.reactFunction('setProcessFeedback', "Ejecutando el Paso 2." + this.trusteeStep);
-          this.setSteps(this.index, "Ejecutando el Paso 2." + this.trusteeStep);
+          this.reactFunction('setProcessFeedback', ": Ejecutando el Paso 2." + this.trusteeStep);
+          this.setSteps(this.index, ": Ejecutando el Paso 2." + this.trusteeStep);
           this.execute = true;
           this.step_3();
         } else if (this.trusteeStep === trusteeStep.waiting_decryptions) {
-          this.reactFunction('setProcessFeedback', "Generación de claves completada con éxito");
-          this.setSteps(this.index, "Generación de claves completada con éxito");
+          this.reactFunction('setProcessFeedback', ": Generación de Claves completada con éxito ✅");
+          this.setSteps(this.index, ": Generación de Claves completada con éxito ✅");
           window.clearInterval(this.interval);
         }
       } else {
-        this.reactFunction('setProcessFeedback', "Los otros trustee aún no completan la etapa");
-        this.setSteps(this.index, "Los otros trustee aún no completan la etapa");
+        this.reactFunction('setProcessFeedback', ": Los otros Custodios de Clave aún no completan la etapa ⏳");
+        this.setSteps(this.index, ": Los otros Custodios de Clave aún no completan la etapa ⏳");
       }
     });
   }
@@ -520,8 +520,8 @@ export default class KeyGenerator extends Crypto {
     if (step === trusteeStep.waiting_decryptions) {
       this.reactFunction("setActualPhase", 3);
       this.reactFunction("setEnabledButtonInit", false);
-      this.setSteps(this.index, "¡Sincronización terminada!");
-      this.reactFunction("setProcessFeedback", "¡Sincronización terminada!");
+      this.setSteps(this.index, ": ¡Sincronización terminada!");
+      this.reactFunction("setProcessFeedback", ": ¡Sincronización terminada!");
     } else if (step < 4) {
       if (step !== 0) {
         this.reactFunction("setActualPhase", 2);

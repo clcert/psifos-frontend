@@ -50,8 +50,8 @@ export default class DecryptAndProve extends Crypto {
   }
 
   async sendDecrypt(descriptions) {
-    this.reactFunction("setFeedbackMessage", "Enviando información...");
-    this.setFeedbacks(this.index, "Enviando información...");
+    this.reactFunction("setFeedbackMessage", ": Enviando información...");
+    this.setFeedbacks(this.index, ": Enviando información...");
     const url =
       backendOpIP +
       "/" +

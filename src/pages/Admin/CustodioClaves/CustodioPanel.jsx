@@ -27,7 +27,7 @@ function SynchronizeSection({
       newFeedback[index] = value; // Actualizar la copia
       return newFeedback; // Retornar la nueva copia
     });
-    if (value === "Generación de claves completada con éxito") {
+    if (value === "Generación de Claves completada con éxito ✅") {
       setCryptoGenerateKey((prev) => {
         const newCrypto = [...prev];
         newCrypto[index] = null;
@@ -46,7 +46,7 @@ function SynchronizeSection({
       if (index === electionsSelected.length - 1) {
         setElectionsCrypto(elections);
         setInitSynchronizeReady(false);
-        setSteps(index, " - Eleccion preparadas para la generación");
+        // setSteps(index, electionsSelected.length + " elecciones preparadas para generación de claves");
       }
     });
   };
@@ -63,7 +63,7 @@ function SynchronizeSection({
         election_name: electionCrypto.shortName,
         secret_key: electionCrypto.getSecretKey(),
       });
-      setSteps(electionCrypto.index, " - Clave generada");
+      setSteps(electionCrypto.index, ": Clave Generada");
     });
     var element = document.createElement("a");
     element.setAttribute(
@@ -72,7 +72,7 @@ function SynchronizeSection({
     );
     element.setAttribute(
       "download",
-      "LlavePrivada_" + trusteeUsername + ".key"
+      "LlavePrivada_" + trusteeUsername + ".json"
     );
     element.style.display = "none";
     document.body.appendChild(element);
@@ -93,7 +93,7 @@ function SynchronizeSection({
     <>
       <div className="mb-4">
         <button className="button is-medium" onClick={prepareToSynchronize}>
-          Generar Claves
+          Generar y Descargar Clave Privada
         </button>
 
         {electionsCrypto.length > 0 && (
@@ -113,7 +113,7 @@ function SynchronizeSection({
             return (
               <div key={index}>
                 <h3>
-                  {electionsCrypto[index].shortName} {value}
+                  {electionsCrypto[index].shortName}{value}
                 </h3>
               </div>
             );
@@ -209,7 +209,7 @@ function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
       <div className="mb-4">
         {cryptoDecryptProve.length > 0 && electionsCrypto.length === 0 && (
           <button className="button is-medium" onClick={prepareToDecrypt}>
-            Desencriptar elecciones
+            Desencriptar Elecciones
           </button>
         )}
       </div>
@@ -219,7 +219,7 @@ function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
           return (
             <div key={index}>
               <h3>
-                {electionsCrypto[index].shortName} {value}
+                {electionsCrypto[index].shortName}{value}
               </h3>
             </div>
           );
@@ -431,6 +431,7 @@ export default function CustodioHome() {
                     ) : (
                       trusteeCrypto.election_status === electionStatus.resultsReleased && "✅"
                     )}
+                    {trusteeCrypto.election_status === electionStatus.readyForKeyGeneration && "⏳"}
                   </td>
                   <td className="has-text-centered">
                     {trusteeCrypto.election_status === electionStatus.tallyComputed ? (
@@ -444,6 +445,7 @@ export default function CustodioHome() {
                     ) : (
                       trusteeCrypto.current_step === 6 && "✅"
                     )}
+                    {trusteeCrypto.electionStatus !== electionStatus.tallyComputed && "⏳"}
                   </td>
                 </tr>
               ))}
