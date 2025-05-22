@@ -16,74 +16,90 @@ function SynchronizeSection({
   cryptoGenerateKey,
   setCryptoGenerateKey,
 }) {
-  // const [electionsSelected, setElectionsSelected] = useState([]);
   const [electionsCrypto, setElectionsCrypto] = useState([]);
-  const [initSynchronizeReady, setInitSynchronizeReady] = useState(false);
   const [feedback, setFeedback] = useState([]);
+  const [initProcess, setInitProcess] = useState(false);
+  const [processCompleted, setProcessCompleted] = useState(false);
+  const [isPreparing, setIsPreparing] = useState(false);
+  const [electionCompleted, setElectionCompleted] = useState([]);
 
-  const setSteps = (index, value) => {
+  const updateFeedback = (index, message) => {
     setFeedback((prev) => {
-      const newFeedback = [...prev]; // Crear una nueva copia del estado anterior
-      newFeedback[index] = value; // Actualizar la copia
-      return newFeedback; // Retornar la nueva copia
+      const updatedFeedback = [...prev];
+      updatedFeedback[index] = message;
+      return updatedFeedback;
     });
-    if (value === "Generación de Claves completada con éxito ✅") {
+
+    if (message === ": Generación de Claves completada con éxito ✅") {
+      setElectionCompleted((prev) => {
+        const updatedCompleted = [...prev];
+        updatedCompleted[index] = true;
+        return updatedCompleted;
+      });
+
       setCryptoGenerateKey((prev) => {
-        const newCrypto = [...prev];
-        newCrypto[index] = null;
-        return newCrypto;
+        const updatedCrypto = [...prev];
+        updatedCrypto[index] = null;
+        return updatedCrypto;
       });
     }
   };
 
-  const prepareToSynchronize = async () => {
-    const elections = [];
-    setInitSynchronizeReady(true);
-    electionsSelected.forEach(async (shortName, index) => {
-      const key = new KeyGenerator(shortName, index, setSteps);
-      await key.initParams();
-      elections.push(key);
-      if (index === electionsSelected.length - 1) {
-        setElectionsCrypto(elections);
-        setInitSynchronizeReady(false);
-        // setSteps(index, electionsSelected.length + " elecciones preparadas para generación de claves");
+  useEffect(() => {
+    if (electionsCrypto.length > 0) {
+      const allCompleted = electionsCrypto.every((_, index) => electionCompleted[index]);
+      if (allCompleted) {
+        setProcessCompleted(true);
       }
-    });
+    }
+  }, [electionCompleted, electionsCrypto]);
+        
+
+  const prepareToSynchronize = async () => {
+    setIsPreparing(true);
+    const preparedElections = await Promise.all(
+      electionsSelected.map(async (shortName, index) => {
+        setElectionCompleted((prev) => {
+          const updated = [...prev];
+          updated[index] = false;
+          return updated;
+        });
+        const key = new KeyGenerator(shortName, index, updateFeedback);
+        await key.initParams();
+        return key;
+      })
+    );
+    setElectionsCrypto(preparedElections);
+    setIsPreparing(false);
   };
 
-  const generateMultipleKeys = () => {
-    const keys = [];
-    var trusteeUsername = "";
-    electionsCrypto.forEach((electionCrypto) => {
-      if (trusteeUsername === "") {
-        trusteeUsername = electionCrypto.trustee.username;
-      }
+  const generateKeysAndDownload = () => {
+    const keys = electionsCrypto.map((electionCrypto) => {
       electionCrypto.generateKeyPair();
-      keys.push({
+      updateFeedback(electionCrypto.index, ": Clave Generada");
+      return {
         election_name: electionCrypto.shortName,
         secret_key: electionCrypto.getSecretKey(),
-      });
-      setSteps(electionCrypto.index, ": Clave Generada");
+      };
     });
-    var element = document.createElement("a");
+
+    const trusteeUsername = electionsCrypto[0]?.trustee?.username || "trustee";
+    const element = document.createElement("a");
     element.setAttribute(
       "href",
       "data:text/plain;charset=utf-8," + JSON.stringify(keys)
     );
-    element.setAttribute(
-      "download",
-      "LlavePrivada_" + trusteeUsername + ".json"
-    );
-    element.style.display = "none";
+    element.setAttribute("download", `LlavePrivada_${trusteeUsername}.json`);
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
   };
 
-  const synchronize = (secretKeyArray) => {
+  const synchronizeKeys = (secretKeyArray) => {
+    setInitProcess(true);
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
-        (secretKey) => secretKey.election_name === electionCrypto.shortName
+        (key) => key.election_name === electionCrypto.shortName
       );
       electionCrypto.checkSk(secretKey.secret_key);
     });
@@ -92,38 +108,58 @@ function SynchronizeSection({
   return (
     <>
       <div className="mb-4">
-        <button className="button is-medium" onClick={prepareToSynchronize}>
-          Generar y Descargar Clave Privada
-        </button>
-
-        {electionsCrypto.length > 0 && (
+        {!initProcess && electionsCrypto.length === 0 && (
           <button
             className="button is-medium"
-            onClick={generateMultipleKeys}
+            onClick={prepareToSynchronize}
+            disabled={isPreparing}
           >
+            Generar y Descargar Clave Privada
+          </button>
+        )}
+        {electionsCrypto.length > 0 && (
+          <button className="button is-medium" onClick={generateKeysAndDownload}>
             Descargar Llave Privada
           </button>
         )}
       </div>
-
-      {electionsCrypto.length > 0 && <DropFile setText={synchronize} />}
-      <div className="my-4">
-        {electionsCrypto.length > 0 &&
-          feedback.map((value, index) => {
-            return (
-              <div key={index}>
-                <h3>
-                  {electionsCrypto[index].shortName}{value}
-                </h3>
-              </div>
-            );
-          })}
-      </div>
-      {initSynchronizeReady && (
+      {isPreparing && (
         <div className="d-flex justify-content-center">
           <div className="spinner-animation" />
         </div>
       )}
+      {initProcess && !processCompleted && (
+        <div className="d-flex flex-column justify-content-center">
+          <div className="d-flex justify-content-center">
+            <div className="spinner-animation" />
+          </div>
+          <div className="text-center">
+            <h3 className="mt-4">Generando claves, por favor espera...</h3>
+          </div>
+          <hr />
+        </div>
+      )}
+      {processCompleted && initProcess && (
+        <div className="d-flex flex-column justify-content-center">
+          <div className="text-center">
+            <h3 className="mt-4">Proceso completado ✅</h3>
+          </div>
+          <hr />
+        </div>
+      )}
+      {!initProcess && electionsCrypto.length > 0 && (
+        <DropFile setText={synchronizeKeys} />
+      )}
+      <div className="my-4">                                                                     
+        {electionsCrypto.map((electionCrypto, index) => (
+          <div key={index}>
+            <h3>
+              {electionCrypto.shortName}
+              {feedback[index]}
+            </h3>
+          </div>
+        ))}
+      </div>
     </>
   );
 }
@@ -180,8 +216,18 @@ function CheckSkSection({ electionsSelected, cryptoCheckKey }) {
 function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
   const [electionsCrypto, setElectionsCrypto] = useState([]);
   const [feedback, setFeedback] = useState([]);
+  const [initProcess, setInitProcess] = useState(false);
+  const [processCompleted, setProcessCompleted] = useState(false);
+  const [electionCompleted, setElectionCompleted] = useState([]);
 
   const setFeedbacks = (index, value) => {
+    if (value === "Desencriptación Parcial Completada ✓") {
+      setElectionCompleted((prev) => {
+        const updatedCompleted = [...prev];
+        updatedCompleted[index] = true;
+        return updatedCompleted;
+      });
+    }
     setFeedback((prev) => {
       const newFeedback = [...prev]; // Crear una nueva copia del estado anterior
       newFeedback[index] = value; // Actualizar la copia
@@ -189,14 +235,29 @@ function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
     });
   };
 
+  useEffect(() => {
+    if (electionsCrypto.length > 0) {
+      const allCompleted = electionsCrypto.every((_, index) => electionCompleted[index]);
+      if (allCompleted) {
+        setProcessCompleted(true);
+      }
+    }
+  }, [electionCompleted, electionsCrypto]);
+
   const prepareToDecrypt = () => {
     electionsSelected.forEach((shortName, index) => {
+      setElectionCompleted((prev) => {
+        const updatedCompleted = [...prev];
+        updatedCompleted[index] = false;
+        return updatedCompleted;
+      });
       const key = new DecryptAndProve(shortName, index, setFeedbacks);
       setElectionsCrypto((prev) => [...prev, key]);
     });
   };
-
+  
   const decrypt = (secretKeyArray) => {
+    setInitProcess(true);
     electionsCrypto.forEach((electionCrypto) => {
       const secretKey = secretKeyArray.find(
         (secretKey) => secretKey.election_name === electionCrypto.shortName
@@ -213,17 +274,35 @@ function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
           </button>
         )}
       </div>
-      {electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
-      <div className="my-4">
-        {feedback.map((value, index) => {
-          return (
-            <div key={index}>
-              <h3>
-                {electionsCrypto[index].shortName}{value}
-              </h3>
-            </div>
-          );
-        })}
+      {initProcess && !processCompleted && (
+        <div className="d-flex flex-column justify-content-center">
+          <div className="d-flex justify-content-center">
+            <div className="spinner-animation" />
+          </div>
+          <div className="text-center">
+            <h3 className="mt-4">Realizando proceso de Desencriptación</h3>
+          </div>
+          <hr />
+        </div>
+      )}
+      {processCompleted && initProcess && (
+        <div className="d-flex flex-column justify-content-center">
+          <div className="text-center">
+            <h3 className="mt-4">Proceso completado ✅</h3>
+          </div>
+          <hr />
+        </div>
+      )}
+      {!initProcess && electionsCrypto.length > 0 && <DropFile setText={decrypt} />}
+      <div className="my-4">                                                                     
+        {electionsCrypto.map((electionCrypto, index) => (
+          <div key={index}>
+            <h3>
+              {electionCrypto.shortName}
+              {feedback[index]}
+            </h3>
+          </div>
+        ))}
       </div>
     </>
   );
@@ -403,53 +482,51 @@ export default function CustodioHome() {
               </tr>
             </thead>
             <tbody>
-              {trusteesCrypto.map((trusteeCrypto, index) => (
+            {trusteesCrypto.map((trusteeCrypto, index) => {
+              const { election_short_name, election_status, current_step } = trusteeCrypto;
+
+              const renderCheckbox = (idPrefix, stepCondition) =>
+                election_status === electionStatus.tallyComputed && current_step === stepCondition ? (
+                  <input
+                    type="checkbox"
+                    name={election_short_name}
+                    id={`${idPrefix}${index}`}
+                    checked={checkboxes[`${idPrefix}${index}`] || false}
+                    onChange={() =>
+                      toggleCheckbox(`${idPrefix}${index}`, idPrefix, election_short_name)
+                    }
+                  />
+                ) : current_step === 6 ? (
+                  "✅"
+                ) : (
+                  "⏳"
+                );
+
+              const renderKeyGeneration = () =>
+                election_status === electionStatus.readyForKeyGeneration ? (
+                  <input
+                    type="checkbox"
+                    name={election_short_name}
+                    id={`keygeneration_${index}`}
+                    checked={checkboxes[`keygeneration_${index}`] || false}
+                    onChange={() =>
+                      toggleCheckbox(`keygeneration_${index}`, "keygeneration_", election_short_name)
+                    }
+                  />
+                ) : current_step >= trusteeStep.points_step ? (
+                  "✅"
+                ) : "⏳";
+
+              return (
                 <tr key={index}>
-                  <th>{trusteeCrypto.election_short_name}</th>
-                  <td className="has-text-centered">
-                    {trusteeCrypto.election_status === electionStatus.readyForKeyGeneration ? (
-                      <input
-                        type="checkbox"
-                        name={trusteeCrypto.election_short_name}
-                        id={`keygeneration_${index}`}
-                        checked={checkboxes[`keygeneration_${index}`] || false}
-                        onChange={() => toggleCheckbox(`keygeneration_${index}`, "keygeneration_", trusteeCrypto.election_short_name)}
-                      />
-                    ) : (
-                      trusteeCrypto.current_step >= trusteeStep.points_step && "✅"
-                    )}
-                  </td>
-                  <td className="has-text-centered">
-                    {trusteeCrypto.current_step >= trusteeStep.points_step ? (
-                      <input
-                        type="checkbox"
-                        name={trusteeCrypto.election_short_name}
-                        id={`verify_${index}`}
-                        checked={checkboxes[`verify_${index}`] || false}
-                        onChange={() => toggleCheckbox(`verify_${index}`, "verify_", trusteeCrypto.election_short_name)}
-                      />
-                    ) : (
-                      trusteeCrypto.election_status === electionStatus.resultsReleased && "✅"
-                    )}
-                    {trusteeCrypto.election_status === electionStatus.readyForKeyGeneration && "⏳"}
-                  </td>
-                  <td className="has-text-centered">
-                    {trusteeCrypto.election_status === electionStatus.tallyComputed ? (
-                      <input
-                        type="checkbox"
-                        name={trusteeCrypto.election_short_name}
-                        id={`decrypt_${index}`}
-                        checked={checkboxes[`decrypt_${index}`] || false}
-                        onChange={() => toggleCheckbox(`decrypt_${index}`, "decrypt_", trusteeCrypto.election_short_name)}
-                      />
-                    ) : (
-                      trusteeCrypto.current_step === 6 && "✅"
-                    )}
-                    {trusteeCrypto.electionStatus !== electionStatus.tallyComputed && "⏳"}
-                  </td>
+                  <th>{election_short_name}</th>
+                  <td className="has-text-centered">{renderKeyGeneration()}</td>
+                  <td className="has-text-centered">{renderCheckbox("verify_", 5)}</td>
+                  <td className="has-text-centered">{renderCheckbox("decrypt_", 5)}</td>
                 </tr>
-              ))}
-            </tbody>
+              );
+            })}
+          </tbody>
           </table>
 
           <h1 className="title">Paso 2: Realizar Acción</h1>
