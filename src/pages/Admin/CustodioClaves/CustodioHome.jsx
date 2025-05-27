@@ -53,7 +53,7 @@ function CustodioHome(props) {
           "Election status check failed": "La elección se encuentra cerrada",
           "Election not found": "La elección no existe",
           "Trustee not found":
-            "No estas habilitado para generar llaves en esta elección",
+            "No estas habilitado para generar claves en esta elección",
         };
 
         setLoad(true);
@@ -73,7 +73,7 @@ function CustodioHome(props) {
       } catch (err) {
         setLoad(true);
         setNoAuthMessage(
-          "No estas habilitado para generar llaves en esta elección"
+          "No estas habilitado para generar claves en esta elección"
         );
       }
     });

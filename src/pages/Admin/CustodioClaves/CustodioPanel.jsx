@@ -78,7 +78,7 @@ function SynchronizeSection({
   const generateKeysAndDownload = () => {
     const keys = electionsCrypto.map((electionCrypto) => {
       electionCrypto.generateKeyPair();
-      updateFeedback(electionCrypto.index, ": Clave Generada");
+      updateFeedback(electionCrypto.index, ": Clave Privada Generada");
       return {
         election_name: electionCrypto.shortName,
         secret_key: electionCrypto.getSecretKey(),
@@ -91,7 +91,7 @@ function SynchronizeSection({
       "href",
       "data:text/plain;charset=utf-8," + JSON.stringify(keys)
     );
-    element.setAttribute("download", `LlavePrivada_${trusteeUsername}.json`);
+    element.setAttribute("download", `ClavePrivada_${trusteeUsername}.json`);
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -116,12 +116,12 @@ function SynchronizeSection({
             onClick={prepareToSynchronize}
             disabled={isPreparing}
           >
-            Generar y Descargar Clave Privada
+            Iniciar Generación de Claves
           </button>
         )}
         {electionsCrypto.length > 0 && (
           <button className="button is-medium" onClick={generateKeysAndDownload}>
-            Descargar Llave Privada
+            Descargar Clave Privada
           </button>
         )}
       </div>
@@ -471,7 +471,7 @@ export default function CustodioHome() {
             <thead>
               <tr>
                 <th>Elección</th>
-                {["Generación de Llaves", "Verificación de Llaves", "Desencriptación de Resultado"].map((text, i) => (
+                {["Generación de Claves", "Verificación de Claves", "Desencriptación de Resultado"].map((text, i) => (
                   <th key={i} className="has-text-centered">
                     <div>{text}</div>
                     <button

@@ -520,8 +520,8 @@ export default class KeyGenerator extends Crypto {
     if (step === trusteeStep.waiting_decryptions) {
       this.reactFunction("setActualPhase", 3);
       this.reactFunction("setEnabledButtonInit", false);
-      this.setSteps(this.index, ": ¡Sincronización terminada!");
-      this.reactFunction("setProcessFeedback", ": ¡Sincronización terminada!");
+      this.setSteps(this.index, ": Esperando finalizar la sincronización...");
+      this.reactFunction("setProcessFeedback", ": Esperando finalizar la sincronización...");
     } else if (step < 4) {
       if (step !== 0) {
         this.reactFunction("setActualPhase", 2);
