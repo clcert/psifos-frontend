@@ -13,6 +13,7 @@ import { electionStatus, trusteeStep } from "../../../constants";
 
 function SynchronizeSection({
   electionsSelected,
+  initPanel,
   cryptoGenerateKey,
   setCryptoGenerateKey,
 }) {
@@ -42,6 +43,7 @@ function SynchronizeSection({
         updatedCrypto[index] = null;
         return updatedCrypto;
       });
+      initPanel(); // Reinitialize the panel to update the state
     }
   };
 
@@ -213,7 +215,7 @@ function CheckSkSection({ electionsSelected, cryptoCheckKey }) {
   );
 }
 
-function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
+function DecryptProveSection({ electionsSelected, cryptoDecryptProve, initPanel}) {
   const [electionsCrypto, setElectionsCrypto] = useState([]);
   const [feedback, setFeedback] = useState([]);
   const [initProcess, setInitProcess] = useState(false);
@@ -227,6 +229,7 @@ function DecryptProveSection({ electionsSelected, cryptoDecryptProve }) {
         updatedCompleted[index] = true;
         return updatedCompleted;
       });
+      initPanel(); // Reinitialize the panel to update the state
     }
     setFeedback((prev) => {
       const newFeedback = [...prev]; // Crear una nueva copia del estado anterior
@@ -484,9 +487,22 @@ export default function CustodioHome() {
             <tbody>
             {trusteesCrypto.map((trusteeCrypto, index) => {
               const { election_short_name, election_status, current_step } = trusteeCrypto;
+              const conditionsElection = {
+                verify_:
+                  [
+                    electionStatus.readyForOpening,
+                    electionStatus.started,
+                    electionStatus.ended,
+                    electionStatus.computingTally,
+                    electionStatus.tallyComputed,
+                  ].includes(election_status) && current_step === 5,
+                decrypt_:
+                  election_status === electionStatus.tallyComputed &&
+                  current_step === 5,
+              };
 
-              const renderCheckbox = (idPrefix, stepCondition) =>
-                election_status === electionStatus.tallyComputed && current_step === stepCondition ? (
+              const renderCheckbox = (idPrefix) =>
+                conditionsElection[idPrefix] ? (
                   <input
                     type="checkbox"
                     name={election_short_name}
@@ -521,8 +537,8 @@ export default function CustodioHome() {
                 <tr key={index}>
                   <th>{election_short_name}</th>
                   <td className="has-text-centered">{renderKeyGeneration()}</td>
-                  <td className="has-text-centered">{renderCheckbox("verify_", 5)}</td>
-                  <td className="has-text-centered">{renderCheckbox("decrypt_", 5)}</td>
+                  <td className="has-text-centered">{renderCheckbox("verify_")}</td>
+                  <td className="has-text-centered">{renderCheckbox("decrypt_")}</td>
                 </tr>
               );
             })}
@@ -536,6 +552,7 @@ export default function CustodioHome() {
               <SynchronizeSection
                 electionsSelected={electionsSelected}
                 cryptoGenerateKey={cryptoState.generateKey}
+                initPanel={initPanel}
                 setCryptoGenerateKey={(val) =>
                   setCryptoState((prev) => ({ ...prev, generateKey: val }))
                 }
@@ -551,6 +568,7 @@ export default function CustodioHome() {
               <DecryptProveSection
                 electionsSelected={electionsSelected}
                 cryptoDecryptProve={cryptoState.decryptProve}
+                initPanel={initPanel}
               />
             )}
           </div>
