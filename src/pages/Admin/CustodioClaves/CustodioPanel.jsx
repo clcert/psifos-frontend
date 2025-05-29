@@ -22,6 +22,7 @@ function SynchronizeSection({
   const [initProcess, setInitProcess] = useState(false);
   const [processCompleted, setProcessCompleted] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
+  const [keysGenerated, setKeysGenerated] = useState(false);
   const [electionCompleted, setElectionCompleted] = useState([]);
 
   const updateFeedback = (index, message) => {
@@ -61,6 +62,7 @@ function SynchronizeSection({
     setIsPreparing(true);
     const preparedElections = await Promise.all(
       electionsSelected.map(async (shortName, index) => {
+        updateFeedback(index, ": Esperando generación de clave privada...");
         setElectionCompleted((prev) => {
           const updated = [...prev];
           updated[index] = false;
@@ -95,6 +97,7 @@ function SynchronizeSection({
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+    setKeysGenerated(true);
   };
 
   const synchronizeKeys = (secretKeyArray) => {
@@ -149,7 +152,7 @@ function SynchronizeSection({
           <hr />
         </div>
       )}
-      {!initProcess && electionsCrypto.length > 0 && (
+      {keysGenerated && !initProcess && electionsCrypto.length > 0 && (
         <DropFile setText={synchronizeKeys} />
       )}
       <div className="my-4">                                                                     
