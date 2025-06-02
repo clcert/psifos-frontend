@@ -226,7 +226,7 @@ function DecryptProveSection({ electionsSelected, cryptoDecryptProve, initPanel}
   const [electionCompleted, setElectionCompleted] = useState([]);
 
   const setFeedbacks = (index, value) => {
-    if (value === "Desencriptación Parcial Completada ✓") {
+    if (value === ": Desencriptación Parcial Completada ✓") {
       setElectionCompleted((prev) => {
         const updatedCompleted = [...prev];
         updatedCompleted[index] = true;
