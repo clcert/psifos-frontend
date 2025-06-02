@@ -50,8 +50,8 @@ export default class DecryptAndProve extends Crypto {
   }
 
   async sendDecrypt(descriptions) {
-    this.reactFunction("setFeedbackMessage", "Enviando información...");
-    this.setFeedbacks(this.index, "Enviando información...");
+    this.reactFunction("setFeedbackMessage", ": Enviando información...");
+    this.setFeedbacks(this.index, ": Enviando información...");
     const url =
       backendOpIP +
       "/" +
@@ -70,18 +70,18 @@ export default class DecryptAndProve extends Crypto {
         "setFeedbackMessage",
         "Desencriptación Parcial Completada ✓"
       );
-      this.setFeedbacks(this.index, "Desencriptación Parcial Completada ✓");
+      this.setFeedbacks(this.index, ": Desencriptación Parcial Completada ✓");
       this.reactFunction("setActualStep", 2);
       const jsonResponse = await response.json();
       return jsonResponse;
     } else {
       this.reactFunction(
         "setFeedbackMessage",
-        "Error al enviar información, intente nuevamente"
+        ": Error al enviar información, intente nuevamente"
       );
       this.setFeedbacks(
         this.index,
-        "Error al enviar información, intente nuevamente"
+        ": Error al enviar información, intente nuevamente"
       );
       this.reactFunction("setActualStep", 0);
     }

@@ -41,7 +41,7 @@ export default function DropFile(props) {
       >
         <div className="d-flex justify-content-center p-1">
           <span>
-            Arrastre o haga click aquí para subir el archivo
+            Arrastre o haga click aquí para subir el archivo con su clave privada
           </span>
         </div>
       </div>
