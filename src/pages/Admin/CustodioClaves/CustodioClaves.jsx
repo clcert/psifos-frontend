@@ -55,7 +55,7 @@ function CustodioClaves(props) {
           <NavbarAdmin />
           <TitlePsifos
             namePage="Custodio de Claves"
-            nameElection={election.name}
+            nameElection={election.long_name}
           />
         </div>
       </section>

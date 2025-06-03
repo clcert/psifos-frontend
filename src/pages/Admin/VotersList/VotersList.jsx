@@ -65,7 +65,7 @@ function VotersList() {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Padrón" nameElection={election.name} />
+          <TitlePsifos namePage="Padrón" nameElection={election.long_name} />
         </div>
       </section>
 

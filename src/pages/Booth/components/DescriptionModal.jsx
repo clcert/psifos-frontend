@@ -4,11 +4,11 @@ function DescriptionModal(props) {
       <div className="modal-background" onClick={props.onHide}></div>
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">{props.election.name}</h1>
+          <h1 className="title">{props.election.election.long_name}</h1>
           <p className="subtitle">
             Participa UChile
           </p>
-          <p>{props.election.description}</p>
+          <p>{props.election.election.description}</p>
           <p className="mb-2">
             <span className="has-text-weight-bold">
               ¿Tiene dudas o problemas con su elección?

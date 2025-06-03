@@ -44,7 +44,7 @@ function InfoBoothView() {
 
           <TitlePsifos
             namePage="Portal de Información"
-            nameElection={election.name}
+            nameElection={election.long_name}
           />
         </div>
       </section>
