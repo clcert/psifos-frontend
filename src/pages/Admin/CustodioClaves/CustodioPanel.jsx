@@ -87,13 +87,13 @@ function SynchronizeSection({
       };
     });
 
-    const trusteeUsername = electionsCrypto[0]?.trustee?.username || "trustee";
+    const trusteeName = electionsCrypto[0]?.trustee?.name.replace(/\s/g, "") || "CustodioClave";
     const element = document.createElement("a");
     element.setAttribute(
       "href",
       "data:text/plain;charset=utf-8," + JSON.stringify(keys)
     );
-    element.setAttribute("download", `ClavePrivada_${trusteeUsername}.json`);
+    element.setAttribute("download", `ClavePrivada_${trusteeName}.json`);
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
