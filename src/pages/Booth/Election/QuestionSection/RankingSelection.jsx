@@ -44,8 +44,8 @@ const RankingSelection = ({
   const maxAnswers = parseInt(max_answers, 10)
 
   const optionIds = Array.from(formal_options.keys());
-  const formalOptionIds = getFormalOptions(optionIds, includeInformalOptions)
-  const formalOptionLabels = getFormalOptions(formal_options, includeInformalOptions)
+  const formalOptionIds = optionIds;
+  const formalOptionLabels = formal_options;
   
   const [rankedAnswers, setRankedAnswers] = useState([]);
   const [selectedInformalAnswer, setSelectedInformalAnswer] = useState(undefined);
@@ -107,7 +107,7 @@ const RankingSelection = ({
               }
             }
             optionIds={[blankId, nullId]}
-            optionLabels={formal_options.slice(-2)}
+            optionLabels={["Voto Blanco", "Voto Nulo"]}
           />
         }
       </div>

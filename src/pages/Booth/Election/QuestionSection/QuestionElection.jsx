@@ -65,9 +65,7 @@ function QuestionSelectionBox({
       />
 
       {isSTVQuestion(questionType) && <QuestionOptionsDetail
-        options={
-          getFormalOptions(closedOptions, includeInformalAns)
-        }
+        options={closedOptions}
         optionsImages={formalOptionsImages}
       />}
 

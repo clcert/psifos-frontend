@@ -12,13 +12,13 @@ function ShowOptions ({
           A continuación, se presentan los diseños correspondientes a cada opción. Para indicar sus preferencias, haga clic en el botón ubicado en la parte inferior.
         </div>
         <div
-          className="options-images-container"
+          className="options-images-container columns"
         >
           {options.map((option, index) => {
             return (
               <div
                 key={option}
-                className="option-image-container"
+                className="option-image-container column is-one-third"
               >
                 <b>
                   {option}

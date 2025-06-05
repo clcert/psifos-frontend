@@ -27,19 +27,18 @@ const parseResult = (
 
 
 export default function RankingQuestionResume({ result, question }) {
+  const ncandidates = question.include_informal_options ? question.formal_options.length - 2 : question.formal_options.length;
+  const candidatesNames = question.include_informal_options ? question.formal_options.slice(0, -2) : question.formal_options;
   const candidates = Array.from(
-    { length: parseInt(question.total_options, 10)},
+    { length: ncandidates},
     (_, index) => index
   )
+  result["ncandidates"] = ncandidates;
   const {
     quota,
     roundresumes: roundResumes,
     talliesresumes: talliesResumes,
   } = result
-  const {
-    formal_options: candidatesNames,
-  } = question
-
   const chartsData = parseResult(candidates, candidatesNames, roundResumes, talliesResumes)
 
   return (
