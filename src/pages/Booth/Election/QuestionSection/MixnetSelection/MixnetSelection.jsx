@@ -4,6 +4,7 @@ import {
 import { useSelector } from "react-redux";
 import FormalOptions from "./FormalOptions";
 import InformalOptions from "./InformalOptions";
+import { getBlankAnswerId } from "../../../../../utils";
 
 function MixnetSelection({ question, addAnswer, numQuestion }) {
   const isGrouped = question.grouped_options;
@@ -126,7 +127,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       if (informalAnswersSelected) {
         setInformalAnswersSelected(false)
         auxAnswersForEncrypt = [...changeAllEncrypted(
-          numOfOptions
+          getBlankAnswerId(question)
         )];
       }
       auxAnswersSelected[index] = event;

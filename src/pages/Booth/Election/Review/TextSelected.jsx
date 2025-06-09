@@ -53,8 +53,8 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
 
 function TextSelected({ answer, question }) {
   const includeBlankNull = question.include_informal_options;
-  const blankId = getBlankAnswerId(question.formal_options)
-  const nullId = getNullAnswerId(question.formal_options)
+  const blankId = getBlankAnswerId(question)
+  const nullId = getNullAnswerId(question)
   if (answer.length === 0) {
     return <p>[ ] Ninguna opción seleccionada</p>;
   }

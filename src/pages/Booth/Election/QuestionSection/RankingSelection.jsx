@@ -49,9 +49,9 @@ const RankingSelection = ({
   
   const [rankedAnswers, setRankedAnswers] = useState([]);
   const [selectedInformalAnswer, setSelectedInformalAnswer] = useState(undefined);
-
-  const blankId = getBlankAnswerId(formal_options)
-  const nullId = getNullAnswerId(formal_options)
+  
+  const blankId = getBlankAnswerId(question)
+  const nullId = getNullAnswerId(question)
 
   const padAnswers = (answers) => {
     const desiredLength = maxAnswers; // max_ans >= ans.length
