@@ -29,9 +29,10 @@ function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
 }
 
 function ShowAnswersList({ currentAns, questionType, closedOptions }) {
+  const sortAnswers = [...currentAns].sort((a, b) => a - b);
   return (
     <p className="mb-0">
-      {currentAns.map((key, index) => {
+      {sortAnswers.map((key, index) => {
         const indexAnswer = (
           isMixNetQuestion(questionType) ? key - 1 : key
         )
