@@ -65,12 +65,12 @@ function TextSelected({ answer, question }) {
     if (
       answer.every((element) => element === blankId)
     ) {
-      return <p>Respuesta en blanco</p>;
+      return <p>[ ✓ ] Voto Blanco</p>;
     }
     else if(
       answer.every((element) => element === nullId)
     ) {
-      return <p>Respuesta nula</p>;
+      return <p>[ ✓ ] Voto Nulo</p>;
     }
   }
   return (
