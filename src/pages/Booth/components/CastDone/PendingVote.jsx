@@ -10,7 +10,7 @@ function PendingVote(props) {
       </p>
       <p className="subtitle has-text-black send-text">
         Para asegurarte de que tu voto ha sido validado, por favor contactar a
-        la mesa de ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i class="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
+        la mesa de ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i className="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
       </p>
 
       {/* <ul

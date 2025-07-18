@@ -4,7 +4,7 @@ import TeamComponent from "./components/TeamComponent";
 import Video from "./components/Video";
 import FooterParticipa from "../../component/Footers/FooterParticipa";
 import sobre from "../../static/new_home_assets/SVG/sobre.svg";
-import "../../static/assets_home/css/Home.css";
+import "../../static/assets_home/css/Home.scss";
 import UpperBanner from "../../component/Banner/UpperBanner";
 import { useInViewport } from "react-in-viewport";
 import React, { useRef } from "react";

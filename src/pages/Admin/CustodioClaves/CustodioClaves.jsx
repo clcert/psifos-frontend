@@ -31,7 +31,7 @@ function CustodioClaves(props) {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
   /** @state {string} shortName trustee  */
-  const [uuidTrustee, setUuidTrustee] = useState("");
+  const [usernameTrustee, setUsernameTrustee] = useState("");
 
   const location = useLocation();
 
@@ -55,7 +55,7 @@ function CustodioClaves(props) {
           <NavbarAdmin />
           <TitlePsifos
             namePage="Custodio de Claves"
-            nameElection={election.name}
+            nameElection={election.long_name}
           />
         </div>
       </section>
@@ -91,7 +91,7 @@ function CustodioClaves(props) {
               </div>
             </div>
           </div>
-          {election.election_status === "Setting up" && (
+          {election.status === "Setting up" && (
             <>
               <div className="d-flex justify-center flex-column">
                 <div>
@@ -126,7 +126,7 @@ function CustodioClaves(props) {
             <div>
               <span>Link de conexión custodio: </span>
               <CopyToClipboard
-                text={backendOpIP + "/" + shortName + "/trustee/login"}
+                text={backendOpIP + "/trustee/login/panel"}
                 onCopy={() => setShowCopyMessage(true)}
               >
                 <span>
@@ -144,7 +144,7 @@ function CustodioClaves(props) {
                 className="link-without-line font-caption"
                 onClick={() => {
                   window.open(
-                    backendOpIP + "/" + shortName + "/trustee/login",
+                    backendOpIP + "/trustee/login/panel",
                     "_blank"
                   );
                 }}
@@ -154,8 +154,8 @@ function CustodioClaves(props) {
             </div>
           </div>
           <TrusteesList
-            deleteTrustee={(uuid) => {
-              setUuidTrustee(uuid);
+            deleteTrustee={(username) => {
+              setUsernameTrustee(username);
               setModalDelete(true);
             }}
             election={election}
@@ -175,7 +175,7 @@ function CustodioClaves(props) {
         show={modalDelete}
         onHide={() => setModalDelete(false)}
         shortName={shortName}
-        uuidTrustee={uuidTrustee}
+        usernameTrustee={usernameTrustee}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { BOOTH } from "../../static/booth/js/booth";
-import { BigInt } from "../../static/booth/js/jscrypto/bigint";
+import { BigInt, setBigInt} from "../../static/booth/js/jscrypto/bigint";
 import { USE_SJCL } from "../../static/booth/js/jscrypto/bigint";
 import { sjcl } from "../../static/booth/js/jscrypto/sjcl";
 import { BigIntDummy } from "../../static/booth/js/jscrypto/bigintDummy.js";
@@ -21,7 +21,7 @@ class BoothPsifos {
       BigInt.in_browser = !BOOTH.synchronous;
 
       // // set up dummy bigint for fast parsing and serialization
-      if (!BigInt.in_browser) BigInt = BigIntDummy;
+      if (!BigInt.in_browser) setBigInt(BigIntDummy);
 
       //BigInt.setup(BOOTH.so_lets_go, BOOTH.nojava);
 
@@ -49,7 +49,6 @@ class BoothPsifos {
     /**
      * Create encryp answers
      */
-
     BOOTH.ballot.answers = answersQuestions;
     BOOTH.ballot.open_answers = [];
     this.validateAllQuestions(answersQuestions);

@@ -46,10 +46,10 @@ function QuestionSelectionBox({
     election: election,
   };
   const {
-    closed_options_list: closedOptions,
-    include_blank_null: includeInformalAns,
+    formal_options: closedOptions,
+    include_informal_options: includeInformalAns,
     options_specifications: formalOptionsImages,
-    q_type: questionType,
+    type: questionType,
   } = question
 
   return (
@@ -65,9 +65,7 @@ function QuestionSelectionBox({
       />
 
       {isSTVQuestion(questionType) && <QuestionOptionsDetail
-        options={
-          getFormalOptions(closedOptions, includeInformalAns)
-        }
+        options={closedOptions}
         optionsImages={formalOptionsImages}
       />}
 
@@ -139,7 +137,7 @@ export default function QuestionElection({
     const currentQuestion = questions[index];
     const checkedIndex = answers[index];
     const numCheckedIndex = checkedIndex.length;
-    const options = currentQuestion.closed_options_list;
+    const options = currentQuestion.formal_options;
     return !preferentialRankingTallyNames.includes(currentQuestion.tally_type)
       ? checkNumAnswers(numCheckedIndex, options, checkedIndex, currentQuestion)
       : true;

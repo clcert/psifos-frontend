@@ -23,7 +23,7 @@ function InfoBoothView() {
     getElectionPublic(shortName).then((data) => {
       const { jsonResponse } = data;
       setElection(jsonResponse);
-      setActiveNumber(jsonResponse.election_status.includes("released") ? 3 : 0);
+      setActiveNumber(jsonResponse.status.includes("released") ? 3 : 0);
     });
   }, [shortName]);
 
@@ -44,7 +44,7 @@ function InfoBoothView() {
 
           <TitlePsifos
             namePage="Portal de Información"
-            nameElection={election.name}
+            nameElection={election.long_name}
           />
         </div>
       </section>

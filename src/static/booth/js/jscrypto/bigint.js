@@ -19,17 +19,19 @@ import { BigInteger } from "./jsbn";
 
 export var USE_SJCL = true;
 
+// Default BigInt implementation
 export var BigInt = null;
 
-// let's make this much cleaner
+// Setter function to update BigInt
+export function setBigInt(newBigInt) {
+  BigInt = newBigInt;
+}
+
 if (USE_SJCL) {
-  // why not?
   BigInt = BigInteger;
-  // ZERO AND ONE are already taken care of
   BigInt.TWO = new BigInt("2", 10);
 
   BigInt.setup = function (callback, fail_callback) {
-    // nothing to do but go
     callback();
   };
 

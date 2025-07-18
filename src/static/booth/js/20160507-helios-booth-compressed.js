@@ -1,3 +1,5 @@
+import crypto from 'crypto-browserify';
+
 !(function () {
   var a = !1,
     b = /xyz/.test(function () {

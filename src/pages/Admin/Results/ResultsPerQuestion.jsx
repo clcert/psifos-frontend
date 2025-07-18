@@ -47,13 +47,13 @@ function ClosedQuestionResume({ result, question, election }) {
         <PsifosTable
           election={election}
           data={
-            question.include_blank_null
+            question.include_informal_options
               ? result.slice(0, -2)
               : result
           }
         />
       </div>
-      {question.include_blank_null && (
+      {question.include_informal_options && (
         <div className="column justify-content-center">
           <PsifosTable election={election} data={result.slice(-2)} />
         </div>
@@ -77,14 +77,14 @@ function BoxPerQuestion({ question, index, election, result }) {
   const resultByOption = updateResult(result, question, percentageOption);
   return (
     <div className="box question-box-results" id="question-box-results">
-      <QuestionTitle index={index} text={question.q_text} />
+      <QuestionTitle index={index} text={question.title} />
       <QuestionResume
         election={election}
         result={resultByOption}
         question={question}
       />
       {
-        question.include_blank_null &&
+        question.include_informal_options &&
         !isARankingTally(question.tally_type) && (
           <PercentageOptions
             handleChange={(e) => setPercentageOption(e.target.value)}

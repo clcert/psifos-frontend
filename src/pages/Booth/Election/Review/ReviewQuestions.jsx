@@ -16,7 +16,7 @@ function ReviewQuestions(props) {
           return (
             <div key={index}>
               <p className="subtitle is-4 mt-6 mb-2 has-text-black">
-                {question.q_text}
+                {question.title}
               </p>
               <div className="box has-text-left pl-6 review-answer">
                 <div className="subtitle is-5 has-text-white answer-text mb-0">

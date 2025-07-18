@@ -5,6 +5,7 @@ import { BigInt } from "./jscrypto/bigint";
 import { b64_sha256 } from "./jscrypto/sha2";
 import EncryptedAnswerFactory from "./jscrypto/encypted-answers";
 import EncryptedVote from "./jscrypto/encrypted-vote";
+import BoothWorker from "./boothworker-single.worker.js?worker"; // <- Nota el ?worker
 
 window.onbeforeunload = function (evt) {
   if (!BOOTH.started_p) return;
@@ -62,15 +63,12 @@ class BoothPsifos {
 
   setup_workers(election_raw_json) {
     // async?
-
     if (!this.synchronous) {
       // prepare spots for encrypted answers
       // and one worker per question
       this.encrypted_answers = [];
       this.answer_timestamps = [];
-      this.worker = new Worker(
-        new URL("./boothworker-single.worker.js", import.meta.url)
-      );
+      this.worker = new BoothWorker();
       this.worker.postMessage({
         type: "setup",
         election: election_raw_json,
@@ -116,7 +114,7 @@ class BoothPsifos {
     // async?
     this.setup_workers(raw_json);
 
-    document.title = "Participa UChile - " + this.election.name;
+    document.title = "Participa UChile - " + this.election.short_name;
 
     // escape election fields
     // let escaped_array = ["description", "name"]
@@ -132,7 +130,7 @@ class BoothPsifos {
     this.election.question_answer_orderings = [];
     this.election.questions.forEach(
       function (question, i) {
-        var ordering = new Array(question.closed_options_list.length);
+        var ordering = new Array(question.formal_options.length);
 
         // initialize array so it is the identity permutation
         ordering.forEach(function (answer, j) {
@@ -163,7 +161,7 @@ class BoothPsifos {
     this.worker.postMessage({
       type: "encrypt",
       q_num: question_num,
-      q_type: this.election.questions[question_num].q_type,
+      q_type: this.election.questions[question_num].type,
       answer: this.ballot.answers[question_num],
       open_answer: this.ballot.open_answers[question_num],
       id: this.answer_timestamps[question_num],
@@ -234,7 +232,6 @@ class BoothPsifos {
     }.bind(this);
     window.setTimeout(do_hash, 0);
   }
-
   percentageDone = 0;
   total_cycles_waited = 0;
 

@@ -39,10 +39,10 @@ function VotersList() {
   const [editVoterModal, setEditVoterModal] = useState(false);
 
   const [voterSelect, setVoterSelect] = useState({
-    voter_name: "",
+    name: "",
     uuid: "",
-    voter_login_id: "",
-    voter_weight: "",
+    username: "",
+    weight_init: "",
   });
 
   /** @urlParam {shortName} election shortName */
@@ -65,7 +65,7 @@ function VotersList() {
       <section className="parallax hero is-medium">
         <div className="hero-body pt-0 px-0 header-hero">
           <NavbarAdmin />
-          <TitlePsifos namePage="Padrón" nameElection={election.name} />
+          <TitlePsifos namePage="Padrón" nameElection={election.long_name} />
         </div>
       </section>
 
@@ -86,7 +86,7 @@ function VotersList() {
                   >
                     <span>Subir votantes</span>
                   </Button>
-                  {election.election_status === "Setting up" && (
+                  {election.status === "Setting up" && (
                     <Button
                       className="button progress-previous has-text-white has-text-weight-bold ml-3"
                       onClick={() => {
@@ -105,6 +105,7 @@ function VotersList() {
               setVoterSelect={setVoterSelect}
               setDeleteVoterModal={setDeleteVoterModal}
               setEditVoterModal={setEditVoterModal}
+              editVoterModal={editVoterModal}
             />
           </div>
         ) : (

@@ -4,17 +4,17 @@ function DescriptionModal(props) {
       <div className="modal-background" onClick={props.onHide}></div>
       <div className="modal-card">
         <section className="modal-card-body">
-          <h1 className="title">{props.election.name}</h1>
+          <h1 className="title">{props.election.election.long_name}</h1>
           <p className="subtitle">
             Participa UChile
           </p>
-          <p>{props.election.description}</p>
+          <p>{props.election.election.description}</p>
           <p className="mb-2">
             <span className="has-text-weight-bold">
               ¿Tiene dudas o problemas con su elección?
             </span>
             <br />
-            Puede contactarse con la mesa de ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i class="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
+            Puede contactarse con la mesa de ayuda haciendo click en el ícono <span className="icon is-medium has-background-info has-text-white"><i className="fa-brands fa-rocketchat"></i></span> que se encuentra en la parte inferior de este sitio.
           </p>
           {/* <p>Si tienes alguna duda, te invitamos a contactar a la mesa de ayuda:</p>
           <div className="py-1">

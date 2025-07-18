@@ -8,7 +8,7 @@ function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
   return (
     Boolean(answer) && (
       !isMixNetQuestion(questionType)
-      || indexAnswer < numOptions - 2
+      || indexAnswer < numOptions
     ) && (
       <React.Fragment key={index}>
         <span key={index}>
@@ -29,9 +29,10 @@ function ShowAnswer({ questionType, indexAnswer, numOptions, index, answer }) {
 }
 
 function ShowAnswersList({ currentAns, questionType, closedOptions }) {
+  const sortAnswers = [...currentAns].sort((a, b) => a - b);
   return (
     <p className="mb-0">
-      {currentAns.map((key, index) => {
+      {sortAnswers.map((key, index) => {
         const indexAnswer = (
           isMixNetQuestion(questionType) ? key - 1 : key
         )
@@ -52,31 +53,31 @@ function ShowAnswersList({ currentAns, questionType, closedOptions }) {
 
 
 function TextSelected({ answer, question }) {
-  const includeBlankNull = question.include_blank_null === "True";
-  const blankId = getBlankAnswerId(question.closed_options_list)
-  const nullId = getNullAnswerId(question.closed_options_list)
+  const includeBlankNull = question.include_informal_options;
+  const blankId = getBlankAnswerId(question)
+  const nullId = getNullAnswerId(question)
   if (answer.length === 0) {
     return <p>[ ] Ninguna opción seleccionada</p>;
   }
   else if (
-    includeBlankNull && usesMixNetTally(question.q_type)
+    includeBlankNull
   ) {
     if (
       answer.every((element) => element === blankId)
     ) {
-      return <p>Respuesta en blanco</p>;
+      return <p>[ ✓ ] Voto Blanco</p>;
     }
     else if(
       answer.every((element) => element === nullId)
     ) {
-      return <p>Respuesta nula</p>;
+      return <p>[ ✓ ] Voto Nulo</p>;
     }
   }
   return (
     <ShowAnswersList
       currentAns={answer}
-      questionType={question.q_type}
-      closedOptions={question.closed_options_list}
+      questionType={question.type}
+      closedOptions={question.formal_options}
     />
   );
 }

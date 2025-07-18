@@ -9,6 +9,7 @@ import "./static/css/booth.css";
 import "react-tooltip/dist/react-tooltip.css";
 import store from "./store/index";
 import { Provider } from "react-redux";
+import crypto from 'crypto-browserify';
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript

@@ -23,7 +23,7 @@ import { BigInt } from "./bigint";
 import { b64_sha256 } from "./sha2";
 
 export var UTILS = {};
-var _ = require("lodash");
+import _ from "lodash";
 
 UTILS.array_remove_value = function (arr, val) {
   var new_arr = [];

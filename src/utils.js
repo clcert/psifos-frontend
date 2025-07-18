@@ -16,9 +16,9 @@ export const isSTVQuestion = (q) => q === "STVNC";
 
 export const usesMixNetTally = (q) => isMixNetQuestion(q) || isSTVQuestion(q);
 
-export const getBlankAnswerId = (closedOpt) => closedOpt.length;
+export const getBlankAnswerId = (q) => isMixNetQuestion(q.type) ? q.formal_options.length + 1 : q.formal_options.length;
 
-export const getNullAnswerId = (closedOpt) => closedOpt.length + 1;
+export const getNullAnswerId = (q) => isMixNetQuestion(q.type) ? q.formal_options.length + 2 : q.formal_options.length + 1;
 
 export const matchingStrings = (string1, string2) => {
     return string1.includes(string2) ||

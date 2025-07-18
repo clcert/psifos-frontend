@@ -4,9 +4,10 @@ import {
 import { useSelector } from "react-redux";
 import FormalOptions from "./FormalOptions";
 import InformalOptions from "./InformalOptions";
+import { getBlankAnswerId } from "../../../../../utils";
 
 function MixnetSelection({ question, addAnswer, numQuestion }) {
-  const isGrouped = question.group_votes;
+  const isGrouped = question.grouped_options;
   const otherOptionsName = "Otras Candidaturas";
 
   const {
@@ -16,8 +17,8 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     (state) => state.booth.answers
   )[numQuestion] || [];
 
-  const closed_options = question.closed_options_list;
-  const numOfOptions = closed_options.length
+  const formal_options = question.formal_options;
+  const numOfOptions = formal_options.length
 
   /** @state {array} array with options for react-select */
   const [candidaturesObjs, setCandidaturesObjs] = useState([]);
@@ -27,7 +28,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
   // guarda false, id nulo o id blanco
   const [informalAnswersSelected, setInformalAnswersSelected] = useState(0);
 
-  const includeBlankNull = question.include_blank_null;
+  const includeBlankNull = question.include_informal_options;
   const addAnswerCallback = useCallback(addAnswer, [addAnswer]);
 
   const changeAllEncrypted = useCallback(
@@ -44,10 +45,10 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
 
   const initComponent = useCallback(() => {
     const auxAnswersForEncrypt = changeAllEncrypted(
-      numOfOptions
+      numOfOptions + 1
     );
     const auxOptions = [];
-    closed_options.forEach((close_option, index) => {
+    formal_options.forEach((close_option, index) => {
       if (
         includeBlankNull &&
         (close_option === "Voto Blanco" || close_option === "Voto Nulo")
@@ -92,7 +93,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
     includeBlankNull,
     isGrouped,
     numQuestion,
-    closed_options,
+    formal_options,
   ]);
 
   useEffect(() => {
@@ -116,7 +117,6 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
        * @param {event} event of selector
        * @param {index} index answers
        */
-
       let auxOptions = [...candidaturesObjs];
       let auxAnswersSelected = [...formalAnswersSelected];
       let auxAnswersForEncrypt = [...answers];
@@ -127,7 +127,7 @@ function MixnetSelection({ question, addAnswer, numQuestion }) {
       if (informalAnswersSelected) {
         setInformalAnswersSelected(false)
         auxAnswersForEncrypt = [...changeAllEncrypted(
-          numOfOptions
+          getBlankAnswerId(question)
         )];
       }
       auxAnswersSelected[index] = event;

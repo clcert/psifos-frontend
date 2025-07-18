@@ -1,3 +1,5 @@
+import crypto from 'crypto-browserify'; // Importa crypto-browserify
+
 (function () {
   var initializing = false,
     fnTest = /xyz/.test(function () {
