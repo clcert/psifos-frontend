@@ -57,6 +57,7 @@ function CreateElection(props) {
       description: election.description,
       type: election.type.toLocaleLowerCase(),
       max_weight: election.max_weight,
+      quorum: election.quorum,
       randomized_options: election.randomized_options,
       voters_login_type: electionType[election.voters_login_type],
       normalized: election.normalized,
@@ -123,27 +124,24 @@ function CreateElection(props) {
 
   function checkData() {
     /**
-     * function to check if the jsonResponse is correct
+     * Validates the election parameters.
      */
+    const { short_name, long_name, quorum } = electionParams;
 
-    if (
-      electionParams.short_name.length === 0 ||
-      electionParams.short_name.length > 100
-    ) {
+    if (!short_name || short_name.length > 100) {
       setAlertMessage("El nombre corto debe tener entre 1 y 100 caracteres");
       return false;
-    } else if (electionParams.short_name.includes(" ")) {
-      setAlertMessage(
-        "El nombre de la elección no puede tener espacios en blanco"
-      );
+    }
+    if (/\s/.test(short_name)) {
+      setAlertMessage("El nombre de la elección no puede tener espacios en blanco");
       return false;
-    } else if (
-      electionParams.long_name.length === 0 ||
-      electionParams.long_name.length > 250
-    ) {
-      setAlertMessage(
-        "El nombre de la elección debe tener entre 1 y 250 caracteres"
-      );
+    }
+    if (!long_name || long_name.length > 250) {
+      setAlertMessage("El nombre de la elección debe tener entre 1 y 250 caracteres");
+      return false;
+    }
+    if (quorum !== undefined && (Number(quorum) < 0 || Number(quorum) > 1)) {
+      setAlertMessage("El cuorum debe ser un número entre 0 y 1");
       return false;
     }
     return true;
@@ -313,6 +311,35 @@ function CreateElection(props) {
             <p className="help">
               {" "}
               El máximo valor que puede tener el peso de uno de los votantes.
+            </p>
+          </div>
+                    <div className="field">
+            <label className="label label-form-election">
+              Cuorum de la elección
+            </label>
+            <div className="control">
+              <input
+                id="weight-input"
+                disabled={disabledEdit}
+                className="input"
+                type="number"
+                max={1}
+                min={0}
+                step="0.01"
+                placeholder="Cuorum"
+                value={electionParams.quorum}
+                onChange={(e) => {
+                  setElectionParams({
+                    ...electionParams,
+                    quorum: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <p className="help">
+              {" "}
+              Valor correspondiente al porcentaje de votantes que deben votar
+              para que la elección sea válida.
             </p>
           </div>
           <div className="field">

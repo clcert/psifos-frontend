@@ -32,6 +32,7 @@ const CardInfo = ({
     { name: "Cantidad de votantes", value: totalVoters },
     { name: "Votos recibidos", value: totalVotes },
     { name: "Peso máximo de votantes", value: election.max_weight },
+    { name: "Cuorum", value: election.quorum !== null ? `${election.quorum * 100}%` : "No definido" },
     { name: "Numero Custodios", value: totalTrustees },
   ];
 
