@@ -16,6 +16,7 @@ import { getElection } from "../../../services/election";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useDispatch, useSelector } from "react-redux";
 import { setElection } from "../../../store/slices/electionSlice";
+import { userRoles } from "../../../constants";
 
 function CustodioClaves(props) {
   const dispatch = useDispatch();
@@ -34,6 +35,8 @@ function CustodioClaves(props) {
   const [usernameTrustee, setUsernameTrustee] = useState("");
 
   const location = useLocation();
+
+  const userRole = useSelector((state) => state.user.role);
 
   const { shortName } = useParams();
 
@@ -91,7 +94,7 @@ function CustodioClaves(props) {
               </div>
             </div>
           </div>
-          {election.status === "Setting up" && (
+          {election.status === "Setting up" && userRole === userRoles.superAdmin && (
             <>
               <div className="d-flex justify-center flex-column">
                 <div>

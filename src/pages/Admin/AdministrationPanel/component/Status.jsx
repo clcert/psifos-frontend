@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { electionLoginType, electionStatus, trusteeStep } from "../../../../constants";
+import { electionStatus, userRoles } from "../../../../constants";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { checkStatus, electionHasQuestions } from "../../../../services/election";
@@ -49,13 +49,19 @@ function Status({
 
   const electionStep = election.status;
 
+  const userRole = useSelector((state) => state.user.role);
+
   const renderLink = (id, onClick, to, text) => (
     <div className="content-card-admin">
-      <span onClick={onClick} className="panel-text-sect">
-        <Link id={id} className="link-without-line" to={to}>
-          {text}
-        </Link>
-      </span>
+      {userRole === userRoles.superAdmin ? (
+        <span onClick={onClick} className="panel-text-sect">
+          <Link id={id} className="link-without-line" to={to} disabled={true}>
+            {text}
+          </Link>
+        </span>
+      ) : (
+        <span className="panel-text-sect">{text}</span>
+      )}
     </div>
   );
 

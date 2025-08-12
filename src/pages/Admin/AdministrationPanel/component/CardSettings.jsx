@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { backendOpIP } from "../../../../server";
 import { bundleDownload } from "../../../../services/bundle";
-import { electionStatus } from "../../../../constants";
+import { electionStatus, userRoles } from "../../../../constants";
+import { useSelector } from "react-redux";
 
 function CardSettings(props) {
   /** @state {bool} state for show infor message about copy */
@@ -11,6 +12,8 @@ function CardSettings(props) {
 
   /** @urlParam {string} shortName of election  */
   const { shortName } = useParams();
+
+  const userRole = useSelector((state) => state.user.role);
 
   const bundleButton = async () => {
     /**
@@ -26,7 +29,7 @@ function CardSettings(props) {
       <hr />
 
       <div className="is-size-6">
-        <div className="content-card-admin">
+        {userRole === userRoles.superAdmin && <div className="content-card-admin">
           <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
             <i className="fa-solid fa-pen-to-square"></i>
           </div>
@@ -36,7 +39,7 @@ function CardSettings(props) {
           >
             Editar elección
           </Link>
-        </div>
+        </div>}
         <div className="content-card-admin">
           <div className="icon-card-admin d-inline-flex mr-2">
             <i className="fa-solid fa-circle-question"></i>
@@ -111,7 +114,7 @@ function CardSettings(props) {
             </Link>
           </div>
         )}
-        <div className="content-card-admin">
+        {userRole === userRoles.superAdmin && <div className="content-card-admin">
           <div className="icon-card-admin d-inline-flex justify-content-center mr-2">
             <i className="fa-solid fa-trash "></i>
           </div>
@@ -124,7 +127,7 @@ function CardSettings(props) {
           >
             Eliminar elección
           </Link>
-        </div>
+        </div>}
       </div>
     </div>
   );

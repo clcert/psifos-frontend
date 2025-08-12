@@ -72,6 +72,11 @@ export const electionStatus = {
   resultsReleased: "Results released",
 };
 
+export const userRoles = {
+  admin: "admin",
+  superAdmin: "super_admin"
+}
+
 export const trusteeStep = {
   config_step: 0,
   secret_key_step: 1,
