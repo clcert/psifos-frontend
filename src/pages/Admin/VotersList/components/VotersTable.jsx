@@ -204,11 +204,11 @@ const VotersTableContent = ({
             {election.normalized ? (
               <span>
                 {parseFloat(
-                  (voter.weight_init / election.max_weight).toFixed(3)
+                  (voter.weight_end / election.max_weight).toFixed(3)
                 )}
               </span>
             ) : (
-              <span>{voter.weight_init}</span>
+              <span>{voter.weight_end}</span>
             )}
           </Td>
           {election.grouped_voters && (
@@ -223,7 +223,7 @@ const VotersTableContent = ({
                   setVoterSelect({
                     name: voter.name,
                     username: voter.username,
-                    weight_init: voter.weight_init,
+                    weight_end: voter.weight_end,
                   });
                   setEditVoterModal(true);
                 }}
