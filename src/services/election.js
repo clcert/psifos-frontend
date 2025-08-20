@@ -108,7 +108,7 @@ async function getStatsGroup(shortName, group) {
 }
 
 async function getVotersInit(shortName) {
-  const resp = await fetch(`${backendInfoIp}/${shortName}/voters-by-weight-init/`, {
+  const resp = await fetch(`${backendInfoIp}/${shortName}/voters-by-weight-init`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -122,7 +122,7 @@ async function getVotersInit(shortName) {
 
 async function getVotesInit(shortName) {
   const resp = await
-    await fetch(`${backendInfoIp}/${shortName}/votes-by-weight-init/`, {
+    await fetch(`${backendInfoIp}/${shortName}/votes-by-weight-init`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ async function getVotesInit(shortName) {
 }
 
 async function getVotesEnd(shortName) {
-  const resp = await fetch(`${backendInfoIp}/${shortName}/votes-by-weight-end/`, {
+  const resp = await fetch(`${backendInfoIp}/${shortName}/votes-by-weight-end`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
