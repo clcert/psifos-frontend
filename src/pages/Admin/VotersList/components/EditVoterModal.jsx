@@ -30,7 +30,7 @@ function EditVoterModal(props) {
         body: JSON.stringify({
           username: infoVoter.username,
           old_username: infoVoter.old_username,
-          weight_init: infoVoter.weight,
+          weight_end: infoVoter.weight,
         }),
       }
     );
@@ -52,7 +52,7 @@ function EditVoterModal(props) {
       ...infoVoter,
       username: props.voter.username,
       old_username: props.voter.username,
-      weight: props.voter.weight_init,
+      weight: props.voter.weight_end,
     });
   }, [props.voter]);
 
@@ -83,7 +83,7 @@ function EditVoterModal(props) {
               </div>
             )}
             <div className="field mb-1">
-              <label className="label">Nombre de dusuario del votante</label>
+              <label className="label">Nombre de Usuario</label>
               <div className="control">
                 <input
                   className="input mr-2"
@@ -97,7 +97,7 @@ function EditVoterModal(props) {
           </div>
           <div className="">
             <div className="field">
-              <label className="label">Peso del votante</label>
+              <label className="label">Peso del Votante</label>
               <div className="control">
                 <input
                   className="input mr-2"
