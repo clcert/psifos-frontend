@@ -80,6 +80,11 @@ function Booth(props) {
           "Election not found": "La elección no existe",
           "voter not found": "No estas habilitado para votar en esta elección",
         };
+        if(resp.status === 500) {
+          setLoad(true);
+          setNoAuthMessage("Hemos tenido un error al cargar la elección, intenta nuevamente");
+          return;
+        }
 
         if (resp.status === 200) {
           setElectionData(jsonResponse);
