@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EncryptedVote from "../../../static/booth/js/jscrypto/encrypted-vote";
 import encryptingGIF from "../../../static/img/encrypting.gif";
 
@@ -9,6 +9,11 @@ function ModalPercentage(props) {
   const [initialize, setInitialize] = useState(false);
 
   function waitEncryp() {
+    if(props.booth.election.type === "Public Vote Election") {
+      props.afterEncrypt();
+      setInitialize(false);
+      return;
+    }
     let answers_done = _.reject(props.booth.encrypted_answers, _.isNull);
     let percentage_done = Math.round(
       (100 * answers_done.length) / props.booth.encrypted_answers.length
@@ -27,10 +32,15 @@ function ModalPercentage(props) {
       setInitialize(false);
     }
   }
-  if (!initialize && props.show) {
-    setInitialize(true);
-    waitEncryp();
-  }
+  useEffect(() => {
+    if (!initialize && props.show) {
+      setInitialize(true);
+      waitEncryp();
+    }
+    return () => {
+      setInitialize(false);
+    };
+  }, [initialize, props.show]);
   return (
     <div className={"modal " + (props.show ? "is-active" : "")} id="help-modal">
       <div className="modal-background"></div>

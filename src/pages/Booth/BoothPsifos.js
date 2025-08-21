@@ -50,16 +50,18 @@ class BoothPsifos {
      * Create encryp answers
      */
     BOOTH.ballot.answers = answersQuestions;
+    BOOTH.answers_without_encryption = answersQuestions;
     BOOTH.ballot.open_answers = [];
-    this.validateAllQuestions(answersQuestions);
-    BOOTH.seal_ballot();
+    if(BOOTH.election.type !== "Public Vote Election") {
+      this.validateAllQuestions(answersQuestions);
+      BOOTH.seal_ballot();
+    }
   }
 
   async sendJson(uuid) {
     /**
      * Send encryp answers to the server
      */
-
     const url = backendOpIP + "/" + uuid + "/cast-vote";
     const response = await fetch(url, {
       method: "POST",
@@ -69,7 +71,8 @@ class BoothPsifos {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        encrypted_vote: BOOTH.encrypted_vote_json,
+        encrypted_vote: BOOTH.encrypted_vote,
+        ballot: BOOTH.answers_without_encryption,
       }),
     });
     const data = await response.json();

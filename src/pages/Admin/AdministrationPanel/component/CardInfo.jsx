@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   electionLoginType,
   electionStatusTranslate,
+  electionType,
 } from "../../../../constants";
 
 const DisplayStats = ({ name, value }) => (
@@ -28,7 +29,7 @@ const CardInfo = ({
 }) => {
   const stats = [
     { name: "Estado", value: electionStatusTranslate[electionStep] },
-    { name: "Tipo de votación", value: election.type === "Election" ? "Elección" : "Consulta" },
+    { name: "Tipo de votación", value: electionType[election.type] },
     { name: "Cantidad de votantes", value: totalVoters },
     { name: "Votos recibidos", value: totalVotes },
     { name: "Peso máximo de votantes", value: election.max_weight },

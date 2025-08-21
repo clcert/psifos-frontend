@@ -263,6 +263,7 @@ function CreateElection(props) {
                 >
                   <option value="election">Elección</option>
                   <option value="query">Consulta</option>
+                  <option value="public_vote_election">Elección de Voto Público</option>
                 </select>
               </div>
             </div>

@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
-import { electionLoginType, electionStatus, trusteeStep } from "../../../../constants";
+import {
+  electionStatus,
+  electionType,
+} from "../../../../constants";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { checkStatus, electionHasQuestions } from "../../../../services/election";
+import {
+  checkStatus,
+} from "../../../../services/election";
 
 function Status({
   election,
@@ -18,13 +23,13 @@ function Status({
   totalVoters,
   totalTrustees,
 }) {
-
   const [loading, setLoading] = useState(true);
 
   const [addQuestions, setAddQuestions] = useState(false);
   const [canCombineDecryptions, setCanCombineDecryptions] = useState(false);
   const [keyGenerationReady, setKeyGenerationReady] = useState(false);
   const [openingReady, setOpeningReady] = useState(false);
+  const [closeKeyGenerationReady, setCloseKeyGenerationReady] = useState(false);
   const [addVoters, setAddVoters] = useState(false);
   const [addTrustees, setAddTrustees] = useState(false);
 
@@ -37,12 +42,17 @@ function Status({
       setKeyGenerationReady(response.jsonResponse.key_generation_ready);
       setOpeningReady(response.jsonResponse.opening_ready);
       setCanCombineDecryptions(response.jsonResponse.can_combine_decryptions);
+      setCloseKeyGenerationReady(
+        response.jsonResponse.close_key_generation_ready
+      );
       setLoading(false);
     });
   }, [election.short_name, election.status]);
 
   const defaultTotalVoters = useSelector((state) => state.election.totalVoters);
-  const defaultTotalTrustees = useSelector((state) => state.election.totalTrustees);
+  const defaultTotalTrustees = useSelector(
+    (state) => state.election.totalTrustees
+  );
 
   totalVoters = totalVoters ?? defaultTotalVoters;
   totalTrustees = totalTrustees ?? defaultTotalTrustees;
@@ -94,7 +104,7 @@ function Status({
           "Añadir custodios"
         )}
 
-      {electionStep === electionStatus.readyForOpening &&
+      {openingReady &&
         renderLink("init-election", freezeModal, "", "Iniciar elección")}
 
       {keyGenerationReady &&
@@ -105,8 +115,13 @@ function Status({
           "Preparar para la generación de claves"
         )}
 
-      {openingReady &&
-        renderLink("generate-keys", openingReadyModal, "", "Cerrar generación de claves")}
+      {closeKeyGenerationReady &&
+        renderLink(
+          "generate-keys",
+          openingReadyModal,
+          "",
+          "Cerrar generación de claves"
+        )}
 
       {electionStep === electionStatus.started &&
         renderLink("close-election", closeModal, "", "Cerrar elección")}
@@ -114,18 +129,23 @@ function Status({
       {electionStep === electionStatus.ended &&
         renderLink("compute-tally", tallyModal, "", "Computar Tally")}
 
-      {electionStep === electionStatus.readyForKeyGeneration && !openingReady && (
-        <div className="content-card-admin">
-          <span className="panel-text-sect">
-            Esperando generación de claves...{" "}
-            <i id="step_1" className="fa-solid fa-spinner fa-spin" />
-          </span>
-        </div>
-      )}
+      {electionStep === electionStatus.readyForKeyGeneration &&
+        !openingReady && (
+          <div className="content-card-admin">
+            <span className="panel-text-sect">
+              Esperando generación de claves...{" "}
+              <i id="step_1" className="fa-solid fa-spinner fa-spin" />
+            </span>
+          </div>
+        )}
 
-      {electionStep === electionStatus.readyForKeyGeneration && (
-        renderLink("back-to-setting-up", backToSettingModal, "", "Volver a la configuración")
-      )}
+      {electionStep === electionStatus.readyForKeyGeneration &&
+        renderLink(
+          "back-to-setting-up",
+          backToSettingModal,
+          "",
+          "Volver a la configuración"
+        )}
 
       {electionStep === electionStatus.computingTally && (
         <div className="content-card-admin">
@@ -157,7 +177,9 @@ function Status({
           "Combinar desencriptaciones parciales"
         )}
 
-      {electionStep === electionStatus.decryptionsCombined &&
+      {(electionStep === electionStatus.decryptionsCombined ||
+        (electionStep === electionStatus.ended &&
+          election.type === electionType["Public Vote Election"])) &&
         renderLink(null, releaseModal, "", "Liberar los resultados")}
 
       {(electionStep === electionStatus.resultsReleased ||

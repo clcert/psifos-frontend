@@ -102,6 +102,12 @@ export const electionLoginType = {
   semi_close_p: "Semi close",
 };
 
+export const electionType = {
+  "Query": "Consulta",
+  "Election": "Elección",
+  "Public Vote Election": "Elección de Voto Público"
+};
+
 export const permanentOptionsList = Object.values(permanentOptions);
 
 export const questionsInfo = [
@@ -111,6 +117,7 @@ export const questionsInfo = [
     name: "Pregunta cerrada",
     tally_name: "HOMOMORPHIC",
     tally_type: "first_majority",
+    type_election: [electionType.Election, electionType.Query, electionType["Public Vote Election"]],
   },
   {
     // lo mismo, pero cuando la lista de candidatos es muy grande
@@ -118,12 +125,14 @@ export const questionsInfo = [
     name: "Pregunta masiva",
     tally_name: "MIXNET",
     tally_type: "first_majority",
+    type_election: [electionType.Election, electionType.Query],
   },
   {
     type: "STVNC",
     name: "Pregunta con ranking preferencial",
     tally_name: "STVNC",
     tally_type: "preferential_ranking",
+    type_election: [electionType.Election, electionType.Query],
   },
 ];
 

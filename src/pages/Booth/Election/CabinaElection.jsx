@@ -124,7 +124,9 @@ function CabinaElection(props) {
   const sendVote = () => {
     setModalVerify(true);
     BOOTH_PSIFOS.sendJson(shortName).then((res) => {
-      setVoteHash(res.encrypted_ballot_hash);
+      const voteHash = props.electionData.election.type === "Public Vote Election" ? res.ballot_hash : res.encrypted_ballot_hash;
+      setVoteHash(voteHash);
+
 
       // Caso en que el voto no se haya realizado correctamente
       if(res.verified === false){

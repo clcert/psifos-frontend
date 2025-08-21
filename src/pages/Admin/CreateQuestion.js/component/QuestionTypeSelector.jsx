@@ -1,7 +1,7 @@
-import { questionsInfo } from "../../../../constants";
+import { electionType, questionsInfo } from "../../../../constants";
 
 export default function QuestionTypeSelector({
-  disabledEdit, handleChange, questionType,
+  disabledEdit, handleChange, questionType, election
 }) {
   return (
     <div className="field">
@@ -16,10 +16,11 @@ export default function QuestionTypeSelector({
             value={questionType}
           >
             {questionsInfo.map((q, index) => (
+              q.type_election.includes(electionType[election.type]) && (
               <option key={index} value={q.type}>
                 {q.name}
               </option>
-            ))}
+            )))}
           </select>
         </div>
       </div>

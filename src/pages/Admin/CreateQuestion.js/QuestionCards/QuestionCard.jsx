@@ -56,7 +56,7 @@ function Title({ title }) {
 
 export default function QuestionCard({
   updateQuestion, question, questionId,
-  disabledEdit, remove, checkOptions,
+  disabledEdit, remove, checkOptions, election
 }) {
 
   const {
@@ -200,6 +200,7 @@ export default function QuestionCard({
       />
 
       <QuestionTypeSelector
+        election={election}
         disabledEdit={disabledEdit}
         handleChange={changeQuestionType}
         questionType={questionType}
