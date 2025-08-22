@@ -73,6 +73,14 @@ function Booth(props) {
         credentials: "include",
       });
       try {
+        if(resp.status === 500) {
+          setLoad(true);
+          setNoAuthMessage("Hemos tenido un error al cargar la elección, reintentando en unos segundos");
+          setTimeout(() => {
+            window.location.href = backendOpIP + "/" + shortName + "/vote";
+          }, 5000);
+          return;
+        }
         const jsonResponse = await resp.json();
         setLoad(true);
         const typeErrors = {
@@ -80,11 +88,6 @@ function Booth(props) {
           "Election not found": "La elección no existe",
           "voter not found": "No estas habilitado para votar en esta elección",
         };
-        if(resp.status === 500) {
-          setLoad(true);
-          setNoAuthMessage("Hemos tenido un error al cargar la elección, intenta nuevamente");
-          return;
-        }
 
         if (resp.status === 200) {
           setElectionData(jsonResponse);

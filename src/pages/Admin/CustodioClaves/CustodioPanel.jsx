@@ -10,6 +10,7 @@ import DropFile from "./components/DropFile";
 import CheckSecretKey from "../../../crypto/CheckSecretKey";
 import DecryptAndProve from "../../../crypto/DecryptAndProve";
 import { electionStatus, trusteeStep } from "../../../constants";
+import { backendOpIP } from "../../../server";
 
 function SynchronizeSection({
   electionsSelected,
@@ -431,6 +432,13 @@ export default function CustodioHome() {
     try {
       const { resp, jsonResponse } = await getTrusteePanel();
       setLoad(true);
+      if (resp.status === 500) {
+        setNoAuthMessage("Error interno del servidor, intentando nuevamente en unos segundos.");
+        setTimeout(() => {
+          window.location.href = backendOpIP + "/trustee/login/panel";
+        }, 5000);
+        return;
+      }
 
       if (resp.status === 200) {
         setAuth(true);

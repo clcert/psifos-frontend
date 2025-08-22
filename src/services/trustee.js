@@ -40,6 +40,9 @@ async function getTrusteePanel() {
     method: "GET",
     credentials: "include",
   });
+  if (resp.status === 500) {
+    return { resp: resp, jsonResponse: { error: "Internal Server Error" } };
+  }
   const jsonResponse = await resp.json();
   return { resp: resp, jsonResponse: jsonResponse };
 }
