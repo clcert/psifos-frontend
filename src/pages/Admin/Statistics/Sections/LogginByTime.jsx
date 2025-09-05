@@ -23,13 +23,12 @@ function LogginByTime(props) {
   const { shortName } = useParams();
 
   const getCountDates = useCallback(async () => {
-    const token = localStorage.getItem("token");
     const resp = await fetch(backendOpIP + "/" + shortName + "/count-logs", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         minutes: deltaTime,
         type_log: "voter_login",

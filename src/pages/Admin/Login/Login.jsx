@@ -20,16 +20,6 @@ function Login() {
   /** @state {boolean} color alert */
   const [colorAlert, setColorAlert] = useState("");
 
-  function setToken(userToken) {
-    /**
-     * set token in localStorage
-     * @param {string} userToken info with token
-     */
-
-    localStorage.setItem("token", userToken["token"]);
-    window.location.href = "/psifos/admin/home";
-  }
-
   function setUser(user) {
     /**
      * set user in localStorage
@@ -51,14 +41,13 @@ function Login() {
         Authorization: "Basic " + encoded.toString("base64"),
         "Content-Type": "application/json",
       },
+      credentials: "include"
     });
-
-    if (resp.status === 201) {
-      const data = await resp.json();
+    if (resp.status === 200) {
       setColorAlert("green");
       setAlertMessage("Inicio exitoso!");
       setUser(username);
-      setToken(data);
+      window.location.href = "/psifos/admin/home";
     } else {
       setColorAlert("red");
       setAlertMessage("Usuario o contraseña incorrectos!");
