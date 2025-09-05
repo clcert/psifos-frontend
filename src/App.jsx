@@ -25,6 +25,9 @@ import InfoBoothView from "./pages/Booth/Panel/InfoBoothView";
 import News from "./pages/News/News";
 import Elections from "./pages/Elections/Elections";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserRole } from "./services/user";
+import { setRole } from "./store/slices/userSlice";
 
 function App() {
   /**
@@ -64,16 +67,28 @@ function App() {
 
   const token = getToken();
   const navigate = useNavigate();
+  const userRole = useSelector((state) => state.user.role);
+  let dispatch = useDispatch()
 
-  useEffect(() => {
+useEffect(() => {
+  const run = async () => {
+    if (!userRole) {
+      const userRole = await getUserRole();
+      dispatch(setRole(userRole.jsonResponse.role));
+    }
+
     const pathName = window.location.pathname;
+
     if (pathName.includes("admin") || pathName.includes("psifos")) {
       idleTimer();
     }
+
     if (pathName === "/") {
       navigate("/psifos");
     }
-  }, [navigate]);
+  };
+  run();
+}, [navigate]);
 
   return (
     <Routes>

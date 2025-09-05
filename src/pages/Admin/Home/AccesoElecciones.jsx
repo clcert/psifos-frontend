@@ -6,6 +6,7 @@ import { getElections } from "../../../services/election";
 import { normalizedLowerCase } from "../../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setElections } from "../../../store/slices/electionSlice";
+import { userRoles } from "../../../constants";
 
 function CreateElectionButton() {
   return (
@@ -54,6 +55,8 @@ export default function AccesoElecciones() {
   const [electionsSearch, setElectionsSearch] = useState([]);
 
   const [load, setLoad] = useState(false);
+
+  const userRole = useSelector((state) => state.user.role);
 
   const initComponent = useCallback(() => {
     getElections().then((res) => {
@@ -104,7 +107,7 @@ export default function AccesoElecciones() {
               numElections={elections.length}
               inputHandler={searchElection}
             />
-            <CreateElectionButton />
+            {userRole === userRoles.superAdmin && <CreateElectionButton />}
           </div>
           <div className="home-admin-accordion-section">
             {elections.length !== 0 ? (

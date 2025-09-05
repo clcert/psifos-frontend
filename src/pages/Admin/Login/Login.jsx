@@ -2,6 +2,7 @@ import logoParticipa from "../../../static/new_home_assets/SVG/logo participa.sv
 import { useState } from "react";
 import { Buffer } from "buffer";
 import { backendOpIP } from "../../../server";
+import { useDispatch } from "react-redux";
 
 function Login() {
   /**
@@ -28,6 +29,15 @@ function Login() {
 
     localStorage.setItem("token", userToken["token"]);
     window.location.href = "/psifos/admin/home";
+  }
+
+  function setRole(role) {
+    /**
+     * set role in localStorage
+     * @param {string} role info with user role
+     */
+    let dispatch = useDispatch()
+    dispatch(setRole(role));
   }
 
   function setUser(user) {
@@ -59,6 +69,7 @@ function Login() {
       setAlertMessage("Inicio exitoso!");
       setUser(username);
       setToken(data);
+      setRole(data.role);
     } else {
       setColorAlert("red");
       setAlertMessage("Usuario o contraseña incorrectos!");
