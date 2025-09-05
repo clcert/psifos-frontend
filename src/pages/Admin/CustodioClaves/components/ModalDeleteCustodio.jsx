@@ -27,13 +27,12 @@ function ModalDeleteCustodio(props) {
         props.shortName +
         "/delete-trustee/" +
         props.usernameTrustee;
-      const token = localStorage.getItem("token");
       const resp = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
 
       if (resp.status === 200) {

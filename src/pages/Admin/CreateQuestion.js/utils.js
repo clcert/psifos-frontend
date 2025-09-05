@@ -39,13 +39,12 @@ export const getDefaultQuestion = (q_num) => ({
 export const postQuestionList = async (
   shortName, newQuestionList, handleSuccess, handleError
 ) => {
-  const token = localStorage.getItem("token");
   const resp = await fetch(backendOpIP + "/create-questions/" + shortName, {
     method: "POST",
     headers: {
-      Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({
       question: newQuestionList,
     }),

@@ -25,14 +25,11 @@ function UploadModal(props) {
       let data = new FormData();
       const input = document.getElementById("fileinput");
       data.append("file", input.files[0]);
-      const token = localStorage.getItem("token");
       const resp = await fetch(
         backendOpIP + "/" + props.shortName + "/upload-voters",
         {
           method: "POST",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
+          credentials: "include",
           body: data,
         }
       );

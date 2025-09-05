@@ -7,13 +7,12 @@ function ModalDeleteElection(props) {
 
   async function deleteElection() {
     const url = backendOpIP + "/delete-election/" + props.shortName;
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       setFeedback("La votación ha sido eliminada con exito!");

@@ -1,11 +1,18 @@
 import { useState } from "react";
+import { backendOpIP } from "../../server";
 
 function UserButton(props) {
   const [display, setDisplay] = useState(false);
 
   function logOut() {
-    localStorage.removeItem("token");
-    window.location.href = "/psifos/admin/login";
+    async function fetchLogout() {
+      await fetch(backendOpIP + "/logout", {
+        method: "POST",
+        credentials: "include", // Importante para mandar la cookie
+      });
+      window.location.href = "/psifos/admin/login";
+    }
+    fetchLogout();
   }
   return (
     <div

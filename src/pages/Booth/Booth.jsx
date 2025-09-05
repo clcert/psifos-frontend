@@ -73,6 +73,14 @@ function Booth(props) {
         credentials: "include",
       });
       try {
+        if(resp.status === 500) {
+          setLoad(true);
+          setNoAuthMessage("Hemos tenido un error al cargar la elección, reintentando en unos segundos");
+          setTimeout(() => {
+            window.location.href = backendOpIP + "/" + shortName + "/vote";
+          }, 5000);
+          return;
+        }
         const jsonResponse = await resp.json();
         setLoad(true);
         const typeErrors = {

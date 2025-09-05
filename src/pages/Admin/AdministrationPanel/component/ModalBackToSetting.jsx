@@ -7,13 +7,12 @@ function ModalBackToSetting(props) {
 
   async function backState() {
     const url = backendOpIP + "/" + props.shortName + "/back-to-setting-up";
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       setFeedback("La votación esta lista para la etapa de configuración");

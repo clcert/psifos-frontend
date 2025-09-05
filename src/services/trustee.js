@@ -11,6 +11,7 @@ async function getTrustee(uuidTrustee) {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
   const jsonResponse = await resp.json();
   return { resp: resp, jsonResponse: jsonResponse };
@@ -28,6 +29,7 @@ async function getTrustees(shortName) {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   const jsonResponse = await resp.json();
@@ -40,6 +42,9 @@ async function getTrusteePanel() {
     method: "GET",
     credentials: "include",
   });
+  if (resp.status === 500) {
+    return { resp: resp, jsonResponse: { error: "Internal Server Error" } };
+  }
   const jsonResponse = await resp.json();
   return { resp: resp, jsonResponse: jsonResponse };
 }

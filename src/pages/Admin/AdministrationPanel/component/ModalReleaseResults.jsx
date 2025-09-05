@@ -3,13 +3,12 @@ import { backendOpIP } from "../../../../server";
 function ModalResultsRelease(props) {
   async function release() {
     const url = backendOpIP + "/" + props.shortName + "/results-release";
-    const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
+      credentials: "include",
     });
     if (response.status === 200) {
       props.feedback("La elección ha liberado los resultados con exito!", "is-success");

@@ -10,6 +10,7 @@ import DropFile from "./components/DropFile";
 import CheckSecretKey from "../../../crypto/CheckSecretKey";
 import DecryptAndProve from "../../../crypto/DecryptAndProve";
 import { electionStatus, trusteeStep } from "../../../constants";
+import { backendOpIP } from "../../../server";
 
 function SynchronizeSection({
   electionsSelected,
@@ -348,7 +349,7 @@ export default function CustodioHome() {
     // Desactiva todos los checkboxes de las demás columnas
     const otherTags = ["keygeneration_", "verify_", "decrypt_"].filter(t => t !== tagName);
     const newCheckboxes = { ...checkboxes };
-    const newSelected = [];
+    let currentElectionsSelected = [...electionsSelected];
 
     trusteesCrypto.forEach((tc, idx) => {
       otherTags.forEach(tag => {
@@ -358,9 +359,11 @@ export default function CustodioHome() {
 
     const currentChecked = !checkboxes[id];
     newCheckboxes[id] = currentChecked;
-
-    if (currentChecked) {
-      newSelected.push(shortName);
+    if(currentChecked) {
+      currentElectionsSelected.push(shortName);
+    }
+    else {
+      currentElectionsSelected = currentElectionsSelected.filter(election => election !== shortName);
     }
 
     setCheckboxes(newCheckboxes);
@@ -371,7 +374,7 @@ export default function CustodioHome() {
       showDecryptProve: tagName === "decrypt_",
     });
 
-    setElectionsSelected(currentChecked ? [shortName] : []);
+    setElectionsSelected(currentElectionsSelected);
   };
 
   const selectAllElections = (tagName) => {
@@ -429,6 +432,13 @@ export default function CustodioHome() {
     try {
       const { resp, jsonResponse } = await getTrusteePanel();
       setLoad(true);
+      if (resp.status === 500) {
+        setNoAuthMessage("Error interno del servidor, intentando nuevamente en unos segundos.");
+        setTimeout(() => {
+          window.location.href = backendOpIP + "/trustee/login/panel";
+        }, 5000);
+        return;
+      }
 
       if (resp.status === 200) {
         setAuth(true);
@@ -470,83 +480,88 @@ export default function CustodioHome() {
             Selecciona las elecciones en la columna de la acción que deseas
             realizar
           </h2>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Elección</th>
-                {["Generación de Claves", "Verificación de Claves", "Desencriptación de Resultado"].map((text, i) => (
-                  <th key={i} className="has-text-centered">
-                    <div>{text}</div>
-                    <button
-                      className="button is-small mt-2"
-                      onClick={() => selectAllElections(["keygeneration_", "verify_", "decrypt_"][i])}
-                    >
-                      Seleccionar Todas
-                    </button>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-            {trusteesCrypto.map((trusteeCrypto, index) => {
-              const { election_short_name, election_status, current_step } = trusteeCrypto;
-              const conditionsElection = {
-                verify_:
-                  [
-                    electionStatus.readyForOpening,
-                    electionStatus.started,
-                    electionStatus.ended,
-                    electionStatus.computingTally,
-                    electionStatus.tallyComputed,
-                  ].includes(election_status) && current_step === 5,
-                decrypt_:
-                  election_status === electionStatus.tallyComputed &&
-                  current_step === 5,
-              };
 
-              const renderCheckbox = (idPrefix) =>
-                conditionsElection[idPrefix] ? (
-                  <input
-                    type="checkbox"
-                    name={election_short_name}
-                    id={`${idPrefix}${index}`}
-                    checked={checkboxes[`${idPrefix}${index}`] || false}
-                    onChange={() =>
-                      toggleCheckbox(`${idPrefix}${index}`, idPrefix, election_short_name)
-                    }
-                  />
-                ) : current_step === 6 ? (
-                  "✅"
-                ) : (
-                  "⏳"
-                );
-
-              const renderKeyGeneration = () =>
-                election_status === electionStatus.readyForKeyGeneration ? (
-                  <input
-                    type="checkbox"
-                    name={election_short_name}
-                    id={`keygeneration_${index}`}
-                    checked={checkboxes[`keygeneration_${index}`] || false}
-                    onChange={() =>
-                      toggleCheckbox(`keygeneration_${index}`, "keygeneration_", election_short_name)
-                    }
-                  />
-                ) : current_step >= trusteeStep.points_step ? (
-                  "✅"
-                ) : "⏳";
-
-              return (
-                <tr key={index}>
-                  <th>{election_short_name}</th>
-                  <td className="has-text-centered">{renderKeyGeneration()}</td>
-                  <td className="has-text-centered">{renderCheckbox("verify_")}</td>
-                  <td className="has-text-centered">{renderCheckbox("decrypt_")}</td>
+          {/* 👇 Tabla envuelta en table-container para scroll horizontal en móvil */}
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Elección</th>
+                  {["Generación de Claves", "Verificación de Claves", "Desencriptación de Resultado"].map((text, i) => (
+                    <th key={i} className="has-text-centered">
+                      <div>{text}</div>
+                      <button
+                        className="button is-small mt-2"
+                        onClick={() => selectAllElections(["keygeneration_", "verify_", "decrypt_"][i])}
+                      >
+                        Seleccionar Todas
+                      </button>
+                    </th>
+                  ))}
                 </tr>
-              );
-            })}
-          </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {trusteesCrypto.map((trusteeCrypto, index) => {
+                  const { election_short_name, election_status, current_step } = trusteeCrypto;
+                  const conditionsElection = {
+                    verify_:
+                      [
+                        electionStatus.readyForOpening,
+                        electionStatus.started,
+                        electionStatus.ended,
+                        electionStatus.computingTally,
+                        electionStatus.tallyComputed,
+                      ].includes(election_status) && current_step === 5,
+                    decrypt_:
+                      election_status === electionStatus.tallyComputed &&
+                      current_step === 5,
+                  };
+
+                  const renderCheckbox = (idPrefix) =>
+                    conditionsElection[idPrefix] ? (
+                      <input
+                        type="checkbox"
+                        name={election_short_name}
+                        id={`${idPrefix}${index}`}
+                        checked={checkboxes[`${idPrefix}${index}`] || false}
+                        onChange={() =>
+                          toggleCheckbox(`${idPrefix}${index}`, idPrefix, election_short_name)
+                        }
+                      />
+                    ) : current_step === 6 ? (
+                      "✅"
+                    ) : (
+                      "⏳"
+                    );
+
+                  const renderKeyGeneration = () =>
+                    election_status === electionStatus.readyForKeyGeneration ? (
+                      <input
+                        type="checkbox"
+                        name={election_short_name}
+                        id={`keygeneration_${index}`}
+                        checked={checkboxes[`keygeneration_${index}`] || false}
+                        onChange={() =>
+                          toggleCheckbox(`keygeneration_${index}`, "keygeneration_", election_short_name)
+                        }
+                      />
+                    ) : current_step >= trusteeStep.points_step ? (
+                      "✅"
+                    ) : "⏳";
+
+                  return (
+                    <tr key={index}>
+                      <th>{election_short_name}</th>
+                      <td className="has-text-centered">{renderKeyGeneration()}</td>
+                      <td className="has-text-centered">{renderCheckbox("verify_")}</td>
+                      <td className="has-text-centered">{renderCheckbox("decrypt_")}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {/* 👆 */}
 
           <h1 className="title">Paso 2: Realizar Acción</h1>
           <h2 className="subtitle">Aprieta el botón para iniciar el proceso</h2>
